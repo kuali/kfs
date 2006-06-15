@@ -63,7 +63,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -84,7 +84,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Sets the financialDocumentLineNumber attribute.
      * 
-     * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
+     * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
      * 
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
@@ -105,7 +105,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Sets the disbVchrPreConfDepartmentCd attribute.
      * 
-     * @param - disbVchrPreConfDepartmentCd The disbVchrPreConfDepartmentCd to set.
+     * @param disbVchrPreConfDepartmentCd The disbVchrPreConfDepartmentCd to set.
      * 
      */
     public void setDisbVchrPreConfDepartmentCd(String disbVchrPreConfDepartmentCd) {
@@ -126,7 +126,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Sets the dvConferenceRegistrantName attribute.
      * 
-     * @param - dvConferenceRegistrantName The dvConferenceRegistrantName to set.
+     * @param dvConferenceRegistrantName The dvConferenceRegistrantName to set.
      * 
      */
     public void setDvConferenceRegistrantName(String dvConferenceRegistrantName) {
@@ -147,7 +147,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Sets the dvPreConferenceRequestNumber attribute.
      * 
-     * @param - dvPreConferenceRequestNumber The dvPreConferenceRequestNumber to set.
+     * @param dvPreConferenceRequestNumber The dvPreConferenceRequestNumber to set.
      * 
      */
     public void setDvPreConferenceRequestNumber(String dvPreConferenceRequestNumber) {
@@ -168,7 +168,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Sets the disbVchrExpenseAmount attribute.
      * 
-     * @param - disbVchrExpenseAmount The disbVchrExpenseAmount to set.
+     * @param disbVchrExpenseAmount The disbVchrExpenseAmount to set.
      * 
      */
     public void setDisbVchrExpenseAmount(KualiDecimal disbVchrExpenseAmount) {

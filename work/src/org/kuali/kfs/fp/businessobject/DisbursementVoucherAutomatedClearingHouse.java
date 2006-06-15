@@ -70,7 +70,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbursementVoucherAutomatedClearingHouseProfileNumber attribute.
      * 
-     * @param - disbursementVoucherAutomatedClearingHouseProfileNumber The disbursementVoucherAutomatedClearingHouseProfileNumber to
+     * @param disbursementVoucherAutomatedClearingHouseProfileNumber The disbursementVoucherAutomatedClearingHouseProfileNumber to
      *        set.
      * 
      */
@@ -92,7 +92,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrPaymentMethodCode attribute.
      * 
-     * @param - disbVchrPaymentMethodCode The disbVchrPaymentMethodCode to set.
+     * @param disbVchrPaymentMethodCode The disbVchrPaymentMethodCode to set.
      * 
      */
     public void setDisbVchrPaymentMethodCode(String disbVchrPaymentMethodCode) {
@@ -113,7 +113,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbursementVoucherBankName attribute.
      * 
-     * @param - disbursementVoucherBankName The disbursementVoucherBankName to set.
+     * @param disbursementVoucherBankName The disbursementVoucherBankName to set.
      * 
      */
     public void setDisbursementVoucherBankName(String disbursementVoucherBankName) {
@@ -134,7 +134,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrBankRoutingNumber attribute.
      * 
-     * @param - disbVchrBankRoutingNumber The disbVchrBankRoutingNumber to set.
+     * @param disbVchrBankRoutingNumber The disbVchrBankRoutingNumber to set.
      * 
      */
     public void setDisbVchrBankRoutingNumber(String disbVchrBankRoutingNumber) {
@@ -155,7 +155,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrBankCityName attribute.
      * 
-     * @param - disbVchrBankCityName The disbVchrBankCityName to set.
+     * @param disbVchrBankCityName The disbVchrBankCityName to set.
      * 
      */
     public void setDisbVchrBankCityName(String disbVchrBankCityName) {
@@ -176,7 +176,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrBankStateCode attribute.
      * 
-     * @param - disbVchrBankStateCode The disbVchrBankStateCode to set.
+     * @param disbVchrBankStateCode The disbVchrBankStateCode to set.
      * 
      */
     public void setDisbVchrBankStateCode(String disbVchrBankStateCode) {
@@ -197,7 +197,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrBankCountryName attribute.
      * 
-     * @param - disbVchrBankCountryName The disbVchrBankCountryName to set.
+     * @param disbVchrBankCountryName The disbVchrBankCountryName to set.
      * 
      */
     public void setDisbVchrBankCountryName(String disbVchrBankCountryName) {
@@ -218,7 +218,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrAttentionLineText attribute.
      * 
-     * @param - disbVchrAttentionLineText The disbVchrAttentionLineText to set.
+     * @param disbVchrAttentionLineText The disbVchrAttentionLineText to set.
      * 
      */
     public void setDisbVchrAttentionLineText(String disbVchrAttentionLineText) {
@@ -239,7 +239,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrAdditionalWireText attribute.
      * 
-     * @param - disbVchrAdditionalWireText The disbVchrAdditionalWireText to set.
+     * @param disbVchrAdditionalWireText The disbVchrAdditionalWireText to set.
      * 
      */
     public void setDisbVchrAdditionalWireText(String disbVchrAdditionalWireText) {
@@ -260,7 +260,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbVchrPayeeAccountNumber attribute.
      * 
-     * @param - disbVchrPayeeAccountNumber The disbVchrPayeeAccountNumber to set.
+     * @param disbVchrPayeeAccountNumber The disbVchrPayeeAccountNumber to set.
      * 
      */
     public void setDisbVchrPayeeAccountNumber(String disbVchrPayeeAccountNumber) {
@@ -281,7 +281,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbursementVoucherPayeeAccountName attribute.
      * 
-     * @param - disbursementVoucherPayeeAccountName The disbursementVoucherPayeeAccountName to set.
+     * @param disbursementVoucherPayeeAccountName The disbursementVoucherPayeeAccountName to set.
      * 
      */
     public void setDisbursementVoucherPayeeAccountName(String disbursementVoucherPayeeAccountName) {
@@ -302,7 +302,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbursementVoucherPayeeAccountTypeCode attribute.
      * 
-     * @param - disbursementVoucherPayeeAccountTypeCode The disbursementVoucherPayeeAccountTypeCode to set.
+     * @param disbursementVoucherPayeeAccountTypeCode The disbursementVoucherPayeeAccountTypeCode to set.
      * 
      */
     public void setDisbursementVoucherPayeeAccountTypeCode(String disbursementVoucherPayeeAccountTypeCode) {
@@ -324,7 +324,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the disbursementVoucherWireTransferFeeWaiverIndicator attribute.
      * 
-     * @param - disbursementVoucherWireTransferFeeWaiverIndicator The disbursementVoucherWireTransferFeeWaiverIndicator to set.
+     * @param disbursementVoucherWireTransferFeeWaiverIndicator The disbursementVoucherWireTransferFeeWaiverIndicator to set.
      * 
      */
     public void setDisbursementVoucherWireTransferFeeWaiverIndicator(boolean disbursementVoucherWireTransferFeeWaiverIndicator) {
@@ -345,7 +345,7 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {

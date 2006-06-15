@@ -113,7 +113,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTypeCode attribute.
      * 
-     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -151,7 +151,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Sets the finDocApprovalFromThisAmt attribute.
      * 
-     * @param - finDocApprovalFromThisAmt The finDocApprovalFromThisAmt to set.
+     * @param finDocApprovalFromThisAmt The finDocApprovalFromThisAmt to set.
      * 
      */
     public void setFinDocApprovalFromThisAmt(KualiDecimal finDocApprovalFromThisAmt) {
@@ -171,7 +171,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Sets the accountsDelegatePrmrtIndicator attribute.
      * 
-     * @param - accountsDelegatePrmrtIndicator The accountsDelegatePrmrtIndicator to set.
+     * @param accountsDelegatePrmrtIndicator The accountsDelegatePrmrtIndicator to set.
      * @deprecated
      */
     public void setAccountsDelegatePrmrtIndicator(boolean accountsDelegatePrmrtIndicator) {
@@ -191,7 +191,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Sets the accountDelegateActiveIndicator attribute.
      * 
-     * @param - accountDelegateActiveIndicator The accountDelegateActiveIndicator to set.
+     * @param accountDelegateActiveIndicator The accountDelegateActiveIndicator to set.
      * @deprecated
      */
     public void setAccountDelegateActiveIndicator(boolean accountDelegateActiveIndicator) {
@@ -211,7 +211,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Sets the accountDelegateStartDate attribute.
      * 
-     * @param - accountDelegateStartDate The accountDelegateStartDate to set.
+     * @param accountDelegateStartDate The accountDelegateStartDate to set.
      * 
      */
     public void setAccountDelegateStartDate(Timestamp accountDelegateStartDate) {
@@ -231,7 +231,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Sets the finDocApprovalToThisAmount attribute.
      * 
-     * @param - finDocApprovalToThisAmount The finDocApprovalToThisAmount to set.
+     * @param finDocApprovalToThisAmount The finDocApprovalToThisAmount to set.
      * 
      */
     public void setFinDocApprovalToThisAmount(KualiDecimal finDocApprovalToThisAmount) {
@@ -251,7 +251,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {

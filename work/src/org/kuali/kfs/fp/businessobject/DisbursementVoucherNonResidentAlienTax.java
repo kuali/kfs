@@ -71,7 +71,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -92,7 +92,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the federalIncomeTaxPercent attribute.
      * 
-     * @param - federalIncomeTaxPercent The federalIncomeTaxPercent to set.
+     * @param federalIncomeTaxPercent The federalIncomeTaxPercent to set.
      * 
      */
     public void setFederalIncomeTaxPercent(KualiDecimal federalIncomeTaxPercent) {
@@ -113,7 +113,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the stateIncomeTaxPercent attribute.
      * 
-     * @param - stateIncomeTaxPercent The stateIncomeTaxPercent to set.
+     * @param stateIncomeTaxPercent The stateIncomeTaxPercent to set.
      * 
      */
     public void setStateIncomeTaxPercent(KualiDecimal stateIncomeTaxPercent) {
@@ -134,7 +134,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the incomeClassCode attribute.
      * 
-     * @param - incomeClassCode The incomeClassCode to set.
+     * @param incomeClassCode The incomeClassCode to set.
      * 
      */
     public void setIncomeClassCode(String incomeClassCode) {
@@ -155,7 +155,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the postalCountryCode attribute.
      * 
-     * @param - postalCountryCode The postalCountryCode to set.
+     * @param postalCountryCode The postalCountryCode to set.
      * 
      */
     public void setPostalCountryCode(String postalCountryCode) {
@@ -176,7 +176,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the incomeTaxTreatyExemptCode attribute.
      * 
-     * @param - incomeTaxTreatyExemptCode The incomeTaxTreatyExemptCode to set.
+     * @param incomeTaxTreatyExemptCode The incomeTaxTreatyExemptCode to set.
      * 
      */
     public void setIncomeTaxTreatyExemptCode(boolean incomeTaxTreatyExemptCode) {
@@ -197,7 +197,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the foreignSourceIncomeCode attribute.
      * 
-     * @param - foreignSourceIncomeCode The foreignSourceIncomeCode to set.
+     * @param foreignSourceIncomeCode The foreignSourceIncomeCode to set.
      * 
      */
     public void setForeignSourceIncomeCode(boolean foreignSourceIncomeCode) {
@@ -218,7 +218,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the incomeTaxGrossUpCode attribute.
      * 
-     * @param - incomeTaxGrossUpCode The incomeTaxGrossUpCode to set.
+     * @param incomeTaxGrossUpCode The incomeTaxGrossUpCode to set.
      * 
      */
     public void setIncomeTaxGrossUpCode(boolean incomeTaxGrossUpCode) {
@@ -239,7 +239,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the referenceFinancialSystemOriginationCode attribute.
      * 
-     * @param - referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
+     * @param referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
      * 
      */
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
@@ -260,7 +260,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the referenceFinancialDocumentNumber attribute.
      * 
-     * @param - referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
+     * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      * 
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
@@ -295,7 +295,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Sets the incomeClass attribute.
      * 
-     * @param - incomeClass The incomeClass to set.
+     * @param incomeClass The incomeClass to set.
      * @deprecated
      */
     public void setIncomeClass(TaxIncomeClassCode incomeClass) {

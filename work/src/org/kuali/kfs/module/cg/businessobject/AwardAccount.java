@@ -65,7 +65,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Sets the proposalNumber attribute.
      * 
-     * @param - proposalNumber The proposalNumber to set.
+     * @param proposalNumber The proposalNumber to set.
      * 
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -86,7 +86,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -107,7 +107,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -128,7 +128,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Sets the personUniversalIdentifier attribute.
      * 
-     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
      * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -149,7 +149,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
@@ -169,7 +169,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {

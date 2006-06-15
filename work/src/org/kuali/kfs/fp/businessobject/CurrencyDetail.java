@@ -67,7 +67,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -88,7 +88,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTypeCode attribute.
      * 
-     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -109,7 +109,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentColumnTypeCode attribute.
      * 
-     * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
      * 
      */
     public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
@@ -130,7 +130,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentHundredDollarAmount attribute.
      * 
-     * @param - financialDocumentHundredDollarAmount The financialDocumentHundredDollarAmount to set.
+     * @param financialDocumentHundredDollarAmount The financialDocumentHundredDollarAmount to set.
      * 
      */
     public void setFinancialDocumentHundredDollarAmount(KualiDecimal financialDocumentHundredDollarAmount) {
@@ -151,7 +151,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiftyDollarAmount attribute.
      * 
-     * @param - financialDocumentFiftyDollarAmount The financialDocumentFiftyDollarAmount to set.
+     * @param financialDocumentFiftyDollarAmount The financialDocumentFiftyDollarAmount to set.
      * 
      */
     public void setFinancialDocumentFiftyDollarAmount(KualiDecimal financialDocumentFiftyDollarAmount) {
@@ -172,7 +172,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTwentyDollarAmount attribute.
      * 
-     * @param - financialDocumentTwentyDollarAmount The financialDocumentTwentyDollarAmount to set.
+     * @param financialDocumentTwentyDollarAmount The financialDocumentTwentyDollarAmount to set.
      * 
      */
     public void setFinancialDocumentTwentyDollarAmount(KualiDecimal financialDocumentTwentyDollarAmount) {
@@ -193,7 +193,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTenDollarAmount attribute.
      * 
-     * @param - financialDocumentTenDollarAmount The financialDocumentTenDollarAmount to set.
+     * @param financialDocumentTenDollarAmount The financialDocumentTenDollarAmount to set.
      * 
      */
     public void setFinancialDocumentTenDollarAmount(KualiDecimal financialDocumentTenDollarAmount) {
@@ -214,7 +214,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiveDollarAmount attribute.
      * 
-     * @param - financialDocumentFiveDollarAmount The financialDocumentFiveDollarAmount to set.
+     * @param financialDocumentFiveDollarAmount The financialDocumentFiveDollarAmount to set.
      * 
      */
     public void setFinancialDocumentFiveDollarAmount(KualiDecimal financialDocumentFiveDollarAmount) {
@@ -235,7 +235,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTwoDollarAmount attribute.
      * 
-     * @param - financialDocumentTwoDollarAmount The financialDocumentTwoDollarAmount to set.
+     * @param financialDocumentTwoDollarAmount The financialDocumentTwoDollarAmount to set.
      * 
      */
     public void setFinancialDocumentTwoDollarAmount(KualiDecimal financialDocumentTwoDollarAmount) {
@@ -256,7 +256,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOneDollarAmount attribute.
      * 
-     * @param - financialDocumentOneDollarAmount The financialDocumentOneDollarAmount to set.
+     * @param financialDocumentOneDollarAmount The financialDocumentOneDollarAmount to set.
      * 
      */
     public void setFinancialDocumentOneDollarAmount(KualiDecimal financialDocumentOneDollarAmount) {
@@ -277,7 +277,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOtherDollarAmount attribute.
      * 
-     * @param - financialDocumentOtherDollarAmount The financialDocumentOtherDollarAmount to set.
+     * @param financialDocumentOtherDollarAmount The financialDocumentOtherDollarAmount to set.
      * 
      */
     public void setFinancialDocumentOtherDollarAmount(KualiDecimal financialDocumentOtherDollarAmount) {

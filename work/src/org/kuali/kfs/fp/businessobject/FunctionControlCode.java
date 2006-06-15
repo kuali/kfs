@@ -58,7 +58,7 @@ public class FunctionControlCode extends BusinessObjectBase {
     /**
      * Sets the financialSystemFunctionControlCode attribute.
      * 
-     * @param - financialSystemFunctionControlCode The financialSystemFunctionControlCode to set.
+     * @param financialSystemFunctionControlCode The financialSystemFunctionControlCode to set.
      * 
      */
     public void setFinancialSystemFunctionControlCode(String financialSystemFunctionControlCode) {
@@ -80,7 +80,7 @@ public class FunctionControlCode extends BusinessObjectBase {
     /**
      * Sets the financialSystemFunctionDefaultIndicator attribute.
      * 
-     * @param - financialSystemFunctionDefaultIndicator The financialSystemFunctionDefaultIndicator to set.
+     * @param financialSystemFunctionDefaultIndicator The financialSystemFunctionDefaultIndicator to set.
      * 
      */
     public void setFinancialSystemFunctionDefaultIndicator(boolean financialSystemFunctionDefaultIndicator) {
@@ -101,7 +101,7 @@ public class FunctionControlCode extends BusinessObjectBase {
     /**
      * Sets the financialSystemFunctionDescription attribute.
      * 
-     * @param - financialSystemFunctionDescription The financialSystemFunctionDescription to set.
+     * @param financialSystemFunctionDescription The financialSystemFunctionDescription to set.
      * 
      */
     public void setFinancialSystemFunctionDescription(String financialSystemFunctionDescription) {

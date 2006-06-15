@@ -68,7 +68,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -89,7 +89,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     /**
      * Sets the correctionChangeGroupLineNumber attribute.
      * 
-     * @param - correctionChangeGroupLineNumber The correctionChangeGroupLineNumber to set.
+     * @param correctionChangeGroupLineNumber The correctionChangeGroupLineNumber to set.
      * 
      */
     public void setCorrectionChangeGroupLineNumber(Integer correctionChangeGroupLineNumber) {
@@ -110,7 +110,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     /**
      * Sets the correctionCriteriaNextLineNumber attribute.
      * 
-     * @param - correctionCriteriaNextLineNumber The correctionCriteriaNextLineNumber to set.
+     * @param correctionCriteriaNextLineNumber The correctionCriteriaNextLineNumber to set.
      * 
      */
     public void setCorrectionCriteriaNextLineNumber(Integer correctionCriteriaNextLineNumber) {
@@ -131,7 +131,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     /**
      * Sets the correctionChangeNextLineNumber attribute.
      * 
-     * @param - correctionChangeNextLineNumber The correctionChangeNextLineNumber to set.
+     * @param correctionChangeNextLineNumber The correctionChangeNextLineNumber to set.
      * 
      */
     public void setCorrectionChangeNextLineNumber(Integer correctionChangeNextLineNumber) {
@@ -152,7 +152,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     /**
      * Sets the correctionCriteria list.
      * 
-     * @param - correctionCriteria The correctionCriteria list to set.
+     * @param correctionCriteria The correctionCriteria list to set.
      * 
      */
     public void setCorrectionCriteria(List correctionCriteria) {

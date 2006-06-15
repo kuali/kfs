@@ -66,7 +66,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the awardSubcontractorAmendmentNumber attribute.
      * 
-     * @param - awardSubcontractorAmendmentNumber The awardSubcontractorAmendmentNumber to set.
+     * @param awardSubcontractorAmendmentNumber The awardSubcontractorAmendmentNumber to set.
      * 
      */
     public void setAwardSubcontractorAmendmentNumber(String awardSubcontractorAmendmentNumber) {
@@ -87,7 +87,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the awardSubcontractorNumber attribute.
      * 
-     * @param - awardSubcontractorNumber The awardSubcontractorNumber to set.
+     * @param awardSubcontractorNumber The awardSubcontractorNumber to set.
      * 
      */
     public void setAwardSubcontractorNumber(String awardSubcontractorNumber) {
@@ -108,7 +108,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorNumber attribute.
      * 
-     * @param - subcontractorNumber The subcontractorNumber to set.
+     * @param subcontractorNumber The subcontractorNumber to set.
      * 
      */
     public void setSubcontractorNumber(String subcontractorNumber) {
@@ -129,7 +129,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the proposalNumber attribute.
      * 
-     * @param - proposalNumber The proposalNumber to set.
+     * @param proposalNumber The proposalNumber to set.
      * 
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -150,7 +150,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorAmount attribute.
      * 
-     * @param - subcontractorAmount The subcontractorAmount to set.
+     * @param subcontractorAmount The subcontractorAmount to set.
      * 
      */
     public void setSubcontractorAmount(KualiDecimal subcontractorAmount) {
@@ -171,7 +171,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorContactFirstName attribute.
      * 
-     * @param - subcontractorContactFirstName The subcontractorContactFirstName to set.
+     * @param subcontractorContactFirstName The subcontractorContactFirstName to set.
      * 
      */
     public void setSubcontractorContactFirstName(String subcontractorContactFirstName) {
@@ -192,7 +192,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorContactLastName attribute.
      * 
-     * @param - subcontractorContactLastName The subcontractorContactLastName to set.
+     * @param subcontractorContactLastName The subcontractorContactLastName to set.
      * 
      */
     public void setSubcontractorContactLastName(String subcontractorContactLastName) {
@@ -213,7 +213,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorAuditHistoryText attribute.
      * 
-     * @param - subcontractorAuditHistoryText The subcontractorAuditHistoryText to set.
+     * @param subcontractorAuditHistoryText The subcontractorAuditHistoryText to set.
      * 
      */
     public void setSubcontractorAuditHistoryText(String subcontractorAuditHistoryText) {

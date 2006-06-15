@@ -67,7 +67,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -88,7 +88,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTypeCode attribute.
      * 
-     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -109,7 +109,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentColumnTypeCode attribute.
      * 
-     * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
      * 
      */
     public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
@@ -130,7 +130,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentLineNumber attribute.
      * 
-     * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
+     * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
      * 
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
@@ -151,7 +151,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentRevolvingFundDate attribute.
      * 
-     * @param - financialDocumentRevolvingFundDate The financialDocumentRevolvingFundDate to set.
+     * @param financialDocumentRevolvingFundDate The financialDocumentRevolvingFundDate to set.
      * 
      */
     public void setFinancialDocumentRevolvingFundDate(Date financialDocumentRevolvingFundDate) {
@@ -172,7 +172,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentRevolvingFundReferenceNumber attribute.
      * 
-     * @param - financialDocumentRevolvingFundReferenceNumber The financialDocumentRevolvingFundReferenceNumber to set.
+     * @param financialDocumentRevolvingFundReferenceNumber The financialDocumentRevolvingFundReferenceNumber to set.
      * 
      */
     public void setFinancialDocumentRevolvingFundReferenceNumber(String financialDocumentRevolvingFundReferenceNumber) {
@@ -193,7 +193,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentRevolvingFundDescription attribute.
      * 
-     * @param - financialDocumentRevolvingFundDescription The financialDocumentRevolvingFundDescription to set.
+     * @param financialDocumentRevolvingFundDescription The financialDocumentRevolvingFundDescription to set.
      * 
      */
     public void setFinancialDocumentRevolvingFundDescription(String financialDocumentRevolvingFundDescription) {
@@ -214,7 +214,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentRevolvingFundAmount attribute.
      * 
-     * @param - financialDocumentRevolvingFundAmount The financialDocumentRevolvingFundAmount to set.
+     * @param financialDocumentRevolvingFundAmount The financialDocumentRevolvingFundAmount to set.
      * 
      */
     public void setFinancialDocumentRevolvingFundAmount(KualiDecimal financialDocumentRevolvingFundAmount) {
@@ -235,7 +235,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentBankCode attribute.
      * 
-     * @param - financialDocumentBankCode The financialDocumentBankCode to set.
+     * @param financialDocumentBankCode The financialDocumentBankCode to set.
      * 
      */
     public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
@@ -256,7 +256,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentBankAccountNumber attribute.
      * 
-     * @param - financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
+     * @param financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
      * 
      */
     public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {

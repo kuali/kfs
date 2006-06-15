@@ -58,7 +58,7 @@ public class BenefitsType extends BusinessObjectBase {
     /**
      * Sets the positionBenefitTypeCode attribute.
      * 
-     * @param - positionBenefitTypeCode The positionBenefitTypeCode to set.
+     * @param positionBenefitTypeCode The positionBenefitTypeCode to set.
      * 
      */
     public void setPositionBenefitTypeCode(String positionBenefitTypeCode) {
@@ -79,7 +79,7 @@ public class BenefitsType extends BusinessObjectBase {
     /**
      * Sets the positionBenefitTypeDescription attribute.
      * 
-     * @param - positionBenefitTypeDescription The positionBenefitTypeDescription to set.
+     * @param positionBenefitTypeDescription The positionBenefitTypeDescription to set.
      * 
      */
     public void setPositionBenefitTypeDescription(String positionBenefitTypeDescription) {
@@ -101,7 +101,7 @@ public class BenefitsType extends BusinessObjectBase {
     /**
      * Sets the positionBenefitRetirementIndicator attribute.
      * 
-     * @param - positionBenefitRetirementIndicator The positionBenefitRetirementIndicator to set.
+     * @param positionBenefitRetirementIndicator The positionBenefitRetirementIndicator to set.
      * 
      */
     public void setPositionBenefitRetirementIndicator(boolean positionBenefitRetirementIndicator) {

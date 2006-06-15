@@ -62,7 +62,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Sets the incomeClassCode attribute.
      * 
-     * @param - incomeClassCode The incomeClassCode to set.
+     * @param incomeClassCode The incomeClassCode to set.
      * 
      */
     public void setIncomeClassCode(String incomeClassCode) {
@@ -83,7 +83,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Sets the incomeTaxTypeCode attribute.
      * 
-     * @param - incomeTaxTypeCode The incomeTaxTypeCode to set.
+     * @param incomeTaxTypeCode The incomeTaxTypeCode to set.
      * 
      */
     public void setIncomeTaxTypeCode(String incomeTaxTypeCode) {
@@ -104,7 +104,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Sets the incomeTaxPercent attribute.
      * 
-     * @param - incomeTaxPercent The incomeTaxPercent to set.
+     * @param incomeTaxPercent The incomeTaxPercent to set.
      * 
      */
     public void setIncomeTaxPercent(KualiDecimal incomeTaxPercent) {
@@ -125,7 +125,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Sets the incomeClass attribute.
      * 
-     * @param - incomeClass The incomeClass to set.
+     * @param incomeClass The incomeClass to set.
      * @deprecated
      */
     public void setIncomeClass(TaxIncomeClassCode incomeClass) {

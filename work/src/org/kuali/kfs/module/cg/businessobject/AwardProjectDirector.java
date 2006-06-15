@@ -64,7 +64,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Sets the personUniversalIdentifier attribute.
      * 
-     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
      * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -85,7 +85,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Sets the proposalNumber attribute.
      * 
-     * @param - proposalNumber The proposalNumber to set.
+     * @param proposalNumber The proposalNumber to set.
      * 
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -107,7 +107,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Sets the awardPrimaryProjectDirectorIndicator attribute.
      * 
-     * @param - awardPrimaryProjectDirectorIndicator The awardPrimaryProjectDirectorIndicator to set.
+     * @param awardPrimaryProjectDirectorIndicator The awardPrimaryProjectDirectorIndicator to set.
      * 
      */
     public void setAwardPrimaryProjectDirectorIndicator(boolean awardPrimaryProjectDirectorIndicator) {
@@ -128,7 +128,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Sets the awardProjectDirectorNote1Text attribute.
      * 
-     * @param - awardProjectDirectorNote1Text The awardProjectDirectorNote1Text to set.
+     * @param awardProjectDirectorNote1Text The awardProjectDirectorNote1Text to set.
      * 
      */
     public void setAwardProjectDirectorNote1Text(String awardProjectDirectorNote1Text) {
@@ -149,7 +149,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Sets the awardProjectDirectorNote2Text attribute.
      * 
-     * @param - awardProjectDirectorNote2Text The awardProjectDirectorNote2Text to set.
+     * @param awardProjectDirectorNote2Text The awardProjectDirectorNote2Text to set.
      * 
      */
     public void setAwardProjectDirectorNote2Text(String awardProjectDirectorNote2Text) {
@@ -170,7 +170,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Sets the awardProjectDirectorNote3Text attribute.
      * 
-     * @param - awardProjectDirectorNote3Text The awardProjectDirectorNote3Text to set.
+     * @param awardProjectDirectorNote3Text The awardProjectDirectorNote3Text to set.
      * 
      */
     public void setAwardProjectDirectorNote3Text(String awardProjectDirectorNote3Text) {
@@ -191,7 +191,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Sets the awardProjectDirectorProjectTitle attribute.
      * 
-     * @param - awardProjectDirectorProjectTitle The awardProjectDirectorProjectTitle to set.
+     * @param awardProjectDirectorProjectTitle The awardProjectDirectorProjectTitle to set.
      * 
      */
     public void setAwardProjectDirectorProjectTitle(String awardProjectDirectorProjectTitle) {

@@ -60,7 +60,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -81,7 +81,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -102,7 +102,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Sets the financialObjectChartOfAccountCode attribute.
      * 
-     * @param - financialObjectChartOfAccountCode The financialObjectChartOfAccountCode to set.
+     * @param financialObjectChartOfAccountCode The financialObjectChartOfAccountCode to set.
      * 
      */
     public void setFinancialObjectChartOfAccountCode(String financialObjectChartOfAccountCode) {
@@ -123,7 +123,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param financialObjectCode The financialObjectCode to set.
      * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -144,7 +144,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Sets the chart attribute.
      * 
-     * @param - chart The chart to set.
+     * @param chart The chart to set.
      * @deprecated
      */
     public void setChart(Chart chart) {
@@ -164,7 +164,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
@@ -184,7 +184,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Sets the financialObjectChartOfAccount attribute.
      * 
-     * @param - financialObjectChartOfAccount The financialObjectChartOfAccount to set.
+     * @param financialObjectChartOfAccount The financialObjectChartOfAccount to set.
      * @deprecated
      */
     public void setFinancialObjectChartOfAccount(Chart financialObjectChartOfAccount) {

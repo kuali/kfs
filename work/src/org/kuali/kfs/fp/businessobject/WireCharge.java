@@ -74,7 +74,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -95,7 +95,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -116,7 +116,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -137,7 +137,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the incomeFinancialObjectCode attribute.
      * 
-     * @param - incomeFinancialObjectCode The incomeFinancialObjectCode to set.
+     * @param incomeFinancialObjectCode The incomeFinancialObjectCode to set.
      * 
      */
     public void setIncomeFinancialObjectCode(String incomeFinancialObjectCode) {
@@ -158,7 +158,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the expenseFinancialObjectCode attribute.
      * 
-     * @param - expenseFinancialObjectCode The expenseFinancialObjectCode to set.
+     * @param expenseFinancialObjectCode The expenseFinancialObjectCode to set.
      * 
      */
     public void setExpenseFinancialObjectCode(String expenseFinancialObjectCode) {
@@ -179,7 +179,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the domesticChargeAmt attribute.
      * 
-     * @param - domesticChargeAmt The domesticChargeAmt to set.
+     * @param domesticChargeAmt The domesticChargeAmt to set.
      * 
      */
     public void setDomesticChargeAmt(KualiDecimal domesticChargeAmt) {
@@ -200,7 +200,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the foreignChargeAmt attribute.
      * 
-     * @param - foreignChargeAmt The foreignChargeAmt to set.
+     * @param foreignChargeAmt The foreignChargeAmt to set.
      * 
      */
     public void setForeignChargeAmt(KualiDecimal foreignChargeAmt) {
@@ -221,7 +221,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -242,7 +242,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the incomeFinancialObject attribute.
      * 
-     * @param - incomeFinancialObject The incomeFinancialObject to set.
+     * @param incomeFinancialObject The incomeFinancialObject to set.
      * @deprecated
      */
     public void setIncomeFinancialObject(ObjectCode incomeFinancialObject) {
@@ -263,7 +263,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the expenseFinancialObject attribute.
      * 
-     * @param - expenseFinancialObject The expenseFinancialObject to set.
+     * @param expenseFinancialObject The expenseFinancialObject to set.
      * @deprecated
      */
     public void setExpenseFinancialObject(ObjectCode expenseFinancialObject) {
@@ -284,7 +284,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {

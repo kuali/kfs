@@ -57,7 +57,7 @@ public class ProposalAwardType extends BusinessObjectBase {
     /**
      * Sets the proposalAwardTypeCode attribute.
      * 
-     * @param - proposalAwardTypeCode The proposalAwardTypeCode to set.
+     * @param proposalAwardTypeCode The proposalAwardTypeCode to set.
      * 
      */
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
@@ -78,7 +78,7 @@ public class ProposalAwardType extends BusinessObjectBase {
     /**
      * Sets the proposalAwardTypeDescription attribute.
      * 
-     * @param - proposalAwardTypeDescription The proposalAwardTypeDescription to set.
+     * @param proposalAwardTypeDescription The proposalAwardTypeDescription to set.
      * 
      */
     public void setProposalAwardTypeDescription(String proposalAwardTypeDescription) {

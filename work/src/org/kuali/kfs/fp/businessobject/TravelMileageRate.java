@@ -60,7 +60,7 @@ public class TravelMileageRate extends BusinessObjectBase {
     /**
      * Sets the mileageLimitAmount attribute.
      * 
-     * @param - mileageLimitAmount The disbVchrMileageLimitAmount to set.
+     * @param mileageLimitAmount The disbVchrMileageLimitAmount to set.
      * 
      */
     public void setMileageLimitAmount(Integer mileageLimitAmount) {
@@ -81,7 +81,7 @@ public class TravelMileageRate extends BusinessObjectBase {
     /**
      * Sets the mileageRate attribute.
      * 
-     * @param - mileageRate The mileageRate to set.
+     * @param mileageRate The mileageRate to set.
      * 
      */
     public void setMileageRate(BigDecimal mileageRate) {

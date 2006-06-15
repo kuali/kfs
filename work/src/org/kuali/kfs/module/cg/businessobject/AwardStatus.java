@@ -57,7 +57,7 @@ public class AwardStatus extends BusinessObjectBase {
     /**
      * Sets the awardStatusCode attribute.
      * 
-     * @param - awardStatusCode The awardStatusCode to set.
+     * @param awardStatusCode The awardStatusCode to set.
      * 
      */
     public void setAwardStatusCode(String awardStatusCode) {
@@ -78,7 +78,7 @@ public class AwardStatus extends BusinessObjectBase {
     /**
      * Sets the awardStatusDescription attribute.
      * 
-     * @param - awardStatusDescription The awardStatusDescription to set.
+     * @param awardStatusDescription The awardStatusDescription to set.
      * 
      */
     public void setAwardStatusDescription(String awardStatusDescription) {

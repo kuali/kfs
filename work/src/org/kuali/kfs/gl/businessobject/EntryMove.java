@@ -93,7 +93,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -114,7 +114,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the universityFiscalYear attribute.
 	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * @param universityFiscalYear The universityFiscalYear to set.
 	 * 
 	 */
 	public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -135,7 +135,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -156,7 +156,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -177,7 +177,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -198,7 +198,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -219,7 +219,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialSubObjectCode attribute.
 	 * 
-	 * @param - financialSubObjectCode The financialSubObjectCode to set.
+	 * @param financialSubObjectCode The financialSubObjectCode to set.
 	 * 
 	 */
 	public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -240,7 +240,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialBalanceTypeCode attribute.
 	 * 
-	 * @param - financialBalanceTypeCode The financialBalanceTypeCode to set.
+	 * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
 	 * 
 	 */
 	public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -261,7 +261,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectTypeCode attribute.
 	 * 
-	 * @param - financialObjectTypeCode The financialObjectTypeCode to set.
+	 * @param financialObjectTypeCode The financialObjectTypeCode to set.
 	 * 
 	 */
 	public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -282,7 +282,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the universityFiscalPeriodCode attribute.
 	 * 
-	 * @param - universityFiscalPeriodCode The universityFiscalPeriodCode to set.
+	 * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
 	 * 
 	 */
 	public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
@@ -303,7 +303,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentTypeCode attribute.
 	 * 
-	 * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+	 * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
 	 * 
 	 */
 	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -324,7 +324,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialSystemOriginationCode attribute.
 	 * 
-	 * @param - financialSystemOriginationCode The financialSystemOriginationCode to set.
+	 * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
 	 * 
 	 */
 	public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
@@ -345,7 +345,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentNumber attribute.
 	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
+	 * @param financialDocumentNumber The financialDocumentNumber to set.
 	 * 
 	 */
 	public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -366,7 +366,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionLedgerEntrySequenceNumber attribute.
 	 * 
-	 * @param - transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
+	 * @param transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
 	 * 
 	 */
 	public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
@@ -387,7 +387,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionLedgerEntryDescription attribute.
 	 * 
-	 * @param - transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
+	 * @param transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
 	 * 
 	 */
 	public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
@@ -408,7 +408,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionLedgerEntryAmount attribute.
 	 * 
-	 * @param - transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
+	 * @param transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
 	 * 
 	 */
 	public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
@@ -429,7 +429,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionDebitCreditCode attribute.
 	 * 
-	 * @param - transactionDebitCreditCode The transactionDebitCreditCode to set.
+	 * @param transactionDebitCreditCode The transactionDebitCreditCode to set.
 	 * 
 	 */
 	public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
@@ -450,7 +450,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionDate attribute.
 	 * 
-	 * @param - transactionDate The transactionDate to set.
+	 * @param transactionDate The transactionDate to set.
 	 * 
 	 */
 	public void setTransactionDate(Date transactionDate) {
@@ -471,7 +471,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the organizationDocumentNumber attribute.
 	 * 
-	 * @param - organizationDocumentNumber The organizationDocumentNumber to set.
+	 * @param organizationDocumentNumber The organizationDocumentNumber to set.
 	 * 
 	 */
 	public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
@@ -492,7 +492,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the projectCode attribute.
 	 * 
-	 * @param - projectCode The projectCode to set.
+	 * @param projectCode The projectCode to set.
 	 * 
 	 */
 	public void setProjectCode(String projectCode) {
@@ -513,7 +513,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the organizationReferenceId attribute.
 	 * 
-	 * @param - organizationReferenceId The organizationReferenceId to set.
+	 * @param organizationReferenceId The organizationReferenceId to set.
 	 * 
 	 */
 	public void setOrganizationReferenceId(String organizationReferenceId) {
@@ -534,7 +534,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the referenceFinancialDocumentTypeCode attribute.
 	 * 
-	 * @param - referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
+	 * @param referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
 	 * 
 	 */
 	public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
@@ -555,7 +555,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the referenceFinancialSystemOriginationCode attribute.
 	 * 
-	 * @param - referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
+	 * @param referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
 	 * 
 	 */
 	public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
@@ -576,7 +576,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the referenceFinancialDocumentNumber attribute.
 	 * 
-	 * @param - referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
+	 * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
 	 * 
 	 */
 	public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
@@ -597,7 +597,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentReversalDate attribute.
 	 * 
-	 * @param - financialDocumentReversalDate The financialDocumentReversalDate to set.
+	 * @param financialDocumentReversalDate The financialDocumentReversalDate to set.
 	 * 
 	 */
 	public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
@@ -618,7 +618,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionEncumbranceUpdateCode attribute.
 	 * 
-	 * @param - transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
+	 * @param transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
 	 * 
 	 */
 	public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
@@ -639,7 +639,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionPostingDate attribute.
 	 * 
-	 * @param - transactionPostingDate The transactionPostingDate to set.
+	 * @param transactionPostingDate The transactionPostingDate to set.
 	 * 
 	 */
 	public void setTransactionPostingDate(Date transactionPostingDate) {
@@ -660,7 +660,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the transactionDateTimeStamp attribute.
 	 * 
-	 * @param - transactionDateTimeStamp The transactionDateTimeStamp to set.
+	 * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
 	 * 
 	 */
 	public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
@@ -681,7 +681,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the budgetYear attribute.
 	 * 
-	 * @param - budgetYear The budgetYear to set.
+	 * @param budgetYear The budgetYear to set.
 	 * 
 	 */
 	public void setBudgetYear(String budgetYear) {
@@ -702,7 +702,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the financialObject attribute.
 	 * 
-	 * @param - financialObject The financialObject to set.
+	 * @param financialObject The financialObject to set.
 	 * @deprecated
 	 */
 	public void setFinancialObject(ObjectCode financialObject) {
@@ -722,7 +722,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -742,7 +742,7 @@ public class EntryMove extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {

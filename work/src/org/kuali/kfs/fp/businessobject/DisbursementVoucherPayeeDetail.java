@@ -82,7 +82,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -103,7 +103,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPaymentReasonCode attribute.
      * 
-     * @param - disbVchrPaymentReasonCode The disbVchrPaymentReasonCode to set.
+     * @param disbVchrPaymentReasonCode The disbVchrPaymentReasonCode to set.
      * 
      */
     public void setDisbVchrPaymentReasonCode(String disbVchrPaymentReasonCode) {
@@ -124,7 +124,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrAlienPaymentCode attribute.
      * 
-     * @param - disbVchrAlienPaymentCode The disbVchrAlienPaymentCode to set.
+     * @param disbVchrAlienPaymentCode The disbVchrAlienPaymentCode to set.
      * 
      */
     public void setDisbVchrAlienPaymentCode(boolean disbVchrAlienPaymentCode) {
@@ -145,7 +145,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeIdNumber attribute.
      * 
-     * @param - disbVchrPayeeIdNumber The disbVchrPayeeIdNumber to set.
+     * @param disbVchrPayeeIdNumber The disbVchrPayeeIdNumber to set.
      * 
      */
     public void setDisbVchrPayeeIdNumber(String disbVchrPayeeIdNumber) {
@@ -166,7 +166,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeePersonName attribute.
      * 
-     * @param - disbVchrPayeePersonName The disbVchrPayeePersonName to set.
+     * @param disbVchrPayeePersonName The disbVchrPayeePersonName to set.
      * 
      */
     public void setDisbVchrPayeePersonName(String disbVchrPayeePersonName) {
@@ -187,7 +187,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeLine1Addr attribute.
      * 
-     * @param - disbVchrPayeeLine1Addr The disbVchrPayeeLine1Addr to set.
+     * @param disbVchrPayeeLine1Addr The disbVchrPayeeLine1Addr to set.
      * 
      */
     public void setDisbVchrPayeeLine1Addr(String disbVchrPayeeLine1Addr) {
@@ -208,7 +208,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeLine2Addr attribute.
      * 
-     * @param - disbVchrPayeeLine2Addr The disbVchrPayeeLine2Addr to set.
+     * @param disbVchrPayeeLine2Addr The disbVchrPayeeLine2Addr to set.
      * 
      */
     public void setDisbVchrPayeeLine2Addr(String disbVchrPayeeLine2Addr) {
@@ -229,7 +229,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeCityName attribute.
      * 
-     * @param - disbVchrPayeeCityName The disbVchrPayeeCityName to set.
+     * @param disbVchrPayeeCityName The disbVchrPayeeCityName to set.
      * 
      */
     public void setDisbVchrPayeeCityName(String disbVchrPayeeCityName) {
@@ -250,7 +250,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeStateCode attribute.
      * 
-     * @param - disbVchrPayeeStateCode The disbVchrPayeeStateCode to set.
+     * @param disbVchrPayeeStateCode The disbVchrPayeeStateCode to set.
      * 
      */
     public void setDisbVchrPayeeStateCode(String disbVchrPayeeStateCode) {
@@ -271,7 +271,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeZipCode attribute.
      * 
-     * @param - disbVchrPayeeZipCode The disbVchrPayeeZipCode to set.
+     * @param disbVchrPayeeZipCode The disbVchrPayeeZipCode to set.
      * 
      */
     public void setDisbVchrPayeeZipCode(String disbVchrPayeeZipCode) {
@@ -292,7 +292,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeCountryCode attribute.
      * 
-     * @param - disbVchrPayeeCountryCode The disbVchrPayeeCountryCode to set.
+     * @param disbVchrPayeeCountryCode The disbVchrPayeeCountryCode to set.
      * 
      */
     public void setDisbVchrPayeeCountryCode(String disbVchrPayeeCountryCode) {
@@ -313,7 +313,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrRemitPersonName attribute.
      * 
-     * @param - disbVchrRemitPersonName The disbVchrRemitPersonName to set.
+     * @param disbVchrRemitPersonName The disbVchrRemitPersonName to set.
      * 
      */
     public void setDisbVchrRemitPersonName(String disbVchrRemitPersonName) {
@@ -334,7 +334,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrRemitLine1Addr attribute.
      * 
-     * @param - disbVchrRemitLine1Addr The disbVchrRemitLine1Addr to set.
+     * @param disbVchrRemitLine1Addr The disbVchrRemitLine1Addr to set.
      * 
      */
     public void setDisbVchrRemitLine1Addr(String disbVchrRemitLine1Addr) {
@@ -355,7 +355,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrRemitLine2Addr attribute.
      * 
-     * @param - disbVchrRemitLine2Addr The disbVchrRemitLine2Addr to set.
+     * @param disbVchrRemitLine2Addr The disbVchrRemitLine2Addr to set.
      * 
      */
     public void setDisbVchrRemitLine2Addr(String disbVchrRemitLine2Addr) {
@@ -376,7 +376,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrRemitCityName attribute.
      * 
-     * @param - disbVchrRemitCityName The disbVchrRemitCityName to set.
+     * @param disbVchrRemitCityName The disbVchrRemitCityName to set.
      * 
      */
     public void setDisbVchrRemitCityName(String disbVchrRemitCityName) {
@@ -397,7 +397,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrRemitStateCode attribute.
      * 
-     * @param - disbVchrRemitStateCode The disbVchrRemitStateCode to set.
+     * @param disbVchrRemitStateCode The disbVchrRemitStateCode to set.
      * 
      */
     public void setDisbVchrRemitStateCode(String disbVchrRemitStateCode) {
@@ -418,7 +418,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrRemitZipCode attribute.
      * 
-     * @param - disbVchrRemitZipCode The disbVchrRemitZipCode to set.
+     * @param disbVchrRemitZipCode The disbVchrRemitZipCode to set.
      * 
      */
     public void setDisbVchrRemitZipCode(String disbVchrRemitZipCode) {
@@ -439,7 +439,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrRemitCountryCode attribute.
      * 
-     * @param - disbVchrRemitCountryCode The disbVchrRemitCountryCode to set.
+     * @param disbVchrRemitCountryCode The disbVchrRemitCountryCode to set.
      * 
      */
     public void setDisbVchrRemitCountryCode(String disbVchrRemitCountryCode) {
@@ -460,7 +460,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeEmployeeCode attribute.
      * 
-     * @param - disbVchrPayeeEmployeeCode The disbVchrPayeeEmployeeCode to set.
+     * @param disbVchrPayeeEmployeeCode The disbVchrPayeeEmployeeCode to set.
      * 
      */
     public void setDisbVchrPayeeEmployeeCode(boolean disbVchrPayeeEmployeeCode) {
@@ -481,7 +481,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the dvPayeeRevolvingFundCode attribute.
      * 
-     * @param - dvPayeeRevolvingFundCode The dvPayeeRevolvingFundCode to set.
+     * @param dvPayeeRevolvingFundCode The dvPayeeRevolvingFundCode to set.
      * 
      */
     public void setDvPayeeRevolvingFundCode(boolean dvPayeeRevolvingFundCode) {
@@ -502,7 +502,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrPaymentReason attribute.
      * 
-     * @param - disbVchrPaymentReason The disbVchrPaymentReason to set.
+     * @param disbVchrPaymentReason The disbVchrPaymentReason to set.
      * @deprecated
      */
     public void setDisbVchrPaymentReason(PaymentReasonCode disbVchrPaymentReason) {

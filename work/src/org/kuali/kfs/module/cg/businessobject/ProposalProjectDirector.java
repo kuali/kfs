@@ -64,7 +64,7 @@ public class ProposalProjectDirector extends BusinessObjectBase {
     /**
      * Sets the personUniversalIdentifier attribute.
      * 
-     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
      * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -85,7 +85,7 @@ public class ProposalProjectDirector extends BusinessObjectBase {
     /**
      * Sets the proposalNumber attribute.
      * 
-     * @param - proposalNumber The proposalNumber to set.
+     * @param proposalNumber The proposalNumber to set.
      * 
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -106,7 +106,7 @@ public class ProposalProjectDirector extends BusinessObjectBase {
     /**
      * Sets the proposalProjectDirectorNote1Text attribute.
      * 
-     * @param - proposalProjectDirectorNote1Text The proposalProjectDirectorNote1Text to set.
+     * @param proposalProjectDirectorNote1Text The proposalProjectDirectorNote1Text to set.
      * 
      */
     public void setProposalProjectDirectorNote1Text(String proposalProjectDirectorNote1Text) {
@@ -127,7 +127,7 @@ public class ProposalProjectDirector extends BusinessObjectBase {
     /**
      * Sets the proposalProjectDirectorNote2Text attribute.
      * 
-     * @param - proposalProjectDirectorNote2Text The proposalProjectDirectorNote2Text to set.
+     * @param proposalProjectDirectorNote2Text The proposalProjectDirectorNote2Text to set.
      * 
      */
     public void setProposalProjectDirectorNote2Text(String proposalProjectDirectorNote2Text) {
@@ -148,7 +148,7 @@ public class ProposalProjectDirector extends BusinessObjectBase {
     /**
      * Sets the proposalProjectDirectorNote3Text attribute.
      * 
-     * @param - proposalProjectDirectorNote3Text The proposalProjectDirectorNote3Text to set.
+     * @param proposalProjectDirectorNote3Text The proposalProjectDirectorNote3Text to set.
      * 
      */
     public void setProposalProjectDirectorNote3Text(String proposalProjectDirectorNote3Text) {
@@ -170,7 +170,7 @@ public class ProposalProjectDirector extends BusinessObjectBase {
     /**
      * Sets the proposalPrimaryProjectDirectorIndicator attribute.
      * 
-     * @param - proposalPrimaryProjectDirectorIndicator The proposalPrimaryProjectDirectorIndicator to set.
+     * @param proposalPrimaryProjectDirectorIndicator The proposalPrimaryProjectDirectorIndicator to set.
      * 
      */
     public void setProposalPrimaryProjectDirectorIndicator(boolean proposalPrimaryProjectDirectorIndicator) {
@@ -191,7 +191,7 @@ public class ProposalProjectDirector extends BusinessObjectBase {
     /**
      * Sets the proposalProjectDirectorProjectTitle attribute.
      * 
-     * @param - proposalProjectDirectorProjectTitle The proposalProjectDirectorProjectTitle to set.
+     * @param proposalProjectDirectorProjectTitle The proposalProjectDirectorProjectTitle to set.
      * 
      */
     public void setProposalProjectDirectorProjectTitle(String proposalProjectDirectorProjectTitle) {

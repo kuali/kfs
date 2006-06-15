@@ -59,7 +59,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Sets the responsibilityCenterCode attribute.
      * 
-     * @param - responsibilityCenterCode The responsibilityCenterCode to set.
+     * @param responsibilityCenterCode The responsibilityCenterCode to set.
      * 
      */
     public void setResponsibilityCenterCode(String responsibilityCenterCode) {
@@ -79,7 +79,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Sets the responsibilityCenterName attribute.
      * 
-     * @param - responsibilityCenterName The responsibilityCenterName to set.
+     * @param responsibilityCenterName The responsibilityCenterName to set.
      * 
      */
     public void setResponsibilityCenterName(String responsibilityCenterName) {
@@ -99,7 +99,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Sets the responsibilityCenterShortName attribute.
      * 
-     * @param - responsibilityCenterShortName The responsibilityCenterShortName to set.
+     * @param responsibilityCenterShortName The responsibilityCenterShortName to set.
      * 
      */
     public void setResponsibilityCenterShortName(String responsibilityCenterShortName) {
@@ -119,7 +119,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Sets the _responsibilityCenterActiveIndicator_ attribute.
      * 
-     * @param - _responsibilityCenterActiveIndicator_ The _responsibilityCenterActiveIndicator_ to set.
+     * @param _responsibilityCenterActiveIndicator_ The _responsibilityCenterActiveIndicator_ to set.
      * 
      */
     public void setResponsibilityCenterActiveIndicator(boolean responsibilityCenterActiveIndicator) {

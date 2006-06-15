@@ -57,7 +57,7 @@ public class AcctType extends BusinessObjectBase {
     /**
      * Sets the accountTypeCode attribute.
      * 
-     * @param - accountTypeCode The accountTypeCode to set.
+     * @param accountTypeCode The accountTypeCode to set.
      * 
      */
     public void setAccountTypeCode(String accountTypeCode) {
@@ -77,7 +77,7 @@ public class AcctType extends BusinessObjectBase {
     /**
      * Sets the accountTypeName attribute.
      * 
-     * @param - accountTypeName The accountTypeName to set.
+     * @param accountTypeName The accountTypeName to set.
      * 
      */
     public void setAccountTypeName(String accountTypeName) {

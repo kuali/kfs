@@ -110,7 +110,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the workgroupName attribute.
      * 
-     * @param - workgroupName The workgroupName to set.
+     * @param workgroupName The workgroupName to set.
      * 
      */
     public void setWorkgroupName(String workgroupName) {
@@ -131,7 +131,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the statusCode attribute.
      * 
-     * @param - statusCode The statusCode to set.
+     * @param statusCode The statusCode to set.
      * 
      */
     public void setStatusCode(String financialDocumentOpenDepositCode) {
@@ -152,7 +152,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the cashDrawerTotalAmount attribute.
      * 
-     * @param - cashDrawerTotalAmount The cashDrawerTotalAmount to set.
+     * @param cashDrawerTotalAmount The cashDrawerTotalAmount to set.
      * 
      */
     public void setCashDrawerTotalAmount(KualiDecimal cashDrawerTotalAmount) {
@@ -173,7 +173,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentHundredDollarAmount attribute.
      * 
-     * @param - financialDocumentHundredDollarAmount The financialDocumentHundredDollarAmount to set.
+     * @param financialDocumentHundredDollarAmount The financialDocumentHundredDollarAmount to set.
      * 
      */
     public void setFinancialDocumentHundredDollarAmount(KualiDecimal financialDocumentHundredDollarAmount) {
@@ -194,7 +194,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiftyDollarAmount attribute.
      * 
-     * @param - financialDocumentFiftyDollarAmount The financialDocumentFiftyDollarAmount to set.
+     * @param financialDocumentFiftyDollarAmount The financialDocumentFiftyDollarAmount to set.
      * 
      */
     public void setFinancialDocumentFiftyDollarAmount(KualiDecimal financialDocumentFiftyDollarAmount) {
@@ -215,7 +215,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTwentyDollarAmount attribute.
      * 
-     * @param - financialDocumentTwentyDollarAmount The financialDocumentTwentyDollarAmount to set.
+     * @param financialDocumentTwentyDollarAmount The financialDocumentTwentyDollarAmount to set.
      * 
      */
     public void setFinancialDocumentTwentyDollarAmount(KualiDecimal financialDocumentTwentyDollarAmount) {
@@ -236,7 +236,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTenDollarAmount attribute.
      * 
-     * @param - financialDocumentTenDollarAmount The financialDocumentTenDollarAmount to set.
+     * @param financialDocumentTenDollarAmount The financialDocumentTenDollarAmount to set.
      * 
      */
     public void setFinancialDocumentTenDollarAmount(KualiDecimal financialDocumentTenDollarAmount) {
@@ -257,7 +257,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiveDollarAmount attribute.
      * 
-     * @param - financialDocumentFiveDollarAmount The financialDocumentFiveDollarAmount to set.
+     * @param financialDocumentFiveDollarAmount The financialDocumentFiveDollarAmount to set.
      * 
      */
     public void setFinancialDocumentFiveDollarAmount(KualiDecimal financialDocumentFiveDollarAmount) {
@@ -278,7 +278,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTwoDollarAmount attribute.
      * 
-     * @param - financialDocumentTwoDollarAmount The financialDocumentTwoDollarAmount to set.
+     * @param financialDocumentTwoDollarAmount The financialDocumentTwoDollarAmount to set.
      * 
      */
     public void setFinancialDocumentTwoDollarAmount(KualiDecimal financialDocumentTwoDollarAmount) {
@@ -299,7 +299,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOneDollarAmount attribute.
      * 
-     * @param - financialDocumentOneDollarAmount The financialDocumentOneDollarAmount to set.
+     * @param financialDocumentOneDollarAmount The financialDocumentOneDollarAmount to set.
      * 
      */
     public void setFinancialDocumentOneDollarAmount(KualiDecimal financialDocumentOneDollarAmount) {
@@ -320,7 +320,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOtherDollarAmount attribute.
      * 
-     * @param - financialDocumentOtherDollarAmount The financialDocumentOtherDollarAmount to set.
+     * @param financialDocumentOtherDollarAmount The financialDocumentOtherDollarAmount to set.
      * 
      */
     public void setFinancialDocumentOtherDollarAmount(KualiDecimal financialDocumentOtherDollarAmount) {
@@ -341,7 +341,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiftyCentAmount attribute.
      * 
-     * @param - financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
+     * @param financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
      * 
      */
     public void setFinancialDocumentFiftyCentAmount(KualiDecimal financialDocumentFiftyCentAmount) {
@@ -362,7 +362,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTwentyFiveCentAmount attribute.
      * 
-     * @param - financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
+     * @param financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
      * 
      */
     public void setFinancialDocumentTwentyFiveCentAmount(KualiDecimal financialDocumentTwentyFiveCentAmount) {
@@ -383,7 +383,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTenCentAmount attribute.
      * 
-     * @param - financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
+     * @param financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
      * 
      */
     public void setFinancialDocumentTenCentAmount(KualiDecimal financialDocumentTenCentAmount) {
@@ -404,7 +404,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiveCentAmount attribute.
      * 
-     * @param - financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
+     * @param financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
      * 
      */
     public void setFinancialDocumentFiveCentAmount(KualiDecimal financialDocumentFiveCentAmount) {
@@ -425,7 +425,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOneCentAmount attribute.
      * 
-     * @param - financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
+     * @param financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
      * 
      */
     public void setFinancialDocumentOneCentAmount(KualiDecimal financialDocumentOneCentAmount) {
@@ -446,7 +446,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOtherCentAmount attribute.
      * 
-     * @param - financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
+     * @param financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
      * 
      */
     public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
@@ -467,7 +467,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentHundredCentAmount attribute.
      * 
-     * @param - financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
+     * @param financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
      * 
      */
     public void setFinancialDocumentHundredCentAmount(KualiDecimal financialDocumentHundredCentAmount) {
@@ -488,7 +488,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentMiscellaneousAdvanceAmount attribute.
      * 
-     * @param - financialDocumentMiscellaneousAdvanceAmount The financialDocumentMiscellaneousAdvanceAmount to set.
+     * @param financialDocumentMiscellaneousAdvanceAmount The financialDocumentMiscellaneousAdvanceAmount to set.
      * 
      */
     public void setFinancialDocumentMiscellaneousAdvanceAmount(KualiDecimal financialDocumentMiscellaneousAdvanceAmount) {
@@ -509,7 +509,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the referenceFinancialDocumentNumber attribute.
      * 
-     * @param - referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
+     * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      * 
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {

@@ -69,7 +69,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -90,7 +90,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -111,7 +111,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the financialOffsetObjectCode attribute.
      * 
-     * @param - financialOffsetObjectCode The financialOffsetObjectCode to set.
+     * @param financialOffsetObjectCode The financialOffsetObjectCode to set.
      * 
      */
     public void setFinancialOffsetObjectCode(String financialOffsetObjectCode) {
@@ -132,7 +132,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the financialOffsetChartOfAccountCode attribute.
      * 
-     * @param - financialOffsetChartOfAccountCode The financialOffsetChartOfAccountCode to set.
+     * @param financialOffsetChartOfAccountCode The financialOffsetChartOfAccountCode to set.
      * 
      */
     public void setFinancialOffsetChartOfAccountCode(String financialOffsetChartOfAccountCode) {
@@ -153,7 +153,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the financialOffsetAccountNumber attribute.
      * 
-     * @param - financialOffsetAccountNumber The financialOffsetAccountNumber to set.
+     * @param financialOffsetAccountNumber The financialOffsetAccountNumber to set.
      * 
      */
     public void setFinancialOffsetAccountNumber(String financialOffsetAccountNumber) {
@@ -174,7 +174,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the chart attribute.
      * 
-     * @param - chart The chart to set.
+     * @param chart The chart to set.
      * @deprecated
      */
     public void setChart(Chart chart) {
@@ -194,7 +194,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
@@ -214,7 +214,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Sets the financialOffsetChartOfAccount attribute.
      * 
-     * @param - financialOffsetChartOfAccount The financialOffsetChartOfAccount to set.
+     * @param financialOffsetChartOfAccount The financialOffsetChartOfAccount to set.
      * @deprecated
      */
     public void setFinancialOffsetChartOfAccount(Chart financialOffsetChartOfAccount) {

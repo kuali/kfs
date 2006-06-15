@@ -53,7 +53,7 @@ public class ObjSubTyp extends KualiCodeBase {
     /**
      * Sets the financialObjectSubTypeCode attribute.
      * 
-     * @param - financialObjectSubTypeCode The financialObjectSubTypeCode to set.
+     * @param financialObjectSubTypeCode The financialObjectSubTypeCode to set.
      * 
      */
     public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
@@ -73,7 +73,7 @@ public class ObjSubTyp extends KualiCodeBase {
     /**
      * Sets the financialObjectSubTypeName attribute.
      * 
-     * @param - financialObjectSubTypeName The financialObjectSubTypeName to set.
+     * @param financialObjectSubTypeName The financialObjectSubTypeName to set.
      * 
      */
     public void setFinancialObjectSubTypeName(String financialObjectSubTypeName) {

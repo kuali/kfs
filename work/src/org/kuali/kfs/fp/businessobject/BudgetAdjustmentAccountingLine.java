@@ -55,7 +55,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth1LineAmount attribute.
      * 
-     * @param - financialDocumentMonth1LineAmount The financialDocumentMonth1LineAmount to set.
+     * @param financialDocumentMonth1LineAmount The financialDocumentMonth1LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth1LineAmount(KualiDecimal financialDocumentMonth1LineAmount);
@@ -71,7 +71,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth2LineAmount attribute.
      * 
-     * @param - financialDocumentMonth2LineAmount The financialDocumentMonth2LineAmount to set.
+     * @param financialDocumentMonth2LineAmount The financialDocumentMonth2LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth2LineAmount(KualiDecimal financialDocumentMonth2LineAmount);
@@ -87,7 +87,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth3LineAmount attribute.
      * 
-     * @param - financialDocumentMonth3LineAmount The financialDocumentMonth3LineAmount to set.
+     * @param financialDocumentMonth3LineAmount The financialDocumentMonth3LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth3LineAmount(KualiDecimal financialDocumentMonth3LineAmount);
@@ -103,7 +103,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth4LineAmount attribute.
      * 
-     * @param - financialDocumentMonth4LineAmount The financialDocumentMonth4LineAmount to set.
+     * @param financialDocumentMonth4LineAmount The financialDocumentMonth4LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth4LineAmount(KualiDecimal financialDocumentMonth4LineAmount);
@@ -119,7 +119,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth5LineAmount attribute.
      * 
-     * @param - financialDocumentMonth5LineAmount The financialDocumentMonth5LineAmount to set.
+     * @param financialDocumentMonth5LineAmount The financialDocumentMonth5LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth5LineAmount(KualiDecimal financialDocumentMonth5LineAmount);
@@ -135,7 +135,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth6LineAmount attribute.
      * 
-     * @param - financialDocumentMonth6LineAmount The financialDocumentMonth6LineAmount to set.
+     * @param financialDocumentMonth6LineAmount The financialDocumentMonth6LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth6LineAmount(KualiDecimal financialDocumentMonth6LineAmount);
@@ -151,7 +151,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth7LineAmount attribute.
      * 
-     * @param - financialDocumentMonth7LineAmount The financialDocumentMonth7LineAmount to set.
+     * @param financialDocumentMonth7LineAmount The financialDocumentMonth7LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth7LineAmount(KualiDecimal financialDocumentMonth7LineAmount);
@@ -167,7 +167,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth8LineAmount attribute.
      * 
-     * @param - financialDocumentMonth8LineAmount The financialDocumentMonth8LineAmount to set.
+     * @param financialDocumentMonth8LineAmount The financialDocumentMonth8LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth8LineAmount(KualiDecimal financialDocumentMonth8LineAmount);
@@ -183,7 +183,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth9LineAmount attribute.
      * 
-     * @param - financialDocumentMonth9LineAmount The financialDocumentMonth9LineAmount to set.
+     * @param financialDocumentMonth9LineAmount The financialDocumentMonth9LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth9LineAmount(KualiDecimal financialDocumentMonth9LineAmount);
@@ -199,7 +199,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth10LineAmount attribute.
      * 
-     * @param - financialDocumentMonth10LineAmount The financialDocumentMonth10LineAmount to set.
+     * @param financialDocumentMonth10LineAmount The financialDocumentMonth10LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth10LineAmount(KualiDecimal financialDocumentMonth10LineAmount);
@@ -215,7 +215,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth11LineAmount attribute.
      * 
-     * @param - financialDocumentMonth11LineAmount The financialDocumentMonth11LineAmount to set.
+     * @param financialDocumentMonth11LineAmount The financialDocumentMonth11LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth11LineAmount(KualiDecimal financialDocumentMonth11LineAmount);
@@ -231,7 +231,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the financialDocumentMonth12LineAmount attribute.
      * 
-     * @param - financialDocumentMonth12LineAmount The financialDocumentMonth12LineAmount to set.
+     * @param financialDocumentMonth12LineAmount The financialDocumentMonth12LineAmount to set.
      * 
      */
     public abstract void setFinancialDocumentMonth12LineAmount(KualiDecimal financialDocumentMonth12LineAmount);
@@ -247,7 +247,7 @@ public interface BudgetAdjustmentAccountingLine {
     /**
      * Sets the fringeBenefitIndicator attribute.
      * 
-     * @param - fringeBenefitIndicator The fringeBenefitIndicator to set.
+     * @param fringeBenefitIndicator The fringeBenefitIndicator to set.
      * 
      */
     public abstract void setFringeBenefitIndicator(boolean fringeBenefitIndicator);

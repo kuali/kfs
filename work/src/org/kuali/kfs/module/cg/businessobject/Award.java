@@ -110,7 +110,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the proposalNumber attribute.
      * 
-     * @param - proposalNumber The proposalNumber to set.
+     * @param proposalNumber The proposalNumber to set.
      * 
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -131,7 +131,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardBeginningDate attribute.
      * 
-     * @param - awardBeginningDate The awardBeginningDate to set.
+     * @param awardBeginningDate The awardBeginningDate to set.
      * 
      */
     public void setAwardBeginningDate(Timestamp awardBeginningDate) {
@@ -152,7 +152,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardEndingDate attribute.
      * 
-     * @param - awardEndingDate The awardEndingDate to set.
+     * @param awardEndingDate The awardEndingDate to set.
      * 
      */
     public void setAwardEndingDate(Timestamp awardEndingDate) {
@@ -173,7 +173,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardTotalAmount attribute.
      * 
-     * @param - awardTotalAmount The awardTotalAmount to set.
+     * @param awardTotalAmount The awardTotalAmount to set.
      * 
      */
     public void setAwardTotalAmount(KualiDecimal awardTotalAmount) {
@@ -194,7 +194,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardAddendumNumber attribute.
      * 
-     * @param - awardAddendumNumber The awardAddendumNumber to set.
+     * @param awardAddendumNumber The awardAddendumNumber to set.
      * 
      */
     public void setAwardAddendumNumber(String awardAddendumNumber) {
@@ -215,7 +215,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardAllocatedUniversityComputingServicesAmount attribute.
      * 
-     * @param - awardAllocatedUniversityComputingServicesAmount The awardAllocatedUniversityComputingServicesAmount to set.
+     * @param awardAllocatedUniversityComputingServicesAmount The awardAllocatedUniversityComputingServicesAmount to set.
      * 
      */
     public void setAwardAllocatedUniversityComputingServicesAmount(KualiDecimal awardAllocatedUniversityComputingServicesAmount) {
@@ -236,7 +236,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the agencyAwardNumber attribute.
      * 
-     * @param - agencyAwardNumber The agencyAwardNumber to set.
+     * @param agencyAwardNumber The agencyAwardNumber to set.
      * 
      */
     public void setAgencyAwardNumber(String agencyAwardNumber) {
@@ -257,7 +257,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the federalPassThroughFundedAmount attribute.
      * 
-     * @param - federalPassThroughFundedAmount The federalPassThroughFundedAmount to set.
+     * @param federalPassThroughFundedAmount The federalPassThroughFundedAmount to set.
      * 
      */
     public void setFederalPassThroughFundedAmount(KualiDecimal federalPassThroughFundedAmount) {
@@ -278,7 +278,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardEntryDate attribute.
      * 
-     * @param - awardEntryDate The awardEntryDate to set.
+     * @param awardEntryDate The awardEntryDate to set.
      * 
      */
     public void setAwardEntryDate(Timestamp awardEntryDate) {
@@ -299,7 +299,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the agencyFuture1Amount attribute.
      * 
-     * @param - agencyFuture1Amount The agencyFuture1Amount to set.
+     * @param agencyFuture1Amount The agencyFuture1Amount to set.
      * 
      */
     public void setAgencyFuture1Amount(KualiDecimal agencyFuture1Amount) {
@@ -320,7 +320,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the agencyFuture2Amount attribute.
      * 
-     * @param - agencyFuture2Amount The agencyFuture2Amount to set.
+     * @param agencyFuture2Amount The agencyFuture2Amount to set.
      * 
      */
     public void setAgencyFuture2Amount(KualiDecimal agencyFuture2Amount) {
@@ -341,7 +341,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the agencyFuture3Amount attribute.
      * 
-     * @param - agencyFuture3Amount The agencyFuture3Amount to set.
+     * @param agencyFuture3Amount The agencyFuture3Amount to set.
      * 
      */
     public void setAgencyFuture3Amount(KualiDecimal agencyFuture3Amount) {
@@ -362,7 +362,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardDocumentNumber attribute.
      * 
-     * @param - awardDocumentNumber The awardDocumentNumber to set.
+     * @param awardDocumentNumber The awardDocumentNumber to set.
      * 
      */
     public void setAwardDocumentNumber(String awardDocumentNumber) {
@@ -383,7 +383,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardLastUpdateDate attribute.
      * 
-     * @param - awardLastUpdateDate The awardLastUpdateDate to set.
+     * @param awardLastUpdateDate The awardLastUpdateDate to set.
      * 
      */
     public void setAwardLastUpdateDate(Timestamp awardLastUpdateDate) {
@@ -404,7 +404,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the federalPassThroughIndicator attribute.
      * 
-     * @param - federalPassThroughIndicator The federalPassThroughIndicator to set.
+     * @param federalPassThroughIndicator The federalPassThroughIndicator to set.
      * 
      */
     public void setFederalPassThroughIndicator(boolean federalPassThroughIndicator) {
@@ -425,7 +425,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the oldProposalNumber attribute.
      * 
-     * @param - oldProposalNumber The oldProposalNumber to set.
+     * @param oldProposalNumber The oldProposalNumber to set.
      * 
      */
     public void setOldProposalNumber(String oldProposalNumber) {
@@ -446,7 +446,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardDirectCostAmount attribute.
      * 
-     * @param - awardDirectCostAmount The awardDirectCostAmount to set.
+     * @param awardDirectCostAmount The awardDirectCostAmount to set.
      * 
      */
     public void setAwardDirectCostAmount(KualiDecimal awardDirectCostAmount) {
@@ -467,7 +467,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardIndirectCostAmount attribute.
      * 
-     * @param - awardIndirectCostAmount The awardIndirectCostAmount to set.
+     * @param awardIndirectCostAmount The awardIndirectCostAmount to set.
      * 
      */
     public void setAwardIndirectCostAmount(KualiDecimal awardIndirectCostAmount) {
@@ -488,7 +488,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the federalFundedAmount attribute.
      * 
-     * @param - federalFundedAmount The federalFundedAmount to set.
+     * @param federalFundedAmount The federalFundedAmount to set.
      * 
      */
     public void setFederalFundedAmount(KualiDecimal federalFundedAmount) {
@@ -509,7 +509,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardCreateTimestamp attribute.
      * 
-     * @param - awardCreateTimestamp The awardCreateTimestamp to set.
+     * @param awardCreateTimestamp The awardCreateTimestamp to set.
      * 
      */
     public void setAwardCreateTimestamp(Timestamp awardCreateTimestamp) {
@@ -530,7 +530,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardClosingDate attribute.
      * 
-     * @param - awardClosingDate The awardClosingDate to set.
+     * @param awardClosingDate The awardClosingDate to set.
      * 
      */
     public void setAwardClosingDate(Timestamp awardClosingDate) {
@@ -551,7 +551,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the proposalAwardTypeCode attribute.
      * 
-     * @param - proposalAwardTypeCode The proposalAwardTypeCode to set.
+     * @param proposalAwardTypeCode The proposalAwardTypeCode to set.
      * 
      */
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
@@ -572,7 +572,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the financialSystemWorkgroupId attribute.
      * 
-     * @param - financialSystemWorkgroupId The financialSystemWorkgroupId to set.
+     * @param financialSystemWorkgroupId The financialSystemWorkgroupId to set.
      * 
      */
     public void setFinancialSystemWorkgroupId(String financialSystemWorkgroupId) {
@@ -593,7 +593,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardStatusCode attribute.
      * 
-     * @param - awardStatusCode The awardStatusCode to set.
+     * @param awardStatusCode The awardStatusCode to set.
      * 
      */
     public void setAwardStatusCode(String awardStatusCode) {
@@ -614,7 +614,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the letterOfCreditFundGroupCode attribute.
      * 
-     * @param - letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
+     * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
      * 
      */
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
@@ -635,7 +635,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the grantDescriptionCode attribute.
      * 
-     * @param - grantDescriptionCode The grantDescriptionCode to set.
+     * @param grantDescriptionCode The grantDescriptionCode to set.
      * 
      */
     public void setGrantDescriptionCode(String grantDescriptionCode) {
@@ -656,7 +656,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the agencyNumber attribute.
      * 
-     * @param - agencyNumber The agencyNumber to set.
+     * @param agencyNumber The agencyNumber to set.
      * 
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -677,7 +677,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the federalPassThroughAgencyNumber attribute.
      * 
-     * @param - federalPassThroughAgencyNumber The federalPassThroughAgencyNumber to set.
+     * @param federalPassThroughAgencyNumber The federalPassThroughAgencyNumber to set.
      * 
      */
     public void setFederalPassThroughAgencyNumber(String federalPassThroughAgencyNumber) {
@@ -698,7 +698,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the agencyAnalystName attribute.
      * 
-     * @param - agencyAnalystName The agencyAnalystName to set.
+     * @param agencyAnalystName The agencyAnalystName to set.
      * 
      */
     public void setAgencyAnalystName(String agencyAnalystName) {
@@ -719,7 +719,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the analystTelephoneNumber attribute.
      * 
-     * @param - analystTelephoneNumber The analystTelephoneNumber to set.
+     * @param analystTelephoneNumber The analystTelephoneNumber to set.
      * 
      */
     public void setAnalystTelephoneNumber(String analystTelephoneNumber) {
@@ -740,7 +740,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardProjectTitle attribute.
      * 
-     * @param - awardProjectTitle The awardProjectTitle to set.
+     * @param awardProjectTitle The awardProjectTitle to set.
      * 
      */
     public void setAwardProjectTitle(String awardProjectTitle) {
@@ -761,7 +761,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardCommentText attribute.
      * 
-     * @param - awardCommentText The awardCommentText to set.
+     * @param awardCommentText The awardCommentText to set.
      * 
      */
     public void setAwardCommentText(String awardCommentText) {
@@ -782,7 +782,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardPurposeCode attribute.
      * 
-     * @param - awardPurposeCode The awardPurposeCode to set.
+     * @param awardPurposeCode The awardPurposeCode to set.
      * 
      */
     public void setAwardPurposeCode(String awardPurposeCode) {
@@ -803,7 +803,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the proposal attribute.
      * 
-     * @param - proposal The proposal to set.
+     * @param proposal The proposal to set.
      * @deprecated
      */
     public void setProposal(Proposal proposal) {
@@ -823,7 +823,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the proposalAwardType attribute.
      * 
-     * @param - proposalAwardType The proposalAwardType to set.
+     * @param proposalAwardType The proposalAwardType to set.
      * @deprecated
      */
     public void setProposalAwardType(ProposalAwardType proposalAwardType) {
@@ -843,7 +843,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardStatus attribute.
      * 
-     * @param - awardStatus The awardStatus to set.
+     * @param awardStatus The awardStatus to set.
      * @deprecated
      */
     public void setAwardStatus(AwardStatus awardStatus) {
@@ -863,7 +863,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the letterOfCreditFundGroup attribute.
      * 
-     * @param - letterOfCreditFundGroup The letterOfCreditFundGroup to set.
+     * @param letterOfCreditFundGroup The letterOfCreditFundGroup to set.
      * @deprecated
      */
     public void setLetterOfCreditFundGroup(LetterOfCreditFundGroup letterOfCreditFundGroup) {
@@ -883,7 +883,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the grantDescription attribute.
      * 
-     * @param - grantDescription The grantDescription to set.
+     * @param grantDescription The grantDescription to set.
      * @deprecated
      */
     public void setGrantDescription(GrantDescription grantDescription) {
@@ -903,7 +903,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the agency attribute.
      * 
-     * @param - agency The agency to set.
+     * @param agency The agency to set.
      * @deprecated
      */
     public void setAgency(Agency agency) {
@@ -923,7 +923,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the federalPassThroughAgency attribute.
      * 
-     * @param - federalPassThroughAgency The federalPassThroughAgency to set.
+     * @param federalPassThroughAgency The federalPassThroughAgency to set.
      * @deprecated
      */
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
@@ -943,7 +943,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardPurpose attribute.
      * 
-     * @param - awardPurpose The awardPurpose to set.
+     * @param awardPurpose The awardPurpose to set.
      * @deprecated
      */
     public void setAwardPurpose(ProposalPurpose awardPurpose) {
@@ -963,7 +963,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Sets the awardProjectDirector list.
      * 
-     * @param - awardProjectDirector The awardProjectDirector list to set.
+     * @param awardProjectDirector The awardProjectDirector list to set.
      * 
      */
     public void setAwardProjectDirector(List awardProjectDirector) {

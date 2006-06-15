@@ -88,7 +88,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -109,7 +109,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Sets the dvConferenceDestinationName attribute.
      * 
-     * @param - dvConferenceDestinationName The dvConferenceDestinationName to set.
+     * @param dvConferenceDestinationName The dvConferenceDestinationName to set.
      * 
      */
     public void setDvConferenceDestinationName(String dvConferenceDestinationName) {
@@ -130,7 +130,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrConferenceStartDate attribute.
      * 
-     * @param - disbVchrConferenceStartDate The disbVchrConferenceStartDate to set.
+     * @param disbVchrConferenceStartDate The disbVchrConferenceStartDate to set.
      * 
      */
     public void setDisbVchrConferenceStartDate(Date disbVchrConferenceStartDate) {
@@ -151,7 +151,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrConferenceEndDate attribute.
      * 
-     * @param - disbVchrConferenceEndDate The disbVchrConferenceEndDate to set.
+     * @param disbVchrConferenceEndDate The disbVchrConferenceEndDate to set.
      * 
      */
     public void setDisbVchrConferenceEndDate(Date disbVchrConferenceEndDate) {
@@ -181,7 +181,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrConferenceTotalAmt attribute.
      * 
-     * @param - disbVchrConferenceTotalAmt The disbVchrConferenceTotalAmt to set.
+     * @param disbVchrConferenceTotalAmt The disbVchrConferenceTotalAmt to set.
      * 
      */
     public void setDisbVchrConferenceTotalAmt(KualiDecimal disbVchrConferenceTotalAmt) {
@@ -202,7 +202,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Sets the disbVchrExpenseCode attribute.
      * 
-     * @param - disbVchrExpenseCode The disbVchrExpenseCode to set.
+     * @param disbVchrExpenseCode The disbVchrExpenseCode to set.
      * 
      */
     public void setDisbVchrExpenseCode(String disbVchrExpenseCode) {

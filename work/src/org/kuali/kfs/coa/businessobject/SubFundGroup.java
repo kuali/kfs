@@ -65,7 +65,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Sets the subFundGroupCode attribute.
      * 
-     * @param - subFundGroupCode The subFundGroupCode to set.
+     * @param subFundGroupCode The subFundGroupCode to set.
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
         this.subFundGroupCode = subFundGroupCode;
@@ -84,7 +84,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Sets the subFundGroupDescription attribute.
      * 
-     * @param - subFundGroupDescription The subFundGroupDescription to set.
+     * @param subFundGroupDescription The subFundGroupDescription to set.
      * 
      */
     public void setSubFundGroupDescription(String subFundGroupDescription) {
@@ -104,7 +104,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Sets the _SubfundgrpActivityIndicator_ attribute.
      * 
-     * @param - _SubfundgrpActivityIndicator_ The _SubfundgrpActivityIndicator_ to set.
+     * @param _SubfundgrpActivityIndicator_ The _SubfundgrpActivityIndicator_ to set.
      * 
      */
     public void setSubfundgrpActivityIndicator(boolean _SubfundgrpActivityIndicator_) {
@@ -124,7 +124,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Sets the subFundGroupTypeCode attribute.
      * 
-     * @param - subFundGroupTypeCode The subFundGroupTypeCode to set.
+     * @param subFundGroupTypeCode The subFundGroupTypeCode to set.
      * 
      */
     public void setSubFundGroupTypeCode(String subFundGroupTypeCode) {
@@ -144,7 +144,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Sets the financialReportingSortCode attribute.
      * 
-     * @param - financialReportingSortCode The financialReportingSortCode to set.
+     * @param financialReportingSortCode The financialReportingSortCode to set.
      * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
@@ -164,7 +164,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Sets the subFundGroupWagesIndicator attribute.
      * 
-     * @param - subFundGroupWagesIndicator The subFundGroupWagesIndicator to set.
+     * @param subFundGroupWagesIndicator The subFundGroupWagesIndicator to set.
      * 
      */
     public void setSubFundGroupWagesIndicator(boolean subFundGroupWagesIndicator) {

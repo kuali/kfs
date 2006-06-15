@@ -175,7 +175,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -195,7 +195,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountName attribute.
      * 
-     * @param - accountName The accountName to set.
+     * @param accountName The accountName to set.
      * 
      */
     public void setAccountName(String accountName) {
@@ -215,7 +215,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the _AccountsFringesBnftIndicator_ attribute.
      * 
-     * @param - _AccountsFringesBnftIndicator_ The _AccountsFringesBnftIndicator_ to set.
+     * @param _AccountsFringesBnftIndicator_ The _AccountsFringesBnftIndicator_ to set.
      * 
      */
     public void setAccountsFringesBnftIndicator(boolean _AccountsFringesBnftIndicator_) {
@@ -235,7 +235,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountRestrictedStatusDate attribute.
      * 
-     * @param - accountRestrictedStatusDate The accountRestrictedStatusDate to set.
+     * @param accountRestrictedStatusDate The accountRestrictedStatusDate to set.
      * 
      */
     public void setAccountRestrictedStatusDate(Timestamp accountRestrictedStatusDate) {
@@ -255,7 +255,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountCityName attribute.
      * 
-     * @param - accountCityName The accountCityName to set.
+     * @param accountCityName The accountCityName to set.
      * 
      */
     public void setAccountCityName(String accountCityName) {
@@ -275,7 +275,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountStateCode attribute.
      * 
-     * @param - accountStateCode The accountStateCode to set.
+     * @param accountStateCode The accountStateCode to set.
      * 
      */
     public void setAccountStateCode(String accountStateCode) {
@@ -295,7 +295,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountStreetAddress attribute.
      * 
-     * @param - accountStreetAddress The accountStreetAddress to set.
+     * @param accountStreetAddress The accountStreetAddress to set.
      * 
      */
     public void setAccountStreetAddress(String accountStreetAddress) {
@@ -315,7 +315,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountZipCode attribute.
      * 
-     * @param - accountZipCode The accountZipCode to set.
+     * @param accountZipCode The accountZipCode to set.
      * 
      */
     public void setAccountZipCode(String accountZipCode) {
@@ -335,7 +335,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountCreateDate attribute.
      * 
-     * @param - accountCreateDate The accountCreateDate to set.
+     * @param accountCreateDate The accountCreateDate to set.
      * 
      */
     public void setAccountCreateDate(Timestamp accountCreateDate) {
@@ -355,7 +355,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountEffectiveDate attribute.
      * 
-     * @param - accountEffectiveDate The accountEffectiveDate to set.
+     * @param accountEffectiveDate The accountEffectiveDate to set.
      * 
      */
     public void setAccountEffectiveDate(Timestamp accountEffectiveDate) {
@@ -375,7 +375,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountExpirationDate attribute.
      * 
-     * @param - accountExpirationDate The accountExpirationDate to set.
+     * @param accountExpirationDate The accountExpirationDate to set.
      * 
      */
     public void setAccountExpirationDate(Timestamp accountExpirationDate) {
@@ -494,7 +494,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the awardPeriodEndYear attribute.
      * 
-     * @param - awardPeriodEndYear The awardPeriodEndYear to set.
+     * @param awardPeriodEndYear The awardPeriodEndYear to set.
      * 
      */
     public void setAwardPeriodEndYear(Integer awardPeriodEndYear) {
@@ -514,7 +514,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the awardPeriodEndMonth attribute.
      * 
-     * @param - awardPeriodEndMonth The awardPeriodEndMonth to set.
+     * @param awardPeriodEndMonth The awardPeriodEndMonth to set.
      * 
      */
     public void setAwardPeriodEndMonth(String awardPeriodEndMonth) {
@@ -534,7 +534,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the awardPeriodBeginYear attribute.
      * 
-     * @param - awardPeriodBeginYear The awardPeriodBeginYear to set.
+     * @param awardPeriodBeginYear The awardPeriodBeginYear to set.
      * 
      */
     public void setAwardPeriodBeginYear(Integer awardPeriodBeginYear) {
@@ -554,7 +554,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the awardPeriodBeginMonth attribute.
      * 
-     * @param - awardPeriodBeginMonth The awardPeriodBeginMonth to set.
+     * @param awardPeriodBeginMonth The awardPeriodBeginMonth to set.
      * 
      */
     public void setAwardPeriodBeginMonth(String awardPeriodBeginMonth) {
@@ -574,7 +574,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the acctIndirectCostRcvyTypeCd attribute.
      * 
-     * @param - acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
+     * @param acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
      * 
      */
     public void setAcctIndirectCostRcvyTypeCd(String acctIndirectCostRcvyTypeCd) {
@@ -594,7 +594,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the acctCustomIndCstRcvyExclCd attribute.
      * 
-     * @param - acctCustomIndCstRcvyExclCd The acctCustomIndCstRcvyExclCd to set.
+     * @param acctCustomIndCstRcvyExclCd The acctCustomIndCstRcvyExclCd to set.
      * 
      */
     public void setAcctCustomIndCstRcvyExclCd(String acctCustomIndCstRcvyExclCd) {
@@ -614,7 +614,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the financialIcrSeriesIdentifier attribute.
      * 
-     * @param - financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
+     * @param financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
      * 
      */
     public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
@@ -634,7 +634,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountInFinancialProcessingIndicator attribute.
      * 
-     * @param - accountInFinancialProcessingIndicator The accountInFinancialProcessingIndicator to set.
+     * @param accountInFinancialProcessingIndicator The accountInFinancialProcessingIndicator to set.
      * 
      */
     public void setAccountInFinancialProcessingIndicator(boolean accountInFinancialProcessingIndicator) {
@@ -654,7 +654,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the budgetRecordingLevelCode attribute.
      * 
-     * @param - budgetRecordingLevelCode The budgetRecordingLevelCode to set.
+     * @param budgetRecordingLevelCode The budgetRecordingLevelCode to set.
      * 
      */
     public void setBudgetRecordingLevelCode(String budgetRecordingLevelCode) {
@@ -674,7 +674,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountSufficientFundsCode attribute.
      * 
-     * @param - accountSufficientFundsCode The accountSufficientFundsCode to set.
+     * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
      * 
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode) {
@@ -694,7 +694,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
-     * @param - pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
+     * @param pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
      * 
      */
     public void setPendingAcctSufficientFundsIndicator(boolean pendingAcctSufficientFundsIndicator) {
@@ -714,7 +714,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the extrnlFinEncumSufficntFndIndicator attribute.
      * 
-     * @param - extrnlFinEncumSufficntFndIndicator The extrnlFinEncumSufficntFndIndicator to set.
+     * @param extrnlFinEncumSufficntFndIndicator The extrnlFinEncumSufficntFndIndicator to set.
      * 
      */
     public void setExtrnlFinEncumSufficntFndIndicator(boolean extrnlFinEncumSufficntFndIndicator) {
@@ -734,7 +734,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the intrnlFinEncumSufficntFndIndicator attribute.
      * 
-     * @param - intrnlFinEncumSufficntFndIndicator The intrnlFinEncumSufficntFndIndicator to set.
+     * @param intrnlFinEncumSufficntFndIndicator The intrnlFinEncumSufficntFndIndicator to set.
      * 
      */
     public void setIntrnlFinEncumSufficntFndIndicator(boolean intrnlFinEncumSufficntFndIndicator) {
@@ -754,7 +754,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the finPreencumSufficientFundIndicator attribute.
      * 
-     * @param - finPreencumSufficientFundIndicator The finPreencumSufficientFundIndicator to set.
+     * @param finPreencumSufficientFundIndicator The finPreencumSufficientFundIndicator to set.
      * 
      */
     public void setFinPreencumSufficientFundIndicator(boolean finPreencumSufficientFundIndicator) {
@@ -774,7 +774,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the _FinancialObjectivePrsctrlIndicator_ attribute.
      * 
-     * @param - _FinancialObjectivePrsctrlIndicator_ The _FinancialObjectivePrsctrlIndicator_ to set.
+     * @param _FinancialObjectivePrsctrlIndicator_ The _FinancialObjectivePrsctrlIndicator_ to set.
      * 
      */
     public void setFinancialObjectivePrsctrlIndicator(boolean _FinancialObjectivePrsctrlIndicator_) {
@@ -794,7 +794,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the cgCatlfFedDomestcAssistNbr attribute.
      * 
-     * @param - cgCatlfFedDomestcAssistNbr The cgCatlfFedDomestcAssistNbr to set.
+     * @param cgCatlfFedDomestcAssistNbr The cgCatlfFedDomestcAssistNbr to set.
      * 
      */
     public void setCgCatlfFedDomestcAssistNbr(String cgCatlfFedDomestcAssistNbr) {
@@ -814,7 +814,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountOffCampusIndicator attribute.
      * 
-     * @param - accountOffCampusIndicator The accountOffCampusIndicator to set.
+     * @param accountOffCampusIndicator The accountOffCampusIndicator to set.
      * 
      */
     public void setAccountOffCampusIndicator(boolean accountOffCampusIndicator) {
@@ -834,7 +834,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountClosedIndicator attribute.
      * 
-     * @param - accountClosedIndicator The accountClosedIndicator to set.
+     * @param accountClosedIndicator The accountClosedIndicator to set.
      * 
      */
     public void setAccountClosedIndicator(boolean accountClosedIndicator) {
@@ -854,7 +854,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -874,7 +874,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * @deprecated
      */
     public void setOrganization(Org organization) {
@@ -894,7 +894,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountType attribute.
      * 
-     * @param - accountType The accountType to set.
+     * @param accountType The accountType to set.
      * @deprecated
      */
     public void setAccountType(AcctType accountType) {
@@ -914,7 +914,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountPhysicalCampus attribute.
      * 
-     * @param - accountPhysicalCampus The accountPhysicalCampus to set.
+     * @param accountPhysicalCampus The accountPhysicalCampus to set.
      * @deprecated
      */
     public void setAccountPhysicalCampus(Campus accountPhysicalCampus) {
@@ -953,7 +953,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the subFundGroup attribute.
      * 
-     * @param - subFundGroup The subFundGroup to set.
+     * @param subFundGroup The subFundGroup to set.
      * @deprecated
      */
     public void setSubFundGroup(SubFundGroup subFundGroup) {
@@ -973,7 +973,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the financialHigherEdFunction attribute.
      * 
-     * @param - financialHigherEdFunction The financialHigherEdFunction to set.
+     * @param financialHigherEdFunction The financialHigherEdFunction to set.
      * @deprecated
      */
     public void setFinancialHigherEdFunction(HigherEdFunction financialHigherEdFunction) {
@@ -993,7 +993,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the accountRestrictedStatus attribute.
      * 
-     * @param - accountRestrictedStatus The accountRestrictedStatus to set.
+     * @param accountRestrictedStatus The accountRestrictedStatus to set.
      * @deprecated
      */
     public void setAccountRestrictedStatus(RestrictedStatus accountRestrictedStatus) {
@@ -1013,7 +1013,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the reportsToAccount attribute.
      * 
-     * @param - reportsToAccount The reportsToAccount to set.
+     * @param reportsToAccount The reportsToAccount to set.
      * @deprecated
      */
     public void setReportsToAccount(Account reportsToAccount) {
@@ -1033,7 +1033,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the endowmentIncomeAccount attribute.
      * 
-     * @param - endowmentIncomeAccount The endowmentIncomeAccount to set.
+     * @param endowmentIncomeAccount The endowmentIncomeAccount to set.
      * @deprecated
      */
     public void setEndowmentIncomeAccount(Account endowmentIncomeAccount) {
@@ -1053,7 +1053,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the contractControlAccount attribute.
      * 
-     * @param - contractControlAccount The contractControlAccount to set.
+     * @param contractControlAccount The contractControlAccount to set.
      * @deprecated
      */
     public void setContractControlAccount(Account contractControlAccount) {
@@ -1074,7 +1074,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the incomeStreamAccount attribute.
      * 
-     * @param - incomeStreamAccount The incomeStreamAccount to set.
+     * @param incomeStreamAccount The incomeStreamAccount to set.
      * @deprecated
      */
     public void setIncomeStreamAccount(Account incomeStreamAccount) {
@@ -1094,7 +1094,7 @@ public class Account extends BusinessObjectBase {
     /**
      * Sets the indirectCostRecoveryAcct attribute.
      * 
-     * @param - indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
+     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
      * @deprecated
      */
     public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {

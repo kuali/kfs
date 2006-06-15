@@ -98,7 +98,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -119,7 +119,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -140,7 +140,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the organizationCode attribute.
      * 
-     * @param - organizationCode The organizationCode to set.
+     * @param organizationCode The organizationCode to set.
      * 
      */
     public void setOrganizationCode(String organizationCode) {
@@ -161,7 +161,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the budgetReversionChartOfAccountsCode attribute.
      * 
-     * @param - budgetReversionChartOfAccountsCode The budgetReversionChartOfAccountsCode to set.
+     * @param budgetReversionChartOfAccountsCode The budgetReversionChartOfAccountsCode to set.
      * 
      */
     public void setBudgetReversionChartOfAccountsCode(String budgetReversionChartOfAccountsCode) {
@@ -182,7 +182,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the budgetReversionAccountNumber attribute.
      * 
-     * @param - budgetReversionAccountNumber The budgetReversionAccountNumber to set.
+     * @param budgetReversionAccountNumber The budgetReversionAccountNumber to set.
      * 
      */
     public void setBudgetReversionAccountNumber(String budgetReversionAccountNumber) {
@@ -204,7 +204,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the carryForwardByObjectCodeIndicator attribute.
      * 
-     * @param - carryForwardByObjectCodeIndicator The carryForwardByObjectCodeIndicator to set.
+     * @param carryForwardByObjectCodeIndicator The carryForwardByObjectCodeIndicator to set.
      * 
      */
     public void setCarryForwardByObjectCodeIndicator(boolean carryForwardByObjectCodeIndicator) {
@@ -225,7 +225,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the cashReversionFinancialChartOfAccountsCode attribute.
      * 
-     * @param - cashReversionFinancialChartOfAccountsCode The cashReversionFinancialChartOfAccountsCode to set.
+     * @param cashReversionFinancialChartOfAccountsCode The cashReversionFinancialChartOfAccountsCode to set.
      * 
      */
     public void setCashReversionFinancialChartOfAccountsCode(String cashReversionFinancialChartOfAccountsCode) {
@@ -246,7 +246,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the cashReversionAccountNumber attribute.
      * 
-     * @param - cashReversionAccountNumber The cashReversionAccountNumber to set.
+     * @param cashReversionAccountNumber The cashReversionAccountNumber to set.
      * 
      */
     public void setCashReversionAccountNumber(String cashReversionAccountNumber) {
@@ -267,7 +267,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -287,7 +287,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * @deprecated
      */
     public void setOrganizations(List<Org> organization) {
@@ -307,7 +307,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the cashReversionAccount attribute.
      * 
-     * @param - cashReversionAccount The cashReversionAccount to set.
+     * @param cashReversionAccount The cashReversionAccount to set.
      * @deprecated
      */
     public void setCashReversionAccount(Account cashReversionAccount) {
@@ -327,7 +327,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the budgetReversionAccount attribute.
      * 
-     * @param - budgetReversionAccount The budgetReversionAccount to set.
+     * @param budgetReversionAccount The budgetReversionAccount to set.
      * @deprecated
      */
     public void setBudgetReversionAccount(Account budgetReversionAccount) {
@@ -347,7 +347,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the budgetReversionChartOfAccounts attribute.
      * 
-     * @param - budgetReversionChartOfAccounts The budgetReversionChartOfAccounts to set.
+     * @param budgetReversionChartOfAccounts The budgetReversionChartOfAccounts to set.
      * @deprecated
      */
     public void setBudgetReversionChartOfAccounts(Chart budgetReversionChartOfAccounts) {
@@ -367,7 +367,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Sets the cashReversionFinancialChartOfAccounts attribute.
      * 
-     * @param - cashReversionFinancialChartOfAccounts The cashReversionFinancialChartOfAccounts to set.
+     * @param cashReversionFinancialChartOfAccounts The cashReversionFinancialChartOfAccounts to set.
      * @deprecated
      */
     public void setCashReversionFinancialChartOfAccounts(Chart cashReversionFinancialChartOfAccounts) {

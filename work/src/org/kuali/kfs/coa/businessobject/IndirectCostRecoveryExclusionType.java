@@ -59,7 +59,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Sets the accountIndirectCostRecoveryTypeCode attribute.
      * 
-     * @param - accountIndirectCostRecoveryTypeCode The accountIndirectCostRecoveryTypeCode to set.
+     * @param accountIndirectCostRecoveryTypeCode The accountIndirectCostRecoveryTypeCode to set.
      * 
      */
     public void setAccountIndirectCostRecoveryTypeCode(String accountIndirectCostRecoveryTypeCode) {
@@ -80,7 +80,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -101,7 +101,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param financialObjectCode The financialObjectCode to set.
      * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -122,7 +122,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Sets the chart attribute.
      * 
-     * @param - chart The chart to set.
+     * @param chart The chart to set.
      * @deprecated
      */
     public void setChart(Chart chart) {

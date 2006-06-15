@@ -98,7 +98,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -119,7 +119,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Sets the accountFinancialObjectTypeCode attribute.
      * 
-     * @param - accountFinancialObjectTypeCode The accountFinancialObjectTypeCode to set.
+     * @param accountFinancialObjectTypeCode The accountFinancialObjectTypeCode to set.
      * 
      */
     public void setAccountFinancialObjectTypeCode(String accountFinancialObjectTypeCode) {
@@ -140,7 +140,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Sets the accountNumberFinancialObjectCode attribute.
      * 
-     * @param - accountNumberFinancialObjectCode The accountNumberFinancialObjectCode to set.
+     * @param accountNumberFinancialObjectCode The accountNumberFinancialObjectCode to set.
      * 
      */
     public void setAccountNumberFinancialObjectCode(String accountNumberFinancialObjectCode) {
@@ -161,7 +161,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Sets the chart attribute.
      * 
-     * @param - chart The chart to set.
+     * @param chart The chart to set.
      * @deprecated
      */
     public void setChart(Chart chart) {

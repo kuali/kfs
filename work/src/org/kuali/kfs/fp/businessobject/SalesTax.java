@@ -70,7 +70,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -91,7 +91,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the financialDocumentLineTypeCode attribute.
      * 
-     * @param - financialDocumentLineTypeCode The financialDocumentLineTypeCode to set.
+     * @param financialDocumentLineTypeCode The financialDocumentLineTypeCode to set.
      * 
      */
     public void setFinancialDocumentLineTypeCode(String financialDocumentLineTypeCode) {
@@ -112,7 +112,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the financialDocumentLineNumber attribute.
      * 
-     * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
+     * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
      * 
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
@@ -133,7 +133,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -154,7 +154,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -175,7 +175,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the financialDocumentGrossSalesAmount attribute.
      * 
-     * @param - financialDocumentGrossSalesAmount The financialDocumentGrossSalesAmount to set.
+     * @param financialDocumentGrossSalesAmount The financialDocumentGrossSalesAmount to set.
      * 
      */
     public void setFinancialDocumentGrossSalesAmount(KualiDecimal financialDocumentGrossSalesAmount) {
@@ -196,7 +196,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTaxableSalesAmount attribute.
      * 
-     * @param - financialDocumentTaxableSalesAmount The financialDocumentTaxableSalesAmount to set.
+     * @param financialDocumentTaxableSalesAmount The financialDocumentTaxableSalesAmount to set.
      * 
      */
     public void setFinancialDocumentTaxableSalesAmount(KualiDecimal financialDocumentTaxableSalesAmount) {
@@ -217,7 +217,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the financialDocumentSaleDate attribute.
      * 
-     * @param - financialDocumentSaleDate The financialDocumentSaleDate to set.
+     * @param financialDocumentSaleDate The financialDocumentSaleDate to set.
      * 
      */
     public void setFinancialDocumentSaleDate(Date financialDocumentSaleDate) {
@@ -238,7 +238,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
@@ -258,7 +258,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {

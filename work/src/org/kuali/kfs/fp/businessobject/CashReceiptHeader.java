@@ -72,7 +72,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -93,7 +93,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the explanation attribute.
      * 
-     * @param - explanation The explanation to set.
+     * @param explanation The explanation to set.
      * 
      */
     public void setExplanation(String explanation) {
@@ -114,7 +114,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the nextCheckSequenceId attribute.
      * 
-     * @param - nextCheckSequenceId The nextCheckSequenceId to set.
+     * @param nextCheckSequenceId The nextCheckSequenceId to set.
      * 
      */
     public void setNextCheckSequenceId(Integer nextCheckSequenceId) {
@@ -135,7 +135,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the nextCreditCardCashReceiptLineNumber attribute.
      * 
-     * @param - nextCreditCardCashReceiptLineNumber The nextCreditCardCashReceiptLineNumber to set.
+     * @param nextCreditCardCashReceiptLineNumber The nextCreditCardCashReceiptLineNumber to set.
      * 
      */
     public void setNextCreditCardCashReceiptLineNumber(Integer nextCreditCardCashReceiptLineNumber) {
@@ -156,7 +156,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the nextCreditCardCashieringDocumentLineNumber attribute.
      * 
-     * @param - nextCreditCardCashieringDocumentLineNumber The nextCreditCardCashieringDocumentLineNumber to set.
+     * @param nextCreditCardCashieringDocumentLineNumber The nextCreditCardCashieringDocumentLineNumber to set.
      * 
      */
     public void setNextCreditCardCashieringDocumentLineNumber(Integer nextCreditCardCashieringDocumentLineNumber) {
@@ -177,7 +177,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the nextRevolvingFundLineNumber attribute.
      * 
-     * @param - nextRevolvingFundLineNumber The nextRevolvingFundLineNumber to set.
+     * @param nextRevolvingFundLineNumber The nextRevolvingFundLineNumber to set.
      * 
      */
     public void setNextRevolvingFundLineNumber(Integer nextRevolvingFundLineNumber) {
@@ -198,7 +198,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the nextAdvanceDepositLineNumber attribute.
      * 
-     * @param - nextAdvanceDepositLineNumber The nextAdvanceDepositLineNumber to set.
+     * @param nextAdvanceDepositLineNumber The nextAdvanceDepositLineNumber to set.
      * 
      */
     public void setNextAdvanceDepositLineNumber(Integer nextAdvanceDepositLineNumber) {
@@ -219,7 +219,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the workgroupName attribute.
      * 
-     * @param - workgroupName The workgroupName to set.
+     * @param workgroupName The workgroupName to set.
      * 
      */
     public void setWorkgroupName(String workgroupName) {
@@ -240,7 +240,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the depositDate attribute.
      * 
-     * @param - depositDate The depositDate to set.
+     * @param depositDate The depositDate to set.
      * 
      */
     public void setDepositDate(Date depositDate) {
@@ -261,7 +261,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the cashReceiptDocument attribute.
      * 
-     * @param - cashReceiptDocument The cashReceiptDocument to set.
+     * @param cashReceiptDocument The cashReceiptDocument to set.
      * @deprecated
      */
     public void setCashReceiptDocument(CashReceiptDocument cashReceiptDocument) {
@@ -281,7 +281,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     /**
      * Sets the depositCashReceiptControl list.
      * 
-     * @param - depositCashReceiptControl The depositCashReceiptControl list to set.
+     * @param depositCashReceiptControl The depositCashReceiptControl list to set.
      * 
      */
     public void setDepositCashReceiptControl(List depositCashReceiptControl) {

@@ -63,7 +63,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Sets the financialDocumentBankCode attribute.
      * 
-     * @param - financialDocumentBankCode The financialDocumentBankCode to set.
+     * @param financialDocumentBankCode The financialDocumentBankCode to set.
      * 
      */
     public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
@@ -83,7 +83,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Sets the financialDocumentBankName attribute.
      * 
-     * @param - financialDocumentBankName The financialDocumentBankName to set.
+     * @param financialDocumentBankName The financialDocumentBankName to set.
      * 
      */
     public void setFinancialDocumentBankName(String financialDocumentBankName) {
@@ -103,7 +103,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Sets the financialDocumentBankShortNm attribute.
      * 
-     * @param - financialDocumentBankShortNm The financialDocumentBankShortNm to set.
+     * @param financialDocumentBankShortNm The financialDocumentBankShortNm to set.
      * 
      */
     public void setFinancialDocumentBankShortNm(String financialDocumentBankShortNm) {
@@ -123,7 +123,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Sets the bankAccounts attribute.
      * 
-     * @param - bankAccounts The bankAccounts to set.
+     * @param bankAccounts The bankAccounts to set.
      * 
      */
     public void setBankAccounts(List bankAccounts) {

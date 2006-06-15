@@ -59,7 +59,7 @@ public class ProjectDirector extends BusinessObjectBase {
     /**
      * Sets the personUniversal attribute.
      * 
-     * @param - personUniversal The personUniversal to set.
+     * @param personUniversal The personUniversal to set.
      * @deprecated
      */
     public void setUniversalUser(UniversalUser user) {

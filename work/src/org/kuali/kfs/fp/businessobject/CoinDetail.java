@@ -66,7 +66,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -87,7 +87,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTypeCode attribute.
      * 
-     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -108,7 +108,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentColumnTypeCode attribute.
      * 
-     * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
      * 
      */
     public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
@@ -129,7 +129,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiftyCentAmount attribute.
      * 
-     * @param - financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
+     * @param financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
      * 
      */
     public void setFinancialDocumentFiftyCentAmount(KualiDecimal financialDocumentFiftyCentAmount) {
@@ -150,7 +150,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTwentyFiveCentAmount attribute.
      * 
-     * @param - financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
+     * @param financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
      * 
      */
     public void setFinancialDocumentTwentyFiveCentAmount(KualiDecimal financialDocumentTwentyFiveCentAmount) {
@@ -171,7 +171,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTenCentAmount attribute.
      * 
-     * @param - financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
+     * @param financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
      * 
      */
     public void setFinancialDocumentTenCentAmount(KualiDecimal financialDocumentTenCentAmount) {
@@ -192,7 +192,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentFiveCentAmount attribute.
      * 
-     * @param - financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
+     * @param financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
      * 
      */
     public void setFinancialDocumentFiveCentAmount(KualiDecimal financialDocumentFiveCentAmount) {
@@ -213,7 +213,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOneCentAmount attribute.
      * 
-     * @param - financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
+     * @param financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
      * 
      */
     public void setFinancialDocumentOneCentAmount(KualiDecimal financialDocumentOneCentAmount) {
@@ -234,7 +234,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentOtherCentAmount attribute.
      * 
-     * @param - financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
+     * @param financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
      * 
      */
     public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
@@ -255,7 +255,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentHundredCentAmount attribute.
      * 
-     * @param - financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
+     * @param financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
      * 
      */
     public void setFinancialDocumentHundredCentAmount(KualiDecimal financialDocumentHundredCentAmount) {

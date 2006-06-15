@@ -105,7 +105,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -126,7 +126,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTransactionLineNumber attribute.
      * 
-     * @param - financialDocumentTransactionLineNumber The financialDocumentTransactionLineNumber to set.
+     * @param financialDocumentTransactionLineNumber The financialDocumentTransactionLineNumber to set.
      * 
      */
     public void setFinancialDocumentTransactionLineNumber(Integer financialDocumentTransactionLineNumber) {
@@ -147,7 +147,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionDate attribute.
      * 
-     * @param - transactionDate The transactionDate to set.
+     * @param transactionDate The transactionDate to set.
      * 
      */
     public void setTransactionDate(Date transactionDate) {
@@ -168,7 +168,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionReferenceNumber attribute.
      * 
-     * @param - transactionReferenceNumber The transactionReferenceNumber to set.
+     * @param transactionReferenceNumber The transactionReferenceNumber to set.
      * 
      */
     public void setTransactionReferenceNumber(String transactionReferenceNumber) {
@@ -189,7 +189,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionPostingDate attribute.
      * 
-     * @param - transactionPostingDate The transactionPostingDate to set.
+     * @param transactionPostingDate The transactionPostingDate to set.
      * 
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
@@ -210,7 +210,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionOriginalCurrencyCode attribute.
      * 
-     * @param - transactionOriginalCurrencyCode The transactionOriginalCurrencyCode to set.
+     * @param transactionOriginalCurrencyCode The transactionOriginalCurrencyCode to set.
      * 
      */
     public void setTransactionOriginalCurrencyCode(String transactionOriginalCurrencyCode) {
@@ -231,7 +231,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionBillingCurrencyCode attribute.
      * 
-     * @param - transactionBillingCurrencyCode The transactionBillingCurrencyCode to set.
+     * @param transactionBillingCurrencyCode The transactionBillingCurrencyCode to set.
      * 
      */
     public void setTransactionBillingCurrencyCode(String transactionBillingCurrencyCode) {
@@ -252,7 +252,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionOriginalCurrencyAmount attribute.
      * 
-     * @param - transactionOriginalCurrencyAmount The transactionOriginalCurrencyAmount to set.
+     * @param transactionOriginalCurrencyAmount The transactionOriginalCurrencyAmount to set.
      * 
      */
     public void setTransactionOriginalCurrencyAmount(KualiDecimal transactionOriginalCurrencyAmount) {
@@ -273,7 +273,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionCurrencyExchangeRate attribute.
      * 
-     * @param - transactionCurrencyExchangeRate The transactionCurrencyExchangeRate to set.
+     * @param transactionCurrencyExchangeRate The transactionCurrencyExchangeRate to set.
      * 
      */
     public void setTransactionCurrencyExchangeRate(BigDecimal transactionCurrencyExchangeRate) {
@@ -294,7 +294,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionSettlementAmount attribute.
      * 
-     * @param - transactionSettlementAmount The transactionSettlementAmount to set.
+     * @param transactionSettlementAmount The transactionSettlementAmount to set.
      * 
      */
     public void setTransactionSettlementAmount(KualiDecimal transactionSettlementAmount) {
@@ -315,7 +315,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionSalesTaxAmount attribute.
      * 
-     * @param - transactionSalesTaxAmount The transactionSalesTaxAmount to set.
+     * @param transactionSalesTaxAmount The transactionSalesTaxAmount to set.
      * 
      */
     public void setTransactionSalesTaxAmount(KualiDecimal transactionSalesTaxAmount) {
@@ -336,7 +336,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionTaxExemptIndicator attribute.
      * 
-     * @param - transactionTaxExemptIndicator The transactionTaxExemptIndicator to set.
+     * @param transactionTaxExemptIndicator The transactionTaxExemptIndicator to set.
      * 
      */
     public void setTransactionTaxExemptIndicator(boolean transactionTaxExemptIndicator) {
@@ -357,7 +357,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionPurchaseIdentifierIndicator attribute.
      * 
-     * @param - transactionPurchaseIdentifierIndicator The transactionPurchaseIdentifierIndicator to set.
+     * @param transactionPurchaseIdentifierIndicator The transactionPurchaseIdentifierIndicator to set.
      * 
      */
     public void setTransactionPurchaseIdentifierIndicator(boolean transactionPurchaseIdentifierIndicator) {
@@ -378,7 +378,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionPurchaseIdentifierDescription attribute.
      * 
-     * @param - transactionPurchaseIdentifierDescription The transactionPurchaseIdentifierDescription to set.
+     * @param transactionPurchaseIdentifierDescription The transactionPurchaseIdentifierDescription to set.
      * 
      */
     public void setTransactionPurchaseIdentifierDescription(String transactionPurchaseIdentifierDescription) {
@@ -399,7 +399,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionUnitContactName attribute.
      * 
-     * @param - transactionUnitContactName The transactionUnitContactName to set.
+     * @param transactionUnitContactName The transactionUnitContactName to set.
      * 
      */
     public void setTransactionUnitContactName(String transactionUnitContactName) {
@@ -420,7 +420,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionTravelAuthorizationCode attribute.
      * 
-     * @param - transactionTravelAuthorizationCode The transactionTravelAuthorizationCode to set.
+     * @param transactionTravelAuthorizationCode The transactionTravelAuthorizationCode to set.
      * 
      */
     public void setTransactionTravelAuthorizationCode(String transactionTravelAuthorizationCode) {
@@ -441,7 +441,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     /**
      * Sets the transactionPointOfSaleCode attribute.
      * 
-     * @param - transactionPointOfSaleCode The transactionPointOfSaleCode to set.
+     * @param transactionPointOfSaleCode The transactionPointOfSaleCode to set.
      * 
      */
     public void setTransactionPointOfSaleCode(String transactionPointOfSaleCode) {

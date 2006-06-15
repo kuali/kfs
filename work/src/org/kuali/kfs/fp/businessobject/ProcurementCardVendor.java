@@ -66,7 +66,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -87,7 +87,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTransactionLineNumber attribute.
      * 
-     * @param - financialDocumentTransactionLineNumber The financialDocumentTransactionLineNumber to set.
+     * @param financialDocumentTransactionLineNumber The financialDocumentTransactionLineNumber to set.
      * 
      */
     public void setFinancialDocumentTransactionLineNumber(Integer financialDocumentTransactionLineNumber) {
@@ -108,7 +108,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the vendorName attribute.
      * 
-     * @param - vendorName The vendorName to set.
+     * @param vendorName The vendorName to set.
      * 
      */
     public void setVendorName(String vendorName) {
@@ -129,7 +129,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the vendorLine1Address attribute.
      * 
-     * @param - vendorLine1Address The vendorLine1Address to set.
+     * @param vendorLine1Address The vendorLine1Address to set.
      * 
      */
     public void setVendorLine1Address(String vendorLine1Address) {
@@ -150,7 +150,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the vendorLine2Address attribute.
      * 
-     * @param - vendorLine2Address The vendorLine2Address to set.
+     * @param vendorLine2Address The vendorLine2Address to set.
      * 
      */
     public void setVendorLine2Address(String vendorLine2Address) {
@@ -171,7 +171,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the vendorCityName attribute.
      * 
-     * @param - vendorCityName The vendorCityName to set.
+     * @param vendorCityName The vendorCityName to set.
      * 
      */
     public void setVendorCityName(String vendorCityName) {
@@ -192,7 +192,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the vendorStateCode attribute.
      * 
-     * @param - vendorStateCode The vendorStateCode to set.
+     * @param vendorStateCode The vendorStateCode to set.
      * 
      */
     public void setVendorStateCode(String vendorStateCode) {
@@ -213,7 +213,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the vendorZipCode attribute.
      * 
-     * @param - vendorZipCode The vendorZipCode to set.
+     * @param vendorZipCode The vendorZipCode to set.
      * 
      */
     public void setVendorZipCode(String vendorZipCode) {
@@ -234,7 +234,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the visaVendorIdentifier attribute.
      * 
-     * @param - visaVendorIdentifier The visaVendorIdentifier to set.
+     * @param visaVendorIdentifier The visaVendorIdentifier to set.
      * 
      */
     public void setVisaVendorIdentifier(String visaVendorIdentifier) {
@@ -255,7 +255,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the vendorOrderNumber attribute.
      * 
-     * @param - vendorOrderNumber The vendorOrderNumber to set.
+     * @param vendorOrderNumber The vendorOrderNumber to set.
      * 
      */
     public void setVendorOrderNumber(String vendorOrderNumber) {
@@ -276,7 +276,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Sets the transactionMerchantCategoryCode attribute.
      * 
-     * @param - transactionMerchantCategoryCode The transactionMerchantCategoryCode to set.
+     * @param transactionMerchantCategoryCode The transactionMerchantCategoryCode to set.
      * 
      */
     public void setTransactionMerchantCategoryCode(String transactionMerchantCategoryCode) {

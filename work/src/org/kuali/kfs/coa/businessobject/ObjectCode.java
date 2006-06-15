@@ -140,7 +140,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param financialObjectCode The financialObjectCode to set.
      * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -160,7 +160,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialObjectCodeName attribute.
      * 
-     * @param - financialObjectCodeName The financialObjectCodeName to set.
+     * @param financialObjectCodeName The financialObjectCodeName to set.
      * 
      */
     public void setFinancialObjectCodeName(String financialObjectCodeName) {
@@ -180,7 +180,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialObjectCodeShortName attribute.
      * 
-     * @param - financialObjectCodeShortName The financialObjectCodeShortName to set.
+     * @param financialObjectCodeShortName The financialObjectCodeShortName to set.
      * 
      */
     public void setFinancialObjectCodeShortName(String financialObjectCodeShortName) {
@@ -200,7 +200,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the historicalFinancialObjectCode attribute.
      * 
-     * @param - historicalFinancialObjectCode The historicalFinancialObjectCode to set.
+     * @param historicalFinancialObjectCode The historicalFinancialObjectCode to set.
      * 
      */
     public void setHistoricalFinancialObjectCode(String historicalFinancialObjectCode) {
@@ -220,7 +220,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialObjectActiveCode attribute.
      * 
-     * @param - financialObjectActiveCode The financialObjectActiveCode to set.
+     * @param financialObjectActiveCode The financialObjectActiveCode to set.
      * 
      */
     public void setFinancialObjectActiveCode(boolean financialObjectActiveCode) {
@@ -240,7 +240,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialBudgetAggregationCd attribute.
      * 
-     * @param - financialBudgetAggregationCd The financialBudgetAggregationCd to set.
+     * @param financialBudgetAggregationCd The financialBudgetAggregationCd to set.
      * @deprecated
      */
     public void setFinancialBudgetAggregation(BudgetAggregationCode financialBudgetAggregationCd) {
@@ -260,7 +260,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the universityFiscal attribute.
      * 
-     * @param - universityFiscal The universityFiscal to set.
+     * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
     public void setUniversityFiscal(Options universityFiscal) {
@@ -280,7 +280,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the nextYearFinancialObject attribute.
      * 
-     * @param - nextYearFinancialObject The nextYearFinancialObject to set.
+     * @param nextYearFinancialObject The nextYearFinancialObject to set.
      * @deprecated
      */
     public void setNextYearFinancialObject(ObjectCode nextYearFinancialObject) {
@@ -300,7 +300,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialObjectLevel attribute.
      * 
-     * @param - financialObjectLevel The financialObjectLevel to set.
+     * @param financialObjectLevel The financialObjectLevel to set.
      * @deprecated
      */
     public void setFinancialObjectLevel(ObjLevel financialObjectLevel) {
@@ -320,7 +320,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -340,7 +340,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the reportsToChartOfAccounts attribute.
      * 
-     * @param - reportsToChartOfAccounts The reportsToChartOfAccounts to set.
+     * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
      * @deprecated
      */
     public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
@@ -360,7 +360,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the reportsToFinancialObject attribute.
      * 
-     * @param - reportsToFinancialObject The reportsToFinancialObject to set.
+     * @param reportsToFinancialObject The reportsToFinancialObject to set.
      * @deprecated
      */
     public void setReportsToFinancialObject(ObjectCode reportsToFinancialObject) {
@@ -380,7 +380,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialObjectType attribute.
      * 
-     * @param - financialObjectType The financialObjectType to set.
+     * @param financialObjectType The financialObjectType to set.
      * @deprecated
      */
     public void setFinancialObjectType(ObjectType financialObjectType) {
@@ -400,7 +400,7 @@ public class ObjectCode extends BusinessObjectBase {
     /**
      * Sets the financialObjectSubType attribute.
      * 
-     * @param - financialObjectSubType The financialObjectSubType to set.
+     * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
     public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {

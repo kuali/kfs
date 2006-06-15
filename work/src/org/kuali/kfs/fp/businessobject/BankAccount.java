@@ -153,7 +153,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the bank attribute.
      * 
-     * @param - bank The bank to set.
+     * @param bank The bank to set.
      * @deprecated
      */
     public void setBank(Bank bank) {
@@ -173,7 +173,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the financialDocumentBankCode attribute.
      * 
-     * @param - financialDocumentBankCode The financialDocumentBankCode to set.
+     * @param financialDocumentBankCode The financialDocumentBankCode to set.
      * 
      */
     public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
@@ -193,7 +193,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the finDocumentBankAccountDesc attribute.
      * 
-     * @param - finDocumentBankAccountDesc The finDocumentBankAccountDesc to set.
+     * @param finDocumentBankAccountDesc The finDocumentBankAccountDesc to set.
      * 
      */
     public void setFinDocumentBankAccountDesc(String finDocumentBankAccountDesc) {
@@ -213,7 +213,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * @deprecated
      */
     public void setOrganization(Org organization) {
@@ -233,7 +233,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the finDocumentBankAccountNumber attribute.
      * 
-     * @param - finDocumentBankAccountNumber The finDocumentBankAccountNumber to set.
+     * @param finDocumentBankAccountNumber The finDocumentBankAccountNumber to set.
      * 
      */
     public void setFinDocumentBankAccountNumber(String finDocumentBankAccountNumber) {
@@ -309,7 +309,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the universityAccount attribute.
      * 
-     * @param - universityAccount The universityAccount to set.
+     * @param universityAccount The universityAccount to set.
      * @deprecated
      */
     public void setUniversityAccount(Account universityAccount) {
@@ -329,7 +329,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the chart attribute.
      * 
-     * @param - chart The chart to set.
+     * @param chart The chart to set.
      * @deprecated
      */
     public void setChart(Chart chart) {
@@ -349,7 +349,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the universityAcctChartOfAcct attribute.
      * 
-     * @param - universityAcctChartOfAcct The universityAcctChartOfAcct to set.
+     * @param universityAcctChartOfAcct The universityAcctChartOfAcct to set.
      * @deprecated
      */
     public void setUniversityAcctChartOfAcct(Chart universityAcctChartOfAcct) {
@@ -369,7 +369,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the cashOffsetAccount attribute.
      * 
-     * @param - cashOffsetAccount The cashOffsetAccount to set.
+     * @param cashOffsetAccount The cashOffsetAccount to set.
      * @deprecated
      */
     public void setCashOffsetAccount(Account cashOffsetAccount) {
@@ -389,7 +389,7 @@ public class BankAccount extends BusinessObjectBase {
     /**
      * Sets the cashOffsetFinancialChartOfAccount attribute.
      * 
-     * @param - cashOffsetFinancialChartOfAccount The cashOffsetFinancialChartOfAccount to set.
+     * @param cashOffsetFinancialChartOfAccount The cashOffsetFinancialChartOfAccount to set.
      * @deprecated
      */
     public void setCashOffsetFinancialChartOfAccount(Chart cashOffsetFinancialChartOfAccount) {

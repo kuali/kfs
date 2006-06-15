@@ -123,7 +123,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -144,7 +144,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -165,7 +165,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountName attribute.
      * 
-     * @param - accountName The accountName to set.
+     * @param accountName The accountName to set.
      * 
      */
     public void setAccountName(String accountName) {
@@ -186,7 +186,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountFiscalOfficerUniversalIdentifier attribute.
      * 
-     * @param - accountFiscalOfficerUniversalIdentifier The accountFiscalOfficerUniversalIdentifier to set.
+     * @param accountFiscalOfficerUniversalIdentifier The accountFiscalOfficerUniversalIdentifier to set.
      * 
      */
     public void setAccountFiscalOfficerUniversalIdentifier(String accountFiscalOfficerUniversalIdentifier) {
@@ -207,7 +207,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountSupervisorUniversalId attribute.
      * 
-     * @param - accountSupervisorUniversalId The accountSupervisorUniversalId to set.
+     * @param accountSupervisorUniversalId The accountSupervisorUniversalId to set.
      * 
      */
     public void setAccountSupervisorUniversalId(String accountSupervisorUniversalId) {
@@ -228,7 +228,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountManagerUniversalId attribute.
      * 
-     * @param - accountManagerUniversalId The accountManagerUniversalId to set.
+     * @param accountManagerUniversalId The accountManagerUniversalId to set.
      * 
      */
     public void setAccountManagerUniversalId(String accountManagerUniversalId) {
@@ -249,7 +249,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the organizationCode attribute.
      * 
-     * @param - organizationCode The organizationCode to set.
+     * @param organizationCode The organizationCode to set.
      * 
      */
     public void setOrganizationCode(String organizationCode) {
@@ -270,7 +270,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountTypeCode attribute.
      * 
-     * @param - accountTypeCode The accountTypeCode to set.
+     * @param accountTypeCode The accountTypeCode to set.
      * 
      */
     public void setAccountTypeCode(String accountTypeCode) {
@@ -291,7 +291,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountPhysicalCampusCode attribute.
      * 
-     * @param - accountPhysicalCampusCode The accountPhysicalCampusCode to set.
+     * @param accountPhysicalCampusCode The accountPhysicalCampusCode to set.
      * 
      */
     public void setAccountPhysicalCampusCode(String accountPhysicalCampusCode) {
@@ -312,7 +312,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the subFundGroupCode attribute.
      * 
-     * @param - subFundGroupCode The subFundGroupCode to set.
+     * @param subFundGroupCode The subFundGroupCode to set.
      * 
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
@@ -333,7 +333,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountFringeBenefitCode attribute.
      * 
-     * @param - accountFringeBenefitCode The accountFringeBenefitCode to set.
+     * @param accountFringeBenefitCode The accountFringeBenefitCode to set.
      * 
      */
     public void setAccountFringeBenefitCode(String accountFringeBenefitCode) {
@@ -354,7 +354,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the financialHigherEdFunctionCd attribute.
      * 
-     * @param - financialHigherEdFunctionCd The financialHigherEdFunctionCd to set.
+     * @param financialHigherEdFunctionCd The financialHigherEdFunctionCd to set.
      * 
      */
     public void setFinancialHigherEdFunctionCd(String financialHigherEdFunctionCd) {
@@ -375,7 +375,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountRestrictedStatusCode attribute.
      * 
-     * @param - accountRestrictedStatusCode The accountRestrictedStatusCode to set.
+     * @param accountRestrictedStatusCode The accountRestrictedStatusCode to set.
      * 
      */
     public void setAccountRestrictedStatusCode(String accountRestrictedStatusCode) {
@@ -396,7 +396,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountRestrictedStatusDate attribute.
      * 
-     * @param - accountRestrictedStatusDate The accountRestrictedStatusDate to set.
+     * @param accountRestrictedStatusDate The accountRestrictedStatusDate to set.
      * 
      */
     public void setAccountRestrictedStatusDate(Date accountRestrictedStatusDate) {
@@ -417,7 +417,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountCityName attribute.
      * 
-     * @param - accountCityName The accountCityName to set.
+     * @param accountCityName The accountCityName to set.
      * 
      */
     public void setAccountCityName(String accountCityName) {
@@ -438,7 +438,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountStateCode attribute.
      * 
-     * @param - accountStateCode The accountStateCode to set.
+     * @param accountStateCode The accountStateCode to set.
      * 
      */
     public void setAccountStateCode(String accountStateCode) {
@@ -459,7 +459,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountStreetAddress attribute.
      * 
-     * @param - accountStreetAddress The accountStreetAddress to set.
+     * @param accountStreetAddress The accountStreetAddress to set.
      * 
      */
     public void setAccountStreetAddress(String accountStreetAddress) {
@@ -480,7 +480,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountZipCode attribute.
      * 
-     * @param - accountZipCode The accountZipCode to set.
+     * @param accountZipCode The accountZipCode to set.
      * 
      */
     public void setAccountZipCode(String accountZipCode) {
@@ -501,7 +501,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the reportsToChartOfAccountsCode attribute.
      * 
-     * @param - reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
+     * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
      * 
      */
     public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
@@ -522,7 +522,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the reportsToAccountNumber attribute.
      * 
-     * @param - reportsToAccountNumber The reportsToAccountNumber to set.
+     * @param reportsToAccountNumber The reportsToAccountNumber to set.
      * 
      */
     public void setReportsToAccountNumber(String reportsToAccountNumber) {
@@ -543,7 +543,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountCreateDate attribute.
      * 
-     * @param - accountCreateDate The accountCreateDate to set.
+     * @param accountCreateDate The accountCreateDate to set.
      * 
      */
     public void setAccountCreateDate(Date accountCreateDate) {
@@ -564,7 +564,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountEffectiveDate attribute.
      * 
-     * @param - accountEffectiveDate The accountEffectiveDate to set.
+     * @param accountEffectiveDate The accountEffectiveDate to set.
      * 
      */
     public void setAccountEffectiveDate(Date accountEffectiveDate) {
@@ -585,7 +585,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountExpirationDate attribute.
      * 
-     * @param - accountExpirationDate The accountExpirationDate to set.
+     * @param accountExpirationDate The accountExpirationDate to set.
      * 
      */
     public void setAccountExpirationDate(Date accountExpirationDate) {
@@ -606,7 +606,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the continuationFinChrtOfAcctCd attribute.
      * 
-     * @param - continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
+     * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
      * 
      */
     public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
@@ -627,7 +627,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the continuationAccountNumber attribute.
      * 
-     * @param - continuationAccountNumber The continuationAccountNumber to set.
+     * @param continuationAccountNumber The continuationAccountNumber to set.
      * 
      */
     public void setContinuationAccountNumber(String continuationAccountNumber) {
@@ -648,7 +648,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the awardPeriodEndYear attribute.
      * 
-     * @param - awardPeriodEndYear The awardPeriodEndYear to set.
+     * @param awardPeriodEndYear The awardPeriodEndYear to set.
      * 
      */
     public void setAwardPeriodEndYear(Integer awardPeriodEndYear) {
@@ -669,7 +669,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the awardPeriodEndMonth attribute.
      * 
-     * @param - awardPeriodEndMonth The awardPeriodEndMonth to set.
+     * @param awardPeriodEndMonth The awardPeriodEndMonth to set.
      * 
      */
     public void setAwardPeriodEndMonth(String awardPeriodEndMonth) {
@@ -690,7 +690,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the awardPeriodBeginYear attribute.
      * 
-     * @param - awardPeriodBeginYear The awardPeriodBeginYear to set.
+     * @param awardPeriodBeginYear The awardPeriodBeginYear to set.
      * 
      */
     public void setAwardPeriodBeginYear(Integer awardPeriodBeginYear) {
@@ -711,7 +711,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the awardPeriodBeginMonth attribute.
      * 
-     * @param - awardPeriodBeginMonth The awardPeriodBeginMonth to set.
+     * @param awardPeriodBeginMonth The awardPeriodBeginMonth to set.
      * 
      */
     public void setAwardPeriodBeginMonth(String awardPeriodBeginMonth) {
@@ -732,7 +732,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the endowmentIncomeAcctFinCoaCd attribute.
      * 
-     * @param - endowmentIncomeAcctFinCoaCd The endowmentIncomeAcctFinCoaCd to set.
+     * @param endowmentIncomeAcctFinCoaCd The endowmentIncomeAcctFinCoaCd to set.
      * 
      */
     public void setEndowmentIncomeAcctFinCoaCd(String endowmentIncomeAcctFinCoaCd) {
@@ -753,7 +753,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the endowmentIncomeAccountNumber attribute.
      * 
-     * @param - endowmentIncomeAccountNumber The endowmentIncomeAccountNumber to set.
+     * @param endowmentIncomeAccountNumber The endowmentIncomeAccountNumber to set.
      * 
      */
     public void setEndowmentIncomeAccountNumber(String endowmentIncomeAccountNumber) {
@@ -774,7 +774,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the contractControlFinCoaCode attribute.
      * 
-     * @param - contractControlFinCoaCode The contractControlFinCoaCode to set.
+     * @param contractControlFinCoaCode The contractControlFinCoaCode to set.
      * 
      */
     public void setContractControlFinCoaCode(String contractControlFinCoaCode) {
@@ -795,7 +795,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the contractControlAccountNumber attribute.
      * 
-     * @param - contractControlAccountNumber The contractControlAccountNumber to set.
+     * @param contractControlAccountNumber The contractControlAccountNumber to set.
      * 
      */
     public void setContractControlAccountNumber(String contractControlAccountNumber) {
@@ -816,7 +816,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the incomeStreamFinancialCoaCode attribute.
      * 
-     * @param - incomeStreamFinancialCoaCode The incomeStreamFinancialCoaCode to set.
+     * @param incomeStreamFinancialCoaCode The incomeStreamFinancialCoaCode to set.
      * 
      */
     public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode) {
@@ -837,7 +837,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the incomeStreamAccountNumber attribute.
      * 
-     * @param - incomeStreamAccountNumber The incomeStreamAccountNumber to set.
+     * @param incomeStreamAccountNumber The incomeStreamAccountNumber to set.
      * 
      */
     public void setIncomeStreamAccountNumber(String incomeStreamAccountNumber) {
@@ -858,7 +858,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the acctIndirectCostRcvyTypeCd attribute.
      * 
-     * @param - acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
+     * @param acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
      * 
      */
     public void setAcctIndirectCostRcvyTypeCd(String acctIndirectCostRcvyTypeCd) {
@@ -879,7 +879,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the acctCustomIndCstRcvyExclCd attribute.
      * 
-     * @param - acctCustomIndCstRcvyExclCd The acctCustomIndCstRcvyExclCd to set.
+     * @param acctCustomIndCstRcvyExclCd The acctCustomIndCstRcvyExclCd to set.
      * 
      */
     public void setAcctCustomIndCstRcvyExclCd(String acctCustomIndCstRcvyExclCd) {
@@ -900,7 +900,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the financialIcrSeriesIdentifier attribute.
      * 
-     * @param - financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
+     * @param financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
      * 
      */
     public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
@@ -921,7 +921,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the indirectCostRcvyFinCoaCode attribute.
      * 
-     * @param - indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
+     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
      * 
      */
     public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
@@ -942,7 +942,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the indirectCostRecoveryAcctNbr attribute.
      * 
-     * @param - indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
+     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
      * 
      */
     public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
@@ -964,7 +964,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountInFinProcessingIndicator attribute.
      * 
-     * @param - accountInFinProcessingIndicator The accountInFinProcessingIndicator to set.
+     * @param accountInFinProcessingIndicator The accountInFinProcessingIndicator to set.
      * 
      */
     public void setAccountInFinProcessingIndicator(boolean accountInFinProcessingIndicator) {
@@ -985,7 +985,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the budgetRecordingLevelCode attribute.
      * 
-     * @param - budgetRecordingLevelCode The budgetRecordingLevelCode to set.
+     * @param budgetRecordingLevelCode The budgetRecordingLevelCode to set.
      * 
      */
     public void setBudgetRecordingLevelCode(String budgetRecordingLevelCode) {
@@ -1006,7 +1006,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountSufficientFundsCode attribute.
      * 
-     * @param - accountSufficientFundsCode The accountSufficientFundsCode to set.
+     * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
      * 
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode) {
@@ -1028,7 +1028,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
-     * @param - pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
+     * @param pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
      * 
      */
     public void setPendingAcctSufficientFundsIndicator(boolean pendingAcctSufficientFundsIndicator) {
@@ -1050,7 +1050,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the extrnlFinEncumSufficntFndIndicator attribute.
      * 
-     * @param - extrnlFinEncumSufficntFndIndicator The extrnlFinEncumSufficntFndIndicator to set.
+     * @param extrnlFinEncumSufficntFndIndicator The extrnlFinEncumSufficntFndIndicator to set.
      * 
      */
     public void setExtrnlFinEncumSufficntFndIndicator(boolean extrnlFinEncumSufficntFndIndicator) {
@@ -1072,7 +1072,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the intrnlFinEncumSufficntFndIndicator attribute.
      * 
-     * @param - intrnlFinEncumSufficntFndIndicator The intrnlFinEncumSufficntFndIndicator to set.
+     * @param intrnlFinEncumSufficntFndIndicator The intrnlFinEncumSufficntFndIndicator to set.
      * 
      */
     public void setIntrnlFinEncumSufficntFndIndicator(boolean intrnlFinEncumSufficntFndIndicator) {
@@ -1094,7 +1094,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the finPreencumSufficientFundIndicator attribute.
      * 
-     * @param - finPreencumSufficientFundIndicator The finPreencumSufficientFundIndicator to set.
+     * @param finPreencumSufficientFundIndicator The finPreencumSufficientFundIndicator to set.
      * 
      */
     public void setFinPreencumSufficientFundIndicator(boolean finPreencumSufficientFundIndicator) {
@@ -1116,7 +1116,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the finObjectPresenceControlIndicator attribute.
      * 
-     * @param - finObjectPresenceControlIndicator The finObjectPresenceControlIndicator to set.
+     * @param finObjectPresenceControlIndicator The finObjectPresenceControlIndicator to set.
      * 
      */
     public void setFinObjectPresenceControlIndicator(boolean finObjectPresenceControlIndicator) {
@@ -1137,7 +1137,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the cgCatlfFedDomestcAssistNbr attribute.
      * 
-     * @param - cgCatlfFedDomestcAssistNbr The cgCatlfFedDomestcAssistNbr to set.
+     * @param cgCatlfFedDomestcAssistNbr The cgCatlfFedDomestcAssistNbr to set.
      * 
      */
     public void setCgCatlfFedDomestcAssistNbr(String cgCatlfFedDomestcAssistNbr) {
@@ -1158,7 +1158,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountOffCampusIndicator attribute.
      * 
-     * @param - accountOffCampusIndicator The accountOffCampusIndicator to set.
+     * @param accountOffCampusIndicator The accountOffCampusIndicator to set.
      * 
      */
     public void setAccountOffCampusIndicator(boolean accountOffCampusIndicator) {
@@ -1180,7 +1180,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the accountClosedIndicator attribute.
      * 
-     * @param - accountClosedIndicator The accountClosedIndicator to set.
+     * @param accountClosedIndicator The accountClosedIndicator to set.
      * 
      */
     public void setAccountClosedIndicator(boolean accountClosedIndicator) {
@@ -1201,7 +1201,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the chart attribute.
      * 
-     * @param - chart The chart to set.
+     * @param chart The chart to set.
      * @deprecated
      */
     public void setChart(Chart chart) {
@@ -1221,7 +1221,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the campus attribute.
      * 
-     * @param - campus The campus to set.
+     * @param campus The campus to set.
      * @deprecated
      */
     public void setCampus(Campus campus) {
@@ -1241,7 +1241,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the reportsToChartOfAccounts attribute.
      * 
-     * @param - reportsToChartOfAccounts The reportsToChartOfAccounts to set.
+     * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
      * @deprecated
      */
     public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
@@ -1261,7 +1261,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
@@ -1281,7 +1281,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the continuationFinChrtOfAcct attribute.
      * 
-     * @param - continuationFinChrtOfAcct The continuationFinChrtOfAcct to set.
+     * @param continuationFinChrtOfAcct The continuationFinChrtOfAcct to set.
      * @deprecated
      */
     public void setContinuationFinChrtOfAcct(Chart continuationFinChrtOfAcct) {
@@ -1301,7 +1301,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the endowmentIncomeAcctFinCoa attribute.
      * 
-     * @param - endowmentIncomeAcctFinCoa The endowmentIncomeAcctFinCoa to set.
+     * @param endowmentIncomeAcctFinCoa The endowmentIncomeAcctFinCoa to set.
      * @deprecated
      */
     public void setEndowmentIncomeAcctFinCoa(Chart endowmentIncomeAcctFinCoa) {
@@ -1321,7 +1321,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the endowmentIncomeAccount attribute.
      * 
-     * @param - endowmentIncomeAccount The endowmentIncomeAccount to set.
+     * @param endowmentIncomeAccount The endowmentIncomeAccount to set.
      * @deprecated
      */
     public void setEndowmentIncomeAccount(Account endowmentIncomeAccount) {
@@ -1341,7 +1341,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the contractControlAccount attribute.
      * 
-     * @param - contractControlAccount The contractControlAccount to set.
+     * @param contractControlAccount The contractControlAccount to set.
      * @deprecated
      */
     public void setContractControlAccount(Account contractControlAccount) {
@@ -1361,7 +1361,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the contractControlFinCoa attribute.
      * 
-     * @param - contractControlFinCoa The contractControlFinCoa to set.
+     * @param contractControlFinCoa The contractControlFinCoa to set.
      * @deprecated
      */
     public void setContractControlFinCoa(Chart contractControlFinCoa) {
@@ -1381,7 +1381,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the incomeStreamFinancialCoa attribute.
      * 
-     * @param - incomeStreamFinancialCoa The incomeStreamFinancialCoa to set.
+     * @param incomeStreamFinancialCoa The incomeStreamFinancialCoa to set.
      * @deprecated
      */
     public void setIncomeStreamFinancialCoa(Chart incomeStreamFinancialCoa) {
@@ -1401,7 +1401,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the incomeStreamAccount attribute.
      * 
-     * @param - incomeStreamAccount The incomeStreamAccount to set.
+     * @param incomeStreamAccount The incomeStreamAccount to set.
      * @deprecated
      */
     public void setIncomeStreamAccount(Account incomeStreamAccount) {
@@ -1421,7 +1421,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the indirectCostRecoveryAcct attribute.
      * 
-     * @param - indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
+     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
      * @deprecated
      */
     public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
@@ -1441,7 +1441,7 @@ public class PriorYearAccount extends BusinessObjectBase {
     /**
      * Sets the indirectCostRcvyFinCoa attribute.
      * 
-     * @param - indirectCostRcvyFinCoa The indirectCostRcvyFinCoa to set.
+     * @param indirectCostRcvyFinCoa The indirectCostRcvyFinCoa to set.
      * @deprecated
      */
     public void setIndirectCostRcvyFinCoa(Chart indirectCostRcvyFinCoa) {

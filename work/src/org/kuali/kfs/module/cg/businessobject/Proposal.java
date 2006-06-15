@@ -96,7 +96,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalNumber attribute.
      * 
-     * @param - proposalNumber The proposalNumber to set.
+     * @param proposalNumber The proposalNumber to set.
      * 
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -117,7 +117,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalBeginningDate attribute.
      * 
-     * @param - proposalBeginningDate The proposalBeginningDate to set.
+     * @param proposalBeginningDate The proposalBeginningDate to set.
      * 
      */
     public void setProposalBeginningDate(Timestamp proposalBeginningDate) {
@@ -138,7 +138,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalEndingDate attribute.
      * 
-     * @param - proposalEndingDate The proposalEndingDate to set.
+     * @param proposalEndingDate The proposalEndingDate to set.
      * 
      */
     public void setProposalEndingDate(Timestamp proposalEndingDate) {
@@ -159,7 +159,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalTotalAmount attribute.
      * 
-     * @param - proposalTotalAmount The proposalTotalAmount to set.
+     * @param proposalTotalAmount The proposalTotalAmount to set.
      * 
      */
     public void setProposalTotalAmount(KualiDecimal proposalTotalAmount) {
@@ -180,7 +180,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalDirectCostAmount attribute.
      * 
-     * @param - proposalDirectCostAmount The proposalDirectCostAmount to set.
+     * @param proposalDirectCostAmount The proposalDirectCostAmount to set.
      * 
      */
     public void setProposalDirectCostAmount(KualiDecimal proposalDirectCostAmount) {
@@ -201,7 +201,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalIndirectCostAmount attribute.
      * 
-     * @param - proposalIndirectCostAmount The proposalIndirectCostAmount to set.
+     * @param proposalIndirectCostAmount The proposalIndirectCostAmount to set.
      * 
      */
     public void setProposalIndirectCostAmount(KualiDecimal proposalIndirectCostAmount) {
@@ -222,7 +222,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalRejectedDate attribute.
      * 
-     * @param - proposalRejectedDate The proposalRejectedDate to set.
+     * @param proposalRejectedDate The proposalRejectedDate to set.
      * 
      */
     public void setProposalRejectedDate(Timestamp proposalRejectedDate) {
@@ -243,7 +243,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalLastUpdateDate attribute.
      * 
-     * @param - proposalLastUpdateDate The proposalLastUpdateDate to set.
+     * @param proposalLastUpdateDate The proposalLastUpdateDate to set.
      * 
      */
     public void setProposalLastUpdateDate(Timestamp proposalLastUpdateDate) {
@@ -264,7 +264,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalDueDate attribute.
      * 
-     * @param - proposalDueDate The proposalDueDate to set.
+     * @param proposalDueDate The proposalDueDate to set.
      * 
      */
     public void setProposalDueDate(Timestamp proposalDueDate) {
@@ -285,7 +285,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalTotalProjectAmount attribute.
      * 
-     * @param - proposalTotalProjectAmount The proposalTotalProjectAmount to set.
+     * @param proposalTotalProjectAmount The proposalTotalProjectAmount to set.
      * 
      */
     public void setProposalTotalProjectAmount(KualiDecimal proposalTotalProjectAmount) {
@@ -306,7 +306,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalSubmissionDate attribute.
      * 
-     * @param - proposalSubmissionDate The proposalSubmissionDate to set.
+     * @param proposalSubmissionDate The proposalSubmissionDate to set.
      * 
      */
     public void setProposalSubmissionDate(Timestamp proposalSubmissionDate) {
@@ -327,7 +327,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalFederalPassThroughIndicator attribute.
      * 
-     * @param - proposalFederalPassThroughIndicator The proposalFederalPassThroughIndicator to set.
+     * @param proposalFederalPassThroughIndicator The proposalFederalPassThroughIndicator to set.
      * 
      */
     public void setProposalFederalPassThroughIndicator(boolean proposalFederalPassThroughIndicator) {
@@ -348,7 +348,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the oldProposalNumber attribute.
      * 
-     * @param - oldProposalNumber The oldProposalNumber to set.
+     * @param oldProposalNumber The oldProposalNumber to set.
      * 
      */
     public void setOldProposalNumber(String oldProposalNumber) {
@@ -369,7 +369,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the grantNumber attribute.
      * 
-     * @param - grantNumber The grantNumber to set.
+     * @param grantNumber The grantNumber to set.
      * 
      */
     public void setGrantNumber(String grantNumber) {
@@ -390,7 +390,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalClosingDate attribute.
      * 
-     * @param - proposalClosingDate The proposalClosingDate to set.
+     * @param proposalClosingDate The proposalClosingDate to set.
      * 
      */
     public void setProposalClosingDate(Timestamp proposalClosingDate) {
@@ -411,7 +411,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalAwardTypeCode attribute.
      * 
-     * @param - proposalAwardTypeCode The proposalAwardTypeCode to set.
+     * @param proposalAwardTypeCode The proposalAwardTypeCode to set.
      * 
      */
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
@@ -432,7 +432,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the agencyNumber attribute.
      * 
-     * @param - agencyNumber The agencyNumber to set.
+     * @param agencyNumber The agencyNumber to set.
      * 
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -453,7 +453,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalStatusCode attribute.
      * 
-     * @param - proposalStatusCode The proposalStatusCode to set.
+     * @param proposalStatusCode The proposalStatusCode to set.
      * 
      */
     public void setProposalStatusCode(String proposalStatusCode) {
@@ -474,7 +474,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the federalPassThroughAgencyNumber attribute.
      * 
-     * @param - federalPassThroughAgencyNumber The federalPassThroughAgencyNumber to set.
+     * @param federalPassThroughAgencyNumber The federalPassThroughAgencyNumber to set.
      * 
      */
     public void setFederalPassThroughAgencyNumber(String federalPassThroughAgencyNumber) {
@@ -495,7 +495,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the cfdaNumber attribute.
      * 
-     * @param - cfdaNumber The cfdaNumber to set.
+     * @param cfdaNumber The cfdaNumber to set.
      * 
      */
     public void setCfdaNumber(String cfdaNumber) {
@@ -516,7 +516,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalFellowName attribute.
      * 
-     * @param - proposalFellowName The proposalFellowName to set.
+     * @param proposalFellowName The proposalFellowName to set.
      * 
      */
     public void setProposalFellowName(String proposalFellowName) {
@@ -537,7 +537,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalPurposeCode attribute.
      * 
-     * @param - proposalPurposeCode The proposalPurposeCode to set.
+     * @param proposalPurposeCode The proposalPurposeCode to set.
      * 
      */
     public void setProposalPurposeCode(String proposalPurposeCode) {
@@ -558,7 +558,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalProjectTitle attribute.
      * 
-     * @param - proposalProjectTitle The proposalProjectTitle to set.
+     * @param proposalProjectTitle The proposalProjectTitle to set.
      * 
      */
     public void setProposalProjectTitle(String proposalProjectTitle) {
@@ -579,7 +579,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the researchType attribute.
      * 
-     * @param - researchType The researchType to set.
+     * @param researchType The researchType to set.
      * @deprecated
      */
     public void setResearchType(ResearchType researchType) {
@@ -599,7 +599,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalAwardType attribute.
      * 
-     * @param - proposalAwardType The proposalAwardType to set.
+     * @param proposalAwardType The proposalAwardType to set.
      * @deprecated
      */
     public void setProposalAwardType(ProposalAwardType proposalAwardType) {
@@ -619,7 +619,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the agency attribute.
      * 
-     * @param - agency The agency to set.
+     * @param agency The agency to set.
      * @deprecated
      */
     public void setAgency(Agency agency) {
@@ -639,7 +639,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalStatus attribute.
      * 
-     * @param - proposalStatus The proposalStatus to set.
+     * @param proposalStatus The proposalStatus to set.
      * @deprecated
      */
     public void setProposalStatus(ProposalStatus proposalStatus) {
@@ -659,7 +659,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the federalPassThroughAgency attribute.
      * 
-     * @param - federalPassThroughAgency The federalPassThroughAgency to set.
+     * @param federalPassThroughAgency The federalPassThroughAgency to set.
      * @deprecated
      */
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
@@ -679,7 +679,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalPurpose attribute.
      * 
-     * @param - proposalPurpose The proposalPurpose to set.
+     * @param proposalPurpose The proposalPurpose to set.
      * @deprecated
      */
     public void setProposalPurpose(ProposalPurpose proposalPurpose) {
@@ -699,7 +699,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Sets the proposalSubcontractor list.
      * 
-     * @param - proposalSubcontractor The proposalSubcontractor list to set.
+     * @param proposalSubcontractor The proposalSubcontractor list to set.
      * 
      */
     public void setProposalSubcontractor(List proposalSubcontractor) {

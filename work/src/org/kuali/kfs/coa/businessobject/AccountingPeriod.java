@@ -68,7 +68,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -89,7 +89,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Sets the universityFiscalPeriodCode attribute.
      * 
-     * @param - universityFiscalPeriodCode The universityFiscalPeriodCode to set.
+     * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      * 
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
@@ -110,7 +110,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Sets the universityFiscalPeriodName attribute.
      * 
-     * @param - universityFiscalPeriodName The universityFiscalPeriodName to set.
+     * @param universityFiscalPeriodName The universityFiscalPeriodName to set.
      * 
      */
     public void setUniversityFiscalPeriodName(String universityFiscalPeriodName) {
@@ -131,7 +131,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Sets the universityFiscalPeriodStatusCode attribute.
      * 
-     * @param - universityFiscalPeriodStatusCode The universityFiscalPeriodStatusCode to set.
+     * @param universityFiscalPeriodStatusCode The universityFiscalPeriodStatusCode to set.
      * 
      */
     public void setUniversityFiscalPeriodStatusCode(String universityFiscalPeriodStatusCode) {
@@ -153,7 +153,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Sets the budgetRolloverIndicator attribute.
      * 
-     * @param - budgetRolloverIndicator The budgetRolloverIndicator to set.
+     * @param budgetRolloverIndicator The budgetRolloverIndicator to set.
      * 
      */
     public void setBudgetRolloverIndicator(boolean budgetRolloverIndicator) {
@@ -174,7 +174,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Sets the universityFiscalPeriodEndDate attribute.
      * 
-     * @param - universityFiscalPeriodEndDate The universityFiscalPeriodEndDate to set.
+     * @param universityFiscalPeriodEndDate The universityFiscalPeriodEndDate to set.
      * 
      */
     public void setUniversityFiscalPeriodEndDate(Date universityFiscalPeriodEndDate) {

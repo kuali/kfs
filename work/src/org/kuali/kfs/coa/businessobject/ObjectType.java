@@ -62,7 +62,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Sets the finObjectTypeDebitcreditCd attribute.
      * 
-     * @param - finObjectTypeDebitcreditCd The finObjectTypeDebitcreditCd to set.
+     * @param finObjectTypeDebitcreditCd The finObjectTypeDebitcreditCd to set.
      * 
      */
     public void setFinObjectTypeDebitcreditCd(String finObjectTypeDebitcreditCd) {
@@ -82,7 +82,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Sets the finObjectTypeIcrSelectionIndicator attribute.
      * 
-     * @param - finObjectTypeIcrSelectionIndicator The finObjectTypeIcrSelectionIndicator to set.
+     * @param finObjectTypeIcrSelectionIndicator The finObjectTypeIcrSelectionIndicator to set.
      * 
      */
     public void setFinObjectTypeIcrSelectionIndicator(boolean finObjectTypeIcrSelectionIndicator) {
@@ -102,7 +102,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Sets the fundBalanceIndicator attribute.
      * 
-     * @param - fundBalanceIndicator The fundBalanceIndicator to set.
+     * @param fundBalanceIndicator The fundBalanceIndicator to set.
      * 
      */
     public void setFundBalanceIndicator(boolean fundBalanceIndicator) {
@@ -122,7 +122,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Sets the financialReportingSortCode attribute.
      * 
-     * @param - financialReportingSortCode The financialReportingSortCode to set.
+     * @param financialReportingSortCode The financialReportingSortCode to set.
      * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {

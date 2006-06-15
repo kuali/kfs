@@ -62,7 +62,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Sets the proposalSubcontractorNumber attribute.
      * 
-     * @param - proposalSubcontractorNumber The proposalSubcontractorNumber to set.
+     * @param proposalSubcontractorNumber The proposalSubcontractorNumber to set.
      * 
      */
     public void setProposalSubcontractorNumber(String proposalSubcontractorNumber) {
@@ -83,7 +83,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Sets the proposalNumber attribute.
      * 
-     * @param - proposalNumber The proposalNumber to set.
+     * @param proposalNumber The proposalNumber to set.
      * 
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -104,7 +104,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorNumber attribute.
      * 
-     * @param - subcontractorNumber The subcontractorNumber to set.
+     * @param subcontractorNumber The subcontractorNumber to set.
      * 
      */
     public void setSubcontractorNumber(String subcontractorNumber) {
@@ -125,7 +125,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Sets the proposalSubcontractorAmount attribute.
      * 
-     * @param - proposalSubcontractorAmount The proposalSubcontractorAmount to set.
+     * @param proposalSubcontractorAmount The proposalSubcontractorAmount to set.
      * 
      */
     public void setProposalSubcontractorAmount(KualiDecimal proposalSubcontractorAmount) {

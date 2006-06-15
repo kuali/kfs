@@ -81,7 +81,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -102,7 +102,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbursementVoucherBankName attribute.
      * 
-     * @param - disbursementVoucherBankName The disbursementVoucherBankName to set.
+     * @param disbursementVoucherBankName The disbursementVoucherBankName to set.
      * 
      */
     public void setDisbursementVoucherBankName(String disbursementVoucherBankName) {
@@ -123,7 +123,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrBankRoutingNumber attribute.
      * 
-     * @param - disbVchrBankRoutingNumber The disbVchrBankRoutingNumber to set.
+     * @param disbVchrBankRoutingNumber The disbVchrBankRoutingNumber to set.
      * 
      */
     public void setDisbVchrBankRoutingNumber(String disbVchrBankRoutingNumber) {
@@ -144,7 +144,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrBankCityName attribute.
      * 
-     * @param - disbVchrBankCityName The disbVchrBankCityName to set.
+     * @param disbVchrBankCityName The disbVchrBankCityName to set.
      * 
      */
     public void setDisbVchrBankCityName(String disbVchrBankCityName) {
@@ -165,7 +165,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrBankStateCode attribute.
      * 
-     * @param - disbVchrBankStateCode The disbVchrBankStateCode to set.
+     * @param disbVchrBankStateCode The disbVchrBankStateCode to set.
      * 
      */
     public void setDisbVchrBankStateCode(String disbVchrBankStateCode) {
@@ -186,7 +186,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrBankCountryCode attribute.
      * 
-     * @param - disbVchrBankCountryCode The disbVchrBankCountryCode to set.
+     * @param disbVchrBankCountryCode The disbVchrBankCountryCode to set.
      * 
      */
     public void setDisbVchrBankCountryCode(String disbVchrBankCountryCode) {
@@ -207,7 +207,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrAttentionLineText attribute.
      * 
-     * @param - disbVchrAttentionLineText The disbVchrAttentionLineText to set.
+     * @param disbVchrAttentionLineText The disbVchrAttentionLineText to set.
      * 
      */
     public void setDisbVchrAttentionLineText(String disbVchrAttentionLineText) {
@@ -228,7 +228,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrAdditionalWireText attribute.
      * 
-     * @param - disbVchrAdditionalWireText The disbVchrAdditionalWireText to set.
+     * @param disbVchrAdditionalWireText The disbVchrAdditionalWireText to set.
      * 
      */
     public void setDisbVchrAdditionalWireText(String disbVchrAdditionalWireText) {
@@ -249,7 +249,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrPayeeAccountNumber attribute.
      * 
-     * @param - disbVchrPayeeAccountNumber The disbVchrPayeeAccountNumber to set.
+     * @param disbVchrPayeeAccountNumber The disbVchrPayeeAccountNumber to set.
      * 
      */
     public void setDisbVchrPayeeAccountNumber(String disbVchrPayeeAccountNumber) {
@@ -270,7 +270,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrCurrencyTypeName attribute.
      * 
-     * @param - disbVchrCurrencyTypeName The disbVchrCurrencyTypeName to set.
+     * @param disbVchrCurrencyTypeName The disbVchrCurrencyTypeName to set.
      * 
      */
     public void setDisbVchrCurrencyTypeName(String disbVchrCurrencyTypeName) {
@@ -293,7 +293,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
      * Sets the disbursementVoucherForeignCurrencyTypeName attribute. This field is here because the currency type field is
      * presented in different places on screen, and value conflicts occur unless we have an alias.
      * 
-     * @param - disbursementVoucherForeignCurrencyTypeName The disbursementVoucherForeignCurrencyTypeName to set.
+     * @param disbursementVoucherForeignCurrencyTypeName The disbursementVoucherForeignCurrencyTypeName to set.
      * 
      */
     public void setDisbursementVoucherForeignCurrencyTypeName(String disbursementVoucherForeignCurrencyTypeName) {
@@ -314,7 +314,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrCurrencyTypeCode attribute.
      * 
-     * @param - disbVchrCurrencyTypeCode The disbVchrCurrencyTypeCode to set.
+     * @param disbVchrCurrencyTypeCode The disbVchrCurrencyTypeCode to set.
      * 
      */
     public void setDisbVchrCurrencyTypeCode(String disbVchrCurrencyTypeCode) {
@@ -336,7 +336,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
      * Sets the disbursementVoucherForeignCurrencyTypeCode attribute. This field is here because the currency type field is
      * presented in different places on screen, and value conflicts occur unless we have an alias.
      * 
-     * @param - disbursementVoucherForeignCurrencyTypeCode The disbursementVoucherForeignCurrencyTypeCode to set.
+     * @param disbursementVoucherForeignCurrencyTypeCode The disbursementVoucherForeignCurrencyTypeCode to set.
      * 
      */
     public void setDisbursementVoucherForeignCurrencyTypeCode(String disbursementVoucherForeignCurrencyTypeCode) {
@@ -356,7 +356,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbVchrForeignBankIndicator attribute.
      * 
-     * @param - disbVchrForeignBankIndicator The disbVchrForeignBankIndicator to set.
+     * @param disbVchrForeignBankIndicator The disbVchrForeignBankIndicator to set.
      * 
      */
     public void setDisbVchrForeignBankIndicator(boolean disbVchrForeignBankIndicator) {
@@ -377,7 +377,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbursementVoucherWireTransferFeeWaiverIndicator attribute.
      * 
-     * @param - disbursementVoucherWireTransferFeeWaiverIndicator The disbursementVoucherWireTransferFeeWaiverIndicator to set.
+     * @param disbursementVoucherWireTransferFeeWaiverIndicator The disbursementVoucherWireTransferFeeWaiverIndicator to set.
      * 
      */
     public void setDisbursementVoucherWireTransferFeeWaiverIndicator(boolean disbursementVoucherWireTransferFeeWaiverIndicator) {
@@ -398,7 +398,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbursementVoucherPayeeAccountName attribute.
      * 
-     * @param - disbursementVoucherPayeeAccountName The disbursementVoucherPayeeAccountName to set.
+     * @param disbursementVoucherPayeeAccountName The disbursementVoucherPayeeAccountName to set.
      * 
      */
     public void setDisbursementVoucherPayeeAccountName(String disbursementVoucherPayeeAccountName) {
@@ -419,7 +419,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbursementVoucherPayeeAccountTypeCode attribute.
      * 
-     * @param - disbursementVoucherPayeeAccountTypeCode The disbursementVoucherPayeeAccountTypeCode to set.
+     * @param disbursementVoucherPayeeAccountTypeCode The disbursementVoucherPayeeAccountTypeCode to set.
      * 
      */
     public void setDisbursementVoucherPayeeAccountTypeCode(String disbursementVoucherPayeeAccountTypeCode) {
@@ -440,7 +440,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Sets the disbursementVoucherAutomatedClearingHouseProfileNumber attribute.
      * 
-     * @param - disbursementVoucherAutomatedClearingHouseProfileNumber The disbursementVoucherAutomatedClearingHouseProfileNumber to
+     * @param disbursementVoucherAutomatedClearingHouseProfileNumber The disbursementVoucherAutomatedClearingHouseProfileNumber to
      *        set.
      * 
      */

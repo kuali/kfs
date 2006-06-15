@@ -81,7 +81,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -102,7 +102,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the transactionCreditCardNumber attribute.
      * 
-     * @param - transactionCreditCardNumber The transactionCreditCardNumber to set.
+     * @param transactionCreditCardNumber The transactionCreditCardNumber to set.
      * 
      */
     public void setTransactionCreditCardNumber(String transactionCreditCardNumber) {
@@ -123,7 +123,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderName attribute.
      * 
-     * @param - cardHolderName The cardHolderName to set.
+     * @param cardHolderName The cardHolderName to set.
      * 
      */
     public void setCardHolderName(String cardHolderName) {
@@ -144,7 +144,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderAlternateName attribute.
      * 
-     * @param - cardHolderAlternateName The cardHolderAlternateName to set.
+     * @param cardHolderAlternateName The cardHolderAlternateName to set.
      * 
      */
     public void setCardHolderAlternateName(String cardHolderAlternateName) {
@@ -165,7 +165,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderLine1Address attribute.
      * 
-     * @param - cardHolderLine1Address The cardHolderLine1Address to set.
+     * @param cardHolderLine1Address The cardHolderLine1Address to set.
      * 
      */
     public void setCardHolderLine1Address(String cardHolderLine1Address) {
@@ -186,7 +186,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderLine2Address attribute.
      * 
-     * @param - cardHolderLine2Address The cardHolderLine2Address to set.
+     * @param cardHolderLine2Address The cardHolderLine2Address to set.
      * 
      */
     public void setCardHolderLine2Address(String cardHolderLine2Address) {
@@ -207,7 +207,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderCityName attribute.
      * 
-     * @param - cardHolderCityName The cardHolderCityName to set.
+     * @param cardHolderCityName The cardHolderCityName to set.
      * 
      */
     public void setCardHolderCityName(String cardHolderCityName) {
@@ -228,7 +228,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderStateCode attribute.
      * 
-     * @param - cardHolderStateCode The cardHolderStateCode to set.
+     * @param cardHolderStateCode The cardHolderStateCode to set.
      * 
      */
     public void setCardHolderStateCode(String cardHolderStateCode) {
@@ -249,7 +249,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderZipCode attribute.
      * 
-     * @param - cardHolderZipCode The cardHolderZipCode to set.
+     * @param cardHolderZipCode The cardHolderZipCode to set.
      * 
      */
     public void setCardHolderZipCode(String cardHolderZipCode) {
@@ -270,7 +270,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardHolderWorkPhoneNumber attribute.
      * 
-     * @param - cardHolderWorkPhoneNumber The cardHolderWorkPhoneNumber to set.
+     * @param cardHolderWorkPhoneNumber The cardHolderWorkPhoneNumber to set.
      * 
      */
     public void setCardHolderWorkPhoneNumber(String cardHolderWorkPhoneNumber) {
@@ -291,7 +291,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardLimit attribute.
      * 
-     * @param - cardLimit The cardLimit to set.
+     * @param cardLimit The cardLimit to set.
      * 
      */
     public void setCardLimit(KualiDecimal cardLimit) {
@@ -312,7 +312,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardCycleAmountLimit attribute.
      * 
-     * @param - cardCycleAmountLimit The cardCycleAmountLimit to set.
+     * @param cardCycleAmountLimit The cardCycleAmountLimit to set.
      * 
      */
     public void setCardCycleAmountLimit(KualiDecimal cardCycleAmountLimit) {
@@ -333,7 +333,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardCycleVolumeLimit attribute.
      * 
-     * @param - cardCycleVolumeLimit The cardCycleVolumeLimit to set.
+     * @param cardCycleVolumeLimit The cardCycleVolumeLimit to set.
      * 
      */
     public void setCardCycleVolumeLimit(KualiDecimal cardCycleVolumeLimit) {
@@ -354,7 +354,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardStatusCode attribute.
      * 
-     * @param - cardStatusCode The cardStatusCode to set.
+     * @param cardStatusCode The cardStatusCode to set.
      * 
      */
     public void setCardStatusCode(String cardStatusCode) {
@@ -375,7 +375,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the cardNoteText attribute.
      * 
-     * @param - cardNoteText The cardNoteText to set.
+     * @param cardNoteText The cardNoteText to set.
      * 
      */
     public void setCardNoteText(String cardNoteText) {
@@ -396,7 +396,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -417,7 +417,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -438,7 +438,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the subAccountNumber attribute.
      * 
-     * @param - subAccountNumber The subAccountNumber to set.
+     * @param subAccountNumber The subAccountNumber to set.
      * 
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -459,7 +459,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
@@ -479,7 +479,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {

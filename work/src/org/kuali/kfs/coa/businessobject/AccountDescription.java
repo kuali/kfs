@@ -67,7 +67,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -88,7 +88,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -109,7 +109,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the campusDescription attribute.
      * 
-     * @param - campusDescription The campusDescription to set.
+     * @param campusDescription The campusDescription to set.
      * 
      */
     public void setCampusDescription(String campusDescription) {
@@ -130,7 +130,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the organizationDescription attribute.
      * 
-     * @param - organizationDescription The organizationDescription to set.
+     * @param organizationDescription The organizationDescription to set.
      * 
      */
     public void setOrganizationDescription(String organizationDescription) {
@@ -151,7 +151,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the responsibilityCenterDescription attribute.
      * 
-     * @param - responsibilityCenterDescription The responsibilityCenterDescription to set.
+     * @param responsibilityCenterDescription The responsibilityCenterDescription to set.
      * 
      */
     public void setResponsibilityCenterDescription(String responsibilityCenterDescription) {
@@ -172,7 +172,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the campusCode attribute.
      * 
-     * @param - campusCode The campusCode to set.
+     * @param campusCode The campusCode to set.
      * 
      */
     public void setCampusCode(String campusCode) {
@@ -193,7 +193,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the buildingCode attribute.
      * 
-     * @param - buildingCode The buildingCode to set.
+     * @param buildingCode The buildingCode to set.
      * 
      */
     public void setBuildingCode(String buildingCode) {

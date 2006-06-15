@@ -104,7 +104,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the agencyNumber attribute.
      * 
-     * @param - agencyNumber The agencyNumber to set.
+     * @param agencyNumber The agencyNumber to set.
      * 
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -124,7 +124,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the reportingName attribute.
      * 
-     * @param - reportingName The reportingName to set.
+     * @param reportingName The reportingName to set.
      * 
      */
     public void setReportingName(String reportingName) {
@@ -144,7 +144,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the fullName attribute.
      * 
-     * @param - fullName The fullName to set.
+     * @param fullName The fullName to set.
      * 
      */
     public void setFullName(String fullName) {
@@ -164,7 +164,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the indirectAmount attribute.
      * 
-     * @param - indirectAmount The indirectAmount to set.
+     * @param indirectAmount The indirectAmount to set.
      * 
      */
     public void setIndirectAmount(KualiDecimal indirectAmount) {
@@ -184,7 +184,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the historicalIndicator attribute.
      * 
-     * @param - historicalIndicator The historicalIndicator to set.
+     * @param historicalIndicator The historicalIndicator to set.
      * 
      */
     public void setHistoricalIndicator(boolean historicalIndicator) {
@@ -204,7 +204,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the inStateIndicator attribute.
      * 
-     * @param - inStateIndicator The inStateIndicator to set.
+     * @param inStateIndicator The inStateIndicator to set.
      * 
      */
     public void setInStateIndicator(boolean inStateIndicator) {
@@ -224,7 +224,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the reportsToAgency attribute.
      * 
-     * @param - reportsToAgency The reportsToAgency to set.
+     * @param reportsToAgency The reportsToAgency to set.
      * @deprecated
      */
     public void setReportsToAgency(Agency reportsToAgencyNumber) {
@@ -244,7 +244,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Sets the agencyType attribute.
      * 
-     * @param - agencyType The agencyType to set.
+     * @param agencyType The agencyType to set.
      * @deprecated
      */
     public void setAgencyType(AgencyType agencyType) {

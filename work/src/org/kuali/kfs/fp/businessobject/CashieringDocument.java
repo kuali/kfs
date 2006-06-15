@@ -70,7 +70,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -91,7 +91,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the depositFinancialSystemOriginationCode attribute.
      * 
-     * @param - depositFinancialSystemOriginationCode The depositFinancialSystemOriginationCode to set.
+     * @param depositFinancialSystemOriginationCode The depositFinancialSystemOriginationCode to set.
      * 
      */
     public void setDepositFinancialSystemOriginationCode(String depositFinancialSystemOriginationCode) {
@@ -112,7 +112,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentDepositNumber attribute.
      * 
-     * @param - financialDocumentDepositNumber The financialDocumentDepositNumber to set.
+     * @param financialDocumentDepositNumber The financialDocumentDepositNumber to set.
      * 
      */
     public void setFinancialDocumentDepositNumber(String financialDocumentDepositNumber) {
@@ -133,7 +133,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCheckAmount attribute.
      * 
-     * @param - financialDocumentCheckAmount The financialDocumentCheckAmount to set.
+     * @param financialDocumentCheckAmount The financialDocumentCheckAmount to set.
      * 
      */
     public void setFinancialDocumentCheckAmount(KualiDecimal financialDocumentCheckAmount) {
@@ -154,7 +154,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentAdvanceDepositAmount attribute.
      * 
-     * @param - financialDocumentAdvanceDepositAmount The financialDocumentAdvanceDepositAmount to set.
+     * @param financialDocumentAdvanceDepositAmount The financialDocumentAdvanceDepositAmount to set.
      * 
      */
     public void setFinancialDocumentAdvanceDepositAmount(KualiDecimal financialDocumentAdvanceDepositAmount) {
@@ -175,7 +175,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentRevolvingFundAmount attribute.
      * 
-     * @param - financialDocumentRevolvingFundAmount The financialDocumentRevolvingFundAmount to set.
+     * @param financialDocumentRevolvingFundAmount The financialDocumentRevolvingFundAmount to set.
      * 
      */
     public void setFinancialDocumentRevolvingFundAmount(KualiDecimal financialDocumentRevolvingFundAmount) {
@@ -196,7 +196,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNextCreditCardLineNumber attribute.
      * 
-     * @param - financialDocumentNextCreditCardLineNumber The financialDocumentNextCreditCardLineNumber to set.
+     * @param financialDocumentNextCreditCardLineNumber The financialDocumentNextCreditCardLineNumber to set.
      * 
      */
     public void setFinancialDocumentNextCreditCardLineNumber(Integer financialDocumentNextCreditCardLineNumber) {
@@ -217,7 +217,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCashAmount attribute.
      * 
-     * @param - financialDocumentCashAmount The financialDocumentCashAmount to set.
+     * @param financialDocumentCashAmount The financialDocumentCashAmount to set.
      * 
      */
     public void setFinancialDocumentCashAmount(KualiDecimal financialDocumentCashAmount) {
@@ -238,7 +238,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardAmount attribute.
      * 
-     * @param - financialDocumentCreditCardAmount The financialDocumentCreditCardAmount to set.
+     * @param financialDocumentCreditCardAmount The financialDocumentCreditCardAmount to set.
      * 
      */
     public void setFinancialDocumentCreditCardAmount(KualiDecimal financialDocumentCreditCardAmount) {
@@ -259,7 +259,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTotalCoinAmount attribute.
      * 
-     * @param - financialDocumentTotalCoinAmount The financialDocumentTotalCoinAmount to set.
+     * @param financialDocumentTotalCoinAmount The financialDocumentTotalCoinAmount to set.
      * 
      */
     public void setFinancialDocumentTotalCoinAmount(KualiDecimal financialDocumentTotalCoinAmount) {
@@ -280,7 +280,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the financialDocumentChangeOutAmount attribute.
      * 
-     * @param - financialDocumentChangeOutAmount The financialDocumentChangeOutAmount to set.
+     * @param financialDocumentChangeOutAmount The financialDocumentChangeOutAmount to set.
      * 
      */
     public void setFinancialDocumentChangeOutAmount(KualiDecimal financialDocumentChangeOutAmount) {
@@ -301,7 +301,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the nextCheckLineNumber attribute.
      * 
-     * @param - nextCheckLineNumber The nextCheckLineNumber to set.
+     * @param nextCheckLineNumber The nextCheckLineNumber to set.
      * 
      */
     public void setNextCheckLineNumber(Integer nextCheckLineNumber) {
@@ -322,7 +322,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the nextAdvanceDepositLineNumber attribute.
      * 
-     * @param - nextAdvanceDepositLineNumber The nextAdvanceDepositLineNumber to set.
+     * @param nextAdvanceDepositLineNumber The nextAdvanceDepositLineNumber to set.
      * 
      */
     public void setNextAdvanceDepositLineNumber(Integer nextAdvanceDepositLineNumber) {
@@ -343,7 +343,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Sets the nextRevolvingFundLineNumber attribute.
      * 
-     * @param - nextRevolvingFundLineNumber The nextRevolvingFundLineNumber to set.
+     * @param nextRevolvingFundLineNumber The nextRevolvingFundLineNumber to set.
      * 
      */
     public void setNextRevolvingFundLineNumber(Integer nextRevolvingFundLineNumber) {

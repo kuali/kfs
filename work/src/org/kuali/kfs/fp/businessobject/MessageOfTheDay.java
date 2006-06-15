@@ -57,7 +57,7 @@ public class MessageOfTheDay extends BusinessObjectBase {
     /**
      * Sets the financialSystemOriginationCode attribute.
      * 
-     * @param - financialSystemOriginationCode The financialSystemOriginationCode to set.
+     * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
      * 
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
@@ -78,7 +78,7 @@ public class MessageOfTheDay extends BusinessObjectBase {
     /**
      * Sets the financialSystemMessageOfTheDayText attribute.
      * 
-     * @param - financialSystemMessageOfTheDayText The financialSystemMessageOfTheDayText to set.
+     * @param financialSystemMessageOfTheDayText The financialSystemMessageOfTheDayText to set.
      * 
      */
     public void setFinancialSystemMessageOfTheDayText(String financialSystemMessageOfTheDayText) {

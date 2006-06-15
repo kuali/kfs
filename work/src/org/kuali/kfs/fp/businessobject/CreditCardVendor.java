@@ -86,7 +86,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardVendorNumber attribute.
      * 
-     * @param - financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
+     * @param financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
      * 
      */
     public void setFinancialDocumentCreditCardVendorNumber(String financialDocumentCreditCardVendorNumber) {
@@ -107,7 +107,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardVendorName attribute.
      * 
-     * @param - financialDocumentCreditCardVendorName The financialDocumentCreditCardVendorName to set.
+     * @param financialDocumentCreditCardVendorName The financialDocumentCreditCardVendorName to set.
      * 
      */
     public void setFinancialDocumentCreditCardVendorName(String financialDocumentCreditCardVendorName) {
@@ -128,7 +128,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardTypeCode attribute.
      * 
-     * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
+     * @param financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
      * 
      */
     public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
@@ -149,7 +149,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeFinancialChartOfAccountsCode attribute.
      * 
-     * @param - incomeFinancialChartOfAccountsCode The incomeFinancialChartOfAccountsCode to set.
+     * @param incomeFinancialChartOfAccountsCode The incomeFinancialChartOfAccountsCode to set.
      * 
      */
     public void setIncomeFinancialChartOfAccountsCode(String incomeFinancialChartOfAccountsCode) {
@@ -170,7 +170,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeAccountNumber attribute.
      * 
-     * @param - incomeAccountNumber The incomeAccountNumber to set.
+     * @param incomeAccountNumber The incomeAccountNumber to set.
      * 
      */
     public void setIncomeAccountNumber(String incomeAccountNumber) {
@@ -191,7 +191,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeFinancialObjectCode attribute.
      * 
-     * @param - incomeFinancialObjectCode The incomeFinancialObjectCode to set.
+     * @param incomeFinancialObjectCode The incomeFinancialObjectCode to set.
      * 
      */
     public void setIncomeFinancialObjectCode(String incomeFinancialObjectCode) {
@@ -212,7 +212,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeFinancialSubObjectCode attribute.
      * 
-     * @param - incomeFinancialSubObjectCode The incomeFinancialSubObjectCode to set.
+     * @param incomeFinancialSubObjectCode The incomeFinancialSubObjectCode to set.
      * 
      */
     public void setIncomeFinancialSubObjectCode(String incomeFinancialSubObjectCode) {
@@ -233,7 +233,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeSubAccountNumber attribute.
      * 
-     * @param - incomeSubAccountNumber The incomeSubAccountNumber to set.
+     * @param incomeSubAccountNumber The incomeSubAccountNumber to set.
      * 
      */
     public void setIncomeSubAccountNumber(String incomeSubAccountNumber) {
@@ -254,7 +254,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseFinancialChartOfAccountsCode attribute.
      * 
-     * @param - expenseFinancialChartOfAccountsCode The expenseFinancialChartOfAccountsCode to set.
+     * @param expenseFinancialChartOfAccountsCode The expenseFinancialChartOfAccountsCode to set.
      * 
      */
     public void setExpenseFinancialChartOfAccountsCode(String expenseFinancialChartOfAccountsCode) {
@@ -275,7 +275,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseAccountNumber attribute.
      * 
-     * @param - expenseAccountNumber The expenseAccountNumber to set.
+     * @param expenseAccountNumber The expenseAccountNumber to set.
      * 
      */
     public void setExpenseAccountNumber(String expenseAccountNumber) {
@@ -296,7 +296,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseFinancialObjectCode attribute.
      * 
-     * @param - expenseFinancialObjectCode The expenseFinancialObjectCode to set.
+     * @param expenseFinancialObjectCode The expenseFinancialObjectCode to set.
      * 
      */
     public void setExpenseFinancialObjectCode(String expenseFinancialObjectCode) {
@@ -317,7 +317,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseFinancialSubObjectCd attribute.
      * 
-     * @param - expenseFinancialSubObjectCd The expenseFinancialSubObjectCd to set.
+     * @param expenseFinancialSubObjectCd The expenseFinancialSubObjectCd to set.
      * 
      */
     public void setExpenseFinancialSubObjectCode(String expenseFinancialSubObjectCode) {
@@ -338,7 +338,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseSubAccountNumber attribute.
      * 
-     * @param - expenseSubAccountNumber The expenseSubAccountNumber to set.
+     * @param expenseSubAccountNumber The expenseSubAccountNumber to set.
      * 
      */
     public void setExpenseSubAccountNumber(String expenseSubAccountNumber) {
@@ -359,7 +359,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeFinancialChartOfAccounts attribute.
      * 
-     * @param - incomeFinancialChartOfAccounts The incomeFinancialChartOfAccounts to set.
+     * @param incomeFinancialChartOfAccounts The incomeFinancialChartOfAccounts to set.
      * @deprecated
      */
     public void setIncomeFinancialChartOfAccounts(Chart incomeFinancialChartOfAccounts) {
@@ -379,7 +379,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeFinancialObject attribute.
      * 
-     * @param - incomeFinancialObject The incomeFinancialObject to set.
+     * @param incomeFinancialObject The incomeFinancialObject to set.
      * @deprecated
      */
     public void setIncomeFinancialObject(ObjectCodeCurrent incomeFinancialObject) {
@@ -399,7 +399,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the incomeAccount attribute.
      * 
-     * @param - incomeAccount The incomeAccount to set.
+     * @param incomeAccount The incomeAccount to set.
      * @deprecated
      */
     public void setIncomeAccount(Account incomeAccount) {
@@ -419,7 +419,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseFinancialChartOfAccounts attribute.
      * 
-     * @param - expenseFinancialChartOfAccounts The expenseFinancialChartOfAccounts to set.
+     * @param expenseFinancialChartOfAccounts The expenseFinancialChartOfAccounts to set.
      * @deprecated
      */
     public void setExpenseFinancialChartOfAccounts(Chart expenseFinancialChartOfAccounts) {
@@ -439,7 +439,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseFinancialObject attribute.
      * 
-     * @param - expenseFinancialObject The expenseFinancialObject to set.
+     * @param expenseFinancialObject The expenseFinancialObject to set.
      * @deprecated
      */
     public void setExpenseFinancialObject(ObjectCodeCurrent expenseFinancialObject) {
@@ -459,7 +459,7 @@ public class CreditCardVendor extends BusinessObjectBase {
     /**
      * Sets the expenseAccount attribute.
      * 
-     * @param - expenseAccount The expenseAccount to set.
+     * @param expenseAccount The expenseAccount to set.
      * @deprecated
      */
     public void setExpenseAccount(Account expenseAccount) {

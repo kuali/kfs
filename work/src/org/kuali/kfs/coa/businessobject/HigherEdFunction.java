@@ -64,7 +64,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Sets the financialHigherEdFunctionCd attribute.
      * 
-     * @param - financialHigherEdFunctionCd The financialHigherEdFunctionCd to set.
+     * @param financialHigherEdFunctionCd The financialHigherEdFunctionCd to set.
      * 
      */
     public void setFinancialHigherEdFunctionCd(String financialHigherEdFunctionCd) {
@@ -84,7 +84,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Sets the financialHigherEdFunctionNm attribute.
      * 
-     * @param - financialHigherEdFunctionNm The financialHigherEdFunctionNm to set.
+     * @param financialHigherEdFunctionNm The financialHigherEdFunctionNm to set.
      * 
      */
     public void setFinancialHigherEdFunctionNm(String financialHigherEdFunctionNm) {
@@ -104,7 +104,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Sets the finUnivBdgtOfficeFunctionCd attribute.
      * 
-     * @param - finUnivBdgtOfficeFunctionCd The finUnivBdgtOfficeFunctionCd to set.
+     * @param finUnivBdgtOfficeFunctionCd The finUnivBdgtOfficeFunctionCd to set.
      * 
      */
     public void setFinUnivBdgtOfficeFunctionCd(String finUnivBdgtOfficeFunctionCd) {
@@ -124,7 +124,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Sets the finAicpaFunctionCode attribute.
      * 
-     * @param - finAicpaFunctionCode The finAicpaFunctionCode to set.
+     * @param finAicpaFunctionCode The finAicpaFunctionCode to set.
      * 
      */
     public void setFinAicpaFunctionCode(String finAicpaFunctionCode) {
@@ -144,7 +144,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Sets the financialFederalFunctionCode attribute.
      * 
-     * @param - financialFederalFunctionCode The financialFederalFunctionCode to set.
+     * @param financialFederalFunctionCode The financialFederalFunctionCode to set.
      * 
      */
     public void setFinancialFederalFunctionCode(String financialFederalFunctionCode) {

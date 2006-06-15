@@ -57,7 +57,7 @@ public class ProposalPurpose extends BusinessObjectBase {
     /**
      * Sets the proposalPurposeCode attribute.
      * 
-     * @param - proposalPurposeCode The proposalPurposeCode to set.
+     * @param proposalPurposeCode The proposalPurposeCode to set.
      * 
      */
     public void setProposalPurposeCode(String proposalPurposeCode) {
@@ -78,7 +78,7 @@ public class ProposalPurpose extends BusinessObjectBase {
     /**
      * Sets the proposalPurposeDescription attribute.
      * 
-     * @param - proposalPurposeDescription The proposalPurposeDescription to set.
+     * @param proposalPurposeDescription The proposalPurposeDescription to set.
      * 
      */
     public void setProposalPurposeDescription(String proposalPurposeDescription) {

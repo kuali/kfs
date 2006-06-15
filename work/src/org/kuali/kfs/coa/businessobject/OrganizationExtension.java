@@ -105,7 +105,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -126,7 +126,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the organizationCode attribute.
      * 
-     * @param - organizationCode The organizationCode to set.
+     * @param organizationCode The organizationCode to set.
      * 
      */
     public void setOrganizationCode(String organizationCode) {
@@ -147,7 +147,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsShortDescription attribute.
      * 
-     * @param - hrmsShortDescription The hrmsShortDescription to set.
+     * @param hrmsShortDescription The hrmsShortDescription to set.
      * 
      */
     public void setHrmsShortDescription(String hrmsShortDescription) {
@@ -168,7 +168,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsCompany attribute.
      * 
-     * @param - hrmsCompany The hrmsCompany to set.
+     * @param hrmsCompany The hrmsCompany to set.
      * 
      */
     public void setHrmsCompany(String hrmsCompany) {
@@ -189,7 +189,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsSetIdLocation attribute.
      * 
-     * @param - hrmsSetIdLocation The hrmsSetIdLocation to set.
+     * @param hrmsSetIdLocation The hrmsSetIdLocation to set.
      * 
      */
     public void setHrmsSetIdLocation(String hrmsSetIdLocation) {
@@ -210,7 +210,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsLocation attribute.
      * 
-     * @param - hrmsLocation The hrmsLocation to set.
+     * @param hrmsLocation The hrmsLocation to set.
      * 
      */
     public void setHrmsLocation(String hrmsLocation) {
@@ -231,7 +231,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsTaxLocationCode attribute.
      * 
-     * @param - hrmsTaxLocationCode The hrmsTaxLocationCode to set.
+     * @param hrmsTaxLocationCode The hrmsTaxLocationCode to set.
      * 
      */
     public void setHrmsTaxLocationCode(String hrmsTaxLocationCode) {
@@ -252,7 +252,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsPersonnelApproverUniversalId attribute.
      * 
-     * @param - hrmsPersonnelApproverUniversalId The hrmsPersonnelApproverUniversalId to set.
+     * @param hrmsPersonnelApproverUniversalId The hrmsPersonnelApproverUniversalId to set.
      * 
      */
     public void setHrmsPersonnelApproverUniversalId(String hrmsPersonnelApproverUniversalId) {
@@ -273,7 +273,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsManagerPositionNumber attribute.
      * 
-     * @param - hrmsManagerPositionNumber The hrmsManagerPositionNumber to set.
+     * @param hrmsManagerPositionNumber The hrmsManagerPositionNumber to set.
      * 
      */
     public void setHrmsManagerPositionNumber(String hrmsManagerPositionNumber) {
@@ -294,7 +294,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsBudgetYearEndDate attribute.
      * 
-     * @param - hrmsBudgetYearEndDate The hrmsBudgetYearEndDate to set.
+     * @param hrmsBudgetYearEndDate The hrmsBudgetYearEndDate to set.
      * 
      */
     public void setHrmsBudgetYearEndDate(Integer hrmsBudgetYearEndDate) {
@@ -315,7 +315,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsBudgetLevel attribute.
      * 
-     * @param - hrmsBudgetLevel The hrmsBudgetLevel to set.
+     * @param hrmsBudgetLevel The hrmsBudgetLevel to set.
      * 
      */
     public void setHrmsBudgetLevel(String hrmsBudgetLevel) {
@@ -336,7 +336,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsGeneralLedgerExpense attribute.
      * 
-     * @param - hrmsGeneralLedgerExpense The hrmsGeneralLedgerExpense to set.
+     * @param hrmsGeneralLedgerExpense The hrmsGeneralLedgerExpense to set.
      * 
      */
     public void setHrmsGeneralLedgerExpense(String hrmsGeneralLedgerExpense) {
@@ -357,7 +357,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsEqualEmploymentOpportunity4Function attribute.
      * 
-     * @param - hrmsEqualEmploymentOpportunity4Function The hrmsEqualEmploymentOpportunity4Function to set.
+     * @param hrmsEqualEmploymentOpportunity4Function The hrmsEqualEmploymentOpportunity4Function to set.
      * 
      */
     public void setHrmsEqualEmploymentOpportunity4Function(String hrmsEqualEmploymentOpportunity4Function) {
@@ -378,7 +378,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsAccidentInsurance attribute.
      * 
-     * @param - hrmsAccidentInsurance The hrmsAccidentInsurance to set.
+     * @param hrmsAccidentInsurance The hrmsAccidentInsurance to set.
      * 
      */
     public void setHrmsAccidentInsurance(String hrmsAccidentInsurance) {
@@ -399,7 +399,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsSocialInsuranceAccidentNumber attribute.
      * 
-     * @param - hrmsSocialInsuranceAccidentNumber The hrmsSocialInsuranceAccidentNumber to set.
+     * @param hrmsSocialInsuranceAccidentNumber The hrmsSocialInsuranceAccidentNumber to set.
      * 
      */
     public void setHrmsSocialInsuranceAccidentNumber(String hrmsSocialInsuranceAccidentNumber) {
@@ -420,7 +420,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsHazard attribute.
      * 
-     * @param - hrmsHazard The hrmsHazard to set.
+     * @param hrmsHazard The hrmsHazard to set.
      * 
      */
     public void setHrmsHazard(String hrmsHazard) {
@@ -441,7 +441,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsEstablishmentId attribute.
      * 
-     * @param - hrmsEstablishmentId The hrmsEstablishmentId to set.
+     * @param hrmsEstablishmentId The hrmsEstablishmentId to set.
      * 
      */
     public void setHrmsEstablishmentId(String hrmsEstablishmentId) {
@@ -462,7 +462,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsRiskCode attribute.
      * 
-     * @param - hrmsRiskCode The hrmsRiskCode to set.
+     * @param hrmsRiskCode The hrmsRiskCode to set.
      * 
      */
     public void setHrmsRiskCode(String hrmsRiskCode) {
@@ -483,7 +483,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsFullTimeEmploymentEditIndicator attribute.
      * 
-     * @param - hrmsFullTimeEmploymentEditIndicator The hrmsFullTimeEmploymentEditIndicator to set.
+     * @param hrmsFullTimeEmploymentEditIndicator The hrmsFullTimeEmploymentEditIndicator to set.
      * 
      */
     public void setHrmsFullTimeEmploymentEditIndicator(String hrmsFullTimeEmploymentEditIndicator) {
@@ -504,7 +504,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsDepartmentTenureFlag attribute.
      * 
-     * @param - hrmsDepartmentTenureFlag The hrmsDepartmentTenureFlag to set.
+     * @param hrmsDepartmentTenureFlag The hrmsDepartmentTenureFlag to set.
      * 
      */
     public void setHrmsDepartmentTenureFlag(String hrmsDepartmentTenureFlag) {
@@ -525,7 +525,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsTimeAndLaborDistributionInformation attribute.
      * 
-     * @param - hrmsTimeAndLaborDistributionInformation The hrmsTimeAndLaborDistributionInformation to set.
+     * @param hrmsTimeAndLaborDistributionInformation The hrmsTimeAndLaborDistributionInformation to set.
      * 
      */
     public void setHrmsTimeAndLaborDistributionInformation(String hrmsTimeAndLaborDistributionInformation) {
@@ -546,7 +546,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsUseBudgetsIndicator attribute.
      * 
-     * @param - hrmsUseBudgetsIndicator The hrmsUseBudgetsIndicator to set.
+     * @param hrmsUseBudgetsIndicator The hrmsUseBudgetsIndicator to set.
      * 
      */
     public void setHrmsUseBudgetsIndicator(String hrmsUseBudgetsIndicator) {
@@ -567,7 +567,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsUseEncumbrancesIndicator attribute.
      * 
-     * @param - hrmsUseEncumbrancesIndicator The hrmsUseEncumbrancesIndicator to set.
+     * @param hrmsUseEncumbrancesIndicator The hrmsUseEncumbrancesIndicator to set.
      * 
      */
     public void setHrmsUseEncumbrancesIndicator(String hrmsUseEncumbrancesIndicator) {
@@ -588,7 +588,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsUseDistributionIndicator attribute.
      * 
-     * @param - hrmsUseDistributionIndicator The hrmsUseDistributionIndicator to set.
+     * @param hrmsUseDistributionIndicator The hrmsUseDistributionIndicator to set.
      * 
      */
     public void setHrmsUseDistributionIndicator(String hrmsUseDistributionIndicator) {
@@ -609,7 +609,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsBudgetDepartmentId attribute.
      * 
-     * @param - hrmsBudgetDepartmentId The hrmsBudgetDepartmentId to set.
+     * @param hrmsBudgetDepartmentId The hrmsBudgetDepartmentId to set.
      * 
      */
     public void setHrmsBudgetDepartmentId(String hrmsBudgetDepartmentId) {
@@ -630,7 +630,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsDistributionProrateOption attribute.
      * 
-     * @param - hrmsDistributionProrateOption The hrmsDistributionProrateOption to set.
+     * @param hrmsDistributionProrateOption The hrmsDistributionProrateOption to set.
      * 
      */
     public void setHrmsDistributionProrateOption(String hrmsDistributionProrateOption) {
@@ -651,7 +651,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsHealthProgramStatisticsDepartmentCode attribute.
      * 
-     * @param - hrmsHealthProgramStatisticsDepartmentCode The hrmsHealthProgramStatisticsDepartmentCode to set.
+     * @param hrmsHealthProgramStatisticsDepartmentCode The hrmsHealthProgramStatisticsDepartmentCode to set.
      * 
      */
     public void setHrmsHealthProgramStatisticsDepartmentCode(String hrmsHealthProgramStatisticsDepartmentCode) {
@@ -672,7 +672,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsHealthProgramStatisticsFaculty attribute.
      * 
-     * @param - hrmsHealthProgramStatisticsFaculty The hrmsHealthProgramStatisticsFaculty to set.
+     * @param hrmsHealthProgramStatisticsFaculty The hrmsHealthProgramStatisticsFaculty to set.
      * 
      */
     public void setHrmsHealthProgramStatisticsFaculty(String hrmsHealthProgramStatisticsFaculty) {
@@ -693,7 +693,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsAccountingOwner attribute.
      * 
-     * @param - hrmsAccountingOwner The hrmsAccountingOwner to set.
+     * @param hrmsAccountingOwner The hrmsAccountingOwner to set.
      * 
      */
     public void setHrmsAccountingOwner(String hrmsAccountingOwner) {
@@ -714,7 +714,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsCountryGroup attribute.
      * 
-     * @param - hrmsCountryGroup The hrmsCountryGroup to set.
+     * @param hrmsCountryGroup The hrmsCountryGroup to set.
      * 
      */
     public void setHrmsCountryGroup(String hrmsCountryGroup) {
@@ -735,7 +735,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuOrganizationMailDropCode attribute.
      * 
-     * @param - hrmsIuOrganizationMailDropCode The hrmsIuOrganizationMailDropCode to set.
+     * @param hrmsIuOrganizationMailDropCode The hrmsIuOrganizationMailDropCode to set.
      * 
      */
     public void setHrmsIuOrganizationMailDropCode(String hrmsIuOrganizationMailDropCode) {
@@ -756,7 +756,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuOrganizationAddress2 attribute.
      * 
-     * @param - hrmsIuOrganizationAddress2 The hrmsIuOrganizationAddress2 to set.
+     * @param hrmsIuOrganizationAddress2 The hrmsIuOrganizationAddress2 to set.
      * 
      */
     public void setHrmsIuOrganizationAddress2(String hrmsIuOrganizationAddress2) {
@@ -777,7 +777,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuOrganizationAddress3 attribute.
      * 
-     * @param - hrmsIuOrganizationAddress3 The hrmsIuOrganizationAddress3 to set.
+     * @param hrmsIuOrganizationAddress3 The hrmsIuOrganizationAddress3 to set.
      * 
      */
     public void setHrmsIuOrganizationAddress3(String hrmsIuOrganizationAddress3) {
@@ -798,7 +798,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuCampusCode attribute.
      * 
-     * @param - hrmsIuCampusCode The hrmsIuCampusCode to set.
+     * @param hrmsIuCampusCode The hrmsIuCampusCode to set.
      * 
      */
     public void setHrmsIuCampusCode(String hrmsIuCampusCode) {
@@ -819,7 +819,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuCampusBuilding attribute.
      * 
-     * @param - hrmsIuCampusBuilding The hrmsIuCampusBuilding to set.
+     * @param hrmsIuCampusBuilding The hrmsIuCampusBuilding to set.
      * 
      */
     public void setHrmsIuCampusBuilding(String hrmsIuCampusBuilding) {
@@ -840,7 +840,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuCampusRoom attribute.
      * 
-     * @param - hrmsIuCampusRoom The hrmsIuCampusRoom to set.
+     * @param hrmsIuCampusRoom The hrmsIuCampusRoom to set.
      * 
      */
     public void setHrmsIuCampusRoom(String hrmsIuCampusRoom) {
@@ -861,7 +861,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuPositionAllowedFlag attribute.
      * 
-     * @param - hrmsIuPositionAllowedFlag The hrmsIuPositionAllowedFlag to set.
+     * @param hrmsIuPositionAllowedFlag The hrmsIuPositionAllowedFlag to set.
      * 
      */
     public void setHrmsIuPositionAllowedFlag(String hrmsIuPositionAllowedFlag) {
@@ -882,7 +882,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuTenureAllowedFlag attribute.
      * 
-     * @param - hrmsIuTenureAllowedFlag The hrmsIuTenureAllowedFlag to set.
+     * @param hrmsIuTenureAllowedFlag The hrmsIuTenureAllowedFlag to set.
      * 
      */
     public void setHrmsIuTenureAllowedFlag(String hrmsIuTenureAllowedFlag) {
@@ -903,7 +903,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuTitleAllowedFlag attribute.
      * 
-     * @param - hrmsIuTitleAllowedFlag The hrmsIuTitleAllowedFlag to set.
+     * @param hrmsIuTitleAllowedFlag The hrmsIuTitleAllowedFlag to set.
      * 
      */
     public void setHrmsIuTitleAllowedFlag(String hrmsIuTitleAllowedFlag) {
@@ -924,7 +924,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuOccupationalUnitAllowedFlag attribute.
      * 
-     * @param - hrmsIuOccupationalUnitAllowedFlag The hrmsIuOccupationalUnitAllowedFlag to set.
+     * @param hrmsIuOccupationalUnitAllowedFlag The hrmsIuOccupationalUnitAllowedFlag to set.
      * 
      */
     public void setHrmsIuOccupationalUnitAllowedFlag(String hrmsIuOccupationalUnitAllowedFlag) {
@@ -945,7 +945,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the fiscalApproverUniversalId attribute.
      * 
-     * @param - fiscalApproverUniversalId The fiscalApproverUniversalId to set.
+     * @param fiscalApproverUniversalId The fiscalApproverUniversalId to set.
      * 
      */
     public void setFiscalApproverUniversalId(String fiscalApproverUniversalId) {
@@ -966,7 +966,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsLastUpdateDate attribute.
      * 
-     * @param - hrmsLastUpdateDate The hrmsLastUpdateDate to set.
+     * @param hrmsLastUpdateDate The hrmsLastUpdateDate to set.
      * 
      */
     public void setHrmsLastUpdateDate(Timestamp hrmsLastUpdateDate) {
@@ -987,7 +987,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -1007,7 +1007,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * @deprecated
      */
     public void setOrganization(Org organization) {
@@ -1027,7 +1027,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsPersonnelApproverUniversal attribute.
      * 
-     * @param - hrmsPersonnelApproverUniversal The hrmsPersonnelApproverUniversal to set.
+     * @param hrmsPersonnelApproverUniversal The hrmsPersonnelApproverUniversal to set.
      * @deprecated
      */
     public void setHrmsPersonnelApproverUniversal(UniversalUser hrmsPersonnelApproverUniversal) {
@@ -1047,7 +1047,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the hrmsIuCampus attribute.
      * 
-     * @param - hrmsIuCampus The hrmsIuCampus to set.
+     * @param hrmsIuCampus The hrmsIuCampus to set.
      * @deprecated
      */
     public void setHrmsIuCampus(Campus hrmsIuCampus) {
@@ -1067,7 +1067,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Sets the fiscalApproverUniversal attribute.
      * 
-     * @param - fiscalApproverUniversal The fiscalApproverUniversal to set.
+     * @param fiscalApproverUniversal The fiscalApproverUniversal to set.
      * @deprecated
      */
     public void setFiscalApproverUniversal(UniversalUser fiscalApproverUniversal) {

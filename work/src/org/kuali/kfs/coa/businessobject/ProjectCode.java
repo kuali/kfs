@@ -63,7 +63,7 @@ public class ProjectCode extends KualiCodeBase {
     /**
      * Sets the projectDescription attribute.
      * 
-     * @param - projectDescription The projectDescription to set.
+     * @param projectDescription The projectDescription to set.
      * 
      */
     public void setProjectDescription(String projectDescription) {
@@ -83,7 +83,7 @@ public class ProjectCode extends KualiCodeBase {
     /**
      * Sets the projectManagerUniversal attribute.
      * 
-     * @param - projectManagerUniversal The projectManagerUniversal to set.
+     * @param projectManagerUniversal The projectManagerUniversal to set.
      * 
      */
     public void setProjectManagerUniversal(KualiUser projectManagerUniversal) {
@@ -103,7 +103,7 @@ public class ProjectCode extends KualiCodeBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * 
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -123,7 +123,7 @@ public class ProjectCode extends KualiCodeBase {
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * 
      */
     public void setOrganization(Org organization) {

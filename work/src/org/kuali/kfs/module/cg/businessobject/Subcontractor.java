@@ -63,7 +63,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorNumber attribute.
      * 
-     * @param - subcontractorNumber The subcontractorNumber to set.
+     * @param subcontractorNumber The subcontractorNumber to set.
      * 
      */
     public void setSubcontractorNumber(String subcontractorNumber) {
@@ -83,7 +83,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorName attribute.
      * 
-     * @param - subcontractorName The subcontractorName to set.
+     * @param subcontractorName The subcontractorName to set.
      * 
      */
     public void setSubcontractorName(String subcontractorName) {
@@ -103,7 +103,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorAddressLine1 attribute.
      * 
-     * @param - subcontractorAddressLine1 The subcontractorAddressLine1 to set.
+     * @param subcontractorAddressLine1 The subcontractorAddressLine1 to set.
      * 
      */
     public void setSubcontractorAddressLine1(String subcontractorAddressLine1) {
@@ -123,7 +123,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorAddressLine2 attribute.
      * 
-     * @param - subcontractorAddressLine2 The subcontractorAddressLine2 to set.
+     * @param subcontractorAddressLine2 The subcontractorAddressLine2 to set.
      * 
      */
     public void setSubcontractorAddressLine2(String subcontractorAddressLine2) {
@@ -143,7 +143,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorCity attribute.
      * 
-     * @param - subcontractorCity The subcontractorCity to set.
+     * @param subcontractorCity The subcontractorCity to set.
      * 
      */
     public void setSubcontractorCity(String subcontractorCity) {
@@ -181,7 +181,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorZipCode attribute.
      * 
-     * @param - subcontractorZipCode The subcontractorZipCode to set.
+     * @param subcontractorZipCode The subcontractorZipCode to set.
      * 
      */
     public void setSubcontractorZipCode(String subcontractorZipCode) {
@@ -201,7 +201,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Sets the subcontractorCountryCode attribute.
      * 
-     * @param - subcontractorCountryCode The subcontractorCountryCode to set.
+     * @param subcontractorCountryCode The subcontractorCountryCode to set.
      * 
      */
     public void setSubcontractorCountryCode(String subcontractorCountryCode) {

@@ -119,7 +119,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Sets the finConsolidationObjectName attribute.
      * 
-     * @param - finConsolidationObjectName The finConsolidationObjectName to set.
+     * @param finConsolidationObjectName The finConsolidationObjectName to set.
      * 
      */
     public void setFinConsolidationObjectName(String finConsolidationObjectName) {
@@ -139,7 +139,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Sets the finConsolidationObjShortName attribute.
      * 
-     * @param - finConsolidationObjShortName The finConsolidationObjShortName to set.
+     * @param finConsolidationObjShortName The finConsolidationObjShortName to set.
      * 
      */
     public void setFinConsolidationObjShortName(String finConsolidationObjShortName) {
@@ -159,7 +159,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Sets the finConsolidationObjActiveIndicator attribute.
      * 
-     * @param - finConsolidationObjActiveIndicator The finConsolidationObjActiveIndicator to set.
+     * @param finConsolidationObjActiveIndicator The finConsolidationObjActiveIndicator to set.
      * 
      */
     public void setFinConsolidationObjActiveIndicator(boolean finConsolidationObjActiveIndicator) {
@@ -179,7 +179,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Sets the financialReportingSortCode attribute.
      * 
-     * @param - financialReportingSortCode The financialReportingSortCode to set.
+     * @param financialReportingSortCode The financialReportingSortCode to set.
      * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
@@ -199,7 +199,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {

@@ -66,7 +66,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the customerCreditCardNumber attribute.
      * 
-     * @param - customerCreditCardNumber The customerCreditCardNumber to set.
+     * @param customerCreditCardNumber The customerCreditCardNumber to set.
      * 
      */
     public void setCustomerCreditCardNumber(String customerCreditCardNumber) {
@@ -87,7 +87,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the customerCreditCardHolderName attribute.
      * 
-     * @param - customerCreditCardHolderName The customerCreditCardHolderName to set.
+     * @param customerCreditCardHolderName The customerCreditCardHolderName to set.
      * 
      */
     public void setCustomerCreditCardHolderName(String customerCreditCardHolderName) {
@@ -108,7 +108,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the customerCreditCardIssuerName attribute.
      * 
-     * @param - customerCreditCardIssuerName The customerCreditCardIssuerName to set.
+     * @param customerCreditCardIssuerName The customerCreditCardIssuerName to set.
      * 
      */
     public void setCustomerCreditCardIssuerName(String customerCreditCardIssuerName) {
@@ -129,7 +129,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardTypeCode attribute.
      * 
-     * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
+     * @param financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
      * 
      */
     public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
@@ -150,7 +150,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the customerCreditCardExpenditureDate attribute.
      * 
-     * @param - customerCreditCardExpenditureDate The customerCreditCardExpenditureDate to set.
+     * @param customerCreditCardExpenditureDate The customerCreditCardExpenditureDate to set.
      * 
      */
     public void setCustomerCreditCardExpenditureDate(Date customerCreditCardExpenditureDate) {
@@ -171,7 +171,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the customerNumber attribute.
      * 
-     * @param - customerNumber The customerNumber to set.
+     * @param customerNumber The customerNumber to set.
      * 
      */
     public void setCustomerNumber(String customerNumber) {
@@ -192,7 +192,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardVendorNumber attribute.
      * 
-     * @param - financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
+     * @param financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
      * 
      */
     public void setFinancialDocumentCreditCardVendorNumber(String financialDocumentCreditCardVendorNumber) {
@@ -213,7 +213,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the customerCreditCardInformationNoteText attribute.
      * 
-     * @param - customerCreditCardInformationNoteText The customerCreditCardInformationNoteText to set.
+     * @param customerCreditCardInformationNoteText The customerCreditCardInformationNoteText to set.
      * 
      */
     public void setCustomerCreditCardInformationNoteText(String customerCreditCardInformationNoteText) {
@@ -234,7 +234,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardVendor attribute.
      * 
-     * @param - financialDocumentCreditCardVendor The financialDocumentCreditCardVendor to set.
+     * @param financialDocumentCreditCardVendor The financialDocumentCreditCardVendor to set.
      * @deprecated
      */
     public void setFinancialDocumentCreditCardVendor(CreditCardVendor financialDocumentCreditCardVendor) {

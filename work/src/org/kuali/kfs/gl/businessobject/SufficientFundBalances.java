@@ -190,7 +190,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -211,7 +211,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -232,7 +232,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -253,7 +253,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param financialObjectCode The financialObjectCode to set.
      * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -274,7 +274,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the accountSufficientFundsCode attribute.
      * 
-     * @param - accountSufficientFundsCode The accountSufficientFundsCode to set.
+     * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
      * 
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode) {
@@ -295,7 +295,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the currentBudgetBalanceAmount attribute.
      * 
-     * @param - currentBudgetBalanceAmount The currentBudgetBalanceAmount to set.
+     * @param currentBudgetBalanceAmount The currentBudgetBalanceAmount to set.
      * 
      */
     public void setCurrentBudgetBalanceAmount(KualiDecimal currentBudgetBalanceAmount) {
@@ -316,7 +316,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the accountActualExpenditureAmt attribute.
      * 
-     * @param - accountActualExpenditureAmt The accountActualExpenditureAmt to set.
+     * @param accountActualExpenditureAmt The accountActualExpenditureAmt to set.
      * 
      */
     public void setAccountActualExpenditureAmt(KualiDecimal accountActualExpenditureAmt) {
@@ -337,7 +337,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the accountEncumbranceAmount attribute.
      * 
-     * @param - accountEncumbranceAmount The accountEncumbranceAmount to set.
+     * @param accountEncumbranceAmount The accountEncumbranceAmount to set.
      * 
      */
     public void setAccountEncumbranceAmount(KualiDecimal accountEncumbranceAmount) {
@@ -358,7 +358,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the transactionDateTimeStamp attribute.
      * 
-     * @param - transactionDateTimeStamp The transactionDateTimeStamp to set.
+     * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
      * 
      */
     public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
@@ -379,7 +379,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the objectCode attribute.
      * 
-     * @param - objectCode The objectCode to set.
+     * @param objectCode The objectCode to set.
      * @deprecated
      */
     public void setObjectCode(ObjectCode objectCode) {
@@ -399,7 +399,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the chart attribute.
      * 
-     * @param - chart The chart to set.
+     * @param chart The chart to set.
      * @deprecated
      */
     public void setChart(Chart chart) {
@@ -419,7 +419,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {

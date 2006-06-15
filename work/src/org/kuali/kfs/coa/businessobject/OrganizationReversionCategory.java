@@ -58,7 +58,7 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
     /**
      * Sets the organizationReversionCategoryCode attribute.
      * 
-     * @param - organizationReversionCategoryCode The organizationReversionCategoryCode to set.
+     * @param organizationReversionCategoryCode The organizationReversionCategoryCode to set.
      * 
      */
     public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
@@ -79,7 +79,7 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
     /**
      * Sets the organizationReversionCategoryName attribute.
      * 
-     * @param - organizationReversionCategoryName The organizationReversionCategoryName to set.
+     * @param organizationReversionCategoryName The organizationReversionCategoryName to set.
      * 
      */
     public void setOrganizationReversionCategoryName(String organizationReversionCategoryName) {
@@ -100,7 +100,7 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
     /**
      * Sets the organizationReversionSortCode attribute.
      * 
-     * @param - organizationReversionSortCode The organizationReversionSortCode to set.
+     * @param organizationReversionSortCode The organizationReversionSortCode to set.
      * 
      */
     public void setOrganizationReversionSortCode(String organizationReversionSortCode) {

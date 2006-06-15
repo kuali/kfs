@@ -86,7 +86,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the finChartOfAccountDescription attribute.
      * 
-     * @param - finChartOfAccountDescription The finChartOfAccountDescription to set.
+     * @param finChartOfAccountDescription The finChartOfAccountDescription to set.
      * 
      */
     public void setFinChartOfAccountDescription(String finChartOfAccountDescription) {
@@ -106,7 +106,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the finChartOfAccountActiveIndicator attribute.
      * 
-     * @param - finChartOfAccountActiveIndicator The finChartOfAccountActiveIndicator to set.
+     * @param finChartOfAccountActiveIndicator The finChartOfAccountActiveIndicator to set.
      * 
      */
     public void setFinChartOfAccountActiveIndicator(boolean finChartOfAccountActiveIndicator) {
@@ -127,7 +127,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the finAccountsPayableObject attribute.
      * 
-     * @param - finAccountsPayableObject The finAccountsPayableObject to set.
+     * @param finAccountsPayableObject The finAccountsPayableObject to set.
      * @deprecated
      */
     public void setFinAccountsPayableObject(ObjectCode finAccountsPayableObject) {
@@ -167,7 +167,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the finPreEncumbranceObject attribute.
      * 
-     * @param - finPreEncumbranceObject The finPreEncumbranceObject to set.
+     * @param finPreEncumbranceObject The finPreEncumbranceObject to set.
      * @deprecated
      */
     public void setFinPreEncumbranceObject(ObjectCode finPreEncumbranceObject) {
@@ -187,7 +187,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the financialCashObject attribute.
      * 
-     * @param - financialCashObject The financialCashObject to set.
+     * @param financialCashObject The financialCashObject to set.
      * @deprecated
      */
     public void setFinancialCashObject(ObjectCode financialCashObject) {
@@ -207,7 +207,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the icrIncomeFinancialObject attribute.
      * 
-     * @param - icrIncomeFinancialObject The icrIncomeFinancialObject to set.
+     * @param icrIncomeFinancialObject The icrIncomeFinancialObject to set.
      * @deprecated
      */
     public void setIcrIncomeFinancialObject(ObjectCode icrIncomeFinancialObject) {
@@ -227,7 +227,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the finAccountsReceivableObj attribute.
      * 
-     * @param - finAccountsReceivableObj The finAccountsReceivableObj to set.
+     * @param finAccountsReceivableObj The finAccountsReceivableObj to set.
      * @deprecated
      */
     public void setFinAccountsReceivableObj(ObjectCode finAccountsReceivableObj) {
@@ -247,7 +247,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the finCoaManagerUniversal attribute.
      * 
-     * @param - finCoaManagerUniversal The finCoaManagerUniversal to set.
+     * @param finCoaManagerUniversal The finCoaManagerUniversal to set.
      * @deprecated
      */
     public void setFinCoaManagerUniversal(UniversalUser finCoaManagerUniversal) {
@@ -267,7 +267,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the reportsToChartOfAccounts attribute.
      * 
-     * @param - reportsToChartOfAccounts The reportsToChartOfAccounts to set.
+     * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
      * @deprecated
      */
     public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
@@ -536,7 +536,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the expBdgtEliminationsFinObjCd attribute.
      * 
-     * @param - expBdgtEliminationsFinObjCd The expBdgtEliminationsFinObjCd to set.
+     * @param expBdgtEliminationsFinObjCd The expBdgtEliminationsFinObjCd to set.
      */
     public void setExpBdgtEliminationsFinObjCd(String expBdgtEliminationsFinObjCd) {
         this.expBdgtEliminationsFinObjCd = expBdgtEliminationsFinObjCd;
@@ -554,7 +554,7 @@ public class Chart extends BusinessObjectBase {
     /**
      * Sets the incBdgtEliminationsFinObjCd attribute.
      * 
-     * @param - incBdgtEliminationsFinObjCd The incBdgtEliminationsFinObjCd to set.
+     * @param incBdgtEliminationsFinObjCd The incBdgtEliminationsFinObjCd to set.
      */
     public void setIncBdgtEliminationsFinObjCd(String incBdgtEliminationsFinObjCd) {
         this.incBdgtEliminationsFinObjCd = incBdgtEliminationsFinObjCd;

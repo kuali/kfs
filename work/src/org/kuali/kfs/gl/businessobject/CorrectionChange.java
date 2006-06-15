@@ -66,7 +66,7 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -87,7 +87,7 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     /**
      * Sets the correctionChangeGroupLineNumber attribute.
      * 
-     * @param - correctionChangeGroupLineNumber The correctionChangeGroupLineNumber to set.
+     * @param correctionChangeGroupLineNumber The correctionChangeGroupLineNumber to set.
      * 
      */
     public void setCorrectionChangeGroupLineNumber(Integer correctionChangeGroupLineNumber) {
@@ -108,7 +108,7 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     /**
      * Sets the correctionChangeLineNumber attribute.
      * 
-     * @param - correctionChangeLineNumber The correctionChangeLineNumber to set.
+     * @param correctionChangeLineNumber The correctionChangeLineNumber to set.
      * 
      */
     public void setCorrectionChangeLineNumber(Integer correctionChangeLineNumber) {
@@ -129,7 +129,7 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     /**
      * Sets the correctionStartPosition attribute.
      * 
-     * @param - correctionStartPosition The correctionStartPosition to set.
+     * @param correctionStartPosition The correctionStartPosition to set.
      * 
      */
     public void setCorrectionStartPosition(Integer correctionStartPosition) {
@@ -150,7 +150,7 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     /**
      * Sets the correctionEndPosition attribute.
      * 
-     * @param - correctionEndPosition The correctionEndPosition to set.
+     * @param correctionEndPosition The correctionEndPosition to set.
      * 
      */
     public void setCorrectionEndPosition(Integer correctionEndPosition) {
@@ -171,7 +171,7 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     /**
      * Sets the correctionFieldValue attribute.
      * 
-     * @param - correctionFieldValue The correctionFieldValue to set.
+     * @param correctionFieldValue The correctionFieldValue to set.
      * 
      */
     public void setCorrectionFieldValue(String correctionFieldValue) {

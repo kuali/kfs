@@ -73,7 +73,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -93,7 +93,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the universityFiscal attribute.
      * 
-     * @param - universityFiscal The universityFiscal to set.
+     * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
     public void setUniversityFiscal(Options universityFiscal) {
@@ -114,7 +114,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the financialDocumentTypeCode attribute.
      * 
-     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -134,7 +134,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the financialBalanceTypeCode attribute.
      * 
-     * @param - financialBalanceTypeCode The financialBalanceTypeCode to set.
+     * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      * 
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -174,7 +174,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -194,7 +194,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the financialObject attribute.
      * 
-     * @param - financialObject The financialObject to set.
+     * @param financialObject The financialObject to set.
      * @deprecated
      */
     public void setFinancialObject(ObjectCode financialObject) {
@@ -215,7 +215,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -236,7 +236,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccounts to set.
+     * @param chartOfAccountsCode The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {

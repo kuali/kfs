@@ -66,7 +66,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -87,7 +87,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -108,7 +108,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Sets the positionBenefitTypeCode attribute.
      * 
-     * @param - positionBenefitTypeCode The positionBenefitTypeCode to set.
+     * @param positionBenefitTypeCode The positionBenefitTypeCode to set.
      * 
      */
     public void setPositionBenefitTypeCode(String positionBenefitTypeCode) {
@@ -129,7 +129,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Sets the positionFringeBenefitPercent attribute.
      * 
-     * @param - positionFringeBenefitPercent The positionFringeBenefitPercent to set.
+     * @param positionFringeBenefitPercent The positionFringeBenefitPercent to set.
      * 
      */
     public void setPositionFringeBenefitPercent(Integer positionFringeBenefitPercent) {
@@ -150,7 +150,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Sets the positionFringeBenefitObjectCode attribute.
      * 
-     * @param - positionFringeBenefitObjectCode The positionFringeBenefitObjectCode to set.
+     * @param positionFringeBenefitObjectCode The positionFringeBenefitObjectCode to set.
      * 
      */
     public void setPositionFringeBenefitObjectCode(String positionFringeBenefitObjectCode) {
@@ -171,7 +171,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Sets the positionFringeBenefitObject attribute.
      * 
-     * @param - positionFringeBenefitObject The positionFringeBenefitObject to set.
+     * @param positionFringeBenefitObject The positionFringeBenefitObject to set.
      * @deprecated
      */
     public void setPositionFringeBenefitObject(ObjectCode positionFringeBenefitObject) {
@@ -191,7 +191,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {

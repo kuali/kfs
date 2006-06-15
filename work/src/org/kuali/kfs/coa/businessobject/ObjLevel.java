@@ -68,7 +68,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Sets the financialObjectLevelCode attribute.
      * 
-     * @param - financialObjectLevelCode The financialObjectLevelCode to set.
+     * @param financialObjectLevelCode The financialObjectLevelCode to set.
      * 
      */
     public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
@@ -88,7 +88,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Sets the financialObjectLevelName attribute.
      * 
-     * @param - financialObjectLevelName The financialObjectLevelName to set.
+     * @param financialObjectLevelName The financialObjectLevelName to set.
      * 
      */
     public void setFinancialObjectLevelName(String financialObjectLevelName) {
@@ -108,7 +108,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Sets the financialObjectLevelShortNm attribute.
      * 
-     * @param - financialObjectLevelShortNm The financialObjectLevelShortNm to set.
+     * @param financialObjectLevelShortNm The financialObjectLevelShortNm to set.
      * 
      */
     public void setFinancialObjectLevelShortNm(String financialObjectLevelShortNm) {
@@ -128,7 +128,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Sets the financialObjectLevelActiveIndicator attribute.
      * 
-     * @param - financialObjectLevelActiveIndicator The financialObjectLevelActiveIndicator to set.
+     * @param financialObjectLevelActiveIndicator The financialObjectLevelActiveIndicator to set.
      * 
      */
     public void setFinancialObjectLevelActiveIndicator(boolean financialObjectLevelActiveIndicator) {
@@ -148,7 +148,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Sets the financialReportingSortCode attribute.
      * 
-     * @param - financialReportingSortCode The financialReportingSortCode to set.
+     * @param financialReportingSortCode The financialReportingSortCode to set.
      * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
@@ -173,7 +173,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Sets the financialConsolidationObject attribute.
      * 
-     * @param - financialConsolidationObject The financialConsolidationObject to set.
+     * @param financialConsolidationObject The financialConsolidationObject to set.
      * 
      */
     public void setFinancialConsolidationObject(ObjectCons financialConsolidationObject) {
@@ -197,7 +197,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {

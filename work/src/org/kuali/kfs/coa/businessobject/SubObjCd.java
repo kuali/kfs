@@ -78,7 +78,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -110,7 +110,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Sets the financialSubObjectCodeName attribute.
      * 
-     * @param - financialSubObjectCodeName The financialSubObjectCodeName to set.
+     * @param financialSubObjectCodeName The financialSubObjectCodeName to set.
      * 
      */
     public void setFinancialSubObjectCodeName(String financialSubObjectCodeName) {
@@ -130,7 +130,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Sets the financialSubObjectCdshortNm attribute.
      * 
-     * @param - financialSubObjectCdshortNm The financialSubObjectCdshortNm to set.
+     * @param financialSubObjectCdshortNm The financialSubObjectCdshortNm to set.
      * 
      */
     public void setFinancialSubObjectCdshortNm(String financialSubObjectCdshortNm) {
@@ -150,7 +150,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Sets the financialSubObjectActiveIndicator attribute.
      * 
-     * @param - financialSubObjectActiveIndicator The financialSubObjectActiveIndicator to set.
+     * @param financialSubObjectActiveIndicator The financialSubObjectActiveIndicator to set.
      * 
      */
     public void setFinancialSubObjectActiveIndicator(boolean financialSubObjectActiveIndicator) {
@@ -170,7 +170,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Sets the universityFiscal attribute.
      * 
-     * @param - universityFiscal The universityFiscal to set.
+     * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
     public void setUniversityFiscal(Options universityFiscal) {
@@ -190,7 +190,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -210,7 +210,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {

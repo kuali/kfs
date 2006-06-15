@@ -64,7 +64,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -85,7 +85,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Sets the finDocumentNextFromLineNbr attribute.
      * 
-     * @param - finDocumentNextFromLineNbr The finDocumentNextFromLineNbr to set.
+     * @param finDocumentNextFromLineNbr The finDocumentNextFromLineNbr to set.
      * 
      */
     public void setFinDocumentNextFromLineNbr(Integer finDocumentNextFromLineNbr) {
@@ -106,7 +106,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Sets the finDocumentNextToLineNumber attribute.
      * 
-     * @param - finDocumentNextToLineNumber The finDocumentNextToLineNumber to set.
+     * @param finDocumentNextToLineNumber The finDocumentNextToLineNumber to set.
      * 
      */
     public void setFinDocumentNextToLineNumber(Integer finDocumentNextToLineNumber) {
@@ -127,7 +127,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Sets the financialDocumentPostingYear attribute.
      * 
-     * @param - financialDocumentPostingYear The financialDocumentPostingYear to set.
+     * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
      * 
      */
     public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
@@ -148,7 +148,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Sets the finDocumentPostingPeriodCode attribute.
      * 
-     * @param - finDocumentPostingPeriodCode The finDocumentPostingPeriodCode to set.
+     * @param finDocumentPostingPeriodCode The finDocumentPostingPeriodCode to set.
      * 
      */
     public void setFinDocumentPostingPeriodCode(String finDocumentPostingPeriodCode) {
@@ -169,7 +169,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Sets the finDocumentExplanationText attribute.
      * 
-     * @param - finDocumentExplanationText The finDocumentExplanationText to set.
+     * @param finDocumentExplanationText The finDocumentExplanationText to set.
      * 
      */
     public void setFinDocumentExplanationText(String finDocumentExplanationText) {
@@ -190,7 +190,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Sets the financialDocument attribute.
      * 
-     * @param - financialDocument The financialDocument to set.
+     * @param financialDocument The financialDocument to set.
      * @deprecated
      */
     public void setFinancialDocument(DocumentHeader financialDocument) {

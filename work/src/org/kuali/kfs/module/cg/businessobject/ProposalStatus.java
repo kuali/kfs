@@ -57,7 +57,7 @@ public class ProposalStatus extends BusinessObjectBase {
     /**
      * Sets the proposalStatusCode attribute.
      * 
-     * @param - proposalStatusCode The proposalStatusCode to set.
+     * @param proposalStatusCode The proposalStatusCode to set.
      * 
      */
     public void setProposalStatusCode(String proposalStatusCode) {
@@ -78,7 +78,7 @@ public class ProposalStatus extends BusinessObjectBase {
     /**
      * Sets the proposalStatusDescription attribute.
      * 
-     * @param - proposalStatusDescription The proposalStatusDescription to set.
+     * @param proposalStatusDescription The proposalStatusDescription to set.
      * 
      */
     public void setProposalStatusDescription(String proposalStatusDescription) {

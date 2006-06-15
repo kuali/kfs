@@ -57,7 +57,7 @@ public class CreditCardType extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardTypeCode attribute.
      * 
-     * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
+     * @param financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
      * 
      */
     public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
@@ -78,7 +78,7 @@ public class CreditCardType extends BusinessObjectBase {
     /**
      * Sets the financialDocumentCreditCardCompanyName attribute.
      * 
-     * @param - financialDocumentCreditCardCompanyName The financialDocumentCreditCardCompanyName to set.
+     * @param financialDocumentCreditCardCompanyName The financialDocumentCreditCardCompanyName to set.
      * 
      */
     public void setFinancialDocumentCreditCardCompanyName(String financialDocumentCreditCardCompanyName) {

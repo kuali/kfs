@@ -60,7 +60,7 @@ public class AicpaFunction extends BusinessObjectBase {
     /**
      * Sets the financialAicpaFunctionCode attribute.
      * 
-     * @param - financialAicpaFunctionCode The financialAicpaFunctionCode to set.
+     * @param financialAicpaFunctionCode The financialAicpaFunctionCode to set.
      * 
      */
     public void setFinancialAicpaFunctionCode(String financialAicpaFunctionCode) {
@@ -81,7 +81,7 @@ public class AicpaFunction extends BusinessObjectBase {
     /**
      * Sets the financialAicpaFunctionName attribute.
      * 
-     * @param - financialAicpaFunctionName The financialAicpaFunctionName to set.
+     * @param financialAicpaFunctionName The financialAicpaFunctionName to set.
      * 
      */
     public void setFinancialAicpaFunctionName(String financialAicpaFunctionName) {

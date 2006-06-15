@@ -1275,14 +1275,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     public void testOffsetGenerationAcrossMultipleSubAccountNumbers() throws Exception {
 
         // This is here because the test works in dev but not under anthill
-        List data = unitTestSqlDao.sqlSelect("select * from CA_SUB_ACCT_T where account_nbr = '1031400'");
-        for (Iterator iter = data.iterator(); iter.hasNext();) {
-            Map element = (Map)iter.next();
-            for (Iterator iterator = element.keySet().iterator(); iterator.hasNext();) {
-                String name = (String) iterator.next();
-                System.err.println(name+"="+element.get(name)+",");
-            }
-        }
+        System.err.println("testOffsetGenerationAcrossMultipleSubAccountNumbers()");
+        System.err.println("Flexible Offset Flag: " + kualiConfigurationService.getApplicationParameterIndicator("SYSTEM", "FLEXIBLE_OFFSET_ENABLED_FLAG"));
         
         String[] input = new String[] {
                 "2004BL1031400ADV  5000---ACEX07TOPSLGOFFSETSAC00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                                                  ",
@@ -1304,6 +1298,10 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     public void testOffsetGenerationAcrossMultipleDocumentNumbers() throws Exception {
 
+        // This is here because the test works in dev but not under anthill
+        System.err.println("testOffsetGenerationAcrossMultipleDocumentNumbers()");
+        System.err.println("Flexible Offset Flag: " + kualiConfigurationService.getApplicationParameterIndicator("SYSTEM", "FLEXIBLE_OFFSET_ENABLED_FLAG"));
+        
         String[] input = new String[] {
                 "2004BA6044913-----1466---ACIC07AVAD01OFFSETDC100000online permit sales for 01/03/06                   240.00D2006-01-05          ----------                                                                  ",
                 "2004BA6044913-----5000---ACEX07AVAD01OFFSETDC100000online permit sales for 01/03/06                  3880.00C2006-01-05          ----------                                                                  ",

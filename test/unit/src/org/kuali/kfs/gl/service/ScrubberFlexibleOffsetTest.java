@@ -59,7 +59,6 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     private DocumentTypeService documentTypeService;
     private ScrubberService scrubberService;
     private KualiConfigurationService originalConfigService;
-    private OriginEntryGroupService originEntryGroupService;
 
     public final Integer FISCAL_YEAR = new Integer(2004);
     public final String COA_CODE = "BL";
@@ -72,7 +71,6 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     public final String OBJECT_CODE = "4190";
     public final String BALANCE_TYPE_CODE = "AC";
     public final String DOCUMENT_TYPE_CODE = "PCDO";
-    public final KualiDecimal ENTRY_AMOUNT = new KualiDecimal(2000);
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -97,51 +95,39 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     }
 
     /**
-     * @see junit.framework.TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        // flexibleOffsetAccountService.setKualiConfigurationService(originalConfigService);
-        super.tearDown();
-    }
-
-    /**
      * test the primary scenario of flexible offset generation, that is, the given origin entry must have a flexible offset entry
      * generated.
      * 
      * @throws Exception
      */
     public void testFlexibleOffsetGeneration() throws Exception {
-        this.clearOriginEntryTables();
-        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
 
         // reset the preconditions of flexible offset generation so that they have the vaild values
-        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
         resetFlexibleOffsetEnableFlag(true);
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
-        // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
-        originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
+        String[] input = new String[] {
+                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  ",
+                "2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  ",
+        };
 
-        // mock origin entry that is NOT eligible for flexible offset generation
-        OriginEntry entryIneligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, "4021", BALANCE_TYPE_CODE, ENTRY_AMOUNT, "GEC", Constants.GL_DEBIT_CODE);
-        originEntryDao.saveOriginEntry(entryIneligibleForFlexibleOffset);
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004UA1912201-----8100---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
+        };
 
-        scrubberService.scrubEntries();
-
-        // fetch the origin entry that is generated through flexible offset logic
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
-        Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-
-        // One and only one flexible offset record should be generated
-        int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
-        assertTrue("One and only one flexible offset record should be generated.", numOfMatching == 1);
+        fail("I think this is wrong...there should be 2 offsets?");
+        scrub(input);
+        assertOriginEntries(4,output);
     }
 
     /**
-     * test the case when the global felxible offset enable flag is set to false. In this case, the offset generation must not be
+     * test the case when the global flexible offset enable flag is set to false. In this case, the offset generation must not be
      * executed, that is, there is no flexible offset entry generated.
      * 
      * @throws Exception
@@ -159,19 +145,18 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
-        // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
-        originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
+        String[] input = new String[] {
+                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
+        };
 
-        scrubberService.scrubEntries();
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8100---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
+        };
 
-        // fetch the origin entry that is generated through flexible offset logic
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
-        Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-
-        // No flexible offset record can be generated
-        int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
-        assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
+        scrub(input);
+        assertOriginEntries(4,output);
     }
 
     /**
@@ -194,24 +179,22 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
-        // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
-        originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
+        String[] input = new String[] {
+                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
+        };
 
-        scrubberService.scrubEntries();
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+        };
 
-        // fetch the origin entry that is generated through flexible offset logic
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
-        Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-
-        // No flexible offset record can be generated
-        int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
-        assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
+        scrub(input);
+        assertOriginEntries(4,output);
     }
 
     /**
-     * test the case when there is no corresponding offset account for the given origin entry. In this case, the offset generation
-     * must not be executed, that is, there is no flexible offset entry generated.
+     * test the case when there is no corresponding offset account for the given origin entry. In this case, the flexible offset generation
+     * must not be executed, that is, there is no flexible offset entry generated.  But there should be a non-flexible offset generated
      * 
      * @throws Exception
      */
@@ -226,21 +209,18 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
-        // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
-        entryEligibleForFlexibleOffset.setAccountNumber("6044913");
-        entryEligibleForFlexibleOffset.setChartOfAccountsCode("BA");
-        originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
+        String[] input = new String[] {
+                "2004BA6044913-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
+        };
 
-        scrubberService.scrubEntries();
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BA6044913-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----8000---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
+        };
 
-        // fetch the origin entry that is generated through flexible offset logic
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
-        Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-
-        // No flexible offset record can be generated
-        int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
-        assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
+        scrub(input);
+        assertOriginEntries(4,output);
     }
 
     /**
@@ -260,19 +240,18 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
-        // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, "GEC", Constants.GL_DEBIT_CODE);
-        originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
+        String[] input = new String[] {
+                "2004BL1031400-----4190---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
+        };
 
-        scrubberService.scrubEntries();
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
+        };
+        fail("I think this is wrong");
 
-        // fetch the origin entry that is generated through flexible offset logic
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
-        Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-
-        // No flexible offset record can be generated
-        int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
-        assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
+        scrub(input);
+        assertOriginEntries(4,output);
     }
 
     /**
@@ -382,112 +361,10 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         businessObjectService.save(businessObject);
     }
 
-    // put the given entry information into the origin entry template and generate the origin entry
-    private OriginEntry getOriginEntryFromTemplate(OriginEntryGroup group, String objectCode, String balanceTypeCode, KualiDecimal entryAmount, String documentTypeCode, String debitCreditCode) {
-
-        OriginEntry entry = this.buildOriginEntryTemplate(group);
-
-        entry.setFinancialObjectCode(objectCode);
-        entry.setFinancialBalanceTypeCode(balanceTypeCode);
-        entry.setTransactionLedgerEntryAmount(entryAmount);
-        entry.setFinancialDocumentTypeCode(documentTypeCode);
-        entry.setTransactionDebitCreditCode(debitCreditCode);
-
-        return entry;
-    }
-
-    // put the given entry information into the origin entry template and generate the origin entry
-    private OriginEntry getExpectedOriginEntryFromTemplate(OriginEntryGroup group, String chartOfAccountsCode, String accountNumber, String objectCode, String balanceTypeCode, KualiDecimal entryAmount, String documentTypeCode, String debitCreditCode) {
-
-        OriginEntry entry = this.getOriginEntryFromTemplate(group, objectCode, balanceTypeCode, entryAmount, documentTypeCode, debitCreditCode);
-
-        entry.setChartOfAccountsCode(chartOfAccountsCode);
-        entry.setAccountNumber(accountNumber);
-
-        return entry;
-    }
-
-    /**
-     * build and populate a primary key map with the given origin entry
-     * 
-     * @param entry the given origin entry
-     * @param completeKey the flag that indicates if the complete primary key will be used
-     * 
-     * @return a primary key map built from the given origin entry
-     */
-    private Map populateOriginEntryPrimaryKey(OriginEntry entry, boolean completeKey) {
-        Map primaryKeyMap = new HashMap();
-
-        primaryKeyMap.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, entry.getUniversityFiscalYear());
-        primaryKeyMap.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
-        primaryKeyMap.put(PropertyConstants.ACCOUNT_NUMBER, entry.getAccountNumber());
-        primaryKeyMap.put(PropertyConstants.SUB_ACCOUNT_NUMBER, entry.getSubAccountNumber());
-        primaryKeyMap.put(PropertyConstants.FINANCIAL_OBJECT_CODE, entry.getFinancialObjectCode());
-
-        if (completeKey) {
-            primaryKeyMap.put(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE, entry.getFinancialSubObjectCode());
-            primaryKeyMap.put(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, entry.getFinancialBalanceTypeCode());
-            primaryKeyMap.put(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, entry.getFinancialObjectTypeCode());
-            primaryKeyMap.put(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, entry.getUniversityFiscalPeriodCode());
-            primaryKeyMap.put(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, entry.getFinancialDocumentTypeCode());
-            primaryKeyMap.put(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, entry.getFinancialSystemOriginationCode());
-            primaryKeyMap.put(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, entry.getFinancialDocumentNumber());
-            primaryKeyMap.put(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, entry.getTransactionLedgerEntrySequenceNumber());
-        }
-
-        return primaryKeyMap;
-    }
-
-
-    /**
-     * This method offer a template of origin entry that is an instance of transaction. The template can be used to construct other
-     * origin entries with an approperiate modification.
-     * 
-     * @return an origin entry with prepopulated data
-     */
-    private OriginEntry buildOriginEntryTemplate(OriginEntryGroup group) {
-        OriginEntry entry = new OriginEntry();
-        java.sql.Date date = dateTimeService.getCurrentSqlDate();
-
-        entry.setFinancialObjectCode("");
-        entry.setFinancialBalanceTypeCode("");
-        entry.setFinancialDocumentTypeCode("");
-        entry.setTransactionLedgerEntryAmount(new KualiDecimal(0));
-
-        // don't need to chang the values of the following properties
-        entry.setUniversityFiscalYear(FISCAL_YEAR);
-        entry.setChartOfAccountsCode(COA_CODE);
-        entry.setAccountNumber(ACCOUNT_NUMBER);
-        entry.setSubAccountNumber("-----");
-
-        entry.setFinancialSubObjectCode("---");
-        entry.setFinancialObjectTypeCode("EX");
-        entry.setUniversityFiscalPeriodCode("07");
-        entry.setFinancialSystemOriginationCode("01");
-        entry.setFinancialDocumentNumber("OFFSETDTP");
-
-        entry.setTransactionLedgerEntrySequenceNumber(null);
-        entry.setTransactionLedgerEntryDescription("TEST FLEXIBLE OFFSET");
-        entry.setTransactionDate(date);
-        entry.setTransactionDebitCreditCode("");
-        entry.setOrganizationDocumentNumber("");
-        entry.setProjectCode("----------");
-        entry.setOrganizationReferenceId("");
-
-        entry.setReferenceFinancialDocumentTypeCode("");
-        entry.setReferenceFinancialSystemOriginationCode("");
-        entry.setReferenceFinancialDocumentNumber("");
-        entry.setFinancialDocumentReversalDate(null);
-        entry.setTransactionEncumbranceUpdateCode("");
-
-        entry.setGroup(group);
-        entry.setEntryGroupId(group.getId());
-
-        return entry;
-    }
-
-    // create a mock ConfigurationService
-    private KualiConfigurationService createMockConfigurationService(boolean flexibleOffsetEnabled) {
-        return (KualiConfigurationService) MockService.createProxy(KualiConfigurationService.class, "getRequiredApplicationParameterValue", new Object[] { Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG }, flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
+    private void scrub(String[] inputTransactions) {
+        clearOriginEntryTables();
+        loadInputTransactions(OriginEntrySource.EXTERNAL,inputTransactions,date);
+        persistenceService.getPersistenceBroker().clearCache();
+        scrubberService.scrubEntries();
     }
 }

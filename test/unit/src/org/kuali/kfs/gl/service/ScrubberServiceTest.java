@@ -23,6 +23,9 @@
 package org.kuali.module.gl.service;
 
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.service.PersistenceService;
 import org.kuali.module.gl.OriginEntryTestBase;
@@ -1271,6 +1274,16 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     public void testOffsetGenerationAcrossMultipleSubAccountNumbers() throws Exception {
 
+        // This is here because the test works in dev but not under anthill
+        List data = unitTestSqlDao.sqlSelect("select * from CA_SUB_ACCT_T where account_nbr = '1031400'");
+        for (Iterator iter = data.iterator(); iter.hasNext();) {
+            Map element = (Map)iter.next();
+            for (Iterator iterator = element.keySet().iterator(); iterator.hasNext();) {
+                String name = (String) iterator.next();
+                System.err.println(name+"="+element.get(name)+",");
+            }
+        }
+        
         String[] input = new String[] {
                 "2004BL1031400ADV  5000---ACEX07TOPSLGOFFSETSAC00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                                                  ",
                 "2004BL1031400AHD  9041---ACLI07TOPSLGOFFSETSAC00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                                                  "

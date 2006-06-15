@@ -77,6 +77,7 @@ public class DepositWizardAction extends KualiAction {
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DepositWizardForm dwForm = (DepositWizardForm) form;
 
@@ -274,18 +275,9 @@ public class DepositWizardAction extends KualiAction {
                 // create deposit
                 String cmDocId = dform.getCashManagementDocId();
 
+                boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), Constants.DepositConstants.DEPOSIT_TYPE_FINAL));
                 CashManagementService cms = SpringServiceLocator.getCashManagementService();
-                if (StringUtils.equals(dform.getDepositTypeCode(), Constants.DepositConstants.DEPOSIT_TYPE_INTERIM)) {
-                    cms.addInterimDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts);
-                }
-                else if (StringUtils.equals(dform.getDepositTypeCode(), Constants.DepositConstants.DEPOSIT_TYPE_FINAL)) {
-                    throw new UnknownError("die, die, everybody die)");
-                    // UNF: cms.addFinalDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(),
-                    // selectedReceipts);
-                }
-                else {
-                    throw new IllegalStateException("invalid (unknown) depositTypeCode '" + dform.getDepositTypeCode() + "'");
-                }
+                cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts, depositIsFinal);
 
                 // redirect to controlling CashManagementDocument
                 dest = returnToSender(cashManagementDocId);

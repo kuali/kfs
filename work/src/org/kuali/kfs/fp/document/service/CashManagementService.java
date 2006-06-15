@@ -46,19 +46,20 @@ public interface CashManagementService {
 
 
     /**
-     * Uses the given information to lock the appropriate CashDrawer, create a Deposit of the given type, and assoicate it with the
-     * given CashManagementDocument and CashReceipts
+     * Uses the given information to lock the appropriate CashDrawer, create a Deposit, and associate it with the given
+     * CashManagementDocument and CashReceipts.
      * 
      * @param cashManagementDoc
-     * @param lineNumber
      * @param depositTicketNumber
      * @param bankAccount
      * @param selectedCashReceipts
+     * @param isFinalDeposit
      */
-    public void addInterimDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount, List selectedCashReceipts);
+    public void addDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount, List selectedCashReceipts, boolean isFinalDeposit);
+
 
     /**
-     * Cancels the given Deposit, updating the related CashManagementDocument and CashReceipts as needed
+     * Cancels the given Deposit, updating the related CashManagementDocument, CashReceipts, and CashDrawer as needed
      * 
      * @param deposit
      */

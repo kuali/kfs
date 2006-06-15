@@ -775,7 +775,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     /**
      * Returns the per diem end date time as a string representation.
      * 
-     * @return
+     * @return String
      */
     public String getPerDiemEndDateTime() {
         return (String) new TimestampAMPMFormatter().format(dvPerdiemEndDttmStamp);
@@ -784,7 +784,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     /**
      * Sets the per diem start timestamp from the string representation.
      * 
-     * @param perDiemStartDateTime
+     * @param perDiemEndDateTime
      */
     public void setPerDiemEndDateTime(String perDiemEndDateTime) {
         try {
@@ -798,7 +798,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     /**
      * Calculates the total pre paid expense amount
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getTotalPrePaidAmount() {
         KualiDecimal totalPrePaidAmount = new KualiDecimal(0);
@@ -815,7 +815,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     /**
      * Calculates the total expense amount
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getTotalExpenseAmount() {
         KualiDecimal totalExpenseAmount = new KualiDecimal(0);
@@ -830,6 +830,8 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
 
     /**
      * Calculates the total travel amount.
+	 *
+	 * @return KualiDecimal
      */
     public KualiDecimal getTotalTravelAmount() {
         KualiDecimal travelAmount = new KualiDecimal(0);
@@ -857,7 +859,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

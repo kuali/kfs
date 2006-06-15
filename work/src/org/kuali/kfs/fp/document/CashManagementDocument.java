@@ -229,7 +229,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
 
     /* utility methods */
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {

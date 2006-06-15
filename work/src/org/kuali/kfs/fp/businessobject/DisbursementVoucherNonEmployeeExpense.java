@@ -107,7 +107,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Dummy field so we can have different select options.
      * 
-     * @return
+     * @return String
      */
     public String getDisbVchrPrePaidExpenseCode() {
         return disbVchrExpenseCode;
@@ -197,7 +197,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

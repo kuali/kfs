@@ -95,7 +95,7 @@ public class IndirectCostAdjustmentDocument extends TransactionalDocumentBase {
         // get apc object code value
         String objectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
         targetAccountingLine.setFinancialObjectCode(objectCode);
-        targetAccountingLine.setAccountNumber(line.getAccountNumber());
+        targetAccountingLine.setAccountNumber(line.getAccount().getIndirectCostRecoveryAcctNbr());
         targetAccountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
         targetAccountingLine.setAmount(line.getAmount());
         targetAccountingLine.setPostingYear(line.getPostingYear());

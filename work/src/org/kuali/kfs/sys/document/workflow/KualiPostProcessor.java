@@ -58,6 +58,14 @@ public class KualiPostProcessor implements PostProcessorRemote {
                     throw new RuntimeException("unable to load document " + statusChangeEvent.getRouteHeaderId());
                 }
             } else {
+                // PLEASE READ BEFORE YOU MODIFY:
+                // we dont want to update the document on a Save, as this will cause an 
+                // OptimisticLockException in many cases, because the DB versionNumber will be 
+                // incremented one higher than the document in the browser, so when the user then 
+                // hits Submit or Save again, the versionNumbers are out of synch, and the 
+                // OptimisticLockException is thrown.  This is not the optimal solution, and will 
+                // be a problem anytime where the user can continue to edit the document after a 
+                // workflow state change, without reloading the form.
                 if (!document.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
                     document.handleRouteStatusChange();
                     if (document.getDocumentHeader().getWorkflowDocument().stateIsCanceled() || document.getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {

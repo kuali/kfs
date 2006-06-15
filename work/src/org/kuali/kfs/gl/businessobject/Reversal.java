@@ -49,8 +49,6 @@ public class Reversal extends BusinessObjectBase implements Transaction {
 
     private Date financialDocumentReversalDate;
     private Integer universityFiscalYear;
-    private String budgetYearFundingSourceCode;
-    private Integer budgetYear;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -127,8 +125,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
         if (transactionPostingDate != null) {
             setTransactionPostingDate(new Date(transactionPostingDate.getTime()));
         }
-    }
-
+    }    
+    
     /**
      * Gets the financialDocumentReversalDate attribute.
      * 
@@ -141,7 +139,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialDocumentReversalDate attribute.
      * 
-     * @param - financialDocumentReversalDate The financialDocumentReversalDate to set.
+     * @param -
+     *            financialDocumentReversalDate The financialDocumentReversalDate to set.
      */
     public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
         this.financialDocumentReversalDate = financialDocumentReversalDate;
@@ -159,7 +158,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param -
+     *            universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -177,7 +177,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param -
+     *            chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -195,7 +196,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param -
+     *            accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -213,7 +215,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the subAccountNumber attribute.
      * 
-     * @param - subAccountNumber The subAccountNumber to set.
+     * @param -
+     *            subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
@@ -231,7 +234,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param -
+     *            financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -249,7 +253,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialSubObjectCode attribute.
      * 
-     * @param - financialSubObjectCode The financialSubObjectCode to set.
+     * @param -
+     *            financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
@@ -267,7 +272,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialBalanceTypeCode attribute.
      * 
-     * @param - financialBalanceTypeCode The financialBalanceTypeCode to set.
+     * @param -
+     *            financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
@@ -285,7 +291,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialObjectTypeCode attribute.
      * 
-     * @param - financialObjectTypeCode The financialObjectTypeCode to set.
+     * @param -
+     *            financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
         this.financialObjectTypeCode = financialObjectTypeCode;
@@ -303,7 +310,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the universityFiscalPeriodCode attribute.
      * 
-     * @param - universityFiscalPeriodCode The universityFiscalPeriodCode to set.
+     * @param -
+     *            universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
         this.universityFiscalPeriodCode = universityFiscalPeriodCode;
@@ -321,7 +329,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialDocumentTypeCode attribute.
      * 
-     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * @param -
+     *            financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -339,7 +348,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialSystemOriginationCode attribute.
      * 
-     * @param - financialSystemOriginationCode The financialSystemOriginationCode to set.
+     * @param -
+     *            financialSystemOriginationCode The financialSystemOriginationCode to set.
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
@@ -357,7 +367,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * @param -
+     *            financialDocumentNumber The financialDocumentNumber to set.
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
         this.financialDocumentNumber = financialDocumentNumber;
@@ -375,7 +386,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionLedgerEntrySequenceNumber attribute.
      * 
-     * @param - transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
+     * @param -
+     *            transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
      */
     public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
         this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
@@ -393,7 +405,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionLedgerEntryDescription attribute.
      * 
-     * @param - transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
+     * @param -
+     *            transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
      */
     public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
         this.transactionLedgerEntryDescription = transactionLedgerEntryDescription;
@@ -411,7 +424,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionLedgerEntryAmount attribute.
      * 
-     * @param - transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
+     * @param -
+     *            transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
      */
     public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
         this.transactionLedgerEntryAmount = transactionLedgerEntryAmount;
@@ -429,7 +443,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionDebitCreditCode attribute.
      * 
-     * @param - transactionDebitCreditCode The transactionDebitCreditCode to set.
+     * @param -
+     *            transactionDebitCreditCode The transactionDebitCreditCode to set.
      */
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
         this.transactionDebitCreditCode = transactionDebitCreditCode;
@@ -447,7 +462,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionDate attribute.
      * 
-     * @param - transactionDate The transactionDate to set.
+     * @param -
+     *            transactionDate The transactionDate to set.
      */
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
@@ -465,7 +481,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the organizationDocumentNumber attribute.
      * 
-     * @param - organizationDocumentNumber The organizationDocumentNumber to set.
+     * @param -
+     *            organizationDocumentNumber The organizationDocumentNumber to set.
      */
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
         this.organizationDocumentNumber = organizationDocumentNumber;
@@ -483,7 +500,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the projectCode attribute.
      * 
-     * @param - projectCode The projectCode to set.
+     * @param -
+     *            projectCode The projectCode to set.
      */
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
@@ -501,7 +519,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the organizationReferenceId attribute.
      * 
-     * @param - organizationReferenceId The organizationReferenceId to set.
+     * @param -
+     *            organizationReferenceId The organizationReferenceId to set.
      */
     public void setOrganizationReferenceId(String organizationReferenceId) {
         this.organizationReferenceId = organizationReferenceId;
@@ -519,7 +538,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the referenceFinancialDocumentTypeCode attribute.
      * 
-     * @param - referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
+     * @param -
+     *            referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
      */
     public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
         this.referenceFinancialDocumentTypeCode = referenceFinancialDocumentTypeCode;
@@ -537,7 +557,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the referenceFinancialSystemOriginationCode attribute.
      * 
-     * @param - referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
+     * @param -
+     *            referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
      */
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
         this.referenceFinancialSystemOriginationCode = referenceFinancialSystemOriginationCode;
@@ -555,7 +576,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the referenceFinancialDocumentNumber attribute.
      * 
-     * @param - referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
+     * @param -
+     *            referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
@@ -573,7 +595,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionEncumbranceUpdateCode attribute.
      * 
-     * @param - transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
+     * @param -
+     *            transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
      */
     public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
         this.transactionEncumbranceUpdateCode = transactionEncumbranceUpdateCode;
@@ -591,7 +614,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionPostingDate attribute.
      * 
-     * @param - transactionPostingDate The transactionPostingDate to set.
+     * @param -
+     *            transactionPostingDate The transactionPostingDate to set.
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
         this.transactionPostingDate = transactionPostingDate;
@@ -701,51 +725,9 @@ public class Reversal extends BusinessObjectBase implements Transaction {
         this.universityDate = universityDate;
     }
 
-    /**
-     * Gets the budgetYear attribute.
-     * 
-     * @return Returns the budgetYear.
-     */
-    public Integer getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * Sets the budgetYear attribute value.
-     * 
-     * @param budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(Integer budgetYear) {
-        this.budgetYear = budgetYear;
-    }
-
-    /**
-     * Gets the budgetYearFundingSourceCode attribute.
-     * 
-     * @return Returns the budgetYearFundingSourceCode.
-     */
-    public String getBudgetYearFundingSourceCode() {
-        return budgetYearFundingSourceCode;
-    }
-
-    /**
-     * Sets the budgetYearFundingSourceCode attribute value.
-     * 
-     * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
-     */
-    public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {
-        this.budgetYearFundingSourceCode = budgetYearFundingSourceCode;
-    }
-
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        if (getUniversityFiscalYear() != null) {
-            map.put("universityFiscalYear", getUniversityFiscalYear().toString());
-        }
-        map.put("budgetYearFundingSourceCode", getBudgetYearFundingSourceCode());
-        if (getBudgetYear() != null) {
-            map.put("budgetYear", getBudgetYear().toString());
-        }
+        map.put("universityFiscalYear", getUniversityFiscalYear());
         map.put("chartOfAccountsCode", getChartOfAccountsCode());
         map.put("accountNumber", getAccountNumber());
         map.put("subAccountNumber", getSubAccountNumber());
@@ -760,5 +742,4 @@ public class Reversal extends BusinessObjectBase implements Transaction {
         map.put("transactionLedgerEntrySequenceNumber", getTransactionLedgerEntrySequenceNumber());
         return map;
     }
-
 }

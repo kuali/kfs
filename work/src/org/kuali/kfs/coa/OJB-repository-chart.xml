@@ -53,7 +53,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="budgetYearFundingSourceCode" column="BDGT_YR_FND_SRC_CD" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -1769,20 +1768,4 @@
         <orderby name="financialDocumentTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.chart.bo.BudgetYearFundingSource" table="CA_BDGT_YR_FND_SRC_T">
-    <field-descriptor name="budgetYearFundingSourceCode" column="BDGT_YR_FND_SRC_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetYearFundingSourceName" column="BDGT_YR_FND_SRC_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.chart.bo.BudgetYear" table="CA_BDGT_YR_T">
-    <field-descriptor name="budgetYearFundingSourceCode" column="BDGT_YR_FND_SRC_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetYearStatusCode" column="BDGT_YR_STAT_CD" jdbc-type="VARCHAR" />
 </class-descriptor>

@@ -79,7 +79,6 @@ public class Account extends BusinessObjectBase {
     private boolean accountOffCampusIndicator;
     private boolean accountClosedIndicator;
     private String programCode;
-    private String budgetYearFundingSourceCode;
 
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
@@ -124,8 +123,8 @@ public class Account extends BusinessObjectBase {
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private Program program;
-
-    // Several kinds of Dummy Attributes for dividing sections on Inquiry page
+    
+    //Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
     private String accountResponsibilitySection;
     private String contractsAndGrantsSectionBlank;
@@ -134,11 +133,13 @@ public class Account extends BusinessObjectBase {
     private String guidelinesAndPurposeSection;
     private String accountDescriptionSectionBlank;
     private String accountDescriptionSection;
-
-
+        
+        
+        
+        
     private AccountGuideline accountGuideline;
     private AccountDescription accountDescription;
-
+    
     private List subAccounts;
 
     /**
@@ -385,10 +386,12 @@ public class Account extends BusinessObjectBase {
      * 
      * This method determines whether the account is expired or not.
      * 
-     * Note that if Expiration Date is the same as today, then this will return false. It will only return true if the account
+     * Note that if Expiration Date is the same as today, then this 
+     * will return false.  It will only return true if the account 
      * expiration date is one day earlier than today or earlier.
      * 
-     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
+     * Note that this logic ignores all time components when doing the 
+     * comparison.  It only does the before/after comparison based on 
      * date values, not time-values.
      * 
      * @return - true or false based on the logic outlined above
@@ -396,49 +399,51 @@ public class Account extends BusinessObjectBase {
      */
     public boolean isExpired() {
         LOG.debug("entering isExpired()");
-        // dont even bother trying to test if the accountExpirationDate is null
+        //	dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {
             return false;
         }
-
+        
         return this.isExpired(SpringServiceLocator.getDateTimeService().getCurrentCalendar());
     }
-
+    
     /**
      * 
      * This method determines whether the account is expired or not.
      * 
-     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
-     * account expiration date is one day earlier than testDate or earlier.
+     * Note that if Expiration Date is the same date as testDate, then this 
+     * will return false.  It will only return true if the account 
+     * expiration date is one day earlier than testDate or earlier.
      * 
-     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
+     * Note that this logic ignores all time components when doing the 
+     * comparison.  It only does the before/after comparison based on 
      * date values, not time-values.
      * 
-     * @param testDate - Calendar instance with the date to test the Account's Expiration Date against. This is most commonly set to
-     *        today's date.
+     * @param testDate - Calendar instance with the date to test the Account's Expiration Date against.  
+     *                   This is most commonly set to today's date.
      * @return - true or false based on the logic outlined above
      * 
      */
-    public boolean isExpired(Calendar testDate) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("entering isExpired(" + testDate + ")");
-        }
+     public boolean isExpired(Calendar testDate) {
+         if (LOG.isDebugEnabled()) {
+             LOG.debug("entering isExpired("+testDate+")");
+         }
 
-        // dont even bother trying to test if the accountExpirationDate is null
+        //	dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {
             return false;
         }
-
-        // remove any time-components from the testDate
+        
+        //	remove any time-components from the testDate
         testDate = DateUtils.truncate(testDate, Calendar.DAY_OF_MONTH);
-
-        // get a calendar reference to the Account Expiration
+        
+        //	get a calendar reference to the Account Expiration 
         // date, and remove any time components
         Calendar acctDate = Calendar.getInstance();
         acctDate.setTime(this.accountExpirationDate);
         acctDate = DateUtils.truncate(acctDate, Calendar.DAY_OF_MONTH);
-
-        // if the Account Expiration Date is before the testDate
+        
+        //	if the Account Expiration Date is before the testDate
         if (acctDate.before(testDate)) {
             return true;
         }
@@ -446,34 +451,36 @@ public class Account extends BusinessObjectBase {
             return false;
         }
     }
-
-    /**
-     * 
-     * This method determines whether the account is expired or not.
-     * 
-     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
-     * account expiration date is one day earlier than testDate or earlier.
-     * 
-     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
-     * date values, not time-values.
-     * 
-     * @param testDate - java.util.Date instance with the date to test the Account's Expiration Date against. This is most commonly
-     *        set to today's date.
-     * @return - true or false based on the logic outlined above
-     * 
-     */
+    
+     /**
+      * 
+      * This method determines whether the account is expired or not.
+      * 
+      * Note that if Expiration Date is the same date as testDate, then this 
+      * will return false.  It will only return true if the account 
+      * expiration date is one day earlier than testDate or earlier.
+      * 
+      * Note that this logic ignores all time components when doing the 
+      * comparison.  It only does the before/after comparison based on 
+      * date values, not time-values.
+      * 
+      * @param testDate - java.util.Date instance with the date to test the Account's Expiration Date against.  
+      *                   This is most commonly set to today's date.
+      * @return - true or false based on the logic outlined above
+      * 
+      */
     public boolean isExpired(Date testDate) {
 
-        // dont even bother trying to test if the accountExpirationDate is null
+        //	dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {
             return false;
         }
-
+        
         Calendar acctDate = Calendar.getInstance();
         acctDate.setTime(testDate);
         return isExpired(acctDate);
     }
-
+    
     /**
      * Gets the awardPeriodEndYear attribute.
      * 
@@ -683,7 +690,7 @@ public class Account extends BusinessObjectBase {
     public boolean isPendingAcctSufficientFundsIndicator() {
         return pendingAcctSufficientFundsIndicator;
     }
-
+    
     /**
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
@@ -1176,7 +1183,7 @@ public class Account extends BusinessObjectBase {
     public void setProgram(Program program) {
         this.program = program;
     }
-
+    
     /**
      * @return Returns the accountGuideline.
      */
@@ -1195,23 +1202,21 @@ public class Account extends BusinessObjectBase {
 
 
     /**
-     * Gets the accountDescription attribute.
-     * 
+     * Gets the accountDescription attribute. 
      * @return Returns the accountDescription.
      */
     public AccountDescription getAccountDescription() {
         return accountDescription;
     }
-
+    
     /**
      * Sets the accountDescription attribute value.
-     * 
      * @param accountDescription The accountDescription to set.
      */
     public void setAccountDescription(AccountDescription accountDescription) {
         this.accountDescription = accountDescription;
     }
-
+    
     /**
      * @return Returns the subAccounts.
      */
@@ -1539,53 +1544,47 @@ public class Account extends BusinessObjectBase {
     }
 
     /**
-     * Gets the postalZipCode attribute.
-     * 
+     * Gets the postalZipCode attribute. 
      * @return Returns the postalZipCode.
      */
     public PostalZipCode getPostalZipCode() {
         return postalZipCode;
     }
-
+    
     /**
      * Sets the postalZipCode attribute value.
-     * 
      * @param postalZipCode The postalZipCode to set.
      */
     public void setPostalZipCode(PostalZipCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
-
+    
     /**
-     * Gets the budgetRecordingLevel attribute.
-     * 
+     * Gets the budgetRecordingLevel attribute. 
      * @return Returns the budgetRecordingLevel.
      */
     public BudgetRecordingLevelCode getBudgetRecordingLevel() {
         return budgetRecordingLevel;
     }
-
+    
     /**
      * Sets the budgetRecordingLevel attribute value.
-     * 
      * @param budgetRecordingLevel The budgetRecordingLevel to set.
      */
     public void setBudgetRecordingLevel(BudgetRecordingLevelCode budgetRecordingLevel) {
         this.budgetRecordingLevel = budgetRecordingLevel;
     }
-
+    
     /**
-     * Gets the sufficientFundsCode attribute.
-     * 
+     * Gets the sufficientFundsCode attribute. 
      * @return Returns the sufficientFundsCode.
      */
     public SufficientFundsCode getSufficientFundsCode() {
         return sufficientFundsCode;
     }
-
+    
     /**
      * Sets the sufficientFundsCode attribute value.
-     * 
      * @param sufficientFundsCode The sufficientFundsCode to set.
      */
     public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
@@ -1604,8 +1603,8 @@ public class Account extends BusinessObjectBase {
      */
     public void setProgramCode(String programCode) {
         this.programCode = programCode;
-    }
-
+    }    
+    
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */
@@ -1666,137 +1665,94 @@ public class Account extends BusinessObjectBase {
         String key = getChartOfAccountsCode() + ":" + getAccountNumber();
         return key;
     }
-
     /**
-     * Gets the dummy attribute.
-     * 
+     * Gets the dummy attribute. 
      * @return Returns the dummy.
      */
-
+   
     /**
-     * Gets the accountResponsibilitySection attribute.
-     * 
+     * Gets the accountResponsibilitySection attribute. 
      * @return Returns the accountResponsibilitySection.
      */
     public String getAccountResponsibilitySection() {
         return accountResponsibilitySection;
     }
-
     /**
      * Sets the accountResponsibilitySection attribute value.
-     * 
      * @param accountResponsibilitySection The accountResponsibilitySection to set.
      */
     public void setAccountResponsibilitySection(String accountResponsibilitySection) {
         this.accountResponsibilitySection = accountResponsibilitySection;
     }
-
     /**
-     * Gets the contractsAndGrantsSection attribute.
-     * 
+     * Gets the contractsAndGrantsSection attribute. 
      * @return Returns the contractsAndGrantsSection.
      */
     public String getContractsAndGrantsSection() {
         return contractsAndGrantsSection;
     }
-
     /**
      * Sets the contractsAndGrantsSection attribute value.
-     * 
      * @param contractsAndGrantsSection The contractsAndGrantsSection to set.
      */
     public void setContractsAndGrantsSection(String contractsAndGrantsSection) {
         this.contractsAndGrantsSection = contractsAndGrantsSection;
     }
-
     /**
-     * Gets the accountDescriptionSection attribute.
-     * 
+     * Gets the accountDescriptionSection attribute. 
      * @return Returns the accountDescriptionSection.
      */
     public String getAccountDescriptionSection() {
         return accountDescriptionSection;
     }
-
     /**
      * Sets the accountDescriptionSection attribute value.
-     * 
      * @param accountDescriptionSection The accountDescriptionSection to set.
      */
     public void setAccountDescriptionSection(String accountDescriptionSection) {
         this.accountDescriptionSection = accountDescriptionSection;
     }
-
     /**
-     * Gets the guidelinesAndPurposeSection attribute.
-     * 
+     * Gets the guidelinesAndPurposeSection attribute. 
      * @return Returns the guidelinesAndPurposeSection.
      */
     public String getGuidelinesAndPurposeSection() {
         return guidelinesAndPurposeSection;
     }
-
     /**
      * Sets the guidelinesAndPurposeSection attribute value.
-     * 
      * @param guidelinesAndPurposeSection The guidelinesAndPurposeSection to set.
      */
     public void setGuidelinesAndPurposeSection(String guidelinesAndPurposeSection) {
         this.guidelinesAndPurposeSection = guidelinesAndPurposeSection;
     }
-
     /**
-     * Gets the accountResponsibilitySectionBlank attribute.
-     * 
+     * Gets the accountResponsibilitySectionBlank attribute. 
      * @return Returns the accountResponsibilitySectionBlank.
      */
     public String getAccountResponsibilitySectionBlank() {
         return accountResponsibilitySectionBlank;
     }
-
     /**
-     * Gets the contractsAndGrantsSectionBlank attribute.
-     * 
+     * Gets the contractsAndGrantsSectionBlank attribute. 
      * @return Returns the contractsAndGrantsSectionBlank.
      */
     public String getContractsAndGrantsSectionBlank() {
         return contractsAndGrantsSectionBlank;
     }
-
     /**
-     * Gets the accountDescriptionSectionBlank attribute.
-     * 
+     * Gets the accountDescriptionSectionBlank attribute. 
      * @return Returns the accountDescriptionSectionBlank.
      */
     public String getAccountDescriptionSectionBlank() {
         return accountDescriptionSectionBlank;
     }
-
     /**
-     * Gets the guidelinesAndPurposeSectionBlank attribute.
-     * 
+     * Gets the guidelinesAndPurposeSectionBlank attribute. 
      * @return Returns the guidelinesAndPurposeSectionBlank.
      */
     public String getGuidelinesAndPurposeSectionBlank() {
         return guidelinesAndPurposeSectionBlank;
-    }
-
-    /**
-     * Gets the budgetYearFundingSourceCode attribute.
-     * 
-     * @return Returns the budgetYearFundingSourceCode.
-     */
-    public String getBudgetYearFundingSourceCode() {
-        return budgetYearFundingSourceCode;
-    }
-
-    /**
-     * Sets the budgetYearFundingSourceCode attribute value.
-     * 
-     * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
-     */
-    public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {
-        this.budgetYearFundingSourceCode = budgetYearFundingSourceCode;
     }
 
 }

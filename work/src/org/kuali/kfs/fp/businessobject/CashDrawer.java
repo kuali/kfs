@@ -131,7 +131,7 @@ public class CashDrawer extends BusinessObjectBase {
     /**
      * Sets the statusCode attribute.
      * 
-     * @param statusCode The statusCode to set.
+     * @param financialDocumentOpenDepositCode The statusCode to set.
      * 
      */
     public void setStatusCode(String financialDocumentOpenDepositCode) {
@@ -517,7 +517,7 @@ public class CashDrawer extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

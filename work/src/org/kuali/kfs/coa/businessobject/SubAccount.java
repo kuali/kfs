@@ -104,7 +104,7 @@ public class SubAccount extends BusinessObjectBase {
     /**
      * Sets the financialReporting attribute value.
      * 
-     * @param financialReporting The financialReporting to set.
+     * @param reportingCode The financialReporting to set.
      * @deprecated
      */
     public void setReportingCode(ReportingCodes reportingCode) {

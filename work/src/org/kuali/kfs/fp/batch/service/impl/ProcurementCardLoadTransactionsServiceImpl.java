@@ -164,7 +164,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      * Validates each transaction against the data dictionary definition for correct size and format.
      * 
      * @param transactions
-     * @return
+     * @return boolean
      */
     private boolean validateTransactionsDataFormat(Collection transactions) {
         boolean transactionsValid = true;

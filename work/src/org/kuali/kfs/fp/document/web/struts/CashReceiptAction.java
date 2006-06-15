@@ -99,7 +99,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     public ActionForward printCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -225,7 +225,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     public ActionForward deleteCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -262,7 +262,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     public ActionForward changeCheckEntryMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

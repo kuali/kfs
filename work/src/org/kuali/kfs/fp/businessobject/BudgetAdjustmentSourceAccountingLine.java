@@ -28,6 +28,8 @@ import org.kuali.core.util.KualiInteger;
 
 
 /**
+ * Special case <code>{@link SourceAccountingLine}</code> type for <code>{@link org.kuali.module.financial.document.BudgetAdjustmentDocument}</code>
+ *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine implements BudgetAdjustmentAccountingLine {

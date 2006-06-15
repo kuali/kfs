@@ -68,7 +68,7 @@
 </c:forEach>
 
 <c:set var="optionalFieldCount" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}"/>
-<c:set var="columnCountUntilAmount" value="${9
+<c:set var="columnCountUntilAmount" value="${8
                                         + (includeObjectTypeCode ? 1 : 0)
                                         + optionalFieldCount}" />
 <%-- add extra columns count for the "Action" button and/or dual amounts --%>

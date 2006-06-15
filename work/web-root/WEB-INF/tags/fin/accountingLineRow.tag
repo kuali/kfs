@@ -245,15 +245,6 @@
     readOnly="${readOnly}"
     displayHidden="${displayHidden}"
     />
-<fin:accountingLineDataCell
-    dataCellCssClass="${dataCellCssClass}"
-    accountingLine="${accountingLine}"
-    baselineAccountingLine="${baselineAccountingLine}"
-    field="budgetYear"
-    attributes="${accountingLineAttributes}"
-    readOnly="${readOnly}"
-    displayHidden="${displayHidden}"
-    />
 <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
     <fin:accountingLineDataCell
         dataCellCssClass="${dataCellCssClass}"

@@ -112,7 +112,6 @@
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.objectTypeCode}" rowspan="2" forceRequired="true" />
     </c:if>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.organizationReferenceId}" rowspan="2"/>
-    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.budgetYear}" rowspan="2"/>
     <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
     </c:forTokens>

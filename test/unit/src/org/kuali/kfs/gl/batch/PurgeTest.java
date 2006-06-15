@@ -124,16 +124,13 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
         // Run the purge
         assertTrue("Should return true", purgeStep.performStep());
 
-        // Check the results (should be 1 row for 1999 and a lot for 2004)
+        // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_acct_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_acct_balances_t", 2, counts.size());
+        assertEquals("Wrong number of years found in gl_acct_balances_t", 1, counts.size());
 
         Map count1999 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", 1999, getInt(count1999, "UNIV_FISCAL_YR"));
         assertEquals("Wrong count for year found", 1, getInt(count1999, "COUNT(*)"));
-
-        Map count2004 = (Map) counts.get(1);
-        assertEquals("Selected year is wrong", 2004, getInt(count2004, "UNIV_FISCAL_YR"));
     }
 
     // This will purge entries before 2002
@@ -157,16 +154,13 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
         // Run the purge
         assertTrue("Should return true", purgeStep.performStep());
 
-        // Check the results (should be 1 row for 2002 and a lot for 2004)
+        // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_encumbrance_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_encumbrance_t", 2, counts.size());
+        assertEquals("Wrong number of years found in gl_encumbrance_t", 1, counts.size());
 
         Map count2002 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", 2002, getInt(count2002, "UNIV_FISCAL_YR"));
         assertEquals("Wrong count for year found", 1, getInt(count2002, "COUNT(*)"));
-
-        Map count2004 = (Map) counts.get(1);
-        assertEquals("Selected year is wrong", 2004, getInt(count2004, "UNIV_FISCAL_YR"));
     }
 
     // This will purge entries before 2002
@@ -190,16 +184,13 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
         // Run the purge
         assertTrue("Should return true", purgeStep.performStep());
 
-        // Check the results (should be 1 row for 2002 and a lot for 2004)
+        // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_id_bill_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_id_bill_t", 2, counts.size());
+        assertEquals("Wrong number of years found in gl_id_bill_t", 1, counts.size());
 
         Map count2002 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", 2002, getInt(count2002, "UNIV_FISCAL_YR"));
         assertEquals("Wrong count for year found", 1, getInt(count2002, "COUNT(*)"));
-
-        Map count2004 = (Map) counts.get(1);
-        assertEquals("Selected year is wrong", 2004, getInt(count2004, "UNIV_FISCAL_YR"));
     }
 
     // This will purge entries before 1999
@@ -223,16 +214,13 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
         // Run the purge
         assertTrue("Should return true", purgeStep.performStep());
 
-        // Check the results (should be 1 row for 1999 and a lot for 2004)
+        // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_sf_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_sf_balances_t", 2, counts.size());
+        assertEquals("Wrong number of years found in gl_sf_balances_t", 1, counts.size());
 
         Map count1999 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", 1999, getInt(count1999, "UNIV_FISCAL_YR"));
         assertEquals("Wrong count for year found", 1, getInt(count1999, "COUNT(*)"));
-
-        Map count2004 = (Map) counts.get(1);
-        assertEquals("Selected year is wrong", 2004, getInt(count2004, "UNIV_FISCAL_YR"));
     }
 
     private void printList(List maps) {

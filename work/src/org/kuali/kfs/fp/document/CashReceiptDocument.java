@@ -74,8 +74,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public CashReceiptDocument() {
         super();
-        
-        setCampusLocationCode( Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE );
+
+        setCampusLocationCode(Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
     }
 
     /**
@@ -83,6 +83,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * 
      * @return Returns the accountingPeriod.
      */
+    @Override
     public AccountingPeriod getAccountingPeriod() {
         return accountingPeriod;
     }
@@ -92,6 +93,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * 
      * @param accountingPeriod The accountingPeriod to set.
      */
+    @Override
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         this.accountingPeriod = accountingPeriod;
     }
@@ -215,31 +217,32 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         }
         return (Check) checks.get(index);
     }
-    
+
     /**
-     * Total for a Cash Receipt according to the spec should be the sum of the 
-     * amounts on accounting lines belonging to object codes having the 'income' object type, 
-     * less the sum of the amounts on accounting lines belonging to object codes 
-     * having the 'expense' object type.
+     * Total for a Cash Receipt according to the spec should be the sum of the amounts on accounting lines belonging to object codes
+     * having the 'income' object type, less the sum of the amounts on accounting lines belonging to object codes having the
+     * 'expense' object type.
      * 
      * @see org.kuali.core.document.TransactionalDocument#getSourceTotal()
      */
+    @Override
     public KualiDecimal getSourceTotal() {
-        CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().
-            getBusinessRulesInstance(this, AccountingLineRule.class);
+        CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().getBusinessRulesInstance(this, AccountingLineRule.class);
         KualiDecimal total = new KualiDecimal(0);
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            
+
             KualiDecimal amount = al.getAmount().abs();
             if (amount != null) {
-                if(crDocRule.isDebit(al)) {
+                if (crDocRule.isDebit(al)) {
                     total = total.subtract(amount);
-                } else if(crDocRule.isCredit(al)) {
+                }
+                else if (crDocRule.isCredit(al)) {
                     total = total.add(amount);
-                } else {
+                }
+                else {
                     throw new IllegalStateException("could not determine credit/debit for accounting line");
                 }
             }
@@ -252,6 +255,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocument#getTargetTotal()
      */
+    @Override
     public KualiDecimal getTargetTotal() {
         return new KualiDecimal(0);
     }
@@ -331,9 +335,10 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param totalCheckAmount The totalCheckAmount to set.
      */
     public void setTotalCheckAmount(KualiDecimal totalCheckAmount) {
-        if(totalCheckAmount == null) {
+        if (totalCheckAmount == null) {
             this.totalCheckAmount = new KualiDecimal(0);
-        } else {
+        }
+        else {
             this.totalCheckAmount = totalCheckAmount;
         }
     }
@@ -388,6 +393,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
      */
+    @Override
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
     }
@@ -397,6 +403,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
      */
+    @Override
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
     }
@@ -422,17 +429,18 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.Document#handleRouteStatusChange()
      */
+    @Override
     public void handleRouteStatusChange() {
         // Workflow Status of Final --> Kuali Doc Status of Verified
-        if (getDocumentHeader().getWorkflowDocument().stateIsApproved() || getDocumentHeader().getWorkflowDocument().stateIsProcessed() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(
-                    Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         }
     }
 
     /**
      * @see org.kuali.core.document.DocumentBase#prepareForSave()
      */
+    @Override
     public void prepareForSave() {
         super.prepareForSave();
 
@@ -449,6 +457,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     /**
      * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
      */
+    @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
 
@@ -467,6 +476,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     /**
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
+    @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getChecks());

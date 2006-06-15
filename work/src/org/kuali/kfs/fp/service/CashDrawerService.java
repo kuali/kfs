@@ -66,12 +66,4 @@ public interface CashDrawerService {
      * @return CashDrawer instance or null
      */
     public CashDrawer getByWorkgroupName(String workgroupName, boolean autocreate);
-
-    /**
-     * Saves the given CashDrawer instance to the DB.
-     * 
-     * @param cashDrawer
-     * @return the CashDrawer that was just saved
-     */
-    public CashDrawer save(CashDrawer cashDrawer);
 }

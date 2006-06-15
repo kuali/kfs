@@ -1582,7 +1582,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
             new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
         };
 
-        scrub(inputTransactions, true);
+        scrub(inputTransactions);
         assertOriginEntries(4,outputTransactions);
     }
 
@@ -1653,7 +1653,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
             new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
         };
 
-        scrub(inputTransactions, true);
+        scrub(inputTransactions);
         assertOriginEntries(4,outputTransactions);
     }
 
@@ -1937,7 +1937,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
             new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
         };
 
-        scrub(inputTransactions, true);
+        scrub(inputTransactions);
         assertOriginEntries(4,outputTransactions);
     }
 
@@ -1954,7 +1954,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
             new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
         };
 
-        scrub(inputTransactions, true);
+        scrub(inputTransactions);
         assertOriginEntries(4,outputTransactions);
     }
 
@@ -1971,7 +1971,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
             new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
         };
 
-        scrub(inputTransactions, true);
+        scrub(inputTransactions);
         assertOriginEntries(4,outputTransactions);
     }
 
@@ -2057,10 +2057,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     private void scrub(String[] inputTransactions) {
-        scrub(inputTransactions, false);
-    }
-
-    private void scrub(String[] inputTransactions,boolean makeTransactionDateCurrent) {
         clearOriginEntryTables();
         loadInputTransactions(OriginEntrySource.EXTERNAL,inputTransactions,date);
         persistenceService.getPersistenceBroker().clearCache();

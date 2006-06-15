@@ -107,6 +107,9 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
     public void testPurgeAccountBalances() throws Exception {
         LOG.debug("testPurgeAccountBalances() started");
 
+        // Clear out the table to start with
+        unitTestSqlDao.sqlCommand("DELETE FROM GL_ACCT_BALANCES_T");
+
         // Should be deleted
         unitTestSqlDao.sqlCommand("INSERT INTO GL_ACCT_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "OBJ_ID, VER_NBR, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP) VALUES (1998, 'BL', '1031400', '-----', '5000', " + "'---', sys_guid(), 0, 0, 0, 0, SYSDATE)");
 
@@ -136,6 +139,9 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
     // This will purge entries before 2002
     public void testPurgeEncumbrance() throws Exception {
         LOG.debug("testPurgeEncumbrance() started");
+
+        // Clear out the table
+        unitTestSqlDao.sqlCommand("DELETE FROM GL_ENCUMBRANCE_T");
 
         // Should be deleted
         unitTestSqlDao.sqlCommand("insert into GL_ENCUMBRANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, " + "FIN_BALANCE_TYP_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, OBJ_ID, VER_NBR, TRN_ENCUM_DESC, TRN_ENCUM_DT, ACLN_ENCUM_AMT, ACLN_ENCUM_CLS_AMT, " + "ACLN_ENCUM_PRG_IND, TIMESTAMP) values (2001, 'BL', '1031400', '-----', '5000', '---', 'AC', 'JV', '01', 'XXX', sys_guid(), 0, 'Desc', SYSDATE, " + "0, 0, 'N', SYSDATE)");
@@ -167,11 +173,14 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
     public void testPurgeIdBill() throws Exception {
         LOG.debug("testPurgeIdBill() started");
 
+        // Clear out the table
+        unitTestSqlDao.sqlCommand("DELETE FROM GL_ID_BILL_T");
+
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT) values ('01', 2001, SYSDATE, '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX', sys_guid(), 1, 0, 'x')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT) values ('01','01', 2001, SYSDATE, '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX', sys_guid(), 1, 0, 'x')");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT) values ('01', 2002, SYSDATE, '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX', sys_guid(), 1, 0, 'x')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT) values ('01','01', 2002, SYSDATE, '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX', sys_guid(), 1, 0, 'x')");
 
         Step purgeStep = (Step) SpringServiceLocator.getBeanFactory().getBean("glPurgeInterDepartmentalBillingStep");
 
@@ -196,6 +205,9 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
     // This will purge entries before 1999
     public void testPurgeSufficientFundsBalances() throws Exception {
         LOG.debug("testPurgeSufficientFundsBalances() started");
+
+        // Clear out the table
+        unitTestSqlDao.sqlCommand("DELETE FROM GL_SF_BALANCES_T");
 
         // Should be deleted
         unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values (1998, 'BL', '1031400', '5000', sys_guid(), 0, 'H', 0, 0, 0, SYSDATE)");

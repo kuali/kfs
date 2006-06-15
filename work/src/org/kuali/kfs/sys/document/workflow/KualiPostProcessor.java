@@ -22,6 +22,8 @@ package org.kuali.workflow.postprocessor;
 import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.OptimisticLockException;
+import org.kuali.Constants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
@@ -35,11 +37,11 @@ import edu.iu.uis.eden.clientapp.vo.DeleteEventVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
 
+
 /**
- * This class is the postProcessor for the Kuali application, and it is
- * responsible for plumbing events up to documents using the built into the
- * document methods for handling route status and other routing changes that
- * take place asyncronously and potentially on a different server.
+ * This class is the postProcessor for the Kuali application, and it is responsible for plumbing events up to documents using the
+ * built into the document methods for handling route status and other routing changes that take place asyncronously and potentially
+ * on a different server.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -57,14 +59,15 @@ public class KualiPostProcessor implements PostProcessorRemote {
                 if (!EdenConstants.ROUTE_HEADER_CANCEL_CD.equals(statusChangeEvent.getNewRouteStatus())) {
                     throw new RuntimeException("unable to load document " + statusChangeEvent.getRouteHeaderId());
                 }
-            } else {
+            }
+            else {
                 // PLEASE READ BEFORE YOU MODIFY:
-                // we dont want to update the document on a Save, as this will cause an 
-                // OptimisticLockException in many cases, because the DB versionNumber will be 
-                // incremented one higher than the document in the browser, so when the user then 
-                // hits Submit or Save again, the versionNumbers are out of synch, and the 
-                // OptimisticLockException is thrown.  This is not the optimal solution, and will 
-                // be a problem anytime where the user can continue to edit the document after a 
+                // we dont want to update the document on a Save, as this will cause an
+                // OptimisticLockException in many cases, because the DB versionNumber will be
+                // incremented one higher than the document in the browser, so when the user then
+                // hits Submit or Save again, the versionNumbers are out of synch, and the
+                // OptimisticLockException is thrown. This is not the optimal solution, and will
+                // be a problem anytime where the user can continue to edit the document after a
                 // workflow state change, without reloading the form.
                 if (!document.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
                     document.handleRouteStatusChange();
@@ -75,7 +78,8 @@ public class KualiPostProcessor implements PostProcessorRemote {
                 }
             }
             LOG.debug(new StringBuffer("finished handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logAndRethrow("route status", e);
         }
         return true;
@@ -103,7 +107,8 @@ public class KualiPostProcessor implements PostProcessorRemote {
             document.populateDocumentForRouting();
             document.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             LOG.debug(new StringBuffer("finished handling route level change from ").append(levelChangeEvent.getOldRouteLevel()).append(" to ").append(levelChangeEvent.getNewRouteLevel()).append(" for document ").append(levelChangeEvent.getRouteHeaderId()));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logAndRethrow("route level", e);
         }
         return true;
@@ -111,6 +116,30 @@ public class KualiPostProcessor implements PostProcessorRemote {
 
     private void logAndRethrow(String changeType, Exception e) throws RuntimeException {
         LOG.error("caught exception while handling " + changeType + " change", e);
+        logOptimisticDetails(5, e);
+
         throw new RuntimeException("post processor caught exception while handling " + changeType + " change: " + e.getMessage(), e);
+    }
+
+    /**
+     * Logs further details of OptimisticLockExceptions, using the given depth value to limit recursion Just In Case
+     * 
+     * @param depth
+     * @param t
+     */
+    private void logOptimisticDetails(int depth, Throwable t) {
+        if ((depth > 0) && (t != null)) {
+            if (t instanceof OptimisticLockException) {
+                OptimisticLockException o = (OptimisticLockException) t;
+
+                LOG.error("source of OptimisticLockException = " + o.getSourceObject().getClass().getName() + " ::= " + o.getSourceObject());
+            }
+            else {
+                Throwable cause = t.getCause();
+                if (cause != t) {
+                    logOptimisticDetails(--depth, cause);
+                }
+            }
+        }
     }
 }

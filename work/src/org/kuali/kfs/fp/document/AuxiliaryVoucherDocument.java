@@ -31,6 +31,7 @@ import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 
+import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 
 /**
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This 
@@ -124,4 +125,17 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
 
         return total;
     }
+	
+	/**
+	 * Overriding this to fix the reversal date should if something happens (like a long period of time passes) between the time the document
+	 * is routed and when it becomes approved.
+	 */
+	public void handleRouteStatusChange() {
+		Long NOW = System.currentTimeMillis();
+
+		if (getTypeCode().equals(ACCRUAL_DOC_TYPE) && 
+			NOW > getReversalDate().getTime()) {
+			setReversalDate(new Timestamp(NOW));
+		}
+	}
 }

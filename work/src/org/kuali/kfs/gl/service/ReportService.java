@@ -40,14 +40,48 @@ public interface ReportService {
 
     public void generatePosterReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries, int mode);
 
-    public void generateScrubberReports(Date runDate, List reportSummary, Map<Transaction, List<Message>> reportErrors, Map ledgerEntries);
-
-    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Integer groupId);
-
-    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, List groupIdList);
+    /**
+     * @deprecated
+     */
+    public void generateScrubberReports(Date runDate, List reportSummary, Map<Transaction, List<Message>> reportErrors);   
 
     public void generateYearEndEncumbranceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
 
     public void generateYearEndBalanceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
+    
+    /**
+     * This method generates scrubber reports based on the given summary
+     * 
+     * @param runDate the execution time
+     * @param reportSummary the scrubber processing summary to be reported
+     * @param reportNamePrefix the prefix of report file name
+     */    
+    public void generateScrubberReports(Date runDate, List reportSummary, String reportNamePrefix);
+    
+    /**
+     * This method generates reports for the errors that occurs in the processing
+     * 
+     * @param runDate the execution time
+     * @param reportErrors the error messages to be reported
+     * @param reportNamePrefix the prefix of report file name
+     */
+    public void generateErrorReports(Date runDate, Map<Transaction, List<Message>> reportErrors, String reportNamePrefix);
 
+    /**
+     * This method generates ledger reports for the origin entries with the given group id
+     * 
+     * @param runDate the execution time
+     * @param originEntryGroupId the given group id of origin entries
+     * @param reportNamePrefix the prefix of report file name
+     */
+    public void generateLedgerReports(Date runDate,  Integer originEntryGroupId, String reportNamePrefix);
+
+    /**
+     * This method generates ledger reports for the origin entries whose group id are in the given group id list
+     * 
+     * @param runDate the execution time
+     * @param originEntryGroupIdList a list of origin entries group ids
+     * @param reportNamePrefix the prefix of report file name
+     */
+    public void generateLedgerReports(Date runDate, List originEntryGroupIdList, String reportNamePrefix);
 }

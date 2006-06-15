@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.test.KualiTestBaseWithSpringOnly;
@@ -40,6 +41,7 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public class ReportServiceTest extends KualiTestBaseWithSpringOnly {
     private ReportService reportService;
+    private BusinessObjectService businessObjectService;
     private Date runDate;
 
     /**
@@ -48,41 +50,42 @@ public class ReportServiceTest extends KualiTestBaseWithSpringOnly {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();       
         reportService = (ReportService) beanFactory.getBean(GLSpringBeansRegistry.glReportService);
     }
-
-    public void testGenerateScrubberReportsByGroupIdList() throws Exception {
-        List reportSummary = new ArrayList();
-        Map reportErrors = new HashMap();
-
+    
+    public void testGenerateLedgerReportsByGroupId() throws Exception{      
+        Integer groupId = new Integer(49029);
+        runDate = new Date(System.currentTimeMillis());
+        reportService.generateLedgerReports(runDate, groupId, "GroupId");
+    }        
+    
+    public void testGenerateLedgerReportsByGroupIdList() throws Exception{
         List groupIdList = new ArrayList();
-        groupIdList.add(new Integer(46794));
-        groupIdList.add(new Integer(46795));
-        groupIdList.add(new Integer(46796));
-        groupIdList.add(new Integer(46813));
-        groupIdList.add(new Integer(46794));
-        groupIdList.add(new Integer(46795));
-
+        groupIdList.add(new Integer(49029));
+        groupIdList.add(new Integer(49476));
+        groupIdList.add(new Integer(49485));
+        groupIdList.add(new Integer(49498));        
+        groupIdList.add(new Integer(49520));
+        groupIdList.add(new Integer(49529));
+        
         runDate = new Date(System.currentTimeMillis());
-        reportService.generateScrubberReports(runDate, reportSummary, reportErrors, groupIdList);
+        reportService.generateLedgerReports(runDate, groupIdList, "GroupIdList");
     }
-
-    public void testGenerateScrubberReportingPerformance() throws Exception {
-        List reportSummary = new ArrayList();
-        Map reportErrors = new HashMap();
-        List groupIdList = this.getGroupIdList();
-
+    
+    public void testGenerateLedgerReportingPerformance() throws Exception{
+        List groupIdList = this.getGroupIdList();        
         runDate = new Date(System.currentTimeMillis());
+        
         long startTime = System.currentTimeMillis();
-        reportService.generateScrubberReports(runDate, reportSummary, reportErrors, groupIdList);
+        reportService.generateLedgerReports(runDate, groupIdList, "Performance");
         long endTime = System.currentTimeMillis();
-
+        
         long duration = endTime - startTime;
-        System.out.println(duration);
+        System.out.println("Execute Time = " + duration + "ms");
     }
-
-    private List getGroupIdList() {
+    
+    private List getGroupIdList(){
         List groupIdList = new ArrayList();
         groupIdList.add(new Integer(46709));
         groupIdList.add(new Integer(46710));
@@ -121,7 +124,14 @@ public class ReportServiceTest extends KualiTestBaseWithSpringOnly {
         groupIdList.add(new Integer(48154));
         groupIdList.add(new Integer(48155));
         groupIdList.add(new Integer(48158));
-
+        
+        groupIdList.add(new Integer(49029));
+        groupIdList.add(new Integer(49476));
+        groupIdList.add(new Integer(49485));
+        groupIdList.add(new Integer(49498));        
+        groupIdList.add(new Integer(49520));
+        groupIdList.add(new Integer(49529));
+        
         return groupIdList;
     }
 }

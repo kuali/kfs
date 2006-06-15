@@ -94,17 +94,24 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
 
     /**
      * This method checks to make sure that the cash drawer is closed for the associated verification unit, for post initiation
-     * saves.
+     * saves for CashManagementDocuments which don't have Final
      * 
      * @param cmd
      */
     private void verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(CashManagementDocument cmd) {
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
             if (cmd.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
-                // now verify that the associated cash drawer is closed
+                // now verify that the associated cash drawer is in the appropriate state
                 CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(cmd.getWorkgroupName(), true);
-                if (!cd.isOpen()) {
-                    throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
+                if (!cmd.hasFinalDeposit()) {
+                    if (!cd.isOpen()) {
+                        throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
+                    }
+                }
+                else {
+                    if (!cd.isLocked()) {
+                        throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName() + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
+                    }
                 }
             }
         }

@@ -25,7 +25,7 @@ package org.kuali.module.financial.document;
 
 import org.kuali.Constants;
 
-import org.kuali.module.financial.YearEndDocument;
+import org.kuali.module.financial.document.YearEndDocument;
 
 
 /**

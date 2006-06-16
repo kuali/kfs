@@ -14,7 +14,9 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
+                <!-- 
                 <field attributeName="financialBalanceTypeCode" />
+                -->
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="financialSystemOriginationCode" />
@@ -56,9 +58,11 @@
                 <lookupField attributeName="subAccountNumber" />
                 <lookupField attributeName="financialObjectCode" />
                 <lookupField attributeName="financialSubObjectCode" />
+                <!-- 
                 <lookupField attributeName="financialBalanceTypeCode" required="true">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder</defaultValueFinderClass>
                 </lookupField>
+                -->
                 <lookupField attributeName="financialObjectTypeCode" />
 
                 <lookupField attributeName="universityFiscalPeriodCode" required="true">

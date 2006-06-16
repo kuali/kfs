@@ -6,6 +6,7 @@
 	showTabButtons="true">
 
 	<html:hidden property="document.nextSourceLineNumber" />
+	<html:hidden property="document.nextTargetLineNumber" />
 	<kul:hiddenDocumentFields />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />

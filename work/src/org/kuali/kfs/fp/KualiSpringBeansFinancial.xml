@@ -159,4 +159,7 @@
             <ref bean="procurementCardCreateDocumentService" />
         </property>
     </bean>
+    
+    <bean id="cashReceiptCoverSheetService" class="org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl">
+    </bean>
 </beans>

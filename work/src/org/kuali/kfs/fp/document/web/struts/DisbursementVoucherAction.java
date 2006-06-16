@@ -69,6 +69,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
         ((DisbursementVoucherDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
@@ -81,6 +82,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
@@ -132,7 +134,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         coverSheetService.generateDisbursementVoucherCoverSheet(directory, DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_NM, document, baos);
         String fileName = document.getFinancialDocumentNumber() + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return (null);
 
     }
 
@@ -417,6 +419,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
      * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // substitute bo class and mapping if the type is Employee, lookup already setup for Payee
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;

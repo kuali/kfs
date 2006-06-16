@@ -704,7 +704,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Convenience method to set dv payee detail fields based on a given Employee.
      * 
-     * @param payee
+     * @param employee
      */
     public void templateEmployee(UniversalUser employee) {
         if (employee == null) {

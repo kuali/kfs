@@ -33,7 +33,7 @@ public interface VoucherAccountingLineHelper {
     /**
      * This method retrieves the credit amount.
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getCredit();
 
@@ -47,7 +47,7 @@ public interface VoucherAccountingLineHelper {
     /**
      * This method retrieves the debit amount.
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getDebit();
 

@@ -45,7 +45,7 @@ public class NonCheckDisbursementDocument extends TransactionalDocumentBase {
     /**
      * Overrides the base implementation to return "From".
      * 
-     * @see TransactionalDocument#getSourceAccountingLinesSectionTitle();
+     * @see TransactionalDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
@@ -55,7 +55,7 @@ public class NonCheckDisbursementDocument extends TransactionalDocumentBase {
     /**
      * Overrides the base implementation to return "To".
      * 
-     * @see TransactionalDocument#getTargetAccountingLinesSectionTitle();
+     * @see TransactionalDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {

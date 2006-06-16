@@ -381,7 +381,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         return valid;
     }
     /**
-     * @see org.kuali.core.rule.ReviewAccountingLineRule#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean valid = true;
@@ -466,7 +466,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     }
     
     /**
-     * Fixes <code>{@link ObjectTyp}</code> for the given <code>{@link AccountingLine}</code>
+     * Fixes <code>{@link ObjectType}</code> for the given <code>{@link AccountingLine}</code>
      * instance 
      *
      * @param line
@@ -732,7 +732,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     
     /**
      * Factory method for creating instances of <code>{@link ObjLevel}</code>. This 
-     * method is more specific than <code>{@link #getMockCodeBaseInstance(Class, type, String code)}</code> 
+     * method is more specific than <code>{@link #getMockCodeBaseInstance(Class, String)}</code> 
      * because it is aimed specifically towards <code>{@link ObjLevel}</code> which is
      * not part of the <code>{@link KualiCodeBase}</code> class hieraarchy.<br/>
      * 

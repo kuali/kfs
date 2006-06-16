@@ -38,6 +38,13 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 public interface CashReceiptCoverSheetService {
 
     /**
+     * @param crDoc
+     * @return true if coverSheet printing is allowed for the given CashReceiptDocument
+     */
+    public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc);
+
+
+    /**
      * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>. An <code>{@link OutputStream}</code> is written
      * to for the coversheet.
      * 

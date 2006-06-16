@@ -33,6 +33,8 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.rule.AccountingLineRule;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
@@ -107,6 +109,16 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
 
     private float _yPos;
 
+
+    /**
+     * @see org.kuali.module.financial.service.CashReceiptCoverSheetService#isCoverSheetPrintingAllowed(org.kuali.module.financial.document.CashReceiptDocument)
+     */
+    public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
+        CashReceiptDocumentRule rule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().getBusinessRulesInstance(crDoc, CashReceiptDocumentRule.class);
+
+        return rule.isCoverSheetPrintable(crDoc);
+    }
+
     /**
      * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>. An <code>{@link OutputStream}</code> is written
      * to for the coversheet.
@@ -121,7 +133,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      */
     public void generateCoverSheet(CashReceiptDocument document, String searchPath, OutputStream returnStream) throws Exception {
 
-        if (new CashReceiptDocumentRule().isCoverSheetPrintable(document)) {
+        if (isCoverSheetPrintingAllowed(document)) {
             ByteArrayOutputStream stamperStream;
             PdfWriter writer;
             PdfReader reader;
@@ -369,6 +381,7 @@ class ModifiableInteger {
         return new Integer(_value);
     }
 
+    @Override
     public String toString() {
         return getInteger().toString();
     }

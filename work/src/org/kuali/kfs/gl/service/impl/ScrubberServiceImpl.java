@@ -29,6 +29,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -41,7 +42,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.95 2006-06-14 12:26:36 abyrne Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.96 2006-06-16 01:12:44 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
@@ -81,8 +82,23 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
     }
 
     /**
-     * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
-     * scrubber error group, and transactions with an expired account in the scrubber expired account group.
+     * 
+     * @see org.kuali.module.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public void scrubGroupReportOnly(OriginEntryGroup group) {
+        LOG.debug("scrubGroupReportOnly() started");
+
+        // The logic for this was moved into another object because the process was written using
+        // many instance variables which shouldn't be used for Spring services
+
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, beanFactory, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
+
+        sp.scrubGroupReportOnly(group);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ScrubberService#scrubEntries()
      */
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");

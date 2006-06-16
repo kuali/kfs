@@ -178,6 +178,9 @@ public class ScrubberProcess {
     private String transferDescription;
     private String costShareDescription;
 
+    /* Misc stuff */
+    private boolean reportOnlyMode;
+
     /**
      * These parameters are all the dependencies.
      */
@@ -199,11 +202,28 @@ public class ScrubberProcess {
     }
 
     /**
+     * Scrub this single group read only.  This will only output the
+     * scrubber report.  It won't output any other groups.
+     * 
+     * @param group
+     */
+    public void scrubGroupReportOnly(OriginEntryGroup group) {
+        LOG.debug("scrubGroupReportOnly() started");
+
+        scrubEntries(group);
+    }
+
+    public void scrubEntries() {
+        scrubEntries(null);
+    }
+    /**
      * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
      * scrubber error group, and transactions with an expired account in the scrubber expired account group.
      */
-    public void scrubEntries() {
+    public void scrubEntries(OriginEntryGroup group) {
         LOG.debug("scrubEntries() started");
+
+        reportOnlyMode = (group != null);
 
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
 
@@ -221,16 +241,26 @@ public class ScrubberProcess {
         setDescriptions();
 
         // Create the groups that will store the valid and error entries that come out of the scrubber
-        validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
-        errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
-        expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
+        if ( ! reportOnlyMode ) {
+            validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
+            errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
+            expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
+        }
 
         // get the origin entry groups to be processed by Scrubber
-        Collection groupsToScrub = originEntryGroupService.getGroupsToScrub(runDate);
+        Collection groupsToScrub = null;
+        if ( reportOnlyMode ) {
+            groupsToScrub = new ArrayList();
+            groupsToScrub.add(group);
+        } else {
+            groupsToScrub = originEntryGroupService.getGroupsToScrub(runDate);
+        }
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 
         // generate the reports based on the origin entries to be processed by scrubber
-        this.runLedgerEntryReports(runDate, (List)groupsToScrub, "PreProcessedLedger");
+        if ( ! reportOnlyMode ) {
+            this.runLedgerEntryReports(runDate, (List)groupsToScrub, "PreProcessedLedger");
+        }
 
         // Scrub all of the OriginEntryGroups waiting to be scrubbed as of runDate.
         scrubberReport = new ScrubberReportData();
@@ -241,11 +271,13 @@ public class ScrubberProcess {
 
             processGroup(originEntryGroup);
 
-            // Mark the origin entry group as being processed ...
-            originEntryGroup.setProcess(Boolean.FALSE);
+            if ( ! reportOnlyMode ) {
+                // Mark the origin entry group as being processed ...
+                originEntryGroup.setProcess(Boolean.FALSE);
 
-            // ... and save the origin entry group with the new process flag.
-            originEntryGroupService.save(originEntryGroup);
+                // ... and save the origin entry group with the new process flag.
+                originEntryGroupService.save(originEntryGroup);
+            }
         }
 
         // generate the scrubber status summary report
@@ -253,24 +285,25 @@ public class ScrubberProcess {
         reportService.generateScrubberReports(runDate, scrubberReportSummary, "ScrubberSummary");
        
         // run the demerger and generate the demerger report
-        performDemerger(errorGroup, validGroup);
-        List<Summary> demergerReportSummary = buildDemergerReportSummary(demergerReport);
-        reportService.generateScrubberReports(runDate, demergerReportSummary, "DemergerSummary");
+        if ( ! reportOnlyMode ) {
+            performDemerger(errorGroup, validGroup);
+            List<Summary> demergerReportSummary = buildDemergerReportSummary(demergerReport);
+            reportService.generateScrubberReports(runDate, demergerReportSummary, "DemergerSummary");
 
-        // TODO Run the bad balance types report
+            // TODO Run the bad balance types report
 
-        // generate the reports for the errors that occur during the scrubber processing
-        reportService.generateErrorReports(runDate, scrubberReportErrors, "ScrubberError");
+            // generate the reports for the errors that occur during the scrubber processing
+            reportService.generateErrorReports(runDate, scrubberReportErrors, "ScrubberError");
         
-        // generate the reports based on the origin entries generated by current scrubber processing
-        System.out.println(validGroup);
-        this.runLedgerEntryReports(runDate, validGroup, "PostProcessedLedger");
+            // generate the reports based on the origin entries generated by current scrubber processing
+            this.runLedgerEntryReports(runDate, validGroup, "PostProcessedLedger");
+        }
     }
-    
+
     private void runLedgerEntryReports(Date runDate, OriginEntryGroup originEntryGroup, String reportNamePrefix){
         Integer groupId = originEntryGroup.getId();
         
-        if(groupId != null){
+        if (groupId != null) {
             reportService.generateLedgerReports(runDate, groupId, reportNamePrefix);
         }
     }
@@ -501,6 +534,7 @@ public class ScrubberProcess {
                 OriginEntry expiredEntry = new OriginEntry(scrubbedEntry);
 
                 createOutputEntry(expiredEntry, expiredGroup);
+
                 scrubberReport.incrementExpiredAccountFound();
             }
 
@@ -790,8 +824,7 @@ public class ScrubberProcess {
         capitalizationDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_CAPITALIZATION);
         liabilityDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_LIABILITY);
         costShareDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE);
-        // TODO I don't see where the scrubber generates these
-        transferDescription = "GENERATED TRANSFER";
+        transferDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_TRANSFER);
     }
 
     /**
@@ -929,7 +962,7 @@ public class ScrubberProcess {
             plantIndebtednessEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
 
             StringBuffer litGenPlantXferFrom = new StringBuffer();
-            litGenPlantXferFrom.append("GENERATED TRANSFER FROM ");
+            litGenPlantXferFrom.append(transferDescription + " ");
             litGenPlantXferFrom.append(scrubbedEntry.getChartOfAccountsCode()).append(" ");
             litGenPlantXferFrom.append(scrubbedEntry.getAccountNumber());
             plantIndebtednessEntry.setTransactionLedgerEntryDescription(litGenPlantXferFrom.toString());
@@ -1441,8 +1474,10 @@ public class ScrubberProcess {
      * @param group Group to save it in
      */
     private void createOutputEntry(OriginEntry entry, OriginEntryGroup group) {
-        entry.setGroup(group);
-        originEntryService.save(entry);
+        if ( ! reportOnlyMode ) {
+            entry.setGroup(group);
+            originEntryService.save(entry);
+        }
     }
 
     /**

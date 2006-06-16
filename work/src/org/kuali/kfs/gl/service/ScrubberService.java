@@ -22,6 +22,8 @@
  */
 package org.kuali.module.gl.service;
 
+import org.kuali.module.gl.bo.OriginEntryGroup;
+
 /**
  * @author aapotts
  * 
@@ -32,4 +34,11 @@ public interface ScrubberService {
      * Nightly process to scrub incoming GL transactions before posting to GL tables
      */
     public void scrubEntries();
+
+    /**
+     * This process will call the scrubber in a read only mode.  It will scrub
+     * a single group, won't create any output in origin entry.  It will create
+     * a the scrubber report
+     */
+    public void scrubGroupReportOnly(OriginEntryGroup group);
 }

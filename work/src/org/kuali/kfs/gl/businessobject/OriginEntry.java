@@ -47,7 +47,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.30 2006-06-15 15:48:11 temay Exp $
+ * @version $Id: OriginEntry.java,v 1.31 2006-06-16 21:07:17 jsissom Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
@@ -100,6 +100,35 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private UniversityDate reversalDate;
     private OriginationCode origination;
     private DocumentType referenceDocumentType;
+
+    public OriginEntry(GeneralLedgerPendingEntry glpe) {
+        accountNumber = glpe.getAccountNumber();
+        financialDocumentNumber = glpe.getFinancialDocumentNumber();
+        referenceFinancialDocumentNumber = glpe.getReferenceFinancialDocumentNumber();
+        referenceFinancialDocumentTypeCode = glpe.getReferenceFinancialDocumentTypeCode();
+        financialDocumentReversalDate = glpe.getFinancialDocumentReversalDate();
+        financialDocumentTypeCode = glpe.getFinancialDocumentTypeCode();
+        financialBalanceTypeCode = glpe.getFinancialBalanceTypeCode();
+        chartOfAccountsCode = glpe.getChartOfAccountsCode();
+        financialObjectTypeCode = glpe.getFinancialObjectTypeCode();
+        financialObjectCode = glpe.getFinancialObjectCode();
+        financialSubObjectCode = glpe.getFinancialSubObjectCode();
+        financialSystemOriginationCode = glpe.getFinancialSystemOriginationCode();
+        referenceFinancialSystemOriginationCode = glpe.getReferenceFinancialSystemOriginationCode();
+        organizationDocumentNumber = glpe.getOrganizationDocumentNumber();
+        organizationReferenceId = glpe.getOrganizationReferenceId();
+        projectCode = glpe.getProjectCode();
+        subAccountNumber = glpe.getSubAccountNumber();
+        transactionDate = glpe.getTransactionDate();
+        transactionDebitCreditCode = glpe.getTransactionDebitCreditCode();
+        transactionEncumbranceUpdateCode = glpe.getTransactionEncumbranceUpdateCode();
+        transactionLedgerEntrySequenceNumber = glpe.getTransactionLedgerEntrySequenceNumber();
+        transactionLedgerEntryAmount = glpe.getTransactionLedgerEntryAmount();
+        transactionLedgerEntryDescription = glpe.getTransactionLedgerEntryDescription();
+        universityFiscalPeriodCode = glpe.getUniversityFiscalPeriodCode();
+        universityFiscalYear = glpe.getUniversityFiscalYear();
+        budgetYear = glpe.getBudgetYear();
+    }
 
     /**
      * 

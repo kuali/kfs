@@ -50,7 +50,6 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
         LOG.debug("addEntry() started");
 
         Entry e = new Entry(t, postDate);
-        LOG.debug("addEntry() Entry: " + e);
 
         getPersistenceBrokerTemplate().store(e);
     }

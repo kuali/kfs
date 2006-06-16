@@ -252,8 +252,6 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
      * @return boolean
      */
     public boolean isCoverSheetPrintingAllowed() {
-        CashReceiptDocumentRule rule = new CashReceiptDocumentRule();
-
-        return rule.isCoverSheetPrintable((CashReceiptDocument) getDocument());
+        return SpringServiceLocator.getCashReceiptCoverSheetService().isCoverSheetPrintingAllowed(getCashReceiptDocument());
     }
 }

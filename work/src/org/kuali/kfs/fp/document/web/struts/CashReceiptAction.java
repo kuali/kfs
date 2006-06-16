@@ -65,6 +65,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Timer t0 = new Timer("execute");
         CashReceiptForm cform = (CashReceiptForm) form;
@@ -119,12 +120,12 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         crForm.setDocument(document);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        CashReceiptCoverSheetService coverSheetService = new CashReceiptCoverSheetServiceImpl();
+        CashReceiptCoverSheetService coverSheetService = SpringServiceLocator.getCashReceiptCoverSheetService();
         coverSheetService.generateCoverSheet(document, directory, baos);
         String fileName = financialDocumentNumber + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
 
-        return new ActionForward();
+        return null;
     }
 
     /**
@@ -307,6 +308,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     /**
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
 
@@ -324,6 +326,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     /**
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
 

@@ -769,17 +769,17 @@
         <property name="accountService">
             <ref bean="accountService" />
         </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
+        <property name="optionsDao">
+        	<ref bean="optionsDao" />
+        </property>
+        <property name="sufficientFundBalancesDao">
+        	<ref bean="glSufficientFundBalancesDao"/>
         </property>
         <property name="objectLevelService">
             <ref bean="objectLevelService" />
         </property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="persistenceService">
-            <ref bean="persistenceService" />
         </property>
         <property name="kualiRuleService">
             <ref bean="kualiRuleService" />

@@ -194,6 +194,9 @@
         <inverse-foreignkey field-ref="documentHeaderId" />
     </collection-descriptor>
 
+    <collection-descriptor name="budgetIndirectCostLookups" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetIndirectCostLookup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentHeaderId"/>
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetTask" table="ER_BDGT_TSK_T">
@@ -516,6 +519,19 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetPurposeDescription" column="BDGT_PRPS_DESC" jdbc-type="VARCHAR" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.kra.bo.BudgetIndirectCostLookup" table="ER_BDGT_IDC_LU_T">
+    <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="budgetOnCampusIndicator" column="BDGT_ON_CMP_IND" jdbc-type="VARCHAR" primarykey="true" index="true" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="budgetIndirectCostRate" column="BDGT_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
+    <reference-descriptor name="indirectCostLookup" class-ref="org.kuali.module.kra.bo.IndirectCostLookup" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <foreignkey field-ref="budgetOnCampusIndicator" />
+        <foreignkey field-ref="budgetPurposeCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.IndirectCostLookup" table="ER_IDC_LU_T">

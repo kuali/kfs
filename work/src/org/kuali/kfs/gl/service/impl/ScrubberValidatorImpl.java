@@ -39,6 +39,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.ScrubberValidator;
@@ -46,6 +47,90 @@ import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.StringHelper;
 import org.springframework.util.StringUtils;
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.AbstractMap;
+import java.util.AbstractQueue;
+import java.util.AbstractSequentialList;
+import java.util.AbstractSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ConcurrentModificationException;
+import java.util.Currency;
+import java.util.Dictionary;
+import java.util.DuplicateFormatFlagsException;
+import java.util.EmptyStackException;
+import java.util.Enumeration;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.EventListener;
+import java.util.EventListenerProxy;
+import java.util.EventObject;
+import java.util.FormatFlagsConversionMismatchException;
+import java.util.Formattable;
+import java.util.FormattableFlags;
+import java.util.Formatter;
+import java.util.FormatterClosedException;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.IdentityHashMap;
+import java.util.IllegalFormatCodePointException;
+import java.util.IllegalFormatConversionException;
+import java.util.IllegalFormatException;
+import java.util.IllegalFormatFlagsException;
+import java.util.IllegalFormatPrecisionException;
+import java.util.IllegalFormatWidthException;
+import java.util.InputMismatchException;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.ListResourceBundle;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingFormatArgumentException;
+import java.util.MissingFormatWidthException;
+import java.util.MissingResourceException;
+import java.util.NoSuchElementException;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.PriorityQueue;
+import java.util.Properties;
+import java.util.PropertyPermission;
+import java.util.PropertyResourceBundle;
+import java.util.Queue;
+import java.util.Random;
+import java.util.RandomAccess;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.SimpleTimeZone;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.Stack;
+import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TimeZone;
+import java.util.TooManyListenersException;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.UnknownFormatConversionException;
+import java.util.UnknownFormatFlagsException;
+import java.util.UUID;
+import java.util.Vector;
+import java.util.WeakHashMap;
+
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.indiana.edu>
@@ -71,10 +156,32 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     private static int count = 0;
 
+    public List<Message> validateForInquiry(OriginEntry originEntry,OriginEntry scrubbedEntry,UniversityDate universityRunDate) {
+        LOG.debug("validateForInquiry() started");
+        
+        List<Message> errors = new ArrayList<Message>();
+
+        Message err = validateFiscalYear(originEntry, scrubbedEntry, universityRunDate);
+        if (err != null) {
+            errors.add(err);
+        }
+
+        err = validateBalanceType(originEntry, scrubbedEntry);
+        if (err != null) {
+            errors.add(err);
+        }
+        err = validateObjectType(originEntry, scrubbedEntry);
+        if (err != null) {
+            errors.add(err);
+        }
+
+        return errors;
+    }
+
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate) {
         LOG.debug("validateTransaction() started");
 
-        List errors = new ArrayList();
+        List<Message> errors = new ArrayList<Message>();
 
         if ( LOG.isDebugEnabled() ) {
             count++;
@@ -225,7 +332,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param originEntry
      * @param workingEntry
      */
-    public Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
+    private Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
         setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
@@ -353,7 +460,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateReversalDate(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateReversalDate(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateReversalDate() started");
 
         // 3234 021620 IF FDOC-REVERSAL-DT OF GLEN-RECORD = SPACES
@@ -414,7 +521,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateSubAccount(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateSubAccount(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateSubAccount() started");
 
         // If the sub account number is empty, set it to dashes.
@@ -462,7 +569,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateProjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateProjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateProjectCode() started");
 
         if (StringUtils.hasText(originEntry.getProjectCode()) && !Constants.DASHES_PROJECT_CODE.equals(originEntry.getProjectCode())) {
@@ -486,7 +593,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateFiscalYear(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
+    private Message validateFiscalYear(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateFiscalYear() started");
 
         if ((originEntry.getUniversityFiscalYear() == null) || (originEntry.getUniversityFiscalYear().intValue() == 0)) {
@@ -510,7 +617,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateTransactionDate(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
+    private Message validateTransactionDate(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateTransactionDate() started");
 
         if (originEntry.getTransactionDate() == null) {
@@ -536,7 +643,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param originEntry
      * @param workingEntryInfo
      */
-    public Message validateDocumentType(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateDocumentType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateDocumentType() started");
 
         if (originEntry.getDocumentType() == null) {
@@ -548,7 +655,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateOrigination(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateOrigination(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateOrigination() started");
 
         if (StringUtils.hasText(originEntry.getFinancialSystemOriginationCode())) {
@@ -566,7 +673,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateDocumentNumber(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateDocumentNumber(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateDocumentNumber() started");
 
         if (!StringUtils.hasText(originEntry.getFinancialDocumentNumber())) {
@@ -583,7 +690,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param originEntry
      * @param workingEntryInfo
      */
-    public Message validateChart(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateChart(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateChart() started");
 
         if (originEntry.getChart() == null) {
@@ -604,7 +711,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param originEntry
      * @param workingEntryInfo
      */
-    public Message validateObjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateObjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateObjectCode() started");
 
         if (!StringUtils.hasText(originEntry.getFinancialObjectCode())) {
@@ -633,7 +740,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @see org.kuali.module.gl.service.ScrubberValidator#validateObjectType(org.kuali.module.gl.bo.OriginEntry,
      *      org.kuali.module.gl.bo.OriginEntry)
      */
-    public Message validateObjectType(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateObjectType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateObjectType() started");
 
         if (!StringUtils.hasText(originEntry.getFinancialObjectTypeCode())) {
@@ -652,7 +759,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateSubObjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateSubObjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateFinancialSubObjectCode() started");
 
         if (!StringUtils.hasText(originEntry.getFinancialSubObjectCode())) {
@@ -683,7 +790,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateBalanceType(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateBalanceType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateBalanceType() started");
 
         if (StringUtils.hasText(originEntry.getFinancialBalanceTypeCode())) {
@@ -739,7 +846,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return null;
     }
 
-    public Message validateUniversityFiscalPeriodCode(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
+    private Message validateUniversityFiscalPeriodCode(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
         if (!StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
@@ -775,7 +882,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param originEntry
      * @param workingEntryInfo
      */
-    public Message validateReferenceDocumentFields(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateReferenceDocumentFields(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateReferenceDocument() started");
 
         // 3148 of cobol
@@ -836,7 +943,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param originEntry
      * @param workingEntryInfo
      */
-    public Message validateTransactionAmount(OriginEntry originEntry, OriginEntry workingEntry) {
+    private Message validateTransactionAmount(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateTransactionAmount() started");
 
         KualiDecimal amount = originEntry.getTransactionLedgerEntryAmount();

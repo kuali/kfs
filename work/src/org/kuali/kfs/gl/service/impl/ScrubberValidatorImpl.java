@@ -166,13 +166,25 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             errors.add(err);
         }
 
-        err = validateBalanceType(originEntry, scrubbedEntry);
-        if (err != null) {
-            errors.add(err);
-        }
         err = validateObjectType(originEntry, scrubbedEntry);
         if (err != null) {
             errors.add(err);
+        }
+
+        err = validateUniversityFiscalPeriodCode(originEntry, scrubbedEntry, universityRunDate);
+        if (err != null) {
+            errors.add(err);
+        }
+
+        // These three fields don't need the complete scrubbing.  They just need to be dashes if they are empty
+        if ( (originEntry.getSubAccountNumber() == null) || ( ! StringUtils.hasText(originEntry.getSubAccountNumber())) ) {
+            scrubbedEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+        }
+        if ( (originEntry.getFinancialSubObjectCode() == null) || (! StringUtils.hasText(originEntry.getFinancialSubObjectCode())) ) {
+            scrubbedEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        }
+        if ( (originEntry.getProjectCode() == null) || (! StringUtils.hasText(originEntry.getProjectCode())) ) {
+            scrubbedEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         }
 
         return errors;

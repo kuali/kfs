@@ -72,10 +72,10 @@ public class OrganizationExtension extends BusinessObjectBase {
     private String hrmsIuCampusCode;
     private String hrmsIuCampusBuilding;
     private String hrmsIuCampusRoom;
-    private String hrmsIuPositionAllowedFlag;
-    private String hrmsIuTenureAllowedFlag;
-    private String hrmsIuTitleAllowedFlag;
-    private String hrmsIuOccupationalUnitAllowedFlag;
+    private boolean hrmsIuPositionAllowedFlag;
+    private boolean hrmsIuTenureAllowedFlag;
+    private boolean hrmsIuTitleAllowedFlag;
+    private boolean hrmsIuOccupationalUnitAllowedFlag;
     private String fiscalApproverUniversalId;
     private Timestamp hrmsLastUpdateDate;
 
@@ -847,90 +847,69 @@ public class OrganizationExtension extends BusinessObjectBase {
         this.hrmsIuCampusRoom = hrmsIuCampusRoom;
     }
 
-
     /**
-     * Gets the hrmsIuPositionAllowedFlag attribute.
-     * 
-     * @return - Returns the hrmsIuPositionAllowedFlag
-     * 
+     * Gets the hrmsIuOccupationalUnitAllowedFlag attribute. 
+     * @return Returns the hrmsIuOccupationalUnitAllowedFlag.
      */
-    public String getHrmsIuPositionAllowedFlag() {
-        return hrmsIuPositionAllowedFlag;
-    }
-
-    /**
-     * Sets the hrmsIuPositionAllowedFlag attribute.
-     * 
-     * @param hrmsIuPositionAllowedFlag The hrmsIuPositionAllowedFlag to set.
-     * 
-     */
-    public void setHrmsIuPositionAllowedFlag(String hrmsIuPositionAllowedFlag) {
-        this.hrmsIuPositionAllowedFlag = hrmsIuPositionAllowedFlag;
-    }
-
-
-    /**
-     * Gets the hrmsIuTenureAllowedFlag attribute.
-     * 
-     * @return - Returns the hrmsIuTenureAllowedFlag
-     * 
-     */
-    public String getHrmsIuTenureAllowedFlag() {
-        return hrmsIuTenureAllowedFlag;
-    }
-
-    /**
-     * Sets the hrmsIuTenureAllowedFlag attribute.
-     * 
-     * @param hrmsIuTenureAllowedFlag The hrmsIuTenureAllowedFlag to set.
-     * 
-     */
-    public void setHrmsIuTenureAllowedFlag(String hrmsIuTenureAllowedFlag) {
-        this.hrmsIuTenureAllowedFlag = hrmsIuTenureAllowedFlag;
-    }
-
-
-    /**
-     * Gets the hrmsIuTitleAllowedFlag attribute.
-     * 
-     * @return - Returns the hrmsIuTitleAllowedFlag
-     * 
-     */
-    public String getHrmsIuTitleAllowedFlag() {
-        return hrmsIuTitleAllowedFlag;
-    }
-
-    /**
-     * Sets the hrmsIuTitleAllowedFlag attribute.
-     * 
-     * @param hrmsIuTitleAllowedFlag The hrmsIuTitleAllowedFlag to set.
-     * 
-     */
-    public void setHrmsIuTitleAllowedFlag(String hrmsIuTitleAllowedFlag) {
-        this.hrmsIuTitleAllowedFlag = hrmsIuTitleAllowedFlag;
-    }
-
-
-    /**
-     * Gets the hrmsIuOccupationalUnitAllowedFlag attribute.
-     * 
-     * @return - Returns the hrmsIuOccupationalUnitAllowedFlag
-     * 
-     */
-    public String getHrmsIuOccupationalUnitAllowedFlag() {
+    public final boolean isHrmsIuOccupationalUnitAllowedFlag() {
         return hrmsIuOccupationalUnitAllowedFlag;
     }
 
     /**
-     * Sets the hrmsIuOccupationalUnitAllowedFlag attribute.
-     * 
+     * Sets the hrmsIuOccupationalUnitAllowedFlag attribute value.
      * @param hrmsIuOccupationalUnitAllowedFlag The hrmsIuOccupationalUnitAllowedFlag to set.
-     * 
      */
-    public void setHrmsIuOccupationalUnitAllowedFlag(String hrmsIuOccupationalUnitAllowedFlag) {
+    public final void setHrmsIuOccupationalUnitAllowedFlag(boolean hrmsIuOccupationalUnitAllowedFlag) {
         this.hrmsIuOccupationalUnitAllowedFlag = hrmsIuOccupationalUnitAllowedFlag;
     }
 
+    /**
+     * Gets the hrmsIuPositionAllowedFlag attribute. 
+     * @return Returns the hrmsIuPositionAllowedFlag.
+     */
+    public final boolean isHrmsIuPositionAllowedFlag() {
+        return hrmsIuPositionAllowedFlag;
+    }
+
+    /**
+     * Sets the hrmsIuPositionAllowedFlag attribute value.
+     * @param hrmsIuPositionAllowedFlag The hrmsIuPositionAllowedFlag to set.
+     */
+    public final void setHrmsIuPositionAllowedFlag(boolean hrmsIuPositionAllowedFlag) {
+        this.hrmsIuPositionAllowedFlag = hrmsIuPositionAllowedFlag;
+    }
+
+    /**
+     * Gets the hrmsIuTenureAllowedFlag attribute. 
+     * @return Returns the hrmsIuTenureAllowedFlag.
+     */
+    public final boolean isHrmsIuTenureAllowedFlag() {
+        return hrmsIuTenureAllowedFlag;
+    }
+
+    /**
+     * Sets the hrmsIuTenureAllowedFlag attribute value.
+     * @param hrmsIuTenureAllowedFlag The hrmsIuTenureAllowedFlag to set.
+     */
+    public final void setHrmsIuTenureAllowedFlag(boolean hrmsIuTenureAllowedFlag) {
+        this.hrmsIuTenureAllowedFlag = hrmsIuTenureAllowedFlag;
+    }
+
+    /**
+     * Gets the hrmsIuTitleAllowedFlag attribute. 
+     * @return Returns the hrmsIuTitleAllowedFlag.
+     */
+    public final boolean isHrmsIuTitleAllowedFlag() {
+        return hrmsIuTitleAllowedFlag;
+    }
+
+    /**
+     * Sets the hrmsIuTitleAllowedFlag attribute value.
+     * @param hrmsIuTitleAllowedFlag The hrmsIuTitleAllowedFlag to set.
+     */
+    public final void setHrmsIuTitleAllowedFlag(boolean hrmsIuTitleAllowedFlag) {
+        this.hrmsIuTitleAllowedFlag = hrmsIuTitleAllowedFlag;
+    }
 
     /**
      * Gets the fiscalApproverUniversalId attribute.

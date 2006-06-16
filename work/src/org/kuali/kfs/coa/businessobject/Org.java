@@ -82,6 +82,11 @@ public class Org extends BusinessObjectBase {
     private Chart campusPlantChart;
     private PostalZipCode postalZip;
 
+    //  HRMS Org fields
+    private OrganizationExtension organizationExtension;
+    private String editHrmsUnitSectionBlank;
+    private String editHrmsUnitSection;
+
     // fields for mixed anonymous keys
     private String organizationDefaultAccountNumber;
     private String chartOfAccountsCode;
@@ -753,4 +758,53 @@ public class Org extends BusinessObjectBase {
     public String getEditPlantAccountsSectionBlank() {
         return editPlantAccountsSectionBlank;
     }
+
+    /**
+     * Gets the editHrmsUnitSection attribute. 
+     * @return Returns the editHrmsUnitSection.
+     */
+    public final String getEditHrmsUnitSection() {
+        return editHrmsUnitSection;
+    }
+
+    /**
+     * Sets the editHrmsUnitSection attribute value.
+     * @param editHrmsUnitSection The editHrmsUnitSection to set.
+     */
+    public final void setEditHrmsUnitSection(String editHrmsUnitSection) {
+        this.editHrmsUnitSection = editHrmsUnitSection;
+    }
+
+    /**
+     * Gets the editHrmsUnitSectionBlank attribute. 
+     * @return Returns the editHrmsUnitSectionBlank.
+     */
+    public final String getEditHrmsUnitSectionBlank() {
+        return editHrmsUnitSectionBlank;
+    }
+
+    /**
+     * Sets the editHrmsUnitSectionBlank attribute value.
+     * @param editHrmsUnitSectionBlank The editHrmsUnitSectionBlank to set.
+     */
+    public final void setEditHrmsUnitSectionBlank(String editHrmsUnitSectionBlank) {
+        this.editHrmsUnitSectionBlank = editHrmsUnitSectionBlank;
+    }
+
+    /**
+     * Gets the organizationExtension attribute. 
+     * @return Returns the organizationExtension.
+     */
+    public final OrganizationExtension getOrganizationExtension() {
+        return organizationExtension;
+    }
+
+    /**
+     * Sets the organizationExtension attribute value.
+     * @param organizationExtension The organizationExtension to set.
+     */
+    public final void setOrganizationExtension(OrganizationExtension organizationExtension) {
+        this.organizationExtension = organizationExtension;
+    }
+    
 }

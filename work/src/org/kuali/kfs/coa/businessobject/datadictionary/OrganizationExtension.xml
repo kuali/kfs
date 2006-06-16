@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject
+		businessObjectClass="org.kuali.module.chart.bo.OrganizationExtension">
+
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<attributes>
+			<attributeReference name="chartOfAccountsCode" 
+						sourceClassName="org.kuali.module.chart.bo.Chart" 
+						sourceAttributeName="chartOfAccountsCode" />
+								
+     		<attributeReference name="organizationCode"
+				        sourceClassName="org.kuali.module.chart.bo.Org"
+				        sourceAttributeName="organizationCode" />
+
+      		<attribute name="organizationExtension.hrmsCompany" forceUppercase="false">
+				<label>HRMS Company</label>
+				<shortLabel>HRMS Company</shortLabel>
+
+				<maxLength>3</maxLength>
+				<validationPattern>
+				<alpha />
+        		</validationPattern>
+				<required>false</required>
+		
+		        <control>
+		          <text size="3" />
+		        </control>
+
+		        <summary><![CDATA[&nbsp;]]></summary>
+		        <description><![CDATA[&nbsp;]]></description>
+		      </attribute>
+
+								
+			<attribute name="hrmsIuOrganizationAddress2" forceUppercase="false">
+        		<label>Address-1</label>
+        		<shortLabel>Address-1</shortLabel>
+        		
+        		<maxLength>30</maxLength>
+        		<validationPattern><anyCharacter maxLength="30" allowWhitespace="true" /></validationPattern>
+        		
+				<control>
+					<text size="30" />
+				</control>
+
+        		<summary><![CDATA[&nbsp;]]></summary>
+        		<description><![CDATA[&nbsp;]]></description>
+			</attribute>
+			
+			<attribute name="hrmsIuOrganizationAddress3" forceUppercase="false">
+        		<label>Address-2</label>
+        		<shortLabel>Address-2</shortLabel>
+        		
+        		<maxLength>30</maxLength>
+        		<validationPattern><anyCharacter maxLength="30" allowWhitespace="true" /></validationPattern>
+        		
+				<control>
+					<text size="30" />
+				</control>
+
+        		<summary><![CDATA[&nbsp;]]></summary>
+        		<description><![CDATA[&nbsp;]]></description>
+			</attribute>
+
+			
+			<attribute name="hrmsIuCampusCode" forceUppercase="false">
+        		<label>Campus</label>
+        		<shortLabel>Campus</shortLabel>
+        		
+        		<maxLength>2</maxLength>
+        		<validationPattern><anyCharacter maxLength="2" /></validationPattern>
+        		
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
+				</control>
+
+        		<summary><![CDATA[&nbsp;]]></summary>
+        		<description><![CDATA[&nbsp;]]></description>
+			</attribute>
+			
+			<attribute name="hrmsIuCampusBuilding" forceUppercase="false">
+        		<label>Building</label>
+        		<shortLabel>Bldg</shortLabel>
+        		
+        		<maxLength>10</maxLength>
+        		<validationPattern><anyCharacter maxLength="10" /></validationPattern>
+        		
+				<control>
+					<text size="10" />
+				</control>
+
+        		<summary><![CDATA[&nbsp;]]></summary>
+        		<description><![CDATA[&nbsp;]]></description>
+			</attribute>
+			
+			<attribute name="hrmsIuCampusRoom" forceUppercase="false">
+        		<label>Room</label>
+        		<shortLabel>Room</shortLabel>
+        		
+        		<maxLength>8</maxLength>
+        		<validationPattern><anyCharacter maxLength="8" /></validationPattern>
+        		
+				<control>
+					<text size="8" />
+				</control>
+
+        		<summary><![CDATA[&nbsp;]]></summary>
+        		<description><![CDATA[&nbsp;]]></description>
+			</attribute>
+			
+      <attributeReference name="hrmsPersonnelApproverUniversalId"
+				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				        sourceAttributeName="genericSystemId">
+        <label>Personnel Approver UserID</label>
+        <shortLabel>Personnel Approver UserID</shortLabel>
+        <required>true</required>
+        <control><hidden /></control>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
+      </attributeReference>
+
+	  <attributeReference name="hrmsPersonnelApproverUniversal.personUserIdentifier" 
+	  					  sourceClassName="org.kuali.core.bo.user.KualiUser" 
+	  					  sourceAttributeName="personUserIdentifier">
+			<label>Personnel Approver UserID</label>
+			<shortLabel>Personnel Approver</shortLabel>
+			<required>false</required>
+			<control>
+				<kualiUser universalIdAttributeName="hrmsPersonnelApproverUniversalId" 
+							userIdAttributeName="hrmsPersonnelApproverUniversal.personUserIdentifier" 
+							personNameAttributeName="hrmsPersonnelApproverUniversal.personName" />
+			</control>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+				<![CDATA[&nbsp;]]>
+			</description>
+	  </attributeReference>
+	  
+		<attributeReference name="hrmsPersonnelApproverUniversal.personName" 
+							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+							sourceAttributeName="personName">
+			<label>Personnel Approver Name</label>
+			<shortLabel>Name</shortLabel>
+			<required>false</required>
+			<control><hidden /></control>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+				<![CDATA[&nbsp;]]>
+			</description>
+		</attributeReference>
+
+      <attributeReference name="fiscalApproverUniversalId"
+				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				        sourceAttributeName="genericSystemId">
+        <label>Fiscal Approver UserID</label>
+        <shortLabel>Fiscal Approver UserID</shortLabel>
+        <required>true</required>
+        <control><hidden /></control>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
+      </attributeReference>
+
+	  <attributeReference name="fiscalApproverUniversal.personUserIdentifier" 
+	  					  sourceClassName="org.kuali.core.bo.user.KualiUser" 
+	  					  sourceAttributeName="personUserIdentifier">
+			<label>Fiscal Approver UserID</label>
+			<shortLabel>Fiscal Approver</shortLabel>
+			<required>false</required>
+			<control>
+				<kualiUser universalIdAttributeName="fiscalApproverUniversalId" 
+							userIdAttributeName="fiscalApproverUniversal.personUserIdentifier" 
+							personNameAttributeName="fiscalApproverUniversal.personName" />
+			</control>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+				<![CDATA[&nbsp;]]>
+			</description>
+	  </attributeReference>
+	  
+		<attributeReference name="fiscalApproverUniversal.personName" 
+							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+							sourceAttributeName="personName">
+			<label>Fiscal Approver Name</label>
+			<shortLabel>Name</shortLabel>
+			<required>false</required>
+			<control><hidden /></control>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+				<![CDATA[&nbsp;]]>
+			</description>
+		</attributeReference>
+
+		<attributeReference name="hrmsIuPositionAllowedFlag" 
+					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					sourceAttributeName="genericBoolean">
+			<label>Position Allowed</label>
+			<shortLabel>Position Allowed</shortLabel>
+			<required>true</required>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+			TBD
+			</description>
+		</attributeReference>
+		
+		<attributeReference name="hrmsIuTenureAllowedFlag" 
+					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					sourceAttributeName="genericBoolean">
+			<label>Tenure Allowed</label>
+			<shortLabel>Tenure Allowed</shortLabel>
+			<required>true</required>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+			TBD
+			</description>
+		</attributeReference>
+						
+		<attributeReference name="hrmsIuTitleAllowedFlag" 
+					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					sourceAttributeName="genericBoolean">
+			<label>Title Allowed</label>
+			<shortLabel>Title Allowed</shortLabel>
+			<required>true</required>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+			TBD
+			</description>
+		</attributeReference>
+						
+		<attributeReference name="hrmsIuOccupationalUnitAllowedFlag" 
+					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					sourceAttributeName="genericBoolean">
+			<label>Occupational Unit Allowed</label>
+			<shortLabel>Occupational Unit Allowed</shortLabel>
+			<required>true</required>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description>
+			TBD
+			</description>
+		</attributeReference>
+
+		<attributeReference name="hrmsLastUpdateDate" 
+					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					sourceAttributeName="genericTimestamp">
+			<label>Last Update Date</label>
+			<shortLabel>Last Update Date</shortLabel>
+			<summary><![CDATA[&nbsp;]]></summary>
+			<description><![CDATA[&nbsp;]]></description>
+		</attributeReference>
+											
+        <attributeReference name="versionNumber" 
+        					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+        					sourceAttributeName="versionNumber" />
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

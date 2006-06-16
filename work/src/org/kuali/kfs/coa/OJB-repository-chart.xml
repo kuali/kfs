@@ -814,6 +814,10 @@
     <reference-descriptor name="postalZip" class-ref="org.kuali.core.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="organizationZipCode" />
     </reference-descriptor>
+	<reference-descriptor name="organizationExtension" class-ref="org.kuali.module.chart.bo.OrganizationExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.Delegate" table="CA_ACCT_DELEGATE_T">
@@ -1635,10 +1639,10 @@
     <field-descriptor name="hrmsIuCampusCode" column="IU_CAMPUS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="hrmsIuCampusBuilding" column="IU_CAMPUS_BLDG" jdbc-type="VARCHAR" />
     <field-descriptor name="hrmsIuCampusRoom" column="IU_CAMPUS_ROOM" jdbc-type="VARCHAR" />
-    <field-descriptor name="hrmsIuPositionAllowedFlag" column="IU_POSN_ALLOW_FL" jdbc-type="VARCHAR" />
-    <field-descriptor name="hrmsIuTenureAllowedFlag" column="IU_TENURE_ALLOW_FL" jdbc-type="VARCHAR" />
-    <field-descriptor name="hrmsIuTitleAllowedFlag" column="IU_TITLE_ALLOW_FL" jdbc-type="VARCHAR" />
-    <field-descriptor name="hrmsIuOccupationalUnitAllowedFlag" column="IU_OCC_UN_ALLOW_FL" jdbc-type="VARCHAR" />
+	<field-descriptor name="hrmsIuPositionAllowedFlag" column="IU_POSN_ALLOW_FL" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="hrmsIuTenureAllowedFlag" column="IU_TENURE_ALLOW_FL" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="hrmsIuTitleAllowedFlag" column="IU_TITLE_ALLOW_FL" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="hrmsIuOccupationalUnitAllowedFlag" column="IU_OCC_UN_ALLOW_FL" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="fiscalApproverUniversalId" column="ORG_FSCL_APRVR_UID" jdbc-type="VARCHAR" />
     <field-descriptor name="hrmsLastUpdateDate" column="LAST_UPDATE_DATE" jdbc-type="TIMESTAMP" />
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">

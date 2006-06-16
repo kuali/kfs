@@ -40,6 +40,13 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.document.InternalBillingDocument;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.CAPITAL_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_FUND_GROUP_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_LEVEL_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
 import org.kuali.module.gl.util.SufficientFundsItemHelper;
 
 /**
@@ -47,11 +54,12 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase implements InternalBillingDocumentRuleConstants {
+public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         // The IB spec has the same logic but opposite value of the TOF spec.
         return !isDebitConsideringSection(accountingLine);
@@ -62,6 +70,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(TransactionalDocument, AccountingLine)
      */
+    @Override
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
         if (accountingLine.getAmount().equals(Constants.ZERO)) {
             GlobalVariables.getErrorMap().put(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
@@ -75,6 +84,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument,
      *      AccountingLine)
      */
+    @Override
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         return processCommonCustomAccountingLineRules(accountingLine);
     }
@@ -83,6 +93,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(TransactionalDocument,
      *      AccountingLine)
      */
+    @Override
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         return processCommonCustomAccountingLineRules(accountingLine);
     }
@@ -91,6 +102,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument,
      *      AccountingLine, AccountingLine)
      */
+    @Override
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         return processCommonCustomAccountingLineRules(updatedAccountingLine);
     }
@@ -167,6 +179,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * @see TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
+    @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         // This super method actually does something.
         boolean success = true;
@@ -207,8 +220,9 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * @see TransactionalDocumentRuleBase#getGlobalObjectTypeRule()
      */
+    @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        KualiParameterRule combinedRule = KualiParameterRule.and(getGlobalObjectTypeRule(), getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES));
+        KualiParameterRule combinedRule = getObjectTypeRule();
         AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
         AttributeReference indirect = createObjectTypeAttributeReference(accountingLine);
         boolean allowed = indirectRuleSucceeds(combinedRule, direct, indirect);
@@ -219,10 +233,18 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
+     * @return the object type APC rule for IB
+     */
+    protected KualiParameterRule getObjectTypeRule() {
+        return KualiParameterRule.and(getGlobalObjectTypeRule(), getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES));
+    }
+
+    /**
      * Overrides the parent to make sure that the chosen object code's object sub-type code isn't restricted according to the APC.
      * 
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectSubTypeAllowed(AccountingLine)
      */
+    @Override
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isObjectSubTypeAllowed(accountingLine);
         if (allowed) {
@@ -240,6 +262,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see TransactionalDocumentRuleBase#isObjectLevelAllowed(AccountingLine)
      */
+    @Override
     public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isObjectLevelAllowed(accountingLine);
         if (allowed) {
@@ -256,6 +279,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see TransactionalDocumentRuleBase#isFundGroupAllowed(AccountingLine)
      */
+    @Override
     public boolean isFundGroupAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isFundGroupAllowed(accountingLine);
         if (allowed) {
@@ -284,6 +308,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see TransactionalDocumentRuleBase#isSubFundGroupAllowed(AccountingLine)
      */
+    @Override
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
         boolean allowed = super.isSubFundGroupAllowed(accountingLine);
         if (allowed) {
@@ -299,6 +324,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
+    @Override
     protected SufficientFundsItemHelper.SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
     }
@@ -308,6 +334,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.TargetAccountingLine)
      */
+    @Override
     protected SufficientFundsItemHelper.SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
     }

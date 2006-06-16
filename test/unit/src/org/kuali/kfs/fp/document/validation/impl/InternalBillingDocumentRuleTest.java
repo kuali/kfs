@@ -28,6 +28,8 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
@@ -36,7 +38,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class InternalBillingDocumentRuleTest extends KualiTestBaseWithFixtures implements InternalBillingDocumentRuleConstants {
+public class InternalBillingDocumentRuleTest extends KualiTestBaseWithFixtures {
 
     // ////////////////////////////////////////////////////////////////////////
     // Test methods start here //

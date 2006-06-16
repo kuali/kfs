@@ -28,10 +28,13 @@ import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.ServiceBillingControl;
+import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -46,6 +49,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     /**
      * @see TransactionalDocumentRuleBase#accountIsAccessible(TransactionalDocument, AccountingLine)
      */
+    @Override
     protected boolean accountIsAccessible(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
 
@@ -91,11 +95,20 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     }
 
     /**
+     * @see org.kuali.module.financial.rules.InternalBillingDocumentRule#getObjectTypeRule()
+     */
+    @Override
+    protected KualiParameterRule getObjectTypeRule() {
+        return KualiParameterRule.and(super.getObjectTypeRule(), getParameterRule(SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES));
+    }
+
+    /**
      * Sets extra accounting line field in explicit GLPE. IB doesn't have this field.
      * 
      * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */
+    @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String description = accountingLine.getFinancialDocumentLineDescription();
         if (StringUtils.isNotBlank(description)) {

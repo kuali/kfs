@@ -42,6 +42,7 @@ import org.apache.log4j.Logger;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.workflow.KualiConstants;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -144,7 +145,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * return whether or not this attribute is required
      * 
-     * @return boolean
+     * @return
      */
     public boolean isRequired() {
         return required;
@@ -162,7 +163,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter for the rule extension values
      * 
-     * @return List
+     * @return
      */
     public List getRuleExtensionValues() {
         return Collections.EMPTY_LIST;
@@ -173,7 +174,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * like that.
      * 
      * @param paramMap
-     * @return List
+     * @return
      */
     public List validateRoutingData(Map paramMap) {
         // TODO should this actually validate
@@ -189,7 +190,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * call into the other implementation validateRoutingData
      * 
      * @param paramMap
-     * @return List
+     * @return
      */
     public List validateRuleData(Map paramMap) {
         return validateRoutingData(paramMap);
@@ -198,7 +199,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * method to actually construct the docContent that will be appended to this documents contents
      * 
-     * @return String
+     * @return
      */
     public String getDocContent() {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr())) {
@@ -217,7 +218,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * 
      * @param docContent
      * @param ruleExtensions
-     * @return boolean
+     * @return
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         return true;
@@ -227,7 +228,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * This method is used by the workflow report to allow the user to fill in some arbitrary values for the routable contents of an
      * example document, and then to run the report to generate a virtual route log of who the document would route to, etc.
      * 
-     * @return List
+     * @return
      */
     public List getRoutingDataRows() {
         List rows = new ArrayList();
@@ -249,7 +250,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns empty
      * 
-     * @return List
+     * @return
      */
     public List getRuleRows() {
         return Collections.EMPTY_LIST;
@@ -258,7 +259,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns the account number
      * 
-     * @return String
+     * @return
      */
     public String getAccountNbr() {
         return accountNbr;
@@ -276,7 +277,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns the chart
      * 
-     * @return String
+     * @return
      */
     public String getFinCoaCd() {
         return finCoaCd;
@@ -294,7 +295,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns the total dollar amount
      * 
-     * @return String
+     * @return
      */
     public String getTotalDollarAmount() {
         return totalDollarAmount;
@@ -343,15 +344,6 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static String getUnqualifiedAccountSupervisorIdFromString(String qualifiedRole) {
         return qualifiedRole.split(ROLE_STRING_DELIMITER)[1];
-    }
-
-    /**
-     * This should be a mapping between the FIS document type and the Workflow document type, and should give back the FIS document
-     * type name so that we can lookup delegations based on the FIS name instead of the workflow name.
-     */
-    private static String getFisDocumentTypeNameFromWorkflowDocumentTypeName(String documentTypeName) {
-        // TODO need to look at the document type table for
-        return "ALL";
     }
 
     /**
@@ -477,7 +469,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      */
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
         List members = new ArrayList();
-        String fisDocumentType = getFisDocumentTypeNameFromWorkflowDocumentTypeName(context.getDocument().getDocumentType().getName());
+        String kualiDocumentType = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(context.getDocument().getDocumentType().getName()); 
         String annotation = "";
         Connection conn = null;
         try {
@@ -492,14 +484,14 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             }
             else if (FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
-                UserId primaryDelegate = getPrimaryDelegation(conn, role, fisDocumentType);
+                UserId primaryDelegate = getPrimaryDelegation(conn, role, kualiDocumentType);
                 if (primaryDelegate != null) {
                     members.add(primaryDelegate);
                 }
             }
             else if (FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
-                members.addAll(getSecondaryDelegations(conn, role, fisDocumentType));
+                members.addAll(getSecondaryDelegations(conn, role, kualiDocumentType));
             }
             else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
                 String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);

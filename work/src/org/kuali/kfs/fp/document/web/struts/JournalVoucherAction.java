@@ -90,6 +90,8 @@ public class JournalVoucherAction extends VoucherAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
 
+        populateBalanceTypeOneDocument(journalVoucherForm);
+        
         // now check to see if the balance type was changed and if so, we want to
         // set the method to call so that the appropriate action can be invoked
         // had to do it this way b/c the changing of the drop down causes the page to re-submit
@@ -108,6 +110,19 @@ public class JournalVoucherAction extends VoucherAction {
             returnForward = super.execute(mapping, journalVoucherForm, request, response);
         }
         return returnForward;
+    }
+
+    /**
+     * This method handles grabbing the values from the form and pushing them into the document appropriately.
+     * 
+     * @param journalVoucherForm
+     */
+    private void populateBalanceTypeOneDocument(JournalVoucherForm journalVoucherForm) {
+        String selectedBalanceTypeCode = journalVoucherForm.getSelectedBalanceType().getCode();
+        BalanceTyp selectedBalanceType = getPopulatedBalanceTypeInstance(selectedBalanceTypeCode);
+        journalVoucherForm.getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
+        journalVoucherForm.getJournalVoucherDocument().setBalanceType(selectedBalanceType);  // set the fully populated balance type object into the form's selected balance type
+        journalVoucherForm.setSelectedBalanceType(selectedBalanceType);
     }
 
 
@@ -145,7 +160,7 @@ public class JournalVoucherAction extends VoucherAction {
      */
     public ActionForward changeBalanceType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
-
+        
         // figure out which way the balance type is changing
         determineBalanceTypeChangeModes(journalVoucherForm);
 
@@ -190,7 +205,6 @@ public class JournalVoucherAction extends VoucherAction {
         // retrieve fully populated balance type instances
         BalanceTyp origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
         BalanceTyp newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
-        journalVoucherForm.setSelectedBalanceType(newBalType);  // set the fully populated balance type object into the form's selected balance type
 
         // figure out which ways we are switching the modes
         // first deal with amount changes

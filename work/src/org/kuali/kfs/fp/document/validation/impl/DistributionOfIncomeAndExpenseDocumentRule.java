@@ -149,6 +149,17 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
 
         return valid;
     }
+    
+    /**
+     * The DI allows one sided documents for correcting - so if one side is empty, the other side must have
+     * at least two lines in it.  The balancing rules take care of validation of amounts.
+     *
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     */
+    @Override
+    protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+        return isOptionalOneSidedDocumentAccountingLinesRequiredNumberForRoutingMet(transactionalDocument);
+    }
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,

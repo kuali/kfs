@@ -267,7 +267,8 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             } else if(ZERO.compareTo(amount) == 1) {
                 if(!accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_BASE_BUDGET) && 
                         !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_CURRENT_BUDGET) && 
-                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_MONTHLY_BUDGET)) {
+                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_MONTHLY_BUDGET) && 
+                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_BUDGET_STATISTICS)) {
                     GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, KeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }
             }

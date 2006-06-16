@@ -24,7 +24,7 @@
 						</tr>
 					</c:when>
 					<c:otherwise><li>${errorText}</li></c:otherwise>
-				</c:choose><br/>
+				</c:choose>
 			</c:if>
 		</c:forEach>
 	</div>

@@ -45,6 +45,7 @@ public class DistributionOfIncomeAndExpenseDocument extends TransactionalDocumen
     /**
      * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
      */
+    @Override
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.FROM;
     }
@@ -52,6 +53,7 @@ public class DistributionOfIncomeAndExpenseDocument extends TransactionalDocumen
     /**
      * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
      */
+    @Override
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.TO;
     }

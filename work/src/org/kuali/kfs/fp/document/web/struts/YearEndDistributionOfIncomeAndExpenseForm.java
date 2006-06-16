@@ -25,15 +25,17 @@ package org.kuali.module.financial.web.struts.form;
 import org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
- * This class is the action form for Distribution of Income and Expense.
+ * This class is the action form for Year End Distribution of Income and Expense.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
 public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfIncomeAndExpenseForm {
 
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * Constructs a YearEndDistributionOfIncomeAndExpenseForm.java.
+     */
     public YearEndDistributionOfIncomeAndExpenseForm() {
         super();
         setDocument(new YearEndDistributionOfIncomeAndExpenseDocument());
@@ -47,7 +49,7 @@ public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfInc
     }
 
     /**
-     * @param DistributionOfIncomeAndExpenseDocument The DistributionOfIncomeAndExpenseDocument to set.
+     * @param yearEndDistributionOfIncomeAndExpenseDocument
      */
     public void setYearEndDistributionOfIncomeAndExpenseDocument(YearEndDistributionOfIncomeAndExpenseDocument yearEndDistributionOfIncomeAndExpenseDocument) {
         setDocument(yearEndDistributionOfIncomeAndExpenseDocument);

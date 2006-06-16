@@ -23,11 +23,26 @@
 
 package org.kuali.module.financial.rules;
 
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.module.financial.document.YearEndDocumentUtil;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+
 /**
- * Business rule(s) applicable to Year End Distribution of Income and Expense documents.
+ * Business rules applicable to <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends DistributionOfIncomeAndExpenseDocumentRule {
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+    }
 
 }

@@ -56,6 +56,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         // SOURCE line
         // -- Expense Or Asset
@@ -103,6 +104,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     /**
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = super.isObjectSubTypeAllowed(accountingLine);
         if (valid) {
@@ -127,6 +129,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
         boolean valid = super.isObjectTypeAllowed(accountingLine);
 
@@ -152,6 +155,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
+    @Override
     protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
     }
@@ -162,6 +166,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.TargetAccountingLine)
      */
+    @Override
     protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
     }

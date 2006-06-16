@@ -25,11 +25,11 @@ package org.kuali.module.financial.document;
 
 
 /**
- * used to classify a document as 'year end' mainly for sufficent funds checking purposes.
+ * used to classify a document as 'year end'. necessary for sufficient funds checking of year end documents
  * 
  * @see org.kuali.module.gl.service.SufficientFundsService
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface YearEndDocument {
-
+    // empty
 }

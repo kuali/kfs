@@ -23,31 +23,19 @@
 
 package org.kuali.module.financial.document;
 
-import org.kuali.Constants;
-
 
 /**
+ * Year End version of the <code>DistributionOfIncomeAndExpenseDocument</code> functionally the only difference is the accounting
+ * period code used on the glpe entries
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument {
+public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument {
 
-    private static final long serialVersionUID = 6496533913163510651L;
-
+    /**
+     * Constructs a YearEndDistributionOfIncomeAndExpenseDocument.java.
+     */
     public YearEndDistributionOfIncomeAndExpenseDocument() {
         super();
-    }
-
-    /**
-     * Overrides the base implementation to return "From".
-     */
-    public String getSourceAccountingLinesSectionTitle() {
-        return Constants.FROM;
-    }
-
-    /**
-     * Overrides the base implementation to return "To".
-     */
-    public String getTargetAccountingLinesSectionTitle() {
-        return Constants.TO;
     }
 }

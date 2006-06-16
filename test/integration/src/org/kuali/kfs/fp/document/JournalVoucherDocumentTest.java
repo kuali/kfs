@@ -267,7 +267,7 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         // jv docs go straight to final
         DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), EdenConstants.ROUTE_HEADER_FINAL_CD);
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
-        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), Constants.DocumentStatusCodes.PROCESSED);
+        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), Constants.DocumentStatusCodes.APPROVED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
 

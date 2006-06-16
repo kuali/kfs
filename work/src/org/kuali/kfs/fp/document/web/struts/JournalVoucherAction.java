@@ -190,6 +190,7 @@ public class JournalVoucherAction extends VoucherAction {
         // retrieve fully populated balance type instances
         BalanceTyp origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
         BalanceTyp newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
+        journalVoucherForm.setSelectedBalanceType(newBalType);  // set the fully populated balance type object into the form's selected balance type
 
         // figure out which ways we are switching the modes
         // first deal with amount changes

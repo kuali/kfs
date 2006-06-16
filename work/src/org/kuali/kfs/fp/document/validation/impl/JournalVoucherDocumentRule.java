@@ -53,6 +53,8 @@ import static org.kuali.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
@@ -262,6 +264,12 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             if (ZERO.compareTo(amount) == 0) { // amount == 0
                 GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
                 return false;
+            } else if(ZERO.compareTo(amount) == 1) {
+                if(!accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_BASE_BUDGET) && 
+                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_CURRENT_BUDGET) && 
+                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_MONTHLY_BUDGET)) {
+                    GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, KeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
+                }
             }
         }
 

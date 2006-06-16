@@ -207,7 +207,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
                 financialDocumentStatusMessage = StringUtils.replace(financialDocumentStatusMessage, "{0}", loadCMDocUrl);
             }
         }
-        else if (financialDocumentStatusCode.equals(Constants.DocumentStatusCodes.PROCESSED)) {
+        else if (financialDocumentStatusCode.equals(Constants.DocumentStatusCodes.APPROVED)) {
             CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(crd.getFinancialDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();

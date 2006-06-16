@@ -25,6 +25,7 @@ package org.kuali.module.financial.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
@@ -183,6 +184,21 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      */
     public KualiDecimal getSumTotalAmount() {
         return this.totalAdvanceDepositAmount;
+    }
+    
+    /**
+     * Override to set the document status to APPROVED ("A").  This is typically done in the DocumentBase; however, 
+     * the CashReceipt, which is a parent to this document has a different life-cycle, but performs other common things. 
+     * So this overrides an override.
+     * 
+     * @see org.kuali.core.document.Document#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
+        }
     }
 
     /**

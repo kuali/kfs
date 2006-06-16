@@ -409,8 +409,8 @@ public class CashManagementServiceImpl implements CashManagementService {
         for (Deposit deposit : deposits) {
             List<CashReceiptDocument> receipts = retrieveCashReceipts(deposit);
             for (CashReceiptDocument receipt : receipts) {
-                // mark CRs as PROCESSED so that the next GL batch job will do unto them
-                receipt.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.PROCESSED);
+                // mark CRs as APPROVED so that the next GL batch job will do unto them
+                receipt.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
                 documentService.updateDocument(receipt);
             }
         }
@@ -419,7 +419,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         cashDrawerService.closeCashDrawer(workgroupName);
 
         // finalize the CMDoc, but let the postprocessor save it
-        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.PROCESSED);
+        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
     }
 
     /**

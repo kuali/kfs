@@ -24,6 +24,6 @@
 
 	<kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+	<kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

@@ -23,7 +23,7 @@
 package org.kuali.module.financial.web.struts.action;
 
 /**
- * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase.
+ * Struts Action for <code>{@link org.kuali.module.financial.document.YearEndGeneralErrorCorrectionDocument}</code>
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */

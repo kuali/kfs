@@ -25,13 +25,11 @@ package org.kuali.module.financial.web.struts.form;
 import org.kuali.module.financial.document.YearEndGeneralErrorCorrectionDocument;
 
 /**
- * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
+ * Struts form for <code>{@link YearEndGeneralErrorCorrectionDocument}</code>
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionForm {
-    private static final long serialVersionUID = 1L;
-
     /**
      * Constructs a YearEndGeneralErrorCorrectionForm instance.
      */
@@ -41,14 +39,14 @@ public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionFor
     }
 
     /**
-     * @return Returns the serviceBillingDocument.
+     * @return YearEndGeneralErrorCorrectionDocument
      */
     public YearEndGeneralErrorCorrectionDocument getYearEndGeneralErrorCorrectionDocument() {
         return (YearEndGeneralErrorCorrectionDocument) getDocument();
     }
 
     /**
-     * @param serviceBillingDocument The serviceBillingDocument to set.
+     * @param yearEndGeneralErrorCorrectionDocument
      */
     public void setYearEndGeneralErrorCorrectionDocument(YearEndGeneralErrorCorrectionDocument yearEndGeneralErrorCorrectionDocument) {
         setDocument(yearEndGeneralErrorCorrectionDocument);

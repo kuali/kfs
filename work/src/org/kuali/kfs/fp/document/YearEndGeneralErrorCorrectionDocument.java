@@ -39,7 +39,6 @@ import org.kuali.module.financial.document.YearEndDocument;
  */
 public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectionDocument implements YearEndDocument {
     private static final long serialVersionUID = -8182003625909239560L;
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndGeneralErrorCorrectionDocument.class);
 
     /**
      * Initializes the array lists and some basic info.

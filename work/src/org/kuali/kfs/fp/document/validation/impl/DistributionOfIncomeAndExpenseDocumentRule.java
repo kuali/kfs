@@ -151,7 +151,6 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     }
 
     /**
-     * @Override
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
@@ -162,7 +161,6 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
 
 
     /**
-     * @Override
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.TargetAccountingLine)
      */

@@ -66,12 +66,12 @@
                 <td align="left" valign="middle" class="subhead"><span class="subhead-left">Modification Criteria</span></td>
             </tr>
             <tr>
-            <td colspan="2" align="left" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
-            <STRONG>Add Groups </STRONG> 
-            <input type="image" 
+            	<td colspan="2" align="left" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
+	            <STRONG>Add Groups </STRONG> 
+    	        <input type="image" 
                    name="methodToCall.addCorrectionGroup" 
                    src="images/tinybutton-add1.gif" alt="add correction group" class="tinybutton" /> 
-            </td>
+        	    </td>
             
             </tr>
             
@@ -105,12 +105,12 @@
                                       name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][<c:out 
                                         value="${criterion.correctionCriteriaLineNumber}" />][field-name]">
                                     <option value="" selected>Select Search Criteria</option> 
-                                    <c:forEach var="fieldName" items="${KualiForm.fieldNames}">
-                                        <option value="<c:out value="${fieldName}" />"<c:if 
-                                            test="${fieldName eq criterion.correctionFieldName}"> selected="true"</c:if>>
-                                            <c:out value="${fieldName}" /> 
-                                        </option>
-                                    </c:forEach>
+            	                        <c:forEach var="fieldName" items="${KualiForm.fieldNames}">
+                	                        <option value="<c:out value="${fieldName}" />"<c:if 
+                    	                        test="${fieldName eq criterion.correctionFieldName}"> selected="true"</c:if>>
+                        	                    <c:out value="${fieldName}" /> 
+                            	            </option>
+                                	    </c:forEach>
                                 </select>
                                 <label for="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][<c:out 
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]">Operator</label>
@@ -220,14 +220,15 @@
 			                   
 			                   
 			                   
-                    </td>
+                  
                 </tr>
             </c:forEach>
 			
 		 		                   
 	</table>
 
-	<div>	
+	
+
 		<div align="center">
 			<html:checkbox property="deleteOutput" > <STRONG> Delete output file? </STRONG> </html:checkbox>
        	    <html:checkbox property="matchCriteriaOnly" > <STRONG> Output only recoreds which match criteria? </STRONG> </html:checkbox>
@@ -256,11 +257,12 @@
 				
 	
     
-    </div>		
+    </div>	
+  </div> 
 
 </c:if>
              
-             
+           
              
              
              

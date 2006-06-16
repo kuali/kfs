@@ -36,9 +36,13 @@ import java.util.TreeSet;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.document.CorrectionDocument;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 
 public class CorrectionForm extends KualiDocumentFormBase {
     static final private long serialVersionUID = 123456789L;
@@ -57,6 +61,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String matchCriteriaOnly;
     private String editableFlag;
     private String manualEditFlag;
+    
     /**
      * This is a Map of operators that can be used in searches from the GL Error Correction Document. Each value in this Map
      * corresponds to a case in CorrectionActionHelper.isMatch(Object, CorrectionSearchCriterion).
@@ -92,6 +97,9 @@ public class CorrectionForm extends KualiDocumentFormBase {
         searchOperators.put("sw", "Starts with");
         searchOperators.put("ew", "Ends with");
         searchOperators.put("ct", "Contains");
+        
+        
+       
     }
 
     /**
@@ -297,6 +305,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public void setManualEditFlag(String manualEditFlag) {
         this.manualEditFlag = manualEditFlag;
     }
+
+   
 
 
 }

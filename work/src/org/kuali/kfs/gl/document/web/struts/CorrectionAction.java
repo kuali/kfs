@@ -52,6 +52,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
@@ -66,7 +67,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.14 2006-06-15 15:48:11 temay Exp $
+ * @version $Id: CorrectionAction.java,v 1.15 2006-06-16 14:33:30 schoo Exp $
  * 
  */
 
@@ -170,8 +171,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // Don't need this if multiple dropdown keeps holding choice from user
         HttpSession session = request.getSession(true);
 
-        if (session.getAttribute("groupId") != null) {
-            String[] groupId = (String[]) session.getAttribute("groupId");
+        if (session.getAttribute("newGroupId") != null) {
+            //String[] groupId = (String[]) session.getAttribute("newGroupId");
+            String[] groupId = {(String) session.getAttribute("newGroupId")};
             showAllEntries(groupId, errorCorrectionForm);
 
             errorCorrectionForm.setEditableFlag("N");
@@ -215,8 +217,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // show the document when users choose documents
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
-        if (session.getAttribute("groupId") != null) {
-            String[] groupId = (String[]) session.getAttribute("groupId");
+        if (session.getAttribute("newGroupId") != null) {
+            //String[] groupId = (String[]) session.getAttribute("newGroupId");
+            String[] groupId = {(String) session.getAttribute("newGroupId")};
             showAllEntries(groupId, errorCorrectionForm);
             errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
@@ -272,8 +275,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // show the document when users choose documents
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
-        if (session.getAttribute("groupId") != null) {
-            String[] groupId = (String[]) session.getAttribute("groupId");
+        if (session.getAttribute("newGroupId") != null) {
+            //String[] groupId = (String[]) session.getAttribute("newGroupId");
+            String[] groupId = {(String) session.getAttribute("newGroupId")};
             showAllEntries(groupId, errorCorrectionForm);
             errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
@@ -313,8 +317,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // show the document when users choose documents
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
-        if (session.getAttribute("groupId") != null) {
-            String[] groupId = (String[]) session.getAttribute("groupId");
+        if (session.getAttribute("newGroupId") != null) {
+            //String[] groupId = (String[]) session.getAttribute("newGroupId");
+            String[] groupId = {(String) session.getAttribute("newGroupId")};
             showAllEntries(groupId, errorCorrectionForm);
             errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
@@ -370,8 +375,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // show the document when users choose documents
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
-        if (session.getAttribute("groupId") != null) {
-            String[] groupId = (String[]) session.getAttribute("groupId");
+        if (session.getAttribute("newGroupId") != null) {
+            //String[] groupId = (String[]) session.getAttribute("newGroupId");
+            String[] groupId = {(String) session.getAttribute("newGroupId")};
             showAllEntries(groupId, errorCorrectionForm);
             errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
@@ -411,8 +417,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // show the document when users choose documents
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
-        if (session.getAttribute("groupId") != null) {
-            String[] groupId = (String[]) session.getAttribute("groupId");
+        if (session.getAttribute("newGroupId") != null) {
+            //String[] groupId = (String[]) session.getAttribute("newGroupId");
+            String[] groupId = {(String) session.getAttribute("newGroupId")};
             showAllEntries(groupId, errorCorrectionForm);
             errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
@@ -498,7 +505,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         HttpSession session = request.getSession(true);
-        String groupId[] = request.getParameterValues("pending-origin-entry-group-id");
         showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm);
 
         if (errorCorrectionForm.getAllEntries().size() > 0) {
@@ -748,33 +754,39 @@ public class CorrectionAction extends KualiDocumentActionBase {
                 // convert String to Date
                 Date convertDate = SpringServiceLocator.getDateTimeService().convertToSqlDate(replaceValue);
                 BeanUtils.setProperty(eachReplaceEntries, replaceField, convertDate);
+                continue;
 
             }
             if (replaceField.equals("transactionDate")) {
                 // convert String to Date
                 Date convertDate = SpringServiceLocator.getDateTimeService().convertToSqlDate(replaceValue);
                 BeanUtils.setProperty(eachReplaceEntries, replaceField, convertDate);
+                continue;
             }
 
             if (replaceField.equals("transactionLedgerEntrySequenceNumber")) {
                 // convert String to Integer
                 int convertInt = Integer.parseInt(replaceValue);
                 BeanUtils.setProperty(eachReplaceEntries, replaceField, new Integer(convertInt));
+                continue;
             }
             if (replaceField.equals("transactionLedgerEntryAmount")) {
                 BeanUtils.setProperty(eachReplaceEntries, replaceField, new KualiDecimal(replaceValue));
+                continue;
             }
 
             if (replaceField.equals("universityFiscalYear")) {
                 // convert String to Integer
                 int convertInt = Integer.parseInt(replaceValue);
                 BeanUtils.setProperty(eachReplaceEntries, replaceField, new Integer(convertInt));
+                continue;
             }
             
             if (replaceField.equals("budgetYear")) {
                 // convert String to Integer
                 int convertInt = Integer.parseInt(replaceValue);
                 BeanUtils.setProperty(eachReplaceEntries, replaceField, new Integer(convertInt));
+                continue;
             }
 
             BeanUtils.setProperty(eachReplaceEntries, replaceField, replaceValue);
@@ -1138,7 +1150,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         OriginEntryGroup newOriginEntryGroup = originEntryGroupDao.getExactMatchingEntryGroup(Integer.parseInt(newGroupId));
 
         // if user checked Delete Output file option
-        if (errorCorrectionForm.getDeleteOutput().equals("on")) {
+        if (errorCorrectionForm.getDeleteOutput() != null) {
             newOriginEntryGroup.setProcess(false);
         }
         else {
@@ -1524,21 +1536,60 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
-        // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
-
+        HttpSession session = request.getSession(true);
         Collection<OriginEntry> resultCorrectionList = new ArrayList();
-        String[] groupId;
-        groupId = errorCorrectionForm.getGroupIdList();
-
+        String[] groupId = { (String) session.getAttribute("newGroupId")};
+        
+        if (!errorCorrectionForm.getChooseSystem().equals("file")){
+             groupId = errorCorrectionForm.getGroupIdList(); 
+             }
         List correctionGroups = document.getCorrectionChangeGroup();
 
         resultCorrectionList = searchAndReplace(groupId, errorCorrectionForm);
 
         errorCorrectionForm.setAllEntries(resultCorrectionList);
+        
+        
+        
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
+    
+    
+    
+    public ActionForward saveToDesktop(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        
+        originEntryDao = (OriginEntryDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryDao");
+        originEntryGroupDao = (OriginEntryGroupDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupDao");
+        originEntryService = (OriginEntryService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryService");
+        CorrectionForm errorCorrectionForm = (CorrectionForm) form;
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
+        String[] groupId = errorCorrectionForm.getGroupIdList();
+        
+        OriginEntryGroup oeg = originEntryGroupDao.getExactMatchingEntryGroup(Integer.parseInt(groupId[0]));
+        String sourceName = "";
+        String fileName;
+        if (oeg.getSource() != null) {
+            sourceName = oeg.getSource().getName();
+            }
+        //fileName = oeg.getSourceCode()+sourceName+oeg.getId().toString()+oeg.getDate().toString();
+        fileName = "/java_out.txt";
+        originEntryService.exportFlatFile(fileName, Integer.parseInt(groupId[0]));
+        
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }

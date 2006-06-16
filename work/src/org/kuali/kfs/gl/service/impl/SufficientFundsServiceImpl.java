@@ -31,7 +31,6 @@ import org.kuali.core.bo.user.Options;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.SufficientFundsCheckingPreparationEvent;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
@@ -41,6 +40,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectLevelService;
+import org.kuali.module.financial.document.YearEndDocument;
 import org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.APPLICATION_PARAMETER;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.APPLICATION_PARAMETER_SECURITY_GROUP;
@@ -64,7 +64,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     private KualiConfigurationService kualiConfigurationService;
     private PersistenceService persistenceService;
     private KualiRuleService kualiRuleService;
-    private DataDictionaryService dataDictionaryService;
     private SufficientFundsDao sufficientFundsDao;
 
     /**
@@ -294,7 +293,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * retrieves the fs_options_t for a given universityFiscalYear
      * 
      * @param universityFiscalYear identifies which financial system options to retrieve
-     * @return
+     * @return returns a <code>Options</code> objecte containing application options for a given year
      */
     final Options retrieveOptions(Integer universityFiscalYear) {
         Options options = new Options();
@@ -307,13 +306,14 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         return options;
     }
 
-
+    /**
+     * checks to see if a document is a <code>YearEndDocument</code>
+     * 
+     * @param documentClass
+     * @return true if the class implements <code>YearEndDocument</code>
+     */
     final boolean isYearEndDocument(Class documentClass) {
-        String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(documentClass);
-        String documentTypeCode = dataDictionaryService.getDocumentTypeCodeByTypeName(documentTypeName);
-        // msa apc ?
-        boolean isYearEnd = StringUtils.defaultString(documentTypeCode).startsWith("YE");
-        return isYearEnd;
+        return YearEndDocument.class.isAssignableFrom(documentClass);
     }
 
     /**
@@ -321,7 +321,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @see org.kuali.module.gl.service.SufficientFundsService#getExpenditureCodes()
      */
     public List getExpenditureCodes() {
-        // msa verify ex;es;ee;te
         final List list = new ArrayList();
         list.addAll(Arrays.asList(kualiConfigurationService.getApplicationParameterValues(APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING, APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES)));
         list.add(kualiConfigurationService.getApplicationParameterValue(TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE));
@@ -357,7 +356,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      */
     public void purgeYearByChart(String chart, int year) {
         LOG.debug("setAccountService() started");
-
         sufficientFundsDao.purgeYearByChart(chart, year);
     }
 
@@ -423,14 +421,5 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      */
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
-    }
-
-    /**
-     * Sets the dataDictionaryService attribute value.
-     * 
-     * @param dataDictionaryService The dataDictionaryService to set.
-     */
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 }

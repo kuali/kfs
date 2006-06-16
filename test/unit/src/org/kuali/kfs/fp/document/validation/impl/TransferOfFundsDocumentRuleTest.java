@@ -535,12 +535,12 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
-//        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
+        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
         testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntry");
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
-//        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
+        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
         testProcessGenerateGeneralLedgerPendingEntries(createDocumentFromParameter("tof2000documentParameter"), createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntryMissingOffsetDefinition", false);
         assertGlobalErrorMapContains(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
     }

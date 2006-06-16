@@ -39,7 +39,6 @@ import org.kuali.module.gl.service.SufficientFundRebuildServiceTest;
 import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
 import org.kuali.module.gl.service.SufficientFundsServiceTest;
 import org.kuali.module.gl.util.BusinessObjectHandlerTest;
-import org.kuali.module.gl.util.GLFlexibleAccountServiceTest;
 
 /**
  * @author jsissom
@@ -77,7 +76,6 @@ public class AllTests {
 
         // org.kuali.module.gl.util
         suite.addTestSuite(BusinessObjectHandlerTest.class);
-        suite.addTestSuite(GLFlexibleAccountServiceTest.class);
 
         return suite;
     }

@@ -42,7 +42,7 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithFixtures 
     }
 
     public void testGetByPrimaryId_valid() throws NoSuchMethodException, InvocationTargetException {
-        service.setKualiConfigurationService(createMockConfigurationService(true));
+//        service.setKualiConfigurationService(createMockConfigurationService(true));
         OffsetAccount offsetAccount = service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString("blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode"));
         assertSparselyEqualFixture("offsetAccount1", offsetAccount);
         assertEquals(getFixtureString("blChartOfAccounts"), offsetAccount.getChart().getChartOfAccountsCode());
@@ -52,12 +52,12 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithFixtures 
     }
 
     public void testGetByPrimaryId_validDisabled() throws NoSuchMethodException, InvocationTargetException {
-        service.setKualiConfigurationService(createMockConfigurationService(false));
+//        service.setKualiConfigurationService(createMockConfigurationService(false));
         assertNull(service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString("blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode")));
     }
 
     public void testGetByPrimaryId_invalid() {
-        service.setKualiConfigurationService(createMockConfigurationService(true));
+//        service.setKualiConfigurationService(createMockConfigurationService(true));
         assertNull(service.getByPrimaryIdIfEnabled("XX", "XX", "XX"));
     }
 

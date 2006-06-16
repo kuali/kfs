@@ -44,7 +44,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntryTestBase.java,v 1.21 2006-06-14 12:27:10 abyrne Exp $
+ * @version $Id: OriginEntryTestBase.java,v 1.22 2006-06-16 00:18:22 jsissom Exp $
  */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
@@ -167,15 +167,15 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
         assertEquals("Wrong number of transactions in Origin Entry", requiredEntries.length, c.size());
 
         // This is for debugging purposes
-        // for (Iterator iter = groups.iterator(); iter.hasNext();) {
-        // Map element = (Map) iter.next();
-        // System.err.println("G:" + element.get("ORIGIN_ENTRY_GRP_ID") + " " + element.get("ORIGIN_ENTRY_GRP_SRC_CD"));
-        // }
-        //
-        // for (Iterator iter = c.iterator(); iter.hasNext();) {
-        // OriginEntry element = (OriginEntry) iter.next();
-        // System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());
-        // }
+         for (Iterator iter = groups.iterator(); iter.hasNext();) {
+         Map element = (Map) iter.next();
+         System.err.println("G:" + element.get("ORIGIN_ENTRY_GRP_ID") + " " + element.get("ORIGIN_ENTRY_GRP_SRC_CD"));
+         }
+        
+         for (Iterator iter = c.iterator(); iter.hasNext();) {
+         OriginEntry element = (OriginEntry) iter.next();
+         System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());
+         }
 
         int count = 0;
         for (Iterator iter = c.iterator(); iter.hasNext();) {

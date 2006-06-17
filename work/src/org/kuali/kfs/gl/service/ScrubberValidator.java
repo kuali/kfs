@@ -24,6 +24,7 @@ package org.kuali.module.gl.service;
 
 import java.util.List;
 
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
@@ -33,9 +34,9 @@ public interface ScrubberValidator {
     /**
      * Validate a transaction in the scrubber
      * 
-     * @param originEntry - Input transaction (never changed)
-     * @param scrubbedEntry - Output transaction (scrubbed version of input transaction)
-     * @param universityRunDate - Date of scrubber run
+     * @param - originEntry Input transaction (never changed)
+     * @param - scrubbedEntry Output transaction (scrubbed version of input transaction)
+     * @param - universityRunDate Date of scrubber run
      * @return - List of Message objects based for warnings or errors that happened when validating the transaction
      */
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
@@ -43,10 +44,7 @@ public interface ScrubberValidator {
     /**
      * Validate a transaction for use in balance inquiry
      * 
-     * @param originEntry - Input transaction (never changed)
-     * @param scrubbedEntry - Output transaction to be used in balance inquiry
-     * @param universityRunDate - Today's date
-     * @return - List of Message objects based for warnings or errors that happened when validating the transaction
+     * @param - entry Input transaction
      */
-    public List<Message> validateForInquiry(OriginEntry originEntry,OriginEntry scrubbedEntry,UniversityDate universityRunDate);
+    public void validateForInquiry(GeneralLedgerPendingEntry entry);
 }

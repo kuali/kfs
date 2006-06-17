@@ -32,14 +32,15 @@ import java.util.List;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.OriginationCode;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.OriginationCodeService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.ScrubberValidator;
@@ -47,89 +48,6 @@ import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.StringHelper;
 import org.springframework.util.StringUtils;
-import java.util.AbstractCollection;
-import java.util.AbstractList;
-import java.util.AbstractMap;
-import java.util.AbstractQueue;
-import java.util.AbstractSequentialList;
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.ConcurrentModificationException;
-import java.util.Currency;
-import java.util.Dictionary;
-import java.util.DuplicateFormatFlagsException;
-import java.util.EmptyStackException;
-import java.util.Enumeration;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.EventListener;
-import java.util.EventListenerProxy;
-import java.util.EventObject;
-import java.util.FormatFlagsConversionMismatchException;
-import java.util.Formattable;
-import java.util.FormattableFlags;
-import java.util.Formatter;
-import java.util.FormatterClosedException;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.IdentityHashMap;
-import java.util.IllegalFormatCodePointException;
-import java.util.IllegalFormatConversionException;
-import java.util.IllegalFormatException;
-import java.util.IllegalFormatFlagsException;
-import java.util.IllegalFormatPrecisionException;
-import java.util.IllegalFormatWidthException;
-import java.util.InputMismatchException;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.ListResourceBundle;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingFormatArgumentException;
-import java.util.MissingFormatWidthException;
-import java.util.MissingResourceException;
-import java.util.NoSuchElementException;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.PriorityQueue;
-import java.util.Properties;
-import java.util.PropertyPermission;
-import java.util.PropertyResourceBundle;
-import java.util.Queue;
-import java.util.Random;
-import java.util.RandomAccess;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.SimpleTimeZone;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.Stack;
-import java.util.StringTokenizer;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.TimeZone;
-import java.util.TooManyListenersException;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.UnknownFormatConversionException;
-import java.util.UnknownFormatFlagsException;
-import java.util.UUID;
-import java.util.Vector;
-import java.util.WeakHashMap;
 
 
 /**
@@ -145,6 +63,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private UniversityDateDao universityDateDao;
     private AccountService accountService;
     private OriginationCodeService originationCodeService;
+    private DateTimeService dateTimeService;
 
     private static String[] debitOrCredit = new String[] { Constants.GL_DEBIT_CODE, Constants.GL_CREDIT_CODE };
     private static String[] continuationAccountBypassOriginationCodes = new String[] { "EU", "PL" };
@@ -156,38 +75,32 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     private static int count = 0;
 
-    public List<Message> validateForInquiry(OriginEntry originEntry,OriginEntry scrubbedEntry,UniversityDate universityRunDate) {
+    public void validateForInquiry(GeneralLedgerPendingEntry entry) {
         LOG.debug("validateForInquiry() started");
-        
-        List<Message> errors = new ArrayList<Message>();
 
-        Message err = validateFiscalYear(originEntry, scrubbedEntry, universityRunDate);
-        if (err != null) {
-            errors.add(err);
-        }
+        UniversityDate today = null;
 
-        err = validateObjectType(originEntry, scrubbedEntry);
-        if (err != null) {
-            errors.add(err);
+        if ( entry.getUniversityFiscalYear() == null ) {
+            today = dateTimeService.getCurrentUniversityDate();
+            entry.setUniversityFiscalYear(today.getUniversityFiscalYear());
         }
 
-        err = validateUniversityFiscalPeriodCode(originEntry, scrubbedEntry, universityRunDate);
-        if (err != null) {
-            errors.add(err);
+        if ( entry.getUniversityFiscalPeriodCode() == null ) {
+            if ( today == null ) {
+                today = dateTimeService.getCurrentUniversityDate();                
+            }
+            entry.setUniversityFiscalPeriodCode(today.getUniversityFiscalAccountingPeriod());
         }
 
-        // These three fields don't need the complete scrubbing.  They just need to be dashes if they are empty
-        if ( (originEntry.getSubAccountNumber() == null) || ( ! StringUtils.hasText(originEntry.getSubAccountNumber())) ) {
-            scrubbedEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+        if ( (entry.getSubAccountNumber() == null) || ( ! StringUtils.hasText(entry.getSubAccountNumber())) ) {
+            entry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         }
-        if ( (originEntry.getFinancialSubObjectCode() == null) || (! StringUtils.hasText(originEntry.getFinancialSubObjectCode())) ) {
-            scrubbedEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        if ( (entry.getFinancialSubObjectCode() == null) || (! StringUtils.hasText(entry.getFinancialSubObjectCode())) ) {
+            entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
-        if ( (originEntry.getProjectCode() == null) || (! StringUtils.hasText(originEntry.getProjectCode())) ) {
-            scrubbedEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
+        if ( (entry.getProjectCode() == null) || (! StringUtils.hasText(entry.getProjectCode())) ) {
+            entry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         }
-
-        return errors;
     }
 
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate) {

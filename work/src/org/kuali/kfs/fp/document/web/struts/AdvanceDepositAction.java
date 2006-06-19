@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,11 +33,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.module.financial.document.CreditCardReceiptDocument;
 import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
 import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
+import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
 
 /**
  * This is the action class for the Advance Deposit document.
@@ -43,6 +48,25 @@ import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
+    /**
+     * Adds handling for advance deposit detail amount updates.
+     * 
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AdvanceDepositForm adForm = (AdvanceDepositForm) form;
+
+        if (adForm.hasDocumentId()) {
+            AdvanceDepositDocument adDoc = adForm.getAdvanceDepositDocument();
+
+            adDoc.setTotalAdvanceDepositAmount(calculateAdvanceDepositTotal(adDoc)); // recalc b/c changes to the amounts could have happened
+        }
+
+        // proceed as usual
+        return super.execute(mapping, form, request, response);
+    }
+    
     /**
      * Adds a AdvanceDepositDetail instance created from the current "new advanceDeposit" line to the document
      * 
@@ -106,4 +130,19 @@ public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
         GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
         return isValid;
     }
-}
+    
+    /**
+     * Recalculates the advance deposit total since user could have changed it during their update.
+     * 
+     * @param advanceDepositDocument
+     */
+    private KualiDecimal calculateAdvanceDepositTotal(AdvanceDepositDocument advanceDepositDocument) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        Iterator<AdvanceDepositDetail> deposits = advanceDepositDocument.getAdvanceDeposits().iterator();
+        while(deposits.hasNext()) {
+            AdvanceDepositDetail deposit = deposits.next();
+            total = total.add(deposit.getFinancialDocumentAdvanceDepositAmount());
+        }
+        return total;
+    }
+ }

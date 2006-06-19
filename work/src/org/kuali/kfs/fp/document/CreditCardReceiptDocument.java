@@ -154,12 +154,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      */
     public void removeCreditCardReceipt(int index) {
         CreditCardDetail creditCardReceiptDetail = (CreditCardDetail) creditCardReceipts.remove(index);
-
-        // if the totalCreditCardAmount goes negative, bring back to zero.
         this.totalCreditCardAmount = this.totalCreditCardAmount.subtract(creditCardReceiptDetail.getCreditCardAdvanceDepositAmount());
-        if (this.totalCreditCardAmount.isNegative()) {
-            this.totalCreditCardAmount = KualiDecimal.ZERO;
-        }
     }
 
     /**

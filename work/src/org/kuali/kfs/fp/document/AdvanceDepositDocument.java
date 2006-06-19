@@ -23,6 +23,7 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
@@ -40,8 +41,6 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AdvanceDepositDocument extends CashReceiptDocument {
-    private static final String CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE = "R";
-
     // holds details about each advance deposit
     private List advanceDeposits = new ArrayList();
 
@@ -130,7 +129,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      */
     public final void prepareNewAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
         advanceDepositDetail.setFinancialDocumentLineNumber(this.nextAdvanceDepositLineNumber);
-        advanceDepositDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
+        advanceDepositDetail.setFinancialDocumentColumnTypeCode(Constants.AdvanceDepositConstants.CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
         advanceDepositDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
         advanceDepositDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass()));
     }
@@ -155,12 +154,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      */
     public void removeAdvanceDeposit(int index) {
         AdvanceDepositDetail advanceDepositDetail = (AdvanceDepositDetail) advanceDeposits.remove(index);
-
-        // if the totalAdvanceDepositAmount goes negative, bring back to zero.
         this.totalAdvanceDepositAmount = this.totalAdvanceDepositAmount.subtract(advanceDepositDetail.getFinancialDocumentAdvanceDepositAmount());
-        if (this.totalAdvanceDepositAmount.isNegative()) {
-            this.totalAdvanceDepositAmount = KualiDecimal.ZERO;
-        }
     }
 
     /**
@@ -182,6 +176,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * 
      * @return KualiDecimal
      */
+    @Override
     public KualiDecimal getSumTotalAmount() {
         return this.totalAdvanceDepositAmount;
     }
@@ -206,6 +201,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * 
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
+    @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getAdvanceDeposits());

@@ -27,6 +27,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +47,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.16 2006-06-14 12:26:36 abyrne Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.17 2006-06-19 18:20:33 jsissom Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -220,9 +221,9 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     /**
      * 
-     * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(java.util.List)
+     * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(Collection)
      */
-    public LedgerEntryHolder getSummaryByGroupId(List groupIdList, boolean calculateTotals) {
+    public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
         LedgerEntryHolder ledgerEntryHolder = new LedgerEntryHolder();
 
         Iterator entrySummaryIterator = originEntryDao.getSummaryByGroupId(groupIdList);
@@ -242,15 +243,15 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         Object thisElement = entrySummary[i++];
         Integer fiscalYear = thisElement != null ? new Integer(thisElement.toString()) : null;
         thisElement = entrySummary[i++];
-        String periodCode = thisElement != null ? thisElement.toString() : "";
+        String periodCode = thisElement != null ? thisElement.toString() : "  ";
 
         thisElement = entrySummary[i++];
-        String balanceType = thisElement != null ? thisElement.toString() : "";
+        String balanceType = thisElement != null ? thisElement.toString() : "  ";
         thisElement = entrySummary[i++];
-        String originCode = thisElement != null ? thisElement.toString() : "";
+        String originCode = thisElement != null ? thisElement.toString() : "  ";
 
         thisElement = entrySummary[i++];
-        String debitCreditCode = thisElement != null ? thisElement.toString() : "";
+        String debitCreditCode = thisElement != null ? thisElement.toString() : " ";
 
         KualiDecimal amount = new KualiDecimal(entrySummary[i++].toString());
         int count = Integer.parseInt(entrySummary[i].toString());

@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.22 2006-06-14 12:26:34 abyrne Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.23 2006-06-19 18:20:33 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -191,80 +191,49 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     }
 
     /**
-     * @see org.kuali.module.gl.dao.OriginEntryDao#getSummaryByGroupId(java.lang.Integer)
-     */
-    public Iterator getSummaryByGroupId(Integer groupId) {
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.ENTRY_GROUP_ID, groupId);
-
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(OriginEntry.class, criteria);
-
-        List attributeList = buildAttributeList();
-        List groupList = buildGroupList();
-
-        // set the selection attributes
-        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
-        query.setAttributes(attributes);
-
-        // add the group criteria into the selection statement
-        String[] groupBy = (String[]) groupList.toArray(new String[groupList.size()]);
-        query.addGroupBy(groupBy);
-
-        // add the sorting criteria
-        for (int i = 0; i < groupBy.length; i++) {
-            query.addOrderByAscending(groupBy[i]);
-        }
-
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-    }
-
-    /**
      * @see org.kuali.module.gl.dao.OriginEntryDao#getSummaryByGroupId(java.util.List)
      */
-    public Iterator getSummaryByGroupId(List groupIdList) {
+    public Iterator getSummaryByGroupId(Collection groupIdList) {
+        LOG.debug("getSummaryByGroupId() started");
+
+        Collection ids = new ArrayList();
+        for (Iterator iter = groupIdList.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup)iter.next();
+            ids.add(element.getId());
+        }
+
         Criteria criteria = new Criteria();
-        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, groupIdList);
+        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, ids);
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(OriginEntry.class, criteria);
 
-        List attributeList = buildAttributeList();
-        List groupList = buildGroupList();
+        String attributeList[] = {
+                PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE,
+                PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE,
+                PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE,
+                PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE,
+                "sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")",
+                "count(" + PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE + ")"
+        };
 
-        // set the selection attributes
-        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
-        query.setAttributes(attributes);
+        String groupList[] = {
+                PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE,
+                PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE,
+                PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE,
+                PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE
+        };
 
-        // add the group criteria into the selection statement
-        String[] groupBy = (String[]) groupList.toArray(new String[groupList.size()]);
-        query.addGroupBy(groupBy);
+        query.setAttributes(attributeList);
+        query.addGroupBy(groupList);
 
         // add the sorting criteria
-        for (int i = 0; i < groupBy.length; i++) {
-            query.addOrderByAscending(groupBy[i]);
+        for (int i = 0; i < groupList.length; i++) {
+            query.addOrderByAscending(groupList[i]);
         }
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-    }
-
-    private List buildAttributeList() {
-        List attributeList = this.buildGroupList();
-
-        attributeList.add("sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
-        attributeList.add("count(" + PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE + ")");
-        return attributeList;
-    }
-
-    private List buildGroupList() {
-        List attributeList = new ArrayList();
-
-        attributeList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        attributeList.add(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-        attributeList.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        attributeList.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        attributeList.add(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
-
-        return attributeList;
     }
 
     public OriginEntry getExactMatchingEntry(Integer entryId) {

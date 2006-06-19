@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -106,9 +107,8 @@ public interface OriginEntryService {
     /**
      * get the summarized information of the entries that belong to the entry groups with the given group id list
      * 
-     * @param groupIdList the id of a origin entry group
-     * @param calculateTotals indicate if the subtotals and grand total need to be calculated
+     * @param groupIdList the origin entry groups
      * @return a set of summarized information of the entries within the specified group
      */
-    public LedgerEntryHolder getSummaryByGroupId(List groupIdList, boolean calculateTotals);
+    public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 }

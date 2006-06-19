@@ -38,7 +38,7 @@ public class LedgerEntryHolder {
     private LedgerEntry grandTotal;
 
     /**
-     * Constructs a LedgerEntryCalculator.java.
+     * Constructs a LedgerEntryHolder.java.
      */
     public LedgerEntryHolder() {
         ledgerEntries = new HashMap();

@@ -36,6 +36,32 @@
             <ref bean="glCashOrganizationReversionCategoryLogic" />
         </property>
     </bean>
+	<bean id="glCollectorStep" class="org.kuali.module.gl.batch.CollectorStep">
+		<property name="collectorService">
+			<ref bean="glCollectorService" />
+		</property>
+	</bean>	
+
+	<bean id="glCollectorFileParser" class="org.kuali.module.gl.collector.xml.impl.CollectorFileParserImpl">
+    </bean>	
+
+	<bean id="glCollectorService" class="org.kuali.module.gl.service.impl.CollectorServiceImpl">
+    	<property name="interDepartmentalBillingService">
+    		<ref bean="glInterDepartmentalBillingService" />
+    	</property>
+    	<property name="originEntryService">
+    		<ref bean="glOriginEntryService" />
+    	</property>
+    	<property name="originEntryGroupService">
+    		<ref bean="glOriginEntryGroupService" />
+    	</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>	
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
 
     <bean id="glOrganizationReversionSelection" class="org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionSelectionImpl" />
 

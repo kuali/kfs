@@ -22,38 +22,79 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.io.InputStream;
-import java.util.List;
+import java.io.*;
 
-import org.kuali.module.gl.service.CollectorService;
-import org.kuali.module.gl.service.InterDepartmentalBillingService;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
+import org.apache.log4j.*;
+import org.kuali.core.service.*;
+import org.kuali.module.gl.collector.xml.*;
+import org.kuali.module.gl.collector.xml.impl.*;
+import org.kuali.module.gl.service.*;
+import org.springframework.beans.*;
+import org.springframework.beans.factory.*;
 
-public class CollectorServiceImpl implements CollectorService {
+public class CollectorServiceImpl implements CollectorService, BeanFactoryAware {
+    private static Logger LOG = Logger.getLogger(CollectorServiceImpl.class);
+    
     private InterDepartmentalBillingService interDepartmentalBillingService;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
+    private KualiConfigurationService kualiConfigurationService;
+    private DateTimeService dateTimeService;
+    private BeanFactory beanFactory;
 
-    public int loadCollectorFile(InputStream inputStream) {
-        // TODO Auto-generated method stub
-        return 0;
+    public void loadCollectorFile(String fileName) {
+        CollectorFileParser collectorFileParser = (CollectorFileParser)beanFactory.getBean("glCollectorFileParser");
+        doHardEditParse(collectorFileParser, fileName);
+        doCollectorFileParse(collectorFileParser, fileName);
+     }
+    private void doHardEditParse(CollectorFileParser collectorFileParser, String fileName) {
+        HardEditHandler hardEditHandler = new HardEditHandler();
+        hardEditHandler.clear();
+        collectorFileParser.setFileHandler(hardEditHandler);
+        try {
+            InputStream inputStream1 = new FileInputStream(fileName);
+            collectorFileParser.parse(inputStream1);
+        }catch(FileReadException fre) {
+            //Do something here.
+        }catch(FileNotFoundException fnfe) {
+            //Do something here.
+        }
     }
-
-    public List scrubCollectorGroup(int groupId) {
-        // TODO Auto-generated method stub
-        return null;
+    private void doCollectorFileParse(CollectorFileParser collectorFileParser, String fileName) {
+        CollectorFileHandlerImpl collectorFileHandler = new CollectorFileHandlerImpl
+                (originEntryService, interDepartmentalBillingService, originEntryGroupService, dateTimeService);
+        collectorFileParser.setFileHandler(collectorFileHandler);
+        try {
+            InputStream inputStream2 = new FileInputStream(fileName);
+            collectorFileParser.parse(inputStream2);
+        }catch(FileReadException fre) {
+            //Do something here.
+        }catch(FileNotFoundException fnfe) {
+            //Do something here.
+        }
     }
-
     public void setInterDepartmentalBillingService(InterDepartmentalBillingService interDepartmentalBillingService) {
         this.interDepartmentalBillingService = interDepartmentalBillingService;
     }
-
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
     }
-
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
+    }
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+    public String getStagingDirectory() {
+        return kualiConfigurationService.getPropertyString("collector.staging.directory");
+    }
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }
+    public static void setLOG(Logger log) {
+        LOG = log;
+    }
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

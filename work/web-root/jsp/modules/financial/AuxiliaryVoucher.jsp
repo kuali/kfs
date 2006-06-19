@@ -103,7 +103,7 @@
 
 		<kul:notes/>
 						
-		<kul:adHocRecipients editingMode="${KualiForm.editingMode}/>
+		<kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>
 			
 		<kul:routeLog/>
 

@@ -176,12 +176,17 @@ public class TransactionReportGenerator {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         errorTable.addCell(cell);
         
-        this.addHeader(errorTable, headerFont);
         if (reportErrors != null && reportErrors.size() > 0) {
+            this.addHeader(errorTable, headerFont);
             for (Iterator errorIter = reportErrors.keySet().iterator(); errorIter.hasNext();) {
                 Transaction transaction = (Transaction) errorIter.next();
                 this.addRow(errorTable, reportErrors, transaction, textFont);
             }
+        }
+        else{
+            cell = new PdfPCell(new Phrase("No errors occured!", headerFont));
+            cell.setColspan(14);
+            errorTable.addCell(cell);            
         }
         return errorTable;
     }

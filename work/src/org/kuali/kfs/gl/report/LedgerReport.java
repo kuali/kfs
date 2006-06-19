@@ -105,10 +105,10 @@ public class LedgerReport {
     private void generatePDFReport(Object ledgerEntryHolder, Date reportingDate, String title, String fileprefix, String destinationDirectory) {
         Document document = new Document(PageSize.A4.rotate());
 
-        PageHelper helper = new PageHelper();
-        helper.runDate = reportingDate;
-        helper.headerFont = headerFont;
-        helper.title = title;
+        PDFPageHelper pageHelper = new PDFPageHelper();
+        pageHelper.setRunDate(reportingDate);
+        pageHelper.setHeaderFont(headerFont);
+        pageHelper.setTitle(title);
 
         try {
             String filename = destinationDirectory + "/" + fileprefix + "_";
@@ -117,7 +117,7 @@ public class LedgerReport {
             filename = filename + PDF_FILE_EXTENSION;
 
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
-            writer.setPageEvent(helper);
+            writer.setPageEvent(pageHelper);
 
             document.open();
             PdfPTable ledgerEntryTable = this.drawPdfTable(ledgerEntryHolder);

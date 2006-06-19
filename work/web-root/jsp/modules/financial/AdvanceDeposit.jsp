@@ -32,7 +32,7 @@
 		extraSourceRowFields="financialDocumentLineDescription" />
 	<kul:generalLedgerPendingEntries />
 	<kul:notes />
-	<kul:adHocRecipients />
+	<kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>
 	<kul:routeLog />
 	<kul:panelFooter />
 	<kul:documentControls

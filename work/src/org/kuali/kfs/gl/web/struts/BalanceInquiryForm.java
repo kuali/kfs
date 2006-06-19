@@ -36,6 +36,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.uidraw.Field;
 import org.kuali.core.web.uidraw.Row;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * This class is the action form for balance inquiries.
@@ -55,6 +56,7 @@ public class BalanceInquiryForm extends LookupForm {
     private Map fieldConversions;
     private String businessObjectClassName;
     private Lookupable lookupable;
+    private Lookupable pendingEntryLookupable;
     private boolean hideReturnLink = false;
 
 
@@ -66,15 +68,19 @@ public class BalanceInquiryForm extends LookupForm {
 
         try {
             Lookupable localLookupable = null;
+            Lookupable localPendingEntryLookupable = null;
+            
             if (StringUtils.isBlank(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
+                
                 // get the business object class for the lookup
                 String localBusinessObjectClassName = request.getParameter(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
                 setBusinessObjectClassName(localBusinessObjectClassName);
+                
                 if (StringUtils.isBlank(localBusinessObjectClassName)) {
                     LOG.error("Business object class not passed to lookup.");
                     throw new RuntimeException("Business object class not passed to lookup.");
                 }
-
+                
                 // call data dictionary service to get lookup impl for bo class
                 String lookupImplID = SpringServiceLocator.getBusinessObjectDictionaryService().getLookupableID(Class.forName(localBusinessObjectClassName));
                 if (lookupImplID == null) {
@@ -84,12 +90,16 @@ public class BalanceInquiryForm extends LookupForm {
                 setLookupableImplServiceName(lookupImplID);
             }
             localLookupable = SpringServiceLocator.getLookupable(getLookupableImplServiceName());
-
+            
             if (localLookupable == null) {
                 LOG.error("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
                 throw new RuntimeException("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
             }
 
+            // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
+            if("org.kuali.module.gl.bo.Entry".equals(getBusinessObjectClassName())) {
+                localPendingEntryLookupable = SpringServiceLocator.getLookupable("glPendingEntryLookupableImpl");
+            }
 
             if (request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
                 setLookupableImplServiceName(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME));
@@ -109,10 +119,13 @@ public class BalanceInquiryForm extends LookupForm {
             if (request.getParameter("conversionFields") != null) {
                 setConversionFields(request.getParameter("conversionFields"));
             }
-
-
+            
             // init lookupable with bo class
             localLookupable.setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));
+            if(null != localPendingEntryLookupable) {
+                localPendingEntryLookupable.setBusinessObjectClass(GeneralLedgerPendingEntry.class);
+            }
+            
             Map fieldValues = new HashMap();
             Map formFields = getFields();
             for (Iterator iter = localLookupable.getRows().iterator(); iter.hasNext();) {
@@ -173,7 +186,11 @@ public class BalanceInquiryForm extends LookupForm {
             }
             setFieldConversions(fieldConversionMap);
             localLookupable.setFieldConversions(fieldConversionMap);
+            if(null != localPendingEntryLookupable) {
+                localPendingEntryLookupable.setFieldConversions(fieldConversionMap);
+            }
             setLookupable(localLookupable);
+            setPendingEntryLookupable(localPendingEntryLookupable);
         }
         catch (ClassNotFoundException e) {
             LOG.error("Business Object class " + getBusinessObjectClassName() + " not found");
@@ -311,5 +328,21 @@ public class BalanceInquiryForm extends LookupForm {
      */
     public void setHideReturnLink(boolean hideReturnLink) {
         this.hideReturnLink = hideReturnLink;
+    }
+    
+
+    /**
+     * @param pendingEntryLookupable
+     */
+    public void setPendingEntryLookupable(Lookupable pendingEntryLookupable) {
+        this.pendingEntryLookupable = pendingEntryLookupable;
+    }
+    
+    
+    /**
+     * @return Returns the pendingEntryLookupable.
+     */
+    public Lookupable getPendingEntryLookupable() {
+        return this.pendingEntryLookupable;
     }
 }

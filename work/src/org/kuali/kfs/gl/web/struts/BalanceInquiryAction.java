@@ -24,6 +24,7 @@ package org.kuali.module.gl.web.struts.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -62,26 +63,56 @@ public class BalanceInquiryAction extends KualiAction {
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
+        
+        Object pendingEntryFormOption = lookupForm.getFields().get("dummyBusinessObject.pendingEntryOption");
+        boolean confirmedPendingEntryOption = "Approved".equals(pendingEntryFormOption) || "All".equals(pendingEntryFormOption);
+        boolean includePendingLedgerEntries = confirmedPendingEntryOption && "org.kuali.module.gl.bo.Entry".equals(lookupForm.getBusinessObjectClassName());
+        
         Lookupable kualiLookupable = lookupForm.getLookupable();
+        
         if (kualiLookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
-
+        
         Collection displayList = new ArrayList();
         Collection resultTable = new ArrayList();
-
+        
         // validate search parameters
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
+        
         displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
-
-        request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete) displayList).getActualSizeIfTruncated());
+        
+        if(includePendingLedgerEntries) {
+            Lookupable kualiPendingEntryLookupable = lookupForm.getPendingEntryLookupable();
+            Collection pendingEntryDisplayList = new ArrayList();
+            Collection pendingEntryResultTable = new ArrayList();
+            
+            if("Approved".equals(pendingEntryFormOption)) {
+                lookupForm.getFields().put("documentHeader.financialDocumentStatusCode", "A");
+            }
+            
+            if(null != kualiPendingEntryLookupable) {
+                kualiPendingEntryLookupable.validateSearchParameters(lookupForm.getFieldConversions());
+            }
+            pendingEntryDisplayList =
+                SpringServiceLocator.getPersistenceService().performLookup(
+                        lookupForm, kualiPendingEntryLookupable, pendingEntryResultTable, true);
+            displayList.addAll(pendingEntryDisplayList);
+            resultTable.addAll(pendingEntryResultTable);
+        }
+        
+//        if("org.kuali.module.gl.bo.Balance".equals(lookupForm.getBusinessObjectClassName())) {
+//            
+//        }
+        
+        request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete)displayList).getActualSizeIfTruncated());
         request.setAttribute("reqSearchResults", resultTable);
         if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
             GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
@@ -89,7 +120,7 @@ public class BalanceInquiryAction extends KualiAction {
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
      */
@@ -144,13 +175,13 @@ public class BalanceInquiryAction extends KualiAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * Just returns as if return with no value was selected.
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LookupForm lookupForm = (LookupForm) form;
-
+        
         String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + lookupForm.getFormKey();
         return new ActionForward(backUrl, true);
     }
@@ -185,5 +216,5 @@ public class BalanceInquiryAction extends KualiAction {
         request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
         request.setAttribute("reqSearchResultsActualSize", request.getParameter("reqSearchResultsActualSize"));
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+    }     
 }

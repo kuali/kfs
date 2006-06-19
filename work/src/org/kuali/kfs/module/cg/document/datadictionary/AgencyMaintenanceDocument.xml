@@ -20,18 +20,18 @@
         <documentTypeName>KualiContractsAndGrantsAgencyMaintenanceDocument</documentTypeName>
         <documentTypeCode>AGCY</documentTypeCode>
 
-        <label>Contracts And Grants Agency Maintenance Document</label>
-        <shortLabel>CGAgencyMaintDoc</shortLabel>
+        <label>Agency Maintenance Document</label>
+        <shortLabel>AgencyMaintDoc</shortLabel>
 
-        <summary>Contracts And Grants Agency Maintenance Document</summary>
-        <description>Document used to create or update Contracts and Grants Agency objects</description>
+        <summary>Agency Maintenance Document</summary>
+        <description>Document used to create or update Agency objects</description>
 
         <lockingKeys>
             <field attributeName="agencyNumber" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Contracts and Grants Agency">
+            <maintainableSection title="Edit Agency">
                 <maintainableItems>
                     <maintainableField name="agencyNumber" required="true" />
                     <maintainableField name="reportingName" required="true" />

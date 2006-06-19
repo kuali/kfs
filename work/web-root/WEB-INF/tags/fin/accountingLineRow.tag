@@ -173,7 +173,7 @@
     lookup="true"
     inquiry="true"
     boClassSimpleName="ObjectCode"
-    readOnly="${(readOnly&&(empty editableFields['financialObjectCode']))|| forcedReadOnlyFields[accountingLineAttributes.financialObjectCode.name]}"
+    readOnly="${(readOnly&&(empty editableFields['financialObjectCode']))|| !(empty forcedReadOnlyFields[accountingLineAttributes.financialObjectCode.name])}"
     displayHidden="${displayHidden}"
     overrideField="objectBudgetOverride"
     lookupOrInquiryKeys="chartOfAccountsCode"

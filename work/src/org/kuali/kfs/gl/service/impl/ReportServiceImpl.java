@@ -34,7 +34,7 @@ import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.LedgerReport;
+import org.kuali.module.gl.util.LedgerReportGenerator;
 import org.kuali.module.gl.util.TransactionReportGenerator;
 import org.kuali.module.gl.util.TransactionReport;
 
@@ -148,9 +148,9 @@ public class ReportServiceImpl implements ReportService {
         LOG.debug("Entering generateLedgerReports()");
         
         String title = "Ledger Report ";
-        LedgerReport ledgerReport = new LedgerReport();
+        LedgerReportGenerator ledgerReportGenerator = new LedgerReportGenerator();
         LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(originEntryGroupIdList, true);
-        ledgerReport.generateReport(ledgerEntries, runDate, title, reportNamePrefix, reportsDirectory);
+        ledgerReportGenerator.generateReport(ledgerEntries, runDate, title, reportNamePrefix, reportsDirectory);
     }
     
     /**

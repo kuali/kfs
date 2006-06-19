@@ -32,7 +32,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.BudgetPeriod;
 import org.kuali.module.kra.bo.BudgetTask;
-import org.kuali.module.kra.rules.BudgetDocumentRule;
+import org.kuali.module.kra.rules.budget.BudgetDocumentRule;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 

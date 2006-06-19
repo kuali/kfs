@@ -24,7 +24,10 @@ package org.kuali.module.financial.rules;
 
 import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.Constants.BALANCE_TYPE_BASE_BUDGET;
 import static org.kuali.Constants.BALANCE_TYPE_CURRENT_BUDGET;
+import static org.kuali.Constants.BALANCE_TYPE_MONTHLY_BUDGET;
+import static org.kuali.Constants.BALANCE_TYPE_BUDGET_STATISTICS;
 import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.GENERIC_CODE_PROPERTY_NAME;
@@ -42,20 +45,20 @@ import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING
 import static org.kuali.KeyConstants.ERROR_REQUIRED;
 import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
 import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.KeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS;
 import static org.kuali.PropertyConstants.ACCOUNTING_PERIOD;
 import static org.kuali.PropertyConstants.BALANCE_TYPE;
+import static org.kuali.PropertyConstants.BALANCE_TYPE_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
 import static org.kuali.PropertyConstants.REVERSAL_DATE;
 import static org.kuali.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.BALANCE_TYPE_CODE.EXTERNAL_ENCUMBRANCE;
 
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -112,7 +115,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     /**
      * Performs additional Journal Voucher specific checks every time an accounting line is updated.
      * 
-     * @see org.kuali.core.rule.UpdateAccountingLineRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.document.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -135,7 +138,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * Performs Journal Voucher document specific save rules. These include checking to make sure that a valid and active balance
      * type is chosen and that a valid open accounting period is chosen.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     public boolean processCustomSaveDocumentBusinessRules(Document document) {
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) document;
@@ -147,7 +150,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         BalanceTyp balanceType = jvDoc.getBalanceType();
         // todo: avoid naming conflict between PropertyConstants.BALANCE_TYPE_CODE and
         // TransactionalDocumentsRuleBaseConstants.BALANCE_TYPE_CODE by renaming the latter to BALANCE_TYPE_CODES
-        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class, PropertyConstants.BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + PropertyConstants.BALANCE_TYPE_CODE);
+        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class, BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE);
 
         // check the selected accounting period
         jvDoc.refreshReferenceObject(ACCOUNTING_PERIOD);
@@ -265,11 +268,11 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
                 GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
                 return false;
             } else if(ZERO.compareTo(amount) == 1) {
-                if(!accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_BASE_BUDGET) && 
-                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_CURRENT_BUDGET) && 
-                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_MONTHLY_BUDGET) && 
-                        !accountingLine.getBalanceTypeCode().equals(Constants.BALANCE_TYPE_BUDGET_STATISTICS)) {
-                    GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, KeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
+                if(!accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && 
+                        !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && 
+                        !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET) && 
+                        !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BUDGET_STATISTICS)) {
+                    GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }
             }
         }
@@ -362,7 +365,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         if (!TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
             return false;
         }
-        else if (BALANCE_TYPE_CODE.EXTERNAL_ENCUMBRANCE.equals(balanceType.getCode())) {
+        else if (EXTERNAL_ENCUMBRANCE.equals(balanceType.getCode())) {
             // now check to make sure that the three extra fields (referenceOriginCode, referenceTypeCode, referenceNumber) have
             // values in them
             return isRequiredReferenceFieldsValid(accountingLine);

@@ -319,7 +319,7 @@ public class LedgerReport {
             decimalFormat.applyPattern("###,###");
         }
         else if (number instanceof KualiDecimal) {
-            decimalFormat.applyPattern("###,##0.00");
+            decimalFormat.applyPattern("###,###,###,##0.00");
         }
         return decimalFormat.format(number);
     }

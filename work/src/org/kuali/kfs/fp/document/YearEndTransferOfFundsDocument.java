@@ -23,31 +23,21 @@
 
 package org.kuali.module.financial.document;
 
-import org.kuali.Constants;
 
 /**
+ * Year End version of the <code>TransferOfFundsDocument</code> functionally the only difference is the accounting period code
+ * used on the glpe entries
+ * 
+ * @see TransferOfFundsDocument
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument {
+public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument implements YearEndDocument {
 
-    private static final long serialVersionUID = 3867610866436175808L;
-
+    /**
+     * Constructs a YearEndTransferOfFundsDocument.java.
+     */
     public YearEndTransferOfFundsDocument() {
         super();
     }
 
-    // workflow related methods
-    /**
-     * Overrides the base implementation to return "From".
-     */
-    public String getSourceAccountingLinesSectionTitle() {
-        return Constants.FROM;
-    }
-
-    /**
-     * Overrides the base implementation to return "To".
-     */
-    public String getTargetAccountingLinesSectionTitle() {
-        return Constants.TO;
-    }
 }

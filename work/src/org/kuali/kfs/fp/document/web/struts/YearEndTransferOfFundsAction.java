@@ -23,8 +23,9 @@
 package org.kuali.module.financial.web.struts.action;
 
 /**
- * This class...
+ * struts action for <code>YearEndTransferOfFundsDocument</code>
  * 
+ * @see org.kuali.module.financial.web.struts.action.TransferOfFundsAction
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndTransferOfFundsAction extends TransferOfFundsAction {

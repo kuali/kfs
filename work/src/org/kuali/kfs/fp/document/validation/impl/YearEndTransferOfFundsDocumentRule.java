@@ -24,23 +24,24 @@ package org.kuali.module.financial.rules;
 
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.module.financial.document.YearEndDocumentUtil;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
- * Business rule(s) applicable to Year End Transfer of Funds documents.
+ * Business rule(s) applicable to <code>YearEndTransferOfFundsDocument</code>s
  * 
+ * @see org.kuali.module.financial.rules.TransferOfFundsDocumentRule
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentRule {
 
     /**
-     * Set attributes of an explicit pending entry according to rules specific to TransferOfFundsDocument.
-     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
-        // also need to set the posting period and year to year end
+        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
     }
 }

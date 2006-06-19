@@ -30,6 +30,7 @@ function checkAllOrNone() {
 
 	<html:hidden property="cashDrawerVerificationUnit" />
 	<html:hidden property="cashManagementDocId" />
+	<html:hidden property="depositTypeCode" />
 
 	<c:if test="${!empty KualiForm.depositableCashReceipts}">
 		<kul:tabTop tabTitle="Deposit Header" defaultOpen="true"
@@ -256,11 +257,11 @@ function checkAllOrNone() {
 	<c:if test="${empty KualiForm.depositableCashReceipts}">
 		<%-- manually handle parameter-substitution --%>
 		<c:set var="msg0">
-        ${fn:replace(ConfigProperties.depositWizard.status.noCashReceipts, "{0}", KualiForm.cashDrawerVerificationUnit )}
-    </c:set>
+            ${fn:replace(ConfigProperties.depositWizard.status.noCashReceipts, "{0}", KualiForm.cashDrawerVerificationUnit )}
+        </c:set>
 		<c:set var="msg1">
-        ${fn:replace(msg0, "{1}", KualiForm.cashManagementDocId)}
-    </c:set>
+            ${fn:replace(msg0, "{1}", KualiForm.cashManagementDocId)}
+        </c:set>
 
 		<table width="100%">
 			<tr>

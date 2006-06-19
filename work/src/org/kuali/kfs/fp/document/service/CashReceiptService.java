@@ -40,12 +40,17 @@ public interface CashReceiptService {
      */
     public String getCampusCodeForCashReceiptVerificationUnit(String unitName);
 
-
     /**
+     * Returns null if the user is not a member of any verification unit workgroup
+     * 
+     * TODO: change this to do something other than return null (which will require updating CashReceiptDocumentAuthorizer, since
+     * that's the one place I'm sure that returning a null is interpreted to mean that a user is a member of no verificationUnit)
+     * 
      * @param user
      * @return cash receipt verificationUnit workgroupName associated with the given user
      */
     public String getCashReceiptVerificationUnitForUser(KualiUser user);
+
 
     /**
      * Returns a List of CashReceiptDocuments for the given verificationUnit whose status matches the given status code

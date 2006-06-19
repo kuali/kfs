@@ -49,7 +49,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
     private Integer nextAdvanceDepositLineNumber = new Integer(1);
 
     // monetary attributes
-    private KualiDecimal totalAdvanceDepositAmount = new KualiDecimal(0);
+    private KualiDecimal totalAdvanceDepositAmount = KualiDecimal.ZERO;
 
     /**
      * Default constructor that calls super.
@@ -77,7 +77,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
     }
 
     /**
-     * Sets the total advance deposit amount which is the sum of all credit card receipts on this document.
+     * Sets the total advance deposit amount which is the sum of all advance deposits on this document.
      * 
      * @param advanceDepositAmount
      */

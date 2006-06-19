@@ -33,7 +33,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 /**
- * This business object represents the advance deposit business object that is used by the Advance Deposit Document.
+ * This business object represents the advance deposit detail business object that is used by the Advance Deposit Document.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */

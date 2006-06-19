@@ -32,7 +32,6 @@ import org.kuali.module.financial.document.AdvanceDepositDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AdvanceDepositForm extends KualiTransactionalDocumentFormBase {
-    private static final long serialVersionUID = 1L;
     private AdvanceDepositDetail newAdvanceDeposit;
 
     /**

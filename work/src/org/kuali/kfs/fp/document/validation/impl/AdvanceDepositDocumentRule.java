@@ -42,10 +42,11 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
      *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
+    @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         AdvanceDepositDocument ad = (AdvanceDepositDocument) transactionalDocument;
 
-        boolean isValid = ad.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
+        boolean isValid = ad.getSumTotalAmount().isPositive();
         if (!isValid) {
             GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, 
                     KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_TOTAL_INVALID);
@@ -53,7 +54,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
 
         if (isValid) {
             // make sure the document is in balance
-            isValid = ad.getSourceTotal().compareTo(ad.getSumTotalAmount()) == 0;
+            isValid = ad.getSourceTotal().equals(ad.getSumTotalAmount());
 
             if (!isValid) {
                 GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT,

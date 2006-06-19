@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
@@ -205,9 +206,12 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
         // validate foreign-key relationships
         deposit.refresh();
 
-        BankAccount bankAccount = deposit.getBankAccount();
-        if (ObjectUtils.isNull(bankAccount)) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
+        // only check for BankAccount if both bankCode and bankAccountNumber are present
+        if (StringUtils.isNotBlank(deposit.getDepositBankCode()) && StringUtils.isNotBlank(deposit.getDepositBankAccountNumber())) {
+            BankAccount bankAccount = deposit.getBankAccount();
+            if (ObjectUtils.isNull(bankAccount)) {
+                GlobalVariables.getErrorMap().put(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
+            }
         }
 
         return GlobalVariables.getErrorMap().isEmpty();

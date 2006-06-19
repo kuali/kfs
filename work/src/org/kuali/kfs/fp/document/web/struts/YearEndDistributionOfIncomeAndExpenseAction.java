@@ -24,7 +24,7 @@ package org.kuali.module.financial.web.struts.action;
 
 
 /**
- * struts action class for <code>YearEndDistributionOfIncomeAndExpense</code> document
+ * struts action class for <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */

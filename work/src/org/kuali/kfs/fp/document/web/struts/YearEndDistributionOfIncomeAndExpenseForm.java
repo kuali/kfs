@@ -25,7 +25,7 @@ package org.kuali.module.financial.web.struts.form;
 import org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
- * This class is the action form for Year End Distribution of Income and Expense.
+ * struts action for <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */

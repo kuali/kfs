@@ -87,8 +87,6 @@ import static org.kuali.Constants.ZERO;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase {
-    //TODO refactor and move up to parent class
-    
     
     /**
      * Convenience method for accessing the most-likely requested
@@ -411,7 +409,9 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     /**
      * Special override method to handle <code>{@link TransactionalDocument}</code> custom routing rules.
      *
-     * @see TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
+     * @param document
+     * @return boolean
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
         boolean valid = isDocumentBalanceValid((TransactionalDocument) document);
@@ -446,7 +446,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     
     /**
      * Validates that two <code>{@link AccountingLine}</code> instances belong to the same 
-     * Fund Group. Called by <code>{@link #validateFundGroupsInDocument(AccountingLine, AccountingLine)}</code>
+     * Fund Group. Called by <code>{@link #validateFundGroupsInDocument(TransactionalDocument)}</code>
      *
      * @param previous
      * @param current
@@ -711,7 +711,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * <code>{@link KualiCodeBase}</code> codes, so things like chart code are unimportant.</p>
      * 
      * <p>This method uses reflections, so a <code>{@link ClassNotFoundException}</code>,
-     * <code>{@link InstantiationException}</code>, <code>{@link IllegalAccessException</code> 
+     * <code>{@link InstantiationException}</code>, <code>{@link IllegalAccessException}</code> 
      * may be thrown</p>
      *
      * @param type

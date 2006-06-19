@@ -65,7 +65,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (blank) campusCode");
         }
 
-        // UNF: pretend that a lookup is actually happening
+        // TODO: pretend that a lookup is actually happening
         if (campusCode.equals(TEST_CASH_RECEIPT_CAMPUS_CD)) {
             vunit = TEST_CASH_RECEIPT_VERIFICATION_UNIT;
         }
@@ -87,7 +87,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (blank) unitName");
         }
 
-        // UNF: pretend that a lookup is actually happening
+        // TODO: pretend that a lookup is actually happening
         if (unitName.equals(TEST_CASH_RECEIPT_VERIFICATION_UNIT)) {
             campusCode = TEST_CASH_RECEIPT_CAMPUS_CD;
         }
@@ -109,7 +109,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (null) user");
         }
 
-        // UNF: pretend that a lookup is actually happening
+        // TODO: pretend that a lookup is actually happening
         unitName = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
 
         return unitName;

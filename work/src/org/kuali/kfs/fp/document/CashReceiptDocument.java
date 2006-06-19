@@ -39,7 +39,6 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -65,9 +64,9 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     private Integer nextCheckSequenceId = new Integer(1);
 
     // monetary attributes
-    private KualiDecimal totalCashAmount = new KualiDecimal(0);
-    private KualiDecimal totalCheckAmount = new KualiDecimal(0);
-    private KualiDecimal totalCoinAmount = new KualiDecimal(0);
+    private KualiDecimal totalCashAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalCheckAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalCoinAmount = KualiDecimal.ZERO;
 
     /**
      * Initializes the array lists and line incrementers.
@@ -122,6 +121,9 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return Returns the totalCashAmount.
      */
     public KualiDecimal getTotalCashAmount() {
+        if (totalCashAmount == null) {
+            setTotalCashAmount(KualiDecimal.ZERO);
+        }
         return totalCashAmount;
     }
 
@@ -131,7 +133,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return String
      */
     public String getCurrencyFormattedTotalCashAmount() {
-        return (String) new CurrencyFormatter().format(totalCashAmount);
+        return (String) new CurrencyFormatter().format(getTotalCashAmount());
     }
 
     /**
@@ -179,6 +181,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
     /**
      * Gets the number of checks, since Sun doesn't have a direct getter for collection size
+     * 
+     * @return the number of checks
      */
     public int getCheckCount() {
         int count = 0;
@@ -201,8 +205,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
         this.nextCheckSequenceId = new Integer(this.nextCheckSequenceId.intValue() + 1);
 
-        KualiDecimal tca = this.totalCheckAmount;
-        this.totalCheckAmount = this.totalCheckAmount.add(check.getAmount());
+        setTotalCheckAmount(getTotalCheckAmount().add(check.getAmount()));
     }
 
     /**
@@ -228,7 +231,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     @Override
     public KualiDecimal getSourceTotal() {
         CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().getBusinessRulesInstance(this, AccountingLineRule.class);
-        KualiDecimal total = new KualiDecimal(0);
+        KualiDecimal total = KualiDecimal.ZERO;
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
@@ -257,7 +260,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     @Override
     public KualiDecimal getTargetTotal() {
-        return new KualiDecimal(0);
+        return KualiDecimal.ZERO;
     }
 
     /**
@@ -267,12 +270,12 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public void removeCheck(int index) {
         Check check = (Check) checks.remove(index);
-
+        KualiDecimal newTotalCheckAmount = getTotalCheckAmount().subtract(check.getAmount());
         // if the totalCheckAmount goes negative, bring back to zero.
-        this.totalCheckAmount = this.totalCheckAmount.subtract(check.getAmount());
-        if (this.totalCheckAmount.isNegative()) {
-            totalCheckAmount = KualiDecimal.ZERO;
+        if (newTotalCheckAmount.isNegative()) {
+            newTotalCheckAmount = KualiDecimal.ZERO;
         }
+        setTotalCheckAmount(newTotalCheckAmount);
     }
 
     /**
@@ -317,6 +320,9 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return Returns the totalCheckAmount.
      */
     public KualiDecimal getTotalCheckAmount() {
+        if (totalCheckAmount == null) {
+            setTotalCheckAmount(KualiDecimal.ZERO);
+        }
         return totalCheckAmount;
     }
 
@@ -326,7 +332,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return String
      */
     public String getCurrencyFormattedTotalCheckAmount() {
-        return (String) new CurrencyFormatter().format(totalCheckAmount);
+        return (String) new CurrencyFormatter().format(getTotalCheckAmount());
     }
 
     /**
@@ -335,12 +341,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param totalCheckAmount The totalCheckAmount to set.
      */
     public void setTotalCheckAmount(KualiDecimal totalCheckAmount) {
-        if (totalCheckAmount == null) {
-            this.totalCheckAmount = new KualiDecimal(0);
-        }
-        else {
-            this.totalCheckAmount = totalCheckAmount;
-        }
+        this.totalCheckAmount = totalCheckAmount;
     }
 
     /**
@@ -349,6 +350,9 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return Returns the totalCoinAmount.
      */
     public KualiDecimal getTotalCoinAmount() {
+        if (totalCoinAmount == null) {
+            setTotalCoinAmount(KualiDecimal.ZERO);
+        }
         return totalCoinAmount;
     }
 
@@ -358,7 +362,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return String
      */
     public String getCurrencyFormattedTotalCoinAmount() {
-        return (String) new CurrencyFormatter().format(totalCoinAmount);
+        return (String) new CurrencyFormatter().format(getTotalCoinAmount());
     }
 
     /**
@@ -376,7 +380,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return KualiDecimal
      */
     public KualiDecimal getSumTotalAmount() {
-        return totalCoinAmount.add(totalCheckAmount).add(totalCashAmount);
+        KualiDecimal sumTotalAmount = getTotalCoinAmount().add(getTotalCheckAmount()).add(getTotalCashAmount());
+        return sumTotalAmount;
     }
 
     /**

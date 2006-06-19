@@ -63,24 +63,10 @@
                 <required>true</required>
             </attributeReference>
 
-
-            <attribute name="financialDocumentTypeCode" forceUppercase="false">
-                <label>Document Type Code</label>
-                <shortLabel>Type</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <anyCharacter allowWhitespace="true" />
-                </validationPattern>
+            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.document.DocumentType" sourceAttributeName="financialDocumentTypeCode">
                 <required>true</required>
-                <control>
-                    <apcSelect group="ChartMaintenanceEDoc" parameterName="OffsetDefinition.DocTypeActiveObjectCode" />
-                </control>
-
-                <summary>Document Type Code, referring to what class or type of document.</summary>
-                <description>Document Type Code, referring to what class or type of document.</description>
-
-            </attribute>
+            </attributeReference>
+            
             <attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
                 <label>Balance Type Code</label>
                 <shortLabel>Balance Type</shortLabel>

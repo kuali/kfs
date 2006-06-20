@@ -425,10 +425,10 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * Overrides the parent b/c the JV allows user to directly manipulate whether a document is a debit or a credit in the
      * interface.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         if (StringUtils.isNotBlank(accountingLine.getDebitCreditCode())) {
             return accountingLine.getDebitCreditCode().equals(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
         }

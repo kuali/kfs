@@ -57,10 +57,10 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper;
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         // The IB spec has the same logic but opposite value of the TOF spec.
         return !isDebitConsideringSection(accountingLine);
     }
@@ -326,7 +326,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      */
     @Override
     protected SufficientFundsItemHelper.SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
+        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine, transactionalDocument);
     }
 
     /**
@@ -336,16 +336,17 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      */
     @Override
     protected SufficientFundsItemHelper.SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
+        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine, transactionalDocument);
     }
 
     /**
      * Prepares to process sufficient funds checking for the given AccountingLine.
      * 
      * @param accountingLine
+     * @param transactionalDocument TODO
      * @return the item to help check sufficient funds for the given AccountingLine
      */
-    private SufficientFundsItemHelper.SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
+    private SufficientFundsItemHelper.SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine, TransactionalDocument transactionalDocument) {
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
         String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
@@ -354,7 +355,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
         KualiDecimal lineAmount = getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine);
         Integer fiscalYear = accountingLine.getPostingYear();
         String financialObjectTypeCode = accountingLine.getObjectTypeCode();
-        String offsetDebitCreditCode = isDebit(accountingLine) ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE;
+        String offsetDebitCreditCode = isDebit(transactionalDocument, accountingLine) ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE;
         String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
         return buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
     }

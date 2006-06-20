@@ -95,10 +95,10 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         return isDebitConsideringSection(accountingLine);
     }
 
@@ -223,7 +223,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
         // always credit
         String debitCreditCode = null;
 
-        if (isDebit(accountingLine)) {
+        if (isDebit(transactionalDocument, accountingLine)) {
             debitCreditCode = GL_CREDIT_CODE;
         }
         else {

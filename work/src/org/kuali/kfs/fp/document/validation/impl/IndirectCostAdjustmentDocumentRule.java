@@ -67,10 +67,10 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      * <li> is a target line && isIncome && is a negative amount
      * </ol>
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
 
         boolean isDebit = false;
         boolean isPositive = accountingLine.getAmount().isPositive();
@@ -232,7 +232,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      */
     @Override
     protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
+        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, sourceAccountingLine);
     }
 
 
@@ -242,18 +242,19 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      */
     @Override
     protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
+        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, targetAccountingLine);
     }
 
     /**
      * Prepares the input item that will be used for sufficient funds checking.
      * 
      * fi_dica:lp_proc_grant_ln,lp_proc_rcpt_ln conslidated
-     * 
+     * @param transactionalDocument TODO
      * @param accountingLine
+     * 
      * @return <code>SufficientFundsItem</code>
      */
-    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
+    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
         String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
@@ -265,7 +266,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
         String offsetDebitCreditCode = null;
         // fi_dica:lp_proc_grant_ln.36-2...62-2
         // fi_dica:lp_proc_rcpt_ln.36-2...69-2
-        if (isDebit(accountingLine)) {
+        if (isDebit(transactionalDocument, accountingLine)) {
             offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
         }
         else {

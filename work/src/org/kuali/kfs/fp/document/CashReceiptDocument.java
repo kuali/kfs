@@ -239,10 +239,10 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
             KualiDecimal amount = al.getAmount().abs();
             if (amount != null) {
-                if (crDocRule.isDebit(al)) {
+                if (crDocRule.isDebit(this, al)) {
                     total = total.subtract(amount);
                 }
-                else if (crDocRule.isCredit(al)) {
+                else if (crDocRule.isCredit(al, this)) {
                     total = total.add(amount);
                 }
                 else {

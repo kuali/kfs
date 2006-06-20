@@ -110,10 +110,10 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
      * https://test.kuali.org/confluence/display/KULEDOCS/TP+eDocs+Debits+and+Credits for a summary of
      * business rules.
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
 	@Override
-    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         if(accountingLine instanceof SourceAccountingLine) {  // From lines
             if(isIncomeOrLiability(accountingLine)) {
                 if(accountingLine.getAmount().compareTo(ZERO) > 0) {
@@ -368,7 +368,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
         // always credit
         String debitCreditCode = null;
 
-        if (isDebit(accountingLine)) {
+        if (isDebit(document, accountingLine)) {
             debitCreditCode = GL_CREDIT_CODE;
         }
         else {

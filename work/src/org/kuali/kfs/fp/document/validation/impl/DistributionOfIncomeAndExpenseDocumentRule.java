@@ -54,10 +54,10 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * <li> is a target line && IncomeOrLiability && is a negative amount
      * </ol>
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         // SOURCE line
         // -- Expense Or Asset
         // credit: positive amount
@@ -167,7 +167,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      */
     @Override
     protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
+        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine, transactionalDocument);
     }
 
 
@@ -177,7 +177,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      */
     @Override
     protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
+        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine, transactionalDocument);
     }
 
     /**
@@ -186,9 +186,10 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * fi_ddi:lp_proc_frm_ln,lp_proc_to_ln conslidated
      * 
      * @param accountingLine
+     * @param transactionalDocument TODO
      * @return <code>SufficientFundsItem</code>
      */
-    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
+    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine, TransactionalDocument transactionalDocument) {
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
         String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
@@ -200,7 +201,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
         String offsetDebitCreditCode = null;
         // fi_ddi:lp_proc_from_ln.43-2...69-2
         // fi_ddi:lp_proc_to_ln.43-2...69-2
-        if (isDebit(accountingLine)) {
+        if (isDebit(transactionalDocument, accountingLine)) {
             offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
         }
         else {

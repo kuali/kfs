@@ -85,10 +85,10 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * The TOF spec says that all positive "From" section accounting line amounts are debits, and vice versa for the "To" section,
      * for GL pending entries.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         return isDebitConsideringSection(accountingLine);
     }
 

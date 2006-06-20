@@ -71,6 +71,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         
@@ -105,6 +106,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         

@@ -177,12 +177,12 @@
     </collection-descriptor>
 
     <collection-descriptor name="universityCostShareItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetUniversityCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="budgetUniversityCostShareSequenceNumber" sort="ASC" />
+        <orderby name="budgetCostShareSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentHeaderId" />
     </collection-descriptor>
 
     <collection-descriptor name="thirdPartyCostShareItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetThirdPartyCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="budgetThirdPartyCostShareSequenceNumber" sort="ASC" />
+        <orderby name="budgetCostShareSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentHeaderId" />
     </collection-descriptor>
 
@@ -365,51 +365,51 @@
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetThirdPartyCostShare" table="ER_BDGT_3RD_PRTY_CST_SHR_T">
     <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="budgetThirdPartyCostShareSequenceNumber" column="BDGT_3RD_PRTY_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="budgetCostShareSequenceNumber" column="BDGT_3RD_PRTY_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="budgetCostShareDescription" column="BDGT_3RD_PRTY_CST_SHR_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="budgetCostShareSourceName" column="BDGT_3RD_PRTY_CST_SHR_SRC_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetThirdPartyCostShareDescription" column="BDGT_3RD_PRTY_CST_SHR_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="budgetThirdPartyCostShareSourceName" column="BDGT_3RD_PRTY_CST_SHR_SRC_NM" jdbc-type="VARCHAR" />
 
-    <collection-descriptor name="budgetPeriodThirdPartyCostShare" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetPeriodThirdPartyCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="budgetPeriodCostShare" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetPeriodThirdPartyCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="budgetPeriodSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentHeaderId" />
-        <inverse-foreignkey field-ref="budgetThirdPartyCostShareSequenceNumber" />
+        <inverse-foreignkey field-ref="budgetCostShareSequenceNumber" />
     </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetUniversityCostShare" table="ER_BDGT_UNIV_CST_SHR_T">
     <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="budgetUniversityCostShareSequenceNumber" column="BDGT_UNIV_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="budgetCostShareSequenceNumber" column="BDGT_UNIV_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="budgetCostShareDescription" column="BDGT_UNIV_CST_SHR_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetUniversityCostShareDescription" column="BDGT_UNIV_CST_SHR_DESC" jdbc-type="VARCHAR" />
 
-    <collection-descriptor name="budgetPeriodUniversityCostShare" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetPeriodUniversityCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="budgetPeriodCostShare" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetPeriodUniversityCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="budgetPeriodSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentHeaderId" />
-        <inverse-foreignkey field-ref="budgetUniversityCostShareSequenceNumber" />
+        <inverse-foreignkey field-ref="budgetCostShareSequenceNumber" />
     </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetPeriodThirdPartyCostShare" table="ER_BDGT_PRD_3RD_CST_SHR_T">
     <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="budgetThirdPartyCostShareSequenceNumber" column="BDGT_3RD_PRTY_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="budgetCostShareSequenceNumber" column="BDGT_3RD_PRTY_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="budgetThirdPartyCostShareAmount" column="BDGT_3RD_PRTY_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="budgetCostShareAmount" column="BDGT_3RD_PRTY_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetPeriodUniversityCostShare" table="ER_BDGT_PRD_UNIV_CST_SHR_T">
     <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="budgetUniversityCostShareSequenceNumber" column="BDGT_UNIV_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="budgetCostShareSequenceNumber" column="BDGT_UNIV_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="budgetCostShareAmount" column="BDGT_UNIV_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="budgetUniversityCostShareAmount" column="BDGT_UNIV_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>

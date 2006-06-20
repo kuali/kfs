@@ -37,9 +37,9 @@ import org.kuali.module.financial.document.AdvanceDepositDocument;
  */
 public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
     /**
-     * For Advance Deposit documents, the document is balanced if the sum total of advance deposits
-     * equals the sum total of the accounting lines.
-     *
+     * For Advance Deposit documents, the document is balanced if the sum total of advance deposits equals the sum total of the
+     * accounting lines.
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     @Override
@@ -48,8 +48,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
 
         boolean isValid = ad.getSumTotalAmount().isPositive();
         if (!isValid) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, 
-                    KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_TOTAL_INVALID);
+            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_TOTAL_INVALID);
         }
 
         if (isValid) {
@@ -57,50 +56,47 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
             isValid = ad.getSourceTotal().equals(ad.getSumTotalAmount());
 
             if (!isValid) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT,
-                        KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
+                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
             }
         }
 
         return isValid;
     }
-    
+
     /**
-     * Overrides to call super and then make sure the minimum number of deposit 
-     * lines exist on this document.
+     * Overrides to call super and then make sure the minimum number of deposit lines exist on this document.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        
-        if(isValid) {
+
+        if (isValid) {
             isValid = isMinimumNumberOfAdvanceDepositsMet(document);
         }
-        
+
         return isValid;
     }
 
     /**
-     * This method is a helper that checks to make sure that at least one deposit 
-     * line exists for the document.
+     * This method is a helper that checks to make sure that at least one deposit line exists for the document.
      * 
      * @param document
      * @return boolean
      */
     private boolean isMinimumNumberOfAdvanceDepositsMet(Document document) {
         AdvanceDepositDocument ad = (AdvanceDepositDocument) document;
-        
-        if(ad.getAdvanceDeposits().size() == 0) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX,
-                    KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
+
+        if (ad.getAdvanceDeposits().size() == 0) {
+            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
-    
+
     /**
      * Overrides to call super and then to validate all of the deposits associated with this document.
      * 
@@ -109,18 +105,18 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-        
-        if(isValid) {
+
+        if (isValid) {
             isValid = validateAdvanceDeposits((AdvanceDepositDocument) document);
         }
-        
+
         return isValid;
     }
-    
+
     /**
      * Validates all of the Advance Deposits in the given Document, adding global errors for invalid items. It just uses the
      * DataDictionary validation.
-     *
+     * 
      * @param advanceDepositDocument
      * @return boolean
      */

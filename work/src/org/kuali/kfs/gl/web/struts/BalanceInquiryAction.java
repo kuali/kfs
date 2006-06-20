@@ -24,7 +24,6 @@ package org.kuali.module.gl.web.struts.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,6 +39,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.Lookupable;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiAction;
@@ -63,56 +63,94 @@ public class BalanceInquiryAction extends KualiAction {
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
-        
+
         Object pendingEntryFormOption = lookupForm.getFields().get("dummyBusinessObject.pendingEntryOption");
         boolean confirmedPendingEntryOption = "Approved".equals(pendingEntryFormOption) || "All".equals(pendingEntryFormOption);
         boolean includePendingLedgerEntries = confirmedPendingEntryOption && "org.kuali.module.gl.bo.Entry".equals(lookupForm.getBusinessObjectClassName());
-        
+
         Lookupable kualiLookupable = lookupForm.getLookupable();
-        
+
         if (kualiLookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
-        
+
         Collection displayList = new ArrayList();
         Collection resultTable = new ArrayList();
         
         // validate search parameters
+        if(lookupForm.getFields().containsKey("dummyBusinessObject.pendingEntryOption")) {
+            lookupForm.getFields().remove("dummyBusinessObject.pendingEntryOption");
+        }
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
         
-        displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
+        // If we're going to include pending entries we cannot truncate or bound
+        // displayList. Doing so would result in entries that could never be
+        // retrieved.
+        displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, !includePendingLedgerEntries);
+        CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
+
+        Integer totalSize = displayList.size();
         
-        if(includePendingLedgerEntries) {
+        if (includePendingLedgerEntries) {
             Lookupable kualiPendingEntryLookupable = lookupForm.getPendingEntryLookupable();
             Collection pendingEntryDisplayList = new ArrayList();
             Collection pendingEntryResultTable = new ArrayList();
-            
-            if("Approved".equals(pendingEntryFormOption)) {
+
+            if ("Approved".equals(pendingEntryFormOption)) {
                 lookupForm.getFields().put("documentHeader.financialDocumentStatusCode", "A");
             }
             
-            if(null != kualiPendingEntryLookupable) {
-                kualiPendingEntryLookupable.validateSearchParameters(lookupForm.getFieldConversions());
+            if (null != kualiPendingEntryLookupable) {
+                // dummyBusinessObject.pendingEntryOption isn't a valid part of the glpe lookup
+                kualiPendingEntryLookupable.validateSearchParameters(lookupForm.getFields());
             }
-            pendingEntryDisplayList =
+            pendingEntryDisplayList = 
                 SpringServiceLocator.getPersistenceService().performLookup(
-                        lookupForm, kualiPendingEntryLookupable, pendingEntryResultTable, true);
+                        lookupForm, kualiPendingEntryLookupable, pendingEntryResultTable, false);
+            
+            // Add all of the pending entries to the list to display.
             displayList.addAll(pendingEntryDisplayList);
+            
+            // Get the total number of records returned from both queries to see if we need to truncate.
+            // int totalNumberOfRecords = displayList.size();
+            
+            totalSize += pendingEntryDisplayList.size();
+            
+            // Get the result limit number from configuration.
+//            KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+//            String limitConfig = kualiConfigurationService.getPropertyString("lookup.results.limit");
+//            Integer limit = null;
+//            if (limitConfig != null) {
+//                limit = Integer.valueOf(limitConfig);
+//            }
+//            
+//            if(null != limit) {
+//                ArrayList list = (ArrayList) displayList;
+//                for(int i = totalNumberOfRecords; i >= limit; i--) {
+//                    list.remove(i - 1);
+//                }
+//            }
+            
+            // Update the merged CollectionIncomplete to reflect the sum of the Entry and GeneralLedgerPendingEntry queries.
+            //CollectionIncomplete incompletePendingEntryDisplayList = (CollectionIncomplete) pendingEntryDisplayList;
+            //incompleteDisplayList.setActualSizeIfTruncated(new Long(incompleteDisplayList.getActualSizeIfTruncated().longValue() + incompletePendingEntryDisplayList.getActualSizeIfTruncated().longValue()));
+            
             resultTable.addAll(pendingEntryResultTable);
         }
+
+        // if("org.kuali.module.gl.bo.Balance".equals(lookupForm.getBusinessObjectClassName())) {
+        //            
+        // }
+
         
-//        if("org.kuali.module.gl.bo.Balance".equals(lookupForm.getBusinessObjectClassName())) {
-//            
-//        }
-        
-        request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete)displayList).getActualSizeIfTruncated());
+        request.setAttribute("reqSearchResultsActualSize", totalSize);
         request.setAttribute("reqSearchResults", resultTable);
         if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
             GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
@@ -120,7 +158,7 @@ public class BalanceInquiryAction extends KualiAction {
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
      */
@@ -175,13 +213,13 @@ public class BalanceInquiryAction extends KualiAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Just returns as if return with no value was selected.
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LookupForm lookupForm = (LookupForm) form;
-        
+
         String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + lookupForm.getFormKey();
         return new ActionForward(backUrl, true);
     }
@@ -216,5 +254,5 @@ public class BalanceInquiryAction extends KualiAction {
         request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
         request.setAttribute("reqSearchResultsActualSize", request.getParameter("reqSearchResultsActualSize"));
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }     
+    }
 }

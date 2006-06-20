@@ -44,7 +44,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntryTestBase.java,v 1.22 2006-06-16 00:18:22 jsissom Exp $
+ * @version $Id: OriginEntryTestBase.java,v 1.23 2006-06-20 02:24:19 jsissom Exp $
  */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
@@ -115,6 +115,8 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
             OriginEntry e = new OriginEntry(transactions[i]);
             originEntryService.createEntry(e, group);
         }
+
+        persistenceService.getPersistenceBroker().clearCache();
     }
 
     protected void clearExpenditureTable() {

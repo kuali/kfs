@@ -44,6 +44,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@SuppressWarnings("deprecation")
 public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);

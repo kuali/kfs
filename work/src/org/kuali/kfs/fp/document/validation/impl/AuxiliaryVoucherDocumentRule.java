@@ -101,6 +101,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         return isDebitConsideringSection(accountingLine);
     }

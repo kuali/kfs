@@ -38,8 +38,8 @@
                 <required>true</required>
             </attributeReference>
             <attributeReference name="financialDocumentCreditCardVendorNumber" sourceClassName="org.kuali.module.financial.bo.CreditCardVendor" sourceAttributeName="financialDocumentCreditCardVendorNumber">
-                <label>Vendor</label>
-                <shortLabel>Vendor</shortLabel>
+                <label>Vendor Number</label>
+                <shortLabel>Vendor Number</shortLabel>
                 <required>true</required>
             </attributeReference>
             <attributeReference name="creditCardDepositDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">

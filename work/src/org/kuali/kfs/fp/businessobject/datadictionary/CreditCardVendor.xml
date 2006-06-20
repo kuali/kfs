@@ -63,8 +63,8 @@
         <attributes>
 
             <attribute name="financialDocumentCreditCardVendorNumber" forceUppercase="true">
-                <label>Vendor Credit Card Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Vendor Number</label>
+                <shortLabel>Vendor Number</shortLabel>
 
                 <maxLength>10</maxLength>
                 <validationPattern>
@@ -72,7 +72,7 @@
                 </validationPattern>
                 <required>true</required>
                 <control>
-                    <text size="10" />
+                    <text size="10"/>
                 </control>
 
                 <summary>
@@ -84,8 +84,8 @@
             </attribute>
 
             <attribute name="financialDocumentCreditCardVendorName" forceUppercase="false">
-                <label>Vendor Credit Card Name</label>
-                <shortLabel>Name</shortLabel>
+                <label>Vendor Name</label>
+                <shortLabel>Vendor Name</shortLabel>
 
                 <maxLength>40</maxLength>
                 <required>true</required>

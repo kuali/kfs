@@ -28,22 +28,30 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineBase;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 
+import static org.kuali.Constants.DOCUMENT_ERRORS;
 import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL;
 
 /**
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This 
  * is a transactional document that will eventually post transactions to the G/L.  It 
  * integrates with workflow and also contains two groupings of accounting lines: 
- * Expense and target.  Expense is the expense and target is the income lines. * 
+ * Expense and target.  Expense is the expense and target is the income lines. 
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
 	
-    private String typeCode = "AVAD";
+    private String typeCode = ADJUSTMENT_DOC_TYPE;;
     private Timestamp reversalDate;
 	
 	/**
@@ -52,19 +60,39 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
 	public AuxiliaryVoucherDocument() {
 		super();
 	}
-	    
+	
+	/**
+	 * Read Accessor for Reversal Date
+	 *
+	 * @return Timestamp
+	 */
     public Timestamp getReversalDate() {
         return reversalDate;
     }
     
+	/**
+	 * Write Accessor for Reversal Date
+	 *
+	 * @param reversalDate
+	 */
     public void setReversalDate(Timestamp reversalDate) {
         this.reversalDate = reversalDate;
     }
     
+	/**
+	 * Read Accessor for Auxiliary Voucher Type
+	 *
+	 * @return String
+	 */
     public String getTypeCode() {
         return typeCode;
     }
     
+	/**
+	 * Write Accessor for Auxiliary Voucher Type
+	 *
+	 * @param typeCode
+	 */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
@@ -128,7 +156,10 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
 	
 	/**
 	 * Overriding this to fix the reversal date should if something happens (like a long period of time passes) between the time the document
-	 * is routed and when it becomes approved.
+	 * is routed and when it becomes approved.<br/>
+	 * <br/>
+	 * If the document is of RECODE type, then a <code>{@link org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument}</code> instance
+	 * is then created and routed using the <code>{@link AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseDocument}</code> stub.
 	 */
 	public void handleRouteStatusChange() {
 		Long NOW = System.currentTimeMillis();
@@ -136,6 +167,20 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
 		if (getTypeCode().equals(ACCRUAL_DOC_TYPE) && 
 			NOW > getReversalDate().getTime()) {
 			setReversalDate(new Timestamp(NOW));
+		}
+		else if (RECODE_DOC_TYPE.equals(getTypeCode())) {
+			try {
+				TransactionalDocument diDoc = (TransactionalDocument) SpringServiceLocator.getDocumentService()
+					.getNewDocument(AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseDocument.class);
+				diDoc.setSourceAccountingLines(getSourceAccountingLines());
+				diDoc.setTargetAccountingLines(getTargetAccountingLines());
+				SpringServiceLocator.getDocumentService().routeDocument(diDoc, null, null);
+			}
+			catch (Exception e) {
+				GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, 
+												  ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL, 
+												  getFinancialDocumentNumber());
+			}
 		}
 	}
 }

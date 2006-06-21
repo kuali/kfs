@@ -41,4 +41,5 @@ public interface AuxiliaryVoucherDocumentRuleConstants
     public static final String RESTRICTED_EXPENSE_OBJECT_TYPE_CODES = "RestrictedExpenseObjectTypeCodes";
     public static final String RESTRICTED_INCOME_OBJECT_TYPE_CODES = "RestrictedIncomeObjectTypeCodes";
     public static final String RESTRICTED_PERIOD_CODES = "RestrictedPeriodCodes";
+	public static final String GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE = "GeneralLedgerPendingEntryOffsetObjectCode";
 }

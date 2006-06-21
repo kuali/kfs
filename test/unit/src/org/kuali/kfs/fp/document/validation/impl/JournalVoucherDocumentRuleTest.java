@@ -35,9 +35,11 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
+import org.kuali.core.rule.event.AddAccountingLineEvent;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.document.DisbursementVoucherDocumentTest;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
@@ -79,41 +81,77 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     private String _balanceTypeCode;
     private String _user;
 
-
+    /**
+     * 
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         changeCurrentUser(getTestUserName());
     }
 
+    /**
+     * 
+     * @see org.kuali.test.KualiTestBaseWithFixtures#getFixtureCollectionNames()
+     */
+    @Override
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
     }
 
     // /////////////////////////////////////////////////////////////////////////
     // Fixture Methods Start Here //
-    // /////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////
+
+    @Override
     protected final String getDocumentTypeName() {
         return KNOWN_DOCUMENT_TYPENAME;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetTargetLine()
+     */
+    @Override
     public final TargetAccountingLine getAssetTargetLine() throws Exception {
         return (TargetAccountingLine) getTargetLineParameter1().createLine();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeTargetLine()
+     */
+    @Override
     protected final TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
         return (TargetAccountingLine) getTargetLineParameter1().createLine();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeTargetLine()
+     */
+    @Override
     protected final TargetAccountingLine getInvalidObjectSubTypeTargetLine() throws Exception {
         return (TargetAccountingLine) getTargetLineParameter3().createLine();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeSourceLines()
+     */
+    @Override
     protected final List getValidObjectSubTypeSourceLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getSourceLineParameter6().createLine());
         return retval;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeSourceLines()
+     */
+    @Override
     protected final List getInvalidObjectSubTypeSourceLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getSourceLineParameter1().createLine());
@@ -121,6 +159,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         return retval;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeTargetLines()
+     */
+    @Override
     protected final List getInvalidObjectSubTypeTargetLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getTargetLineParameter1().createLine());
@@ -128,6 +171,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         return retval;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeTargetLines()
+     */
+    @Override
     protected final List getValidObjectSubTypeTargetLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getTargetLineParameter2().createLine());
@@ -135,32 +183,67 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         return retval;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectTypeSourceLine()
+     */
+    @Override
     protected final SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
         return (SourceAccountingLine) getSourceLineParameter4().createLine();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectTypeSourceLine()
+     */
+    @Override
     protected final SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
         SourceAccountingLine retval = (SourceAccountingLine) getSourceLineParameter3().createLine();
         retval.setObjectTypeCode(new String());
         return retval;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectCodeSourceLine()
+     */
+    @Override
     protected final SourceAccountingLine getInvalidObjectCodeSourceLine() throws Exception {
         return (SourceAccountingLine) getSourceLineParameter5().createLine();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectCodeSourceLine()
+     */
+    @Override
     protected final SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
         return (SourceAccountingLine) getSourceLineParameter6().createLine();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetSourceLine()
+     */
+    @Override
     public final SourceAccountingLine getAssetSourceLine() {
         return (SourceAccountingLine) getAssetSourceLineParameter().createLine();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocument()
+     */
+    @Override
     protected final Document createDocument() throws Exception {
         return buildDocument(getJournalVoucherDocumentParameter1());
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocument5()
+     */
+    @Override
     protected final TransactionalDocument createDocument5() throws Exception {
 
         // return (TransactionalDocument)getDocumentParameter5()
@@ -168,14 +251,29 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         return (TransactionalDocument) buildDocument(getJournalVoucherDocumentParameter1());
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentValidForRouting()
+     */
+    @Override
     protected final Document createDocumentValidForRouting() throws Exception {
         return createDocumentWithValidObjectSubType();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentInvalidForSave()
+     */
+    @Override
     protected final Document createDocumentInvalidForSave() throws Exception {
         return createDocumentInvalidDescription();
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentWithInvalidObjectSubType()
+     */
+    @Override
     protected final TransactionalDocument createDocumentWithInvalidObjectSubType() throws Exception {
         TransactionalDocument retval = (TransactionalDocument) createDocument();
         retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
@@ -189,19 +287,30 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * that's semantically the same.
      * 
      * @return TransactionalDocument
-     * @see org.kuali.core.rule.TransactionalDocumentRuleBase#createDocumentUnbalanced()
+     * @see TransactionalDocumentRuleTestBase#createDocumentUnbalanced()
      */
+    @Override
     protected final TransactionalDocument createDocumentUnbalanced() throws Exception {
         TransactionalDocument retval = (TransactionalDocument) createDocument();
         return retval;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentInvalidDescription()
+     */
+    @Override
     protected final Document createDocumentInvalidDescription() throws Exception {
         Document retval = getJournalVoucherDocumentParameter1().createDocument(getDocumentService());
         retval.getDocumentHeader().setFinancialDocumentDescription(new String());
         return retval;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentWithValidObjectSubType()
+     */
+    @Override
     protected final TransactionalDocument createDocumentWithValidObjectSubType() throws Exception {
         TransactionalDocument retval = (TransactionalDocument) createDocument();
         retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
@@ -389,26 +498,44 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         _targetLine3 = p;
     }
 
+    /**
+     * @return <code>TransactionalDocumentParameter</code>
+     */
     public final TransactionalDocumentParameter getJournalVoucherDocumentParameter1() {
         return _docParam1;
     }
 
+    /**
+     * @param p
+     */
     public final void setJournalVoucherDocumentParameter1(TransactionalDocumentParameter p) {
         _docParam1 = p;
     }
 
+    /**
+     * @return <code>TransactionalDocumentParameter</code>
+     */
     public final TransactionalDocumentParameter getDocumentParameterNoDescription() {
         return _docParam2;
     }
 
+    /**
+     * @param p
+     */
     public final void setDocumentParameterNoDescription(TransactionalDocumentParameter p) {
         _docParam2 = p;
     }
 
+    /**
+     * @return <code>TransactionalDocumentParameter</code>
+     */
     public final TransactionalDocumentParameter getDocumentParameter5() {
         return _documentParameter5;
     }
 
+    /**
+     * @param p
+     */
     public final void setDocumentParameter5(TransactionalDocumentParameter p) {
         _documentParameter5 = p;
     }
@@ -441,18 +568,17 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
         return getExpectedJVExplicitSourcePendingEntry();
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -461,28 +587,26 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedJVExplicitSourcePendingEntry(GeneralLedgerPendingEntry e) {
         _expectedExpSourceGlEntry = e;
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntry() {
         return getExpectedJVExplicitTargetPendingEntry();
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -491,28 +615,26 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedJVExplicitTargetPendingEntry(GeneralLedgerPendingEntry e) {
         _expectedExpTargetGlEntry = e;
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
         return getExpectedJVExplicitSourcePendingEntryForExpense();
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -521,28 +643,26 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedJVExplicitSourcePendingEntryForExpense(GeneralLedgerPendingEntry e) {
         _expectedExpSourceGlEntryE = e;
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
         return getExpectedJVExplicitTargetPendingEntryForExpense();
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -551,30 +671,28 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedJVExplicitTargetPendingEntryForExpense(GeneralLedgerPendingEntry e) {
         _expectedExpTargetGlEntryE = e;
     }
 
     /**
-     * Accessor method for Offset Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
         return _expectedOffTargetGlEntry;
     }
 
     /**
-     * Accessor method for Offset Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedOffsetTargetPendingEntry(GeneralLedgerPendingEntry e) {
         LOG().info("Setting expectedOffsetTargetGlEntry: " + e);
@@ -582,21 +700,20 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     }
 
     /**
-     * Accessor method for Offset Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedOffsetSourcePendingEntry(GeneralLedgerPendingEntry e) {
         _expectedOffSourceGlEntry = e;
     }
 
     /**
-     * Accessor method for Offset Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
         return _expectedOffSourceGlEntry;
     }
@@ -620,7 +737,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     }
 
     /**
-     * Obtain correct BalanceTypeCode for <code>{@link JournalVoucheerDocument}</code>
+     * Obtain correct BalanceTypeCode for <code>{@link JournalVoucherDocument}</code>
      * 
      * @return String
      */
@@ -641,10 +758,10 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * 
      * @param parameter <code>{@link DocumentParameter}</code> instance to use.
      * @return Document newly created <code>{@link Document}</code>
-     * @see org.kuali.core.document.DocumentTestBase#buildDocument()
-     * @see org.kuali.module.financial.document.DisbursementDocumentTest
+     * @throws Exception
      * @see org.kuali.test.parameters.DisbursementVoucherDocumentParameter
      */
+    @Override
     protected Document buildDocument(DocumentParameter parameter) throws Exception {
         JournalVoucherDocument retval = (JournalVoucherDocument) super.buildDocument(parameter);
         retval.setBalanceTypeCode(getBalanceTypeCodeFixture());
@@ -664,6 +781,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * <code>{@link JournalVoucherDocument}</code>
      * 
      */
+    @Override
     public void testIsObjectCodeAllowed_InvalidObjectCode() {
     }
 
@@ -673,14 +791,21 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * method overridden from <code>{@link TransactionalDocumentRuleTestBase}</code> because all object sub type codes are allowed
      * in <code>{@link JournalVoucherDocument}</code>
      */
+    @Override
     public void testIsObjectSubTypeAllowed_InvalidSubType() {
     }
 
     /**
      * This test is overriddden becaues <code>{@link JournalVoucherDocumentRule}</code> doesn't add offset entries.
      * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries()
+     * @param line
+     * @param expectedExplicitEntry
+     * @param expectedOffsetEntry
+     * @throws Exception
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries(org.kuali.core.bo.AccountingLine,
+     *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected void testProcessGenerateGeneralLedgerPendingEntries(AccountingLine line, GeneralLedgerPendingEntry expectedExplicitEntry, GeneralLedgerPendingEntry expectedOffsetEntry) throws Exception {
         TransactionalDocument document = createDocument5();
         assertEquals(0, document.getGeneralLedgerPendingEntries().size());
@@ -690,6 +815,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
 
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense()
+     */
+    @Override
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
         testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("expenseSourceLine"), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry());
     }
@@ -701,6 +831,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * 
      * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense()
      */
+    @Override
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
         assertTrue(true);
     }
@@ -711,20 +842,30 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * 
      * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset()
      */
+    @Override
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() throws Exception {
         assertTrue(true);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessAddAccountingLineBusinessRules_irrelevantReferenceOriginCode() throws Exception {
         testProcessAddAccountingLineBusinessRules("expenseSourceLine2", null, null);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessAddAccountingLineBusinessRules_emptyReferenceOriginCode() throws Exception {
         AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceOriginCode("");
         testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_REQUIRED);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessAddAccountingLineBusinessRules_emptyReferences() throws Exception {
         AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceOriginCode("");
@@ -735,16 +876,25 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertGlobalErrorMapContains(PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_REQUIRED);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessAddAccountingLineBusinessRules_validReferences() throws Exception {
         testProcessAddAccountingLineBusinessRules("externalEncumbranceSourceLine", null, null);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceOriginCode() throws Exception {
         AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceOriginCode("42");
         testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_EXISTENCE);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceTypeCode() throws Exception {
         AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceTypeCode("42");
@@ -771,6 +921,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         }
     }
 
+    /**
+     * 
+     */
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
         boolean failedAsExpected = false;
         JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
@@ -785,6 +938,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     */
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_null() {
         boolean failedAsExpected = false;
         JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
@@ -794,6 +950,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertNull(item);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_notAllowed() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode("BB");
@@ -806,6 +965,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertNull(item);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_not_CashInBankCode() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
@@ -821,6 +983,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertNull(item);
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_cashInBank() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
@@ -841,6 +1006,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertEquals(debitCreditCode, item.getDebitCreditCode());
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_D() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
@@ -857,6 +1025,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_C() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
@@ -873,6 +1044,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessCustomRouteDocumentBusinessRules_accountingLines_notMatching_budgetYear() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocumentValidForRouting();
         int budgetYear = 1990;
@@ -894,6 +1068,9 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
     }
 
+    /**
+     * @throws Exception
+     */
     public void testProcessCustomRouteDocumentBusinessRules_accountingLines_matching_budgetYear() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocumentValidForRouting();
         int budgetYear = 1990;

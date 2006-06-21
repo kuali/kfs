@@ -50,7 +50,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: TransactionReport.java,v 1.17 2006-06-19 18:20:33 jsissom Exp $
+ * @version $Id: TransactionReport.java,v 1.18 2006-06-21 02:57:26 jsissom Exp $
  */
 public class TransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
@@ -208,7 +208,14 @@ public class TransactionReport {
 
                     List errors = (List) reportErrors.get(tran);
                     for (Iterator listIter = errors.iterator(); listIter.hasNext();) {
-                        Message m = (Message)listIter.next();
+                        String msg = null;
+                        Object m = listIter.next();
+                        if ( m instanceof Message ) {
+                            Message mm = (Message)m;
+                            msg = mm.getMessage();
+                        } else {
+                            msg = m.toString();
+                        }
 
                         if (first) {
                             first = false;
@@ -255,7 +262,7 @@ public class TransactionReport {
                             cell.setColspan(13);
                             warnings.addCell(cell);
                         }
-                        cell = new PdfPCell(new Phrase(m.getMessage(), textFont));
+                        cell = new PdfPCell(new Phrase(msg, textFont));
                         warnings.addCell(cell);
                     }
                 }

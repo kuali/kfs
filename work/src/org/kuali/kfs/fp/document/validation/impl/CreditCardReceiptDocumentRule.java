@@ -42,6 +42,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
      *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
+    @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) transactionalDocument;
 
@@ -70,6 +71,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         
@@ -103,6 +105,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         

@@ -22,6 +22,14 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.CAPITAL_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_FUND_GROUP_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_LEVEL_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
+
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
@@ -40,13 +48,6 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.document.InternalBillingDocument;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.CAPITAL_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_FUND_GROUP_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_LEVEL_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
 import org.kuali.module.gl.util.SufficientFundsItemHelper;
 
 /**
@@ -57,12 +58,13 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper;
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
-    @Override
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        // The IB spec has the same logic but opposite value of the TOF spec.
-        return !isDebitConsideringSection(accountingLine);
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        return IsDebitUtils.isDebitConsideringLineSection(this, transactionalDocument, accountingLine);
     }
 
     /**
@@ -218,7 +220,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * @see TransactionalDocumentRuleBase#getGlobalObjectTypeRule()
+     * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {

@@ -58,6 +58,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
         KualiDecimal amount = accountingLine.getAmount();
 
@@ -75,6 +76,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return !CashReceiptDocumentRuleUtil.areCashTotalsNegative((CashReceiptDocument) document);
     }
@@ -85,6 +87,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomApproveDocumentBusinessRules(Document document) {
         boolean valid = super.processCustomApproveDocumentBusinessRules(document);
 
@@ -111,6 +114,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
+    @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         CashReceiptDocument cr = (CashReceiptDocument) transactionalDocument;
 
@@ -138,6 +142,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
@@ -168,6 +173,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectConsolidationAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
@@ -205,6 +211,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
@@ -235,6 +242,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
      */
+    @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         return true;
     }
@@ -244,6 +252,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
      */
+    @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         if (0 == transactionalDocument.getSourceAccountingLines().size()) {
             GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
@@ -260,6 +269,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String accountingLineDescription = accountingLine.getFinancialDocumentLineDescription();
         if (StringUtils.isNotBlank(accountingLineDescription)) {
@@ -331,12 +341,22 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      * @param document
      * @return boolean
-     * 
-     * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet(
-     *      org.kuali.module.financial.documentCashReceiptDocument )
      */
     public boolean isCoverSheetPrintable(CashReceiptDocument document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
     }
+
+    /**
+     * @see IsDebitUtils#isDebitNotConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        //error corrections are not allowed
+        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
+        return IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
+    }
+
 }

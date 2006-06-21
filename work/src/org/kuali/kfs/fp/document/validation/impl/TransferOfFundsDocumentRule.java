@@ -55,6 +55,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
         return true;
@@ -66,6 +67,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
         if (isExpense(accountingLine)) {
@@ -82,14 +84,36 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * The TOF spec says that all positive "From" section accounting line amounts are debits, and vice versa for the "To" section,
-     * for GL pending entries.
+     * adds the following restrictions in addtion to those provided by
+     * <code>IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts</code>
+     * <ol>
+     * <li> only allow income or expense object type codes
+     * <li> target lines have the oposite debit/credit codes as the source lines
+     * </ol>
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see IsDebitUtils#isDebitNotConsideringLineSectionOnlyPositiveAmounts(TransactionalDocumentRuleBase, TransactionalDocument,
+     *      AccountingLine)
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
-    @Override
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        return isDebitConsideringSection(accountingLine);
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        // only allow income or expense
+        if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
+            throw new IllegalArgumentException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
+        }
+        boolean isDebit = false;
+        if (isSourceAccountingLine(accountingLine)) {
+            isDebit = IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
+        }
+        else if (isTargetAccountingLine(accountingLine)) {
+            isDebit = !IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
+        }
+        else {
+            throw new IllegalArgumentException("invalid accounting line type");
+        }
+
+        return isDebit;
     }
 
     /**
@@ -97,6 +121,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
      */
+    @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         boolean isValid = super.isDocumentBalanceValid(transactionalDocument);
 
@@ -120,6 +145,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
@@ -213,6 +239,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         accountingLine.refreshReferenceObject("objectCode");
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
@@ -236,6 +263,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
+    @Override
     protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
     }
@@ -245,6 +273,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.TargetAccountingLine)
      */
+    @Override
     protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
     }

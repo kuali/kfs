@@ -46,59 +46,14 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDocumentRuleBase implements DistributionOfIncomeAndExpenseDocumentRuleConstants {
 
     /**
-     * Overrrides default implementation to do the following: a line is considered debit if
-     * <ol>
-     * <li> is a source line && isExpenseOrAsset && is negative amount
-     * <li> is a source line && IncomeOrLiability && is positive amount
-     * <li> is a target line && isExpenseOrAsset && is positive amount
-     * <li> is a target line && IncomeOrLiability && is a negative amount
-     * </ol>
+     * @see IsDebitUtils#isDebitConsideringLineSectionOnlyPositiveAmounts(TransactionalDocumentRuleBase, TransactionalDocument,
+     *      AccountingLine)
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
-    @Override
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        // SOURCE line
-        // -- Expense Or Asset
-        // credit: positive amount
-        // debit: negative amount
-        // --Income Or Liability
-        // debit: positive amount
-        // credit: negative amount
-        // TARGET LINE
-        // --Expense Or Asset
-        // debit: positive amount
-        // credit: negative amount
-        // --Income Or Liability
-        // credit: positive amount
-        // debit: negative amount
-
-        boolean isDebit = false;
-        boolean isPositive = accountingLine.getAmount().isPositive();
-        if (isSourceAccountingLine(accountingLine)) {
-            if (isExpenseOrAsset(accountingLine)) {
-                isDebit = !isPositive;
-            }
-            else if (isIncomeOrLiability(accountingLine)) {
-                isDebit = isPositive;
-            }
-            else {
-                throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
-            }
-        }
-        // target line
-        else {
-            if (isExpenseOrAsset(accountingLine)) {
-                isDebit = isPositive;
-            }
-            else if (isIncomeOrLiability(accountingLine)) {
-                isDebit = !isPositive;
-            }
-            else {
-                throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
-            }
-        }
-        return isDebit;
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        return IsDebitUtils.isDebitConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
     }
 
     /**
@@ -149,11 +104,11 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
 
         return valid;
     }
-    
+
     /**
-     * The DI allows one sided documents for correcting - so if one side is empty, the other side must have
-     * at least two lines in it.  The balancing rules take care of validation of amounts.
-     *
+     * The DI allows one sided documents for correcting - so if one side is empty, the other side must have at least two lines in
+     * it. The balancing rules take care of validation of amounts.
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
      */
     @Override

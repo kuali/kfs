@@ -60,6 +60,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
      * 
      * @return String
      */
+    @Override
     protected String getDefaultSecurityGrouping() {
         return NON_CHECK_DISBURSEMENT_SECURITY_GROUPING;
     }
@@ -95,11 +96,14 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see IsDebitUtils#isDebitNotConsideringLineSectionOnlyPositiveAmounts(TransactionalDocumentRuleBase, TransactionalDocument,
+     *      AccountingLine)
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
-    @Override
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        return isDebitConsideringSection(accountingLine);
+        return IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
     }
 
     /**

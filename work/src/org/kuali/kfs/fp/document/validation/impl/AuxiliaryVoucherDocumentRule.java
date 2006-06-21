@@ -34,6 +34,7 @@ import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.Constants.ZERO;
 import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
@@ -50,12 +51,8 @@ import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_V
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_EXPENSE_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_INCOME_OBJECT_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.INCOME_NOT_CASH;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -80,8 +77,6 @@ import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
-import static org.kuali.Constants.ZERO;
-
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code> instances
  * 
@@ -94,17 +89,34 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * 
      * @return String
      */
+    @Override
     protected String getDefaultSecurityGrouping() {
         return AUXILIARY_VOUCHER_SECURITY_GROUPING;
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument,
+     * the following are credits (return false)
+     * <ol>
+     * <li> debitCreditCode != 'D'
+     * </ol>
+     * the following are debits (return true)
+     * <ol>
+     * <li> debitCreditCode == 'D'
+     * </ol>
+     * the following are invalid ( throws an <code>IllegalStateException</code>)
+     * <ol>
+     * <li> debitCreditCode isBlank
+     * </ol>
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    @Override
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        return isDebitConsideringSection(accountingLine);
+        String debitCreditCode = accountingLine.getDebitCreditCode();
+        if (StringUtils.isBlank(debitCreditCode)) {
+            throw new IllegalStateException("invalid (blank) debitCreditCode");
+        }
+        return IsDebitUtils.isDebitCode(debitCreditCode);
     }
 
     /**
@@ -114,6 +126,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
      */
+    @Override
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         return true;
     }
@@ -124,6 +137,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isObjectCodeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectCodeAllowed(AccountingLine accountingLine) {
         return true;
     }
@@ -134,6 +148,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
         boolean retval = true;
         KualiDecimal amount = accountingLine.getAmount();
@@ -205,6 +220,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
+    @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         AuxiliaryVoucherDocument document = (AuxiliaryVoucherDocument) transactionalDocument;
         if (ZERO.compareTo(document.getTotal()) == 0 || ZERO.compareTo(document.getTotal()) == 1) {
@@ -220,6 +236,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected boolean processExplicitGeneralLedgerPendingEntry(TransactionalDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine line, GeneralLedgerPendingEntry explicitEntry) {
         AuxiliaryVoucherDocument auxVoucher = (AuxiliaryVoucherDocument) document;
         String voucherType = getVoucherTypeCode(document);
@@ -287,6 +304,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected boolean processOffsetGeneralLedgerPendingEntry(TransactionalDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine line, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         String voucherType = getVoucherTypeCode(document);
 
@@ -363,6 +381,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean valid = true;
         valid &= super.processCustomAddAccountingLineBusinessRules(document, accountingLine);
@@ -380,6 +399,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @see TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean valid = true;
         valid &= super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
@@ -412,7 +432,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
-        boolean valid = isDocumentBalanceValid((TransactionalDocument) document);
+        boolean valid = isDocumentBalanceValid(document);
 
         if (valid) {
             validateFundGroupsInDocument(document);
@@ -638,6 +658,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 

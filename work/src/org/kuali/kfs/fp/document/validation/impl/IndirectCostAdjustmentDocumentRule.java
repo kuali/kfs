@@ -61,38 +61,29 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
     }
 
     /**
-     * Overrrides default implementation to do the following: a line is considered debit if
+     * same logic as
+     * <code>IsDebitUtils#isDebitNotConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)</code>
+     * but has the following accounting line restrictions: for grant lines(source):
      * <ol>
-     * <li> is a source line && isExpense && is positive amount
-     * <li> is a target line && isIncome && is a negative amount
+     * <li>only allow expense object type codes
+     * </ol>
+     * for receipt lines(target):
+     * <ol>
+     * <li>only allow income object type codes
      * </ol>
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see IsDebitUtils#isDebitNotConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
-    @Override
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
 
-        boolean isDebit = false;
-        boolean isPositive = accountingLine.getAmount().isPositive();
-        // source
-        if (isSourceAccountingLine(accountingLine)) {
-            if (isExpenseOrAsset(accountingLine)) {
-                isDebit = isPositive;
-            }
-            else {
-                throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
-            }
+        if ((accountingLine.isSourceAccountingLine() && isExpense(accountingLine)) || !(accountingLine.isTargetAccountingLine() && isIncome(accountingLine))) {
+            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
-        // target line
-        else {
-           if (isIncomeOrLiability(accountingLine)) {
-                isDebit = !isPositive;
-            }
-            else {
-                throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
-            }
-        }
-        return isDebit;
+
+        return IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
     }
 
     /**
@@ -166,7 +157,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      * provides centralized entry point to perform custom common accounting line validation
      * 
      * @param accountingLine
-     * @return
+     * @return boolean
      */
 
     protected boolean processCommonCustomAccountingLineBusinessRules(AccountingLine accountingLine) {
@@ -249,6 +240,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      * Prepares the input item that will be used for sufficient funds checking.
      * 
      * fi_dica:lp_proc_grant_ln,lp_proc_rcpt_ln conslidated
+     * 
      * @param transactionalDocument TODO
      * @param accountingLine
      * 

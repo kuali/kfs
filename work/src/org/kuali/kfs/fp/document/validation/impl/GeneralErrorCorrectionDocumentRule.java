@@ -22,20 +22,22 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.apache.commons.lang.StringUtils;
-import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.Constants.ZERO;
-import static org.kuali.KeyConstants.ERROR_DOCUMENT_OPTIONAL_ONE_SIDED_DOCUMENT_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET;
 import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE;
 import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE;
 import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
 
-import org.kuali.Constants;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -45,12 +47,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
@@ -67,6 +63,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
      * 
      * @return String
      */
+    @Override
     protected String getDefaultSecurityGrouping() {
         return GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
     }
@@ -103,41 +100,14 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
     }
 
     /**
-     * Overrides to provide specific isDebit() calculation - refer to
-     * https://test.kuali.org/confluence/display/KULEDOCS/TP+eDocs+Debits+and+Credits for a summary of business rules.
+     * @see IsDebitUtils#isDebitConsideringLineSectionOnlyPositiveAmounts(TransactionalDocumentRuleBase, TransactionalDocument,
+     *      AccountingLine)
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument,
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    @Override
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        if (accountingLine instanceof SourceAccountingLine) { // From lines
-            if (isIncomeOrLiability(accountingLine)) {
-                if (accountingLine.getAmount().compareTo(ZERO) > 0) {
-                    return true;
-                }
-            }
-            if (isExpenseOrAsset(accountingLine)) {
-                if (accountingLine.getAmount().compareTo(ZERO) > 0) {
-                    return false;
-                }
-            }
-        }
-
-        if (accountingLine instanceof TargetAccountingLine) { // To lines
-            if (isIncomeOrLiability(accountingLine)) {
-                if (accountingLine.getAmount().compareTo(ZERO) > 0) {
-                    return false;
-                }
-            }
-            if (isExpenseOrAsset(accountingLine)) {
-                if (accountingLine.getAmount().compareTo(ZERO) > 0) {
-                    return true;
-                }
-            }
-        }
-
-        throw new IllegalStateException("Invalid accounting line type, amount, and object type code combination for the accounting line.");
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        return IsDebitUtils.isDebitConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
     }
 
     /**

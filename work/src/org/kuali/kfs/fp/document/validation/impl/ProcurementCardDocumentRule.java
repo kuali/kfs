@@ -68,6 +68,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
+    @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         boolean allow = true;
 
@@ -88,6 +89,9 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Checks object codes restrictions, including restrictions in parameters table.
+     * @param transactionalDocument 
+     * @param accountingLine 
+     * @return boolean
      */
     public boolean validateObjectCode(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
@@ -145,6 +149,9 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Checks account number restrictions, including restrictions in parameters table.
+     * @param transactionalDocument 
+     * @param accountingLine 
+     * @return boolean
      */
     public boolean validateAccountNumber(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
@@ -175,9 +182,10 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
-    @Override
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        return !isDebitConsideringSection(accountingLine);
+        //disallow error correction
+        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
+        return !IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
     }
 
     /**
@@ -186,6 +194,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#accountIsAccessible(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
+    @Override
     protected boolean accountIsAccessible(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
         List activeNodes = null;

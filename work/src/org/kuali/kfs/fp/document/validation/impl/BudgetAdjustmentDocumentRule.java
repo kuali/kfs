@@ -50,6 +50,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
+    @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         boolean allow = true;
 
@@ -195,7 +196,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * @param sequenceHelper
      * @param fiscalPeriod
      * @param monthAmount
-     * @return
+     * @return boolean
      */
     private boolean createMontlyBudgetGLPE(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String fiscalPeriod, KualiDecimal monthAmount) {
         boolean success = true;
@@ -225,7 +226,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * @param transactionalDocument
      * @param accountingLine
      * @param sequenceHelper
-     * @return
+     * @return boolean
      */
     public boolean processTransferOfFundsGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -237,6 +238,9 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     /**
      * Validates the total of the monthly amount fields (if not 0) equals the current budget amount. If current budget is 0, then
      * total of monthly fields must be 0.
+     * @param transactionalDocument 
+     * @param accountingLine 
+     * @return boolean
      */
     public boolean validateMonthlyLines(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         BudgetAdjustmentAccountingLine budgetAdjustmentAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
@@ -254,6 +258,9 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
     /**
      * Checks object codes restrictions, including restrictions in parameters table.
+     * @param transactionalDocument 
+     * @param accountingLine 
+     * @return boolean
      */
     public boolean validateObjectCode(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) transactionalDocument;
@@ -371,5 +378,14 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         return true;
     }
+
+
+    /**
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        return IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
+    }
+
 
 }

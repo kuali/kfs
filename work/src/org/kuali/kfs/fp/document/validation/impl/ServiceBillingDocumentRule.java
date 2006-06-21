@@ -22,6 +22,9 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.user.KualiGroup;
@@ -33,8 +36,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.ServiceBillingControl;
-import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstants.SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -114,5 +115,20 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         if (StringUtils.isNotBlank(description)) {
             explicitEntry.setTransactionLedgerEntryDescription(description);
         }
+    }
+
+    /**
+     * further restricts to income/expense object type codes
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    @Override
+    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
+            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
+        }
+
+        return super.isDebit(transactionalDocument, accountingLine);
     }
 }

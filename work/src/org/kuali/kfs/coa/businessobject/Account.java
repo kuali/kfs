@@ -44,7 +44,7 @@ import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Account extends BusinessObjectBase {
+public class Account extends BusinessObjectBase implements AccountIntf {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
     private static final long serialVersionUID = -144120733742373200L;
 

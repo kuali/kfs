@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="glOrganizationReversionStep" class="org.kuali.module.gl.batch.OrganizationReversionStep">
+    <bean id="glOrganizationReversionEndOfYearStep" class="org.kuali.module.gl.batch.OrganizationReversionEndOfYearStep">
+        <property name="organizationReversionProcessService">
+            <ref bean="glOrganizationReversionProcessService" />
+        </property>
+    </bean>
+
+    <bean id="glOrganizationReversionBeginningOfYearStep" class="org.kuali.module.gl.batch.OrganizationReversionBeginningOfYearStep">
         <property name="organizationReversionProcessService">
             <ref bean="glOrganizationReversionProcessService" />
         </property>
     </bean>
 
     <bean id="glOrganizationReversionProcessService" class="org.kuali.module.gl.service.impl.OrganizationReversionProcessServiceImpl">
+        <property name="priorYearAccountService">
+            <ref bean="priorYearAccountService" />
+        </property>
         <property name="organizationReversionService">
             <ref bean="organizationReversionService" />
         </property>

@@ -20,18 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.gl.batch;
 
-public interface OrganizationReversionProcessService {
-    /**
-     * Organization Reversion Year End Process for the end of a fiscal year
-     * 
-     */
-    public void organizationReversionProcessEndOfYear();
+import org.kuali.core.batch.Step;
+import org.kuali.module.gl.service.OrganizationReversionProcessService;
 
-    /**
-     * Organization Reversion Year End Process for the beginning of a fiscal year
-     * 
-     */
-    public void organizationReversionProcessBeginningOfYear();
+public class OrganizationReversionBeginningOfYearStep  implements Step {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionEndOfYearStep.class);
+
+    private OrganizationReversionProcessService organizationReversionProcessService;
+
+    public boolean performStep() {
+        LOG.debug("performStep() started");
+
+        organizationReversionProcessService.organizationReversionProcessBeginningOfYear();
+        return true;
+    }
+
+    public String getName() {
+        return "Organization Reversion Process (Beginning of Year)";
+    }
+
+    public void setOrganizationReversionProcessService(OrganizationReversionProcessService organizationReversionProcessService) {
+        this.organizationReversionProcessService = organizationReversionProcessService;
+    }
+
 }

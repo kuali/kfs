@@ -66,7 +66,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.31 2006-06-14 12:26:36 abyrne Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.32 2006-06-21 16:10:10 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -85,8 +85,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private ExpenditureTransactionDao expenditureTransactionDao;
     private IcrAutomatedEntryDao icrAutomatedEntryDao;
     private ObjectCodeService objectCodeService;
-
-    // private IndirectCostRecoveryThresholdDao indirectCostRecoveryThresholdDao;
 
     /**
      * 
@@ -172,11 +170,8 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             reportSummary.put(poster.getDestinationName() + ",U", new Integer(0));
         }
 
-        // Process all the groups or reversalTransactions
-        // NOTE (laran): this seems like a wierd check. I think what you're doing would
-        // be more clearly written as:
-        // if(PosterService.MODE_ENTRIES == mode || PosterService.MODE_ICR == mode) {
-        if (groups != null) {
+        int ecount = 0;
+        if ( (mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR) ) {
             LOG.debug("postEntries() Processing groups");
             for (Iterator iter = groups.iterator(); iter.hasNext();) {
                 OriginEntryGroup group = (OriginEntryGroup) iter.next();
@@ -186,6 +181,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                     Transaction tran = (Transaction) entries.next();
 
                     postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
+                    LOG.info("postEntries() Posted Entry "+ (++ecount));
                 }
 
                 // Mark this group so we don't process it again next time the poster runs
@@ -199,6 +195,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                 Transaction tran = (Transaction) reversalTransactions.next();
 
                 postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
+                LOG.info("postEntries() Posted Entry "+ (++ecount));
             }
         }
 
@@ -520,15 +517,15 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         e.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
 
-        /*
-         * Cannot use icrEntry reference objects because Chart, Account, Sub Account, etc may have special values.
-         * 
-         * if ( icrEntry.getOffsetBalanceSheetObjectCode() == null ) { List warnings = new ArrayList(); warnings.add("Offset Object
-         * Code is invalid"); reportErrors.put(e,warnings); } else {
-         * e.setFinancialObjectTypeCode(icrEntry.getOffsetBalanceSheetObjectCode().getFinancialObjectTypeCode()); }
-         * 
-         */
-        if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
+        // TODO We need to have this check
+//        if ( icrEntry.getOffsetBalanceSheetObjectCode() == null ) {
+//            List warnings = new ArrayList(); warnings.add("Offset Object Code is invalid");
+//            reportErrors.put(e,warnings);
+//        } else {
+//             e.setFinancialObjectTypeCode(icrEntry.getOffsetBalanceSheetObjectCode().getFinancialObjectTypeCode());
+//        }
+
+         if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
             e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED), et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount()));
         }
         else {
@@ -537,24 +534,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
         originEntryService.createEntry(e, group);
     }
-
-    // I don't understand thresholds so I removed this code.
-    //
-    // Collection thresholds = indirectCostRecoveryThresholdDao.getByAccount(et.getChartOfAccountsCode(),et.getAccountNumber());
-    // for (Iterator iter = thresholds.iterator(); iter.hasNext();) {
-    // IndirectCostRecoveryThreshold threshold = (IndirectCostRecoveryThreshold)iter.next();
-    // if ( threshold.getAwardThresholdAmount().compareTo(threshold.getAwardAccumulatedCostAmount()) > 0 ) {
-    // // 1596 - 1654
-    // KualiDecimal availableCostAmount = threshold.getAwardThresholdAmount().subtract(threshold.getAwardAccumulatedCostAmount());
-    // // subtract previous amount? What is that?
-    //
-    // if ( amountRemaining.compareTo(availableCostAmount) <= 0 ) {
-    //
-    // }
-    // } else {
-    // // 1656 - 1687
-    // }
-    // }
 
     private String getChargeDescription(KualiDecimal rate, String objectCode, String type, KualiDecimal amount) {
         NumberFormat nf = NumberFormat.getInstance();
@@ -676,8 +655,4 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             posterReportService = (PosterReport) beanFactory.getBean("testPosterReport");
         }
     }
-
-    // public void setIndirectCostRecoveryThresholdDao(IndirectCostRecoveryThresholdDao icrtd) {
-    // indirectCostRecoveryThresholdDao = icrtd;
-    // }
 }

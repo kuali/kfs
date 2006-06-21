@@ -48,7 +48,7 @@ public class BudgetNonpersonnelTest extends KualiTestBaseWithSpring {
          */
     }
 
-    public static List createBudgetNonpersonnel(String[] nonpersonnelCategories, String[] subCategories) {
+    public static List createBudgetNonpersonnel(String[] nonpersonnelCategories, String[] subCategories, String[] subcontractorNumber) {
         List budgetNonpersonnelList = new ArrayList();
 
         if (nonpersonnelCategories.length != subCategories.length) {
@@ -61,6 +61,8 @@ public class BudgetNonpersonnelTest extends KualiTestBaseWithSpring {
             budgetNonpersonnel.setBudgetPeriodSequenceNumber(new Integer(0));
             budgetNonpersonnel.setBudgetTaskSequenceNumber(new Integer(0));
 
+            budgetNonpersonnel.setSubcontractorNumber(subcontractorNumber[i]);
+            
             budgetNonpersonnel.setBudgetNonpersonnelCategoryCode(nonpersonnelCategories[i]);
             budgetNonpersonnel.setBudgetNonpersonnelSubCategoryCode(subCategories[i]);
             budgetNonpersonnel.setNonpersonnelObjectCode(new NonpersonnelObjectCode(nonpersonnelCategories[i], subCategories[i]));

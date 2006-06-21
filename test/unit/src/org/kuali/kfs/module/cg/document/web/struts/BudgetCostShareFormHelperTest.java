@@ -50,7 +50,8 @@ public class BudgetCostShareFormHelperTest extends KualiTestBaseWithSpring {
 
         String[] categories = { "CO", "CO", "SC", "SC" };
         String[] subCategories = { "C1", "C1", "R3", "R1" };
-        nonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories);
+        String[] subcontractorNumber = { "", "", "1", "2" };
+        nonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories, subcontractorNumber);
     }
 
     public void testSetupSubcontractors() {

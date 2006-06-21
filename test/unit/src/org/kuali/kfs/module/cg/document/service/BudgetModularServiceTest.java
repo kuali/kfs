@@ -110,7 +110,8 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
 
         String[] categories = { "CO", "CO", "FL", "SC" };
         String[] subCategories = { "C1", "C1", "F5", "R2" };
-        List nonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories);
+        String[] subcontractorNumber = { "", "", "", "1" };
+        List nonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories, subcontractorNumber);
         for (Iterator iter = nonpersonnelItems.iterator(); iter.hasNext();) {
             BudgetNonpersonnel nonpersonnel = (BudgetNonpersonnel) iter.next();
             nonpersonnel.setBudgetPeriodSequenceNumber(new Integer(2));
@@ -229,7 +230,8 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
 
         String[] categories = { "CO", "CO", "FL", "SC" };
         String[] subCategories = { "C1", "C1", "F5", "R2" };
-        List nonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories);
+        String[] subcontractorNumber = { "", "", "", "1" };
+        List nonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories, subcontractorNumber);
         for (Iterator iter = nonpersonnelItems.iterator(); iter.hasNext();) {
             BudgetNonpersonnel nonpersonnel = (BudgetNonpersonnel) iter.next();
             nonpersonnel.setBudgetPeriodSequenceNumber(new Integer(2));

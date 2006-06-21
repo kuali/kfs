@@ -20,7 +20,7 @@
   <html:hidden property="accountingLineEditableFields(${field.key})"/>
 </c:forEach>
 
-<c:set var="columnCountUntilAmount" value="9" />
+<c:set var="columnCountUntilAmount" value="8" />
 <c:set var="columnCount" value="${columnCountUntilAmount + 1 + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 <c:set var="accountingLineAttributes" value="${DataDictionary['TargetAccountingLine'].attributes}" />
 
@@ -149,7 +149,6 @@
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialSubObjectCode}"/>
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}"/>
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.organizationReferenceId}"/>
-        <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.budgetYear}"/>
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.amount}"/>
 
         <c:if test="${hasActionsColumn}">

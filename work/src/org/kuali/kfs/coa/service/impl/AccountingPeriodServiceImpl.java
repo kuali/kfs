@@ -122,12 +122,20 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
             Iterator iter = coll.iterator();
             while (iter.hasNext()) {
                 AccountingPeriod period = (AccountingPeriod) iter.next();
-                if (!_invalidPeriodCodes.contains(period.getUniversityFiscalPeriodCode())) {
+                if (!isInvalidPeriodCode(period)) {
                     return period;
                 }
             }
         }
         return null;
+    }
+
+    private boolean isInvalidPeriodCode(AccountingPeriod period) {
+        String periodCode = period.getUniversityFiscalPeriodCode();
+        if (periodCode == null) {
+            throw new IllegalArgumentException("invalid (null) universityFiscalPeriodCode ("+periodCode+")for" + period);
+        }
+        return _invalidPeriodCodes.contains(periodCode);
     }
 
     /**

@@ -33,14 +33,14 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
 import org.kuali.module.financial.bo.TravelMileageRate;
 import org.kuali.module.financial.dao.TravelMileageRateDao;
-import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the TravelMileageRate interface.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class TravelMileageRateDaoOjb extends PersistenceBrokerTemplate implements TravelMileageRateDao {
+public class TravelMileageRateDaoOjb extends PersistenceBrokerDaoSupport implements TravelMileageRateDao {
     private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
 
     /**
@@ -55,7 +55,7 @@ public class TravelMileageRateDaoOjb extends PersistenceBrokerTemplate implement
         queryByCriteria.addOrderByDescending("mileageLimitAmount");
 
         Collection mostEffectiveRates = new ArrayList();
-        Collection rates = getCollectionByQuery(queryByCriteria);
+        Collection rates = getPersistenceBrokerTemplate().getCollectionByQuery(queryByCriteria);
         Date mostEffectiveDate = ((TravelMileageRate) rates.iterator().next()).getDisbursementVoucherMileageEffectiveDate();
         for (Iterator iter = rates.iterator(); iter.hasNext();) {
             TravelMileageRate rate = (TravelMileageRate) iter.next();

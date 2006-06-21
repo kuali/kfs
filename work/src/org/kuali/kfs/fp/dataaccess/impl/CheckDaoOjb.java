@@ -36,6 +36,7 @@ import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.dao.CheckDao;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the AccountingLineDao interface.
@@ -43,7 +44,7 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CheckDaoOjb extends PersistenceBrokerTemplate implements CheckDao {
+public class CheckDaoOjb extends PersistenceBrokerDaoSupport implements CheckDao {
     private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
 
     /**
@@ -57,7 +58,7 @@ public class CheckDaoOjb extends PersistenceBrokerTemplate implements CheckDao {
      * @see org.kuali.core.dao.CheckDao#save(org.kuali.module.financial.bo.Check)
      */
     public Check save(Check check) throws DataAccessException {
-        this.store(check);
+        getPersistenceBrokerTemplate().store(check);
 
         return check;
     }
@@ -67,7 +68,7 @@ public class CheckDaoOjb extends PersistenceBrokerTemplate implements CheckDao {
      * @throws DataAccessException
      */
     public void deleteCheck(Check check) throws DataAccessException {
-        this.delete(check);
+        getPersistenceBrokerTemplate().delete(check);
     }
 
     /**
@@ -83,7 +84,7 @@ public class CheckDaoOjb extends PersistenceBrokerTemplate implements CheckDao {
 
         QueryByCriteria query = QueryFactory.newQuery(CheckBase.class, criteria);
 
-        Collection lines = getCollectionByQuery(query);
+        Collection lines = getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         return new ArrayList(lines);
     }

@@ -477,11 +477,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
                 for (int i = 0; i < nodes.getLength(); i++) {
                     Node accountingLineNode = nodes.item(i);
-                    // TODO: this needs to be fixed up, the xpath.evaluate probably doesnt work
-                    // String referenceString = xpath.evaluate("@reference", accountingLineNode);
-                    // if (!StringUtils.isEmpty(referenceString)) {
-                    // accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
-                    // }
+                    // TODO: xstreamsafe should be handling this, but is not, therefore this code block
+                    String referenceString = xpath.evaluate("@reference", accountingLineNode);
+                    if (!StringUtils.isEmpty(referenceString)) {
+                        accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
+                    }
                     String finCoaCd = xpath.evaluate("./chartOfAccountsCode", accountingLineNode);
                     String orgCd = xpath.evaluate("./organizationCode", accountingLineNode);
                     KualiFiscalOrganization orgization = new KualiFiscalOrganization();

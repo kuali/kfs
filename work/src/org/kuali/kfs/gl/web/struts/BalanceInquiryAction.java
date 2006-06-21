@@ -93,15 +93,24 @@ public class BalanceInquiryAction extends KualiAction {
         // If we're going to include pending entries we cannot truncate or bound
         // displayList. Doing so would result in entries that could never be
         // retrieved.
-        displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, !includePendingLedgerEntries);
+        displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
         CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
-
-        Integer totalSize = displayList.size();
         
-        if (includePendingLedgerEntries) {
+        Long totalSize = ((CollectionIncomplete)displayList).getActualSizeIfTruncated();
+        
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        String limitConfig = kualiConfigurationService.getPropertyString("lookup.results.limit");
+        Integer limit = null;
+        if (limitConfig != null) {
+            limit = Integer.valueOf(limitConfig);
+        }
+        
+        Collection pendingEntryDisplayList = new ArrayList();
+        Collection pendingEntryResultTable = new ArrayList();
+        
+        includePendingLedgerEntries = (null != limit && totalSize < limit) ? includePendingLedgerEntries : false;
+        if (includePendingLedgerEntries ) {
             Lookupable kualiPendingEntryLookupable = lookupForm.getPendingEntryLookupable();
-            Collection pendingEntryDisplayList = new ArrayList();
-            Collection pendingEntryResultTable = new ArrayList();
 
             if ("Approved".equals(pendingEntryFormOption)) {
                 lookupForm.getFields().put("documentHeader.financialDocumentStatusCode", "A");
@@ -113,36 +122,18 @@ public class BalanceInquiryAction extends KualiAction {
             }
             pendingEntryDisplayList = 
                 SpringServiceLocator.getPersistenceService().performLookup(
-                        lookupForm, kualiPendingEntryLookupable, pendingEntryResultTable, false);
+                        lookupForm, kualiPendingEntryLookupable, pendingEntryResultTable, true);
             
-            // Add all of the pending entries to the list to display.
-            displayList.addAll(pendingEntryDisplayList);
+            // CollectionIncomplete incompletePendingEntryResultTable = (CollectionIncomplete) pendingEntryResultTable;
+            Iterator iterator = pendingEntryResultTable.iterator();
             
-            // Get the total number of records returned from both queries to see if we need to truncate.
-            // int totalNumberOfRecords = displayList.size();
+            Long i = new Long(resultTable.size());
+            while(iterator.hasNext() && i < limit) {
+                resultTable.add(iterator.next());
+                i++;
+            }
             
-            totalSize += pendingEntryDisplayList.size();
-            
-            // Get the result limit number from configuration.
-//            KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-//            String limitConfig = kualiConfigurationService.getPropertyString("lookup.results.limit");
-//            Integer limit = null;
-//            if (limitConfig != null) {
-//                limit = Integer.valueOf(limitConfig);
-//            }
-//            
-//            if(null != limit) {
-//                ArrayList list = (ArrayList) displayList;
-//                for(int i = totalNumberOfRecords; i >= limit; i--) {
-//                    list.remove(i - 1);
-//                }
-//            }
-            
-            // Update the merged CollectionIncomplete to reflect the sum of the Entry and GeneralLedgerPendingEntry queries.
-            //CollectionIncomplete incompletePendingEntryDisplayList = (CollectionIncomplete) pendingEntryDisplayList;
-            //incompleteDisplayList.setActualSizeIfTruncated(new Long(incompleteDisplayList.getActualSizeIfTruncated().longValue() + incompletePendingEntryDisplayList.getActualSizeIfTruncated().longValue()));
-            
-            resultTable.addAll(pendingEntryResultTable);
+            totalSize = i;
         }
 
         // if("org.kuali.module.gl.bo.Balance".equals(lookupForm.getBusinessObjectClassName())) {

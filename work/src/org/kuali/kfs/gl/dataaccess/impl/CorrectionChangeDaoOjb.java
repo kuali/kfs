@@ -29,9 +29,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
-import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class CorrectionChangeDaoOjb extends PersistenceBrokerTemplate implements CorrectionChangeDao {
+public class CorrectionChangeDaoOjb extends PersistenceBrokerDaoSupport implements CorrectionChangeDao {
 
     public CorrectionChangeDaoOjb() {
         super();
@@ -43,7 +43,7 @@ public class CorrectionChangeDaoOjb extends PersistenceBrokerTemplate implements
      * @see org.kuali.module.gl.dao.CorrectionReplacementSpecificationDao#delete(org.kuali.module.gl.bo.CorrectionReplacementSpecification)
      */
     public void delete(CorrectionChange spec) {
-        super.delete(spec);
+        getPersistenceBrokerTemplate().delete(spec);
     }
 
     /*
@@ -60,7 +60,7 @@ public class CorrectionChangeDaoOjb extends PersistenceBrokerTemplate implements
         Class clazz = CorrectionChange.class;
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
 
-        Collection specifications = getCollectionByQuery(query);
+        Collection specifications = getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         return specifications;
     }
@@ -71,7 +71,6 @@ public class CorrectionChangeDaoOjb extends PersistenceBrokerTemplate implements
      * @see org.kuali.module.gl.dao.CorrectionChangeDao#save(org.kuali.module.gl.bo.CorrectionChange)
      */
     public void save(CorrectionChange spec) {
-        super.store(spec);
+        getPersistenceBrokerTemplate().store(spec);
     }
-
 }

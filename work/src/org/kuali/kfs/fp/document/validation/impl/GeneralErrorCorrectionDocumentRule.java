@@ -155,6 +155,51 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
 
         return retval;
     }
+    
+    /**
+     * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
+     *      GeneralLedgerPendingEntry)
+     */
+    @Override
+    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(transactionalDocument, accountingLine));
+
+        // Clearing fields that are already handled by the parent algorithm - we don't actually want
+        // these to copy over from the accounting lines b/c they don't belond in the GLPEs
+        // if the aren't nulled, then GECs fail to post
+        explicitEntry.setReferenceFinancialDocumentNumber(null);
+        explicitEntry.setReferenceFinancialSystemOriginationCode(null);
+        explicitEntry.setReferenceFinancialDocumentTypeCode(null);
+    }
+    
+    /**
+     * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
+     * using information from the <code>{@link AccountingLine}</code>.  Format is "01-12345: blah blah blah".
+     * 
+     * @param line
+     * @param transactionalDocument
+     * @return String
+     */
+    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(TransactionalDocument transactionalDocument, AccountingLine line) {
+        String description = "";
+        if(StringUtils.isBlank(line.getReferenceOriginCode()) || StringUtils.isBlank(line.getReferenceNumber())) {
+            throw new IllegalStateException("Reference Origin Code and Reference Document Number are required and should be validated before this point.");
+        }
+        
+        description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
+        
+        if(StringUtils.isNotBlank(line.getFinancialDocumentLineDescription())) {
+            description += ": " + line.getFinancialDocumentLineDescription();
+        } else {
+            description += ": " + transactionalDocument.getDocumentHeader().getFinancialDocumentDescription();
+        }
+        
+        if(description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {
+            description = description.substring(0, GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH - 3)+ "...";
+        }
+            
+        return description;
+    }
 
     /**
      * Used to determine of object code sub types are valid with the object type code.

@@ -127,7 +127,6 @@
 										title="${column.columnTitle}"
 										comparator="${column.comparator}">
 
-										<!-- Hard-coded: is not a good solution -->
 										<c:if test="${column.columnTitle == 'Project Code'}">
 											<div style="white-space: nowrap"><c:out
 												value="${column.propertyValue}" /></div>

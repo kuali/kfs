@@ -34,6 +34,7 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.
@@ -42,7 +43,7 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  */
 
 
-public class ChartDaoOjb extends PersistenceBrokerTemplate implements ChartDao {
+public class ChartDaoOjb extends PersistenceBrokerDaoSupport implements ChartDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
 
     public ChartDaoOjb() {
@@ -58,7 +59,7 @@ public class ChartDaoOjb extends PersistenceBrokerTemplate implements ChartDao {
         QueryByCriteria qbc = QueryFactory.newQuery(Chart.class, (Criteria) null);
         qbc.addOrderByAscending("chartOfAccountsCode");
 
-        return getCollectionByQuery(qbc);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
 
@@ -66,7 +67,7 @@ public class ChartDaoOjb extends PersistenceBrokerTemplate implements ChartDao {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
 
-        return (Chart) getObjectByQuery(QueryFactory.newQuery(Chart.class, criteria));
+        return (Chart)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Chart.class, criteria));
     }
 
     /**
@@ -79,7 +80,7 @@ public class ChartDaoOjb extends PersistenceBrokerTemplate implements ChartDao {
         List chartResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("finCoaManagerUniversalId", kualiUser.getPersonUniversalIdentifier());
-        Collection charts = getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
+        Collection charts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
         for (Iterator iter = charts.iterator(); iter.hasNext();) {
             Chart chart = (Chart) iter.next();
             chartResponsibilities.add(chart);

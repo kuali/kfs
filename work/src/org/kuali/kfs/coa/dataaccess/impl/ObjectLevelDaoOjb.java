@@ -27,13 +27,14 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.dao.ObjectLevelDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the ObjectLevelDao interface.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ObjectLevelDaoOjb extends PersistenceBrokerTemplate implements ObjectLevelDao {
+public class ObjectLevelDaoOjb extends PersistenceBrokerDaoSupport implements ObjectLevelDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevelDaoOjb.class);
 
     public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
@@ -41,7 +42,7 @@ public class ObjectLevelDaoOjb extends PersistenceBrokerTemplate implements Obje
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("financialObjectLevelCode", objectLevelCode);
 
-        return (ObjLevel) getObjectByQuery(QueryFactory.newQuery(ObjLevel.class, criteria));
+        return (ObjLevel)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjLevel.class, criteria));
     }
 
 }

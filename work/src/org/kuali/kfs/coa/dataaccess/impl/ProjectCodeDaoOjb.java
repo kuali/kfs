@@ -27,6 +27,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.dao.ProjectCodeDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**
@@ -34,7 +35,7 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate implements ProjectCodeDao {
+public class ProjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements ProjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeDaoOjb.class);
 
     /**
@@ -48,7 +49,7 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate implements Proj
         Criteria criteria = new Criteria();
         criteria.addEqualTo("code", projectCode);
 
-        return (ProjectCode) getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
+        return (ProjectCode)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
     }
 
     /**
@@ -62,7 +63,7 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate implements Proj
         Criteria criteria = new Criteria();
         criteria.addEqualTo("name", name);
 
-        return (ProjectCode) getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
+        return (ProjectCode)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
     }
 
     /**
@@ -72,7 +73,7 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate implements Proj
      * @throws ValidationErrorList
      */
     public void save(ProjectCode projectCode) {
-        this.store(projectCode);
+        getPersistenceBrokerTemplate().store(projectCode);
     }
 
 }

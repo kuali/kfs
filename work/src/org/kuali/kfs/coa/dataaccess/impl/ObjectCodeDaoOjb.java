@@ -32,6 +32,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.ObjectCodeDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**
@@ -39,7 +40,7 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ObjectCodeDaoOjb extends PersistenceBrokerTemplate implements ObjectCodeDao {
+public class ObjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements ObjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeDaoOjb.class);
 
     /**
@@ -57,7 +58,7 @@ public class ObjectCodeDaoOjb extends PersistenceBrokerTemplate implements Objec
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
 
-        return (ObjectCode) getObjectByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
+        return (ObjectCode)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
     }
 
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
@@ -66,7 +67,7 @@ public class ObjectCodeDaoOjb extends PersistenceBrokerTemplate implements Objec
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
-        Collection years = getCollectionByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
+        Collection years = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
         for (Iterator iter = years.iterator(); iter.hasNext();) {
             ObjectCode o = (ObjectCode) iter.next();
             if (o != null) {

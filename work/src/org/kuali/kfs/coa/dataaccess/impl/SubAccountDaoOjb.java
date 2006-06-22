@@ -27,6 +27,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.dao.SubAccountDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**
@@ -34,7 +35,7 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SubAccountDaoOjb extends PersistenceBrokerTemplate implements SubAccountDao {
+public class SubAccountDaoOjb extends PersistenceBrokerDaoSupport implements SubAccountDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountDaoOjb.class);
 
     /**
@@ -52,6 +53,6 @@ public class SubAccountDaoOjb extends PersistenceBrokerTemplate implements SubAc
         criteria.addEqualTo("accountNumber", accountNumber);
         criteria.addEqualTo("subAccountNumber", subAccountNumber);
 
-        return (SubAccount) getObjectByQuery(QueryFactory.newQuery(SubAccount.class, criteria));
+        return (SubAccount)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubAccount.class, criteria));
     }
 }

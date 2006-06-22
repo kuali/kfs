@@ -27,6 +27,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.dao.SubObjectCodeDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**
@@ -34,7 +35,7 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SubObjectCodeDaoOjb extends PersistenceBrokerTemplate implements SubObjectCodeDao {
+public class SubObjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements SubObjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjectCodeDaoOjb.class);
 
     /**
@@ -57,6 +58,6 @@ public class SubObjectCodeDaoOjb extends PersistenceBrokerTemplate implements Su
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
         criteria.addEqualTo("financialSubObjectCode", financialSubObjectCode);
 
-        return (SubObjCd) getObjectByQuery(QueryFactory.newQuery(SubObjCd.class, criteria));
+        return (SubObjCd)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubObjCd.class, criteria));
     }
 }

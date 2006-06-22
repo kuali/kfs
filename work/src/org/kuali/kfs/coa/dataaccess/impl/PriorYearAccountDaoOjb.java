@@ -27,13 +27,14 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.dao.PriorYearAccountDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class...
  * 
  * @author Bin Gao from Michigan State University
  */
-public class PriorYearAccountDaoOjb extends PersistenceBrokerTemplate implements PriorYearAccountDao {
+public class PriorYearAccountDaoOjb extends PersistenceBrokerDaoSupport implements PriorYearAccountDao {
 
     /**
      * @see org.kuali.module.chart.dao.PriorYearAccountDao#getByPrimaryId(java.lang.String, java.lang.String)
@@ -44,7 +45,7 @@ public class PriorYearAccountDaoOjb extends PersistenceBrokerTemplate implements
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
 
-        return (PriorYearAccount) getObjectByQuery(QueryFactory.newQuery(PriorYearAccount.class, criteria));
+        return (PriorYearAccount)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PriorYearAccount.class, criteria));
     }
 
 }

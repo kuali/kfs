@@ -237,7 +237,6 @@ public class TransactionListingReport {
             transactionList.addCell(cell);
 
             document.add(transactionList);
-            System.err.println("Fuck4");
         }
         catch (DocumentException de) {
             LOG.error("generateReport() Error creating PDF report", de);

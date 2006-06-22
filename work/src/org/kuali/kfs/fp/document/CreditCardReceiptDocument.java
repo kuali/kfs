@@ -23,7 +23,6 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
@@ -42,7 +41,7 @@ import org.kuali.module.financial.bo.CreditCardDetail;
  */
 public class CreditCardReceiptDocument extends CashReceiptDocument {
     // holds details about each credit card receipt
-    private List creditCardReceipts = new ArrayList();
+    private List<CreditCardDetail> creditCardReceipts = new ArrayList<CreditCardDetail>();
 
     // incrementers for detail lines
     private Integer nextCcCrLineNumber = new Integer(1);
@@ -89,7 +88,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @return List
      */
-    public List getCreditCardReceipts() {
+    public List<CreditCardDetail> getCreditCardReceipts() {
         return creditCardReceipts;
     }
 
@@ -98,7 +97,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @param creditCardReceipts
      */
-    public void setCreditCardReceipts(List creditCardReceipts) {
+    public void setCreditCardReceipts(List<CreditCardDetail> creditCardReceipts) {
         this.creditCardReceipts = creditCardReceipts;
     }
 
@@ -144,7 +143,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
         while (this.creditCardReceipts.size() <= index) {
             creditCardReceipts.add(new CreditCardDetail());
         }
-        return (CreditCardDetail) creditCardReceipts.get(index);
+        return creditCardReceipts.get(index);
     }
 
     /**
@@ -153,7 +152,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * @param index
      */
     public void removeCreditCardReceipt(int index) {
-        CreditCardDetail creditCardReceiptDetail = (CreditCardDetail) creditCardReceipts.remove(index);
+        CreditCardDetail creditCardReceiptDetail = creditCardReceipts.remove(index);
         this.totalCreditCardAmount = this.totalCreditCardAmount.subtract(creditCardReceiptDetail.getCreditCardAdvanceDepositAmount());
     }
 
@@ -187,10 +186,9 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      */
     public KualiDecimal calculateCreditCardReceiptTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
-        for (Iterator i = getCreditCardReceipts().iterator(); i.hasNext();) {
-            CreditCardDetail c = (CreditCardDetail) i.next();
-            if (null != c.getCreditCardAdvanceDepositAmount()) {
-                total = total.add(c.getCreditCardAdvanceDepositAmount());
+        for (CreditCardDetail detail : getCreditCardReceipts()) {
+            if (null != detail.getCreditCardAdvanceDepositAmount()) {
+                total = total.add(detail.getCreditCardAdvanceDepositAmount());
             }
         }
         return total;

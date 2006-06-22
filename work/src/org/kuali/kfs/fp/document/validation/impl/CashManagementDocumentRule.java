@@ -31,6 +31,7 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentRuleBase;
@@ -165,8 +166,8 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
     }
 
 
-    private static final List INITIATED_STATES = Arrays.asList(new String[] { Constants.DocumentStatusCodes.CashReceipt.VERIFIED });
-    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { Constants.DocumentStatusCodes.CashReceipt.INTERIM, Constants.DocumentStatusCodes.CashReceipt.DEPOSITED });
+    private static final List INITIATED_STATES = Arrays.asList(new String[] { CashReceipt.VERIFIED });
+    private static final List UNINITIATED_STATES = Arrays.asList(new String[] { CashReceipt.INTERIM, CashReceipt.FINAL });
 
     /**
      * Verifies that all CashReceipts associated with the given document are of an appropriate status for the given

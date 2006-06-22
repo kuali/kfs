@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -41,8 +42,9 @@ import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.Summary;
-import org.kuali.module.gl.util.TransactionReportGenerator;
+import org.kuali.module.gl.util.TransactionListingReport;
 import org.kuali.module.gl.util.TransactionReport;
+import org.kuali.module.gl.util.TransactionReportGenerator;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
@@ -109,7 +111,11 @@ public class ReportServiceImpl implements ReportService {
      */
     public void generateScrubberBadBalanceTypeListingReport(Date runDate, Collection groups) {
         LOG.debug("generateScrubberBadBalanceTypeListingReport() started");
-        // TODO Write this
+
+        Iterator i = originEntryService.getBadBalanceEntries(groups);
+
+        TransactionListingReport rept = new TransactionListingReport();
+        rept.generateReport(i, runDate, "Scrubber Input Transactions with Bad Balance Types", "scrubber_badbal", reportsDirectory);
     }
 
     /**
@@ -118,7 +124,11 @@ public class ReportServiceImpl implements ReportService {
      */
     public void generateScrubberRemovedTransactions(Date runDate,OriginEntryGroup errorGroup) {
         LOG.debug("generateScrubberRemovedTransactions() started");
-        // TODO Write this
+
+        Iterator ti = originEntryService.getEntriesByGroupAccountOrder(errorGroup);
+
+        TransactionListingReport rept = new TransactionListingReport();
+        rept.generateReport(ti, runDate, "Error Listing - Transactions Remove From the Scrubber", "scrubber_errors", reportsDirectory);
     }
     
     public void generateIcrReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries) {

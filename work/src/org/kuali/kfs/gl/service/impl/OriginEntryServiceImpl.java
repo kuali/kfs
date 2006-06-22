@@ -47,7 +47,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.17 2006-06-19 18:20:33 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.18 2006-06-22 20:01:07 jsissom Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -105,7 +105,19 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
         LOG.debug("getEntriesByGroup() started");
 
-        return originEntryDao.getEntriesByGroup(originEntryGroup);
+        return originEntryDao.getEntriesByGroup(originEntryGroup,OriginEntryDao.SORT_DOCUMENT);
+    }
+
+    public Iterator<OriginEntry> getBadBalanceEntries(Collection groups) {
+        LOG.debug("getBadBalanceEntries() started");
+
+        return originEntryDao.getBadBalanceEntries(groups);
+    }
+
+    public Iterator<OriginEntry> getEntriesByGroupAccountOrder(OriginEntryGroup oeg) {
+        LOG.debug("getEntriesByGroupAccountOrder() started");
+
+        return originEntryDao.getEntriesByGroup(oeg,OriginEntryDao.SORT_ACCOUNT);
     }
 
     /**

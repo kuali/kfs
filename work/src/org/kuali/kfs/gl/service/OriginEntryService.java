@@ -52,6 +52,22 @@ public interface OriginEntryService {
     public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
+     * Return all entries for a group sorted by account number for the error 
+     * 
+     * @param oeg
+     * @return
+     */
+    public Iterator<OriginEntry> getEntriesByGroupAccountOrder(OriginEntryGroup oeg);
+
+    /**
+     * Return all entries for the groups where the balance type is empty
+     * 
+     * @param groups
+     * @return
+     */
+    public Iterator<OriginEntry> getBadBalanceEntries(Collection groups);
+
+    /**
      * Return all the entries in a specific group
      * 
      * @param oeg Group used to select entries

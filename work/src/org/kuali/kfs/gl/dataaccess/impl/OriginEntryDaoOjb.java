@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.23 2006-06-19 18:20:33 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.24 2006-06-22 20:01:07 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -97,32 +97,70 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
 
+    public Iterator<OriginEntry> getBadBalanceEntries(Collection groups) {
+        LOG.debug("getBadBalanceEntries() started");
+
+
+        Collection ids = new ArrayList();
+        for (Iterator iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup)iter.next();
+            ids.add(element.getId());
+        }
+
+        Criteria crit1 = new Criteria();
+        crit1.addIn("entryGroupId", ids);
+
+        Criteria crit2 = new Criteria();
+        crit2.addIsNull("financialBalanceTypeCode");
+        
+        Criteria crit3 = new Criteria();
+        crit3.addEqualTo("financialBalanceTypeCode", "  ");
+
+        crit2.addOrCriteria(crit3);
+
+        crit1.addAndCriteria(crit2);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, crit1);
+        qbc.addOrderByAscending("chartOfAccountsCode");
+        qbc.addOrderByAscending("accountNumber");
+        qbc.addOrderByAscending("subAccountNumber");
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
+
     /**
      * This method is special because of the order by. It is used in the scrubber. The getMatchingEntries wouldn't work because of
      * the required order by.
      * 
      */
-    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg) {
+    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg,int sort) {
         LOG.debug("getEntriesByGroup() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("entryGroupId", oeg.getId());
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
-        qbc.addOrderByAscending("financialDocumentTypeCode");
-        qbc.addOrderByAscending("financialSystemOriginationCode");
-        qbc.addOrderByAscending("financialDocumentNumber");
-        qbc.addOrderByAscending("chartOfAccountsCode");
-        qbc.addOrderByAscending("accountNumber");
-        qbc.addOrderByAscending("subAccountNumber");
-        qbc.addOrderByAscending("financialBalanceTypeCode");
-        qbc.addOrderByAscending("financialDocumentReversalDate");
-        qbc.addOrderByAscending("universityFiscalPeriodCode");
-        qbc.addOrderByAscending("universityFiscalYear");
 
-        // The above order by fields are required by the scrubber process. Adding this
-        // field makes the data in the exact same order as the COBOL scrubber.
-        qbc.addOrderByAscending("financialObjectCode");
+        if ( sort == OriginEntryDao.SORT_DOCUMENT ) {
+            qbc.addOrderByAscending("financialDocumentTypeCode");
+            qbc.addOrderByAscending("financialSystemOriginationCode");
+            qbc.addOrderByAscending("financialDocumentNumber");
+            qbc.addOrderByAscending("chartOfAccountsCode");
+            qbc.addOrderByAscending("accountNumber");
+            qbc.addOrderByAscending("subAccountNumber");
+            qbc.addOrderByAscending("financialBalanceTypeCode");
+            qbc.addOrderByAscending("financialDocumentReversalDate");
+            qbc.addOrderByAscending("universityFiscalPeriodCode");
+            qbc.addOrderByAscending("universityFiscalYear");
+            // The above order by fields are required by the scrubber process. Adding this
+            // field makes the data in the exact same order as the COBOL scrubber.
+            qbc.addOrderByAscending("financialObjectCode");
+        } else {
+            qbc.addOrderByAscending("chartOfAccountsCode");
+            qbc.addOrderByAscending("accountNumber");
+            qbc.addOrderByAscending("subAccountNumber");
+        }
+
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
 

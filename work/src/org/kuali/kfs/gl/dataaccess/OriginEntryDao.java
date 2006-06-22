@@ -32,9 +32,12 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.12 2006-06-19 18:20:33 jsissom Exp $
+ * @version $Id: OriginEntryDao.java,v 1.13 2006-06-22 20:01:07 jsissom Exp $
  */
 public interface OriginEntryDao {
+    public static final int SORT_DOCUMENT = 1;
+    public static final int SORT_ACCOUNT = 2;
+
     /**
      * Delete an entry
      * 
@@ -56,7 +59,15 @@ public interface OriginEntryDao {
      * @param oeg Group
      * @return Iterator of entries in the specified group
      */
-    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg);
+    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg,int sort);
+
+    /**
+     * Get bad balance entries
+     * 
+     * @param groups
+     * @return
+     */
+    public Iterator<OriginEntry> getBadBalanceEntries(Collection groups);
 
     /**
      * Collection of entries that match criteria

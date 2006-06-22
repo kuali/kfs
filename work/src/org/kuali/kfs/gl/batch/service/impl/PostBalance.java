@@ -80,7 +80,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         b.setTimestamp(new java.sql.Date(postDate.getTime()));
 
         String period = t.getUniversityFiscalPeriodCode();
-        b.setAmount(period, b.getAmount(period).add(amount));
+        b.addAmount(period, amount);
 
         balanceDao.save(b);
 
@@ -145,7 +145,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
             period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         }
 
-        b.setAmount(period, b.getAmount(period).add(amount));
+        b.addAmount(period, amount);
     }
 
     public String getDestinationName() {

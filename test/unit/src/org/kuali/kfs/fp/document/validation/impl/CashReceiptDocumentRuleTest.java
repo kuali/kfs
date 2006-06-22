@@ -56,7 +56,23 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
         changeCurrentUser("mhkozlow");
         documentTypeService = SpringServiceLocator.getDocumentTypeService();
     }
-
+    /**
+     * test that an <code>IllegalStateException</code> gets thrown for an error correction document
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), CashReceiptDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        boolean failedAsExpected = false;
+        try {
+            failedAsExpected = IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine);
+        }
+        catch (IllegalStateException e) {
+            failedAsExpected = true;
+        }
+        assertTrue(failedAsExpected);
+    }
     /**
      * tests false is returned for a positive income
      * 

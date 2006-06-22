@@ -57,6 +57,24 @@ public class CreditCardReceiptDocumentRuleTest extends KualiTestBaseWithSession 
     }
 
     /**
+     * test that an <code>IllegalStateException</code> gets thrown for an error correction document
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), CreditCardReceiptDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        boolean failedAsExpected = false;
+        try {
+            failedAsExpected = IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine);
+        }
+        catch (IllegalStateException e) {
+            failedAsExpected = true;
+        }
+        assertTrue(failedAsExpected);
+    }
+
+    /**
      * tests false is returned for a positive income
      * 
      * @throws Exception

@@ -50,6 +50,16 @@ public class AdvanceDepositDocumentRuleUtil {
         // call the DD validation which checks basic data integrity
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(advanceDeposit);
         boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
+        
+        // check that dollar amount is not zero before continuing
+        if(isValid) {
+            isValid = !advanceDeposit.getFinancialDocumentAdvanceDepositAmount().isZero();
+            if(!isValid) {
+                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(AdvanceDepositDetail.class, PropertyConstants.ADVANCE_DEPOSIT_AMOUNT);
+                errorMap.put(PropertyConstants.ADVANCE_DEPOSIT_AMOUNT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
+            }
+        }
+        
         if (isValid) {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(advanceDeposit, PropertyConstants.FINANCIAL_DOCUMENT_BANK);
             if (!isValid) {

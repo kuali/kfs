@@ -64,33 +64,21 @@ import edu.iu.uis.eden.util.Utilities;
 public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     static final long serialVersionUID = 1000;
-
     private static Logger LOG = Logger.getLogger(KualiChartAttribute.class);
 
     private static final String FIN_COA_CD_KEY = "fin_coa_cd";
-
     private static final String UNIVERSITY_CHART_MANAGER_ROLE_KEY = "UNIVERSITY-CHART-MANAGER";
-
     private static final String UNIVERSITY_CHART_MANAGER_ROLE_LABEL = "University Chart Manager";
-
     private static final String CHART_MANAGER_ROLE_KEY = "CHART-MANAGER";
-
     private static final String CHART_MANAGER_ROLE_LABEL = "Chart Manager";
-
     private static final String CHART_ATTRIBUTE = "KUALI_CHART_ATTRIBUTE";
-
     private static final String CHART_REVIEW_FIN_COA_CD_KEY = "chart_review_fin_coa_cd";
-
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
-
     private static final String MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
-
     private static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
 
     private String finCoaCd;
-
     private boolean required;
-
     private List rows;
 
     /**
@@ -296,11 +284,8 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-            String chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
-            if (docContent.getRouteContext().getDocument().getDocumentType().getName().equals(ORGANIZATION_DOC_TYPE)) {
-                chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "finCoaCd')";
-            }
             XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
+            String chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
             String chart = null;
             try {
                 chart = xpath.evaluate(chartXPath, docContent.getDocument());

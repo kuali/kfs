@@ -23,7 +23,6 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
@@ -42,10 +41,10 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
  */
 public class AdvanceDepositDocument extends CashReceiptDocument {
     // holds details about each advance deposit
-    private List advanceDeposits = new ArrayList();
+    private List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 
     // incrementers for detail lines
-    private Integer nextAdvanceDepositLineNumber = new Integer(1);
+    private Integer nextAdvanceDepositLineNumber = 1;
 
     // monetary attributes
     private KualiDecimal totalAdvanceDepositAmount = KualiDecimal.ZERO;
@@ -89,7 +88,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * 
      * @return List
      */
-    public List getAdvanceDeposits() {
+    public List<AdvanceDepositDetail> getAdvanceDeposits() {
         return advanceDeposits;
     }
 
@@ -98,7 +97,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * 
      * @param advanceDeposits
      */
-    public void setAdvanceDeposits(List advanceDeposits) {
+    public void setAdvanceDeposits(List<AdvanceDepositDetail> advanceDeposits) {
         this.advanceDeposits = advanceDeposits;
     }
 
@@ -115,7 +114,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
         this.advanceDeposits.add(advanceDepositDetail);
 
         // increment line number
-        this.nextAdvanceDepositLineNumber = new Integer(this.nextAdvanceDepositLineNumber.intValue() + 1);
+        this.nextAdvanceDepositLineNumber++;
 
         // update the overall amount
         this.totalAdvanceDepositAmount = this.totalAdvanceDepositAmount.add(advanceDepositDetail.getFinancialDocumentAdvanceDepositAmount());
@@ -144,7 +143,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
         while (this.advanceDeposits.size() <= index) {
             advanceDeposits.add(new AdvanceDepositDetail());
         }
-        return (AdvanceDepositDetail) advanceDeposits.get(index);
+        return advanceDeposits.get(index);
     }
 
     /**
@@ -153,7 +152,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * @param index
      */
     public void removeAdvanceDeposit(int index) {
-        AdvanceDepositDetail advanceDepositDetail = (AdvanceDepositDetail) advanceDeposits.remove(index);
+        AdvanceDepositDetail advanceDepositDetail = advanceDeposits.remove(index);
         this.totalAdvanceDepositAmount = this.totalAdvanceDepositAmount.subtract(advanceDepositDetail.getFinancialDocumentAdvanceDepositAmount());
     }
 

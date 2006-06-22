@@ -371,7 +371,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         // handle the offset entry
         GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-        populateOffsetGeneralLedgerPendingEntry(dvDocument, explicitEntry, sequenceHelper, offsetEntry);
+        populateOffsetGeneralLedgerPendingEntry(dvDocument, explicitEntry, sequenceHelper, offsetEntry, Constants.ACCOUNTING_LINE_ERRORS);
 
         dvDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
 
@@ -424,7 +424,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         // handle the offset entry
         GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-        populateOffsetGeneralLedgerPendingEntry(dvDocument, explicitEntry, sequenceHelper, offsetEntry);
+        populateOffsetGeneralLedgerPendingEntry(dvDocument, explicitEntry, sequenceHelper, offsetEntry, Constants.ACCOUNTING_LINE_ERRORS);
 
         dvDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
     }

@@ -40,7 +40,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate implements ResearchDocumentService {
+public class ResearchDocumentServiceImpl implements ResearchDocumentService {
 
     private BudgetService budgetService;
 
@@ -53,48 +53,6 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
             budgetService.prepareBudgetForSave(budgetDocument);
             budgetDocument.setForceRefreshOfBOSubListsForSave(false);
         }
-        SpringServiceLocator.getOjbCollectionHelper().processCollections(this, researchDocument.getFinancialDocumentNumber(), researchDocument);
-    }
-
-    /**
-     * @see org.kuali.core.util.OjbCollectionAware#getListOfCollectionsToProcess(java.lang.Object)
-     */
-    public List getListOfCollectionsToProcess(Object object) {
-        List list = list = new ArrayList();
-        if (object instanceof BudgetDocument) {
-            BudgetDocument budgetDocument = ((BudgetDocument) object);
-            Budget budget = budgetDocument.getBudget();
-            list.add(budget.getTasks());
-            list.add(budget.getPeriods());
-            list.add(budget.getNonpersonnelItems());
-            list.add(budget.getAllUserAppointmentTaskPeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getAllUserAppointmentTasks(budgetDocument.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getPersonnel());
-
-            list.add(budget.getAllThirdPartyCostSharePeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getThirdPartyCostShareItems());
-
-            list.add(budget.getAllUniversityCostSharePeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getUniversityCostShareItems());
-
-            list.add(budget.getUniversityCostSharePersonnelItems());
-            list.add(budget.getAdHocPermissions());
-            list.add(budget.getAdHocOrgs());
-
-            if (budget.getIndirectCost() != null && budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
-                list.add(budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
-            }
-            else {
-                list.add(new ArrayList());
-            }
-            if (budget.getModularBudget() != null) {
-                list.add(budget.getModularBudget().getBudgetModularPeriods());
-            }
-            else {
-                list.add(new ArrayList());
-            }
-        }
-        return list;
     }
 
     public void setBudgetService(BudgetService budgetService) {

@@ -32,7 +32,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public interface ResearchDocumentService extends OjbCollectionAware {
+public interface ResearchDocumentService {
 
     /**
      * This method will prepare a research document for being saved. This will include cleansing lists of deleted items and removing

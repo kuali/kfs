@@ -194,6 +194,9 @@ public class Balance extends BusinessObjectBase {
     }
 
     public void setAmount(String period, KualiDecimal amount) {
+
+        boolean updateAnnualBalance = false;
+
         if ("AB".equals(period)) {
             setAccountLineAnnualBalanceAmount(amount);
         }
@@ -205,43 +208,78 @@ public class Balance extends BusinessObjectBase {
         }
         else if ("01".equals(period)) {
             setMonth1Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("02".equals(period)) {
             setMonth2Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("03".equals(period)) {
             setMonth3Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("04".equals(period)) {
             setMonth4Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("05".equals(period)) {
             setMonth5Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("06".equals(period)) {
             setMonth6Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("07".equals(period)) {
             setMonth7Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("08".equals(period)) {
             setMonth8Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("09".equals(period)) {
             setMonth9Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("10".equals(period)) {
             setMonth10Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("11".equals(period)) {
             setMonth11Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("12".equals(period)) {
             setMonth12Amount(amount);
+            updateAnnualBalance = true;
         }
         else if ("13".equals(period)) {
             setMonth13Amount(amount);
+            updateAnnualBalance = true;
         }
+
+        // Update the annual balance amount
+        if ( updateAnnualBalance ) {
+            calculateAccountLineAnnualBalanceAmount();
+        }
+    }
+
+    public void calculateAccountLineAnnualBalanceAmount() {
+        accountLineAnnualBalanceAmount = KualiDecimal.ZERO;
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month1Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month2Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month3Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month4Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month5Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month6Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month7Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month8Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month9Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month10Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month11Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month12Amount);
+        accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount.add(month13Amount);        
     }
 
     /**

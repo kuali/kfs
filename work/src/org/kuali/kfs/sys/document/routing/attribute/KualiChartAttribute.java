@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -285,14 +287,27 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
-            String chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
             String chart = null;
+            String chartXPath = null;
+            
             try {
+                //  the report business is to support Routing Reports, which we need to work on Chart
+                boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('/documentContent/attributeContent/report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+                if (isReport) {
+                    chartXPath = "wf:xstreamsafe('/documentContent/attributeContent/report/chart')";
+                }
+                else { // this is the typical path during normal workflow operation
+                    chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
+                }
                 chart = xpath.evaluate(chartXPath, docContent.getDocument());
             }
-            catch (Exception e) {
+            catch (XPathExpressionException e) {
                 throw new RuntimeException("Error evaluating xpath expression to locate chart.", e);
             }
+            catch (Exception e) {
+                throw new RuntimeException("An unexpected error occurred while trying to locate the Chart.", e);
+            }
+            
             if (!StringUtils.isEmpty(chart)) {
                 qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart));
             }

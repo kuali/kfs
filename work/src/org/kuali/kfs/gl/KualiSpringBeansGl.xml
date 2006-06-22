@@ -1,6 +1,219 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+    <bean id="glBalanceLookupable" class="org.kuali.module.gl.web.lookupable.BalanceLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="balanceService">
+            <ref bean="glBalanceService" />
+        </property>
+        <property name="generalLedgerPendingEntryService">
+            <ref bean="generalLedgerPendingEntryService" />
+        </property>
+        <property name="postBalance">
+            <ref bean="glPostBalance" />
+        </property>
+    </bean>
+
+    <bean id="glEncumbranceLookupable" class="org.kuali.module.gl.web.lookupable.EncumbranceLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="generalLedgerPendingEntryService">
+            <ref bean="generalLedgerPendingEntryService" />
+        </property>
+        <property name="postEncumbrance">
+            <ref bean="glPostEncumbrance" />
+        </property>
+    </bean>
+
+    <bean id="glCashBalanceLookupable" class="org.kuali.module.gl.web.lookupable.CashBalanceLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="balanceService">
+            <ref bean="glBalanceService" />
+        </property>
+        <property name="generalLedgerPendingEntryService">
+            <ref bean="generalLedgerPendingEntryService" />
+        </property>
+        <property name="postBalance">
+            <ref bean="glPostBalance" />
+        </property>
+    </bean>
+
+    <bean id="glPendingEntryLookupableImpl" class="org.kuali.module.gl.web.lookupable.PendingEntryLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="generalLedgerPendingEntryService">
+            <ref bean="generalLedgerPendingEntryService" />
+        </property>
+    </bean>
+
+    <bean id="glEntryLookupable" class="org.kuali.module.gl.web.lookupable.EntryLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="generalLedgerPendingEntryService">
+            <ref bean="generalLedgerPendingEntryService" />
+        </property>
+    </bean>
+
+    <bean id="glAccountBalanceLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="accountBalanceService">
+            <ref bean="glAccountBalanceService" />
+        </property>
+        <property name="generalLedgerPendingEntryService">
+            <ref bean="generalLedgerPendingEntryService" />
+        </property>
+        <property name="postAccountBalance">
+            <ref bean="glPostGlAccountBalance" />
+        </property>
+    </bean>
+
+    <bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="accountBalanceService">
+            <ref bean="glAccountBalanceService" />
+        </property>
+    </bean>
+
+    <bean id="glAccountBalanceByLevelLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceByLevelLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="accountBalanceService">
+            <ref bean="glAccountBalanceService" />
+        </property>
+    </bean>
+
+    <bean id="glAccountBalanceByObjectLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceByObjectLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="accountBalanceService">
+            <ref bean="glAccountBalanceService" />
+        </property>
+    </bean>
+
     <bean id="glOrganizationReversionEndOfYearStep" class="org.kuali.module.gl.batch.OrganizationReversionEndOfYearStep">
         <property name="organizationReversionProcessService">
             <ref bean="glOrganizationReversionProcessService" />

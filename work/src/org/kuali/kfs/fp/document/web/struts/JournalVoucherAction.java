@@ -141,7 +141,8 @@ public class JournalVoucherAction extends VoucherAction {
         jvDoc.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
         // only repopulate if this is a JV that was entered in debit/credit mode
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            super.correct(mapping, form, request, response);
+            // now make sure to repopulate credit/debit amounts
+            populateAllVoucherAccountingLineHelpers((JournalVoucherForm) form);
         }
 
         return actionForward;

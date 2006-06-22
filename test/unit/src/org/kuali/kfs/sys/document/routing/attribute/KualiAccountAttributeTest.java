@@ -48,9 +48,6 @@ import edu.iu.uis.eden.routeheader.StandardDocumentContent;
  */
 public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
 
-    private static final String BASE_PATH = "/java/projects/kuali_project/test/src/org/kuali/workflow/attribute/";
-    private static final String TOF_FEMP_SUBCODE_ONELINER = "TransferOfFunds_FEMPSubcode_OneLiner.xml";
-
     KualiAccountAttribute attribute;
 
     /**
@@ -67,14 +64,9 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
 
     public void testGetFiscalOfficerCriteria_TOFOneLiner() throws IOException, InvalidXmlException, XPathExpressionException {
 
-        BufferedReader reader;
-        reader = new BufferedReader(new FileReader(BASE_PATH + TOF_FEMP_SUBCODE_ONELINER));
-        DocumentContent docContent = new StandardDocumentContent(readerToString(reader));
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER);
 
-        Set qualifiedRoleNames = new HashSet();
         XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
-        String docTypeName = "KualiTransferOfFundsDocument";
-
         NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
 
         String chart = "";
@@ -90,18 +82,4 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
         }
     }
 
-    private static String readerToString(Reader is) throws IOException {
-
-        StringBuffer sb = new StringBuffer();
-        char[] charBytes = new char[8192];
-        int charsRead;
-
-        // read a block, if it gets any chars, append them
-        while ((charsRead = is.read(charBytes)) > 0) {
-            sb.append(charBytes, 0, charsRead);
-        }
-
-        // only construct the string once, here
-        return sb.toString();
-    }
 }

@@ -22,18 +22,14 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.test.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.test.IsDebitTestUtils.Amount.POSITIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBase.IsDebitUtils;
-import org.kuali.test.IsDebitTestUtils;
 import org.kuali.test.KualiTestBaseWithSession;
 
 
@@ -44,7 +40,6 @@ import org.kuali.test.KualiTestBaseWithSession;
  */
 public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
 
-    private DocumentTypeService documentTypeService;
 
     /**
      * 
@@ -54,8 +49,8 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     protected void setUp() throws Exception {
         super.setUp();
         changeCurrentUser("mhkozlow");
-        documentTypeService = SpringServiceLocator.getDocumentTypeService();
     }
+
     /**
      * test that an <code>IllegalStateException</code> gets thrown for an error correction document
      * 
@@ -64,15 +59,10 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_errorCorrection() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        boolean failedAsExpected = false;
-        try {
-            failedAsExpected = IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine);
-        }
-        catch (IllegalStateException e) {
-            failedAsExpected = true;
-        }
-        assertTrue(failedAsExpected);
+
+        assertTrue(IsDebitTestUtils.isErrorCorrectionIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
+
     /**
      * tests false is returned for a positive income
      * 
@@ -81,7 +71,8 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_income_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        assertFalse(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -92,29 +83,21 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_income_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        assertTrue(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
 
     /**
-     * tests an <code>IllegalArgumentException</code> is thrown for a zero income
+     * tests an <code>IllegalStateException</code> is thrown for a zero income
      * 
      * @throws Exception
      */
     public void testIsDebit_income_zeroAmount() throws Exception {
-        boolean failedAsExpected = false;
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-
-        try {
-            IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine);
-
-        }
-        catch (IllegalStateException e) {
-            failedAsExpected = IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage.equals(e.getMessage());
-        }
-
-        assertTrue(failedAsExpected);
+        
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -125,7 +108,8 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_expense_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        assertTrue(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -136,29 +120,21 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_expense_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        assertFalse(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
 
     /**
-     * tests an <code>IllegalArgumentException</code> is thrown for a zero expense
+     * tests an <code>IllegalStateException</code> is thrown for a zero expense
      * 
      * @throws Exception
      */
     public void testIsDebit_expense_zeroAmount() throws Exception {
-        boolean failedAsExpected = false;
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        try {
-            IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine);
-
-        }
-        catch (IllegalStateException e) {
-            failedAsExpected = IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage.equals(e.getMessage());
-        }
-
-        assertTrue(failedAsExpected);
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -169,7 +145,7 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_asset_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        assertTrue(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -180,40 +156,31 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_asset_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        assertFalse(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
 
     /**
-     * tests an <code>IllegalArgumentException</code> is thrown for a zero asset
+     * tests an <code>IllegalStateException</code> is thrown for a zero asset
      * 
      * @throws Exception
      */
     public void testIsDebit_asset_zeroAmount() throws Exception {
-        boolean failedAsExpected = false;
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        try {
-            IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine);
-
-        }
-        catch (IllegalStateException e) {
-            failedAsExpected = IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage.equals(e.getMessage());
-        }
-
-        assertTrue(failedAsExpected);
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
-     * tests false is returned for a positive liability
+     * tests false is returned for aity
      * 
      * @throws Exception
      */
     public void testIsDebit_liability_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        assertFalse(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -224,29 +191,20 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_liability_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        assertTrue(IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
 
     /**
-     * tests an <code>IllegalArgumentException</code> is thrown for a zero liability
+     * tests an <code>IllegalStateException</code> is thrown for a zero liability
      * 
      * @throws Exception
      */
     public void testIsDebit_liability_zeroAmount() throws Exception {
-        boolean failedAsExpected = false;
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        try {
-            IsDebitTestUtils.isDebit(documentTypeService, getDataDictionaryService(), transactionalDocument, accountingLine);
-
-        }
-        catch (IllegalStateException e) {
-            failedAsExpected = IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage.equals(e.getMessage());
-        }
-
-        assertTrue(failedAsExpected);
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
 }

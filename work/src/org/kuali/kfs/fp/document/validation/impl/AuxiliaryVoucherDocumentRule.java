@@ -44,25 +44,17 @@ import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
-import static org.kuali.KeyConstants.ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE;
 import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
 import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_EXPENSE_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_INCOME_OBJECT_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.DOCUMENT_TYPE_DISTRIBUTION_OF_INCOME_AND_EXPENSE;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.INCOME_NOT_CASH;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
@@ -70,7 +62,6 @@ import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
@@ -81,7 +72,6 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
-import org.kuali.module.financial.document.AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -131,7 +121,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
         String debitCreditCode = accountingLine.getDebitCreditCode();
         if (StringUtils.isBlank(debitCreditCode)) {
-            throw new IllegalStateException("invalid (blank) debitCreditCode");
+            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
         return IsDebitUtils.isDebitCode(debitCreditCode);
     }

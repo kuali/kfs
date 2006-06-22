@@ -22,9 +22,16 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.parameters.AccountingLineParameter;
@@ -41,6 +48,15 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
     // /////////////////////////////////////////////////////////////////////////
     // Test Methods Start Here //
     // /////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @see org.kuali.test.KualiTestBaseWithFixtures#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        changeCurrentUser("lraab");
+    }
 
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
         boolean failedAsExpected = false;
@@ -85,6 +101,161 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
         assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
     }
 
+    /**
+     * test that an <code>IllegalStateException</code> gets thrown for an error correction document
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isErrorCorrectionIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a positive income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_income_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateExcpetion</code> is thrown for a negative income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_income_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_income_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a positive expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_expense_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_expense_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_expense_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a positive asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_asset_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_asset_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_asset_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a positive liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_liability_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_liability_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_liability_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
     // /////////////////////////////////////////////////////////////////////////
     // Test Methods End Here //
     // /////////////////////////////////////////////////////////////////////////

@@ -100,7 +100,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         // only allow income or expense
         if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
-            throw new IllegalArgumentException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
+            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
         boolean isDebit = false;
         if (isSourceAccountingLine(accountingLine)) {
@@ -110,7 +110,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
             isDebit = !IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
         }
         else {
-            throw new IllegalArgumentException("invalid accounting line type");
+            throw new IllegalStateException(IsDebitUtils.isInvalidLineTypeIllegalArgumentExceptionMessage);
         }
 
         return isDebit;

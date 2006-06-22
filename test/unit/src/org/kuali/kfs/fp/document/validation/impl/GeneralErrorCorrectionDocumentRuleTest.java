@@ -22,6 +22,9 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +64,6 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     private AccountingLineParameter _sourceLine4;
     private AccountingLineParameter _sourceLine5;
     private AccountingLineParameter _sourceLine6;
-    private AccountingLineParameter _assetSourceLine;
     private AccountingLineParameter _targetLine1;
     private AccountingLineParameter _targetLine2;
     private AccountingLineParameter _targetLine3;
@@ -73,6 +75,10 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     private GeneralLedgerPendingEntry _expectedOffTargetGlEntry;
 
 
+    /**
+     * @see org.kuali.test.KualiTestBaseWithFixtures#getFixtureCollectionNames()
+     */
+    @Override
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
     }
@@ -80,22 +86,33 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     // /////////////////////////////////////////////////////////////////////////
     // Fixture Methods Start Here //
     // /////////////////////////////////////////////////////////////////////////
+    @Override
     protected final String getDocumentTypeName() {
         return KNOWN_DOCUMENT_TYPENAME;
     }
 
+    /**
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetTargetLine()
+     */
+    /**
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetTargetLine()
+     */
+    @Override
     public final TargetAccountingLine getAssetTargetLine() throws Exception {
         return (TargetAccountingLine) getAccruedIncomeTargetLineParameter().createLine();
     }
 
+    @Override
     protected final TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
         return (TargetAccountingLine) getAccruedIncomeTargetLineParameter().createLine();
     }
 
+    @Override
     protected final TargetAccountingLine getInvalidObjectSubTypeTargetLine() throws Exception {
         return (TargetAccountingLine) getCashTargetLineParameter().createLine();
     }
 
+    @Override
     protected final List getValidObjectSubTypeSourceLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getAccruedIncomeSourceLineParameter().createLine());
@@ -103,6 +120,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
         return retval;
     }
 
+    @Override
     protected final List getInvalidObjectSubTypeSourceLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getCashSourceLineParameter().createLine());
@@ -110,6 +128,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
         return retval;
     }
 
+    @Override
     protected final List getInvalidObjectSubTypeTargetLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getCashTargetLineParameter().createLine());
@@ -117,6 +136,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
         return retval;
     }
 
+    @Override
     protected final List getValidObjectSubTypeTargetLines() throws Exception {
         List retval = new ArrayList();
         retval.add(getAccruedIncomeTargetLineParameter().createLine());
@@ -124,42 +144,55 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
         return retval;
     }
 
+    @Override
     protected final SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
         return (SourceAccountingLine) getSourceLineParameter4().createLine();
     }
 
+    @Override
     protected final SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
         return (SourceAccountingLine) getSourceLineParameter3().createLine();
     }
 
+    @Override
     protected final SourceAccountingLine getInvalidObjectCodeSourceLine() throws Exception {
         return (SourceAccountingLine) getSourceLineParameter5().createLine();
     }
 
+    @Override
     protected final SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
         return (SourceAccountingLine) getAccruedIncomeSourceLineParameter().createLine();
     }
 
+    /**
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetSourceLine()
+     */
+    @Override
     public final SourceAccountingLine getAssetSourceLine() {
         return (SourceAccountingLine) getAccruedIncomeSourceLineParameter().createLine();
     }
 
+    @Override
     protected final Document createDocument() throws Exception {
         return getGeneralErrorCorrectionDocument().createDocument(getDocumentService());
     }
 
+    @Override
     protected final TransactionalDocument createDocument5() throws Exception {
         return (TransactionalDocument) getGeneralErrorCorrectionDocument().createDocument(getDocumentService());
     }
 
+    @Override
     protected final Document createDocumentValidForRouting() throws Exception {
         return createDocumentWithValidObjectSubType();
     }
 
+    @Override
     protected final Document createDocumentInvalidForSave() throws Exception {
         return getDocumentParameterNoDescription().createDocument(getDocumentService());
     }
 
+    @Override
     protected final TransactionalDocument createDocumentWithInvalidObjectSubType() throws Exception {
         GeneralErrorCorrectionDocument retval = (GeneralErrorCorrectionDocument) createDocument();
         retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
@@ -167,6 +200,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
         return retval;
     }
 
+    @Override
     protected final TransactionalDocument createDocumentUnbalanced() throws Exception {
         GeneralErrorCorrectionDocument retval = (GeneralErrorCorrectionDocument) createDocument();
         retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
@@ -174,10 +208,12 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
         return retval;
     }
 
+    @Override
     protected final Document createDocumentInvalidDescription() throws Exception {
         return getDocumentParameterNoDescription().createDocument(getDocumentService());
     }
 
+    @Override
     protected final TransactionalDocument createDocumentWithValidObjectSubType() throws Exception {
         GeneralErrorCorrectionDocument retval = (GeneralErrorCorrectionDocument) createDocument();
         retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
@@ -384,18 +420,17 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
+     * @return e pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
         return getExpectedGECExplicitSourcePendingEntry();
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -404,18 +439,16 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedGECExplicitSourcePendingEntry(GeneralLedgerPendingEntry e) {
         _expectedExpSourceGlEntry = e;
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -424,28 +457,26 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedGECExplicitSourcePendingEntryForExpense(GeneralLedgerPendingEntry e) {
         _expectedExpSourceGlEntryExpense = e;
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
+     * @return e pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntry() {
         return getExpectedGECExplicitTargetPendingEntry();
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -454,10 +485,9 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedGECExplicitTargetPendingEntry(GeneralLedgerPendingEntry e) {
         _expectedExpTargetGlEntry = e;
@@ -465,8 +495,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
 
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -475,18 +504,16 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * Accessor method for Explicit Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedGECExplicitTargetPendingEntryForExpense(GeneralLedgerPendingEntry e) {
         _expectedExpTargetGlEntryExpense = e;
     }
 
     /**
-     * Accessor method for Offset Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -495,38 +522,35 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * Accessor method for Offset Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
+     * @return e pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
         return getExpectedGECOffsetTargetPendingEntry();
     }
 
     /**
-     * Accessor method for Offset Target fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedGECOffsetTargetPendingEntry(GeneralLedgerPendingEntry e) {
         _expectedOffTargetGlEntry = e;
     }
 
     /**
-     * Accessor method for Offset Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
-     * @param GeneralLedgerPendingEntry pending entry fixture
+     * @param e pending entry fixture
      */
     public final void setExpectedGECOffsetSourcePendingEntry(GeneralLedgerPendingEntry e) {
         _expectedOffSourceGlEntry = e;
     }
 
     /**
-     * Accessor method for Offset Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
@@ -535,46 +559,48 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * Accessor method for Offset Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public final GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
         return getExpectedGECOffsetSourcePendingEntry();
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
         return getExpectedGECExplicitSourcePendingEntryForExpense();
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
-     * methods.
+     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
      * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
+    @Override
     public GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
         return getExpectedGECExplicitTargetPendingEntryForExpense();
     }
 
 
     /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleBase#getExpenseSourceLine()
+     * @see TransactionalDocumentRuleTestBase#getExpenseSourceLine()
      */
+    @Override
     protected AccountingLine getExpenseSourceLine() {
         return createLineFromFixture("expenseGECSourceLine");
     }
 
     /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleBase#getExpenseTargetLine()
+     * @see TransactionalDocumentRuleTestBase#getExpenseTargetLine()
      */
+    @Override
     protected AccountingLine getExpenseTargetLine() {
         return createLineFromFixture("expenseGECTargetLine");
     }
@@ -669,6 +695,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     /**
      * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testAddAccountingLine_InvalidObjectSubType()
      */
+    @Override
     public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
         TransactionalDocument doc = createDocumentWithInvalidObjectSubType();
         testAddAccountingLine(doc, false);
@@ -686,7 +713,586 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     }
 
     /**
-     * These tests currently don't work. Something should be done during QA Period to get them to work public void
+     * tests true is returned for a positive income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_income_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> for a negative income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_income_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_income_zeroAmount() throws Exception {
+
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a positive expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_expense_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_expense_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_expense_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a positive asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_asset_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_asset_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_asset_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a positive liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_liability_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_liability_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateExcpetion</code> is thrown for a zero liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_source_liability_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a positive income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_income_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_income_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_income_zeroAmount() throws Exception {
+
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a positive expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_expense_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_expense_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_expense_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a positive asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_asset_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrnow for a negative asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_asset_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_asset_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a positive liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_liability_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a negative liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_liability_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_target_liability_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a positive income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_income_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a negative income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_income_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_income_zeroAmount() throws Exception {
+
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateExcpetion</code> is thrown for positive expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_expense_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a negative expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_expense_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_expense_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_asset_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a negative asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_asset_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_asset_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> for a positive liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_liability_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a negative liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_liability_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_source_liability_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> for a positive income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_income_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a negative income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_income_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero income
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_income_zeroAmount() throws Exception {
+
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a positive expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_expense_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a negative expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_expense_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero expense
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_expense_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_asset_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests false is returned for a negative asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_asset_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero asset
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_asset_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a positive liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_liability_positveAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests true is returned for a negative liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_liability_negativeAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+
+    /**
+     * tests an <code>IllegalStateException</code> is thrown for a zero liability
+     * 
+     * @throws Exception
+     */
+    public void testIsDebit_errorCorrection_target_liability_zeroAmount() throws Exception {
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), GeneralErrorCorrectionDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+    /**
+     * TODO These tests currently don't work. Something should be done during QA Period to get them to work public void
      * testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isAsset__negative_lineAmount() { SourceAccountingLine line =
      * (SourceAccountingLine) getSufficientFundsCheckingSourceAsset().createLine(); line.setAmount(new KualiDecimal("-3.0"));
      * 
@@ -748,8 +1354,8 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
      */
 
     /**
-     * tests sufficient funds checking on a <code>{@link TargetAccountingLine}</code> that is of liability type with a negative
-     * amount.
+     * TODO tests sufficient funds checking on a <code>{@link TargetAccountingLine}</code> that is of liability type with a
+     * negative amount.
      * 
      * public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isLiability__negative_lineAmount() {
      * TargetAccountingLine line = (TargetAccountingLine) getSufficientFundsCheckingTargetLiability().createLine();

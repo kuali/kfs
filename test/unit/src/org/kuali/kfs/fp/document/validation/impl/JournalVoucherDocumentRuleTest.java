@@ -34,13 +34,11 @@ import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.AccountingLineRule;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.rule.event.AddAccountingLineEvent;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DisbursementVoucherDocumentTest;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
@@ -1101,13 +1099,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * @throws Exception
      */
     public void testIsDebit_debitCode() throws Exception {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) getDocumentService().getNewDocument(JournalVoucherDocument.class);
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), JournalVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
 
-        AccountingLineRule rule = getAddAccountingLineRule();
-
-        assertTrue(rule.isDebit(transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -1116,13 +1112,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * @throws Exception
      */
     public void testIsDebit_creditCode() throws Exception {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) getDocumentService().getNewDocument(JournalVoucherDocument.class);
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), JournalVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT);
 
-        AccountingLineRule rule = getAddAccountingLineRule();
-
-        assertFalse(rule.isDebit(transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -1131,13 +1125,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * @throws Exception
      */
     public void testIsDebit_blankValue() throws Exception {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) getDocumentService().getNewDocument(JournalVoucherDocument.class);
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), JournalVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(" ");
 
-        AccountingLineRule rule = getAddAccountingLineRule();
-
-        assertTrue(rule.isDebit(transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
 
@@ -1147,14 +1139,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_crediCode() throws Exception {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) getDocumentService().getNewDocument(AuxiliaryVoucherDocument.class);
-        transactionalDocument.getDocumentHeader().setFinancialDocumentInErrorNumber("fakeErrorCorrection");
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), JournalVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT);
 
-        AccountingLineRule rule = getAddAccountingLineRule();
-
-        assertFalse(rule.isDebit(transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -1163,14 +1152,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_debitCode() throws Exception {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) getDocumentService().getNewDocument(JournalVoucherDocument.class);
-        transactionalDocument.getDocumentHeader().setFinancialDocumentInErrorNumber("fakeErrorCorrection");
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), JournalVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
 
-        AccountingLineRule rule = getAddAccountingLineRule();
-
-        assertTrue(rule.isDebit(transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -1179,14 +1165,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_blankValue() throws Exception {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) getDocumentService().getNewDocument(JournalVoucherDocument.class);
-        transactionalDocument.getDocumentHeader().setFinancialDocumentInErrorNumber("fakeErrorCorrection");
+        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), JournalVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
         accountingLine.setDebitCreditCode(" ");
 
-        AccountingLineRule rule = getAddAccountingLineRule();
-
-        assertTrue(rule.isDebit(transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
     // /////////////////////////////////////////////////////////////////////////

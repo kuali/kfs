@@ -238,7 +238,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         if (!isExpense(accountingLine)) {
-            throw new IllegalArgumentException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
+            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
 
         return IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);

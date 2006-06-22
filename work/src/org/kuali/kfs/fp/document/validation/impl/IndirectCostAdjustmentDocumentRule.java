@@ -79,7 +79,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
 
-        if ((accountingLine.isSourceAccountingLine() && isExpense(accountingLine)) || !(accountingLine.isTargetAccountingLine() && isIncome(accountingLine))) {
+        if (!(accountingLine.isSourceAccountingLine() && isExpense(accountingLine)) && !(accountingLine.isTargetAccountingLine() && isIncome(accountingLine))) {
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
 

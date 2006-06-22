@@ -36,6 +36,7 @@ import org.kuali.Constants.DepositConstants;
 import org.kuali.core.document.FinancialDocumentBase;
 import org.kuali.core.service.impl.DocumentServiceImpl;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
 
@@ -226,20 +227,25 @@ public class CashManagementDocument extends FinancialDocumentBase {
      */
     @Override
     public void handleRouteStatusChange() {
-        LOG.error("1");
-        // all approvals have been processed, finalize everything
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            LOG.error("2a");
+        super.handleRouteStatusChange();
+
+        KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
+
+        if (kwd.stateIsInitiated()) {
+            LOG.debug("CMD stateIsInitiated");
+        }
+        else if (kwd.stateIsProcessed()) {
+            LOG.debug("CMD stateIsProcessed");
+
+            // all approvals have been processed, finalize everything
             SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);
-            LOG.error("3a");
         }
-        // document has been canceled or disapproved,
-        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            LOG.error("2b");
+        else if (kwd.stateIsCanceled() || kwd.stateIsDisapproved()) {
+            LOG.debug("CMD stateIsCanceled || stateIsDisapproved");
+
+            // document has been canceled or disapproved
             SpringServiceLocator.getCashManagementService().cancelCashManagementDocument(this);
-            LOG.error("3b");
         }
-        LOG.error("4");
     }
 
 

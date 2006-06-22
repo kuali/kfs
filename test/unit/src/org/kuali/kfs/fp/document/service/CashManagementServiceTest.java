@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -735,10 +736,10 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         businessObjectService.deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
-    private static final String[] BOTH_STATII = { Constants.DocumentStatusCodes.CashReceipt.VERIFIED, Constants.DocumentStatusCodes.CashReceipt.INTERIM };
+    private static final String[] ALL_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL };
 
     private void denatureCashReceipts(String workgroupName) {
-        List verifiedReceipts = cashReceiptService.getCashReceipts(workgroupName, BOTH_STATII);
+        List verifiedReceipts = cashReceiptService.getCashReceipts(workgroupName, ALL_STATII);
 
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();

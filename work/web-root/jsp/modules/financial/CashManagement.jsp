@@ -12,8 +12,10 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<cm:cashManagementOverview editingMode="${KualiForm.editingMode}" />
-	<cm:deposits editingMode="${KualiForm.editingMode}" />
+    <c:if test="${!empty KualiForm.cashDrawerSummary}">
+        <cm:cashDrawerActivity />
+    </c:if>
+    <cm:deposits editingMode="${KualiForm.editingMode}" />
 
 	<kul:notes />
 	<kul:adHocRecipients editingMode="${KualiForm.editingMode}" />

@@ -195,7 +195,15 @@ public class CashManagementServiceImpl implements CashManagementService {
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
             DocumentHeader dh = crDoc.getDocumentHeader();
-            dh.setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CashReceipt.INTERIM);
+
+            String statusCode = null;
+            if (isFinalDeposit) {
+                statusCode = Constants.DocumentStatusCodes.CashReceipt.FINAL;
+            }
+            else {
+                statusCode = Constants.DocumentStatusCodes.CashReceipt.INTERIM;
+            }
+            dh.setFinancialDocumentStatusCode(statusCode);
             documentService.updateDocument(crDoc);
 
             CashReceiptHeader crHeader = new CashReceiptHeader();

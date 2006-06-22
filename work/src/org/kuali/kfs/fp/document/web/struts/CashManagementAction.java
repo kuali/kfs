@@ -44,10 +44,12 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashManagementDocumentAuthorizer;
 import org.kuali.module.financial.web.struts.form.CashManagementForm;
+import org.kuali.module.financial.web.struts.form.CashManagementForm.CashDrawerSummary;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -80,6 +82,15 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashManagementForm cmf = (CashManagementForm) form;
         if (cmf.getDepositHelpers().isEmpty()) {
             cmf.populateDepositHelpers();
+        }
+        KualiWorkflowDocument kwd = cmf.getDocument().getDocumentHeader().getWorkflowDocument();
+        if (kwd.stateIsEnroute() || kwd.stateIsFinal()) {
+            cmf.setCashDrawerSummary(null);
+        }
+        else {
+            if (cmf.getCashDrawerSummary() == null) {
+                cmf.populateCashDrawerSummary();
+            }
         }
 
         return dest;
@@ -218,6 +229,46 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         // display status message
         GlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward dest = super.reload(mapping, form, request, response);
+
+        // refresh the CashDrawerSummary, just in case
+        CashManagementForm cmForm = (CashManagementForm) form;
+        CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
+
+        CashDrawerSummary cms = cmForm.getCashDrawerSummary();
+        if (cms != null) {
+            cms.resummarize(cmDoc);
+        }
+
+        return dest;
+    }
+
+
+    /**
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward refreshSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashManagementForm cmForm = (CashManagementForm) form;
+        CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
+
+        cmForm.getCashDrawerSummary().resummarize(cmDoc);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

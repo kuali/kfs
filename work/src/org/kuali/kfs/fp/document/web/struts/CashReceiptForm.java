@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.LabelValueBean;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
@@ -38,7 +39,6 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 
 /**
  * This class is the action form for Cash Receipts.
@@ -192,10 +192,10 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         String financialDocumentStatusMessage = "";
         CashReceiptDocument crd = getCashReceiptDocument();
         String financialDocumentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();
-        if (financialDocumentStatusCode.equals(Constants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+        if (financialDocumentStatusCode.equals(CashReceipt.VERIFIED)) {
             financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }
-        else if (financialDocumentStatusCode.equals(Constants.DocumentStatusCodes.CashReceipt.DEPOSITED)) {
+        else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(CashReceipt.FINAL) ) {
             CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(crd.getFinancialDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();

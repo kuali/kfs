@@ -31,8 +31,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.Constants.DepositConstants;
 import org.kuali.core.document.FinancialDocumentBase;
+import org.kuali.core.service.impl.DocumentServiceImpl;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
@@ -44,6 +46,7 @@ import org.kuali.module.financial.bo.Deposit;
  */
 public class CashManagementDocument extends FinancialDocumentBase {
     private static final long serialVersionUID = 7475843770851900297L;
+    private static Logger LOG = Logger.getLogger(CashManagementDocument.class);
 
     private String workgroupName;
     private String referenceFinancialDocumentNumber;
@@ -109,6 +112,13 @@ public class CashManagementDocument extends FinancialDocumentBase {
     public void setCashDrawerStatus(String cashDrawerStatus) {
         // ignored, because that value is dynamically retrieved from the service
         // required, because POJO pitches a fit if this method doesn't exist
+    }
+
+    /**
+     * Alias for getCashDrawerStatus which avoids the automagic formatting
+     */
+    public String getRawCashDrawerStatus() {
+        return getCashDrawerStatus();
     }
 
     /* Deposit-list maintenance */
@@ -216,14 +226,20 @@ public class CashManagementDocument extends FinancialDocumentBase {
      */
     @Override
     public void handleRouteStatusChange() {
+        LOG.error("1");
         // all approvals have been processed, finalize everything
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            LOG.error("2a");
             SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);
+            LOG.error("3a");
         }
         // document has been canceled or disapproved,
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            LOG.error("2b");
             SpringServiceLocator.getCashManagementService().cancelCashManagementDocument(this);
+            LOG.error("3b");
         }
+        LOG.error("4");
     }
 
 

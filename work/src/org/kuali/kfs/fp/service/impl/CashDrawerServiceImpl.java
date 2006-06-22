@@ -23,12 +23,16 @@
 package org.kuali.module.financial.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashDrawerService;
 
 
@@ -127,18 +131,19 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         return cd;
     }
 
+
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#save(org.kuali.module.financial.bo.CashDrawer,java.lang.String)
+     * Persists the given CashDrawer instance
+     * 
+     * @param cashDrawer
      */
-    public CashDrawer save(CashDrawer cashDrawer) {
+    private void save(CashDrawer cashDrawer) {
         if (cashDrawer == null) {
             throw new IllegalArgumentException("invalid (null) cashDrawer");
         }
 
         businessObjectService.save(cashDrawer);
-        return cashDrawer;
     }
-
 
     /**
      * @param workgroupName

@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.Constants.DepositConstants;
 import org.kuali.KeyConstants.CashManagement;
 import org.kuali.core.authorization.AuthorizationConstants;
@@ -48,6 +49,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashManagementDocumentAuthorizer;
+import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.web.struts.form.CashManagementForm;
 import org.kuali.module.financial.web.struts.form.CashManagementForm.CashDrawerSummary;
 
@@ -176,7 +178,12 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @param depositTypeCode
      */
     private void checkDepositAuthorization(CashManagementDocument cmDoc, String depositTypeCode) {
-        // verify user's ability to add an interim deposit
+        // deposits can only be added if the CashDrawer is open
+        if (!cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_OPEN)) {
+            throw new IllegalStateException("CashDrawer '" + cmDoc.getWorkgroupName() + "' must be open for deposits to be made");
+        }
+
+        // verify user's ability to add a deposit
         KualiUser user = GlobalVariables.getUserSession().getKualiUser();
         Map editModes = getDocumentAuthorizer().getEditMode(cmDoc, user);
         if (!editModes.containsKey(AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
@@ -271,5 +278,66 @@ public class CashManagementAction extends KualiDocumentActionBase {
         cmForm.getCashDrawerSummary().resummarize(cmDoc);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * Saves the document, then opens the cash drawer
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward openCashDrawer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashManagementForm cmForm = (CashManagementForm) form;
+        CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
+
+        if (!cmDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+            throw new IllegalStateException("openCashDrawer should only be called on documents which haven't yet been saved");
+        }
+
+        // open the CashDrawer
+        CashDrawerService cds = SpringServiceLocator.getCashDrawerService();
+        cds.openCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getFinancialDocumentNumber());
+        try {
+            SpringServiceLocator.getDocumentService().saveDocument(cmDoc, cmForm.getAnnotation(), null);
+        }
+        catch (WorkflowException e) {
+            // force it closed if workflow proves recalcitrant
+            cds.closeCashDrawer(cmDoc.getWorkgroupName());
+            throw e;
+        }
+
+        // update the CashDrawerSummary to reflect the change
+        cmForm.populateCashDrawerSummary();
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * Overridden to clear the CashDrawerSummary info
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashManagementForm cmForm = (CashManagementForm) form;
+        CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
+
+        ActionForward dest = super.route(mapping, form, request, response);
+
+        // clear the CashDrawerSummary
+        cmForm.setCashDrawerSummary(null);
+
+        // close the CashDrawer
+        CashDrawerService cds = SpringServiceLocator.getCashDrawerService();
+        cds.closeCashDrawer(cmDoc.getWorkgroupName());
+
+        return dest;
     }
 }

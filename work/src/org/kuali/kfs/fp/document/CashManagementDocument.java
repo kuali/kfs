@@ -231,20 +231,34 @@ public class CashManagementDocument extends FinancialDocumentBase {
 
         KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
 
-        if (kwd.stateIsInitiated()) {
-            LOG.debug("CMD stateIsInitiated");
+        if (LOG.isDebugEnabled()) {
+            logState();
         }
-        else if (kwd.stateIsProcessed()) {
-            LOG.debug("CMD stateIsProcessed");
 
+        if (kwd.stateIsProcessed()) {
             // all approvals have been processed, finalize everything
             SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);
         }
         else if (kwd.stateIsCanceled() || kwd.stateIsDisapproved()) {
-            LOG.debug("CMD stateIsCanceled || stateIsDisapproved");
-
             // document has been canceled or disapproved
             SpringServiceLocator.getCashManagementService().cancelCashManagementDocument(this);
+        }
+    }
+
+    private void logState() {
+        KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
+
+        if (kwd.stateIsInitiated()) {
+            LOG.debug("CMD stateIsInitiated");
+        }
+        if (kwd.stateIsProcessed()) {
+            LOG.debug("CMD stateIsProcessed");
+        }
+        if (kwd.stateIsCanceled()) {
+            LOG.debug("CMD stateIsCanceled");
+        }
+        if (kwd.stateIsDisapproved()) {
+            LOG.debug("CMD stateIsDisapproved");
         }
     }
 

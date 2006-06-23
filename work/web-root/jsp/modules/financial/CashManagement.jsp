@@ -4,22 +4,27 @@
   HACK: CashManagementDocument isn't a transactionalDocument, but its XML file claims that it is,
   which is why this JSP abuses some of the standard transactionalDocument tags
 --%>
-<kul:documentPage showDocumentInfo="true"
-	htmlFormAction="financialCashManagement"
-	documentTypeName="KualiCashManagementDocument" renderMultipart="true"
-	showTabButtons="true">
-	<kul:hiddenDocumentFields isTransactionalDocument="false" />
+<c:set var="allowAdditionalDeposits" value="${KualiForm.editingMode['allowAdditionalDeposits']}" />
+<c:set var="showDeposits" value="${allowAdditionalDeposits || (!empty KualiForm.document.deposits)}" />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-
-    <c:if test="${!empty KualiForm.cashDrawerSummary}">
-        <cm:cashDrawerActivity />
+<kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashManagement" documentTypeName="KualiCashManagementDocument" renderMultipart="true" showTabButtons="true">
+    <kul:hiddenDocumentFields isTransactionalDocument="false"/>
+    
+    <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+    
+    <cm:cashDrawerActivity/>
+    
+    <c:if test="${!showDeposits}">
+        <kul:hiddenTab forceOpen="true" />
     </c:if>
-    <cm:deposits editingMode="${KualiForm.editingMode}" />
-
-	<kul:notes />
-	<kul:adHocRecipients editingMode="${KualiForm.editingMode}" />
-	<kul:routeLog />
-	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="false" />
+    <c:if test="${showDeposits}">
+        <cm:deposits editingMode="${KualiForm.editingMode}"/>
+    </c:if>
+    
+    <kul:notes/>
+    <kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>
+    <kul:routeLog/>
+    <kul:panelFooter/>
+    
+    <kul:documentControls transactionalDocument="false"/>
 </kul:documentPage>

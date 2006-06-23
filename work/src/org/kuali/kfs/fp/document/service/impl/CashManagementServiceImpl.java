@@ -128,29 +128,14 @@ public class CashManagementServiceImpl implements CashManagementService {
         // check cash drawer
         CashDrawer cd = cashDrawerService.getByWorkgroupName(unitName, true);
         if (cd.isClosed()) {
+            // create the document
             try {
-                // create the document
                 cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
                 cmDoc.getDocumentHeader().setFinancialDocumentDescription(docDescription);
                 cmDoc.setWorkgroupName(unitName);
-
-                // open cash drawer
-                cashDrawerService.openCashDrawer(unitName, cmDoc.getFinancialDocumentNumber());
-
-                // persist everything
-                documentService.saveDocument(cmDoc, annotation, null);
-            }
-            catch (RuntimeException e) {
-                // reclose the drawer if creation failed (without trapping the failure-to-close)
-                cashDrawerService.closeCashDrawer(unitName);
-
-                throw e;
             }
             catch (WorkflowException e) {
-                // reclose the drawer if creation failed (without trapping the failure-to-close)
-                cashDrawerService.closeCashDrawer(unitName);
-
-                throw new InfrastructureException("unable to create CashManagementDocument ", e);
+                throw new InfrastructureException("unable to create CashManagementDocument", e);
             }
         }
         else {
@@ -407,8 +392,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         String workgroupName = cmDoc.getWorkgroupName();
         CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, false);
-        if (!cd.isLocked()) {
-            throw new IllegalStateException("cashDrawer for workgroup '" + workgroupName + "' should be locked before CashManagementDocument finalizes");
+        if (!cd.isClosed()) {
+            throw new IllegalStateException("cashDrawer for workgroup '" + workgroupName + "' should already have been closed");
         }
 
 
@@ -422,9 +407,6 @@ public class CashManagementServiceImpl implements CashManagementService {
                 documentService.updateDocument(receipt);
             }
         }
-
-        // open the CashDrawer
-        cashDrawerService.closeCashDrawer(workgroupName);
 
         // finalize the CMDoc, but let the postprocessor save it
         cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
@@ -462,6 +444,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         return cashReceiptDocuments;
     }
+
 
 
     // injected dependencies

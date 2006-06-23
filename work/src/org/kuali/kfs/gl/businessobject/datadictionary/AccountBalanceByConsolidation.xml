@@ -34,7 +34,7 @@
                     <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
 
-                <lookupField attributeName="chartOfAccountsCode" required="true" noLookup="true" />
+                <lookupField attributeName="chartOfAccountsCode" required="true" noLookup="false" />
                 <lookupField attributeName="accountNumber" required="true" noLookup="false" />
                 <lookupField attributeName="subAccountNumber" noLookup="false" />
 
@@ -77,9 +77,6 @@
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-                </control>
                 <description>The Chart of Accounts for an Account Number. Kuali accommodates more than one Chart of Accounts. Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
             </attributeReference>
 

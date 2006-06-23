@@ -923,6 +923,12 @@
     <bean id="glVerifyTransaction" class="org.kuali.module.gl.batch.poster.impl.VerifyTransactionImpl" />
 
     <bean id="glAccountBalanceDao" class="org.kuali.module.gl.dao.ojb.AccountBalanceDaoOjb">
+    	<property name="dateTimeService">
+    		<ref bean="dateTimeService"/>
+    	</property>
+    	<property name="optionsService">
+    		<ref bean="optionsService"/>
+    	</property>
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>

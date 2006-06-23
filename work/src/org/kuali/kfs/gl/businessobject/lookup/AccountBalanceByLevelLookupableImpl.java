@@ -77,7 +77,12 @@ public class AccountBalanceByLevelLookupableImpl extends KualiLookupableImpl {
         String pendingEntryOption = (String) fieldValues.get("dummyBusinessObject.pendingEntryOption");
         String consolidationOption = (String) fieldValues.get("dummyBusinessObject.consolidationOption");
         boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
-        boolean isIncludePendingEntry = "No".equals(pendingEntryOption);
+        int pendingEntryCode = AccountBalanceService.PENDING_NONE;
+        if ( "Approved".equals(pendingEntryOption) ) {
+            pendingEntryCode = AccountBalanceService.PENDING_APPROVED;
+        } else if ( "All".equals(pendingEntryOption) ) {
+            pendingEntryCode = AccountBalanceService.PENDING_ALL;
+        }
         boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
 
         String chartOfAccountsCode = (String) fieldValues.get("chartOfAccountsCode");
@@ -95,9 +100,7 @@ public class AccountBalanceByLevelLookupableImpl extends KualiLookupableImpl {
         // TODO Deal with invalid numbers
         Integer universityFiscalYear = new Integer(Integer.parseInt(ufy));
 
-        // TODO Include Pending
-
-        List results = accountBalanceService.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, isIncludePendingEntry);
+        List results = accountBalanceService.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntryCode);
 
         // Put the search related stuff in the objects
         for (Iterator iter = results.iterator(); iter.hasNext();) {

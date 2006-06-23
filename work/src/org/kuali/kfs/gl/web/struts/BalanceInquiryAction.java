@@ -85,9 +85,9 @@ public class BalanceInquiryAction extends KualiAction {
         Collection resultTable = new ArrayList();
         
         // validate search parameters
-        if(lookupForm.getFields().containsKey("dummyBusinessObject.pendingEntryOption")) {
-            lookupForm.getFields().remove("dummyBusinessObject.pendingEntryOption");
-        }
+//        if(lookupForm.getFields().containsKey("dummyBusinessObject.pendingEntryOption")) {
+//            lookupForm.getFields().remove("dummyBusinessObject.pendingEntryOption");
+//        }
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
         
         // If we're going to include pending entries we cannot truncate or bound

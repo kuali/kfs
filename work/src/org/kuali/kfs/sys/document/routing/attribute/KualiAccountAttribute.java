@@ -68,31 +68,19 @@ import edu.iu.uis.eden.util.Utilities;
 public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     static final long serialVersionUID = 1000;
-
     private static Logger LOG = Logger.getLogger(KualiAccountAttribute.class);
 
     private static final String FIN_COA_CD_KEY = "fin_coa_cd";
-
     private static final String ACCOUNT_NBR_KEY = "account_nbr";
-
     private static final String FDOC_TOTAL_DOLLAR_AMOUNT_KEY = "fdoc_ttl_dlr_amt";
-
     private static final String FISCAL_OFFICER_ROLE_KEY = "FISCAL-OFFICER";
-
     private static final String FISCAL_OFFICER_ROLE_LABEL = "Fiscal Officer";
-
     private static final String FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY = "FISCAL-OFFICER-PRIMARY-DELEGATE";
-
     private static final String FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_LABEL = "Fiscal Officer Primary Delegate";
-
     private static final String FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY = "FISCAL-OFFICER-SECONDARY-DELEGATE";
-
     private static final String FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_LABEL = "Fiscal Officer Secondary Delegate";
-
     private static final String ACCOUNT_SUPERVISOR_ROLE_KEY = "ACCOUNT-SUPERVISOR";
-
     private static final String ACCOUNT_SUPERVISOR_ROLE_LABEL = "Account Supervisor";
-
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
 
     // TODO - here we need to integrate our AccountLookupable long term...
@@ -104,11 +92,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String OLD_MAINTAINABLE_PREFIX = "//oldMaintainableObject/businessObject/";
 
     private String finCoaCd;
-
     private String accountNbr;
-
     private String totalDollarAmount;
-
     private boolean required;
 
     /**

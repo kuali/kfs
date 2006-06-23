@@ -140,5 +140,11 @@
             <ref bean="budgetModularService" />
         </property>
     </bean>
+    
+    <bean id="budgetPermissionsService" class="org.kuali.module.kra.service.impl.BudgetPermissionsServiceImpl">
+    	<property name="budgetAdHocPermissionDao">
+    		<ref bean="budgetAdHocPermissionDao"/>
+    	</property>
+    </bean>
 
 </beans>

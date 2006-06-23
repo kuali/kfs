@@ -591,6 +591,11 @@
     <reference-descriptor name="eliminationsFinBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="eliminationsFinBalanceTypeCd" />
     </reference-descriptor>
+
+    <reference-descriptor name="costShareEncumbranceBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="costShareEncumbranceBalanceTypeCode" />
+    </reference-descriptor>
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.SubObjCd" table="CA_SUB_OBJECT_CD_T">

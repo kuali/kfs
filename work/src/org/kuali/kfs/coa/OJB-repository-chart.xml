@@ -524,6 +524,7 @@
     <field-descriptor name="universityFinChartOfAcctCd" column="UNIV_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="universityFiscalYearName" column="UNIV_FISCAL_YR_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialBeginBalanceLoadInd" column="FIN_BEGBALLOAD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="costShareEncumbranceBalanceTypeCode" column="CSTSHR_ENCUM_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 

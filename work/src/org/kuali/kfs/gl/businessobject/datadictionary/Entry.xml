@@ -14,9 +14,6 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
-                <!-- 
-                <field attributeName="financialBalanceTypeCode" />
-                -->
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="financialSystemOriginationCode" />
@@ -167,9 +164,9 @@
             <attributeReference name="universityFiscalPeriodCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod">
                 <label>Fiscal Period</label>
                 <shortLabel>Fiscal Period</shortLabel>
-                <maxLength>3</maxLength>
+                <maxLength>2</maxLength>
                 <control>
-                    <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder" />
+                	<text size="2" />
                 </control>
                 <summary>University Fiscal Accounting Period</summary>
                 <description>One of a prescribed list of Accounting Periods to which accounting transactions may post.</description>

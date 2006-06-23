@@ -379,19 +379,6 @@
                 displayHidden="${displayHidden}"
                 />
         </c:if>
-        <%-- referenceNumber displays like an unknown field, but explicitly here to follow referenceOriginCode. --%>
-        <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceNumber,')}" >
-            <fin:accountingLineDataCell
-                field="referenceNumber"
-                accountingLine="${accountingLine}"
-                baselineAccountingLine="${baselineAccountingLine}"
-                attributes="${accountingLineAttributes}"
-                dataCellCssClass="${dataCellCssClass}"
-                labelFontWeight="${extraRowLabelFontWeight}"
-                readOnly="${readOnly}"
-                displayHidden="${displayHidden}"
-                />
-        </c:if>
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceTypeCode,')}" >
             <fin:accountingLineDataCell
                 field="referenceTypeCode"
@@ -412,7 +399,20 @@
                 displayHidden="${displayHidden}"
                 />
         </c:if>
-        <c:set var="knownExtraFields" value=",referenceOriginCode,referenceNumber,referenceTypeCode,"/>
+        <%-- referenceNumber displays like an unknown field, but explicitly here to follow referenceOriginCode. --%>
+        <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceNumber,')}" >
+            <fin:accountingLineDataCell
+                field="referenceNumber"
+                accountingLine="${accountingLine}"
+                baselineAccountingLine="${baselineAccountingLine}"
+                attributes="${accountingLineAttributes}"
+                dataCellCssClass="${dataCellCssClass}"
+                labelFontWeight="${extraRowLabelFontWeight}"
+                readOnly="${readOnly}"
+                displayHidden="${displayHidden}"
+                />
+        </c:if>
+        <c:set var="knownExtraFields" value=",referenceOriginCode,referenceTypeCode,referenceNumber,"/>
         <c:forTokens items="${extraRowFields}" delims="," var="extraField">
             <c:if test="${not fn:contains(knownExtraFields, extraField)}" >
                 <fin:accountingLineDataCell

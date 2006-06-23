@@ -26,7 +26,7 @@
 <c:if test="${debitCreditAmount}">
     <c:set var="extraHiddenFields" value="${extraHiddenFields},amount"/>
 </c:if>
-<c:set var="externalEncumbranceFields" value="referenceOriginCode,referenceNumber,referenceTypeCode"/>
+<c:set var="externalEncumbranceFields" value="referenceOriginCode,referenceTypeCode,referenceNumber"/>
 <c:choose>
     <c:when test="${displayExternalEncumbranceFields}">
         <c:set var="extraSourceRowFields" value="${externalEncumbranceFields}"/>

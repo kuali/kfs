@@ -104,7 +104,6 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("universityAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("cashOffsetAccount");
         return success;
     }
@@ -154,13 +153,19 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    // this method has been taken out of service to be replaced by the
-    // defaultExistenceChecks happening through the BankAccountMaintenanceDocument.xml
+    /**
+     * this method has been taken out of service to be replaced by the
+     * defaultExistenceChecks happening through the BankAccountMaintenanceDocument.xml
+     * 
+     * @param document
+     * @return
+     */
     private boolean checkSubObjectExistence(MaintenanceDocument document) {
         // default to success
         boolean success = true;
         BankAccount newBankAcct = (BankAccount) document.getNewMaintainableObject().getBusinessObject();
         newBankAcct.refresh();
+        
         // existence check on bank code
 
 
@@ -171,32 +176,6 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-
-        // existence check on organization if data was entered
-        if (StringUtils.isNotEmpty(newBankAcct.getChartOfAccountsCode()) && StringUtils.isNotEmpty(newBankAcct.getOrganizationCode())) {
-            if (ObjectUtils.isNull(newBankAcct.getOrganization())) {
-                success &= false;
-                putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_ORG);
-            }
-            else if (!newBankAcct.getOrganization().isOrganizationActiveIndicator()) {
-                success &= false;
-                putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INACTIVE_ORG);
-            }
-        }
-
-        // existence check on university account if data was entered
-        if (StringUtils.isNotEmpty(newBankAcct.getUniversityAcctChartOfAcctCd()) && StringUtils.isNotEmpty(newBankAcct.getUniversityAccountNumber())) {
-            if (ObjectUtils.isNull(newBankAcct.getUniversityAccount())) {
-                success &= false;
-                putFieldError("universityAccountNumber", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_UNIV_ACCT);
-            }
-            else if (newBankAcct.getUniversityAccount().isAccountClosedIndicator()) {
-                success &= false;
-                putFieldError("universityAccountNumber", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INACTIVE_UNIV_ACCT);
-            }
-        }
-
         return success;
     }
-
 }

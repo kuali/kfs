@@ -33,10 +33,7 @@
 
         <defaultExistenceChecks>
             <reference attributeName="bank" attributeToHighlightOnFail="financialDocumentBankCode" />
-            <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" />
             <reference attributeName="cashOffsetAccount" attributeToHighlightOnFail="cashOffsetAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
-            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" activeIndicatorAttributeName="organizationActiveIndicator" />
-            <reference attributeName="universityAccount" attributeToHighlightOnFail="universityAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
             <reference attributeName="cashOffsetObject" attributeToHighlightOnFail="cashOffsetObjectCode" activeIndicatorAttributeName="financialObjectActiveCode" />
         </defaultExistenceChecks>
 
@@ -46,10 +43,6 @@
                     <maintainableField name="financialDocumentBankCode" required="true" />
                     <maintainableField name="finDocumentBankAccountNumber" required="true" />
                     <maintainableField name="finDocumentBankAccountDesc" required="true" />
-                    <maintainableField name="chartOfAccountsCode" />
-                    <maintainableField name="organizationCode" />
-                    <maintainableField name="universityAcctChartOfAcctCd" />
-                    <maintainableField name="universityAccountNumber" />
                     <maintainableField name="cashOffsetFinancialChartOfAccountCode" />
                     <maintainableField name="cashOffsetAccountNumber" />
                     <maintainableField name="cashOffsetObjectCode" />

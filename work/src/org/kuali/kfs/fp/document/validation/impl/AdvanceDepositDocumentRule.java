@@ -153,7 +153,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
                 detail.refreshReferenceObject(PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), transactionalDocument, sequenceHelper, bankOffsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
+                if (!TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), transactionalDocument, transactionalDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
                     success = false;
                     continue;  // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all.
                 }
@@ -162,7 +162,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
                 sequenceHelper.increment();
 
                 GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
-                success &= populateOffsetGeneralLedgerPendingEntry(transactionalDocument, bankOffsetEntry, sequenceHelper, offsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS);
+                success &= populateOffsetGeneralLedgerPendingEntry(transactionalDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS);
                 transactionalDocument.addGeneralLedgerPendingEntry(offsetEntry);
                 sequenceHelper.increment();
             }

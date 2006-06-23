@@ -62,7 +62,7 @@ public class GeneralErrorCorrectionDocumentTest extends TransactionalDocumentTes
     /**
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
-     */
+     */ 
     public List getTargetAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
         list.add(getFixtureEntryFromCollection(COLLECTION_NAME, TARGET_LINE1).createObject());

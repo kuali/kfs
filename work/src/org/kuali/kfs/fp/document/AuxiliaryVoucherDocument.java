@@ -30,15 +30,17 @@ import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.PatternedStringBuilder;
 import org.kuali.core.util.SpringServiceLocator;
 
 import static org.kuali.Constants.DOCUMENT_ERRORS;
 import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL;
+import static org.kuali.Constants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL;
 
 /**
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This 
@@ -50,59 +52,58 @@ import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DIST
  */
 public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
-	
+    
     private String typeCode = ADJUSTMENT_DOC_TYPE;;
     private Timestamp reversalDate;
-	
-	/**
-	 * Initializes the array lists and some basic info.
-	 */
-	public AuxiliaryVoucherDocument() {
-		super();
-	}
-	
-	/**
-	 * Read Accessor for Reversal Date
-	 *
-	 * @return Timestamp
-	 */
+    
+    /**
+     * Initializes the array lists and some basic info.
+     */
+    public AuxiliaryVoucherDocument() {
+        super();
+    }
+    
+    /**
+     * Read Accessor for Reversal Date
+     *
+     * @return Timestamp
+     */
     public Timestamp getReversalDate() {
         return reversalDate;
     }
     
-	/**
-	 * Write Accessor for Reversal Date
-	 *
-	 * @param reversalDate
-	 */
+    /**
+     * Write Accessor for Reversal Date
+     *
+     * @param reversalDate
+     */
     public void setReversalDate(Timestamp reversalDate) {
         this.reversalDate = reversalDate;
     }
     
-	/**
-	 * Read Accessor for Auxiliary Voucher Type
-	 *
-	 * @return String
-	 */
+    /**
+     * Read Accessor for Auxiliary Voucher Type
+     *
+     * @return String
+     */
     public String getTypeCode() {
         return typeCode;
     }
     
-	/**
-	 * Write Accessor for Auxiliary Voucher Type
-	 *
-	 * @param typeCode
-	 */
+    /**
+     * Write Accessor for Auxiliary Voucher Type
+     *
+     * @param typeCode
+     */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
     
-    //	workflow related methods
     /**
      * This method calculates the debit total for a JV document keying off of the 
      * debit/debit code, only summing the accounting lines with a debitDebitCode 
      * that matched the debit constant, and returns the results.
-	 * 
+     * 
      * @return KualiDecimal
      */
     public KualiDecimal getDebitTotal() {
@@ -122,7 +123,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
      * This method calculates the credit total for a JV document keying off of the 
      * debit/credit code, only summing the accounting lines with a debitCreditCode 
      * that matched the debit constant, and returns the results.
-	 *
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getCreditTotal() {
@@ -141,46 +142,42 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     /**
      * This method sums the amounts of all of the accounting lines in 
      * the <code>{@link AuxiliaryVoucherDocument}</code>.  This method should be used to represent 
-	 * the total of the document when the balance type of External Encubmrance 
+     * the total of the document when the balance type of External Encubmrance 
      * is selected.
-	 *
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getTotal() {        
         KualiDecimal total = new KualiDecimal(0);
         
-		total = getCreditTotal().subtract(getDebitTotal());
+        total = getCreditTotal().subtract(getDebitTotal());
 
         return total;
     }
-	
-	/**
-	 * Overriding this to fix the reversal date should if something happens (like a long period of time passes) between the time the document
-	 * is routed and when it becomes approved.<br/>
-	 * <br/>
-	 * If the document is of RECODE type, then a <code>{@link org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument}</code> instance
-	 * is then created and routed using the <code>{@link AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseDocument}</code> stub.
-	 */
-	public void handleRouteStatusChange() {
-		Long NOW = System.currentTimeMillis();
+    
+    /**
+     * Overriding this to fix the reversal date should if something happens (like a long period of time passes) between the time the document
+     * is routed and when it becomes approved.<br/>
+     * <br/>
+     * If the document is of RECODE type, then a <code>{@link org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument}</code> instance
+     * is then created and routed using the <code>{@link AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseDocument}</code> stub.
+     */
+    public void handleRouteStatusChange() {
+        Long NOW = System.currentTimeMillis();
 
-		if (getTypeCode().equals(ACCRUAL_DOC_TYPE) && 
-			NOW > getReversalDate().getTime()) {
-			setReversalDate(new Timestamp(NOW));
-		}
-		else if (RECODE_DOC_TYPE.equals(getTypeCode())) {
-			try {
-				TransactionalDocument diDoc = (TransactionalDocument) SpringServiceLocator.getDocumentService()
-					.getNewDocument(AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseDocument.class);
-				diDoc.setSourceAccountingLines(getSourceAccountingLines());
-				diDoc.setTargetAccountingLines(getTargetAccountingLines());
-				SpringServiceLocator.getDocumentService().routeDocument(diDoc, null, null);
-			}
-			catch (Exception e) {
-				GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, 
-												  ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL, 
-												  getFinancialDocumentNumber());
-			}
-		}
-	}
+        if (getTypeCode().equals(ACCRUAL_DOC_TYPE) && 
+            NOW > getReversalDate().getTime()) {
+            setReversalDate(new Timestamp(NOW));
+        }
+        else if (RECODE_DOC_TYPE.equals(getTypeCode())) {
+            try {
+                TransactionalDocument diDoc = SpringServiceLocator.getAuxiliaryVoucherService().generateDistributionOfIncomeAndExpense(this);
+                SpringServiceLocator.getDocumentService().routeDocument(diDoc, new String(), null);
+            }
+            catch (Exception e) {
+                String message = new PatternedStringBuilder(ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL).sprintf(getFinancialDocumentNumber());
+                throw new InfrastructureException(message, e);
+            }
+        }
+    }
 }

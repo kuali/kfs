@@ -234,12 +234,15 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         AuxiliaryVoucherDocument document = (AuxiliaryVoucherDocument)transactionalDocument;
+        LOG.info("Checking amount: " + document.getTotal());
+        /*
         if(KualiDecimal.ZERO.equals(document.getTotal())
 		   || document.getTotal().isNegative()) {
 			GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
                                                                   ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an Auxiliary Voucher");
             return false;
         }
+        */
         return true;
     }
 
@@ -327,14 +330,19 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @return object type for a normal AuxiliaryVoucher document (not AVRC)
      */
     protected String getObjectTypeNormalAV(AccountingLine line) {
-        String objectType = line.getObjectCode().getFinancialObjectType().getCode();
-        String returnObjType = line.getObjectCode().getFinancialObjectType().getCode();
-        if(OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE.equals(objectType) || OBJECT_TYPE_CODE.EXPENDITURE_NOT_EXPENSE.equals(objectType)) {
-            returnObjType = OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE;
-        } else if(OBJECT_TYPE_CODE.INCOME_CASH.equals(objectType) || OBJECT_TYPE_CODE.EXPENDITURE_NOT_EXPENSE.equals(objectType)) {
-            returnObjType = OBJECT_TYPE_CODE.INCOME_NOT_CASH;
+        String retval = null;
+        if (line.getObjectCode().getFinancialObjectType() == null) {
+            return retval;
         }
-        return returnObjType;
+
+        retval = line.getObjectCode().getFinancialObjectType().getCode();
+        if(OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE.equals(retval) || OBJECT_TYPE_CODE.EXPENDITURE_NOT_EXPENSE.equals(retval)) {
+            retval = OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE;
+        } else if(OBJECT_TYPE_CODE.INCOME_CASH.equals(retval) || OBJECT_TYPE_CODE.EXPENDITURE_NOT_EXPENSE.equals(retval)) {
+            retval = OBJECT_TYPE_CODE.INCOME_NOT_CASH;
+        }
+
+        return retval;
     }
 
     /**

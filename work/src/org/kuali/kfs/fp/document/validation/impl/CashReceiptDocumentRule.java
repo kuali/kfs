@@ -327,7 +327,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
 
         // check to make sure the amount is also valid
         if (check.getAmount().compareTo(Constants.ZERO) <= 0) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, PropertyConstants.CHECKS);
+            GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.CashReceipt.ERROR_NEGATIVE_CHECK_AMOUNT, PropertyConstants.CHECKS);
             isValid = false;
         }
 

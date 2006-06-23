@@ -40,6 +40,7 @@ public class Bank extends BusinessObjectBase {
     private String financialDocumentBankCode;
     private String financialDocumentBankName;
     private String financialDocumentBankShortNm;
+    private String bankRoutingNumber;
     private List bankAccounts;
 
     /**
@@ -130,7 +131,22 @@ public class Bank extends BusinessObjectBase {
         this.bankAccounts = bankAccounts;
     }
 
+    /**
+     * Gets the bankRoutingNumber attribute. 
+     * @return Returns the bankRoutingNumber.
+     */
+    public String getBankRoutingNumber() {
+        return bankRoutingNumber;
+    }
 
+    /**
+     * Sets the bankRoutingNumber attribute value.
+     * @param bankRoutingNumber The bankRoutingNumber to set.
+     */
+    public void setBankRoutingNumber(String bankRoutingNumber) {
+        this.bankRoutingNumber = bankRoutingNumber;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -141,4 +157,5 @@ public class Bank extends BusinessObjectBase {
 
         return m;
     }
+    
 }

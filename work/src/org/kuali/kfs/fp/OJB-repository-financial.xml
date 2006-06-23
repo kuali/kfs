@@ -548,6 +548,7 @@
     <field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentBankName" column="FDOC_BANK_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentBankShortNm" column="FDOC_BANK_SHRT_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 

@@ -28,7 +28,8 @@ import org.kuali.module.financial.document.YearEndDocumentUtil;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
- * Business rule(s) applicable to Year End General Error Correction documents.
+ * Business rule(s) applicable to Year End General Error Correction documents.  All other business rules 
+ * are inherited from the parent non-year end version.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -43,9 +44,9 @@ public class YearEndGeneralErrorCorrectionDocumentRule extends GeneralErrorCorre
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
 	 * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine, GeneralLedgerPendingEntry)
      */
+    @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
     }
 }
-

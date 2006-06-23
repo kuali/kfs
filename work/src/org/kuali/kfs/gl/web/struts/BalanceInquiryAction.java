@@ -84,62 +84,12 @@ public class BalanceInquiryAction extends KualiAction {
         Collection displayList = new ArrayList();
         Collection resultTable = new ArrayList();
         
-        // validate search parameters
-//        if(lookupForm.getFields().containsKey("dummyBusinessObject.pendingEntryOption")) {
-//            lookupForm.getFields().remove("dummyBusinessObject.pendingEntryOption");
-//        }
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
         
-        // If we're going to include pending entries we cannot truncate or bound
-        // displayList. Doing so would result in entries that could never be
-        // retrieved.
         displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
         CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
         
-        Long totalSize = ((CollectionIncomplete)displayList).getActualSizeIfTruncated();
-        
-        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String limitConfig = kualiConfigurationService.getPropertyString("lookup.results.limit");
-        Integer limit = null;
-        if (limitConfig != null) {
-            limit = Integer.valueOf(limitConfig);
-        }
-        
-        Collection pendingEntryDisplayList = new ArrayList();
-        Collection pendingEntryResultTable = new ArrayList();
-        
-        includePendingLedgerEntries = (null != limit && totalSize < limit) ? includePendingLedgerEntries : false;
-        if (includePendingLedgerEntries ) {
-            Lookupable kualiPendingEntryLookupable = lookupForm.getPendingEntryLookupable();
-
-            if ("Approved".equals(pendingEntryFormOption)) {
-                lookupForm.getFields().put("documentHeader.financialDocumentStatusCode", "A");
-            }
-            
-            if (null != kualiPendingEntryLookupable) {
-                // dummyBusinessObject.pendingEntryOption isn't a valid part of the glpe lookup
-                kualiPendingEntryLookupable.validateSearchParameters(lookupForm.getFields());
-            }
-            pendingEntryDisplayList = 
-                SpringServiceLocator.getPersistenceService().performLookup(
-                        lookupForm, kualiPendingEntryLookupable, pendingEntryResultTable, true);
-            
-            // CollectionIncomplete incompletePendingEntryResultTable = (CollectionIncomplete) pendingEntryResultTable;
-            Iterator iterator = pendingEntryResultTable.iterator();
-            
-            Long i = new Long(resultTable.size());
-            while(iterator.hasNext() && i < limit) {
-                resultTable.add(iterator.next());
-                i++;
-            }
-            
-            totalSize = i;
-        }
-
-        // if("org.kuali.module.gl.bo.Balance".equals(lookupForm.getBusinessObjectClassName())) {
-        //            
-        // }
-
+        Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
         
         request.setAttribute("reqSearchResultsActualSize", totalSize);
         request.setAttribute("reqSearchResults", resultTable);

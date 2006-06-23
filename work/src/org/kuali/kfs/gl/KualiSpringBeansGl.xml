@@ -77,6 +77,9 @@
         <property name="postBalance">
             <ref bean="glPostBalance" />
         </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
     </bean>
 
     <bean id="glPendingEntryLookupableImpl" class="org.kuali.module.gl.web.lookupable.PendingEntryLookupableImpl" singleton="false">
@@ -121,6 +124,12 @@
         </property>
         <property name="generalLedgerPendingEntryService">
             <ref bean="generalLedgerPendingEntryService" />
+        </property>
+        <property name="scrubberValidator">
+            <ref bean="glScrubberValidator" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
         </property>
     </bean>
 
@@ -586,6 +595,9 @@
         <property name="accountService">
             <ref bean="accountService" />
         </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
     </bean>
 
     <bean id="glSufficientFundsSyncService" class="org.kuali.module.gl.service.impl.SufficientFundsSyncServiceImpl">
@@ -956,6 +968,9 @@
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
+        <property name="dateTimeService">
+        	<ref bean="dateTimeService"/>
+        </property>
     </bean>
 
     <bean id="glOptionsDao" class="org.kuali.core.dao.ojb.OptionsDaoOjb">
@@ -1048,4 +1063,5 @@
             <value>dataSource</value>
         </property>
     </bean>
+    
 </beans>

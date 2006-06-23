@@ -937,4 +937,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public void setOriginationCodeService(OriginationCodeService ocs) {
         originationCodeService = ocs;
     }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
+    
 }

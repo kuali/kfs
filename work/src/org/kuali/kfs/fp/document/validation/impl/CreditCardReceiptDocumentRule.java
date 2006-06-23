@@ -30,6 +30,7 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -149,26 +150,26 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
      *
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public boolean processGenerateDocumentGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
+        CreditCardReceiptDocument ccrDoc = (CreditCardReceiptDocument) financialDocument;
         if (SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG)) {
-            KualiDecimal depositTotal = ((CreditCardReceiptDocument) transactionalDocument).calculateCreditCardReceiptTotal();
+            KualiDecimal depositTotal = ccrDoc.calculateCreditCardReceiptTotal();
             // todo: what if the total is 0?  e.g., 5 minus 5, should we generate a 0 amount GLPE and offset?  I think the other rules combine to prevent a 0 total, though.
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-            success &= TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(getOffsetBankAccount(), depositTotal, transactionalDocument, transactionalDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+            success &= TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(getOffsetBankAccount(), depositTotal, ccrDoc, ccrDoc.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
             // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not successful.
             if (success) {
                 bankOffsetEntry.setTransactionLedgerEntryDescription(TransactionalDocumentRuleUtil.formatProperty(KeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
-                transactionalDocument.addGeneralLedgerPendingEntry(bankOffsetEntry);
+                ccrDoc.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
     
                 GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
-                success &= populateOffsetGeneralLedgerPendingEntry(transactionalDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+                success &= populateOffsetGeneralLedgerPendingEntry(ccrDoc.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
                 // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe neither should?)
-                transactionalDocument.addGeneralLedgerPendingEntry(offsetEntry);
+                ccrDoc.getGeneralLedgerPendingEntries().add(offsetEntry);
                 sequenceHelper.increment();
             }
         }

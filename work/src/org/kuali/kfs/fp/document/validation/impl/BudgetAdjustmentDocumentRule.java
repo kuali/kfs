@@ -115,7 +115,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             }
 
             // add the new explicit entry to the document now
-            transactionalDocument.addGeneralLedgerPendingEntry(explicitEntry);
+            transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
             // increment the sequence counter
             sequenceHelper.increment();
@@ -135,7 +135,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             }
 
             // add the new explicit entry to the document now
-            transactionalDocument.addGeneralLedgerPendingEntry(explicitEntry);
+            transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
             // increment the sequence counter
             sequenceHelper.increment();
@@ -211,7 +211,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         explicitEntry.setUniversityFiscalPeriodCode(fiscalPeriod);
 
         // add the new explicit entry to the document now
-        transactionalDocument.addGeneralLedgerPendingEntry(explicitEntry);
+        transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
         // increment the sequence counter
         sequenceHelper.increment();

@@ -64,16 +64,38 @@
                 <maxLength>10</maxLength>
                 <required>true</required>
             </attributeReference>
-            <attributeReference name="financialDocumentBankCode" sourceClassName="org.kuali.module.financial.bo.Bank" sourceAttributeName="financialDocumentBankCode">
+			<attribute name="financialDocumentBankCode" forceUppercase="true">
                 <label>Bank</label>
                 <shortLabel>Bank</shortLabel>
-                <required>true</required>
-            </attributeReference>
-            <attributeReference name="financialDocumentBankAccountNumber" sourceClassName="org.kuali.module.financial.bo.BankAccount" sourceAttributeName="finDocumentBankAccountNumber">
+                
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <alphaNumeric/>
+                </validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialDocumentBankCode</summary>
+                <description>financialDocumentBankCode description...</description>
+            </attribute>
+			<attribute name="financialDocumentBankAccountNumber" forceUppercase="true">
                 <label>Bank Account</label>
                 <shortLabel>Bank Account</shortLabel>
-                <required>true</required>
-            </attributeReference>
+                
+                <maxLength>15</maxLength>
+                <validationPattern>
+                    <alphaNumeric/>
+                </validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>financialDocumentBankAccountNumber</summary>
+                <description>financialDocumentBankAccountNumber description...</description>
+            </attribute>
         </attributes>
     </businessObject>
 </dictionaryEntry>

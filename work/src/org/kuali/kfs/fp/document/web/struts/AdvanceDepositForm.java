@@ -79,6 +79,8 @@ public class AdvanceDepositForm extends KualiTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
+        //
+        // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
         SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(getNewAdvanceDeposit());
         
         List<AdvanceDepositDetail> advancedDeposits = getAdvanceDepositDocument().getAdvanceDeposits();

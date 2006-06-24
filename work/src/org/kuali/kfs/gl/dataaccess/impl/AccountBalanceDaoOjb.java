@@ -211,8 +211,21 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         sqlCommand("DELETE  fp_interim1_level_mt WHERE fp_interim1_level_mt.SESID = USERENV('SESSIONID')");
 
         // Add in all the data we need
-        sqlCommand("INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, " + "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, FIN_OBJ_LEVEL_CD, SESID, OBJ_ID, VER_NBR) SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, " + "A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD,A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, " + "fin_report_sort_cd, l.fin_obj_level_cd, USERENV('SESSIONID'), sys_guid(), 1 FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_level_t l " + "WHERE a.univ_fiscal_yr = " + universityFiscalYear + " AND a.fin_coa_cd = '" + chartOfAccountsCode + "' AND a.account_nbr = '" + accountNumber + "' " + "AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd " + "AND o.fin_obj_level_cd = l.fin_obj_level_cd AND l.fin_cons_obj_cd = '"
-                + financialConsolidationObjectCode + "' AND o.univ_fiscal_yr = " + universityFiscalYear + " " + "AND o.fin_coa_cd = '" + chartOfAccountsCode + "'");
+        sqlCommand("INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, " + 
+                "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, FIN_OBJ_LEVEL_CD, SESID, OBJ_ID, VER_NBR) SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, " + 
+                "A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD,A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, " + 
+                "fin_report_sort_cd, l.fin_obj_level_cd, USERENV('SESSIONID'), sys_guid(), 1 FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_level_t l " + 
+                "WHERE a.univ_fiscal_yr = " + universityFiscalYear + " AND a.fin_coa_cd = '" + chartOfAccountsCode + "' AND a.account_nbr = '" + accountNumber + "' " + 
+                "AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd " + 
+                "AND o.fin_obj_level_cd = l.fin_obj_level_cd AND l.fin_cons_obj_cd = '" + financialConsolidationObjectCode + 
+                "' AND o.univ_fiscal_yr = " + universityFiscalYear + " " + "AND o.fin_coa_cd = '" + chartOfAccountsCode + "'");
+
+        // Summarize pending entries into fp_interim1_level_mt if necessary
+        if ( (pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED) ) {
+            if ( getMatchingPendingEntriesByLevel(options,universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded,pendingEntriesCode) ) {
+                summarizeLevel(options);
+            }
+        }
 
         // Delete what we don't need
         if (isCostShareExcluded) {
@@ -225,15 +238,6 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         }
         else {
             sqlCommand("INSERT INTO fp_bal_by_level_t (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " + "TYP_FIN_REPORT_SORT_CD, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), '" + financialReportingSortCode + "', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_level_mt " + "WHERE fp_interim1_level_mt.SESID = USERENV('SESSIONID') GROUP BY sub_acct_nbr, fin_report_sort_cd, fin_obj_level_cd");
-        }
-
-        boolean foundPending = false;
-        if ( (pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED) ) {
-            foundPending = getMatchingPendingEntriesByLevel(options,universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded,pendingEntriesCode);
-        }
-
-        if ( foundPending ) {
-            // TODO We have a lot of work to do here
         }
 
         // Here's the data
@@ -263,6 +267,13 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         // Add in all the data we need
         sqlCommand("INSERT INTO fp_interim1_obj_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR,FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT," + "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP,SESID, OBJ_ID, VER_NBR) SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR," + "A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT,A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP,USERENV('SESSIONID'), sys_guid(), 1 " + "FROM gl_acct_balances_t a, ca_object_code_t o WHERE a.univ_fiscal_yr = " + universityFiscalYear + " AND a.fin_coa_cd = '" + chartOfAccountsCode + "' AND a.account_nbr = '" + accountNumber + "' AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd " + "AND o.fin_obj_level_cd = '" + financialObjectLevelCode + "'");
 
+        // Summarize pending entries into fp_interim1_level_mt if necessary
+        if ( (pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED) ) {
+            if ( getMatchingPendingEntriesByObject(options,universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, isCostShareExcluded,pendingEntriesCode) ) {
+                summarizeObject(options);
+            }
+        }
+
         // Delete what we don't need
         if (isCostShareExcluded) {
             sqlCommand("DELETE fp_interim1_obj_mt WHERE ROWID IN (SELECT i.ROWID FROM fp_interim1_obj_mt i,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = i.fin_coa_cd " + "AND a.account_nbr = i.account_nbr AND a.sub_acct_nbr = i.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND fp_interim1_obj_mt.SESID = USERENV('SESSIONID'))");
@@ -276,15 +287,6 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             sqlCommand("INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " + "OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), " + "'B', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID  = USERENV('SESSIONID') " + "GROUP BY sub_acct_nbr, fin_object_cd");
         }
 
-        boolean foundPending = false;
-        if ( (pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED) ) {
-            foundPending = getMatchingPendingEntriesByObject(options,universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, isCostShareExcluded,pendingEntriesCode);
-        }
-
-        if ( foundPending ) {
-            // TODO We have a lot of work to do here
-        }
-
         // Here's the data
         List data = sqlSelect("select SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD from fp_bal_by_obj_t " + "where PERSON_SYS_ID = USERENV('SESSIONID') order by fin_object_cd");
 
@@ -294,6 +296,276 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         sqlCommand("delete from gl_pending_entry_mt where PERSON_UNVL_ID = USERENV('SESSIONID')");
 
         return data;
+    }
+
+    private void summarizeObject(Options options) {
+        LOG.debug("summarizeObject() started");
+
+        Statement stmt = null;
+
+        try {
+            Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
+            stmt = c.createStatement();
+
+            PreparedStatement getBalanceStatement = c.prepareStatement("SELECT CURR_BDLN_BAL_AMT,ACLN_ACTLS_BAL_AMT,ACLN_ENCUM_BAL_AMT FROM fp_interim1_obj_mt WHERE univ_fiscal_yr = ? AND " + 
+                    "fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ? AND fin_object_cd = ? AND fin_sub_obj_cd = ?");
+            PreparedStatement updateBalanceStatement = c.prepareStatement("UPDATE fp_interim1_obj_mt SET curr_bdln_bal_amt = ?,acln_actls_bal_amt = ?,acln_encum_bal_amt = ? WHERE " +
+                    "univ_fiscal_yr = ? AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ? AND fin_object_cd = ? AND fin_sub_obj_cd = ?");
+            PreparedStatement insertBalanceStatement = c.prepareStatement("INSERT INTO fp_interim1_obj_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, " +
+                    "FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, SESID, OBJ_ID, VER_NBR) VALUES (?,?,?,?,?," +
+                    "?,?,?,?,sysdate,USERENV('SESSIONID'),sys_guid(),1)");
+
+            ResultSet rs = stmt.executeQuery("SELECT b.FIN_OFFST_GNRTN_CD,t.FIN_OBJTYP_DBCR_CD,e.* FROM gl_pending_entry_mt e,CA_OBJ_TYPE_T t,CA_BALANCE_TYPE_T b " +
+                    "WHERE e.PERSON_UNVL_ID = USERENV('SESSIONID') AND e.FIN_OBJ_TYP_CD = t.FIN_OBJ_TYP_CD AND e.fin_balance_typ_cd = b.fin_balance_typ_cd " +
+                    "ORDER BY e.univ_fiscal_yr,e.account_nbr,e.sub_acct_nbr,e.fin_object_cd,e.fin_sub_obj_cd,e.fin_obj_typ_cd");
+
+            int updateCount = 0;
+            int insertCount = 0;
+            while (rs.next()) {
+                getBalanceStatement.clearParameters();
+                getBalanceStatement.setInt(1, rs.getInt("UNIV_FISCAL_YR"));
+                getBalanceStatement.setString(2, rs.getString("FIN_COA_CD"));
+                getBalanceStatement.setString(3, rs.getString("ACCOUNT_NBR"));
+                getBalanceStatement.setString(4, rs.getString("SUB_ACCT_NBR"));
+                getBalanceStatement.setString(5, rs.getString("FIN_OBJECT_CD"));
+                getBalanceStatement.setString(6, rs.getString("FIN_SUB_OBJ_CD"));
+
+                String balanceType = rs.getString("FIN_BALANCE_TYP_CD");
+                String debitCreditCode = rs.getString("TRN_DEBIT_CRDT_CD");
+                String objectTypeDebitCreditCode = rs.getString("FIN_OBJTYP_DBCR_CD");
+                String offsetGenerationCode = rs.getString("FIN_OFFST_GNRTN_CD");
+
+                ResultSet balance = getBalanceStatement.executeQuery();
+
+                if ( balance.next() ) {
+                    updateCount++;
+
+                    BigDecimal budget = balance.getBigDecimal("CURR_BDLN_BAL_AMT");
+                    BigDecimal actual = balance.getBigDecimal("ACLN_ACTLS_BAL_AMT");
+                    BigDecimal encumb = balance.getBigDecimal("ACLN_ENCUM_BAL_AMT");
+
+                    if ( balanceType.equals(options.getBudgetCheckingBalanceTypeCd()) ) {
+                        budget = budget.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                    } else if ( balanceType.equals(options.getActualFinancialBalanceTypeCd()) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            actual = actual.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        } else {
+                            actual = actual.subtract(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        }
+                    } else if ( balanceType.equals(options.getExtrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getIntrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getPreencumbranceFinBalTypeCd()) || "CE".equals(balanceType) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            encumb = encumb.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        } else {
+                            encumb = encumb.subtract(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        }
+                    }
+
+                    // A balance exists, so we need to update it
+                    updateBalanceStatement.clearParameters();
+                    updateBalanceStatement.setBigDecimal(1, budget);
+                    updateBalanceStatement.setBigDecimal(2, actual);
+                    updateBalanceStatement.setBigDecimal(3, encumb);
+                    updateBalanceStatement.setInt(4, rs.getInt("UNIV_FISCAL_YR"));
+                    updateBalanceStatement.setString(5, rs.getString("FIN_COA_CD"));
+                    updateBalanceStatement.setString(6, rs.getString("ACCOUNT_NBR"));
+                    updateBalanceStatement.setString(7, rs.getString("SUB_ACCT_NBR"));
+                    updateBalanceStatement.setString(8, rs.getString("FIN_OBJECT_CD"));
+                    updateBalanceStatement.setString(9, rs.getString("FIN_SUB_OBJ_CD"));
+                    updateBalanceStatement.execute();
+                } else {
+                    insertCount++;
+
+                    BigDecimal budget = new BigDecimal("0");
+                    BigDecimal actual = new BigDecimal("0");
+                    BigDecimal encumb = new BigDecimal("0");
+
+                    if ( balanceType.equals(options.getBudgetCheckingBalanceTypeCd()) ) {
+                        budget = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                    } else if ( balanceType.equals(options.getActualFinancialBalanceTypeCd()) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            actual = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                        } else {
+                            actual = rs.getBigDecimal("TRN_LDGR_ENTR_AMT").negate();
+                        }
+                    } else if ( balanceType.equals(options.getExtrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getIntrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getPreencumbranceFinBalTypeCd()) || "CE".equals(balanceType) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            encumb = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                        } else {
+                            encumb = rs.getBigDecimal("TRN_LDGR_ENTR_AMT").negate();
+                        }
+                    }
+
+                    // No balance exists, so we need to insert one
+                    insertBalanceStatement.clearParameters();
+                    insertBalanceStatement.setInt(1, rs.getInt("UNIV_FISCAL_YR"));
+                    insertBalanceStatement.setString(2, rs.getString("FIN_COA_CD"));
+                    insertBalanceStatement.setString(3, rs.getString("ACCOUNT_NBR"));
+                    insertBalanceStatement.setString(4, rs.getString("SUB_ACCT_NBR"));
+                    insertBalanceStatement.setString(5, rs.getString("FIN_OBJECT_CD"));
+                    insertBalanceStatement.setString(6, rs.getString("FIN_SUB_OBJ_CD"));
+                    insertBalanceStatement.setBigDecimal(7, budget); // balance.getBigDecimal("CURR_BDLN_BAL_AMT"));
+                    insertBalanceStatement.setBigDecimal(8, actual); // balance.getBigDecimal("ACLN_ACTLS_BAL_AMT"));
+                    insertBalanceStatement.setBigDecimal(9, encumb); // balance.getBigDecimal("ACLN_ENCUM_BAL_AMT"));
+                    insertBalanceStatement.execute();
+                }
+            }
+            LOG.info("summarizeObject() INSERTS: " + insertCount);
+            LOG.info("summarizeObject() UPDATES: " + updateCount);
+        }
+        catch (Exception e) {
+            LOG.error("summarizeObject() Exception running sql", e);
+            throw new RuntimeException("Unable to execute: " + e.getMessage());
+        }
+        finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            }
+            catch (Exception e) {
+                throw new RuntimeException("Unable to close connection: " + e.getMessage());
+            }
+        }
+    }
+
+    private void summarizeLevel(Options options) {
+        LOG.debug("summarizeLevel() started");
+
+        Statement stmt = null;
+
+        try {
+            Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
+            stmt = c.createStatement();
+
+            PreparedStatement getBalanceStatement = c.prepareStatement("SELECT CURR_BDLN_BAL_AMT,ACLN_ACTLS_BAL_AMT,ACLN_ENCUM_BAL_AMT FROM fp_interim1_level_mt WHERE univ_fiscal_yr = ? AND " + 
+                    "fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ? AND fin_object_cd = ? AND fin_sub_obj_cd = ?");
+            PreparedStatement updateBalanceStatement = c.prepareStatement("UPDATE fp_interim1_level_mt SET curr_bdln_bal_amt = ?,acln_actls_bal_amt = ?,acln_encum_bal_amt = ? WHERE " +
+                    "univ_fiscal_yr = ? AND fin_coa_cd = ? AND account_nbr = ? AND sub_acct_nbr = ? AND fin_object_cd = ? AND fin_sub_obj_cd = ?");
+            PreparedStatement insertBalanceStatement = c.prepareStatement("INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, " +
+                    "FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, FIN_OBJ_LEVEL_CD, SESID, OBJ_ID, VER_NBR) VALUES (?,?,?,?,?," +
+                    "?,?,?,?,sysdate,?,?,USERENV('SESSIONID'),sys_guid(),1)");
+
+            ResultSet rs = stmt.executeQuery("SELECT o.FIN_OBJ_LEVEL_CD,b.FIN_OFFST_GNRTN_CD,t.FIN_OBJTYP_DBCR_CD,l.fin_report_sort_cd,e.* " +
+                    "FROM gl_pending_entry_mt e,CA_OBJ_TYPE_T t,CA_BALANCE_TYPE_T b,CA_OBJECT_CODE_T o,CA_OBJ_LEVEL_T l " +
+                    "WHERE e.PERSON_UNVL_ID = USERENV('SESSIONID') AND e.FIN_OBJ_TYP_CD = t.FIN_OBJ_TYP_CD AND e.fin_balance_typ_cd = b.fin_balance_typ_cd AND e.univ_fiscal_yr = o.univ_fiscal_yr AND " +
+                    "e.fin_coa_cd = o.fin_coa_cd AND e.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd " +
+                    "ORDER BY e.univ_fiscal_yr,e.account_nbr,e.sub_acct_nbr,e.fin_object_cd,e.fin_sub_obj_cd,e.fin_obj_typ_cd");
+
+            int updateCount = 0;
+            int insertCount = 0;
+            while (rs.next()) {
+                String sortCode = rs.getString("FIN_REPORT_SORT_CD");
+                if ( sortCode.length() > 1 ) {
+                    sortCode = sortCode.substring(0,1);
+                }
+
+                getBalanceStatement.clearParameters();
+                getBalanceStatement.setInt(1, rs.getInt("UNIV_FISCAL_YR"));
+                getBalanceStatement.setString(2, rs.getString("FIN_COA_CD"));
+                getBalanceStatement.setString(3, rs.getString("ACCOUNT_NBR"));
+                getBalanceStatement.setString(4, rs.getString("SUB_ACCT_NBR"));
+                getBalanceStatement.setString(5, rs.getString("FIN_OBJECT_CD"));
+                getBalanceStatement.setString(6, rs.getString("FIN_SUB_OBJ_CD"));
+
+                String balanceType = rs.getString("FIN_BALANCE_TYP_CD");
+                String objectType = rs.getString("FIN_OBJ_TYP_CD");
+                String debitCreditCode = rs.getString("TRN_DEBIT_CRDT_CD");
+                String objectTypeDebitCreditCode = rs.getString("FIN_OBJTYP_DBCR_CD");
+                String offsetGenerationCode = rs.getString("FIN_OFFST_GNRTN_CD");
+
+                ResultSet balance = getBalanceStatement.executeQuery();
+
+                if ( balance.next() ) {
+                    updateCount++;
+
+                    BigDecimal budget = balance.getBigDecimal("CURR_BDLN_BAL_AMT");
+                    BigDecimal actual = balance.getBigDecimal("ACLN_ACTLS_BAL_AMT");
+                    BigDecimal encumb = balance.getBigDecimal("ACLN_ENCUM_BAL_AMT");
+
+                    if ( balanceType.equals(options.getBudgetCheckingBalanceTypeCd()) ) {
+                        budget = budget.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                    } else if ( balanceType.equals(options.getActualFinancialBalanceTypeCd()) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            actual = actual.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        } else {
+                            actual = actual.subtract(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        }
+                    } else if ( balanceType.equals(options.getExtrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getIntrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getPreencumbranceFinBalTypeCd()) || "CE".equals(balanceType) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            encumb = encumb.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        } else {
+                            encumb = encumb.subtract(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
+                        }
+                    }
+
+                    // A balance exists, so we need to update it
+                    updateBalanceStatement.clearParameters();
+                    updateBalanceStatement.setBigDecimal(1, budget);
+                    updateBalanceStatement.setBigDecimal(2, actual);
+                    updateBalanceStatement.setBigDecimal(3, encumb);
+                    updateBalanceStatement.setInt(4, rs.getInt("UNIV_FISCAL_YR"));
+                    updateBalanceStatement.setString(5, rs.getString("FIN_COA_CD"));
+                    updateBalanceStatement.setString(6, rs.getString("ACCOUNT_NBR"));
+                    updateBalanceStatement.setString(7, rs.getString("SUB_ACCT_NBR"));
+                    updateBalanceStatement.setString(8, rs.getString("FIN_OBJECT_CD"));
+                    updateBalanceStatement.setString(9, rs.getString("FIN_SUB_OBJ_CD"));
+                    updateBalanceStatement.execute();
+                } else {
+                    insertCount++;
+
+                    BigDecimal budget = new BigDecimal("0");
+                    BigDecimal actual = new BigDecimal("0");
+                    BigDecimal encumb = new BigDecimal("0");
+
+                    if ( balanceType.equals(options.getBudgetCheckingBalanceTypeCd()) ) {
+                        budget = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                    } else if ( balanceType.equals(options.getActualFinancialBalanceTypeCd()) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            actual = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                        } else {
+                            actual = rs.getBigDecimal("TRN_LDGR_ENTR_AMT").negate();
+                        }
+                    } else if ( balanceType.equals(options.getExtrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getIntrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getPreencumbranceFinBalTypeCd()) || "CE".equals(balanceType) ) {
+                        if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
+                            encumb = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                        } else {
+                            encumb = rs.getBigDecimal("TRN_LDGR_ENTR_AMT").negate();
+                        }
+                    }
+
+                    // No balance exists, so we need to insert one
+                    insertBalanceStatement.clearParameters();
+                    insertBalanceStatement.setInt(1, rs.getInt("UNIV_FISCAL_YR"));
+                    insertBalanceStatement.setString(2, rs.getString("FIN_COA_CD"));
+                    insertBalanceStatement.setString(3, rs.getString("ACCOUNT_NBR"));
+                    insertBalanceStatement.setString(4, rs.getString("SUB_ACCT_NBR"));
+                    insertBalanceStatement.setString(5, rs.getString("FIN_OBJECT_CD"));
+                    insertBalanceStatement.setString(6, rs.getString("FIN_SUB_OBJ_CD"));
+                    insertBalanceStatement.setBigDecimal(7, budget); // balance.getBigDecimal("CURR_BDLN_BAL_AMT"));
+                    insertBalanceStatement.setBigDecimal(8, actual); // balance.getBigDecimal("ACLN_ACTLS_BAL_AMT"));
+                    insertBalanceStatement.setBigDecimal(9, encumb); // balance.getBigDecimal("ACLN_ENCUM_BAL_AMT"));
+                    insertBalanceStatement.setString(10, rs.getString("FIN_REPORT_SORT_CD"));
+                    insertBalanceStatement.setString(11,rs.getString("FIN_OBJ_LEVEL_CD"));
+                    insertBalanceStatement.execute();
+                }
+            }
+            LOG.info("summarizeLevel() INSERTS: " + insertCount);
+            LOG.info("summarizeLevel() UPDATES: " + updateCount);
+        }
+        catch (Exception e) {
+            LOG.error("summarizeLevel() Exception running sql", e);
+            throw new RuntimeException("Unable to execute: " + e.getMessage());
+        }
+        finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            }
+            catch (Exception e) {
+                throw new RuntimeException("Unable to close connection: " + e.getMessage());
+            }
+        }
     }
 
     private void summarizeConsolidation(Options options) {
@@ -320,6 +592,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             int updateCount = 0;
             int insertCount = 0;
             while (rs.next()) {
+                LOG.info("summarizeConsolidation() FOUND ONE");
+
                 String sortCode = rs.getString("FIN_REPORT_SORT_CD");
                 if ( sortCode.length() > 1 ) {
                     sortCode = sortCode.substring(0,1);
@@ -334,13 +608,13 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                 getBalanceStatement.setString(6, rs.getString("FIN_SUB_OBJ_CD"));
                 getBalanceStatement.setString(7, rs.getString("FIN_OBJ_TYP_CD"));
 
+                ResultSet balance = getBalanceStatement.executeQuery();
+
                 String balanceType = rs.getString("FIN_BALANCE_TYP_CD");
                 String objectType = rs.getString("FIN_OBJ_TYP_CD");
                 String debitCreditCode = rs.getString("TRN_DEBIT_CRDT_CD");
                 String objectTypeDebitCreditCode = rs.getString("FIN_OBJTYP_DBCR_CD");
                 String offsetGenerationCode = rs.getString("FIN_OFFST_GNRTN_CD");
-
-                ResultSet balance = getBalanceStatement.executeQuery();
 
                 if ( balance.next() ) {
                     updateCount++;
@@ -350,18 +624,18 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                     BigDecimal encumb = balance.getBigDecimal("ACLN_ENCUM_BAL_AMT");
 
                     if ( balanceType.equals(options.getBudgetCheckingBalanceTypeCd()) ) {
-                        budget = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                        budget = budget.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
                     } else if ( balanceType.equals(options.getActualFinancialBalanceTypeCd()) ) {
                         if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
-                            actual = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                            actual = actual.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
                         } else {
-                            actual = rs.getBigDecimal("TRN_LDGR_ENTR_AMT").negate();
+                            actual = actual.subtract(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
                         }
                     } else if ( balanceType.equals(options.getExtrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getIntrnlEncumFinBalanceTypCd()) || balanceType.equals(options.getPreencumbranceFinBalTypeCd()) || "CE".equals(balanceType) ) {
                         if ( debitCreditCode.equals(objectTypeDebitCreditCode) || (("N".equals(offsetGenerationCode) && Constants.GL_BUDGET_CODE.equals(debitCreditCode))) ) {
-                            encumb = rs.getBigDecimal("TRN_LDGR_ENTR_AMT");
+                            encumb = encumb.add(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
                         } else {
-                            encumb = rs.getBigDecimal("TRN_LDGR_ENTR_AMT").negate();
+                            encumb = encumb.subtract(rs.getBigDecimal("TRN_LDGR_ENTR_AMT"));
                         }
                     }
 
@@ -474,17 +748,32 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         if ( isCostShareExcluded ) {
             deleteCostSharePendingEntries();
         }
-        deleteNonPostedPendingEntries(options);
 
         if ( countPendingEntries() == 0 ) {
             return false;
         }
 
-        cleanUpPendingEntries();
+        cleanUpPendingEntries(options.getUniversityFiscalYear());
 
         return true;
     }
 
+// This is used for debugging.  It isn't needed in production but handy to have around.
+//    private void printEm(String when,List data) {
+//        for (Iterator iter = data.iterator(); iter.hasNext();) {
+//            Map element = (Map) iter.next();
+//            StringBuffer sb = new StringBuffer(when + ":");
+//            for (Iterator iterator = element.keySet().iterator(); iterator.hasNext();) {
+//                String key = (String) iterator.next();
+//                sb.append(key);
+//                sb.append("=");
+//                sb.append(element.get(key));
+//                sb.append(",");
+//            }
+//            LOG.info("printEm() " + sb);
+//        }
+//    }
+    
     private boolean getMatchingPendingEntriesByLevel(Options options,Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber, String financialConsolidationObjectCode,boolean isCostShareExcluded, int pendingEntriesCode) {
         LOG.debug("getMatchingPendingEntriesByLevel() started");
 
@@ -500,7 +789,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                 "TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD,FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD,TRNENTR_PROCESS_TM, BDGT_YR) " + 
                 "SELECT USERENV('SESSIONID'), p.FS_ORIGIN_CD, p.FDOC_NBR, p.TRN_ENTR_SEQ_NBR,sys_guid(), 1, p.FIN_COA_CD, p.ACCOUNT_NBR, p.SUB_ACCT_NBR, p.FIN_OBJECT_CD, p.FIN_SUB_OBJ_CD, p.FIN_BALANCE_TYP_CD,p.FIN_OBJ_TYP_CD, p.UNIV_FISCAL_YR, p.UNIV_FISCAL_PRD_CD, p.TRN_LDGR_ENTR_DESC, p.TRN_LDGR_ENTR_AMT, p.TRN_DEBIT_CRDT_CD," + 
                 "p.TRANSACTION_DT, p.FDOC_TYP_CD, p.ORG_DOC_NBR, PROJECT_CD, p.ORG_REFERENCE_ID, p.FDOC_REF_TYP_CD, p.FS_REF_ORIGIN_CD,p.FDOC_REF_NBR, p.FDOC_REVERSAL_DT, p.TRN_ENCUM_UPDT_CD, p.FDOC_APPROVED_CD, p.ACCT_SF_FINOBJ_CD, p.TRN_ENTR_OFST_CD,p.TRNENTR_PROCESS_TM, p.BDGT_YR from gl_pending_entry_t p,ca_object_code_t o,ca_obj_level_t l " + 
-                "where o.FIN_COA_CD = p.FIN_COA_CD and o.FIN_OBJECT_CD = p.FIN_OBJECT_CD and l.FIN_CONS_OBJ_CD = '" + financialConsolidationObjectCode + "' and " +
+                "where o.FIN_COA_CD = p.FIN_COA_CD and o.FIN_OBJECT_CD = p.FIN_OBJECT_CD and o.UNIV_FISCAL_YR = " + universityFiscalYear + " and l.FIN_CONS_OBJ_CD = '" + financialConsolidationObjectCode + "' " +
                 "and l.FIN_COA_CD = o.FIN_COA_CD and l.FIN_OBJ_LEVEL_CD = o.FIN_OBJ_LEVEL_CD and " +
                 "p.FIN_COA_CD = '" + chartOfAccountsCode + "' and p.account_nbr = '" + accountNumber + "' ";
 
@@ -514,13 +803,12 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         if ( isCostShareExcluded ) {
             deleteCostSharePendingEntries();
         }
-        deleteNonPostedPendingEntries(options);
 
         if ( countPendingEntries() == 0 ) {
             return false;
         }
 
-        cleanUpPendingEntries();
+        cleanUpPendingEntries(options.getUniversityFiscalYear());
 
         return true;
     }
@@ -551,25 +839,24 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                 "SELECT USERENV('SESSIONID'), p.FS_ORIGIN_CD, p.FDOC_NBR, p.TRN_ENTR_SEQ_NBR,sys_guid(), 1, p.FIN_COA_CD, p.ACCOUNT_NBR, p.SUB_ACCT_NBR, p.FIN_OBJECT_CD, p.FIN_SUB_OBJ_CD, p.FIN_BALANCE_TYP_CD,p.FIN_OBJ_TYP_CD, p.UNIV_FISCAL_YR, p.UNIV_FISCAL_PRD_CD, p.TRN_LDGR_ENTR_DESC, p.TRN_LDGR_ENTR_AMT, p.TRN_DEBIT_CRDT_CD," + 
                 "p.TRANSACTION_DT, p.FDOC_TYP_CD, p.ORG_DOC_NBR, PROJECT_CD, p.ORG_REFERENCE_ID, p.FDOC_REF_TYP_CD, p.FS_REF_ORIGIN_CD,p.FDOC_REF_NBR, p.FDOC_REVERSAL_DT, p.TRN_ENCUM_UPDT_CD, p.FDOC_APPROVED_CD, p.ACCT_SF_FINOBJ_CD, p.TRN_ENTR_OFST_CD,p.TRNENTR_PROCESS_TM, p.BDGT_YR from gl_pending_entry_t p,ca_object_code_t o " + 
                 "where o.FIN_COA_CD = p.FIN_COA_CD and o.FIN_OBJECT_CD = p.FIN_OBJECT_CD and o.FIN_OBJ_LEVEL_CD = '" + financialObjectLevelCode + "' and " +
-                "p.FIN_COA_CD = '" + chartOfAccountsCode + "' and p.account_nbr = '" + accountNumber + "' ";
+                "p.FIN_COA_CD = '" + chartOfAccountsCode + "' and p.account_nbr = '" + accountNumber + "' and o.univ_fiscal_yr = " + universityFiscalYear;
 
         if ( today.getUniversityFiscalYear().equals(universityFiscalYear) ) {
-            sql = sql + "and (p.univ_fiscal_yr is null or p.univ_fiscal_yr = " + universityFiscalYear + ")";
+            sql = sql + " and (p.univ_fiscal_yr is null or p.univ_fiscal_yr = " + universityFiscalYear + ")";
         } else {
-            sql = sql + "and p.univ_fiscal_yr = " + universityFiscalYear;
+            sql = sql + " and p.univ_fiscal_yr = " + universityFiscalYear;
         }
         sqlCommand(sql);
 
         if ( isCostShareExcluded ) {
             deleteCostSharePendingEntries();
         }
-        deleteNonPostedPendingEntries(options);
 
         if ( countPendingEntries() == 0 ) {
             return false;
         }
 
-        cleanUpPendingEntries();
+        cleanUpPendingEntries(options.getUniversityFiscalYear());
 
         return true;
     }
@@ -591,19 +878,6 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                 "AND a.account_nbr = g.account_nbr AND a.sub_acct_nbr = g.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND g.person_unvl_id = USERENV('SESSIONID'))");        
     }
 
-    private void deleteNonPostedPendingEntries(Options options) {
-        String actual = options.getActualFinancialBalanceTypeCd();
-        String budget = options.getBudgetCheckingBalanceTypeCd();
-        String externalEnc = options.getExtrnlEncumFinBalanceTypCd();
-        String internalEnc = options.getIntrnlEncumFinBalanceTypCd();
-        String preEnc = (String)options.getPreencumbranceFinBalTypeCd();
-        String costShareEnc = "CE";
-        String fbObjTyp = (String)options.getFinObjectTypeFundBalanceCd();
-
-        sqlCommand("delete from gl_pending_entry_mt where person_unvl_id = USERENV('SESSIONID') and fin_balance_typ_cd not in (" +
-                "'" + actual + "','" + budget + "','" + externalEnc + "','" + internalEnc + "','" + preEnc + "','" + costShareEnc + "') or fin_obj_typ_cd = '" + fbObjTyp + "'");
-    }
-
     private int countPendingEntries() {
         List results = sqlSelect("select count(*) as COUNT from gl_pending_entry_mt WHERE person_unvl_id = USERENV('SESSIONID')");
         Map row0 = (Map)results.get(0);
@@ -611,10 +885,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         return count.intValue();
     }
 
-    private void cleanUpPendingEntries() {
+    private void cleanUpPendingEntries(Integer universityFiscalYear) {
         // Clean up the data
-        sqlCommand("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = 2004 where PERSON_UNVL_ID = USERENV('SESSIONID')");
-        sqlCommand("update gl_pending_entry_mt set UNIV_FISCAL_PRD_CD = '12' where (UNIV_FISCAL_PRD_CD is null or UNIV_FISCAL_PRD_CD = '  ')");
+        sqlCommand("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = " + universityFiscalYear + " where PERSON_UNVL_ID = USERENV('SESSIONID')");
         sqlCommand("update gl_pending_entry_mt set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");
         sqlCommand("update gl_pending_entry_mt set FIN_SUB_OBJ_CD = '---' where (FIN_SUB_OBJ_CD is null or FIN_SUB_OBJ_CD = '   ')");
         sqlCommand("update gl_pending_entry_mt set PROJECT_CD = '----------' where (PROJECT_CD is null or PROJECT_CD = '          ')");        

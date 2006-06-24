@@ -166,7 +166,6 @@ public class ScrubberProcess {
     private ScrubberReportData scrubberReport;
     private Map<Transaction, List<Message>> scrubberReportErrors;
     private List<Message> transactionErrors;
-    private DemergerReportData demergerReport;
 
     /* Description names */
     private String offsetDescription;
@@ -285,10 +284,7 @@ public class ScrubberProcess {
         if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
 
-            // Run demerger report, bad balance type report and removed transaction report
-
-            reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
-
+            // Run bad balance type report and removed transaction report
             reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
 
             reportService.generateScrubberRemovedTransactions(runDate, errorGroup);
@@ -306,7 +302,7 @@ public class ScrubberProcess {
     private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
         LOG.debug("performDemerger() started");
 
-        demergerReport = new DemergerReportData();
+        DemergerReportData demergerReport = new DemergerReportData();
 
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
@@ -375,6 +371,8 @@ public class ScrubberProcess {
                 originEntryService.save(transaction);
             }
         }
+
+        reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
     }
 
     /**
@@ -671,7 +669,7 @@ public class ScrubberProcess {
         description.append(offsetString);
         costShareSourceAccountEntry.setTransactionLedgerEntryDescription(description.toString());
 
-        costShareSourceAccountEntry.setChartOfAccountsCode(scrubbedEntry.getA21SubAccount().getChartOfAccountsCode());
+        costShareSourceAccountEntry.setChartOfAccountsCode(scrubbedEntry.getA21SubAccount().getCostShareChartOfAccountCode());
         costShareSourceAccountEntry.setAccountNumber(scrubbedEntry.getA21SubAccount().getCostShareSourceAccountNumber());
 
         setCostShareObjectCode(costShareSourceAccountEntry, scrubbedEntry);

@@ -26,28 +26,31 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntrySource.java,v 1.7 2006-06-14 12:26:42 abyrne Exp $
+ * @version $Id: OriginEntrySource.java,v 1.8 2006-06-24 21:18:45 jsissom Exp $
  * 
  */
 
 public class OriginEntrySource extends KualiCodeBase {
-
-    static final private long serialVersionUID = 1l;
-
-    public static final String SCRUBBER_VALID = "SCV";
-    public static final String SCRUBBER_ERROR = "SCE";
-    public static final String SCRUBBER_EXPIRED = "SCX";
-    public static final String MAIN_POSTER_VALID = "MPV";
-    public static final String MAIN_POSTER_ERROR = "MPE";
-    public static final String REVERSAL_POSTER_VALID = "RPV";
-    public static final String REVERSAL_POSTER_ERROR = "RPE";
-    public static final String ICR_TRANSACTIONS = "ICR";
-    public static final String ICR_POSTER_VALID = "ICRV";
-    public static final String ICR_POSTER_ERROR = "ICRE";
+    public static final String BACKUP = "BACK";
+    public static final String COLLECTOR = "COLL";
     public static final String GENERATE_BY_EDOC = "EDOC";
     public static final String EXTERNAL = "EXT";
+    public static final String GL_CORRECTION_PROCESS_EDOC = "GLCP";
+    public static final String ICR_TRANSACTIONS = "ICR";
+    public static final String ICR_POSTER_ERROR = "ICRE";
+    public static final String ICR_POSTER_VALID = "ICRV";
+    public static final String MAIN_POSTER_ERROR = "MPE";
+    public static final String MAIN_POSTER_VALID = "MPV";
+    public static final String REVERSAL_POSTER_ERROR = "RPE";
+    public static final String REVERSAL_POSTER_VALID = "RPV";
+    public static final String SCRUBBER_ERROR = "SCE";
+    public static final String SCRUBBER_VALID = "SCV";
+    public static final String SCRUBBER_EXPIRED = "SCX";
+    public static final String YEAR_END_BEGINNING_BALANCE = "YEBB";
+    public static final String YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR = "YEBC";
+    public static final String YEAR_END_CLOSE_NOMINAL_BALANCES = "YECN";
     public static final String YEAR_END_ENCUMBRANCE_CLOSING = "YEEC";
-    public static final String ORG_REVERSION = "OR";
+    public static final String YEAR_END_ORG_REVERSION = "YEOR";
 
     // Code base has all the fields we need
 }

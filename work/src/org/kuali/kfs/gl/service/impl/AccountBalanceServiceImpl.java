@@ -52,10 +52,13 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.AccountBalanceService#findAvailableAccountBalance(java.util.Map, boolean)
+     * 
+     * @see org.kuali.module.gl.service.AccountBalanceService#findConsolidatedAvailableAccountBalance(java.util.Map)
      */
-    public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated) {
-        return accountBalanceDao.findAvailableAccountBalance(fieldValues, isConsolidated);
+    public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues) {
+        LOG.debug("findConsolidatedAvailableAccountBalance() started");
+
+        return accountBalanceDao.findConsolidatedAvailableAccountBalance(fieldValues);
     }
 
     /**

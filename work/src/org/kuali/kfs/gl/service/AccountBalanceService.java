@@ -45,7 +45,7 @@ public interface AccountBalanceService {
      * @param isConsolidated determine whether the search results are consolidated
      * @return the summary records of account balance entries
      */
-    public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated);
+    public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues);
 
     /**
      * This method finds the available account balances according to input fields and values

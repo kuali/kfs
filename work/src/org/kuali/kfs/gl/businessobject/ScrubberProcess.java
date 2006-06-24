@@ -1220,6 +1220,11 @@ public class ScrubberProcess {
             return;
         }
 
+        // No offsets if it is a JV
+        if ( "JV".equals(scrubbedEntry.getFinancialDocumentTypeCode()) ) {
+            return;
+        }
+
         // do nothing if flexible offset is enabled and scrubber offset indicator of the document
         // type code is turned off in the document type table
         String documentTypeCode = scrubbedEntry.getFinancialDocumentTypeCode();

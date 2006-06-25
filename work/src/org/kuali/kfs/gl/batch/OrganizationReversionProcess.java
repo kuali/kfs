@@ -110,7 +110,7 @@ public class OrganizationReversionProcess {
         runDate = dateTimeService.getCurrentDate();
 
         // Create output group
-        outputGroup = originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), OriginEntrySource.ORG_REVERSION, true, false, false);
+        outputGroup = originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), OriginEntrySource.YEAR_END_ORG_REVERSION, true, false, false);
 
         categories = organizationReversionService.getCategories();
         categoryList = organizationReversionService.getCategoryList();

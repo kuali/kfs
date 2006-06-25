@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.13 2006-06-22 20:01:07 jsissom Exp $
+ * @version $Id: OriginEntryDao.java,v 1.14 2006-06-25 03:53:22 jsissom Exp $
  */
 public interface OriginEntryDao {
     public static final int SORT_DOCUMENT = 1;
@@ -91,6 +91,15 @@ public interface OriginEntryDao {
      * @param searchCriteria Map of field, value pairs
      */
     public void deleteMatchingEntries(Map searchCriteria);
+
+    /**
+     * Delete all the groups in the list.  This will delete
+     * the entries.  The OriginEntryGroupDao has a method
+     * to delete the groups
+     * 
+     * @param groups Groups to be deleted
+     */
+    public void deleteGroups(Collection<OriginEntryGroup> groups);
 
     /**
      * Save origin entry

@@ -23,8 +23,10 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -36,7 +38,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.10 2006-06-14 12:26:34 abyrne Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.11 2006-06-25 03:53:22 jsissom Exp $
  */
 
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {
@@ -48,6 +50,39 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 
     /**
      * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getOlderGroups(Date)
+     */
+    public Collection<OriginEntryGroup> getOlderGroups(Date day) {
+        LOG.debug("getOlderGroups() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addLessOrEqualThan("date", day);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#deleteGroups(java.util.Collection)
+     */
+    public void deleteGroups(Collection<OriginEntryGroup> groups) {
+        LOG.debug("deleteGroups() started");
+
+        List ids = new ArrayList();
+        for (Iterator iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup)iter.next();
+            ids.add(element.getId());
+        }
+        Criteria criteria = new Criteria();
+        criteria.addIn("id",ids);
+
+        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
+        getPersistenceBrokerTemplate().clearCache();
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getMatchingGroups(java.util.Map)
      */
     public Collection getMatchingGroups(Map searchCriteria) {
         LOG.debug("getPendingEntries() started");
@@ -64,6 +99,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 
     /**
      * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getPosterGroups(java.lang.String)
      */
     public Collection getPosterGroups(String groupSourceCode) {
         LOG.debug("getPosterGroups() started");
@@ -79,6 +115,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 
     /**
      * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getScrubberGroups(java.sql.Date)
      */
     public Collection getScrubberGroups(Date groupDate) {
         LOG.debug("getScrubberGroups() started");
@@ -95,6 +132,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 
     /**
      * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#save(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public void save(OriginEntryGroup group) {
         LOG.debug("save() started");
@@ -102,6 +140,10 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         getPersistenceBrokerTemplate().store(group);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getExactMatchingEntryGroup(java.lang.Integer)
+     */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
         LOG.debug("getMatchingEntries() started");
         return (OriginEntryGroup) getPersistenceBrokerTemplate().getObjectById(OriginEntryGroup.class, id);

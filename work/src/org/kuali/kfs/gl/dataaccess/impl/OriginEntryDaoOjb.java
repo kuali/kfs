@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.24 2006-06-22 20:01:07 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.25 2006-06-25 03:53:22 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -214,6 +214,35 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         getPersistenceBrokerTemplate().clearCache();
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteGroups(java.util.Collection)
+     */
+    public void deleteGroups(Collection<OriginEntryGroup> groups) {
+        LOG.debug("deleteGroups() started");
+
+        List ids = new ArrayList();
+        for (Iterator iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup)iter.next();
+            ids.add(element.getId());
+        }
+
+        Criteria criteria = new Criteria();
+        criteria.addIn("entryGroupId", ids);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
+        getPersistenceBrokerTemplate().deleteByQuery(qbc);
+
+        // This is required because deleteByQuery leaves the cache alone so future queries
+        // could return origin entries that don't exist. Clearing the cache makes OJB
+        // go back to the database for everything to make sure valid data is returned.
+        getPersistenceBrokerTemplate().clearCache();
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryDao#getMatchingEntriesByCollection(java.util.Map)
+     */
     public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
 

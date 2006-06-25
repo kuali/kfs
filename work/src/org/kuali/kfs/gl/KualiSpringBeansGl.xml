@@ -223,6 +223,15 @@
         </property>
     </bean>
 
+	<bean id="glClearOldOriginEntryStep" class="org.kuali.module.gl.batch.ClearOldOriginEntryStep">
+		<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService"/>
+		</property>
+		<property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+	</bean>
+
     <bean id="glOrganizationReversionEndOfYearStep" class="org.kuali.module.gl.batch.OrganizationReversionEndOfYearStep">
         <property name="organizationReversionProcessService">
             <ref bean="glOrganizationReversionProcessService" />
@@ -807,6 +816,12 @@
     <bean id="glOriginEntryGroupService" class="org.kuali.module.gl.service.impl.OriginEntryGroupServiceImpl">
         <property name="originEntryGroupDao">
             <ref bean="glOriginEntryGroupDao" />
+        </property>
+        <property name="originEntryDao">
+        	<ref bean="glOriginEntryDao" />
+        </property>
+        <property name="dateTimeService">
+        	<ref bean="dateTimeService" />
         </property>
     </bean>
 

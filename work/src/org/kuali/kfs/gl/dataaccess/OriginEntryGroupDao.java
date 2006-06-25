@@ -29,13 +29,58 @@ import java.util.Map;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupDao {
+    /**
+     * Get all the groups that are older than a date
+     * 
+     * @param day
+     * @return
+     */
+    public Collection<OriginEntryGroup> getOlderGroups(Date day);
+
+    /**
+     * Delete all the groups in the list
+     * 
+     * @params groups
+     */
+    public void deleteGroups(Collection<OriginEntryGroup> groups);
+
+    /**
+     * Get all the groups that match the criteria
+     * 
+     * @param searchCriteria
+     * @return
+     */
     public Collection getMatchingGroups(Map searchCriteria);
 
+    /**
+     * Get all the groups for the poster
+     * 
+     * @param groupSourceCode
+     * @return
+     */
     public Collection getPosterGroups(String groupSourceCode);
 
+    /**
+     * Get all the groups the scrubber will scrub
+     * 
+     * @param groupDate
+     * @return
+     */
     public Collection getScrubberGroups(Date groupDate);
 
+    /**
+     * Save a group
+     * 
+     * @param group
+     */
     public void save(OriginEntryGroup group);
 
+    /**
+     * The the group for the ID passed.  The EXACT one, not one that is close, it
+     * must be EXACTLY EXACT.
+     * 
+     * @param id
+     * @return
+     */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id);
 }

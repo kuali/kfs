@@ -33,6 +33,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.Constants.DepositConstants;
+import org.kuali.Constants.DocumentStatusCodes;
 import org.kuali.core.authorization.DocumentAuthorizer;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentHeader;
@@ -57,6 +58,7 @@ import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -183,10 +185,10 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             String statusCode = null;
             if (isFinalDeposit) {
-                statusCode = Constants.DocumentStatusCodes.CashReceipt.FINAL;
+                statusCode = DocumentStatusCodes.CashReceipt.FINAL;
             }
             else {
-                statusCode = Constants.DocumentStatusCodes.CashReceipt.INTERIM;
+                statusCode = DocumentStatusCodes.CashReceipt.INTERIM;
             }
             dh.setFinancialDocumentStatusCode(statusCode);
             documentService.updateDocument(crDoc);
@@ -247,7 +249,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         else {
             for (CashReceiptDocument cashReceipt : selectedCashReceipts) {
                 String statusCode = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
-                if (!StringUtils.equals(statusCode, Constants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+                if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED)) {
                     throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getFinancialDocumentNumber() + " has a status other than 'verified' ");
                 }
             }
@@ -336,7 +338,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // cleanup the CMDoc, but let the postprocessor itself save it
         cmDoc.setDeposits(new ArrayList());
-        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CANCELLED);
+        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.CANCELLED);
     }
 
 
@@ -363,7 +365,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             // reset each CashReceipt status
             CashReceiptDocument crDoc = crHeader.getCashReceiptDocument();
             DocumentHeader crdh = crDoc.getDocumentHeader();
-            crdh.setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+            crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
             documentService.updateDocument(crDoc);
         }
 
@@ -402,14 +404,21 @@ public class CashManagementServiceImpl implements CashManagementService {
         for (Deposit deposit : deposits) {
             List<CashReceiptDocument> receipts = retrieveCashReceipts(deposit);
             for (CashReceiptDocument receipt : receipts) {
-                // mark CRs as APPROVED so that the next GL batch job will do unto them
-                receipt.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
+                // marks GLPEs of CRs as APPROVED
+                for (GeneralLedgerPendingEntry glpe : receipt.getGeneralLedgerPendingEntries()) {
+                    glpe.setFinancialDocumentApprovedCode(DocumentStatusCodes.APPROVED);
+                }
+
+                // mark CRs themselves as APPROVED
+                receipt.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
+
+                // persist
                 documentService.updateDocument(receipt);
             }
         }
 
         // finalize the CMDoc, but let the postprocessor save it
-        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
+        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
     }
 
     /**
@@ -444,7 +453,6 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         return cashReceiptDocuments;
     }
-
 
 
     // injected dependencies

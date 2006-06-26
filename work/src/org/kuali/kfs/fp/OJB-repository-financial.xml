@@ -568,6 +568,7 @@
     <field-descriptor name="finDocumentBankAccountDesc" column="FDOC_BANKACCT_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="cashOffsetFinancialChartOfAccountCode" column="CSH_OFST_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="cashOffsetAccountNumber" column="CSH_OFST_ACCT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="cashOffsetSubAccountNumber" column="CSH_OFST_SUB_ACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="cashOffsetObjectCode" column="CSH_OFST_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="cashOffsetSubObjectCode" column="CSH_OFST_SUB_OBJ_CD" jdbc-type="VARCHAR" />
 
@@ -587,6 +588,12 @@
     <reference-descriptor name="cashOffsetObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
         <foreignkey field-ref="cashOffsetObjectCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="cashOffsetSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
+        <foreignkey field-ref="cashOffsetAccountNumber" />
+        <foreignkey field-ref="cashOffsetSubAccountNumber" />
     </reference-descriptor>
 
 </class-descriptor>

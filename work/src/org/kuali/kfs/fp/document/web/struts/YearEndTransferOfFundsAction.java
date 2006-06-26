@@ -23,10 +23,12 @@
 package org.kuali.module.financial.web.struts.action;
 
 /**
- * struts action for <code>YearEndTransferOfFundsDocument</code>
+ * struts action for <code>YearEndTransferOfFundsDocument</code>. functionally the only difference between the YearEnd and the
+ * non-YearEnd version of the document is the glpe generation.
  * 
  * @see org.kuali.module.financial.web.struts.action.TransferOfFundsAction
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndTransferOfFundsAction extends TransferOfFundsAction {
+    // empty do not change. see above.
 }

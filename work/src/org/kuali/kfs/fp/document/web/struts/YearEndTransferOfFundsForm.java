@@ -25,20 +25,17 @@ package org.kuali.module.financial.web.struts.form;
 import org.kuali.module.financial.document.YearEndTransferOfFundsDocument;
 
 /**
+ * form for <code>YearEndTransferOfFunds</code>. behaves the same as the TOF. the only functional difference between the YearEnd
+ * version and the non-yearEnd version of a document is the glpe's generation.
+ * 
+ * @see org.kuali.module.financial.web.struts.form.TransferOfFundsForm
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndTransferOfFundsForm extends TransferOfFundsForm {
-    private static final long serialVersionUID = 1L;
 
     public YearEndTransferOfFundsForm() {
         super();
         setDocument(new YearEndTransferOfFundsDocument());
     }
-
-    /**
-     * @return Returns the serviceBillingDocument.
-     */
-    public YearEndTransferOfFundsDocument getYearEndTransferOfFundsDocument() {
-        return (YearEndTransferOfFundsDocument) getDocument();
-    }
+//  empty do not change. see above.
 }

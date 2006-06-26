@@ -30,9 +30,15 @@ import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.financial.bo.BankAccount;
 
+/**
+ * This is the rules class that is used for the default implementation of the Bank Account maintenance document. 
+ * 
+ * @author Kuali Financial Transaction Processing team (kualidev@oncourse.iu.edu)
+ */
 public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
     BankAccount oldBankAccount;
@@ -46,12 +52,13 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         success &= checkPartiallyFilledOutReferences();
+        success &= checkSubAccountNumberExistence();
         success &= checkSubObjectCodeExistence();
+
         return success;
     }
 
     /**
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -59,22 +66,24 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         success &= checkPartiallyFilledOutReferences();
+        success &= checkSubAccountNumberExistence();
         success &= checkSubObjectCodeExistence();
+
         return success;
     }
 
     /**
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         checkPartiallyFilledOutReferences();
+        checkSubAccountNumberExistence();
         checkSubObjectCodeExistence();
+
         return true;
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
      * old objects contained in the maintenance document.
      * 
@@ -85,7 +94,6 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * 
      */
     public void setupConvenienceObjects() {
-
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldBankAccount = (BankAccount) super.getOldBo();
 
@@ -94,7 +102,6 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks for partially filled out objects.
      * 
      * @param document
@@ -109,7 +116,45 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method validates that the Cash Offset subAccountNumber exists, if it is entered
      * 
+     * @param document
+     * @return
+     */
+    private boolean checkSubAccountNumberExistence() {
+
+        boolean success = true;
+
+        // if all of the relevant values arent entered, don't bother
+        if (StringUtils.isBlank(newBankAccount.getCashOffsetFinancialChartOfAccountCode())) {
+            return success;
+        }
+        if (StringUtils.isBlank(newBankAccount.getCashOffsetAccountNumber())) {
+            return success;
+        }
+        if (StringUtils.isBlank(newBankAccount.getCashOffsetSubAccountNumber())) {
+            return success;
+        }
+
+        // setup the map to search on
+        Map pkMap = new HashMap();
+        pkMap.put("chartOfAccountsCode", newBankAccount.getCashOffsetFinancialChartOfAccountCode());
+        pkMap.put("accountNumber", newBankAccount.getCashOffsetAccountNumber());
+        pkMap.put("subAccountNumber", newBankAccount.getCashOffsetSubAccountNumber());
+
+        // do the search
+        SubAccount testSubAccount = (SubAccount) getBoService().findByPrimaryKey(SubAccount.class, pkMap);
+
+        // fail if the subAccount isnt found
+        if (testSubAccount == null) {
+            putFieldError("cashOffsetSubAccountNumber", KeyConstants.ERROR_EXISTENCE, getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubAccountNumber"));
+            success &= false;
+        }
+
+        return success;
+    }
+
+    /**
      * This method validates that the Cash Offset subObjectCode exists, if it is entered
      * 
      * @param document
@@ -154,7 +199,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * this method has been taken out of service to be replaced by the
+     * This method has been taken out of service to be replaced by the
      * defaultExistenceChecks happening through the BankAccountMaintenanceDocument.xml
      * 
      * @param document
@@ -165,7 +210,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         BankAccount newBankAcct = (BankAccount) document.getNewMaintainableObject().getBusinessObject();
         newBankAcct.refresh();
-        
+
         // existence check on bank code
 
 

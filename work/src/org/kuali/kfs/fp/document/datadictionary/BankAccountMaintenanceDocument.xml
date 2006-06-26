@@ -45,6 +45,7 @@
                     <maintainableField name="finDocumentBankAccountDesc" required="true" />
                     <maintainableField name="cashOffsetFinancialChartOfAccountCode" />
                     <maintainableField name="cashOffsetAccountNumber" />
+                    <maintainableField name="cashOffsetSubAccountNumber" />
                     <maintainableField name="cashOffsetObjectCode" />
                     <maintainableField name="cashOffsetSubObjectCode" />
                     <maintainableField name="versionNumber" />

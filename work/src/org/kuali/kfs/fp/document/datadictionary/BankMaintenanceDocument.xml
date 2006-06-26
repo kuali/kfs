@@ -36,6 +36,7 @@
                     <maintainableField name="financialDocumentBankCode" required="true" />
                     <maintainableField name="financialDocumentBankName" required="true" />
                     <maintainableField name="financialDocumentBankShortNm" required="true" />
+                    <maintainableField name="bankRoutingNumber" required="false" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

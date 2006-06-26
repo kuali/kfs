@@ -88,7 +88,6 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * Constructs a JournalVoucherDocumentRule instance and sets the logger.
      */
     public JournalVoucherDocumentRule() {
-        LOG = org.apache.log4j.Logger.getLogger(JournalVoucherDocumentRule.class);
     }
 
     /**

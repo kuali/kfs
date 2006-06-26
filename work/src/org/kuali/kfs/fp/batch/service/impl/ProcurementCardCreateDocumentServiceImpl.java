@@ -44,6 +44,8 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.format.TimestampFormatter;
+import org.kuali.core.web.format.TimestampFullPrecisionFormatter;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -161,7 +163,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             // if number of days in route is passed the allowed number, call doc service for super user approve
             if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
                 // update document description to reflect the auto approval
-                pcardDocument.getDocumentHeader().setFinancialDocumentDescription("Auto Approved by System User On " + currentDate.toString() + ".");
+                pcardDocument.getDocumentHeader().setFinancialDocumentDescription("Auto Approved On " + (new TimestampFormatter()).format(currentDate) + ".");
 
                 try {
                     LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber());

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.labor.bo.BenefitsType">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Benefits Type Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="positionBenefitTypeCode" />
+                <field attributeName="positionBenefitTypeDescription" />
+                <field attributeName="positionBenefitRetirementIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Benefits Type Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.BenefitsType">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Benefits Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="positionBenefitTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="positionBenefitTypeCode" required="false" />
+                <lookupField attributeName="positionBenefitTypeDescription" required="false" />
+                <lookupField attributeName="positionBenefitRetirementIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="positionBenefitTypeCode" />
+                <field attributeName="positionBenefitTypeDescription" />
+                <field attributeName="positionBenefitRetirementIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="positionBenefitRetirementIndicator" forceUppercase="true">
+                <label>Position Benefit Retirement Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>$attribute.maxLength</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>positionBenefitRetirementIndicator</summary>
+                <description>positionBenefitRetirementIndicator description...</description>
+			</attribute>
+
+            <attribute name="positionBenefitTypeCode" forceUppercase="true">
+                <label>Position Benefit Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>positionBenefitTypeCode</summary>
+                <description>positionBenefitTypeCode description...</description>
+			</attribute>
+
+            <attribute name="positionBenefitTypeDescription" forceUppercase="true">
+                <label>Position Benefit Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>positionBenefitTypeDescription</summary>
+                <description>positionBenefitTypeDescription description...</description>
+			</attribute>
+
+          <attributeReference name="versionNumber" 
+                            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+                            sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

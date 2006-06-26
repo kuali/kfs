@@ -28,6 +28,7 @@ package org.kuali.module.financial.document;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.util.KualiDecimal;
@@ -37,6 +38,9 @@ import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.rules.BudgetAdjustmentRuleConstants;
+import org.kuali.module.financial.rules.TransactionalDocumentRuleUtil;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This is the business object that represents the BudgetAdjustment document in Kuali.
@@ -112,6 +116,38 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     }
 
     /**
+     * Returns the total current budget income amount from the source lines.
+     */
+    public KualiDecimal getSourceCurrentBudgetIncomeTotal() {
+        KualiDecimal total = new KualiDecimal(0);
+
+        for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isIncome(line)) {
+                total = total.add(line.getCurrentBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
+    }
+
+    /**
+     * Returns the total current budget expense amount from the source lines.
+     */
+    public KualiDecimal getSourceCurrentBudgetExpenseTotal() {
+        KualiDecimal total = new KualiDecimal(0);
+
+        for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isExpense(line)) {
+                total = total.add(line.getCurrentBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
+    }
+
+    /**
      * Returns the total current budget amount from the target lines.
      */
     public KualiDecimal getTargetCurrentBudgetTotal() {
@@ -123,6 +159,38 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
         }
 
         return currentBudgetTotal;
+    }
+
+    /**
+     * Returns the total current budget income amount from the target lines.
+     */
+    public KualiDecimal getTargetCurrentBudgetIncomeTotal() {
+        KualiDecimal total = new KualiDecimal(0);
+
+        for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isIncome(line)) {
+                total = total.add(line.getCurrentBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
+    }
+
+    /**
+     * Returns the total current budget expense amount from the target lines.
+     */
+    public KualiDecimal getTargetCurrentBudgetExpenseTotal() {
+        KualiDecimal total = new KualiDecimal(0);
+
+        for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isExpense(line)) {
+                total = total.add(line.getCurrentBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
     }
 
     /**
@@ -140,6 +208,38 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     }
 
     /**
+     * Returns the total base budget income amount from the source lines.
+     */
+    public KualiInteger getSourceBaseBudgetIncomeTotal() {
+        KualiInteger total = new KualiInteger(0);
+
+        for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isIncome(line)) {
+                total = total.add(line.getBaseBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
+    }
+    
+    /**
+     * Returns the total base budget expense amount from the source lines.
+     */
+    public KualiInteger getSourceBaseBudgetExpenseTotal() {
+        KualiInteger total = new KualiInteger(0);
+
+        for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isExpense(line)) {
+                total = total.add(line.getBaseBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
+    }
+
+    /**
      * Returns the total base budget amount from the target lines.
      */
     public KualiInteger getTargetBaseBudgetTotal() {
@@ -151,6 +251,97 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
         }
 
         return baseBudgetTotal;
+    }
+
+    /**
+     * Returns the total base budget income amount from the target lines.
+     */
+    public KualiInteger getTargetBaseBudgetIncomeTotal() {
+        KualiInteger total = new KualiInteger(0);
+
+        for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isIncome(line)) {
+                total = total.add(line.getBaseBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
+    }
+    
+    /**
+     * Returns the total base budget expense amount from the target lines.
+     */
+    public KualiInteger getTargetBaseBudgetExpenseTotal() {
+        KualiInteger total = new KualiInteger(0);
+
+        for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (TransactionalDocumentRuleUtil.isExpense(line)) {
+                total = total.add(line.getBaseBudgetAdjustmentAmount());
+            }
+        }
+
+        return total;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getTotalDollarAmount()
+     */
+    @Override
+    public KualiDecimal getTotalDollarAmount() {
+        // TODO Auto-generated method stub
+        return super.getTotalDollarAmount();
+    }
+
+    /**
+     * Negate accounting line budget amounts.
+     * 
+     * @see org.kuali.core.document.TransactionalDocumentBase#convertIntoErrorCorrection()
+     */
+    @Override
+    public void convertIntoErrorCorrection() throws WorkflowException {
+        super.convertIntoErrorCorrection();
+
+        if (this.getSourceAccountingLines() != null) {
+            for (Iterator iter = this.getSourceAccountingLines().iterator(); iter.hasNext();) {
+                BudgetAdjustmentAccountingLine sourceLine = (BudgetAdjustmentAccountingLine) iter.next();
+                sourceLine.setBaseBudgetAdjustmentAmount(sourceLine.getBaseBudgetAdjustmentAmount().negated());
+                sourceLine.setCurrentBudgetAdjustmentAmount(sourceLine.getCurrentBudgetAdjustmentAmount().negated());
+                sourceLine.setFinancialDocumentMonth1LineAmount(sourceLine.getFinancialDocumentMonth1LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth2LineAmount(sourceLine.getFinancialDocumentMonth2LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth3LineAmount(sourceLine.getFinancialDocumentMonth3LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth4LineAmount(sourceLine.getFinancialDocumentMonth4LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth5LineAmount(sourceLine.getFinancialDocumentMonth5LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth6LineAmount(sourceLine.getFinancialDocumentMonth6LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth7LineAmount(sourceLine.getFinancialDocumentMonth7LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth8LineAmount(sourceLine.getFinancialDocumentMonth8LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth9LineAmount(sourceLine.getFinancialDocumentMonth9LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth10LineAmount(sourceLine.getFinancialDocumentMonth10LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth11LineAmount(sourceLine.getFinancialDocumentMonth11LineAmount().negated());
+                sourceLine.setFinancialDocumentMonth12LineAmount(sourceLine.getFinancialDocumentMonth12LineAmount().negated());
+            }
+        }
+
+        if (this.getTargetAccountingLines() != null) {
+            for (Iterator iter = this.getTargetAccountingLines().iterator(); iter.hasNext();) {
+                BudgetAdjustmentAccountingLine targetLine = (BudgetAdjustmentAccountingLine) iter.next();
+                targetLine.setBaseBudgetAdjustmentAmount(targetLine.getBaseBudgetAdjustmentAmount().negated());
+                targetLine.setCurrentBudgetAdjustmentAmount(targetLine.getCurrentBudgetAdjustmentAmount().negated());
+                targetLine.setFinancialDocumentMonth1LineAmount(targetLine.getFinancialDocumentMonth1LineAmount().negated());
+                targetLine.setFinancialDocumentMonth2LineAmount(targetLine.getFinancialDocumentMonth2LineAmount().negated());
+                targetLine.setFinancialDocumentMonth3LineAmount(targetLine.getFinancialDocumentMonth3LineAmount().negated());
+                targetLine.setFinancialDocumentMonth4LineAmount(targetLine.getFinancialDocumentMonth4LineAmount().negated());
+                targetLine.setFinancialDocumentMonth5LineAmount(targetLine.getFinancialDocumentMonth5LineAmount().negated());
+                targetLine.setFinancialDocumentMonth6LineAmount(targetLine.getFinancialDocumentMonth6LineAmount().negated());
+                targetLine.setFinancialDocumentMonth7LineAmount(targetLine.getFinancialDocumentMonth7LineAmount().negated());
+                targetLine.setFinancialDocumentMonth8LineAmount(targetLine.getFinancialDocumentMonth8LineAmount().negated());
+                targetLine.setFinancialDocumentMonth9LineAmount(targetLine.getFinancialDocumentMonth9LineAmount().negated());
+                targetLine.setFinancialDocumentMonth10LineAmount(targetLine.getFinancialDocumentMonth10LineAmount().negated());
+                targetLine.setFinancialDocumentMonth11LineAmount(targetLine.getFinancialDocumentMonth11LineAmount().negated());
+                targetLine.setFinancialDocumentMonth12LineAmount(targetLine.getFinancialDocumentMonth12LineAmount().negated());
+            }
+        }
     }
 
     /**

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.labor.bo.BenefitsType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiLaborBenefitsTypeMaintenanceDocument</documentTypeName>
+		<documentTypeCode>BENT</documentTypeCode>
+
+		<label>Benefits Type Maintenance Document</label>
+		<shortLabel>Benefit Type Maint Doc</shortLabel>
+		
+		<summary>Benefits Type Maintenance Document</summary>
+		<description>Document used to create or update Benefit type codes.</description>
+
+        <lockingKeys>
+			<field attributeName="positionBenefitTypeCode" />
+		</lockingKeys>         
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Benefit Code">
+	        	<maintainableItems>
+	            	<maintainableField name="positionBenefitTypeCode" required="true" />
+	            	<maintainableField name="positionBenefitTypeDescription" required="false" />
+	            	<maintainableField name="positionBenefitRetirementIndicator" required="false"/>
+	            	<maintainableField name="versionNumber" required="true"/>	            	
+	         	</maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

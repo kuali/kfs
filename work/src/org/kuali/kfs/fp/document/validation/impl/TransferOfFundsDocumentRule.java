@@ -78,7 +78,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
                 explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.TRANSFER_INCOME);
             }
             else {
-                explicitEntry.setFinancialObjectTypeCode(getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
+                explicitEntry.setFinancialObjectTypeCode(TransactionalDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
             }
         }
     }
@@ -101,7 +101,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
         // only allow income or expense
         if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
-        }
+    }
         boolean isDebit = false;
         if (isSourceAccountingLine(accountingLine)) {
             isDebit = IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);

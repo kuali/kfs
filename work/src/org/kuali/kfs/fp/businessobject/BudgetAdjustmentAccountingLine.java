@@ -22,13 +22,14 @@
  */
 package org.kuali.module.financial.bo;
 
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public interface BudgetAdjustmentAccountingLine {
+public interface BudgetAdjustmentAccountingLine extends AccountingLine{
 
     public abstract KualiDecimal getMonthlyLinesTotal();
 
@@ -251,6 +252,6 @@ public interface BudgetAdjustmentAccountingLine {
      * 
      */
     public abstract void setFringeBenefitIndicator(boolean fringeBenefitIndicator);
-
-
+    
+    
 }

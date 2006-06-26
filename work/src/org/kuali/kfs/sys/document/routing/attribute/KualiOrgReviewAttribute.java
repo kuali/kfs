@@ -77,7 +77,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     private static final String ORG_REVIEW_ATTRIBUTE = "KUALI_ORG_REVIEW_ATTRIBUTE";
     private static Map ORGS = new HashMap();
-
+    
     private static final String MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
     private static final String ACCOUNT_DOC_TYPE = "KualiAccountMaintenanceDocument";
     private static final String ACCOUNT_DEL_DOC_TYPE = "KualiAccountDelegateMaintenanceDocument";
@@ -162,7 +162,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
         return extensions;
     }
-
+    
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
      */
@@ -182,7 +182,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         else if ((this.finCoaCd != null && !"".equals(finCoaCd) && ((this.orgCd == null || "".equals(orgCd)))) || ((this.finCoaCd == null || "".equals(finCoaCd)) && this.orgCd != null && !"".equals(orgCd))) {
             errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
         }
-
+        
         if (this.finCoaCd != null && !"".equals(finCoaCd) && this.orgCd != null && !"".equals(orgCd)) {
             if (!isValidOrg(finCoaCd, orgCd)) {
                 errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
@@ -202,16 +202,16 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         else if (StringUtils.isNotBlank(fromAmount) && !StringUtils.isNumeric(fromAmount)) {
             errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", "routetemplate.dollarrangeattribute.fromamount.invalid"));
         }
-
+        
         return errors;
-    }
+    }  
 
     public List validateRoutingData(Map paramMap) {
 
         List errors = new ArrayList();
         this.finCoaCd = (String) paramMap.get(ORG_REVIEW_FIN_COA_CD_KEY);
         this.orgCd = (String) paramMap.get(ORG_REVIEW_ORG_CD_KEY);
-        this.totalDollarAmount = (String) paramMap.get(TOTAL_AMOUNT_KEY);
+        this.totalDollarAmount = (String)paramMap.get(TOTAL_AMOUNT_KEY);
         this.overrideCd = (String) paramMap.get(OVERRIDE_CD_KEY);
 
         this.finCoaCd = (String) paramMap.get(ORG_REVIEW_FIN_COA_CD_KEY);
@@ -222,7 +222,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         else if ((this.finCoaCd != null && !"".equals(finCoaCd) && ((this.orgCd == null || "".equals(orgCd)))) || ((this.finCoaCd == null || "".equals(finCoaCd)) && this.orgCd != null && !"".equals(orgCd))) {
             errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
         }
-
+        
         if (this.finCoaCd != null && !"".equals(finCoaCd) && this.orgCd != null && !"".equals(orgCd)) {
             if (!isValidOrg(finCoaCd, orgCd)) {
                 errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
@@ -235,7 +235,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         else if (StringUtils.isNotBlank(totalDollarAmount) && !StringUtils.isNumeric(totalDollarAmount)) {
             errors.add(new WorkflowServiceErrorImpl("Total Amount is invalid.", ""));
         }
-
+        
         return errors;
     }
 
@@ -300,6 +300,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     }
 
 
+
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
      */
@@ -318,7 +319,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
-
+        
         this.finCoaCd = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
         this.orgCd = getRuleExtentionValue(ORG_CD_KEY, ruleExtensions);
         this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
@@ -326,7 +327,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         this.overrideCd = getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions);
         DocumentType documentType = docContent.getRouteContext().getDocument().getDocumentType();
         Set chartOrgValues = populateFromDocContent(documentType, docContent);
-
+        
         boolean matchesOrg = false;
         for (Iterator iter = chartOrgValues.iterator(); iter.hasNext();) {
             KualiFiscalOrganization attribute = (KualiFiscalOrganization) iter.next();
@@ -336,16 +337,16 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             }
         }
 
-        if (!matchesOrg) {
-            return false;
+        if (! matchesOrg) {
+            return false;    
         }
-
+        
         Float documentAmount = getAmount(documentType, docContent);
         if (documentAmount != null) {
             Float ruleFromAmount = new Float(fromAmount);
-            if (!StringUtils.isEmpty(toAmount)) {
+            if (! StringUtils.isEmpty(toAmount)) {   
                 Float ruleToAmount = new Float(toAmount);
-                if (!(ruleFromAmount.floatValue() <= documentAmount.floatValue() && documentAmount.floatValue() >= ruleToAmount.floatValue())) {
+                if (! (ruleFromAmount.floatValue() <= documentAmount.floatValue() && documentAmount.floatValue() >= ruleToAmount.floatValue())) {
                     return false;
                 }
             }
@@ -356,14 +357,13 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
         if (this.overrideCd != null) {
             String docOverrideCd = getOverrideCd(documentType, docContent);
-            if (!docOverrideCd.equals(this.overrideCd)) {
+            if (! docOverrideCd.equals(this.overrideCd)) {
                 return false;
             }
         }
-
+        
         return true;
     }
-
     /**
      * This method is a recursive method that will retrive reports to orgs to build up the hierarchy of organizations
      * 
@@ -373,7 +373,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private void buildOrgReviewHierarchy(Set chartOrgSet, KualiFiscalOrganization chartOrg) {
         KualiFiscalOrganization org = getKualiFiscalOrganization(chartOrg.getFinCoaCd(), chartOrg.getOrgCd());
         if (org == null) {
-            throw new WorkflowRuntimeException("Couldn't find organization " + chartOrg.getFinCoaCd() + "-" + chartOrg.getOrgCd());
+        	throw new WorkflowRuntimeException("Couldn't find organization " + chartOrg.getFinCoaCd() + "-" + chartOrg.getOrgCd());
         }
         if (org.getReportsToFinCoaCd().equals(chartOrg.getFinCoaCd()) && org.getReportsToOrgCd().equals(chartOrg.getOrgCd())) {
             return;
@@ -413,10 +413,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         NodeList nodes = null;
         XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
         try {
-            String chart = null;
-            String org = null;
+        	String chart = null;
+        	String org = null;
             boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
-            if (isReport) {
+        	if (isReport) {
                 chart = xpath.evaluate("wf:xstreamsafe('//chart')", docContent.getDocument());
                 org = xpath.evaluate("wf:xstreamsafe('//org')", docContent.getDocument());
             }
@@ -429,58 +429,60 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                 org = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "orgCd')", docContent.getDocument());
             }
             else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) || docType.getName().equals(ACCOUNT_DEL_DOC_TYPE) || docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
-                // these documents don't have the organization code on them so it must be looked up
+        		// these documents don't have the organization code on them so it must be looked up
                 chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
                 String accountNumber = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
-                Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
-                org = account.getOrganizationCode();
-            }
-            if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
-                KualiFiscalOrganization organization = new KualiFiscalOrganization();
-                organization.setFinCoaCd(chart);
-                organization.setOrgCd(org);
-                chartOrgValues.add(organization);
-                buildOrgReviewHierarchy(chartOrgValues, organization);
+        		Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
+        		org = account.getOrganizationCode();
+        	}
+        	if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
+            	KualiFiscalOrganization organization = new KualiFiscalOrganization();
+        		organization.setFinCoaCd(chart);
+        		organization.setOrgCd(org);
+        		chartOrgValues.add(organization);
+    			buildOrgReviewHierarchy(chartOrgValues, organization);
             }
             else {
-                String xpathExp = null;
-                do {
+        		String xpathExp = null;
+        		do {
                     if (KualiConstants.MAINTENANCE_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                         xpathExp = "wf:xstreamsafe('//kualiUser')";
-                        break;
+        				break;
                     }
                     else if (KualiConstants.PROCUREMENT_CARD_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                         xpathExp = "wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine/account')";
+        				break;
+        			} else if (docType.getName().equals(KualiConstants.BUDGET_ADJUSTMENT_DOC_TYPE)) {
+                        xpathExp = "//org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine/account | //org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine/account";
                         break;
-                    }
-                    else if (KualiConstants.isSourceLineOnly(docType.getName())) {
+                    } else if (KualiConstants.isSourceLineOnly(docType.getName())) {
                         xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account')";
                         break;
                     }
                     else if (KualiConstants.isTargetLineOnly(docType.getName())) {
                         xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
-                        break;
+        				break;
                     }
                     else if (KualiConstants.FINANCIAL_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                         xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
-                        break;
+        				break;
                     }
                     else if (KualiConstants.FINANCIAL_YEAR_END_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                         xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
                         break;
                     }
                     else {
-                        docType = docType.getParentDocType();
-                    }
-                } while (docType != null);
+        				docType = docType.getParentDocType();
+        			}
+        		} while (docType != null);
 
-                if (xpathExp == null) {
-                    throw new RuntimeException("Did not find expected document type.  Doc type used = " + docType.getName());
-                }
-                nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
+        		if (xpathExp == null) {
+        			throw new RuntimeException("Did not find expected document type.  Doc type used = " + docType.getName());
+        		}
+        		nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
 
-                for (int i = 0; i < nodes.getLength(); i++) {
-                    Node accountingLineNode = nodes.item(i);
+        		for (int i = 0; i < nodes.getLength(); i++) {
+        			Node accountingLineNode = nodes.item(i);
                     // TODO: xstreamsafe should be handling this, but is not, therefore this code block
                     String referenceString = xpath.evaluate("@reference", accountingLineNode);
                     if (!StringUtils.isEmpty(referenceString)) {
@@ -488,14 +490,14 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     }
                     String finCoaCd = xpath.evaluate("./chartOfAccountsCode", accountingLineNode);
                     String orgCd = xpath.evaluate("./organizationCode", accountingLineNode);
-                    KualiFiscalOrganization orgization = new KualiFiscalOrganization();
-                    orgization.setFinCoaCd(finCoaCd);
-                    orgization.setOrgCd(orgCd);
+        			KualiFiscalOrganization orgization = new KualiFiscalOrganization();
+        			orgization.setFinCoaCd(finCoaCd);
+        			orgization.setOrgCd(orgCd);
 
-                    chartOrgValues.add(orgization);
-                    buildOrgReviewHierarchy(chartOrgValues, orgization);
-                }
-            }
+        			chartOrgValues.add(orgization);
+        			buildOrgReviewHierarchy(chartOrgValues, orgization);
+        		}
+        	}
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -507,9 +509,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         try {
             XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
             boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
-            if (isReport) {
+        	if (isReport) {
                 return xpath.evaluate("wf:xstreamsafe('//report/overrideCode')", docContent.getDocument());
-            }
+        	}
             String xpathExp = null;
             do {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
@@ -517,7 +519,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                 }
                 else if (KualiConstants.isSourceLineOnly(docType.getName())) {
                     xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/overrideCode')";
-                    break;
+                	break; 
                 }
                 else if (KualiConstants.isTargetLineOnly(docType.getName())) {
                     xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/overrideCode')";
@@ -547,15 +549,15 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         try {
             XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
             boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
-            if (isReport) {
+        	if (isReport) {
                 String floatVal = xpath.evaluate("wf:xstreamsafe('//report/totalDollarAmount')", docContent.getDocument());
-                if (StringUtils.isNumeric(floatVal) && StringUtils.isNotEmpty(floatVal)) {
-                    return new Float(floatVal);
+        		if (StringUtils.isNumeric(floatVal) && StringUtils.isNotEmpty(floatVal)) {
+        			return new Float(floatVal);	
                 }
                 else {
-                    return new Float(0);
-                }
-            }
+        			return new Float(0);
+        		}
+        	}
             String xpathExp = null;
             do {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
@@ -567,7 +569,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                 }
                 else if (KualiConstants.isTargetLineOnly(docType.getName())) {
                     xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/amount/value')";
-                    break;
+                	break; 
                 }
                 else if (docType.getName().equals("KualiFinancialDocument")) {
                     xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/amount/value') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/amount/value')";
@@ -579,7 +581,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
             } while (docType != null);
 
-            String value = xpath.evaluate("sum(" + xpathExp + ")", docContent.getDocument());
+            String value = xpath.evaluate("sum("+xpathExp+")", docContent.getDocument());
             if (value == null) {
                 throw new RuntimeException("Didn't find amount for document " + docContent.getRouteContext().getDocument().getRouteHeaderId());
             }
@@ -590,7 +592,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             throw new RuntimeException(e);
         }
     }
-
+    
     /**
      * simple getter for the rule rows
      */
@@ -619,7 +621,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         fields = new ArrayList();
         fields.add(new Field("Override Code", "", Field.TEXT, true, OVERRIDE_CD_KEY, "", null, null, OVERRIDE_CD_KEY));
         routingRows.add(new Row(fields));
-
+        
         return routingRows;
     }
 
@@ -660,22 +662,22 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     }
 
     public String getTotalDollarAmount() {
-        return totalDollarAmount;
-    }
+		return totalDollarAmount;
+	}
 
-    public void setTotalDollarAmount(String totalDollarAmount) {
-        this.totalDollarAmount = totalDollarAmount;
-    }
+	public void setTotalDollarAmount(String totalDollarAmount) {
+		this.totalDollarAmount = totalDollarAmount;
+	}
 
-    public String getOverrideCd() {
-        return overrideCd;
-    }
+	public String getOverrideCd() {
+		return overrideCd;
+	}
 
-    public void setOverrideCd(String overrideCd) {
-        this.overrideCd = overrideCd;
-    }
+	public void setOverrideCd(String overrideCd) {
+		this.overrideCd = overrideCd;
+	}
 
-    /**
+	/**
      * simple getter for required
      */
     public boolean isRequired() {

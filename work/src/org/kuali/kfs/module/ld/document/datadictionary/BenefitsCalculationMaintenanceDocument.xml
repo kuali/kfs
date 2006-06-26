@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.labor.bo.BenefitsCalculation</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiLaborBenefitsCalculationMaintenanceDocument</documentTypeName>
+		<documentTypeCode>BCAL</documentTypeCode>
+
+		<label>Benefits Calculation Maintenance Document</label>
+		<shortLabel>Benefit Calc Maint Doc</shortLabel>
+		
+		<summary>Benefits Calculation Maintenance Document</summary>
+		<description>Document used to create or update Benefit calculations.</description>
+
+        <lockingKeys>
+			<field attributeName="universityFiscalYear" />
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="positionBenefitTypeCode" />	
+		</lockingKeys>         
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Benefit Calculation">
+	        	<maintainableItems>
+	            	<maintainableField name="universityFiscalYear" required="true" />
+	            	<maintainableField name="chartOfAccountsCode" required="true" />
+	            	<maintainableField name="positionBenefitTypeCode" required="true"/>
+	            	<maintainableField name="positionFringeBenefitObjectCode" required="false"/>
+	            	<maintainableField name="positionFringeBenefitPercent" required="false"/>
+	            	<maintainableField name="versionNumber" required="true"/>	            	
+	         	</maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

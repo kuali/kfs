@@ -28,6 +28,8 @@ package org.kuali.module.labor.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
@@ -36,170 +38,171 @@ import org.kuali.module.chart.bo.ObjectCode;
  */
 public class BenefitsCalculation extends BusinessObjectBase {
 
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String positionBenefitTypeCode;
-    private Integer positionFringeBenefitPercent;
-    private String positionFringeBenefitObjectCode;
+	private Integer universityFiscalYear;
+	private String chartOfAccountsCode;
+	private String positionBenefitTypeCode;
+	private KualiDecimal positionFringeBenefitPercent;
+	private String positionFringeBenefitObjectCode;
 
     private ObjectCode positionFringeBenefitObject;
-    private Chart chartOfAccounts;
+	private Chart chartOfAccounts;
     private BenefitsType positionBenefitType;
+    private transient Options universityFiscal;
+    
+	/**
+	 * Default constructor.
+	 */
+	public BenefitsCalculation() {
 
-    /**
-     * Default constructor.
-     */
-    public BenefitsCalculation() {
+	}
 
-    }
+	/**
+	 * Gets the universityFiscalYear attribute.
+	 * 
+	 * @return - Returns the universityFiscalYear
+	 * 
+	 */
+	public Integer getUniversityFiscalYear() { 
+		return universityFiscalYear;
+	}
 
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return - Returns the universityFiscalYear
-     * 
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute.
-     * 
+	/**
+	 * Sets the universityFiscalYear attribute.
+	 * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
-    }
+	 * 
+	 */
+	public void setUniversityFiscalYear(Integer universityFiscalYear) {
+		this.universityFiscalYear = universityFiscalYear;
+	}
 
 
-    /**
-     * Gets the chartOfAccountsCode attribute.
-     * 
-     * @return - Returns the chartOfAccountsCode
-     * 
-     */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
-    }
+	/**
+	 * Gets the chartOfAccountsCode attribute.
+	 * 
+	 * @return - Returns the chartOfAccountsCode
+	 * 
+	 */
+	public String getChartOfAccountsCode() { 
+		return chartOfAccountsCode;
+	}
 
-    /**
-     * Sets the chartOfAccountsCode attribute.
-     * 
+	/**
+	 * Sets the chartOfAccountsCode attribute.
+	 * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
-    }
+	 * 
+	 */
+	public void setChartOfAccountsCode(String chartOfAccountsCode) {
+		this.chartOfAccountsCode = chartOfAccountsCode;
+	}
 
 
-    /**
-     * Gets the positionBenefitTypeCode attribute.
-     * 
-     * @return - Returns the positionBenefitTypeCode
-     * 
-     */
-    public String getPositionBenefitTypeCode() {
-        return positionBenefitTypeCode;
-    }
+	/**
+	 * Gets the positionBenefitTypeCode attribute.
+	 * 
+	 * @return - Returns the positionBenefitTypeCode
+	 * 
+	 */
+	public String getPositionBenefitTypeCode() { 
+		return positionBenefitTypeCode;
+	}
 
-    /**
-     * Sets the positionBenefitTypeCode attribute.
-     * 
+	/**
+	 * Sets the positionBenefitTypeCode attribute.
+	 * 
      * @param positionBenefitTypeCode The positionBenefitTypeCode to set.
-     * 
-     */
-    public void setPositionBenefitTypeCode(String positionBenefitTypeCode) {
-        this.positionBenefitTypeCode = positionBenefitTypeCode;
-    }
+	 * 
+	 */
+	public void setPositionBenefitTypeCode(String positionBenefitTypeCode) {
+		this.positionBenefitTypeCode = positionBenefitTypeCode;
+	}
 
 
-    /**
-     * Gets the positionFringeBenefitPercent attribute.
-     * 
-     * @return - Returns the positionFringeBenefitPercent
-     * 
-     */
-    public Integer getPositionFringeBenefitPercent() {
-        return positionFringeBenefitPercent;
-    }
+	/**
+	 * Gets the positionFringeBenefitPercent attribute.
+	 * 
+	 * @return - Returns the positionFringeBenefitPercent
+	 * 
+	 */
+	public KualiDecimal getPositionFringeBenefitPercent() { 
+		return positionFringeBenefitPercent;
+	}
 
-    /**
-     * Sets the positionFringeBenefitPercent attribute.
-     * 
+	/**
+	 * Sets the positionFringeBenefitPercent attribute.
+	 * 
      * @param positionFringeBenefitPercent The positionFringeBenefitPercent to set.
-     * 
-     */
-    public void setPositionFringeBenefitPercent(Integer positionFringeBenefitPercent) {
-        this.positionFringeBenefitPercent = positionFringeBenefitPercent;
-    }
+	 * 
+	 */
+	public void setPositionFringeBenefitPercent(KualiDecimal positionFringeBenefitPercent) {
+		this.positionFringeBenefitPercent = positionFringeBenefitPercent;
+	}
 
 
-    /**
-     * Gets the positionFringeBenefitObjectCode attribute.
-     * 
-     * @return - Returns the positionFringeBenefitObjectCode
-     * 
-     */
-    public String getPositionFringeBenefitObjectCode() {
-        return positionFringeBenefitObjectCode;
-    }
+	/**
+	 * Gets the positionFringeBenefitObjectCode attribute.
+	 * 
+	 * @return - Returns the positionFringeBenefitObjectCode
+	 * 
+	 */
+	public String getPositionFringeBenefitObjectCode() { 
+		return positionFringeBenefitObjectCode;
+	}
 
-    /**
-     * Sets the positionFringeBenefitObjectCode attribute.
-     * 
+	/**
+	 * Sets the positionFringeBenefitObjectCode attribute.
+	 * 
      * @param positionFringeBenefitObjectCode The positionFringeBenefitObjectCode to set.
-     * 
-     */
-    public void setPositionFringeBenefitObjectCode(String positionFringeBenefitObjectCode) {
-        this.positionFringeBenefitObjectCode = positionFringeBenefitObjectCode;
-    }
+	 * 
+	 */
+	public void setPositionFringeBenefitObjectCode(String positionFringeBenefitObjectCode) {
+		this.positionFringeBenefitObjectCode = positionFringeBenefitObjectCode;
+	}
 
 
-    /**
-     * Gets the positionFringeBenefitObject attribute.
-     * 
-     * @return - Returns the positionFringeBenefitObject
-     * 
-     */
-    public ObjectCode getPositionFringeBenefitObject() {
-        return positionFringeBenefitObject;
-    }
+	/**
+	 * Gets the positionFringeBenefitObject attribute.
+	 * 
+	 * @return - Returns the positionFringeBenefitObject
+	 * 
+	 */
+	public ObjectCode getPositionFringeBenefitObject() { 
+		return positionFringeBenefitObject;
+	}
 
-    /**
-     * Sets the positionFringeBenefitObject attribute.
-     * 
+	/**
+	 * Sets the positionFringeBenefitObject attribute.
+	 * 
      * @param positionFringeBenefitObject The positionFringeBenefitObject to set.
-     * @deprecated
-     */
-    public void setPositionFringeBenefitObject(ObjectCode positionFringeBenefitObject) {
-        this.positionFringeBenefitObject = positionFringeBenefitObject;
-    }
+	 * @deprecated
+	 */
+	public void setPositionFringeBenefitObject(ObjectCode positionFringeBenefitObject) {
+		this.positionFringeBenefitObject = positionFringeBenefitObject;
+	}
 
-    /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return - Returns the chartOfAccounts
-     * 
-     */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
-    }
+	/**
+	 * Gets the chartOfAccounts attribute.
+	 * 
+	 * @return - Returns the chartOfAccounts
+	 * 
+	 */
+	public Chart getChartOfAccounts() { 
+		return chartOfAccounts;
+	}
 
-    /**
-     * Sets the chartOfAccounts attribute.
-     * 
+	/**
+	 * Sets the chartOfAccounts attribute.
+	 * 
      * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
-     */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
-    }
+	 * @deprecated
+	 */
+	public void setChartOfAccounts(Chart chartOfAccounts) {
+		this.chartOfAccounts = chartOfAccounts;
+	}
 
     /**
-     * Gets the positionBenefitType attribute.
+     * Gets the positionBenefitType attribute. 
      * 
      * @return Returns the positionBenefitType.
      */
@@ -216,12 +219,28 @@ public class BenefitsCalculation extends BusinessObjectBase {
     public void setPositionBenefitType(BenefitsType positionBenefitType) {
         this.positionBenefitType = positionBenefitType;
     }
+    
+    /**
+     * Gets the universityFiscal attribute. 
+     * @return Returns the universityFiscal.
+     */
+    public Options getUniversityFiscal() {
+        return universityFiscal;
+    }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * Sets the universityFiscal attribute value.
+     * @param universityFiscal The universityFiscal to set.
+     */
+    public void setUniversityFiscal(Options universityFiscal) {
+        this.universityFiscal = universityFiscal;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+        LinkedHashMap m = new LinkedHashMap();      
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -229,5 +248,5 @@ public class BenefitsCalculation extends BusinessObjectBase {
         m.put("positionBenefitTypeCode", this.positionBenefitTypeCode);
         return m;
     }
-
+    
 }

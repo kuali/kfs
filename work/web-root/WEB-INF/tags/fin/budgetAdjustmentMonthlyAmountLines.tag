@@ -12,13 +12,47 @@
 
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
 <c:set var="baAttributes" value="${DataDictionary.BudgetAdjustmentSourceAccountingLine.attributes}" />
+
+<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
+<c:set var="currentTab" value="${KualiForm.tabStateJstl}"/>
+
+<%-- default to closed --%>
+<c:choose>
+    <c:when test="${empty currentTab}">
+        <c:set var="isOpen" value="false" />
+    </c:when>
+    <c:when test="${!empty currentTab}" >
+        <c:set var="isOpen" value="${currentTab.open}" />
+    </c:when>
+</c:choose>
+
+
+<html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}" />
+
 <tr>
     <th>&nbsp;</th>
     <td class="total-line" colspan="10" style="padding: 0px;">
         <table class="datatable" style="width: 100%;">
             <tr>
-                <td colspan="4" class="tab-subhead" style="border-right: none;">Monthly Lines (show/hide)</td>
+                <td colspan="4" class="tab-subhead" style="border-right: none;">Monthly Lines 
+                  <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-hide.gif" alt="hide" styleClass="tinybutton"  onclick="javascript: if (document.forms[0].elements['tabState[${currentTabIndex}].open'].value == 'false') {document.getElementById('tab-${currentTabIndex}-div').style.display = 'block'; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'true'; this.src = 'images/tinybutton-hide.gif';  return false;} else { document.getElementById('tab-${currentTabIndex}-div').style.display = 'none'; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'false'; this.src = 'images/tinybutton-show.gif';  return false; } " />
+                 </c:if>
+                 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+                   <html:image  property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" styleClass="tinybutton" onclick="javascript: if (document.forms[0].elements['tabState[${currentTabIndex}].open'].value == 'false') {document.getElementById('tab-${currentTabIndex}-div').style.display = 'block'; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'true'; this.src = 'images/tinybutton-hide.gif';  return false;} else { document.getElementById('tab-${currentTabIndex}-div').style.display = 'none'; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'false'; this.src = 'images/tinybutton-show.gif';  return false; } " />
+                 </c:if>
+                </td>
             </tr>
+        </table>    
+            
+        <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+            <div style="display: block;" id="tab-${currentTabIndex}-div">
+        </c:if>
+        <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
+            <div style="display: none;" id="tab-${currentTabIndex}-div">
+        </c:if>
+
+        <table class="datatable" style="width: 100%;">
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth1LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
                 <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth1LineAmount}" property="${accountingLine}.financialDocumentMonth1LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
@@ -55,7 +89,9 @@
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth12LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
                 <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth12LineAmount}" property="${accountingLine}.financialDocumentMonth12LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
             </tr>
-        </table>
+            
+          </table>
+        </div>
     </td>
     <th>&nbsp;</th>
 </tr>

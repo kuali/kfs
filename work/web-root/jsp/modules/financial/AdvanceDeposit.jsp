@@ -15,7 +15,6 @@
 	showTabButtons="true">
 	<kul:hiddenDocumentFields />
 	<!-- Advance Deposit Document Specific Hidden Fields -->
-	<html:hidden property="document.nextSourceLineNumber" />
 	<html:hidden property="document.nextAdvanceDepositLineNumber" />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">

@@ -12,9 +12,6 @@
 //-->
 </SCRIPT>
 
-	<html:hidden property="document.nextSourceLineNumber" />
-	<html:hidden property="document.nextTargetLineNumber" />
-
 	<kul:hiddenDocumentFields excludePostingYear="true" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"

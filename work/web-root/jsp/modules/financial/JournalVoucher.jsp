@@ -13,7 +13,6 @@
 	documentTypeName="KualiJournalVoucherDocument"
 	htmlFormAction="financialJournalVoucher" renderMultipart="true"
 	showTabButtons="true">
-	<html:hidden property="document.nextSourceLineNumber" />
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<!-- JOURNAL VOUCHER SPECIFIC FIELDS -->

@@ -2,8 +2,6 @@
 
 <kul:documentPage showDocumentInfo="true" documentTypeName="KualiIndirectCostAdjustmentDocument" htmlFormAction="financialIndirectCostAdjustment" renderMultipart="true" showTabButtons="true">
 
-		<html:hidden property="document.nextSourceLineNumber"/>
-		<html:hidden property="document.nextTargetLineNumber"/>
 		<kul:hiddenDocumentFields />
 
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>

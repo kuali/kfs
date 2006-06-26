@@ -17,7 +17,6 @@
 	showTabButtons="true">
 	<cr:printCoverSheet />
 	<kul:hiddenDocumentFields />
-	<html:hidden property="document.nextSourceLineNumber" />
 	<html:hidden property="document.nextCheckSequenceId" />
 	<html:hidden property="document.checkEntryMode" />
 	<html:hidden property="checkTotal" />

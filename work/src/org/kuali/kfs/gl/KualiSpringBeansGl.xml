@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="glGlSummaryReportStep" class="org.kuali.module.gl.batch.GlSummaryReportStep">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="reportService">
+			<ref bean="glReportService"/>
+		</property>
+	</bean>
+
 	<bean id="glCreateBackupGroupStep" class="org.kuali.module.gl.batch.CreateBackupGroupStep">
 		<property name="originEntryGroupService">
 			<ref bean="glOriginEntryGroupService"/>
@@ -663,11 +672,8 @@
                 <ref bean="glPostBalance" />
             </list>
         </property>
-        <property name="posterReport">
-            <ref bean="glPosterReport" />
-        </property>
-        <property name="icrGenerationReport">
-            <ref bean="glIcrGenerationReport" />
+        <property name="reportService">
+            <ref bean="glReportService" />
         </property>
         <property name="verifyTransaction">
             <ref bean="glVerifyTransaction" />
@@ -738,8 +744,8 @@
         <property name="optionsDao">
             <ref bean="optionsDao" />
         </property>
-        <property name="reportingService">
-            <ref bean="glPosterReport" />
+        <property name="reportService">
+            <ref bean="glReportService" />
         </property>
         <property name="icrTransaction">
             <ref bean="glIcrTransaction" />
@@ -933,21 +939,18 @@
         <property name="originEntryService">
             <ref bean="glOriginEntryService" />
         </property>
+        <property name="dateTimeService">
+        	<ref bean="dateTimeService"/>
+        </property>
+        <property name="balanceService">
+        	<ref bean="glBalanceService"/>
+        </property>
+        <property name="optionsService">
+        	<ref bean="optionsService"/>
+        </property>
     </bean>
 
     <bean id="glSufficientFundsReport" class="org.kuali.module.gl.batch.sufficientFunds.impl.SufficientFundsReportImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-    </bean>
-
-    <bean id="glPosterReport" class="org.kuali.module.gl.batch.poster.impl.PosterReportImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-    </bean>
-
-    <bean id="glIcrGenerationReport" class="org.kuali.module.gl.batch.poster.impl.IcrGenerationReportImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>

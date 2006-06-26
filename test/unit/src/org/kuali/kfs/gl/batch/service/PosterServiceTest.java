@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.TestPosterReport;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Transaction;
 
@@ -39,7 +38,6 @@ public class PosterServiceTest extends OriginEntryTestBase {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 
   private PosterService posterService;
-  private TestPosterReport posterReport;
 
   /* (non-Javadoc)
    * @see org.springframework.test.AbstractTransactionalSpringContextTests#onSetUpInTransaction()
@@ -57,8 +55,6 @@ public class PosterServiceTest extends OriginEntryTestBase {
     dateTimeService.currentDate = date;
 
     posterService = (PosterService)beanFactory.getBean("glPosterService");
-
-    posterReport = (TestPosterReport)beanFactory.getBean("testPosterReport");
   }
 
   /**
@@ -643,7 +639,6 @@ public class PosterServiceTest extends OriginEntryTestBase {
     loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
     posterService.postMainEntries();
 
-    printReport();
     assertOriginEntries(3,outputTransactions);
 
     // Check N code accounts
@@ -850,7 +845,6 @@ public class PosterServiceTest extends OriginEntryTestBase {
     // Now post the reversal entries
     clearGlEntryTable("BL","2231408");
     posterService.postReversalEntries();
-    printReport();
 
     List results = unitTestSqlDao.sqlSelect("select * from gl_entry_t where account_nbr = '2231408' order by fdoc_nbr");
     assertEquals("Wrong number of posted entries",3,results.size());
@@ -948,20 +942,6 @@ public class PosterServiceTest extends OriginEntryTestBase {
       return Double.NaN;
     } else {
       return amt.doubleValue();
-    }
-  }
-
-  private void printReport() {
-    System.err.println("Poster Report Errors:");
-    Map errors = posterReport.reportErrors;
-    for (Iterator i = errors.keySet().iterator(); i.hasNext();) {
-        Transaction key = (Transaction) i.next();
-        List msgs = (List) errors.get(key);
-        System.err.println(key);
-        for (Iterator iterator = msgs.iterator(); iterator.hasNext();) {
-            String msg = (String) iterator.next();
-            System.err.println("\t" + msg);
-        }
     }
   }
 }

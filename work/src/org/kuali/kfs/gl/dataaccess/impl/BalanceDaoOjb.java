@@ -45,7 +45,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.31 2006-06-14 12:26:35 abyrne Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.32 2006-06-26 21:43:47 jsissom Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -54,6 +54,38 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         super();
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.BalanceDao#getGlSummary(int, java.util.List)
+     */
+    public Iterator getGlSummary(int universityFiscalYear,List<String> balanceTypeCodes) {
+        LOG.debug("getGlSummary() started");
+
+        Criteria c = new Criteria();
+        c.addEqualTo("universityFiscalYear", universityFiscalYear);
+        c.addIn("balanceTypeCode", balanceTypeCodes);
+
+        String[] attributes = new String[] {
+                "account.subFundGroup.fundGroupCode",
+                "sum(accountLineAnnualBalanceAmount)","sum(beginningBalanceLineAmount)","sum(contractsGrantsBeginningBalanceAmount)",
+                "sum(month1Amount)","sum(month2Amount)","sum(month3Amount)","sum(month4Amount)",
+                "sum(month5Amount)","sum(month6Amount)","sum(month7Amount)","sum(month8Amount)",
+                "sum(month9Amount)","sum(month10Amount)","sum(month11Amount)","sum(month12Amount)",
+                "sum(month13Amount)"
+        };
+
+        String[] groupby = new String[] {
+                "account.subFundGroup.fundGroupCode"
+        };
+
+
+        ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, c);
+
+        query.setAttributes(attributes);
+        query.addGroupBy(groupby);
+        
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
     /*
      * (non-Javadoc)
      * 

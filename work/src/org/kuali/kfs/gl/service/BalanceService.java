@@ -23,6 +23,7 @@
 package org.kuali.module.gl.service;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
@@ -30,11 +31,15 @@ import org.kuali.module.gl.bo.Balance;
 
 /**
  * @author Laran evans <lc278@cornell.edu>
- * @version $Id: BalanceService.java,v 1.10 2006-06-14 12:26:40 abyrne Exp $
+ * @version $Id: BalanceService.java,v 1.11 2006-06-26 21:43:47 jsissom Exp $
  */
 
 public interface BalanceService {
-
+    /**
+     * Save
+     * 
+     * @param b
+     */
     public void save(Balance b);
 
     public boolean hasAssetLiabilityFundBalanceBalances(Account account);
@@ -79,4 +84,13 @@ public interface BalanceService {
      * @param year
      */
     public void purgeYearByChart(String chart, int year);
+
+    /**
+     * Get the GL Balance summary for the GL Summary report
+     * 
+     * @param universityFiscalYear
+     * @param balanceTypeCodes
+     * @return
+     */
+    public List getGlSummary(int universityFiscalYear,List<String> balanceTypeCodes);
 }

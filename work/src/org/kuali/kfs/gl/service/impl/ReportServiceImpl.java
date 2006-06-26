@@ -31,20 +31,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.kuali.core.bo.user.Options;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.OptionsService;
+import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.module.gl.util.BalanceReport;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.util.TransactionListingReport;
 import org.kuali.module.gl.util.TransactionReport;
-import org.kuali.module.gl.util.TransactionReportGenerator;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
@@ -55,12 +61,95 @@ public class ReportServiceImpl implements ReportService {
 
     String reportsDirectory;
     private OriginEntryService originEntryService;
+    private DateTimeService dateTimeService;
+    private BalanceService balanceService;
+    private OptionsService optionsService;
 
     public ReportServiceImpl() {
         super();
 
         ResourceBundle rb = ResourceBundle.getBundle("configuration");
         reportsDirectory = rb.getString("htdocs.directory") + "/reports";
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ReportService#generatePosterStatisticsReport(java.util.Date, java.util.Map, java.util.Map, int)
+     */
+    public void generatePosterStatisticsReport(Date runDate, Map<String,Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction,List<Message>> reportErrors, int mode) {
+        LOG.debug("generatePosterStatisticsReport() started");
+
+        // Convert our summary to a list of items for the report
+        List summary = new ArrayList();
+        summary.add(new Summary(1, "Number of GL_ORIGIN_ENTRY_T records selected:", (Integer) reportSummary.get("GL_ORIGIN_ENTRY_T,S")));
+        summary.add(new Summary(2, "", 0));
+
+        int count = 10;
+        for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
+            PostTransaction poster = (PostTransaction) posterIter.next();
+            String table = poster.getDestinationName();
+            summary.add(new Summary(count++, "Number of " + table + " records deleted:", (Integer) reportSummary.get(table + ",D")));
+            summary.add(new Summary(count++, "Number of " + table + " records inserted:", (Integer) reportSummary.get(table + ",I")));
+            summary.add(new Summary(count++, "Number of " + table + " records updated:", (Integer) reportSummary.get(table + ",U")));
+            summary.add(new Summary(count++, "", 0));
+        }
+
+        summary.add(new Summary(10000, "", 0));
+        summary.add(new Summary(10001, "Number of WARNING records selected:", (Integer) reportSummary.get("WARNING,S")));
+
+        TransactionReport tr = new TransactionReport();
+
+        String title = "Poster Report ";
+        String filename;
+        if (mode == PosterService.MODE_ENTRIES) {
+            title = title + "(Post pending entries)";
+            filename = "poster_main";
+        }
+        else if (mode == PosterService.MODE_ICR) {
+            title = title + "(Post ICR entries)";
+            filename = "poster_icr";
+        }
+        else {
+            title = title + "(Post reversal entries)";
+            filename = "poster_reversal";
+        }
+
+        tr.generateReport(reportErrors, summary, runDate, title, filename, reportsDirectory);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ReportService#generateIcrEncumrbanceStatisticsReport(java.util.Date, int, int)
+     */
+    public void generateIcrEncumrbanceStatisticsReport(Date runDate,int totalOfIcrEncumbrances,int totalOfEntriesGenerated) {
+        LOG.debug("generateIcrEncumrbanceStatisticsReport() started");
+
+        List reportSummaryList = new ArrayList();
+        reportSummaryList.add(new Summary(1, "Number of ICR Encumbrances retrived:", totalOfIcrEncumbrances));
+        reportSummaryList.add(new Summary(2, "Number of Origin Entries generated:", totalOfEntriesGenerated));
+
+        Map<Transaction,List<Message>> errors = new HashMap<Transaction,List<Message>>();
+
+        TransactionReport tr = new TransactionReport();
+        tr.generateReport(errors, reportSummaryList, runDate, "ICR Encumbrance Report", "icr_encumbrance", reportsDirectory);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ReportService#generatePosterIcrStatisticsReport(java.util.Date, java.util.Map, int, int, int, int)
+     */
+    public void generatePosterIcrStatisticsReport(Date runDate, Map<Transaction,List<Message>> reportErrors, int reportExpendTranRetrieved,int reportExpendTranDeleted,int reportExpendTranKept,int reportOriginEntryGenerated) {
+        LOG.debug("generateScrubberLedgerSummaryReport() started");
+
+        List summary = new ArrayList();
+        summary.add(new Summary(1, "Number of GL_EXPEND_TRAN_T records retrieved:", reportExpendTranRetrieved));
+        summary.add(new Summary(2, "Number of GL_EXPEND_TRAN_T records deleted:", reportExpendTranDeleted));
+        summary.add(new Summary(3, "Number of GL_EXPEND_TRAN_T records kept due to errors:", reportExpendTranKept));
+        summary.add(new Summary(4, "", 0));
+        summary.add(new Summary(3, "Number of GL_ORIGIN_ENTRY_T records generated:", reportOriginEntryGenerated));
+
+        TransactionReport tr = new TransactionReport();
+        tr.generateReport(reportErrors, summary, runDate, "ICR Generation Report", "icr_generation", reportsDirectory);
     }
 
     /**
@@ -72,7 +161,7 @@ public class ReportServiceImpl implements ReportService {
 
         LedgerReport ledgerReport = new LedgerReport();
         LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
-        ledgerReport.generateReport(ledgerEntries, runDate, "Ledger Report", "ledger", reportsDirectory);
+        ledgerReport.generateReport(ledgerEntries, runDate, "Ledger Report", "scrubber_ledger", reportsDirectory);
     }
 
     /**
@@ -84,9 +173,8 @@ public class ReportServiceImpl implements ReportService {
 
         List summary = buildScrubberReportSummary(scrubberReport);
         
-        String title = "Scrubber Report ";
         TransactionReport transactionReport = new TransactionReport();
-        transactionReport.generateReport(scrubberReportErrors, summary, runDate, title, "scrubber", reportsDirectory);
+        transactionReport.generateReport(scrubberReportErrors, summary, runDate, "Scrubber Report ", "scrubber", reportsDirectory);
     }
 
     /**
@@ -100,9 +188,8 @@ public class ReportServiceImpl implements ReportService {
 
         Map<Transaction,List<Message>> empty = new HashMap<Transaction,List<Message>>();
 
-        String title = "Demerger Report ";
         TransactionReport transactionReport = new TransactionReport();
-        transactionReport.generateReport(empty, summary, runDate, title, "demerger", reportsDirectory);
+        transactionReport.generateReport(empty, summary, runDate, "Demerger Report ", "demerger", reportsDirectory);
     }
 
     /**
@@ -130,35 +217,22 @@ public class ReportServiceImpl implements ReportService {
         TransactionListingReport rept = new TransactionListingReport();
         rept.generateReport(ti, runDate, "Error Listing - Transactions Remove From the Scrubber", "scrubber_errors", reportsDirectory);
     }
-    
-    public void generateIcrReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries) {
-        LOG.debug("Entering generateIcrReports()");
-        TransactionReport tr = new TransactionReport();
-        String title = "ICR Generation Report";
-        tr.generateReport(reportErrors, reportSummary, runDate, title, "icr_generation", reportsDirectory);
-    }
 
-    public void generatePosterReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries, int mode) {
-        LOG.debug("Entering generatePosterReports()");
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ReportService#generateGlSummary(java.util.Date, int, java.util.List)
+     */
+    public void generateGlSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType) {
+        LOG.debug("generateGlSummary() started");
 
-        TransactionReport tr = new TransactionReport();
+        Integer fy = dateTimeService.getCurrentFiscalYear();
+        fy = fy + yearOffset;
+        Options year = optionsService.getOptions(fy);
 
-        String title = "Poster Report ";
-        String filename;
-        if (mode == PosterService.MODE_ENTRIES) {
-            title = title + "(Post pending entries)";
-            filename = "poster_main";
-        }
-        else if (mode == PosterService.MODE_ICR) {
-            title = title + "(Post ICR entries)";
-            filename = "poster_icr";
-        }
-        else {
-            title = title + "(Post reversal entries)";
-            filename = "poster_reversal";
-        }
+        List balances = balanceService.getGlSummary(fy, balanceTypeCodes);
 
-        tr.generateReport(reportErrors, reportSummary, runDate, title, filename, reportsDirectory);
+        BalanceReport rept = new BalanceReport();
+        rept.generateReport(runDate,balances,year.getUniversityFiscalYearName(),balanceTypeCodes,"glsummary_" + fy + "_" + reportType,reportsDirectory);
     }
 
     public void generateYearEndEncumbranceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries) {
@@ -174,31 +248,9 @@ public class ReportServiceImpl implements ReportService {
         String title = "Balance Forward Report ";
         transactionReport.generateReport(null, reportSummary, runDate, title, "year_end_balance_forward", reportsDirectory);
     }
-    
-    /**
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.lang.String)
-     */
-    public void generateScrubberReports(Date runDate, List reportSummary, String reportNamePrefix) {
-        LOG.debug("Entering generateScrubberReports()");
-
-        String title = "Scrubber Report ";
-        TransactionReportGenerator transactionReport = new TransactionReportGenerator();
-        transactionReport.generateSummaryReport(reportSummary, runDate, title, reportNamePrefix, reportsDirectory);
-    }
 
     /**
-     * @see org.kuali.module.gl.service.ReportService#generateErrorReports(java.util.Date, java.util.Map, java.lang.String)
-     */
-    public void generateErrorReports(Date runDate, Map<Transaction, List<Message>> reportErrors, String reportNamePrefix) {
-        LOG.debug("Entering generateErrorReports()");
-
-        String title = "Error Report ";
-        TransactionReportGenerator transactionReport = new TransactionReportGenerator();
-        transactionReport.generateErrorReport(reportErrors, runDate, title, reportNamePrefix, reportsDirectory);
-    }
-
-    /**
-     * Generate the header for the scrubber status report. This should be moved into the report service impl
+     * Generate the header for the scrubber status report.
      * 
      * @param scrubberReport
      * @return list of report summaries to be printed
@@ -223,7 +275,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     /**
-     * Generate the header for the demerger status report. This should be moved into the report service impl
+     * Generate the header for the demerger status report.
      * 
      * @param demergerReport
      * @return list of report summaries to be printed
@@ -252,5 +304,14 @@ public class ReportServiceImpl implements ReportService {
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
+    }
+    public void setBalanceService(BalanceService bs) {
+        balanceService = bs;
+    }
+    public void setOptionsService(OptionsService os) {
+        optionsService = os;
+    }
+    public void setDateTimeService(DateTimeService dts) {
+        dateTimeService = dts;
     }
 }

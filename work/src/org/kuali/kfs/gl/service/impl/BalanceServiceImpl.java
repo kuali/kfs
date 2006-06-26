@@ -22,16 +22,19 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.bo.GlSummary;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.kuali.module.gl.service.BalanceService;
 
@@ -63,6 +66,22 @@ public class BalanceServiceImpl implements BalanceService {
         return Arrays.asList(s);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.BalanceService#getGlSummary(int, java.util.List)
+     */
+    public List getGlSummary(int universityFiscalYear,List<String> balanceTypeCodes) {
+        LOG.debug("getGlSummary() started");
+
+        List sum = new ArrayList();
+
+        Iterator i = balanceDao.getGlSummary(universityFiscalYear, balanceTypeCodes);
+        while ( i.hasNext() ) {
+            Object[] data = (Object[])i.next();
+            sum.add(new GlSummary(data));
+        }
+        return sum;
+    }
 
     /**
      * 

@@ -44,7 +44,6 @@ import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.batch.poster.PosterReport;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -59,14 +58,14 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
-import org.kuali.module.gl.util.Summary;
+import org.kuali.module.gl.service.ReportService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.32 2006-06-21 16:10:10 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.33 2006-06-26 21:43:47 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -74,8 +73,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private BeanFactory beanFactory;
     private List transactionPosters;
     private VerifyTransaction verifyTransaction;
-    private PosterReport posterReportService;
-    private PosterReport icrGenerationReportService;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -85,6 +82,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private ExpenditureTransactionDao expenditureTransactionDao;
     private IcrAutomatedEntryDao icrAutomatedEntryDao;
     private ObjectCodeService objectCodeService;
+    private ReportService reportService;
 
     /**
      * 
@@ -200,26 +198,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         }
 
         // Generate the report
-
-        // Convert our summary to a list of items for the report
-        List summary = new ArrayList();
-        summary.add(new Summary(1, "Number of GL_ORIGIN_ENTRY_T records selected:", (Integer) reportSummary.get("GL_ORIGIN_ENTRY_T,S")));
-        summary.add(new Summary(2, "", 0));
-
-        int count = 10;
-        for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
-            PostTransaction poster = (PostTransaction) posterIter.next();
-            String table = poster.getDestinationName();
-            summary.add(new Summary(count++, "Number of " + table + " records deleted:", (Integer) reportSummary.get(table + ",D")));
-            summary.add(new Summary(count++, "Number of " + table + " records inserted:", (Integer) reportSummary.get(table + ",I")));
-            summary.add(new Summary(count++, "Number of " + table + " records updated:", (Integer) reportSummary.get(table + ",U")));
-            summary.add(new Summary(count++, "", 0));
-        }
-
-        summary.add(new Summary(10000, "", 0));
-        summary.add(new Summary(10001, "Number of WARNING records selected:", (Integer) reportSummary.get("WARNING,S")));
-
-        posterReportService.generateReport(reportError, summary, runDate, mode);
+        reportService.generatePosterStatisticsReport(runDate, reportSummary, transactionPosters, reportError, mode);
     }
 
     private void postTransaction(Transaction tran, int mode, Map reportSummary, Map reportError, OriginEntryGroup invalidGroup, OriginEntryGroup validGroup, UniversityDate runUniversityDate) {
@@ -416,13 +395,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             reportExpendTranDeleted++;
         }
 
-        List summary = new ArrayList();
-        summary.add(new Summary(1, "Number of GL_EXPEND_TRAN_T records retrieved:", reportExpendTranRetrieved));
-        summary.add(new Summary(2, "Number of GL_EXPEND_TRAN_T records deleted:", reportExpendTranDeleted));
-        summary.add(new Summary(3, "Number of GL_EXPEND_TRAN_T records kept due to errors:", reportExpendTranKept));
-        summary.add(new Summary(4, "", 0));
-        summary.add(new Summary(3, "Number of GL_ORIGIN_ENTRY_T records generated:", reportOriginEntryGenerated));
-        icrGenerationReportService.generateReport(reportErrors, summary, runDate, 0);
+        reportService.generatePosterIcrStatisticsReport(runDate, reportErrors, reportExpendTranRetrieved, reportExpendTranDeleted, reportExpendTranKept, reportOriginEntryGenerated);
     }
 
     /**
@@ -598,14 +571,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         transactionPosters = p;
     }
 
-    public void setPosterReport(PosterReport prs) {
-        posterReportService = prs;
-    }
-
-    public void setIcrGenerationReport(PosterReport prs) {
-        icrGenerationReportService = prs;
-    }
-
     public void setOriginEntryService(OriginEntryService oes) {
         originEntryService = oes;
     }
@@ -642,6 +607,10 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         objectCodeService = ocs;
     }
 
+    public void setReportService(ReportService rs) {
+        reportService = rs;
+    }
+
     public void setBeanFactory(BeanFactory bf) throws BeansException {
         beanFactory = bf;
     }
@@ -652,7 +621,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         // If we are in test mode
         if (beanFactory.containsBean("testDateTimeService")) {
             dateTimeService = (DateTimeService) beanFactory.getBean("testDateTimeService");
-            posterReportService = (PosterReport) beanFactory.getBean("testPosterReport");
         }
     }
 }

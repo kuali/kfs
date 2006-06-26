@@ -44,7 +44,8 @@ public class YearEndDocumentUtil {
      * @return the previous fiscal year used with all GLPE
      */
     public static final Integer getPreviousFiscalYear() {
-        return SpringServiceLocator.getDateTimeService().getCurrentFiscalYear() - 1;
+        int i = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear().intValue() - 1;
+        return new Integer(i);
     }
 
     /**

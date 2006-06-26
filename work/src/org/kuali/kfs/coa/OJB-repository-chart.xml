@@ -568,7 +568,7 @@
         <foreignkey field-ref="finObjTypeCshNotIncomeCd" />
     </reference-descriptor>
 
-    <reference-descriptor name="balanceTyp" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="actualFinancialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="actualFinancialBalanceTypeCd" />
     </reference-descriptor>
 
@@ -1567,7 +1567,7 @@
     <field-descriptor name="approvalToThisAmount" column="FDOC_APRV_TO_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="accountDelegatePrimaryRoutingCode" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE" />
-	
+
     <reference-descriptor name="accountDelegate" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="accountDelegateUniversalId" />
     </reference-descriptor>

@@ -767,7 +767,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             // balance type IS empty.  We can't set it if the year isn't set
             if ( workingEntry.getOption() != null ) {
                 workingEntry.setFinancialBalanceTypeCode(workingEntry.getOption().getActualFinancialBalanceTypeCd());
-                workingEntry.setBalanceType(workingEntry.getOption().getBalanceTyp());
+                workingEntry.setBalanceType(workingEntry.getOption().getActualFinancialBalanceType());
             } else {
                 return new Message("Unable to set balance type code when year is unknown: " + workingEntry.getUniversityFiscalYear(),Message.TYPE_FATAL);
             }

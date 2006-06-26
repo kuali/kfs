@@ -24,11 +24,13 @@ package org.kuali.module.financial.web.struts.action;
 
 
 /**
- * struts action class for <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
+ * struts action class for <code>YearEndDistributionOfIncomeAndExpenseDocument</code> the only functional difference between the
+ * YearEnd version and the non-yearEnd version of a document is the glpe's generation.
  * 
+ * @see org.kuali.module.financial.web.struts.action.DistributionOfIncomeAndExpenseAction
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
 public class YearEndDistributionOfIncomeAndExpenseAction extends DistributionOfIncomeAndExpenseAction {
-    // empty
+    // empty do not change. see above.
 }

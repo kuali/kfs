@@ -25,8 +25,10 @@ package org.kuali.module.financial.web.struts.form;
 import org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
- * struts action for <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
+ * form for <code>YearEndDistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd version
+ * and the non-yearEnd version of a document is the glpe's generation.
  * 
+ * @see org.kuali.module.financial.web.struts.form.DistributionOfIncomeAndExpenseForm
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
@@ -40,18 +42,5 @@ public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfInc
         super();
         setDocument(new YearEndDistributionOfIncomeAndExpenseDocument());
     }
-
-    /**
-     * @return Returns the DistributionOfIncomeAndExpenseDocument.
-     */
-    public YearEndDistributionOfIncomeAndExpenseDocument getYearEndDistributionOfIncomeAndExpenseDocument() {
-        return (YearEndDistributionOfIncomeAndExpenseDocument) getDocument();
-    }
-
-    /**
-     * @param yearEndDistributionOfIncomeAndExpenseDocument
-     */
-    public void setYearEndDistributionOfIncomeAndExpenseDocument(YearEndDistributionOfIncomeAndExpenseDocument yearEndDistributionOfIncomeAndExpenseDocument) {
-        setDocument(yearEndDistributionOfIncomeAndExpenseDocument);
-    }
+    // empty do not change. see above.
 }

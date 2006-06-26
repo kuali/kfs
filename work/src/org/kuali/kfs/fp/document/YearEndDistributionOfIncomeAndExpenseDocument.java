@@ -25,8 +25,8 @@ package org.kuali.module.financial.document;
 
 
 /**
- * Year End version of the <code>DistributionOfIncomeAndExpenseDocument</code> functionally the only difference is the accounting
- * period code used on the glpe entries
+ * Year End version of the <code>DistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd
+ * version and the non-yearEnd version of a document is the glpe's generation.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -38,4 +38,5 @@ public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionO
     public YearEndDistributionOfIncomeAndExpenseDocument() {
         super();
     }
+    // empty do not change. see above.
 }

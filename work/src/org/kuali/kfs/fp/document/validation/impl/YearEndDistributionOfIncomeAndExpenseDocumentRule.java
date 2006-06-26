@@ -36,6 +36,12 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends DistributionOfIncomeAndExpenseDocumentRule {
 
     /**
+     * year end document set:
+     * <ol>
+     * <li> the fiscal period code = 13
+     * <li> fiscal year = previous fiscal year
+     * </ol>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */

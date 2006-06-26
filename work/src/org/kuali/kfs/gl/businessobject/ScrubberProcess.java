@@ -250,9 +250,10 @@ public class ScrubberProcess {
             groupsToScrub.add(group);
         }
         else {
-            groupsToScrub = originEntryGroupService.getGroupsToScrub(runDate);
+            groupsToScrub = originEntryGroupService.getBackupGroups(runDate);
         }
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
+        System.err.println("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 
         // generate the reports based on the origin entries to be processed by scrubber
         if (!reportOnlyMode) {

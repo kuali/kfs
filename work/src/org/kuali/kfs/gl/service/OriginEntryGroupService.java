@@ -30,10 +30,17 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupService.java,v 1.8 2006-06-25 03:53:22 jsissom Exp $
+ * @version $Id: OriginEntryGroupService.java,v 1.9 2006-06-26 14:29:22 jsissom Exp $
  */
 
 public interface OriginEntryGroupService {
+    /**
+     * Create the backup group which has all the entries from
+     * all the groups where all the flags are set Y.
+     * 
+     */
+    public void createBackupGroup();
+
     /**
      * Delete all the groups (and entries) where the
      * group is this many days old or older
@@ -64,7 +71,21 @@ public interface OriginEntryGroupService {
 
     public Collection getIcrGroupsToPost();
 
-    public Collection getGroupsToScrub(Date scrubDate);
+    /**
+     * Get all the unscrubbed backup groups
+     * 
+     * @param backupDate
+     * @return
+     */
+    public Collection getBackupGroups(Date backupDate);
+
+    /**
+     * Get all the groups that need to be put into the backup group
+     * 
+     * @param backupDate
+     * @return
+     */
+    public Collection getGroupsToBackup(Date backupDate);
 
     /**
      * Create a new group

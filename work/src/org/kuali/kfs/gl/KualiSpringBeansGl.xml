@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="glCreateBackupGroupStep" class="org.kuali.module.gl.batch.CreateBackupGroupStep">
+		<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService"/>
+		</property>
+	</bean>
+
     <bean id="glBalanceLookupable" class="org.kuali.module.gl.web.lookupable.BalanceLookupableImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />

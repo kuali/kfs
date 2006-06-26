@@ -39,7 +39,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.18 2006-06-25 03:53:22 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.19 2006-06-26 14:29:22 jsissom Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -50,6 +50,41 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
     public OriginEntryGroupServiceImpl() {
         super();
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getBackupGroups(java.sql.Date)
+     */
+    public Collection getBackupGroups(Date backupDate) {
+        LOG.debug("getBackupGroups() started");
+
+        return originEntryGroupDao.getBackupGroups(backupDate);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#createBackupGroup()
+     */
+    public void createBackupGroup() {
+        LOG.debug("createBackupGroup() started");
+
+        // Get the groups that need to be added
+        Date today = dateTimeService.getCurrentSqlDate();
+        Collection groups = originEntryGroupDao.getGroupsToBackup(today);
+
+        // Create the new group
+        OriginEntryGroup backupGroup = this.createGroup(today, OriginEntrySource.BACKUP, true, true, true);
+
+        for (Iterator iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup group = (OriginEntryGroup)iter.next();
+
+            originEntryGroupDao.copyGroup(group,backupGroup);
+
+            group.setProcess(false);
+            group.setScrub(false);
+            originEntryGroupDao.save(group);
+        }
     }
 
     /**
@@ -145,10 +180,10 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * 
      * @param scrubDate
      */
-    public Collection getGroupsToScrub(Date scrubDate) {
+    public Collection getGroupsToBackup(Date scrubDate) {
         LOG.debug("getGroupsToScrub() started");
 
-        return originEntryGroupDao.getScrubberGroups(scrubDate);
+        return originEntryGroupDao.getGroupsToBackup(scrubDate);
     }
 
     /*

@@ -67,7 +67,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // Add inputs to expected output ...
         EntryHolder output[] = new EntryHolder[12];
         for(int i = 0; i < stringInput.length; i++) {
-            output[i] = new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]);
+            output[i] = new EntryHolder(OriginEntrySource.BACKUP, stringInput[i]);
         }
 
         int c = stringInput.length;
@@ -2052,8 +2052,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         };
 
         EntryHolder[] outputTransactions = {
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
+            new EntryHolder(OriginEntrySource.BACKUP,inputTransactions[0]),
+            new EntryHolder(OriginEntrySource.BACKUP,inputTransactions[1]),
             new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "),
             new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044900-----8000---ACAS07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  ")
         };
@@ -2064,7 +2064,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     private void scrub(String[] inputTransactions) {
         clearOriginEntryTables();
-        loadInputTransactions(OriginEntrySource.EXTERNAL,inputTransactions,date);
+        loadInputTransactions(OriginEntrySource.BACKUP,inputTransactions,date);
         persistenceService.getPersistenceBroker().clearCache();
         scrubberService.scrubEntries();
     }

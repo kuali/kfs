@@ -22,7 +22,9 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,19 +35,39 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.11 2006-06-25 03:53:22 jsissom Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.12 2006-06-26 14:29:22 jsissom Exp $
+ * TODO Oracle Specific code here
  */
-
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupDaoOjb.class);
 
     public OriginEntryGroupDaoOjb() {
         super();
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#copyGroup(org.kuali.module.gl.bo.OriginEntryGroup, org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public void copyGroup(OriginEntryGroup fromGroup,OriginEntryGroup toGroup) {
+        LOG.debug("copyGroup() started");
+
+        String sql = "insert into GL_ORIGIN_ENTRY_T (ORIGIN_ENTRY_ID, OBJ_ID, VER_NBR, ORIGIN_ENTRY_GRP_ID, ACCOUNT_NBR,FDOC_NBR, FDOC_REF_NBR, FDOC_REF_TYP_CD, " +
+                "FDOC_REVERSAL_DT, FDOC_TYP_CD, FIN_BALANCE_TYP_CD, FIN_COA_CD,FIN_OBJ_TYP_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FS_ORIGIN_CD, FS_REF_ORIGIN_CD, " +
+                "ORG_DOC_NBR, ORG_REFERENCE_ID,PROJECT_CD, SUB_ACCT_NBR, TRANSACTION_DT, TRN_DEBIT_CRDT_CD, TRN_ENCUM_UPDT_CD, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_AMT," +
+                "TRN_LDGR_ENTR_DESC, UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, TRN_SCRBBR_OFST_GEN_IND, BDGT_YR) " +
+                "select gl_origin_entry_t_seq.nextval, sys_guid(), 1, " + toGroup.getId() + ", ACCOUNT_NBR, FDOC_NBR, FDOC_REF_NBR, FDOC_REF_TYP_CD, FDOC_REVERSAL_DT, " + 
+                "FDOC_TYP_CD, FIN_BALANCE_TYP_CD, FIN_COA_CD, FIN_OBJ_TYP_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FS_ORIGIN_CD, FS_REF_ORIGIN_CD, ORG_DOC_NBR,ORG_REFERENCE_ID, " +
+                "PROJECT_CD, SUB_ACCT_NBR, TRANSACTION_DT, TRN_DEBIT_CRDT_CD, TRN_ENCUM_UPDT_CD, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_AMT,TRN_LDGR_ENTR_DESC, UNIV_FISCAL_PRD_CD, " +
+                "UNIV_FISCAL_YR, TRN_SCRBBR_OFST_GEN_IND, BDGT_YR from GL_ORIGIN_ENTRY_T where ORIGIN_ENTRY_GRP_ID = " + fromGroup.getId();
+
+        sqlCommand(sql);
     }
 
     /**
@@ -115,9 +137,27 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 
     /**
      * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getBackupGroups(java.sql.Date)
+     */
+    public Collection getBackupGroups(Date groupDate) {
+        LOG.debug("getGroupsToBackup() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addLessOrEqualThan("date", groupDate);
+        criteria.addEqualTo("sourceCode", OriginEntrySource.BACKUP);
+        criteria.addEqualTo("scrub", Boolean.TRUE);
+        criteria.addEqualTo("process", Boolean.TRUE);
+        criteria.addEqualTo("valid", Boolean.TRUE);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+
+    /**
+     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getScrubberGroups(java.sql.Date)
      */
-    public Collection getScrubberGroups(Date groupDate) {
+    public Collection getGroupsToBackup(Date groupDate) {
         LOG.debug("getScrubberGroups() started");
 
         Criteria criteria = new Criteria();
@@ -149,4 +189,34 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         return (OriginEntryGroup) getPersistenceBrokerTemplate().getObjectById(OriginEntryGroup.class, id);
     }
 
+    /**
+     * Run a sql command
+     * 
+     * @param sql
+     * @return
+     */
+    private int sqlCommand(String sql) {
+        LOG.info("sqlCommand() started: " + sql);
+
+        Statement stmt = null;
+
+        try {
+            Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
+            stmt = c.createStatement();
+            return stmt.executeUpdate(sql);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Unable to execute: " + e.getMessage());
+        }
+        finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            }
+            catch (Exception e) {
+                throw new RuntimeException("Unable to close connection: " + e.getMessage());
+            }
+        }
+    }
 }

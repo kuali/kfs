@@ -30,6 +30,14 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupDao {
     /**
+     * Copy all the entries from the from group to the to group
+     * 
+     * @param fromGroup
+     * @param toGroup
+     */
+    public void copyGroup(OriginEntryGroup fromGroup,OriginEntryGroup toGroup);
+
+    /**
      * Get all the groups that are older than a date
      * 
      * @param day
@@ -61,12 +69,20 @@ public interface OriginEntryGroupDao {
     public Collection getPosterGroups(String groupSourceCode);
 
     /**
-     * Get all the groups the scrubber will scrub
+     * Get all the backup groups to scrub
      * 
      * @param groupDate
      * @return
      */
-    public Collection getScrubberGroups(Date groupDate);
+    public Collection getBackupGroups(Date groupDate);
+
+    /**
+     * Get all the groups to be copied into the backup group
+     * 
+     * @param groupDate
+     * @return
+     */
+    public Collection getGroupsToBackup(Date groupDate);
 
     /**
      * Save a group

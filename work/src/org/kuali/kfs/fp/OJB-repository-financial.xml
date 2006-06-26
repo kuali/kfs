@@ -169,13 +169,14 @@
 
 <!-- DIST OF INCOME AND EXPENSE MAPPINGS -->
 <class-descriptor class="org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument" table="FP_DISTRIB_DOC_T">
+    <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" />
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_FRM_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TO_NBR" jdbc-type="INTEGER" />
-
+    <!-- collection references -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.core.bo.SourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="financialDocumentNumber" />
@@ -190,7 +191,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
-
+    <!--  object references -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="financialDocumentNumber" />
     </reference-descriptor>
@@ -198,13 +199,14 @@
 
 <!-- YEAR END DIST OF INCOME AND EXPENSE MAPPINGS -->
 <class-descriptor class="org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpenseDocument" table="FP_DISTRIB_DOC_T">
+    <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" />
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_FRM_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TO_NBR" jdbc-type="INTEGER" />
-
+    <!-- collection references -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.core.bo.SourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="financialDocumentNumber" />
@@ -219,7 +221,7 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
-
+    <!--  object references -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="financialDocumentNumber" />
     </reference-descriptor>

@@ -95,9 +95,18 @@
 							<display:column class="numbercell" sortable="true"
 								decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
 								title="${column.columnTitle}" comparator="${column.comparator}">
+								
+								<c:choose>
 
-								<c:out value="${column.propertyValue}" />
-
+									<c:when test="${column.propertyURL != \"\"}">
+											<a href="<c:out value="${column.propertyURL}"/>"
+												target="blank"><c:out value="${column.propertyValue}" /></a>	
+									</c:when>
+	
+									<c:otherwise>
+											<c:out value="${column.propertyValue}" />
+									</c:otherwise>
+								</c:choose>
 							</display:column>
 
 						</c:when>

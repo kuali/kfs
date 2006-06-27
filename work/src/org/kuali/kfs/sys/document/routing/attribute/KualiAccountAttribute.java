@@ -68,47 +68,30 @@ import edu.iu.uis.eden.util.Utilities;
 public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     static final long serialVersionUID = 1000;
-
     private static Logger LOG = Logger.getLogger(KualiAccountAttribute.class);
 
     private static final String FIN_COA_CD_KEY = "fin_coa_cd";
-
     private static final String ACCOUNT_NBR_KEY = "account_nbr";
-
     private static final String FDOC_TOTAL_DOLLAR_AMOUNT_KEY = "fdoc_ttl_dlr_amt";
-
     private static final String FISCAL_OFFICER_ROLE_KEY = "FISCAL-OFFICER";
-
     private static final String FISCAL_OFFICER_ROLE_LABEL = "Fiscal Officer";
-
     private static final String FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY = "FISCAL-OFFICER-PRIMARY-DELEGATE";
-
     private static final String FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_LABEL = "Fiscal Officer Primary Delegate";
-
     private static final String FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY = "FISCAL-OFFICER-SECONDARY-DELEGATE";
-
     private static final String FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_LABEL = "Fiscal Officer Secondary Delegate";
-
     private static final String ACCOUNT_SUPERVISOR_ROLE_KEY = "ACCOUNT-SUPERVISOR";
-
     private static final String ACCOUNT_SUPERVISOR_ROLE_LABEL = "Account Supervisor";
-
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
+    private static final String ROLE_STRING_DELIMITER = "~!~!~";
+    private static final String NEW_MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
+    private static final String OLD_MAINTAINABLE_PREFIX = "//oldMaintainableObject/businessObject/";
 
     // TODO - here we need to integrate our AccountLookupable long term...
     // private static final String LOOKUPABLE_CLASS = "AccountLookupableImplService";
 
-    private static final String ROLE_STRING_DELIMITER = "~!~!~";
-
-    private static final String NEW_MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
-    private static final String OLD_MAINTAINABLE_PREFIX = "//oldMaintainableObject/businessObject/";
-
     private String finCoaCd;
-
     private String accountNbr;
-
     private String totalDollarAmount;
-
     private boolean required;
 
     /**
@@ -372,9 +355,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     // account
                     // 3) If this is an account edit and the fiscal officer HAS changed, route to the old fiscal officer and the new
                     // fiscal officer
-                    String newFiscalOfficerId = xpath.evaluate(NEW_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());
-                    ;
-                    String oldFiscalOfficerId = xpath.evaluate(OLD_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());
+                    String newFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());
+                    String oldFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + OLD_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());
                     boolean isNewAccount = oldFiscalOfficerId == null;
                     boolean isFiscalOfficerChanged = !newFiscalOfficerId.equals(oldFiscalOfficerId);
                     // if this is a new account or the fiscal officer has changed, route to the new fiscal officer
@@ -405,16 +387,16 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     fiscalOfficers.add(role);
                 }
                 else if (docTypeName.equals(KualiConstants.PROCUREMENT_CARD_DOC_TYPE)) {
-                    NodeList targetLineNodes = (NodeList) xpath.evaluate("//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                    NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
                     String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
                     fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
                 }
                 else if (docTypeName.equals(KualiConstants.BUDGET_ADJUSTMENT_DOC_TYPE)) {
-                    NodeList sourceLineNodes = (NodeList) xpath.evaluate("//org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                    NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
                     //TODO: get total amount for BA
                     String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
                     fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
-                    NodeList targetLineNodes = (NodeList) xpath.evaluate("//org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                    NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
                     fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
                 }
                 else {

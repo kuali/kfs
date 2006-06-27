@@ -43,7 +43,6 @@ public class CorrectionCriteria extends BusinessObjectBase implements Comparable
     private String correctionFieldValue;
 
     private String operator;
-    // TODO Does this need to be added to the database table?
     private String correctionFieldName;
 
     private CorrectionChangeGroup correctionChangeGroup;

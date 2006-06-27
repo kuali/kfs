@@ -710,6 +710,7 @@
     <field-descriptor name="correctionEndPosition" column="GL_COR_END_POS" jdbc-type="INTEGER" />
     <field-descriptor name="correctionOperatorCode" column="GL_COR_OPR_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="correctionFieldValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionFieldName" column="GL_COR_FIELD_NM" jdbc-type="VARCHAR" />
     <reference-descriptor name="correctionChangeGroup" class-ref="org.kuali.module.gl.bo.CorrectionChangeGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialDocumentNumber" />
         <foreignkey field-ref="correctionChangeGroupLineNumber" />
@@ -725,6 +726,7 @@
     <field-descriptor name="correctionStartPosition" column="GL_COR_STRT_POS" jdbc-type="INTEGER" />
     <field-descriptor name="correctionEndPosition" column="GL_COR_END_POS" jdbc-type="INTEGER" />
     <field-descriptor name="correctionFieldValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
+    <field-descriptor name="correctionFieldName" column="GL_COR_FIELD_NM" jdbc-type="VARCHAR" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" table="GL_PENDING_ENTRY_T" proxy="dynamic">

@@ -40,9 +40,6 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     private Integer correctionStartPosition;
     private Integer correctionEndPosition;
     private String correctionFieldValue;
-
-
-    // TODO Does this need to be added to the database table?
     private String correctionFieldName;
 
     /**

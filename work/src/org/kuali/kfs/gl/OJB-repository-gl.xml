@@ -727,64 +727,6 @@
     <field-descriptor name="correctionFieldValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<!-- 
-    <class-descriptor class="org.kuali.module.gl.document.GeneralLedgerErrorCorrectionDocument" table="GL_COR_DOC_T">
-    <field-descriptor name="financialDocumentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="sourceCode" column="SOURCE_CD" jdbc-type="VARCHAR" />
-    <reference-descriptor name="source" class-ref="org.kuali.module.gl.bo.OriginEntrySource" auto-retrieve="true" auto-update="object" auto-delete="object">
-    <foreignkey field-ref="sourceCode" />
-    </reference-descriptor>
-    <collection-descriptor name="correctionGroups" proxy="true" element-class-ref="org.kuali.module.gl.bo.CorrectionGroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object"
-    auto-delete="object">
-    <orderby name="groupNumber" sort="ASC" />
-    <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.module.gl.bo.CorrectionGroup" table="GL_COR_CHG_GRP_T">
-    <field-descriptor name="correctionGroupNumber" column="GL_COR_CHG_GRP_LN_NBR" jdbc-type="INTEGER" primarykey="true" />
-    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="nextSearchCriterionNumber" column="GL_COR_CRTA_NXT_LN_NBR" jdbc-type="INTEGER" />
-    <field-descriptor name="nextReplacementSpecificationNumber" column="GL_COR_CHG_NXT_LN_NBR" jdbc-type="INTEGER" />
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-    <foreignkey field-ref="documentNumber"/>
-    </reference-descriptor>
-    <collection-descriptor name="searchCriteria" proxy="true" element-class-ref="org.kuali.module.gl.bo.CorrectionSearchCriterion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-    <orderby name="criterionIndex" sort="ASC"/>
-    <inverse-foreignkey field-ref="documentNumber"/>
-    </collection-descriptor>
-    <collection-descriptor name="replacementSpecifications" proxy="true" element-class-ref="org.kuali.module.gl.bo.CorrectionReplacementSpecification" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-    <orderby name="specificationIndex" sort="ASC"/>
-    <inverse-foreignkey field-ref="documentNumber"/>
-    </collection-descriptor>
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.module.gl.bo.CorrectionSearchCriterion" table="GL_COR_CRTA_T">
-    <field-descriptor name="groupNumber" column="GL_COR_CHG_GRP_LN_NBR" jdbc-type="INTEGER" primarykey="true" />
-    <field-descriptor name="criterionNumber" column="GL_COR_CHG_CRTA_LN_NBR" jdbc-type="INTEGER" primarykey="true" />
-    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="operator" column="GL_COR_OPR_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="fieldName" column="GL_COR_FIELD_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="targetValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.module.gl.bo.CorrectionReplacementSpecification" table="GL_COR_CHG_T">
-    <field-descriptor name="groupNumber" column="GL_COR_CHG_GRP_LN_NBR" jdbc-type="INTEGER" primarykey="true" />
-    <field-descriptor name="specificationNumber" column="GL_COR_CHG_LN_NBR" jdbc-type="INTEGER" primarykey="true" />
-    <field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="fieldName" column="GL_COR_CHG_FLD_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="replacementValue" column="GL_COR_FIELD_VAL" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    </class-descriptor>
--->
-
 <class-descriptor class="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" table="GL_PENDING_ENTRY_T" proxy="dynamic">
     <field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />

@@ -61,6 +61,10 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String matchCriteriaOnly;
     private String editableFlag;
     private String manualEditFlag;
+    private String deleteFileFlag;
+    private KualiDecimal totalDebitsOrBlanks;
+    private KualiDecimal totalCredits; 
+    private int rowsOutput;
     
     /**
      * This is a Map of operators that can be used in searches from the GL Error Correction Document. Each value in this Map
@@ -304,6 +308,38 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setManualEditFlag(String manualEditFlag) {
         this.manualEditFlag = manualEditFlag;
+    }
+
+    public String getDeleteFileFlag() {
+        return deleteFileFlag;
+    }
+
+    public void setDeleteFileFlag(String deleteFileFlag) {
+        this.deleteFileFlag = deleteFileFlag;
+    }
+
+    public KualiDecimal getTotalDebitsOrBlanks() {
+        return totalDebitsOrBlanks;
+    }
+
+    public void setTotalDebitsOrBlanks(KualiDecimal totalDebitsOrBlanks) {
+        this.totalDebitsOrBlanks = totalDebitsOrBlanks;
+    }
+
+    public int getRowsOutput() {
+        return rowsOutput;
+    }
+
+    public void setRowsOutput(int rowsOutput) {
+        this.rowsOutput = rowsOutput;
+    }
+
+    public KualiDecimal getTotalCredits() {
+        return totalCredits;
+    }
+
+    public void setTotalCredits(KualiDecimal totalCredits) {
+        this.totalCredits = totalCredits;
     }
 
    

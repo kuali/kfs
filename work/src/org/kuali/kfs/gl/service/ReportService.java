@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.user.Options;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
@@ -93,7 +94,7 @@ public interface ReportService {
      * @param yearOffset
      * @param balanceTypeCodes
      */
-    public void generateGlSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType);
+    public void generateGlSummary(Date runDate,Options year,String reportType);
 
     /**
      * GL Encumbrance Summary report
@@ -102,7 +103,7 @@ public interface ReportService {
      * @param yearOffset
      * @param balanceTypeCodes
      */
-    public void generateGlEncumbranceSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType);
+    public void generateGlEncumbranceSummary(Date runDate,Options year,String reportType);
 
     /**
      * Poster Statistics report

@@ -223,34 +223,42 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @see org.kuali.module.gl.service.ReportService#generateGlSummary(java.util.Date, int, java.util.List)
      */
-    public void generateGlSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType) {
+    public void generateGlSummary(Date runDate,Options year,String reportType) {
         LOG.debug("generateGlSummary() started");
 
-        Integer fy = dateTimeService.getCurrentFiscalYear();
-        fy = fy + yearOffset;
-        Options year = optionsService.getOptions(fy);
+        List balanceTypeCodes = new ArrayList();
+        if ( "act".equals(reportType) ) {
+            balanceTypeCodes.add(year.getActualFinancialBalanceTypeCd());
+        } else {
+            balanceTypeCodes.add(year.getBudgetCheckingBalanceTypeCd());
+            // TODO these may need fields in the fs_option_t table
+            balanceTypeCodes.add("BB");
+            balanceTypeCodes.add("MB");
+        }
 
-        List balances = balanceService.getGlSummary(fy, balanceTypeCodes);
+        List balances = balanceService.getGlSummary(year.getUniversityFiscalYear(), balanceTypeCodes);
 
         BalanceReport rept = new BalanceReport();
-        rept.generateReport(runDate,balances,year.getUniversityFiscalYearName(),balanceTypeCodes,"glsummary_" + fy + "_" + reportType,reportsDirectory);
+        rept.generateReport(runDate,balances,year.getUniversityFiscalYearName(),balanceTypeCodes,"glsummary_" + year.getUniversityFiscalYear() + "_" + reportType,reportsDirectory);
     }
 
     /**
      * 
      * @see org.kuali.module.gl.service.ReportService#generateGlEncumbranceSummary(java.util.Date, int, java.util.List, java.lang.String)
      */
-    public void generateGlEncumbranceSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType) {
+    public void generateGlEncumbranceSummary(Date runDate,Options year,String reportType) {
         LOG.debug("generateGlEncumbranceSummary() started");
 
-        Integer fy = dateTimeService.getCurrentFiscalYear();
-        fy = fy + yearOffset;
-        Options year = optionsService.getOptions(fy);
+        List balanceTypeCodes = new ArrayList();
+        balanceTypeCodes.add(year.getExtrnlEncumFinBalanceTypCd());
+        balanceTypeCodes.add(year.getIntrnlEncumFinBalanceTypCd());
+        balanceTypeCodes.add(year.getPreencumbranceFinBalTypeCd());
+        balanceTypeCodes.add(year.getCostShareEncumbranceBalanceTypeCode());
 
-        List balances = balanceService.getGlSummary(fy, balanceTypeCodes);
+        List balances = balanceService.getGlSummary(year.getUniversityFiscalYear(), balanceTypeCodes);
 
         BalanceEncumbranceReport rept = new BalanceEncumbranceReport();
-        rept.generateReport(runDate,balances,year.getUniversityFiscalYearName(),balanceTypeCodes,"glsummary_" + fy + "_" + reportType,reportsDirectory);
+        rept.generateReport(runDate,balances,year.getUniversityFiscalYearName(),balanceTypeCodes,"glsummary_" + year.getUniversityFiscalYear() + "_" + reportType,reportsDirectory);
     }
 
     public void generateYearEndEncumbranceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries) {

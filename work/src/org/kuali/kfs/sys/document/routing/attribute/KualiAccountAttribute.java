@@ -602,7 +602,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         if (role.accountNumber == null) {
             return members;
         }
-        String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_IND = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_IND = 'N' " + (role.totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)");
+        String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_CD = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_CD = 'N' " + (role.totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)");
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, role.chart);
         ps.setString(2, role.accountNumber);

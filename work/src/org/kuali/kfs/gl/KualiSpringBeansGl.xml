@@ -753,6 +753,16 @@
         <property name="icrTransaction">
             <ref bean="glIcrTransaction" />
         </property>
+       
+        <property name="accountService">
+            <ref bean="accountService" />
+        </property>
+        <property name="chartService">
+            <ref bean="chartService" />
+        </property>       
+        <property name="balanceTypeService">
+            <ref bean="balanceTypService" />
+        </property>                        
     </bean>
 
     <bean id="glIcrEncumbranceReversalService" class="org.kuali.module.gl.service.impl.IndirectCostEncumbranceReversalServiceImpl">

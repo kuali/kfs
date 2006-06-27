@@ -37,9 +37,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.Lookupable;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiAction;
@@ -79,20 +79,25 @@ public class BalanceInquiryAction extends KualiAction {
 
         Collection displayList = new ArrayList();
         Collection resultTable = new ArrayList();
-        
+
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
-        
-        displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
-        CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
-        
-        Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
-        
-        request.setAttribute("reqSearchResultsActualSize", totalSize);
-        request.setAttribute("reqSearchResults", resultTable);
-        if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
-            GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
+
+        try {
+            displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
+
+            CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
+            Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
+
+            request.setAttribute("reqSearchResultsActualSize", totalSize);
+            request.setAttribute("reqSearchResults", resultTable);
+            if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
+                GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
+            }
+            request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
         }
-        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
+        catch (Exception e) {
+            GlobalVariables.getErrorMap().put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Invalid Input" });
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

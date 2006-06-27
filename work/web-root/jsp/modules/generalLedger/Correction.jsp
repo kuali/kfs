@@ -42,7 +42,7 @@
                     <center>
                         <label for="pending-origin-entry-group-id"><strong>GLCP Origin Entry Group</strong></label><br/><br/>
                         
-                        <html:select property="groupIdList" multiple="true" size="10" >
+                        <html:select property="groupIdList" size="10" >
 							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|PreviousGLCPDocuFinder" label="label" value="key" />
 						</html:select>
                         
@@ -100,7 +100,7 @@
                     <center>
                         <label for="pending-origin-entry-group-id"><strong>Origin Entry Group</strong></label><br/><br/>
                         
-                        <html:select property="groupIdList" multiple="true" size="10" >
+                        <html:select property="groupIdList" size="10" >
 							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionPendingGroupEntriesFinder" label="label" value="key" />
 						</html:select>
                         
@@ -166,7 +166,7 @@
 				
 						<STRONG>Show Output file<STRONG>
 						<input type="image" name="methodToCall.showOutputFile" 
-								  src="images/buttonsmall_submit.gif" alt="showOutputFile" class="tinybutton" />
+								  src="images/tinybutton-show.gif" alt="showOutputFile" class="tinybutton" />
 					
 					</center>
 				</td>

@@ -24,6 +24,7 @@ package org.kuali.module.gl.service.impl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -47,7 +48,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.18 2006-06-22 20:01:07 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.19 2006-06-27 15:47:06 schoo Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -286,4 +287,46 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
         return ledgerEntry;
     }
+    //TODO
+    public File flatFile(String filename, Integer groupId) throws IOException {
+        File returnFile = new File(filename);
+        //FileWriter filewriter = new FileWriter(returnFile);
+        
+        
+        LOG.debug("exportFlatFile() started");
+
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new FileWriter(filename));
+
+            OriginEntryGroup oeg = new OriginEntryGroup();
+            oeg.setId(groupId);
+            Iterator i = getEntriesByGroup(oeg);
+            while (i.hasNext()) {
+                OriginEntry e = (OriginEntry) i.next();
+                out.write(e.getLine() + "\n");
+            }
+        }
+        catch (IOException e) {
+            LOG.error("exportFlatFile() Error writing to file", e);
+        }
+        finally {
+            if (out != null) {
+                try {
+                    out.close();
+                }
+                catch (IOException ie) {
+                    LOG.error("exportFlatFile() Error closing file", ie);
+                }
+            }
+        }
+        
+        //returnFile.
+        
+        
+        
+        return returnFile; 
+    
+    }
+    
 }

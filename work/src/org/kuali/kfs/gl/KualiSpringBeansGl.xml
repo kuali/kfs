@@ -303,6 +303,14 @@
 	<bean id="glCollectorFileParser" class="org.kuali.module.gl.collector.xml.impl.CollectorFileParserImpl">
     </bean>	
 
+    <bean id="glMailService" class="org.kuali.core.service.impl.MailServiceImpl">
+        <property name="mailSender"><ref bean="glMailSender"/></property>
+    </bean>
+
+    <bean id="glMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host"><value>mail.rsmart.com</value></property>
+    </bean>
+
 	<bean id="glCollectorService" class="org.kuali.module.gl.service.impl.CollectorServiceImpl">
     	<property name="interDepartmentalBillingService">
     		<ref bean="glInterDepartmentalBillingService" />
@@ -315,6 +323,9 @@
     	</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
+		</property>	
+		<property name="mailService">
+			<ref bean="glMailService" />
 		</property>	
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />

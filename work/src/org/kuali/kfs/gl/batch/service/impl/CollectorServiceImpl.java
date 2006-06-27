@@ -23,8 +23,15 @@
 package org.kuali.module.gl.service.impl;
 
 import java.io.*;
+import java.util.Currency;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.*;
+import org.bouncycastle.asn1.x509.qualified.MonetaryValue;
+import org.kuali.core.mail.InvalidAddressException;
+import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.*;
 import org.kuali.module.gl.collector.xml.*;
 import org.kuali.module.gl.collector.xml.impl.*;
@@ -39,13 +46,17 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private KualiConfigurationService kualiConfigurationService;
+    private MailService mailService;
     private DateTimeService dateTimeService;
     private BeanFactory beanFactory;
 
     public void loadCollectorFile(String fileName) {
         CollectorFileParser collectorFileParser = (CollectorFileParser)beanFactory.getBean("glCollectorFileParser");
         doHardEditParse(collectorFileParser, fileName);
-        doCollectorFileParse(collectorFileParser, fileName);
+        List errors = collectorFileParser.getFileHandler().getErrorMessages();
+        if (errors.isEmpty())
+            doCollectorFileParse(collectorFileParser, fileName);
+        sendEmail(collectorFileParser.getFileHandler());
      }
     private void doHardEditParse(CollectorFileParser collectorFileParser, String fileName) {
         HardEditHandler hardEditHandler = new HardEditHandler();
@@ -60,17 +71,66 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
             //Do something here.
         }
     }
-    private void doCollectorFileParse(CollectorFileParser collectorFileParser, String fileName) {
+    private void sendEmail(CollectorFileHandler collectorFileHandler) {
+        LOG.debug("sendNoteEmails() starting");
+        MailMessage message = new MailMessage();
+        message.setFromAddress("doNotReply@KUALI.SYSTEM");
+        message.setSubject("Collector Input Summary");
+
+        String body = createMessageBody(collectorFileHandler);
+
+        message.setMessage(body);
+        
+        String email = collectorFileHandler.getHeader().getWorkgroupName();
+        message.addToAddress(email);
+
+        try {
+            mailService.sendMessage(message);
+        } catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
+   }
+    private String createMessageBody(CollectorFileHandler collectorFileHandler) {
+        StringBuffer body = new StringBuffer();
+        XmlHeader header = collectorFileHandler.getHeader();
+        XmlTrailer trailer = collectorFileHandler.getTrailer();
+        body.append("Header Information:\n\n");
+        body.append("Chart: " + header.getChartOfAccountsCode() + "\n");
+        body.append("Org: " + header.getOrganizationCode() + "\n");
+        body.append("Contact: " + header.getContactPerson() + "\n");
+        body.append("Email: " + header.getWorkgroupName() + "\n");
+        body.append("File Date: " + header.getTransmissionDate() + "\n\n");
+        body.append("Summary Totals:\n");
+        // SUMMARY TOTALS HERE
+        body.append("    Total Records: " + String.valueOf(trailer.getTotalRecords().intValue()) + "\n");
+        body.append("    Total Amount: " + trailer.getTotalAmount() + "\n\n");
+        body.append("Reported Errors:\n");
+        // ERRORS GO HERE
+        List errorMessages = collectorFileHandler.getErrorMessages();
+        if (errorMessages.isEmpty()) {
+            body.append("----- NO ERRORS TO REPORT -----\nFiles have been added to the system.");
+        } else {
+            Iterator iter = errorMessages.iterator();
+            while (iter.hasNext()) {
+                String currentMessage = (String)iter.next();
+                body.append(currentMessage + "\n");
+            }
+            body.append("----- THE RECORDS WERE NOT SAVED TO THE DATABASE -----");
+        }
+        return body.toString();
+    }
+    private CollectorFileHandlerImpl doCollectorFileParse(CollectorFileParser collectorFileParser, String fileName) {
         CollectorFileHandlerImpl collectorFileHandler = new CollectorFileHandlerImpl
                 (originEntryService, interDepartmentalBillingService, originEntryGroupService, dateTimeService);
         collectorFileParser.setFileHandler(collectorFileHandler);
         try {
             InputStream inputStream2 = new FileInputStream(fileName);
             collectorFileParser.parse(inputStream2);
+            return collectorFileHandler;
         }catch(FileReadException fre) {
-            //Do something here.
+            return null;
         }catch(FileNotFoundException fnfe) {
-            //Do something here.
+            return null;
         }
     }
     public void setInterDepartmentalBillingService(InterDepartmentalBillingService interDepartmentalBillingService) {
@@ -96,5 +156,8 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
     }
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
     }
 }

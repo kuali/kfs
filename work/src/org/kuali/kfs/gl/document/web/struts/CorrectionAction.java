@@ -70,7 +70,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.16 2006-06-27 15:47:32 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.17 2006-06-27 19:31:37 abyrne Exp $
  * 
  */
 
@@ -600,22 +600,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
                 fileUploadSearchAndReplaceWithCriteria(errorCorrectionForm, request);
             }
         }
-        
-        /*ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
-        if (preRulesForward != null) {
-            return preRulesForward;
-        }*/
-
-        DocumentService documentService = SpringServiceLocator.getDocumentService();
-
-        Document document = kualiDocumentFormBase.getDocument();
-
-        documentService.routeDocument(document, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
-        kualiDocumentFormBase.setAnnotation("");
-        
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return super.route(mapping, form, request, response);
     }
 
 

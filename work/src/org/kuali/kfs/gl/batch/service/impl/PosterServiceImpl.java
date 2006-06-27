@@ -65,7 +65,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.33 2006-06-26 21:43:47 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.34 2006-06-27 15:27:17 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -136,16 +136,19 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                 validEntrySourceCode = OriginEntrySource.MAIN_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.MAIN_POSTER_ERROR;
                 groups = originEntryGroupService.getGroupsToPost();
+                reportService.generatePosterMainLedgerSummaryReport(runDate, groups);
                 break;
             case PosterService.MODE_REVERSAL:
                 validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_ERROR;
                 reversalTransactions = reversalDao.getByDate(runDate);
+                // TODO Reversal Report
                 break;
             case PosterService.MODE_ICR:
                 validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.ICR_POSTER_ERROR;
                 groups = originEntryGroupService.getIcrGroupsToPost();
+                reportService.generatePosterIcrLedgerSummaryReport(runDate, groups);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid poster mode " + mode);

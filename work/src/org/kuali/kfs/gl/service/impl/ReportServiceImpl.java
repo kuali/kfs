@@ -122,7 +122,7 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @see org.kuali.module.gl.service.ReportService#generateIcrEncumrbanceStatisticsReport(java.util.Date, int, int)
      */
-    public void generateIcrEncumrbanceStatisticsReport(Date runDate,int totalOfIcrEncumbrances,int totalOfEntriesGenerated) {
+    public void generateIcrEncumbranceStatisticsReport(Date runDate,int totalOfIcrEncumbrances,int totalOfEntriesGenerated) {
         LOG.debug("generateIcrEncumrbanceStatisticsReport() started");
 
         List reportSummaryList = new ArrayList();
@@ -265,6 +265,30 @@ public class ReportServiceImpl implements ReportService {
         TransactionReport transactionReport = new TransactionReport();
         String title = "Balance Forward Report ";
         transactionReport.generateReport(null, reportSummary, runDate, title, "year_end_balance_forward", reportsDirectory);
+    }
+
+    public void generatePosterMainLedgerSummaryReport(Date runDate, Collection groups) {
+        LOG.debug("generatePosterMainLedgerSummaryReport() started");
+
+        LedgerReport ledgerReport = new LedgerReport();
+        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        ledgerReport.generateReport(ledgerEntries, runDate, "Main Poster Input Transactions", "poster_main_ledger", reportsDirectory);
+    }
+
+    public void generatePosterIcrLedgerSummaryReport(Date runDate, Collection groups) {
+        LOG.debug("generatePosterIcrLedgerSummaryReport() started");
+
+        LedgerReport ledgerReport = new LedgerReport();
+        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        ledgerReport.generateReport(ledgerEntries, runDate, "Icr Poster Input Transactions", "poster_icr_ledger", reportsDirectory);
+    }
+
+    public void generatePosterReversalLedgerSummaryReport(Date runDate, Collection groups) {
+        LOG.debug("generatePosterReversalLedgerSummaryReport() started");
+
+        LedgerReport ledgerReport = new LedgerReport();
+        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        ledgerReport.generateReport(ledgerEntries, runDate, "Reversal Poster Input Transactions", "poster_reversal_ledger", reportsDirectory);
     }
 
     /**

@@ -34,6 +34,8 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.Summary;
 
 /**
@@ -131,5 +133,29 @@ public interface ReportService {
      * @param totalOfIcrEncumbrances
      * @param totalOfEntriesGenerated
      */
-    public void generateIcrEncumrbanceStatisticsReport(Date runDate,int totalOfIcrEncumbrances,int totalOfEntriesGenerated);
+    public void generateIcrEncumbranceStatisticsReport(Date runDate,int totalOfIcrEncumbrances,int totalOfEntriesGenerated);
+
+    /**
+     * Main Poster Input Transaction Report
+     * 
+     * @param runDate
+     * @param groups
+     */
+    public void generatePosterMainLedgerSummaryReport(Date runDate, Collection groups);
+
+    /**
+     * Icr Poster Input Transaction Report
+     * 
+     * @param runDate
+     * @param groups
+     */
+    public void generatePosterIcrLedgerSummaryReport(Date runDate, Collection groups);
+
+    /**
+     * Reversal Poster Input Transaction Report
+     * 
+     * @param runDate
+     * @param groups
+     */
+    public void generatePosterReversalLedgerSummaryReport(Date runDate, Collection groups);
 }

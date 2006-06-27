@@ -26,12 +26,11 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.FinancialDocument;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
@@ -148,7 +147,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
     public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         final AdvanceDepositDocument advanceDepositDocument = ((AdvanceDepositDocument) financialDocument);
-        if (SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG)) {
+        if (advanceDepositDocument.isBankCashOffsetEnabled()) {
             int displayedDepositNumber = 1;
             for (AdvanceDepositDetail detail : advanceDepositDocument.getAdvanceDeposits()) {
                 detail.refreshReferenceObject(PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
@@ -163,7 +162,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
                 sequenceHelper.increment();
 
                 GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
-                success &= populateOffsetGeneralLedgerPendingEntry(advanceDepositDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS);
+                success &= populateOffsetGeneralLedgerPendingEntry(advanceDepositDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
                 advanceDepositDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
                 sequenceHelper.increment();
             }

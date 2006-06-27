@@ -155,7 +155,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
     public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         CreditCardReceiptDocument ccrDoc = (CreditCardReceiptDocument) financialDocument;
-        if (SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG)) {
+        if (ccrDoc.isBankCashOffsetEnabled()) {
             KualiDecimal depositTotal = ccrDoc.calculateCreditCardReceiptTotal();
             // todo: what if the total is 0?  e.g., 5 minus 5, should we generate a 0 amount GLPE and offset?  I think the other rules combine to prevent a 0 total, though.
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
@@ -167,7 +167,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
                 sequenceHelper.increment();
     
                 GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
-                success &= populateOffsetGeneralLedgerPendingEntry(ccrDoc.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+                success &= populateOffsetGeneralLedgerPendingEntry(ccrDoc.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
                 // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe neither should?)
                 ccrDoc.getGeneralLedgerPendingEntries().add(offsetEntry);
                 sequenceHelper.increment();

@@ -20,7 +20,10 @@
     <c:if test="${showDeposits}">
         <cm:deposits editingMode="${KualiForm.editingMode}"/>
     </c:if>
-    
+
+    <c:if test="${KualiForm.document.bankCashOffsetEnabled}" >
+        <kul:generalLedgerPendingEntries />
+    </c:if>
     <kul:notes/>
     <kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>
     <kul:routeLog/>

@@ -784,6 +784,11 @@
         <orderby name="financialDocumentDepositLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
+
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="financialDocumentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.Deposit" table="FP_DEPOSIT_DOC_T">

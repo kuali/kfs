@@ -50,7 +50,9 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
 import org.kuali.module.financial.document.JournalVoucherDocument;
+import org.kuali.module.financial.document.VoucherDocument;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
+import org.kuali.module.financial.web.struts.form.VoucherForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -110,6 +112,32 @@ public class JournalVoucherAction extends VoucherAction {
             returnForward = super.execute(mapping, journalVoucherForm, request, response);
         }
         return returnForward;
+    }
+    
+    /**
+     * Overrides the parent to first prompt the user appropriately to make sure that they want to submit and out of balance document, then 
+     * calls super's route method.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // process the question but we need to make sure there are lines and then check to see if it's not balanced
+        VoucherDocument vDoc = ((VoucherForm) form).getVoucherDocument();
+        if (vDoc.getSourceAccountingLines().size() > 0 && vDoc.getTotal().compareTo(Constants.ZERO) != 0) {
+            // it's not in "balance"
+            ActionForward returnForward = processRouteOutOfBalanceDocumentConfirmationQuestion(mapping, form, request, response);
+
+            // if not null, then the question component either has control of the flow and needs to ask its questions
+            // or the person chose the "cancel" or "no" button
+            // otherwise we have control
+            if (returnForward != null) {
+                return returnForward;
+            }
+        }
+        // now call the route method
+        return super.route(mapping, form, request, response);
     }
 
     /**

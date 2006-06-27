@@ -1,6 +1,12 @@
 <%@ include file="/jsp/core/tldHeader.jsp" %>
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialAuxiliaryVoucher" documentTypeName="KualiAuxiliaryVoucherDocument" renderMultipart="true" showTabButtons="true">
+		<%-- derive displayReadOnly value --%>
+		<c:set var="readOnly" value="false" />
+
+		<c:if test="${!empty editingMode['viewOnly']}" >
+		    <c:set var="readOnly" value="true" />
+		</c:if>
 
   	   	<SCRIPT type="text/javascript">
 		<!--
@@ -9,7 +15,6 @@
 		    }
 		//-->
 	    </SCRIPT>
-		<c:set var="blah" value="${KualiForm.document.typeCode}"/>
 
 		<kul:hiddenDocumentFields />
 
@@ -91,7 +96,6 @@
             </tbody>
           </table>
 	    	</div>
-		          
 		</kul:tab>
         <fin:voucherAccountingLines
             isDebitCreditAmount="true" 

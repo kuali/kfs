@@ -163,31 +163,6 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
     }
 
     /**
-     * Overrides the parent to iterate through all source accounting lines and re-populate the credit and debit code appropriately
-     * in case the user flip-flopped any of the debit/credit amounts or changed the amounts.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // process the question but we need to make sure there are lines and then check to see if it's not balanced
-        VoucherDocument vDoc = ((VoucherForm) form).getVoucherDocument();
-        if (vDoc.getSourceAccountingLines().size() > 0 && vDoc.getTotal().compareTo(Constants.ZERO) != 0) {
-            // it's not in "balance"
-            ActionForward returnForward = processRouteOutOfBalanceDocumentConfirmationQuestion(mapping, form, request, response);
-
-            // if not null, then the question component either has control of the flow and needs to ask its questions
-            // or the person chose the "cancel" or "no" button
-            // otherwise we have control
-            if (returnForward != null) {
-                return returnForward;
-            }
-        }
-        // now call the route method
-        return super.route(mapping, form, request, response);
-    }
-
-    /**
      * Overrides the parent to make sure that the AV specific accounting line helper forms are properly populated when the document
      * is first loaded. This first calls super, then populates the helper objects.
      * 

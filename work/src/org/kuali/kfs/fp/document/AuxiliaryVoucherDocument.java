@@ -22,8 +22,14 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL;
+import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
+
 import java.sql.Timestamp;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
@@ -31,16 +37,10 @@ import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.PatternedStringBuilder;
 import org.kuali.core.util.SpringServiceLocator;
-
-import static org.kuali.Constants.DOCUMENT_ERRORS;
-import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This 
@@ -52,17 +52,17 @@ import static org.kuali.Constants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DISTRIB
  */
 public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
-    
+
     private String typeCode = ADJUSTMENT_DOC_TYPE;;
     private Timestamp reversalDate;
-    
+
     /**
      * Initializes the array lists and some basic info.
      */
     public AuxiliaryVoucherDocument() {
         super();
     }
-    
+
     /**
      * Read Accessor for Reversal Date
      *
@@ -71,7 +71,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public Timestamp getReversalDate() {
         return reversalDate;
     }
-    
+
     /**
      * Write Accessor for Reversal Date
      *
@@ -80,7 +80,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public void setReversalDate(Timestamp reversalDate) {
         this.reversalDate = reversalDate;
     }
-    
+
     /**
      * Read Accessor for Auxiliary Voucher Type
      *
@@ -89,7 +89,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public String getTypeCode() {
         return typeCode;
     }
-    
+
     /**
      * Write Accessor for Auxiliary Voucher Type
      *
@@ -99,6 +99,33 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         this.typeCode = typeCode;
     }
     
+    /**
+     * A helper to test whether this document is an adjustment type AV.
+     * 
+     * @return boolean
+     */
+    public boolean isAdjustmentType() {
+        return ADJUSTMENT_DOC_TYPE.equals(typeCode);
+    }
+    
+    /**
+     * A helper to test whether this document is an recode type AV.
+     * 
+     * @return boolean
+     */
+    public boolean isRecodeType() {
+        return RECODE_DOC_TYPE.equals(typeCode);
+    }
+    
+    /**
+     * A helper to test whether this document is an accrual type AV.
+     * 
+     * @return boolean
+     */
+    public boolean isAccrualType() {
+        return ACCRUAL_DOC_TYPE.equals(typeCode);
+    }
+
     /**
      * This method calculates the debit total for a JV document keying off of the 
      * debit/debit code, only summing the accounting lines with a debitDebitCode 
@@ -112,13 +139,13 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
+            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                 debitTotal = debitTotal.add(al.getAmount());
             }
         }
         return debitTotal;
     }
-    
+
     /**
      * This method calculates the credit total for a JV document keying off of the 
      * debit/credit code, only summing the accounting lines with a debitCreditCode 
@@ -132,51 +159,45 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
+            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
                 creditTotal = creditTotal.add(al.getAmount());
             }
         }
         return creditTotal;
     }
-    
+
     /**
-     * This method sums the amounts of all of the accounting lines in 
-     * the <code>{@link AuxiliaryVoucherDocument}</code>.  This method should be used to represent 
-     * the total of the document when the balance type of External Encubmrance 
-     * is selected.
-     *
+     * This method calculates the difference between the credit and debit total.
+     * 
      * @return KualiDecimal
      */
-    public KualiDecimal getTotal() {        
+    public KualiDecimal getTotal() {
         KualiDecimal total = new KualiDecimal(0);
-        
+
         total = getCreditTotal().subtract(getDebitTotal());
 
         return total;
     }
-    
-    /**
-     * Overriding this to fix the reversal date should if something happens (like a long period of time passes) between the time the document
-     * is routed and when it becomes approved.<br/>
-     * <br/>
-     * If the document is of RECODE type, then a <code>{@link org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument}</code> instance
-     * is then created and routed using the <code>{@link AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseDocument}</code> stub.
-     */
-    public void handleRouteStatusChange() {
-        Long NOW = System.currentTimeMillis();
 
-        if (getTypeCode().equals(ACCRUAL_DOC_TYPE) && 
-            NOW > getReversalDate().getTime()) {
-            setReversalDate(new Timestamp(NOW));
-        }
-        else if (RECODE_DOC_TYPE.equals(getTypeCode())) {
-            try {
-                TransactionalDocument diDoc = SpringServiceLocator.getAuxiliaryVoucherService().generateDistributionOfIncomeAndExpense(this);
-                SpringServiceLocator.getDocumentService().routeDocument(diDoc, new String(), null);
-            }
-            catch (Exception e) {
-                String message = new PatternedStringBuilder(ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL).sprintf(getFinancialDocumentNumber());
-                throw new InfrastructureException(message, e);
+    /**
+     * Overrides to call super and then change the reversal date if the type is accrual and the date is greater than the set reversal date.
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        LOG.debug("In handleRouteStatusChange() for AV documents");
+        super.handleRouteStatusChange();
+
+        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) { // only do this stuff if the document has been processed and approved
+            Long NOW = new Long(SpringServiceLocator.getDateTimeService().getCurrentTimestamp().getTime());
+            if (isAccrualType() && NOW > getReversalDate().getTime()) {
+                // set the reversal date on the document
+                setReversalDate(new Timestamp(NOW));
+                
+                // set the reversal date on each GLPE for the document too
+                List<GeneralLedgerPendingEntry> glpes = getGeneralLedgerPendingEntries();
+                for (GeneralLedgerPendingEntry entry : glpes) {
+                    entry.setFinancialDocumentReversalDate(new java.sql.Date(getReversalDate().getTime()));
+                }
             }
         }
     }

@@ -70,10 +70,6 @@ public class BalanceInquiryAction extends KualiAction {
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
 
-        Object pendingEntryFormOption = lookupForm.getFields().get("dummyBusinessObject.pendingEntryOption");
-        boolean confirmedPendingEntryOption = "Approved".equals(pendingEntryFormOption) || "All".equals(pendingEntryFormOption);
-        boolean includePendingLedgerEntries = confirmedPendingEntryOption && "org.kuali.module.gl.bo.Entry".equals(lookupForm.getBusinessObjectClassName());
-
         Lookupable kualiLookupable = lookupForm.getLookupable();
 
         if (kualiLookupable == null) {

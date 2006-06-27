@@ -28,7 +28,6 @@ package org.kuali.module.financial.document;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.util.KualiDecimal;
@@ -37,7 +36,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
-import org.kuali.module.financial.rules.BudgetAdjustmentRuleConstants;
+import org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleUtil;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -70,7 +69,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
         Integer defaultYearParam = null;
 
         try {
-            defaultYearParam = new Integer(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(BudgetAdjustmentRuleConstants.GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, BudgetAdjustmentRuleConstants.DEFAULT_FISCAL_YEAR_PARM_NM)));
+            defaultYearParam = new Integer(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(BudgetAdjustmentDocumentRuleConstants.BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, BudgetAdjustmentDocumentRuleConstants.DEFAULT_FISCAL_YEAR_PARM_NM)));
         }
         catch (ApplicationParameterException e) {
             // DO NOTHING: we don't want to throw an error if the default value is not found, just don't set it in the list
@@ -222,7 +221,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
         return total;
     }
-    
+
     /**
      * Returns the total base budget expense amount from the source lines.
      */
@@ -268,7 +267,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
         return total;
     }
-    
+
     /**
      * Returns the total base budget expense amount from the target lines.
      */

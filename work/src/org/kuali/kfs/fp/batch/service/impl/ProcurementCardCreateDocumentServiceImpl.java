@@ -35,6 +35,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
@@ -45,7 +46,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.TimestampFormatter;
-import org.kuali.core.web.format.TimestampFullPrecisionFormatter;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -74,6 +75,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private DocumentService documentService;
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
+    private WorkflowDocumentService workflowDocumentService;
 
 
     /**
@@ -92,7 +94,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (Iterator iter = documents.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
-                documentService.saveDocument(pcardDocument, "system-generated document", null);
+                documentService.validateAndPersistDocument(pcardDocument, new SaveOnlyDocumentEvent(pcardDocument));
             }
             catch (Exception e) {
                 LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
@@ -121,7 +123,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
                 LOG.info("Routing PCDO document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + ".");
-                documentService.routeDocument(pcardDocument, "", null);
+                documentService.prepareWorkflowDocument(pcardDocument);
+                // calling workflow service to bypass business rule checks
+                workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
@@ -625,4 +629,22 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
+    /**
+     * Gets the workflowDocumentService attribute. 
+     * @return Returns the workflowDocumentService.
+     */
+    public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    /**
+     * Sets the workflowDocumentService attribute value.
+     * @param workflowDocumentService The workflowDocumentService to set.
+     */
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+    
+    
 }

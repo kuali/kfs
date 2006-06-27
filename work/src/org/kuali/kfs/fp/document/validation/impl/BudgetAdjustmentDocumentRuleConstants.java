@@ -22,20 +22,22 @@
  */
 package org.kuali.module.financial.rules;
 
-
 /**
- * Holds constants for transfer of funds document.
+ * Holds constants for budget adjustments
  * 
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public interface TransferOfFundsDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
-    // Security grouping constants used to do application parameter lookups
-    public static final String KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.TransferOfFundsDocument";
-
-    // Application parameter lookup constants to be used in conjunction with the grouping constants above
-    public static final String TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE = "TransferOfFundsIncomeObjectTypeCode";
-    public static final String TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE = "TransferOfFundsExpenseObjectTypeCode";
+public class BudgetAdjustmentDocumentRuleConstants {
+    public static final String BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.BudgetAdjustmentDocument";
+   
+    public static final String RESTRICTED_SUB_FUND_GROUP_CODES = "RestrictedSubFundGroupCodes";
+    public static final String RESTRICTED_FUND_GROUP_CODES = "RestrictedFundGroupCodes";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
+    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
+    public static final String CAPITAL_OBJECT_SUB_TYPE_CODES = "CapitalObjectSubTypeCodes";
+    public static final String RESTRICTED_OBJECT_LEVEL_CODES = "RestrictedObjectLevelCodes";
     
-    // doc type constant
-    public static final String TRANSFER_OF_FUNDS_DOC_TYPE_CODE = "TF";
+    public static final String DEFAULT_FISCAL_YEAR_PARM_NM = "DefaultFiscalYear";
+    public static final String GENERATE_TOF_GLPE_ENTRIES_PARM_NM = "GenerateTransferGLPEIndicator";
+    public static final String TRANSFER_OBJECT_CODE_PARM_NM = "TransferObjectCode";
 }

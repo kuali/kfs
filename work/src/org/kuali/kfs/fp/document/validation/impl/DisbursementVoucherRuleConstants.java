@@ -26,7 +26,7 @@ package org.kuali.module.financial.rules;
 /**
  * Holds constants for disbursement voucher and payee documents.
  * 
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface DisbursementVoucherRuleConstants {
 

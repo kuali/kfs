@@ -110,6 +110,9 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService" />
+        </property>
     </bean>
 
     <bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">

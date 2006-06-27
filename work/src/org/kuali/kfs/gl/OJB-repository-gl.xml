@@ -672,7 +672,7 @@
     <field-descriptor name="correctionInputFileName" column="GL_COR_INP_FL_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="correctionOutputFileName" column="GL_COR_OUT_FL_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="correctionScriptText" column="GL_COR_SCR_TXT" jdbc-type="CLOB" />
-    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialDocumentNumber" />
     </reference-descriptor>
     <collection-descriptor name="correctionChangeGroup" element-class-ref="org.kuali.module.gl.bo.CorrectionChangeGroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">

@@ -45,7 +45,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.32 2006-06-26 21:43:47 jsissom Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.33 2006-06-27 02:12:40 jsissom Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -78,14 +78,15 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
                 "account.subFundGroup.fundGroupCode"
         };
 
-
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, c);
 
         query.setAttributes(attributes);
         query.addGroupBy(groupby);
-        
+        query.addOrderByAscending("account.subFundGroup.fundGroupCode");
+
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
+
     /*
      * (non-Javadoc)
      * 

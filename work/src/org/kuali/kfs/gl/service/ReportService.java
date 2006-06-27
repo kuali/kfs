@@ -94,6 +94,15 @@ public interface ReportService {
     public void generateGlSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType);
 
     /**
+     * GL Encumbrance Summary report
+     * 
+     * @param runDate
+     * @param yearOffset
+     * @param balanceTypeCodes
+     */
+    public void generateGlEncumbranceSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType);
+
+    /**
      * Poster Statistics report
      * 
      * @param runDate

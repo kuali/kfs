@@ -45,6 +45,7 @@ import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.module.gl.util.BalanceEncumbranceReport;
 import org.kuali.module.gl.util.BalanceReport;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
@@ -232,6 +233,23 @@ public class ReportServiceImpl implements ReportService {
         List balances = balanceService.getGlSummary(fy, balanceTypeCodes);
 
         BalanceReport rept = new BalanceReport();
+        rept.generateReport(runDate,balances,year.getUniversityFiscalYearName(),balanceTypeCodes,"glsummary_" + fy + "_" + reportType,reportsDirectory);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ReportService#generateGlEncumbranceSummary(java.util.Date, int, java.util.List, java.lang.String)
+     */
+    public void generateGlEncumbranceSummary(Date runDate,int yearOffset,List<String> balanceTypeCodes,String reportType) {
+        LOG.debug("generateGlEncumbranceSummary() started");
+
+        Integer fy = dateTimeService.getCurrentFiscalYear();
+        fy = fy + yearOffset;
+        Options year = optionsService.getOptions(fy);
+
+        List balances = balanceService.getGlSummary(fy, balanceTypeCodes);
+
+        BalanceEncumbranceReport rept = new BalanceEncumbranceReport();
         rept.generateReport(runDate,balances,year.getUniversityFiscalYearName(),balanceTypeCodes,"glsummary_" + fy + "_" + reportType,reportsDirectory);
     }
 

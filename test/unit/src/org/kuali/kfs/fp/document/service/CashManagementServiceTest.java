@@ -722,14 +722,6 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
     }
 
 
-    // UNF: testCancelDeposit_finalCMDoc
-    // UNF: testCancelDeposit_finalCashReceipt
-
-
-    // UNF: test finalizeCashManagementDocument(CashManagementDocument cmDoc);
-    // UNF: test getCashManagementDocumentForCashReceiptId(String documentId);
-    // UNF: test retrieveCashReceipts(Deposit deposit);
-
 
     private void deleteIfExists(String workgroupName) {
         Map deleteCriteria = new HashMap();

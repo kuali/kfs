@@ -52,18 +52,11 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         AdvanceDepositDocument ad = (AdvanceDepositDocument) transactionalDocument;
 
-        boolean isValid = ad.getSumTotalAmount().isPositive();
+        // make sure the document is in balance
+        boolean isValid = ad.getSourceTotal().equals(ad.getSumTotalAmount());
+
         if (!isValid) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_TOTAL_INVALID);
-        }
-
-        if (isValid) {
-            // make sure the document is in balance
-            isValid = ad.getSourceTotal().equals(ad.getSumTotalAmount());
-
-            if (!isValid) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
-            }
+            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
         }
 
         return isValid;

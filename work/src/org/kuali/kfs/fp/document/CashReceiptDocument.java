@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineBase;
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.AccountingLineRule;
 import org.kuali.core.util.KualiDecimal;
@@ -36,6 +37,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
@@ -214,7 +216,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param index
      * @return Check
      */
-    public Check getCheck(int index) throws IllegalAccessException, InstantiationException {
+    public Check getCheck(int index) {
         while (this.checks.size() <= index) {
             checks.add(new CheckBase());
         }
@@ -488,5 +490,13 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         managedLists.add(getChecks());
 
         return managedLists;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new BasicFormatWithLineDescriptionAccountingLineParser();
     }
 }

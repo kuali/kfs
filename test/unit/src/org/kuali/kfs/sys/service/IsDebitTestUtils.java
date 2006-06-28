@@ -29,7 +29,6 @@ import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.exceptions.TooFewFieldsException;
 import org.kuali.core.rule.AccountingLineRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
@@ -237,7 +236,7 @@ public class IsDebitTestUtils {
         return transactionalDocument;
     }
 
-    private static AccountingLine getAccountingLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, Map<Class<? extends TransactionalDocument>, String> sourceLineMap, Map<Class<? extends TransactionalDocument>, String> targetLineMap, KualiDecimal amount) throws TooFewFieldsException {
+    private static AccountingLine getAccountingLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, Map<Class<? extends TransactionalDocument>, String> sourceLineMap, Map<Class<? extends TransactionalDocument>, String> targetLineMap, KualiDecimal amount) {
         String unparsedLine = null;
         AccountingLine line = null;
         if (SourceAccountingLine.class.isAssignableFrom(lineClass)) {
@@ -245,14 +244,14 @@ public class IsDebitTestUtils {
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in sourceMap for: " + transactionalDocument.getClass() + ";" + lineClass);
             }
-            line = transactionalDocument.getAccountingLineParser().parseSourceAccountingLine(unparsedLine, transactionalDocument);
+            line = transactionalDocument.getAccountingLineParser().parseSourceAccountingLine(transactionalDocument,unparsedLine);
         }
         else if (TargetAccountingLine.class.isAssignableFrom(lineClass)) {
             unparsedLine = targetLineMap.get(transactionalDocument.getClass());
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in targetMap for: " + transactionalDocument.getClass() + ";" + lineClass);
             }
-            line = transactionalDocument.getAccountingLineParser().parseTargetAccountingLine(unparsedLine, transactionalDocument);
+            line = transactionalDocument.getAccountingLineParser().parseTargetAccountingLine(transactionalDocument,unparsedLine);
         }
         else {
             throw new IllegalArgumentException("invalid accounting line type (" + lineClass + ")");
@@ -267,9 +266,8 @@ public class IsDebitTestUtils {
      * @param lineClass
      * @param amount
      * @return AccountingLine
-     * @throws TooFewFieldsException
      */
-    public static AccountingLine getExpenseLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) throws TooFewFieldsException {
+    public static AccountingLine getExpenseLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount)  {
         return getAccountingLine(transactionalDocument, lineClass, sourceExpenseLines, targetExpenseLines, amount);
     }
 
@@ -278,9 +276,8 @@ public class IsDebitTestUtils {
      * @param lineClass
      * @param amount
      * @return AccountingLine
-     * @throws TooFewFieldsException
      */
-    public static AccountingLine getAssetLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) throws TooFewFieldsException {
+    public static AccountingLine getAssetLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount)  {
         return getAccountingLine(transactionalDocument, lineClass, sourceAssetLines, targetAssetLines, amount);
     }
 
@@ -289,9 +286,8 @@ public class IsDebitTestUtils {
      * @param lineClass
      * @param amount
      * @return AccountingLine
-     * @throws TooFewFieldsException
      */
-    public static AccountingLine getIncomeLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) throws TooFewFieldsException {
+    public static AccountingLine getIncomeLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) {
         return getAccountingLine(transactionalDocument, lineClass, sourceIncomeLines, targetIncomeLines, amount);
     }
 
@@ -300,13 +296,21 @@ public class IsDebitTestUtils {
      * @param lineClass
      * @param amount
      * @return AccountingLine
-     * @throws TooFewFieldsException
      */
-    public static AccountingLine getLiabilityLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) throws TooFewFieldsException {
+    public static AccountingLine getLiabilityLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) {
         return getAccountingLine(transactionalDocument, lineClass, sourceLiabilityLines, targetLiabilityLines, amount);
     }
 
-
+/**
+ * 
+ * @param documentTypeService
+ * @param dataDicitionaryService
+ * @param transactionalDocument
+ * @param accountingLine
+ * @return
+ * @throws InstantiationException
+ * @throws IllegalAccessException
+ */
     public static boolean isDebit(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
         String documentTypeName = documentTypeService.getDocumentTypeNameByClass(transactionalDocument.getClass());
         AccountingLineRule rule = (AccountingLineRule) dataDicitionaryService.getDataDictionary().getBusinessRulesClass(documentTypeName).newInstance();
@@ -315,6 +319,15 @@ public class IsDebitTestUtils {
     }
 
 
+    /**
+     * @param documentTypeService
+     * @param dataDicitionaryService
+     * @param transactionalDocument
+     * @param accountingLine
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public static boolean isDebitIllegalStateException(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
         boolean failedAsExpected = false;
         try {
@@ -328,6 +341,15 @@ public class IsDebitTestUtils {
         return failedAsExpected;
     }
 
+    /**
+     * @param documentTypeService
+     * @param dataDicitionaryService
+     * @param transactionalDocument
+     * @param accountingLine
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public static boolean isErrorCorrectionIllegalStateException(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
         boolean failedAsExpected = false;
         try {

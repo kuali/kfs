@@ -27,8 +27,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.InternalBillingItem;
 
 
@@ -91,6 +93,7 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
+    @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getItems());
@@ -139,6 +142,7 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
     /**
      * @return "Income"
      */
+    @Override
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.INCOME;
     }
@@ -146,7 +150,16 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
     /**
      * @return "Expense"
      */
+    @Override
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.EXPENSE;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new BasicFormatWithLineDescriptionAccountingLineParser();
     }
 }

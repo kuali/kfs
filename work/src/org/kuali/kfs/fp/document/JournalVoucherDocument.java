@@ -76,6 +76,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
      * @param balanceType
      * @deprecated
      */
+    @Deprecated
     public void setBalanceType(BalanceTyp balanceType) {
         this.balanceType = balanceType;
     }
@@ -121,6 +122,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
      * 
      * @return String
      */
+    @Override
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
     }
@@ -130,6 +132,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
      * 
      * @return String
      */
+    @Override
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
     }
@@ -205,8 +208,9 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
      * 
      * @return AccountingLineParser
      */
+    @Override
     public AccountingLineParser getAccountingLineParser() {
-        return new JournalVoucherAccountingLineParser();
+        return new JournalVoucherAccountingLineParser(getBalanceTypeCode());
     }
 
     /**
@@ -215,6 +219,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
      * 
      * @see org.kuali.core.document.TransactionalDocumentBase#performConversion(int)
      */
+    @Override
     protected void performConversion(int operation) throws WorkflowException {
         super.performConversion(operation);
 

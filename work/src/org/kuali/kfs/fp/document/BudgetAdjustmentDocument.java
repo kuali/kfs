@@ -28,12 +28,14 @@ package org.kuali.module.financial.document;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
+import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLineParser;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants;
@@ -84,24 +86,37 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     }
 
+    /**
+     * @return Integer
+     */
     public Integer getNextPositionSourceLineNumber() {
         return nextPositionSourceLineNumber;
     }
 
+    /**
+     * @param nextPositionSourceLineNumber
+     */
     public void setNextPositionSourceLineNumber(Integer nextPositionSourceLineNumber) {
         this.nextPositionSourceLineNumber = nextPositionSourceLineNumber;
     }
 
+    /**
+     * @return Integer
+     */
     public Integer getNextPositionTargetLineNumber() {
         return nextPositionTargetLineNumber;
     }
 
+    /**
+     * @param nextPositionTargetLineNumber
+     */
     public void setNextPositionTargetLineNumber(Integer nextPositionTargetLineNumber) {
         this.nextPositionTargetLineNumber = nextPositionTargetLineNumber;
     }
 
     /**
      * Returns the total current budget amount from the source lines.
+     * @return KualiDecimal
      */
     public KualiDecimal getSourceCurrentBudgetTotal() {
         KualiDecimal currentBudgetTotal = new KualiDecimal(0);
@@ -116,6 +131,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total current budget income amount from the source lines.
+     * @return KualiDecimal
      */
     public KualiDecimal getSourceCurrentBudgetIncomeTotal() {
         KualiDecimal total = new KualiDecimal(0);
@@ -132,6 +148,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total current budget expense amount from the source lines.
+     * @return KualiDecimal
      */
     public KualiDecimal getSourceCurrentBudgetExpenseTotal() {
         KualiDecimal total = new KualiDecimal(0);
@@ -148,6 +165,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total current budget amount from the target lines.
+     * @return KualiDecimal
      */
     public KualiDecimal getTargetCurrentBudgetTotal() {
         KualiDecimal currentBudgetTotal = new KualiDecimal(0);
@@ -162,6 +180,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total current budget income amount from the target lines.
+     * @return KualiDecimal
      */
     public KualiDecimal getTargetCurrentBudgetIncomeTotal() {
         KualiDecimal total = new KualiDecimal(0);
@@ -178,6 +197,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total current budget expense amount from the target lines.
+     * @return KualiDecimal
      */
     public KualiDecimal getTargetCurrentBudgetExpenseTotal() {
         KualiDecimal total = new KualiDecimal(0);
@@ -194,6 +214,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total base budget amount from the source lines.
+     * @return KualiDecimal
      */
     public KualiInteger getSourceBaseBudgetTotal() {
         KualiInteger baseBudgetTotal = new KualiInteger(0);
@@ -208,6 +229,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total base budget income amount from the source lines.
+     * @return KualiDecimal
      */
     public KualiInteger getSourceBaseBudgetIncomeTotal() {
         KualiInteger total = new KualiInteger(0);
@@ -224,6 +246,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total base budget expense amount from the source lines.
+     * @return KualiDecimal
      */
     public KualiInteger getSourceBaseBudgetExpenseTotal() {
         KualiInteger total = new KualiInteger(0);
@@ -240,6 +263,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total base budget amount from the target lines.
+     * @return KualiDecimal
      */
     public KualiInteger getTargetBaseBudgetTotal() {
         KualiInteger baseBudgetTotal = new KualiInteger(0);
@@ -254,6 +278,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total base budget income amount from the target lines.
+     * @return KualiDecimal
      */
     public KualiInteger getTargetBaseBudgetIncomeTotal() {
         KualiInteger total = new KualiInteger(0);
@@ -270,6 +295,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     /**
      * Returns the total base budget expense amount from the target lines.
+     * @return KualiDecimal
      */
     public KualiInteger getTargetBaseBudgetExpenseTotal() {
         KualiInteger total = new KualiInteger(0);
@@ -344,22 +370,38 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * 
+     * @see org.kuali.core.document.DocumentBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);
         return m;
     }
 
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getSourceAccountingLineClass()
+     */
     @Override
     public Class getSourceAccountingLineClass() {
         return BudgetAdjustmentSourceAccountingLine.class;
     }
 
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getTargetAccountingLineClass()
+     */
     @Override
     public Class getTargetAccountingLineClass() {
         return BudgetAdjustmentTargetAccountingLine.class;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new BudgetAdjustmentAccountingLineParser();
     }
 
 }

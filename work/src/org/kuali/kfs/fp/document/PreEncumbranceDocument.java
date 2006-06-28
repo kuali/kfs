@@ -28,14 +28,15 @@ package org.kuali.module.financial.document;
 import java.sql.Timestamp;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.module.financial.bo.PreEncumbranceDocumentAccountingLineParser;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: PreEncumbranceDocument.java,v 1.2 2006-06-14 11:59:11 abyrne Exp $
+ * @version $Id: PreEncumbranceDocument.java,v 1.3 2006-06-28 14:15:00 maynalem Exp $
  */
 public class PreEncumbranceDocument extends TransactionalDocumentBase {
-    private static final long serialVersionUID = -290621195196838536L;
 
     private Timestamp reversalDate;
 
@@ -46,25 +47,48 @@ public class PreEncumbranceDocument extends TransactionalDocumentBase {
         super();
     }
 
+    /**
+     * 
+     * @return Timestamp
+     */
     public Timestamp getReversalDate() {
         return reversalDate;
     }
 
+    /**
+     * 
+     * @param reversalDate
+     */
     public void setReversalDate(Timestamp reversalDate) {
         this.reversalDate = reversalDate;
     }
 
     /**
      * Overrides the base implementation to return "Encumbrance".
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
      */
+    @Override
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.ENCUMBRANCE;
     }
 
     /**
      * Overrides the base implementation to return "Disencumbrance".
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
      */
+    @Override
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.DISENCUMBRANCE;
     }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new PreEncumbranceDocumentAccountingLineParser();
+    }
+
 }

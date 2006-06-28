@@ -23,49 +23,41 @@
 
 package org.kuali.module.financial.bo;
 
+import static org.kuali.KeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
 import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.PropertyConstants.AMOUNT;
 import static org.kuali.PropertyConstants.BUDGET_YEAR;
 import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.PropertyConstants.CREDIT;
 import static org.kuali.PropertyConstants.DEBIT;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.PropertyConstants.OBJECT_TYPE_CODE;
 import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.PropertyConstants.OVERRIDE_CODE;
 import static org.kuali.PropertyConstants.PROJECT_CODE;
-import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLineParserBase;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.exceptions.AccountingLineParserException;
+import org.kuali.core.util.KualiDecimal;
 
 /**
- * <code>JournalVoucherDocument</code> accounting line parser
+ * <code>AuxiliaryVocherDocument</code> accounting line parser
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccountingLineParser {
-    private String balanceTypeCode;
-    private static final String[] NON_OFFSET_ENTRY = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, OBJECT_TYPE_CODE, ORGANIZATION_REFERENCE_ID, BUDGET_YEAR, OVERRIDE_CODE, AMOUNT };
-    private static final String[] OFFSET_ENTRY = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, OBJECT_TYPE_CODE, ORGANIZATION_REFERENCE_ID, BUDGET_YEAR, OVERRIDE_CODE, DEBIT, CREDIT };
-    private static final String[] ENCUMBRANCE_ENTRY = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, OBJECT_TYPE_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_ORIGIN_CODE, REFERENCE_TYPE_CODE, REFERENCE_NUMBER, BUDGET_YEAR, OVERRIDE_CODE, DEBIT, CREDIT };
+public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBase {
+    private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, BUDGET_YEAR, OVERRIDE_CODE, DEBIT, CREDIT };
 
     /**
-     * Constructs a JournalVoucherAccountingLineParser.java.
-     * 
-     * @param balanceTypeCode
+     * Constructs a AuxiliaryVoucherAccountingLineParser.java.
      */
-    public JournalVoucherAccountingLineParser(String balanceTypeCode) {
+    public AuxiliaryVoucherAccountingLineParser() {
         super();
-        this.balanceTypeCode = balanceTypeCode;
     }
 
     /**
@@ -75,12 +67,34 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
      */
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
-
-        boolean isFinancialOffsetGeneration = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator();
-        if (isFinancialOffsetGeneration || StringUtils.equals(balanceTypeCode, Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
-            super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
+        super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
+        // chose debit/credit
+        String debitValue = attributeValueMap.remove(DEBIT);
+        String creditValue = attributeValueMap.remove(CREDIT);
+        KualiDecimal amount = null;
+        String debitCreditCode = null;
+        if (StringUtils.isNotBlank(debitValue)) {
+            try {
+                amount = new KualiDecimal(debitValue);
+                debitCreditCode = Constants.GL_DEBIT_CODE;
+            }
+            catch (NumberFormatException e) {
+                String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), accountingLineAsString };
+                throw new AccountingLineParserException("invalid (NaN) '" + DEBIT + "=" + debitValue + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+            }
         }
-        sourceAccountingLine.setBalanceTypeCode(balanceTypeCode);
+        else {
+            try {
+                amount = new KualiDecimal(creditValue);
+                debitCreditCode = Constants.GL_CREDIT_CODE;
+            }
+            catch (NumberFormatException e) {
+                String[] errorParameters = { creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
+                throw new AccountingLineParserException("invalid (NaN) '" + CREDIT + "=" + creditValue + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+            }
+        }
+        sourceAccountingLine.setAmount(amount);
+        sourceAccountingLine.setDebitCreditCode(debitCreditCode);
     }
 
     /**
@@ -88,23 +102,6 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
      */
     @Override
     public String[] getSourceAccountingLineFormat() {
-        return selectFormat();
-    }
-
-    /**
-     * chooses line format based on balance type code
-     * 
-     * @return String []
-     */
-    private String[] selectFormat() {
-        if (StringUtils.equals(balanceTypeCode, Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE)) {
-            return ENCUMBRANCE_ENTRY;
-        }
-        else if (SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(balanceTypeCode).isFinancialOffsetGenerationIndicator()) {
-            return OFFSET_ENTRY;
-        }
-        else {
-            return NON_OFFSET_ENTRY;
-        }
+        return AV_FORMAT;
     }
 }

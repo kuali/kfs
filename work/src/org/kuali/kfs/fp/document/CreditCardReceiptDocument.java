@@ -26,9 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.CreditCardDetail;
 
 /**
@@ -175,6 +177,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @return KualiDecimal
      */
+    @Override
     public KualiDecimal getSumTotalAmount() {
         return this.totalCreditCardAmount;
     }
@@ -193,7 +196,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
         }
         return total;
     }
-    
+
     /**
      * Override to set the document status to APPROVED ("A").  This is typically done in the DocumentBase; however, 
      * the CashReceipt, which is a parent to this document has a different life-cycle, but performs other common things. 
@@ -214,10 +217,19 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
+    @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getCreditCardReceipts());
 
         return managedLists;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new BasicFormatWithLineDescriptionAccountingLineParser();
     }
 }

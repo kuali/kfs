@@ -24,11 +24,13 @@ package org.kuali.module.financial.document;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.IndirectCostAdjustmentDocumentAccountingLineParser;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
 
 
@@ -38,7 +40,6 @@ import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConsta
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class IndirectCostAdjustmentDocument extends TransactionalDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostAdjustmentDocument.class);
 
     /**
      * 
@@ -106,5 +107,13 @@ public class IndirectCostAdjustmentDocument extends TransactionalDocumentBase {
         targetAccountingLine.refreshReferenceObject(PropertyConstants.CHART);
         // add target line
         addTargetAccountingLine(targetAccountingLine);
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new IndirectCostAdjustmentDocumentAccountingLineParser();
     }
 }

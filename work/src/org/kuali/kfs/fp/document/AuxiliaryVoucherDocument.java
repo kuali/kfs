@@ -24,7 +24,6 @@ package org.kuali.module.financial.document;
 
 import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.ERROR_DOCUMENT_RECODE_DISTRIBUTION_OF_INCOME_AND_EXPENSE_UNSUCCESSFUL;
 import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.sql.Timestamp;
@@ -34,12 +33,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineBase;
-import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.PatternedStringBuilder;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.AuxiliaryVoucherAccountingLineParser;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -55,14 +53,14 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
 
     private String typeCode = ADJUSTMENT_DOC_TYPE;;
     private Timestamp reversalDate;
-
+    
     /**
      * Initializes the array lists and some basic info.
      */
     public AuxiliaryVoucherDocument() {
         super();
     }
-
+    
     /**
      * Read Accessor for Reversal Date
      *
@@ -71,7 +69,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public Timestamp getReversalDate() {
         return reversalDate;
     }
-
+    
     /**
      * Write Accessor for Reversal Date
      *
@@ -80,7 +78,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public void setReversalDate(Timestamp reversalDate) {
         this.reversalDate = reversalDate;
     }
-
+    
     /**
      * Read Accessor for Auxiliary Voucher Type
      *
@@ -89,7 +87,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public String getTypeCode() {
         return typeCode;
     }
-
+    
     /**
      * Write Accessor for Auxiliary Voucher Type
      *
@@ -139,13 +137,13 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
+            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                 debitTotal = debitTotal.add(al.getAmount());
             }
         }
         return debitTotal;
     }
-
+    
     /**
      * This method calculates the credit total for a JV document keying off of the 
      * debit/credit code, only summing the accounting lines with a debitCreditCode 
@@ -159,26 +157,26 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
+            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
                 creditTotal = creditTotal.add(al.getAmount());
             }
         }
         return creditTotal;
     }
-
+    
     /**
      * This method calculates the difference between the credit and debit total.
      * 
      * @return KualiDecimal
      */
-    public KualiDecimal getTotal() {
+    public KualiDecimal getTotal() {        
         KualiDecimal total = new KualiDecimal(0);
-
+        
         total = getCreditTotal().subtract(getDebitTotal());
 
         return total;
     }
-
+    
     /**
      * Overrides to call super and then change the reversal date if the type is accrual and the date is greater than the set reversal date.
      */
@@ -201,4 +199,13 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
             }
         }
     }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new AuxiliaryVoucherAccountingLineParser();
+    }
+    
 }

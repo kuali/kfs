@@ -319,6 +319,7 @@
     <field-descriptor name="personSalaryJustificationText" column="PRSN_SLRY_JSTF_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="personProjectDirectorIndicator" column="PRSN_PRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="personHourlyNumber" column="PRSN_HRLY_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="budgetSalaryFiscalYear" column="BDGT_SLRY_FISCAL_YR" jdbc-type="INTEGER" />
     <reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>

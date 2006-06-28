@@ -165,10 +165,4 @@
     
     <bean id="cashReceiptCoverSheetService" class="org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl">
     </bean>
-
-    <bean id="auxiliaryVoucherService" class="org.kuali.module.financial.service.impl.AuxiliaryVoucherServiceImpl">
-    	<property name="documentService">
-            <ref bean="documentService" />
-        </property>
-    </bean>
 </beans>

@@ -25,7 +25,6 @@
         <form-bean name="DistributionOfIncomeAndExpenseForm" type="org.kuali.module.financial.web.struts.form.DistributionOfIncomeAndExpenseForm" />
         <form-bean name="YearEndDistributionOfIncomeAndExpenseForm" type="org.kuali.module.financial.web.struts.form.YearEndDistributionOfIncomeAndExpenseForm" />
         <form-bean name="AuxiliaryVoucherForm" type="org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm" />
-        <form-bean name="AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseForm" type="org.kuali.module.financial.web.struts.form.AuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseForm" />
         <form-bean name="BursarControlScreenForm" type="org.kuali.module.financial.web.struts.form.BursarControlScreenForm" />
         <form-bean name="JournalVoucherForm" type="org.kuali.module.financial.web.struts.form.JournalVoucherForm" />
         <form-bean name="IndirectCostAdjustmentForm" type="org.kuali.module.financial.web.struts.form.IndirectCostAdjustmentForm" />

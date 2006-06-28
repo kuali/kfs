@@ -115,7 +115,7 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
                 String currentMessage = (String)iter.next();
                 body.append(currentMessage + "\n");
             }
-            body.append("----- THE RECORDS WERE NOT SAVED TO THE DATABASE -----");
+            body.append("\n----- THE RECORDS WERE NOT SAVED TO THE DATABASE -----");
         }
         return body.toString();
     }

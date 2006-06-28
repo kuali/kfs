@@ -83,6 +83,7 @@
                 <lookupField attributeName="financialReportChartCode" required="false" />
                 <lookupField attributeName="finReportOrganizationCode" required="false" />
                 <lookupField attributeName="financialReportingCode" required="false" />
+                <lookupField attributeName="subAccountActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>

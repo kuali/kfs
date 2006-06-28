@@ -53,7 +53,7 @@
 
                 <maxLength>2</maxLength>
                 <validationPattern>
-                    <alphaNumeric />
+                    <alphaNumeric allowWhitespace="false" />
                 </validationPattern>
                 <required>true</required>
 

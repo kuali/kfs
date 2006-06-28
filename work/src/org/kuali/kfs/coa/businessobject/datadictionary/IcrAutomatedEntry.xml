@@ -12,7 +12,7 @@
             <inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="financialIcrSeriesIdentifier" />
-                <field attributeName="financialBalanceTyp.code" />
+                <field attributeName="balanceTypeCode" />
                 <field attributeName="awardIndrCostRcvyEntryNbr" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
@@ -39,7 +39,7 @@
             <lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="false" />
                 <lookupField attributeName="financialIcrSeriesIdentifier" required="false" />
-                <lookupField attributeName="financialBalanceTyp.code" required="false" />
+                <lookupField attributeName="balanceTypeCode" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
@@ -49,7 +49,7 @@
             <resultFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="financialIcrSeriesIdentifier" />
-                <field attributeName="financialBalanceTyp.code" />
+                <field attributeName="balanceTypeCode" />
                 <field attributeName="awardIndrCostRcvyEntryNbr" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
@@ -82,7 +82,7 @@
                 <description>Series Id</description>
             </attribute>
 
-            <attributeReference name="financialBalanceTyp.code" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
+            <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
                 <required>true</required>
             </attributeReference>
 

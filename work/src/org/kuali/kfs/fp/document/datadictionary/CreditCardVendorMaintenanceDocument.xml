@@ -50,14 +50,14 @@
                     <maintainableField name="financialDocumentCreditCardVendorNumber" required="true" />
                     <maintainableField name="financialDocumentCreditCardVendorName" required="true" />
                     <maintainableField name="financialDocumentCreditCardTypeCode" required="true" />
-                    <maintainableField name="incomeFinancialChartOfAccountsCode" required="false" />
-                    <maintainableField name="incomeAccountNumber" required="false" />
-                    <maintainableField name="incomeFinancialObjectCode" required="false" />
+                    <maintainableField name="incomeFinancialChartOfAccountsCode" required="true" />
+                    <maintainableField name="incomeAccountNumber" required="true" />
+                    <maintainableField name="incomeFinancialObjectCode" required="true" />
                     <maintainableField name="incomeFinancialSubObjectCode" required="false" />
                     <maintainableField name="incomeSubAccountNumber" required="false" />
-                    <maintainableField name="expenseFinancialChartOfAccountsCode" required="false" />
-                    <maintainableField name="expenseAccountNumber" required="false" />
-                    <maintainableField name="expenseFinancialObjectCode" required="false" />
+                    <maintainableField name="expenseFinancialChartOfAccountsCode" required="true" />
+                    <maintainableField name="expenseAccountNumber" required="true" />
+                    <maintainableField name="expenseFinancialObjectCode" required="true" />
                     <maintainableField name="expenseFinancialSubObjectCode" required="false" />
                     <maintainableField name="expenseSubAccountNumber" required="false" />
                     <maintainableField name="versionNumber" />

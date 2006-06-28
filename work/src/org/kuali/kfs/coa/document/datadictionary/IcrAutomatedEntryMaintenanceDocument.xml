@@ -29,12 +29,14 @@
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="financialIcrSeriesIdentifier" />
-            <field attributeName="financialBalanceTyp.code" />
+            <field attributeName="balanceTypeCode" />
             <field attributeName="awardIndrCostRcvyEntryNbr" />
         </lockingKeys>
 
         <defaultExistenceChecks>
             <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="financialBalanceTyp" attributeToHighlightOnFail="balanceTypeCode" />
+        
         </defaultExistenceChecks>
 
         <maintainableSections>
@@ -42,7 +44,7 @@
                 <maintainableItems>
                     <maintainableField name="universityFiscalYear" required="true" />
                     <maintainableField name="financialIcrSeriesIdentifier" required="true" />
-                    <maintainableField name="financialBalanceTyp.code" required="true" />
+                    <maintainableField name="balanceTypeCode" required="true" />
                     <maintainableField name="awardIndrCostRcvyEntryNbr" required="true" />
                     <maintainableField name="chartOfAccountsCode" required="true" />
                     <maintainableField name="accountNumber" required="true" />

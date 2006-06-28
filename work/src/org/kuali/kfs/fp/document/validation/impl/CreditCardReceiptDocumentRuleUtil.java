@@ -27,6 +27,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.bo.CreditCardDetail;
 
 /**
@@ -50,6 +51,16 @@ public class CreditCardReceiptDocumentRuleUtil {
         // call the DD validation which checks basic data integrity
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(creditCardReceipt);
         boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
+        
+        // check that dollar amount is not zero before continuing
+        if(isValid) {
+            isValid = !creditCardReceipt.getCreditCardAdvanceDepositAmount().isZero();
+            if(!isValid) {
+                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT);
+                errorMap.put(PropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT, KeyConstants.ERROR_ZERO_AMOUNT, label);
+            }
+        }
+        
         if (isValid) {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_TYPE);
             if (!isValid) {

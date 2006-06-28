@@ -66,7 +66,8 @@
                 <required>true</required>
             </attributeReference>
             <attributeReference name="creditCardAdvanceDepositAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <exclusiveMin>0</exclusiveMin>
+                <label>Amount</label>
+                <shortLabel>Amount</shortLabel>
                 <required>true</required>
                 <description>The total dollar amount of the credit card receipt.</description>
             </attributeReference>

@@ -79,7 +79,7 @@ import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.G
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
- * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code> instances
+ * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -259,33 +259,101 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 
         // do not generate an offset entry if this is a normal or adjustment AV type  
         if (auxVoucher.isAccrualType() || auxVoucher.isAdjustmentType()) {
-            sequenceHelper.decrement(); // the parent already increments; assuming that all documents have offset entries
-            return true;
+            return processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(transactionalDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
         }
         else if (auxVoucher.isRecodeType()) { // recodes generate offsets
-            // the explicit entry has already been generated and added to the list, so to get the right offset, we have to set the value of the document type code on the explicit 
-            // to the type code for a DI document so that it gets passed into the next call and we retrieve the right offset definition since these offsets are 
-            // specific to Distrib. of Income and Expense documents - we need to do a deep copy though so we don't do this by reference
-            GeneralLedgerPendingEntry explicitEntryDeepCopy = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-            explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
-
-            // call the super to process an offset entry; see the customize method below for AVRC specific attribute values
-            // pass in the explicit deep copy
-            boolean success = super.processOffsetGeneralLedgerPendingEntry(transactionalDocument, sequenceHelper, accountingLineCopy, explicitEntryDeepCopy, offsetEntry);
-
-            // increment the sequence appropriately
-            sequenceHelper.increment();
-
-            // now generate the AVRC DI entry
-            // pass in the explicit deep copy
-            success &= processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry(transactionalDocument, sequenceHelper, explicitEntryDeepCopy);
-
-            return success;
+            return processOffsetGeneralLedgerPendingEntryForRecodes(transactionalDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
         }
         else {
             throw new IllegalStateException("Illegal auxiliary voucher type: " + auxVoucher.getTypeCode());
         }
     }
+
+    /**
+     * This method handles generating or not generating the appropriate offsets if the AV type is a recode.
+     * 
+     * @param transactionalDocument
+     * @param sequenceHelper
+     * @param accountingLineCopy
+     * @param explicitEntry
+     * @param offsetEntry
+     * @return boolean
+     */
+    private boolean processOffsetGeneralLedgerPendingEntryForRecodes(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        // the explicit entry has already been generated and added to the list, so to get the right offset, we have to set the value of the document type code on the explicit 
+        // to the type code for a DI document so that it gets passed into the next call and we retrieve the right offset definition since these offsets are 
+        // specific to Distrib. of Income and Expense documents - we need to do a deep copy though so we don't do this by reference
+        GeneralLedgerPendingEntry explicitEntryDeepCopy = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
+        explicitEntryDeepCopy.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+
+        // call the super to process an offset entry; see the customize method below for AVRC specific attribute values
+        // pass in the explicit deep copy
+        boolean success = super.processOffsetGeneralLedgerPendingEntry(transactionalDocument, sequenceHelper, accountingLineCopy, explicitEntryDeepCopy, offsetEntry);
+
+        // increment the sequence appropriately
+        sequenceHelper.increment();
+
+        // now generate the AVRC DI entry
+        // pass in the explicit deep copy
+        success &= processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry(transactionalDocument, sequenceHelper, explicitEntryDeepCopy);
+
+        return success;
+    }
+
+    /**
+     * This method handles generating or not generating the appropriate offsets if the AV type is accrual or adjustment.
+     * 
+     * @param transactionalDocument
+     * @param sequenceHelper
+     * @param accountingLineCopy
+     * @param explicitEntry
+     * @param offsetEntry
+     * @return boolean
+     */
+    private boolean processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean success = true;
+        
+        if(isDocumentForMultipleAccounts(transactionalDocument)) {
+            success &= super.processOffsetGeneralLedgerPendingEntry(transactionalDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
+            
+            if(success) {
+                // now set the offset entry to the specific offset object code for the AV generated offset fund balance
+                String glpeOffsetObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(getDefaultSecurityGrouping(), getGeneralLedgerPendingEntryOffsetObjectCode());
+                offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
+            }
+        } 
+        else {
+            sequenceHelper.decrement(); // the parent already increments; b/c it assumes that all documents have offset entries all of the time
+        }
+        
+        return success;
+    }
+    
+    /**
+     * This method is responsible for iterating through all of the accounting lines in the document (source only) and
+     * checking to see if they are all for the same account or not.  It recognized the first account element as the base, 
+     * and then it iterates through the rest.  If it comes across one that doesn't match, then we know it's 
+     * for multiple accounts.
+     *  
+     * @param transactionalDocument
+     * @return boolean
+     */
+    private boolean isDocumentForMultipleAccounts(TransactionalDocument transactionalDocument) {
+        String baseAccountNumber = "";
+        
+        int index = 0;
+        List<AccountingLine> lines = transactionalDocument.getSourceAccountingLines();
+        for (AccountingLine line : lines) {
+            if(index == 0) {
+                baseAccountNumber = line.getAccountNumber();
+            } else if(!baseAccountNumber.equals(line.getAccountNumber())) {
+                return true;
+            }
+            index++;
+        }
+        
+        return false;
+     }
 
     /**
      * Offset entries are only created for recodes (AVRC), so this method is one of 2 offsets that get created for an AVRC.  Its document type is 

@@ -58,20 +58,12 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) transactionalDocument;
 
-        boolean isValid = ccr.getSumTotalAmount().isGreaterThan(Constants.ZERO);
+        // make sure the document is in balance
+        boolean isValid = ccr.getSourceTotal().equals(ccr.getSumTotalAmount());
+
         if (!isValid) {
             GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
-                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID);
-        }
-
-        if (isValid) {
-            // make sure the document is in balance
-            isValid = ccr.getSourceTotal().equals(ccr.getSumTotalAmount());
-
-            if (!isValid) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
-                        KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
-            }
+                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
         }
 
         return isValid;

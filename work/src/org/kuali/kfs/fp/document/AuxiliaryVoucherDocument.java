@@ -186,8 +186,19 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         super.handleRouteStatusChange();
 
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) { // only do this stuff if the document has been processed and approved
+            // update the reversal data accoringdingly
+            updateReversalDate();
+        }
+    }
+
+    /**
+     * This method handles updating the reversal data on the document in addition to all of the GLPEs, but only for 
+     * the accrual and recode types.
+     */
+    private void updateReversalDate() {
+        if (isAccrualType() || isRecodeType()) {
             Long NOW = new Long(SpringServiceLocator.getDateTimeService().getCurrentTimestamp().getTime());
-            if (isAccrualType() && NOW > getReversalDate().getTime()) {
+            if(NOW > getReversalDate().getTime()) {
                 // set the reversal date on the document
                 setReversalDate(new Timestamp(NOW));
                 
@@ -207,5 +218,4 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public AccountingLineParser getAccountingLineParser() {
         return new AuxiliaryVoucherAccountingLineParser();
     }
-    
 }

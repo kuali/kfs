@@ -9,29 +9,7 @@
             <title>Organization Inquiry</title>
 
             <inquiryFields>
-                <!-- Previous version which is little different from Maintainable Fields       -->
-                <!--   <field attributeName="chartOfAccountsCode" noInquiry="true" />
-                    <field attributeName="organizationCode" noInquiry="true" />
-                    <field attributeName="organizationName" />
-                    <field attributeName="organizationActiveIndicator" />
-                    <field attributeName="organizationManagerUniversal.personUserIdentifier" />
-                    <field attributeName="organizationManagerUniversal.personName" />
-                    <field attributeName="responsibilityCenterCode" />
-                    <field attributeName="organizationPhysicalCampusCode" />
-                    <field attributeName="organizationTypeCode" />
-                    <field attributeName="organizationDefaultAccountNumber" />
-                    <field attributeName="organizationStreetAddress" />
-                    <field attributeName="organizationCityName" />
-                    <field attributeName="organizationStateCode" />
-                    <field attributeName="organizationZipCode" />
-                    <field attributeName="organizationBeginDate" />
-                    <field attributeName="organizationEndDate" />     
-                    <field attributeName="reportsToOrganizationCode" />
-                    <field attributeName="reportsToChartOfAccountsCode" />
-                    <field attributeName="organizationPlantChartCode" />
-                    <field attributeName="campusPlantChartCode" />
-                    <field attributeName="campusPlantAccountNumber" />        
-                -->
+
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="organizationName" />
@@ -82,6 +60,8 @@
 		        <field attributeName="organizationExtension.fiscalApproverUniversal.personName" />
 		        
 		        <field attributeName="organizationExtension.hrmsLastUpdateDate" />
+		        <field attributeName="organizationHierarchy" />
+		        
             </inquiryFields>
         </inquiry>
 
@@ -367,6 +347,18 @@
                     <![CDATA[&nbsp;]]>
                 </description>
             </attribute>
+            
+            <attributeReference name="organizationHierarchy" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
+                <label>Organization Hierarchy</label>
+                <shortLabel>Org Hierarchy</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
 
             <attribute name="organizationStreetAddress" forceUppercase="false">
                 <label>Organization Street</label>

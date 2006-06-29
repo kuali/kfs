@@ -25,18 +25,30 @@ package org.kuali.module.chart.bo;
  * THE SOFTWARE.
  */
 
+import java.math.RoundingMode;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.cache.ObjectCacheOSCacheImpl;
+import org.kuali.module.chart.service.OrganizationService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class Org extends BusinessObjectBase {
-
+    private static final Logger LOG = Logger.getLogger(Org.class);
+    
     private static final long serialVersionUID = 121873645110037203L;
 
     /**
@@ -806,5 +818,65 @@ public class Org extends BusinessObjectBase {
     public final void setOrganizationExtension(OrganizationExtension organizationExtension) {
         this.organizationExtension = organizationExtension;
     }
+    
+    public String getOrganizationHierarchy() {
+        StringBuffer result = new StringBuffer();
+        Set<Org> seen = new HashSet<Org>();
+        
+        Org org=this;
+        
+        while (org!=null && org.getReportsToOrganizationCode()!=null && !seen.contains(org)) {
+            String rChart = org.getReportsToChartOfAccountsCode();
+            String rOrg=org.getReportsToOrganizationCode();
+            
+            seen.add(org);
+            org=SpringServiceLocator.getOrganizationService().getByPrimaryId(rChart,rOrg);
+            
+            result.append(rChart+"/"+rOrg+" "+((org==null)?"":org.getOrganizationName())+"\n");
+        }
+        
+        return result.toString();
+    }
+
+    /**
+     * Implementing equals so Org will behave reasonably in a hashed datastructure.
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        boolean equal = false;
+
+        LOG.debug("Org equals");
+        
+        if (obj != null) {
+            
+            if (this==obj) return true;
+            
+            if (this.getClass().isAssignableFrom(obj.getClass())) {
+                
+                Org other = (Org) obj;
+
+                LOG.debug("this: "+this);
+                LOG.debug("other: "+other);
+                
+                if (StringUtils.equals(this.getChartOfAccountsCode(), other.getChartOfAccountsCode())) {
+                    if (StringUtils.equals(this.getOrganizationCode(), other.getOrganizationCode())) {
+                        equal = true;
+                    }
+                }
+            }
+        }
+
+        return equal;
+    }
+    
+   /**
+    * @see java.lang.Object#hashCode()
+    */
+   public int hashCode() {
+       String hashString = getChartOfAccountsCode() + "|" + getOrganizationCode();
+       return hashString.hashCode();
+   }
+
     
 }

@@ -1577,6 +1577,60 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.ObjectCodeChangeDocument" table="CA_OBJ_CD_CHG_DOC_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectCodeName" column="FIN_OBJ_CD_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectCodeShortName" column="FIN_OBJ_CD_SHRT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectLevelCode" column="FIN_OBJ_LEVEL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="reportsToChartOfAccountsCode" column="RPTS_TO_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="reportsToFinancialObjectCode" column="RPTS_TO_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectTypeCode" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="historicalFinancialObjectCode" column="HIST_FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectActiveIndicator" column="FIN_OBJ_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="financialBudgetAggregationCd" column="FOBJ_BDGT_AGGR_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="finObjMandatoryTrnfrOrElimCd" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialFederalFundedCode" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="nextYearFinancialObjectCode" column="NXT_YR_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="financialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="historicalFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="historicalFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="nextYearFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="nextYearFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="reportsToFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="reportsToChartOfAccountsCode" />
+		<foreignkey field-ref="reportsToFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="universityFiscal" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="reportsToChartOfAccountsCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.ObjectCodeChangeDetail" table="CA_OBJ_CD_CHG_DTL_T">
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

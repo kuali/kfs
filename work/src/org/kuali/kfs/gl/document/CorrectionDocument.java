@@ -30,10 +30,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.Constants;
+import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.dao.OriginEntryGroupDao;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -41,14 +45,15 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 public class CorrectionDocument extends DocumentBase {
 
     // private String financialDocumentNumber;
-    private String correctionTypeCode;
-    private String correctionSelectionCode;
-    private String correctionFileDeleteCode;
+    
+    private String correctionTypeCode; // Manual or Criteria?
+    private boolean correctionSelectionCode; // File or System?
+    private boolean correctionFileDeleteCode; // Delete Output?
     private Integer correctionRowCount;
     private KualiDecimal correctionDebitTotalAmount;
     private KualiDecimal correctionCreditTotalAmount;
-    private String correctionInputFileName;
-    private String correctionOutputFileName;
+    private String correctionInputFileName; //Should be integer?
+    private String correctionOutputFileName; //Should be integer?
     private String correctionScriptText;
 
     // private DocumentHeader financialDocument;
@@ -131,7 +136,7 @@ public class CorrectionDocument extends DocumentBase {
      * @return - Returns the correctionSelectionCode
      * 
      */
-    public String getCorrectionSelectionCode() {
+    public boolean getCorrectionSelectionCode() {
         return correctionSelectionCode;
     }
 
@@ -141,7 +146,7 @@ public class CorrectionDocument extends DocumentBase {
      * @param correctionSelectionCode The correctionSelectionCode to set.
      * 
      */
-    public void setCorrectionSelectionCode(String correctionSelectionCode) {
+    public void setCorrectionSelectionCode(boolean correctionSelectionCode) {
         this.correctionSelectionCode = correctionSelectionCode;
     }
 
@@ -152,7 +157,7 @@ public class CorrectionDocument extends DocumentBase {
      * @return - Returns the correctionFileDeleteCode
      * 
      */
-    public String getCorrectionFileDeleteCode() {
+    public boolean getCorrectionFileDeleteCode() {
         return correctionFileDeleteCode;
     }
 
@@ -162,7 +167,7 @@ public class CorrectionDocument extends DocumentBase {
      * @param correctionFileDeleteCode The correctionFileDeleteCode to set.
      * 
      */
-    public void setCorrectionFileDeleteCode(String correctionFileDeleteCode) {
+    public void setCorrectionFileDeleteCode(boolean correctionFileDeleteCode) {
         this.correctionFileDeleteCode = correctionFileDeleteCode;
     }
 
@@ -464,4 +469,23 @@ public class CorrectionDocument extends DocumentBase {
         return m;
     }
 
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        if (getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+            String docId = getDocumentHeader().getFinancialDocumentNumber();
+            DocumentDao documentDao = (DocumentDao) SpringServiceLocator.getBeanFactory().getBean("documentDao");
+            CorrectionDocument oldDoc = (CorrectionDocument) documentDao.findByDocumentHeaderId(CorrectionDocument.class, docId);
+            String groupId = oldDoc.getCorrectionOutputFileName();
+            
+            OriginEntryGroupDao originEntryGroupDao = (OriginEntryGroupDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupDao");
+            OriginEntryGroup approvedGLCP = originEntryGroupDao.getExactMatchingEntryGroup(Integer.parseInt(groupId));
+            approvedGLCP.setScrub(true);
+            originEntryGroupDao.save(approvedGLCP);
+            
+        }
+        
+        
+    }
+    
+    
 }

@@ -22,7 +22,7 @@
  */
 package org.kuali.module.gl.dao;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.kuali.module.gl.bo.CorrectionCriteria;
 
@@ -31,5 +31,5 @@ public interface CorrectionCriteriaDao {
 
     void delete(CorrectionCriteria criterion);
 
-    Collection findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupNumber);
+    List findByDocumentNumberAndCorrectionGroupNumber(Integer documentNumber, Integer correctionGroupLineNumber);
 }

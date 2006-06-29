@@ -23,6 +23,7 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -52,16 +53,16 @@ public class CorrectionChangeDaoOjb extends PersistenceBrokerDaoSupport implemen
      * @see org.kuali.module.gl.dao.CorrectionChangeDao#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.Integer,
      *      java.lang.Integer)
      */
-    public Collection findByDocumentHeaderIdAndCorrectionGroupNumber(Integer documentNumber, Integer correctionGroupNumber) {
+    public List findByDocumentHeaderIdAndCorrectionGroupNumber(Integer documentNumber, Integer correctionGroupLineNumber) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("DOC_HDR_ID", documentNumber);
-        criteria.addEqualTo("GL_COR_CHG_GRP_LN_NBR", correctionGroupNumber);
+        criteria.addEqualTo("FDOC_NBR", documentNumber);
+        criteria.addEqualTo("GL_COR_CHG_GRP_LN_NBR", correctionGroupLineNumber);
 
         Class clazz = CorrectionChange.class;
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
 
-        Collection specifications = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
+        List specifications = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
         return specifications;
     }
 

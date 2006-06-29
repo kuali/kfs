@@ -57,8 +57,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.KualiCodeBase;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
@@ -77,6 +80,7 @@ import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
@@ -315,12 +319,6 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         
         if(isDocumentForMultipleAccounts(transactionalDocument)) {
             success &= super.processOffsetGeneralLedgerPendingEntry(transactionalDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
-            
-            if(success) {
-                // now set the offset entry to the specific offset object code for the AV generated offset fund balance
-                String glpeOffsetObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(getDefaultSecurityGrouping(), getGeneralLedgerPendingEntryOffsetObjectCode());
-                offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
-            }
         } 
         else {
             sequenceHelper.decrement(); // the parent already increments; b/c it assumes that all documents have offset entries all of the time
@@ -356,15 +354,26 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      }
 
     /**
-     * Offset entries are only created for recodes (AVRC), so this method is one of 2 offsets that get created for an AVRC.  Its document type is 
-     * set to DI.  This uses the explicit entry as its model.
+     * Offset entries are created for recodes (AVRC) always, so this method is one of 2 offsets that get created for an AVRC.  Its document type is 
+     * set to DI.  This uses the explicit entry as its model.  In addition, an offset is generated for accruals (AVAE) and adjustments (AVAD), but only 
+     * if the document contains accounting lines for more than one account. 
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        // set the document type to that of a Distrib. Of Income and Expense
-        offsetEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+        AuxiliaryVoucherDocument auxDoc = (AuxiliaryVoucherDocument) transactionalDocument;
+        
+        // set the document type to that of a Distrib. Of Income and Expense if it's a recode
+        if(auxDoc.isRecodeType()) {
+            offsetEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class));
+        }
+
+        // now set the offset entry to the specific offset object code for the AV generated offset fund balance; only if it's an accrual or adjustment
+        if(auxDoc.isAccrualType() || auxDoc.isAdjustmentType()) {
+            String glpeOffsetObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(getDefaultSecurityGrouping(), getGeneralLedgerPendingEntryOffsetObjectCode());
+            offsetEntry.setFinancialObjectCode(glpeOffsetObjectCode);
+        }
 
         // set the reversal date to null
         offsetEntry.setFinancialDocumentReversalDate(null);
@@ -798,5 +807,53 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         retval.setFinancialObjectLevelCode(code);
 
         return retval;
+    }
+    
+    /**
+     * Implements the specific sufficient funds checking for the Auxiliary Voucher document.  
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine)
+     */
+    @Override
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+        String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
+        String accountNumber = sourceAccountingLine.getAccountNumber();
+        String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
+        String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
+        String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
+        Integer fiscalYear = sourceAccountingLine.getPostingYear();
+        String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
+        KualiDecimal lineAmount = sourceAccountingLine.getAmount();
+        String offsetDebitCreditCode = null;
+        // fi_dica:lp_proc_grant_ln.36-2...62-2
+        // fi_dica:lp_proc_rcpt_ln.36-2...69-2
+        if (isDebit(transactionalDocument, sourceAccountingLine)) {
+            offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
+        }
+        else {
+            offsetDebitCreditCode = Constants.GL_DEBIT_CODE;
+        }
+        lineAmount = lineAmount.abs();
+
+        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+        SufficientFundsItem item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+        return item;
+    }
+
+
+    /**
+     * Auxiliary Voucher is one sided and should only have SourceAccountingLines.  This overridden method just throws an IllegalStateException b/c it 
+     * should never have been called.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine)
+     */
+    @Override
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+        if (targetAccountingLine != null) {
+            throw new IllegalArgumentException("AV document doesn't have target accounting lines. This method should have never been entered");
+        }
+        return null;
     }
 }

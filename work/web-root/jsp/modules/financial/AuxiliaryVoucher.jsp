@@ -2,11 +2,7 @@
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialAuxiliaryVoucher" documentTypeName="KualiAuxiliaryVoucherDocument" renderMultipart="true" showTabButtons="true">
 		<%-- derive displayReadOnly value --%>
-		<c:set var="readOnly" value="false" />
-
-		<c:if test="${!empty editingMode['viewOnly']}" >
-		    <c:set var="readOnly" value="true" />
-		</c:if>
+		<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 
   	   	<SCRIPT type="text/javascript">
 		<!--
@@ -28,14 +24,19 @@
 		</div>	    	
 	    	<table cellpadding="0" class="datatable" summary="view/edit ad hoc recipients">
             <tbody>
-
               <tr>
                 <th width="35%" class="bord-l-b">
                   <div align="right">
                     <kul:htmlAttributeLabel attributeEntry="${DataDictionary.KualiAuxiliaryVoucherDocument.attributes.accountingPeriod}" useShortLabel="false" />
                   </div>
                 </th>
-                <td class="datacell-nowrap"><select name="selectedAccountingPeriod">
+                <td class="datacell-nowrap">
+                    <c:if test="${readOnly}">
+                        ${KualiForm.accountingPeriod.universityFiscalPeriodName}
+                        <html:hidden property="selectedAccountingPeriod" />
+					</c:if>
+					<c:if test="${!readOnly}">
+                        <select name="selectedAccountingPeriod">
 							<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
 								<c:set var="accountingPeriodCompositeValue" value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
 								<c:choose>
@@ -48,12 +49,14 @@
 								</c:choose>
 							</c:forEach>
 						</select>
+					</c:if>
                 </td>
               </tr>
               <tr>
                   <th width="35%" class="bord-l-b">
                       <div align="right">
                           <kul:htmlAttributeLabel attributeEntry="${DataDictionary.KualiAuxiliaryVoucherDocument.attributes.typeCode}" useShortLabel="false" />
+                          <html:hidden property="originalVoucherType" />
                       </div>
                   </th>
                   <td class="datacell-nowrap">
@@ -61,6 +64,7 @@
 					    	attributeEntry="${DataDictionary.KualiAuxiliaryVoucherDocument.attributes.typeCode}"
                             property="document.typeCode"
                             readOnly="${readOnly}" 
+                            readOnlyAlternateDisplay="${KualiForm.formattedAuxiliaryVoucherType}" 
                             onchange="submitForChangedType()"/>          
 						<NOSCRIPT>
     						<html:submit value="select" alt="press this button to refresh the page after changing the voucher type." />
@@ -72,9 +76,11 @@
                   </c:when>                  
                   <c:otherwise>
                       <c:set var="reversalReadOnly" value="${readOnly}"/>
-                      <c:if test="${KualiForm.document.typeCode == Constants.AuxiliaryVoucher.RECODE_DOC_TYPE}">
-					      <c:set var="reversalReadOnly" value="true"/>
-                      </c:if>
+                      <c:if test="${!reversalReadOnly}">  <!--  if we're already readOnly b/c of authz permissions, then we want to stay that way -->
+	                      <c:if test="${KualiForm.document.typeCode == Constants.AuxiliaryVoucher.RECODE_DOC_TYPE}">
+						      <c:set var="reversalReadOnly" value="true"/>
+	                      </c:if>
+	                  </c:if>
                       <tr>
                           <kul:htmlAttributeHeaderCell
                                   attributeEntry="${DataDictionary.KualiAuxiliaryVoucherDocument.attributes.reversalDate}"

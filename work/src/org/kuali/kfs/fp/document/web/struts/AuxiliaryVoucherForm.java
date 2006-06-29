@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.Constants;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 
 import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
@@ -38,6 +39,8 @@ import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
+    private String originalVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;  // keep this in sync with the default value set in the document business object
+    
     public AuxiliaryVoucherForm() {
         super();
         setDocument(new AuxiliaryVoucherDocument());
@@ -97,6 +100,42 @@ public class AuxiliaryVoucherForm extends VoucherForm {
      */
     public String getFormattedReversalDate() {
         return formatReversalDate(getAuxiliaryVoucherDocument().getReversalDate());
+    }
+
+    /**
+     * @return String
+     */
+    public String getOriginalVoucherType() {
+        return originalVoucherType;
+    }
+
+    /**
+     * @param originalVoucherType
+     */
+    public void setOriginalVoucherType(String originalVoucherType) {
+        this.originalVoucherType = originalVoucherType;
+    }
+    
+    /**
+     * Returns a formatted auxiliary voucher type: <Voucher Type Name> (<Voucher Type Code>) 
+     * 
+     * @return
+     */
+    public String getFormattedAuxiliaryVoucherType() {
+        String voucherTypeCode = getAuxiliaryVoucherDocument().getTypeCode();
+        String formattedVoucherType = new String();
+        
+        if(Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE.equals(voucherTypeCode)) {
+            formattedVoucherType = Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE_NAME;
+        } else if(Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE.equals(voucherTypeCode)) {
+            formattedVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME;
+        } else if(Constants.AuxiliaryVoucher.RECODE_DOC_TYPE.equals(voucherTypeCode)) {
+            formattedVoucherType = Constants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME;
+        } else {
+            throw new IllegalStateException("Invalid auxiliary voucher type code: " + voucherTypeCode);
+        }
+        
+        return formattedVoucherType + " (" + voucherTypeCode + ")";
     }
 }
 

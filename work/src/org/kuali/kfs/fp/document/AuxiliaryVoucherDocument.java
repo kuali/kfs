@@ -51,7 +51,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
 
-    private String typeCode = ADJUSTMENT_DOC_TYPE;;
+    private String typeCode = ADJUSTMENT_DOC_TYPE;
     private Timestamp reversalDate;
     
     /**

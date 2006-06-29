@@ -30,13 +30,13 @@
             <defaultSort attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
 
             <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
+                <lookupField attributeName="universityFiscalYear" required="true">
                     <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
 
-                <lookupField attributeName="chartOfAccountsCode" required="true" noLookup="false" />
-                <lookupField attributeName="accountNumber" required="true" noLookup="false" />
-                <lookupField attributeName="subAccountNumber" noLookup="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="true" />
+                <lookupField attributeName="accountNumber" required="true" />
+                <lookupField attributeName="subAccountNumber" forceLookup="true" />
 
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
@@ -77,6 +77,9 @@
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <control>
+                    <text size="2" />
+                </control>
                 <description>The Chart of Accounts for an Account Number. Kuali accommodates more than one Chart of Accounts. Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
             </attributeReference>
 

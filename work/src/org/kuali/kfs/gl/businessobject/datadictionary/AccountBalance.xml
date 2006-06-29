@@ -30,15 +30,15 @@
             <defaultSort attributeName="objectCode" />
 
             <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
+                <lookupField attributeName="universityFiscalYear" required="true">
                     <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
 
-                <lookupField attributeName="chartOfAccountsCode" required="true" noLookup="true" />
-                <lookupField attributeName="accountNumber" required="true" noLookup="false" />
-                <lookupField attributeName="subAccountNumber" noLookup="false" />
-                <lookupField attributeName="objectCode" noLookup="false" />
-                <lookupField attributeName="subObjectCode" noLookup="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="true" />
+                <lookupField attributeName="accountNumber" required="true" />
+                <lookupField attributeName="subAccountNumber" forceLookup="true" />
+                <lookupField attributeName="objectCode" />
+                <lookupField attributeName="subObjectCode" />
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
                 </lookupField>
@@ -70,7 +70,7 @@
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <text size="2" />
                 </control>
                 <description>The Chart of Accounts for an Account Number. Kuali accommodates more than one Chart of Accounts. Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
             </attributeReference>

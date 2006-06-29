@@ -51,10 +51,10 @@
                 <lookupField attributeName="universityFiscalYear" required="true" noLookup="true" />
                 <lookupField attributeName="chartOfAccountsCode" required="true" />
                 <lookupField attributeName="accountNumber" required="true" forceLookup="true" />
-                <lookupField attributeName="subAccountNumber" noLookup="false" />
-                <lookupField attributeName="financialObjectCode" noLookup="false" />
-                <lookupField attributeName="financialSubObjectCode" noLookup="false" />
-                <lookupField attributeName="financialBalanceTypeCode" noLookup="false" />
+                <lookupField attributeName="subAccountNumber" forceLookup="true" />
+                <lookupField attributeName="financialObjectCode" />
+                <lookupField attributeName="financialSubObjectCode" />
+                <lookupField attributeName="financialBalanceTypeCode" />
 
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
@@ -109,7 +109,11 @@
                     <![CDATA[&nbsp;]]>
                 </description>
             </attribute>
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <control>
+                    <text size="2" />
+                </control>
+            </attributeReference>
             <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />
             <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />

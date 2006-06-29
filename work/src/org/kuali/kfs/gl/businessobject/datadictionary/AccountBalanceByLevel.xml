@@ -30,12 +30,12 @@
             <defaultSort attributeName="accountNumber" />
 
             <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="true" noLookup="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="true" noLookup="false" />
-                <lookupField attributeName="accountNumber" required="true" noLookup="false" />
-                <lookupField attributeName="subAccountNumber" noLookup="false" />
+                <lookupField attributeName="universityFiscalYear" required="true" />
+                <lookupField attributeName="chartOfAccountsCode" required="true" />
+                <lookupField attributeName="accountNumber" required="true" />
+                <lookupField attributeName="subAccountNumber" forceLookup="true" />
 
-                <lookupField attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" required="true" noLookup="false" />
+                <lookupField attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" required="true"/>
 
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
@@ -77,7 +77,7 @@
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <text size="2" />
                 </control>
             </attributeReference>
 

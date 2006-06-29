@@ -42,7 +42,7 @@
                     <center>
                         <label for="pending-origin-entry-group-id"><strong>GLCP Origin Entry Group</strong></label><br/><br/>
                         
-                        <html:select property="groupIdList" size="10" >
+                        <html:select property="oldDocId" size="10" >
 							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|PreviousGLCPDocuFinder" label="label" value="key" />
 						</html:select>
                         
@@ -108,7 +108,7 @@
                         
                         <br/><br/> 
                         
-	                        <input type="image" name="methodToCall.loadDocument" 
+	                        <input type="image" name="methodToCall.readDocument" 
 			                	   src="images/tinybutton-loaddoc.gif" alt="show all entries for manual edit" class="tinybutton" />
 			               	
 							Copy To Desktop 

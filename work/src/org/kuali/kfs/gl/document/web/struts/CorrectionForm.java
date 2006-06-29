@@ -65,6 +65,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private KualiDecimal totalDebitsOrBlanks;
     private KualiDecimal totalCredits; 
     private int rowsOutput;
+    private Integer oldDocId;
     
     /**
      * This is a Map of operators that can be used in searches from the GL Error Correction Document. Each value in this Map
@@ -340,6 +341,14 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setTotalCredits(KualiDecimal totalCredits) {
         this.totalCredits = totalCredits;
+    }
+
+    public Integer getOldDocId() {
+        return oldDocId;
+    }
+
+    public void setOldDocId(Integer oldDocId) {
+        this.oldDocId = oldDocId;
     }
 
    

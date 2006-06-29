@@ -34,6 +34,7 @@ import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR;
 import static org.kuali.KeyConstants.ERROR_CUSTOM;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN;
@@ -58,6 +59,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.bo.SourceAccountingLine;
@@ -529,39 +532,93 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean valid = super.processCustomRouteDocumentBusinessRules(document);
 
+        // make sure that a single chart is used for all accounting lines in the document
+        if(valid) {
+            valid = isSingleChartUsed((TransactionalDocument) document);
+        }
+        
+        // make sure that a single sub fund group is used for all accounting lines in the document
         if (valid) {
-            valid = validateFundGroupsInDocument((TransactionalDocument) document);
+            valid = isSingleSubFundGroupUsed((TransactionalDocument) document);
+        }
+        
+        // make sure that a reversal date is entered for accruals
+        if (valid) {
+            valid = isValidReversalDate((AuxiliaryVoucherDocument) document);
         }
 
         return valid;
     }
-
+    
     /**
      * Iterates <code>{@link AccountingLine}</code> instances in a given <code>{@link TransactionalDocument}</code> instance and
-     * compares them to see if they are all in the same Fund Group.
+     * compares them to see if they are all in the same Chart.
      * 
-     * @see #validateFundGroups(AccountingLine, AccountingLine)
      * @param document
      * @return boolean
      */
-    protected boolean validateFundGroupsInDocument(TransactionalDocument document) {
+    protected boolean isSingleChartUsed(TransactionalDocument document) {
         boolean valid = true;
 
-        String baseFundGroupCode = null;
+        String baseChartCode = null;
         int index = 0;
         
         List<AccountingLine> lines = document.getSourceAccountingLines(); 
         for (AccountingLine line : lines) {
             if(index == 0) {
-                baseFundGroupCode = line.getAccount().getSubFundGroup().getFundGroupCode();
+                baseChartCode = line.getChartOfAccountsCode();
             } else {
-                String currentFundGroup = line.getAccount().getSubFundGroup().getFundGroupCode();
-                if(!currentFundGroup.equals(baseFundGroupCode)) {
+                String currentChartCode = line.getChartOfAccountsCode();
+                if(!currentChartCode.equals(baseChartCode)) {
+                    reportError(ACCOUNTING_LINE_ERRORS, KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_CHARTS, new String[] {});
                     return false;
                 }
             }
             index++;
         }
+        return true;
+    }
+
+    /**
+     * Iterates <code>{@link AccountingLine}</code> instances in a given <code>{@link TransactionalDocument}</code> instance and
+     * compares them to see if they are all in the same Sub-Fund Group.
+     * 
+     * @param document
+     * @return boolean
+     */
+    protected boolean isSingleSubFundGroupUsed(TransactionalDocument document) {
+        boolean valid = true;
+
+        String baseSubFundGroupCode = null;
+        int index = 0;
+        
+        List<AccountingLine> lines = document.getSourceAccountingLines(); 
+        for (AccountingLine line : lines) {
+            if(index == 0) {
+                baseSubFundGroupCode = line.getAccount().getSubFundGroupCode();
+            } else {
+                String currentSubFundGroup = line.getAccount().getSubFundGroupCode();
+                if(!currentSubFundGroup.equals(baseSubFundGroupCode)) {
+                    reportError(ACCOUNTING_LINE_ERRORS, KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS, new String[] {});
+                    return false;
+                }
+            }
+            index++;
+        }
+        return true;
+    }
+    
+    /**
+     * This method verifies that the user entered a reversal date, but only if it's an accrual.
+     * @param document
+     * @return boolean
+     */
+    protected boolean isValidReversalDate(AuxiliaryVoucherDocument document) {
+        if(document.isAccrualType() && document.getReversalDate() == null) {
+            reportError(PropertyConstants.REVERSAL_DATE, KeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE, new String[] {});
+            return false;
+        }
+        
         return true;
     }
     

@@ -278,8 +278,13 @@ public class ReportServiceImpl implements ReportService {
     public void generatePosterMainLedgerSummaryReport(Date runDate, Collection groups) {
         LOG.debug("generatePosterMainLedgerSummaryReport() started");
 
+        LedgerEntryHolder ledgerEntries = null;
         LedgerReport ledgerReport = new LedgerReport();
-        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        if ( groups.size() > 1) {
+            ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        } else {
+            ledgerEntries = new LedgerEntryHolder();
+        }
         ledgerReport.generateReport(ledgerEntries, runDate, "Main Poster Input Transactions", "poster_main_ledger", reportsDirectory);
     }
 

@@ -61,6 +61,9 @@
         <property name="nonpersonnelCategoryDao">
             <ref bean="nonpersonnelCategoryDao" />
         </property>
+        <property name="nonpersonnelObjectCodesDao">
+            <ref bean="nonpersonnelObjectCodesDao" />
+        </property>
     </bean>
 
     <bean id="budgetModularService" class="org.kuali.module.kra.service.impl.BudgetModularServiceImpl">

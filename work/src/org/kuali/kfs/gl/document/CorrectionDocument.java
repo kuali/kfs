@@ -451,14 +451,6 @@ public class CorrectionDocument extends DocumentBase {
         this.originEntryGroupId = originEntryGroupId;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.core.document.Document#populateDocumentForRouting()
-     */
-    public void populateDocumentForRouting() {
-        // TODO Auto-generated method stub
-    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

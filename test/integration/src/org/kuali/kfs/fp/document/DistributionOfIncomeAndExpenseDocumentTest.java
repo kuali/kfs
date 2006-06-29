@@ -48,6 +48,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * 
      * @return String[]
      */
+    @Override
     public String[] getFixtureCollectionNames() {
         return new String[] { COLLECTION_NAME };
     }
@@ -56,6 +57,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * 
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
      */
+    @Override
     public DocumentParameter getDocumentParameterFixture() {
         return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, DOCUMENT_PARAMETER).createObject();
     }
@@ -64,6 +66,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
      */
+    @Override
     public List getTargetAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
         list.add(getFixtureEntryFromCollection(COLLECTION_NAME, TARGET_LINE1).createObject());
@@ -74,6 +77,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
      */
+    @Override
     public List getSourceAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
         list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE1).createObject());
@@ -84,6 +88,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getUserName()
      */
+    @Override
     public String getUserName() {
         return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
     }
@@ -93,6 +98,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * Overrides the parent to do nothing since the DofI&E doesn't set the posting period in the record it stores. This test doesn't
      * apply to this type of document.
      */
+    @Override
     public final void testConvertIntoCopy_invalidYear() throws Exception {
         // do nothing to pass
     }
@@ -101,128 +107,49 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * Overrides the parent to do nothing since the DofI&E doesn't set the posting period in the record it stores. This test doesn't
      * apply to this type of document.
      */
+    @Override
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
         // do nothing to pass
     }
 
-    /*
-     * THIS IS OLD TEST CODE THAT SHOULD BE CONSIDERED AND POSSIBLY IMPLEMENTED WHEN WE GET TO THIS DOCUMENT AS PART OF THE WORK
-     * CYCLE - IT WILL MOSTLY LIKE GO IN THE RULE TEST CLASS
-     * 
-     * public final void testGetNewDocument_knownUser_knownDocumentType() throws Exception { Document document =
-     * SpringServiceLocator.getDocumentService().getNewDocument(KNOWN_DOCUMENT_TYPENAME);
-     * 
-     * assertNotNull( document ); assertNotNull( document.getDocumentHeader() ); assertNotNull(
-     * document.getDocumentHeader().getFinancialDocumentNumber() ); }
-     * 
-     * public final void testApplyAddAccountingLineBusinessRulesInvalidSubObjectCode() throws Exception {
-     * DistributionOfIncomeAndExpenseDocument didoc = createInvalidRulesDIDocumentInvalidSubObjectCode();
-     *  // Check business rules List src = didoc.getSourceAccountingLines(); List dst = didoc.getTargetAccountingLines();
-     * 
-     * for (Iterator i = src.iterator(); i.hasNext();) { SourceAccountingLine sourceAccountingLine = (SourceAccountingLine)
-     * i.next(); sourceAccountingLine.refresh();
-     * 
-     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(didoc, sourceAccountingLine))); }
-     * 
-     * for (Iterator i = dst.iterator(); i.hasNext();) { TargetAccountingLine targetAccountingLine = (TargetAccountingLine)
-     * i.next(); targetAccountingLine.refresh();
-     * 
-     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(didoc, targetAccountingLine))); } }
-     * 
-     * public final void testApplyAddAccountingLineBusinessRulesValidSubObjectCode() throws Exception {
-     * DistributionOfIncomeAndExpenseDocument didoc = createValidRulesDIDocument();
-     *  // Check business rules List src = didoc.getSourceAccountingLines(); List dst = didoc.getTargetAccountingLines();
-     * 
-     * for (Iterator i = src.iterator(); i.hasNext();) { SourceAccountingLine sourceAccountingLine = (SourceAccountingLine)
-     * i.next(); sourceAccountingLine.refresh();
-     * 
-     * assertTrue(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(didoc, sourceAccountingLine))); }
-     * 
-     * for (Iterator i = dst.iterator(); i.hasNext();) { TargetAccountingLine targetAccountingLine = (TargetAccountingLine)
-     * i.next(); targetAccountingLine.refresh();
-     * 
-     * assertTrue(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(didoc, targetAccountingLine))); } }
-     * 
-     * public final void testApplyRouteDocumentBusinessRules_invalidDocument() throws Exception { // TODO: Create an appropriate
-     * document. TransactionalDocument document = createInvalidRulesDIDocumentNotInBalance();
-     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(document)));
-     * 
-     * document = createInvalidRulesDIDocumentInvalidSubObjectCode();
-     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(document))); }
-     * 
-     * public final void testApplyRouteDocumentBusinessRules_validDocument() throws Exception { // TODO: Create an appropriate
-     * document. TransactionalDocument document = createValidRulesDIDocument();
-     * assertTrue(SpringServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(document))); }
-     * 
-     * 
-     * private static final String CHART = "BL"; private static final String ACCOUNT = "1031400"; private static final String
-     * SUB_ACCT = "ADV";
-     *  // MT :: 5197, 5198, 1696, 1699, 1669, 9959, 9977, 9903 // TN :: 9918, 9900, 9924, 9951, 9912, 5163, 1663, 5216, 9915, 9920,
-     * 9923, 9925, 9930
-     * 
-     * private static final String MT_OBJ_CODE = "5197"; private static final String TN_OBJ_CODE = "9918"; private static final
-     * String UNKNOWN_SUB_OBJ_CODE = "YYZZY"; private static final String SUB_OBJ_CODE = "SSS"; private static final String PROJECT =
-     * "KUL3"; private static BalanceTyp BAL_TYP = new BalanceTyp(); private static final int YEAR = 2004; private static final
-     * KualiDecimal AMT1 = new KualiDecimal("2.50"); private static final KualiDecimal AMT2 = new KualiDecimal("5.20");
-     * 
-     * final private DistributionOfIncomeAndExpenseDocument createValidRulesDIDocument() throws Exception { // Get a new object,
-     * unpopulated DistributionOfIncomeAndExpenseDocument didoc = (DistributionOfIncomeAndExpenseDocument) SpringServiceLocator
-     * .getDocumentService().getNewDocument(KNOWN_DOCUMENT_TYPENAME);
-     *  // Set attributes on the document itself didoc.setPostingYear(new Integer(YEAR)); didoc.setExplanation("This is a test
-     * document, testing valid accounting line business rules."); didoc.getDocumentHeader().setFinancialDocumentDescription(
-     * "testing DistributionOfIncomeAndExpenseDocumentServiceTest.createValidRuleDIDocument"); String documentHeaderId =
-     * didoc.getFinancialDocumentNumber();
-     *  // Setup income lines SourceAccountingLine incomeLine = DocumentTestUtils.createSourceLine(documentHeaderId, CHART, ACCOUNT,
-     * SUB_ACCT, TN_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT1, 1, "", "", "", "", "", "", "");
-     * didoc.addSourceAccountingLine(incomeLine); incomeLine = DocumentTestUtils.createSourceLine(documentHeaderId, CHART, ACCOUNT,
-     * SUB_ACCT, MT_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT2, 2, "", "", "", "", "", "", "");
-     * didoc.addSourceAccountingLine(incomeLine);
-     *  // Setup expense lines TargetAccountingLine expenseLine = DocumentTestUtils.createTargetLine(documentHeaderId, CHART,
-     * ACCOUNT, SUB_ACCT, TN_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT1, 1, "", "", "", "", "", "", "");
-     * didoc.addTargetAccountingLine(expenseLine); expenseLine = DocumentTestUtils.createTargetLine(documentHeaderId, CHART,
-     * ACCOUNT, SUB_ACCT, MT_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT2, 2, "", "", "", "", "", "", "");
-     * didoc.addTargetAccountingLine(expenseLine);
-     * 
-     * return didoc; }
-     * 
-     * final private DistributionOfIncomeAndExpenseDocument createInvalidRulesDIDocumentNotInBalance() throws Exception { // Get a
-     * new object, unpopulated DistributionOfIncomeAndExpenseDocument didoc = (DistributionOfIncomeAndExpenseDocument)
-     * SpringServiceLocator .getDocumentService().getNewDocument(KNOWN_DOCUMENT_TYPENAME);
-     *  // Set attributes on the document itself didoc.setPostingYear(new Integer(YEAR)); didoc.setExplanation("This is a test
-     * document, testing valid accounting line business rules."); didoc.getDocumentHeader().setFinancialDocumentDescription(
-     * "testing DistributionOfIncomeAndExpenseDocumentServiceTest.createValidRuleDIDocument"); String documentHeaderId =
-     * didoc.getFinancialDocumentNumber();
-     *  // Setup income lines SourceAccountingLine incomeLine = DocumentTestUtils.createSourceLine(documentHeaderId, CHART, ACCOUNT,
-     * SUB_ACCT, TN_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT1, 1, "", "", "", "", "", "", "");
-     * didoc.addSourceAccountingLine(incomeLine); incomeLine = DocumentTestUtils.createSourceLine(documentHeaderId, CHART, ACCOUNT,
-     * SUB_ACCT, MT_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT1, 2, "", "", "", "", "", "", "");
-     * didoc.addSourceAccountingLine(incomeLine);
-     *  // Setup expense lines TargetAccountingLine expenseLine = DocumentTestUtils.createTargetLine(documentHeaderId, CHART,
-     * ACCOUNT, SUB_ACCT, TN_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT2, 1, "", "", "", "", "", "", "");
-     * didoc.addTargetAccountingLine(expenseLine); expenseLine = DocumentTestUtils.createTargetLine(documentHeaderId, CHART,
-     * ACCOUNT, SUB_ACCT, MT_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT2, 2, "", "", "", "", "", "", "");
-     * didoc.addTargetAccountingLine(expenseLine);
-     * 
-     * return didoc; }
-     * 
-     * final private DistributionOfIncomeAndExpenseDocument createInvalidRulesDIDocumentInvalidSubObjectCode() throws Exception { //
-     * Get a new object, unpopulated DistributionOfIncomeAndExpenseDocument didoc = (DistributionOfIncomeAndExpenseDocument)
-     * SpringServiceLocator .getDocumentService().getNewDocument(KNOWN_DOCUMENT_TYPENAME);
-     *  // Set attributes on the document itself didoc.setPostingYear(new Integer(YEAR)); didoc.setExplanation("This is a test
-     * document, testing valid accounting line business rules."); didoc.getDocumentHeader().setFinancialDocumentDescription(
-     * "testing DistributionOfIncomeAndExpenseDocumentServiceTest.createValidRuleDIDocument"); String documentHeaderId =
-     * didoc.getFinancialDocumentNumber();
-     *  // Setup income lines SourceAccountingLine incomeLine = DocumentTestUtils.createSourceLine(documentHeaderId, CHART, ACCOUNT,
-     * SUB_ACCT, TN_OBJ_CODE, UNKNOWN_SUB_OBJ_CODE, PROJECT, YEAR, AMT1, 1, "", "", "", "", "", "", "");
-     * didoc.addSourceAccountingLine(incomeLine); incomeLine = DocumentTestUtils.createSourceLine(documentHeaderId, CHART, ACCOUNT,
-     * SUB_ACCT, MT_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT2, 2, "", "", "", "", "", "", "");
-     * didoc.addSourceAccountingLine(incomeLine);
-     *  // Setup expense lines TargetAccountingLine expenseLine = DocumentTestUtils.createTargetLine(documentHeaderId, CHART,
-     * ACCOUNT, SUB_ACCT, TN_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT1, 1, "", "", "", "", "", "", "");
-     * didoc.addTargetAccountingLine(expenseLine); expenseLine = DocumentTestUtils.createTargetLine(documentHeaderId, CHART,
-     * ACCOUNT, SUB_ACCT, MT_OBJ_CODE, SUB_OBJ_CODE, PROJECT, YEAR, AMT2, 2, "", "", "", "", "", "", "");
-     * didoc.addTargetAccountingLine(expenseLine);
-     * 
-     * return didoc; }
-     */
+
+    public void testKULEDOCS_1401() throws Exception {
+        String testDocId = null;
+
+        try {
+            {
+                // create a DIE doc
+                DistributionOfIncomeAndExpenseDocument createdDoc = (DistributionOfIncomeAndExpenseDocument) getDocumentService().getNewDocument(DistributionOfIncomeAndExpenseDocument.class);
+                testDocId = createdDoc.getFinancialDocumentNumber();
+
+                // populate and save it
+                createdDoc.getDocumentHeader().setFinancialDocumentDescription("created by testKULEDOCS_1401");
+                createdDoc.setExplanation("reproducing KULEDOCS_1401");
+
+                createdDoc.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
+                createdDoc.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
+
+                getDocumentService().saveDocument(createdDoc, "saving populated doc", null);
+            }
+
+            {
+                // change the accountingLine totals (by adding new lines)
+                DistributionOfIncomeAndExpenseDocument savedDoc = (DistributionOfIncomeAndExpenseDocument) getDocumentService().getByDocumentHeaderId(testDocId);
+                savedDoc.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
+                savedDoc.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
+
+                // blanketapprove updated doc
+                getDocumentService().blanketApproveDocument(savedDoc, "blanketapproving updated doc", null);
+            }
+        }
+        finally {
+            // clean things up, if possible
+            if (testDocId != null) {
+                DistributionOfIncomeAndExpenseDocument cancelingDoc = (DistributionOfIncomeAndExpenseDocument) getDocumentService().getByDocumentHeaderId(testDocId);
+                if (cancelingDoc != null) {
+                    getDocumentService().cancelDocument(cancelingDoc, "cleaning up after test");
+                }
+            }
+        }
+    }
 }

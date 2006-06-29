@@ -42,6 +42,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.workflow.KualiConstants;
+import org.kuali.workflow.KualiWorkflowUtils;
 import org.kuali.workflow.beans.KualiFiscalChart;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
@@ -286,7 +287,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-            XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
+            XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
             String chart = null;
             String chartXPath = null;
             

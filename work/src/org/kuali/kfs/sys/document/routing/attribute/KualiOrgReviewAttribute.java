@@ -40,6 +40,7 @@ import org.kuali.KualiSpringServiceLocator;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.workflow.KualiConstants;
+import org.kuali.workflow.KualiWorkflowUtils;
 import org.kuali.workflow.beans.KualiFiscalOrganization;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -411,7 +412,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private Set populateFromDocContent(DocumentType docType, DocumentContent docContent) {
         Set chartOrgValues = new HashSet();
         NodeList nodes = null;
-        XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
+        XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         try {
         	String chart = null;
         	String org = null;
@@ -507,7 +508,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     private String getOverrideCd(DocumentType docType, DocumentContent docContent) {
         try {
-            XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
+            XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
             boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
         	if (isReport) {
                 return xpath.evaluate("wf:xstreamsafe('//report/overrideCode')", docContent.getDocument());
@@ -547,7 +548,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
-            XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
+            XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
             boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
         	if (isReport) {
                 String floatVal = xpath.evaluate("wf:xstreamsafe('//report/totalDollarAmount')", docContent.getDocument());

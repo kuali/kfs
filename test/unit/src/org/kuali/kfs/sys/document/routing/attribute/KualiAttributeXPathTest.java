@@ -29,6 +29,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.exception.InvalidXmlException;
@@ -54,7 +55,7 @@ public class KualiAttributeXPathTest extends KualiTestBaseWithFixtures {
     public void testKualiSubFundGroupAttribute_TransferOfFunds1() throws IOException, InvalidXmlException, XPathExpressionException {
         
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile("TransferOfFunds_FEMPSubcode_OneLIner.xml");
-        XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
+        XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
 
         String xpathResult;
         

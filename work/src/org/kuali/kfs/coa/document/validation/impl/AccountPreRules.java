@@ -245,12 +245,11 @@ public class AccountPreRules extends MaintenancePreRulesBase {
             primaryKeys.put("postalZipCode", copyAccount.getAccountZipCode());
             PostalZipCode zip = (PostalZipCode) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
 
-            // TODO: finish this
-
-            // set the state field
-
-            // set the city field
-
+            // If user enters a valid zip code, override city name and state code entered by user
+            if (ObjectUtils.isNotNull(zip)) { // override old user inputs
+                newAccount.setAccountCityName(zip.getPostalCityName());
+                newAccount.setAccountStateCode(zip.getPostalStateCode());
+            }
         }
     }
 

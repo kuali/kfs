@@ -79,7 +79,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.18 2006-06-29 15:58:23 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.19 2006-06-29 21:31:35 schoo Exp $
  * 
  */
 
@@ -626,14 +626,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
         if (errorCorrectionForm.getDeleteOutput() != null) {
             document.setCorrectionFileDeleteCode(true);
         } else {document.setCorrectionFileDeleteCode(false);}*/
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -1737,82 +1729,30 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
     
     public ActionForward showPreviousCorrectionFiles(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws WorkflowException {
-        
         CorrectionChangeGroupDao correctionChangeGroupDao 
-                = (CorrectionChangeGroupDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeGroupDao");
-        CorrectionChangeDao correctionChangeDao 
-                = (CorrectionChangeDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeDao");
-        CorrectionCriteriaDao correctionCriteriaDao 
-                = (CorrectionCriteriaDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionCriteriaDao");
-        CorrectionChangeGroup correctionChangeGroup = new CorrectionChangeGroup();
-        CorrectionChange correctionChange = new CorrectionChange();
-        CorrectionCriteria correctionCriteria = new CorrectionCriteria();
+        = (CorrectionChangeGroupDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeGroupDao");
+    CorrectionChangeDao correctionChangeDao 
+        = (CorrectionChangeDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeDao");
+    CorrectionCriteriaDao correctionCriteriaDao 
+        = (CorrectionCriteriaDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionCriteriaDao");
+    CorrectionChangeGroup correctionChangeGroup = new CorrectionChangeGroup();
+    CorrectionChange correctionChange = new CorrectionChange();
+    CorrectionCriteria correctionCriteria = new CorrectionCriteria();
+    CorrectionForm errorCorrectionForm = (CorrectionForm) form;
+    
+    DocumentDao documentDao = (DocumentDao) SpringServiceLocator.getBeanFactory().getBean("documentDao");
+    //DocumentService documentService = (DocumentService) SpringServiceLocator.getBeanFactory().getBean("documentService");
+    
+    CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument();
+    Integer docId = errorCorrectionForm.getOldDocId();
+    CorrectionDocument oldDoc = (CorrectionDocument) documentDao.findByDocumentHeaderId(CorrectionDocument.class, docId.toString());
+    
         
-        DocumentDao documentDao = (DocumentDao) SpringServiceLocator.getBeanFactory().getBean("documentDao");
-        //DocumentService documentService = (DocumentService) SpringServiceLocator.getBeanFactory().getBean("documentService");
-        CorrectionForm errorCorrectionForm = (CorrectionForm) form;
-        CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument();
-        Integer docId = errorCorrectionForm.getOldDocId();
-        CorrectionDocument oldDoc = (CorrectionDocument) documentDao.findByDocumentHeaderId(CorrectionDocument.class, docId.toString());
-                
-        //build errorCorrectionForm
-        //CorrectionChangeGroup correctionChangeGroup;
-        Integer correctionChangeGroupNextLineNumber = oldDoc.getCorrectionChangeGroupNextLineNumber();
-        //if correctionChangeGroupNextLineNumber is not bigger than 1, then it means this doc corrected by manual edit
-        if (correctionChangeGroupNextLineNumber>1){
-            CorrectionChangeGroup ccg = new CorrectionChangeGroup();
-            for (int i=0; i<= correctionChangeGroupNextLineNumber.intValue(); i++){
-                ccg = correctionChangeGroupDao.findByDocumentNumberAndCorrectionChangeGroupNumber(docId, i);
-                if (ccg != null){
-             
-                    if (correctionChangeDao.findByDocumentHeaderIdAndCorrectionGroupNumber(docId, i) != null){
-                        ccg.setCorrectionChange(correctionChangeDao.findByDocumentHeaderIdAndCorrectionGroupNumber(docId, i));
-                    }
-                    if (correctionCriteriaDao.findByDocumentNumberAndCorrectionGroupNumber(docId, i) !=null){
-                    ccg.setCorrectionCriteria(correctionCriteriaDao.findByDocumentNumberAndCorrectionGroupNumber(docId, i));
-                    }
-                document.getCorrectionChangeGroup().add(ccg);
-                }
-            }
-            
-            errorCorrectionForm.setEditMethod("criteria");
         
-        } else {
-            
-            errorCorrectionForm.setEditMethod("manual");
-            errorCorrectionForm.setManualEditFlag("Y");
-            
-            
-            
-            }
-        
-        errorCorrectionForm.setChooseSystem("system");
-        errorCorrectionForm.setTotalCredits(oldDoc.getCorrectionCreditTotalAmount());
-        errorCorrectionForm.setTotalDebitsOrBlanks(oldDoc.getCorrectionDebitTotalAmount());
-        errorCorrectionForm.setRowsOutput(oldDoc.getCorrectionRowCount());
-        
-        String[] groupId = {oldDoc.getCorrectionOutputFileName()};
-        showAllEntries(groupId, errorCorrectionForm, request);
-        document.setFinancialDocumentNumber(docId.toString());
+        buildFormForShowingPreviousDoc(errorCorrectionForm, request, oldDoc);
         
         
         
-        //List<CorrectionChangeGroup> correctionChangeGroupList = doc.getCorrectionChangeGroup();
-        
-       /* for(CorrectionChangeGroup ccg: correctionChangeGroupList){
-            Integer ccgLineNumber = ccg.getCorrectionChangeGroupLineNumber();
-            ccg.setCorrectionChange(correctionChangeDao.findByDocumentHeaderIdAndCorrectionGroupNumber(docId, ccgLineNumber));
-            ccg.setCorrectionCriteria(correctionCriteriaDao.findByDocumentNumberAndCorrectionGroupNumber(docId, ccgLineNumber));
-            document.getCorrectionChangeGroup().add(ccg);
-         }*/
-        
-        //document.setCorrectionChangeGroup(doc.getCorrectionChangeGroup());
-        
-        //CorrectionDocument document = (CorrectionDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId.toString());
-        //CorrectionDocument document = (CorrectionDocument) documentService.getByDocumentHeaderId(docId.toString());
-        
-        //showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
-       
         
        
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1915,6 +1855,8 @@ public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServ
     // in all of the following cases we want to load the document
     if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, command) && errorCorrectionForm.getDocId() != null) {
         loadDocument(errorCorrectionForm);
+        CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument();
+        buildFormForShowingPreviousDoc(errorCorrectionForm, request, document);
     }
     else if (IDocHandler.INITIATE_COMMAND.equals(command)) {
         createDocument(errorCorrectionForm);
@@ -1937,7 +1879,7 @@ public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServ
     GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
     return mapping.findForward(Constants.MAPPING_BASIC);*/
 }
-protected void loadDocument(CorrectionForm errorCorrectionForm) throws WorkflowException {
+/*protected void loadDocument(CorrectionForm errorCorrectionForm) throws WorkflowException {
     
     String docId = errorCorrectionForm.getDocId();
     DocumentDao documentDao = (DocumentDao) SpringServiceLocator.getBeanFactory().getBean("documentDao");
@@ -1949,6 +1891,75 @@ protected void loadDocument(CorrectionForm errorCorrectionForm) throws WorkflowE
     // KualiDocumentFormBase.populate() needs this updated in the session
     GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
     
+}*/
+public void buildFormForShowingPreviousDoc(CorrectionForm errorCorrectionForm, HttpServletRequest request, CorrectionDocument oldDoc){
+    CorrectionChangeGroupDao correctionChangeGroupDao 
+        = (CorrectionChangeGroupDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeGroupDao");
+    CorrectionChangeDao correctionChangeDao 
+        = (CorrectionChangeDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeDao");
+    CorrectionCriteriaDao correctionCriteriaDao 
+        = (CorrectionCriteriaDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionCriteriaDao");
+    
+//  build errorCorrectionForm
+//  CorrectionChangeGroup correctionChangeGroup;
+    Integer correctionChangeGroupNextLineNumber = oldDoc.getCorrectionChangeGroupNextLineNumber();
+    Integer docId = Integer.parseInt(oldDoc.getFinancialDocumentNumber());
+    CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument();
+//  if correctionChangeGroupNextLineNumber is not bigger than 1, then it means this doc corrected by manual edit
+    if (correctionChangeGroupNextLineNumber>1){
+        document.getCorrectionChangeGroup().clear();
+        CorrectionChangeGroup ccg = new CorrectionChangeGroup();
+        for (int i=0; i<= correctionChangeGroupNextLineNumber.intValue(); i++){
+            ccg = correctionChangeGroupDao.findByDocumentNumberAndCorrectionChangeGroupNumber(docId, i);
+            if (ccg != null){
+                
+                if (correctionChangeDao.findByDocumentHeaderIdAndCorrectionGroupNumber(docId, i) != null){
+                    ccg.setCorrectionChange(correctionChangeDao.findByDocumentHeaderIdAndCorrectionGroupNumber(docId, i));
+                }
+                if (correctionCriteriaDao.findByDocumentNumberAndCorrectionGroupNumber(docId, i) !=null){
+                    ccg.setCorrectionCriteria(correctionCriteriaDao.findByDocumentNumberAndCorrectionGroupNumber(docId, i));
+                }
+                document.getCorrectionChangeGroup().add(ccg);
+            }
+        }
+        
+        errorCorrectionForm.setEditMethod("criteria");
+        
+    } else {
+        
+        errorCorrectionForm.setEditMethod("manual");
+        errorCorrectionForm.setManualEditFlag("Y");
+        
+        
+        
+    }
+    
+    errorCorrectionForm.setChooseSystem("system");
+    errorCorrectionForm.setTotalCredits(oldDoc.getCorrectionCreditTotalAmount());
+    errorCorrectionForm.setTotalDebitsOrBlanks(oldDoc.getCorrectionDebitTotalAmount());
+    errorCorrectionForm.setRowsOutput(oldDoc.getCorrectionRowCount());
+    
+    String[] groupId = {oldDoc.getCorrectionOutputFileName()};
+    showAllEntries(groupId, errorCorrectionForm, request);
+    document.setFinancialDocumentNumber(docId.toString());
+    
+    
+    
+//  List<CorrectionChangeGroup> correctionChangeGroupList = doc.getCorrectionChangeGroup();
+    
+    /* for(CorrectionChangeGroup ccg: correctionChangeGroupList){
+     Integer ccgLineNumber = ccg.getCorrectionChangeGroupLineNumber();
+     ccg.setCorrectionChange(correctionChangeDao.findByDocumentHeaderIdAndCorrectionGroupNumber(docId, ccgLineNumber));
+     ccg.setCorrectionCriteria(correctionCriteriaDao.findByDocumentNumberAndCorrectionGroupNumber(docId, ccgLineNumber));
+     document.getCorrectionChangeGroup().add(ccg);
+     }*/
+    
+//  document.setCorrectionChangeGroup(doc.getCorrectionChangeGroup());
+    
+//  CorrectionDocument document = (CorrectionDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(docId.toString());
+//  CorrectionDocument document = (CorrectionDocument) documentService.getByDocumentHeaderId(docId.toString());
+    
+//  showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
+    
 }
-
 }

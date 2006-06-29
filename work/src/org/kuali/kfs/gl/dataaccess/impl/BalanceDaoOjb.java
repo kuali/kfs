@@ -45,7 +45,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.33 2006-06-27 02:12:40 jsissom Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.34 2006-06-29 19:15:34 larevans Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -93,6 +93,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @see org.kuali.module.gl.dao.BalanceDao#findBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer year) {
+        LOG.debug("findBalancesForFiscalYear() started");
 
         // from gleacbfb (balance forward) cobol program
 
@@ -233,6 +234,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     }
 
     public Iterator<Balance> findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes) {
+        LOG.debug("findBalances() started");
 
         Criteria criteria = new Criteria();
 
@@ -257,6 +259,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @see org.kuali.module.gl.dao.BalanceDao#findCashBalance(java.util.Map, boolean)
      */
     public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated) {
+        LOG.debug("findCashBalance() started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         criteria.addEqualTo("balanceTypeCode", "AC");
@@ -292,6 +295,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @see org.kuali.module.gl.dao.BalanceDao#findBalance(java.util.Map, boolean)
      */
     public Iterator<Balance> findBalance(Map fieldValues, boolean isConsolidated) {
+        LOG.debug("findBalance() started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
@@ -440,6 +444,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      *      java.lang.String)
      */
     public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String objectCode) {
+        LOG.debug("getCurrentBudgetForObjectCode() started");
+        
         Criteria crit = new Criteria();
         crit.addEqualTo("universityFiscalYear", universityFiscalYear);
         crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);

@@ -16,6 +16,7 @@
 package org.kuali.module.gl.service;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.kuali.module.gl.bo.Encumbrance;
 
@@ -48,4 +49,12 @@ public interface EncumbranceService {
      * @param included indicate if all encumbrances with the given document type are included in the results or not
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included);
+    
+    /**
+     * This method finds the open encumbrances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @return a collection of open encumbrances
+     */
+    public Iterator findOpenEncumbrance(Map fieldValues);
 }

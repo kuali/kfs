@@ -25,20 +25,23 @@ package org.kuali.module.gl.dao.ojb;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
+import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
+import org.kuali.module.gl.util.BusinessObjectHandler;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDaoOjb.java,v 1.8 2006-06-14 12:26:34 abyrne Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.9 2006-06-30 17:08:14 bgao Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -174,6 +177,18 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
         query.addGroupBy(groupBy);
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
+    
+    /**
+     * @see org.kuali.module.gl.dao.EncumbranceDao#findOpenEncumbrance(java.util.Map)
+     */
+    public Iterator findOpenEncumbrance(Map fieldValues) {
+        LOG.debug("findOpenEncumbrance() started");
+
+        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new Encumbrance());
+        QueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);
+        
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
     /**

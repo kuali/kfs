@@ -23,13 +23,14 @@
 package org.kuali.module.gl.dao;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDao.java,v 1.6 2006-06-14 12:26:54 abyrne Exp $
+ * @version $Id: EncumbranceDao.java,v 1.7 2006-06-30 17:08:14 bgao Exp $
  */
 public interface EncumbranceDao {
     public Encumbrance getEncumbranceByTransaction(Transaction t);
@@ -53,4 +54,12 @@ public interface EncumbranceDao {
      * @param included indicate if all encumbrances with the given document type are included in the results or not
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included);
+    
+    /**
+     * This method finds the open encumbrances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @return a collection of open encumbrances
+     */
+    public Iterator findOpenEncumbrance(Map fieldValues);
 }

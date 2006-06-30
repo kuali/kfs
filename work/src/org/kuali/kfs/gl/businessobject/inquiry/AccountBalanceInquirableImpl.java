@@ -63,6 +63,8 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
         keys.add(PropertyConstants.OBJECT_CODE);
         keys.add(PropertyConstants.SUB_OBJECT_CODE);
+        keys.add(Constant.CONSOLIDATION_OPTION);
+        keys.add(Constant.PENDING_ENTRY_OPTION);
 
         return keys;
     }
@@ -75,7 +77,8 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
 
         OptionsService os = SpringServiceLocator.getOptionsService();
         Options o = os.getCurrentYearOptions();
-
+        
+        userDefinedAttributeMap.put(PropertyConstants.OBJECT_CODE, "");
         userDefinedAttributeMap.put(PropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB);
         userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, o.getActualFinancialBalanceTypeCd());
         userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, o.getExtrnlEncumFinBalanceTypCd());

@@ -128,8 +128,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         }
 
         // build key value url parameters used to retrieve the business object
-        Iterator keyIterator = keys.iterator();
-        while (keyIterator.hasNext()) {
+        for (Iterator keyIterator = keys.iterator(); keyIterator.hasNext();) {
             String keyName = (String) keyIterator.next();
 
             // convert the key names based on their formats and types

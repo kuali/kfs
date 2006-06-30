@@ -40,12 +40,13 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.BalanceDao;
+import org.kuali.module.gl.util.BusinessObjectHandler;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.34 2006-06-29 19:15:34 larevans Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.35 2006-06-30 17:18:21 bgao Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -334,7 +335,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @return a query criteria
      */
     private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance, boolean isBalanceTypeHandled) {
-        Criteria criteria = new Criteria();
+        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new Balance());
 
         Iterator propsIter = fieldValues.keySet().iterator();
         while (propsIter.hasNext()) {
@@ -350,9 +351,6 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             if (isBalanceTypeHandled && propertyValue.equals("EN") && propertyName.equals("balanceTypeCode")) {
                 List balanceTypeCodeList = buildBalanceTypeCodeList();
                 criteria.addIn("balanceTypeCode", balanceTypeCodeList);
-            }
-            else {
-                criteria.addEqualTo(propertyName, propertyValue);
             }
         }
         return criteria;

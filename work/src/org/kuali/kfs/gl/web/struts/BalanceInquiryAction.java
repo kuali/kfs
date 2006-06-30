@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.util.GlobalVariables;
@@ -47,6 +48,8 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.uidraw.Field;
 import org.kuali.core.web.uidraw.Row;
 import org.kuali.module.gl.web.struts.form.BalanceInquiryForm;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.ojb.OjbOperationException;
 
 /**
  * This class handles Actions for lookup flow
@@ -95,8 +98,13 @@ public class BalanceInquiryAction extends KualiAction {
             }
             request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
         }
-        catch (Exception e) {
-            GlobalVariables.getErrorMap().put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Invalid Input" });
+        catch (NumberFormatException e) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, KeyConstants.ERROR_CUSTOM, new String[] { "must be a number" });
+        }
+        catch (Exception e){
+            GlobalVariables.getErrorMap().put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Please report the server error." });
+            e.printStackTrace();
+            LOG.error("Application Errors", e);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

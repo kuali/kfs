@@ -32,6 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
@@ -57,9 +58,10 @@ public class Encumbrance extends BusinessObjectBase {
     private KualiDecimal accountLineEncumbranceClosedAmount;
     private String accountLineEncumbrancePurgeCode;
     private Date timestamp;
-
+    private SubAccount subAccount;
     private Chart chart;
     private Account account;
+
     private ObjectCode financialObject;
     private BalanceTyp balanceType;
     private OriginationCode originationCode;
@@ -101,6 +103,8 @@ public class Encumbrance extends BusinessObjectBase {
         map.put("documentTypeCode", getDocumentTypeCode());
         map.put("originCode", getOriginCode());
         map.put("documentNumber", getDocumentNumber());
+        map.put("accountLineEncumbranceAmount", getAccountLineEncumbranceAmount());
+        map.put("accountLineEncumbranceClosedAmount", getAccountLineEncumbranceClosedAmount());
         return map;
     }
 
@@ -442,5 +446,21 @@ public class Encumbrance extends BusinessObjectBase {
      */
     public void setOption(Options option) {
         this.option = option;
+    }
+
+    /**
+     * Gets the subAccount attribute. 
+     * @return Returns the subAccount.
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * Sets the subAccount attribute value.
+     * @param subAccount The subAccount to set.
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
     }
 }

@@ -31,8 +31,8 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
@@ -52,7 +52,8 @@ public class BankAccount extends BusinessObjectBase {
     private Account cashOffsetAccount;
     private ObjectCode cashOffsetObject;
     private SubAccount cashOffsetSubAccount;
-    
+    private SubObjCd cashOffsetSubObject;
+
     /**
      * Default no-arg constructor.
      */
@@ -286,7 +287,24 @@ public class BankAccount extends BusinessObjectBase {
      */
     public void setCashOffsetSubAccount(SubAccount cashOffsetSubAccount) {
         this.cashOffsetSubAccount = cashOffsetSubAccount;
-    }    
+    }
+
+    /**
+     * Gets the cashOffsetSubObject attribute. 
+     * @return Returns the cashOffsetSubObject.
+     */
+    public SubObjCd getCashOffsetSubObject() {
+        return cashOffsetSubObject;
+    }
+
+    /**
+     * Sets the cashOffsetSubObject attribute value.
+     * @param cashOffsetSubObject The cashOffsetSubObject to set.
+     * @deprecated
+     */
+    public void setCashOffsetSubObject(SubObjCd cashOffsetSubObject) {
+        this.cashOffsetSubObject = cashOffsetSubObject;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -296,6 +314,6 @@ public class BankAccount extends BusinessObjectBase {
         m.put("bankCode", getFinancialDocumentBankCode());
         m.put("bankAccountNumber", getFinDocumentBankAccountNumber());
         return m;
-    }    
-    
+    }
+
 }

@@ -596,6 +596,13 @@
         <foreignkey field-ref="cashOffsetSubAccountNumber" />
     </reference-descriptor>
 
+    <reference-descriptor name="cashOffsetSubObject" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
+        <foreignkey field-ref="cashOffsetAccountNumber" />
+        <foreignkey field-ref="cashOffsetObjectCode" />
+        <foreignkey field-ref="cashOffsetSubObjectCode" />
+    </reference-descriptor>
+
 </class-descriptor>
 
 <!--  CREDIT CARD RECEIPT DOCUMENT MAPPINGS -->

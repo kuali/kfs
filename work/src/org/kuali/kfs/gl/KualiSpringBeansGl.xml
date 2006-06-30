@@ -65,6 +65,9 @@
         <property name="postEncumbrance">
             <ref bean="glPostEncumbrance" />
         </property>
+        <property name="encumbranceService">
+            <ref bean="glEncumbranceService" />
+        </property>
     </bean>
 
     <bean id="glCashBalanceLookupable" class="org.kuali.module.gl.web.lookupable.CashBalanceLookupableImpl" singleton="false">

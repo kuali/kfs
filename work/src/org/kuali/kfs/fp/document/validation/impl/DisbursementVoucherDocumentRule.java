@@ -41,6 +41,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -120,15 +121,15 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * Override to check if we are in special handling where the check amount and accounting line total can decrease, else amounts
      * should not have changed.
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
      */
     @Override
-    protected boolean processCustomApproveDocumentBusinessRules(Document document) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) approveEvent.getDocument();
 
         // amounts can only decrease
-        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(document);
-        if (dvAuthorizer.isSpecialRouting(document, GlobalVariables.getUserSession().getKualiUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
+        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(dvDocument);
+        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getKualiUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
             boolean approveOK = true;
 
             // users in foreign or wire workgroup can increase or decrease amounts because of currency conversion
@@ -151,7 +152,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
         else {
             // amounts must not have been changed
-            return super.processCustomApproveDocumentBusinessRules(document);
+            return super.processCustomApproveDocumentBusinessRules(approveEvent);
         }
     }
 

@@ -33,6 +33,7 @@ import org.kuali.core.rule.AddCheckRule;
 import org.kuali.core.rule.DeleteCheckRule;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.UpdateCheckRule;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -85,14 +86,14 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * This overrides to call super, then to make sure that the cash drawer for the verification unit associated with this CR doc is
      * open. If it's not, the the rule fails.
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
      */
     @Override
-    protected boolean processCustomApproveDocumentBusinessRules(Document document) {
-        boolean valid = super.processCustomApproveDocumentBusinessRules(document);
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        boolean valid = super.processCustomApproveDocumentBusinessRules(approveEvent);
 
         if (valid) {
-            CashReceiptDocument crd = (CashReceiptDocument) document;
+            CashReceiptDocument crd = (CashReceiptDocument) approveEvent.getDocument();
 
             String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
             CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(unitName, false);
@@ -354,7 +355,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        //error corrections are not allowed
+        // error corrections are not allowed
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
         return IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
     }

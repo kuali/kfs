@@ -26,6 +26,8 @@ package org.kuali.module.financial.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
@@ -36,6 +38,8 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
  * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
  */
 public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDocumentTestBase {
+    private static final Log LOG = LogFactory.getLog(DistributionOfIncomeAndExpenseDocumentTest.class);
+
     public static final String COLLECTION_NAME = "DistributionOfIncomeAndExpenseDocumentTest.collection1";
     public static final String USER_NAME = "user1";
     public static final String DOCUMENT_PARAMETER = "distributionOfIncomeAndExpenseDocumentParameter1";
@@ -147,7 +151,12 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
             if (testDocId != null) {
                 DistributionOfIncomeAndExpenseDocument cancelingDoc = (DistributionOfIncomeAndExpenseDocument) getDocumentService().getByDocumentHeaderId(testDocId);
                 if (cancelingDoc != null) {
-                    getDocumentService().cancelDocument(cancelingDoc, "cleaning up after test");
+                    try {
+                        getDocumentService().cancelDocument(cancelingDoc, "cleaning up after test");
+                    }
+                    catch (RuntimeException e) {
+                        LOG.error("caught RuntimeException canceling document: " + e.getMessage());
+                    }
                 }
             }
         }

@@ -118,6 +118,18 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
+    
+    /**
+     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAvailableAccountBalance(java.util.Map)
+     */
+    public Iterator findAvailableAccountBalance(Map fieldValues) {
+        LOG.debug("findAvailableAccountBalance(Map) started");
+
+        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
+        QueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
+        
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
 
     /**
      * 

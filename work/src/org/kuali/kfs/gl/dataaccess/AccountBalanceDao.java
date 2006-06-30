@@ -42,9 +42,17 @@ public interface AccountBalanceDao {
      * This method finds the available account balances according to input fields and values
      * 
      * @param fieldValues the input fields and values
-     * @return the summary records of balance entries
+     * @return the summary records of account balance entries
      */
     public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues);
+    
+    /**
+     * This method finds the available account balances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @return account balance entries
+     */
+    public Iterator findAvailableAccountBalance(Map fieldValues);
 
     /**
      * Get available balances by consolidation

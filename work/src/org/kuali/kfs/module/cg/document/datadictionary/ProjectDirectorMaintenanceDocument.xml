@@ -33,7 +33,7 @@
         <maintainableSections>
             <maintainableSection title="Edit Project Director">
                 <maintainableItems>
-                    <maintainableField name="universalUser.personUniversalIdentifier" />
+                    <maintainableField name="universalUser.personUniversalIdentifier" required="true"/>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

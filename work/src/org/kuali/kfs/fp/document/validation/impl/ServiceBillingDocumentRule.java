@@ -34,9 +34,12 @@ import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.PropertyConstants;
+import org.kuali.KeyConstants;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for
@@ -47,6 +50,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
+
     /**
      * @see TransactionalDocumentRuleBase#accountIsAccessible(TransactionalDocument, AccountingLine)
      */
@@ -55,44 +59,104 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            // todo: separate rule with SB specific error message explaining about the control table instead/additionally?
             // The use from hasAccessibleAccountingLines() is not important for SB, which routes straight to final.
-            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine);
+            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, null);
         }
-        else {
-            return super.accountIsAccessible(transactionalDocument, accountingLine);
+        return super.accountIsAccessible(transactionalDocument, accountingLine);
+    }
+
+    /**
+     * @see TransactionalDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.TransactionalDocumentRuleBase.AccountingLineAction)
+     */
+    @Override
+    protected boolean checkAccountingLineAccountAccessibility(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLineAction action) {
+        // Duplicate code from accountIsAccessible() to avoid unnecessary calls to SB control and Workgroup services.
+        KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, action);
         }
+        if (!super.accountIsAccessible(transactionalDocument, accountingLine)) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier()); 
+            return false;
+        }
+        return true;
     }
 
     /**
      * Checks the account and user against the SB control table.
      * 
      * @param accountingLine from the income section
+     * @param action kind of error messages to generate, if not null
      * @return whether the current user is authorized to use the given account in the SB income section
      */
-    private boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine) {
-        // todo: assert accountingLine.isSourceAccountingLine();
+    private boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingLineAction action) {
+        assert accountingLine.isSourceAccountingLine();
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
-        // Handle empty key because hasAccessibleAccountingLines() may not validate beforehand.
-        if (!StringUtils.isEmpty(chartOfAccountsCode) && !StringUtils.isEmpty(accountNumber)) {
+        if (StringUtils.isEmpty(chartOfAccountsCode) || StringUtils.isEmpty(accountNumber)) {
+            // Ignore empty key because hasAccessibleAccountingLines() may not validate beforehand.
+            return false;
+        }
+        ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(chartOfAccountsCode, accountNumber);
+        if (ObjectUtils.isNull(control)) {
+            if (action != null) {
+                GlobalVariables.getErrorMap().put(PropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(action), accountingLine.getAccountNumber());
+            }
+            return false;
+        }
+        try {
             KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-            ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(chartOfAccountsCode, accountNumber);
-            if (control != null) {
-                try {
-                    // todo: isMember(String) instead of going through KualiGroupService?
-                    KualiGroup group = SpringServiceLocator.getKualiGroupService().getByGroupName(control.getWorkgroupName());
-                    if (currentUser.isMember(group)) {
-                        return true;
-                    }
+            // todo: isMember(String) instead of going through KualiGroupService?
+            KualiGroup group = SpringServiceLocator.getKualiGroupService().getByGroupName(control.getWorkgroupName());
+            if (currentUser.isMember(group)) {
+                return true;
+            }
+            else {
+                if (action != null) {
+                    GlobalVariables.getErrorMap().put(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), currentUser.getPersonUserIdentifier(), group.getGroupName());
                 }
-                catch (GroupNotFoundException e) {
-                    LOG.error("invalid workgroup in SB control for " + chartOfAccountsCode + accountNumber, e);
-                    throw new RuntimeException(e);
-                }
+                return false;
             }
         }
-        return false;
+        catch (GroupNotFoundException e) {
+            LOG.error("invalid workgroup in SB control for " + chartOfAccountsCode + accountNumber, e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * @param action
+     * @return the error key for not having an SB control
+     */
+    private String noServiceBillingControlErrorKey(AccountingLineAction action) {
+        switch (action) {
+            case ADD:
+                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NO_SB_CTRL;
+            case UPDATE:
+                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NO_SB_CTRL;
+            case DELETE:
+                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NO_SB_CTRL;
+            default:
+                throw new AssertionError(action);
+        }
+    }
+
+    /**
+     * @param action
+     * @return the error key for not being a member of the Workgroup of the necessary SB control
+     */
+    private String notControlGroupMemberErrorKey(AccountingLineAction action) {
+        switch (action) {
+            case ADD:
+                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NOT_IN_SB_CTRL_GRP;
+            case UPDATE:
+                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NOT_IN_SB_CTRL_GRP;
+            case DELETE:
+                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NOT_IN_SB_CTRL_GRP;
+            default:
+                throw new AssertionError(action);
+        }
     }
 
     /**

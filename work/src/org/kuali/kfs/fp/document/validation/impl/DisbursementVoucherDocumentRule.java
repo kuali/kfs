@@ -79,11 +79,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * Overrides to call super. If super fails, then we invoke some DV specific rules about FO routing to double check if the
      * individual has special conditions that they can alter accounting lines by.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine, java.lang.String)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.TransactionalDocumentRuleBase.AccountingLineAction) 
      */
     @Override
-    protected boolean checkAccountingLineAccountAccessibility(TransactionalDocument transactionalDocument, AccountingLine accountingLine, String errorKey) {
+    protected boolean checkAccountingLineAccountAccessibility(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLineAction action) {
         // first check parent's isAccessible method for basic FO authz checking
         boolean isAccessible = accountIsAccessible(transactionalDocument, accountingLine);
 
@@ -102,7 +101,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         // report (and log) errors
         if (!isAccessible) {
             String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier() };
-            GlobalVariables.getErrorMap().put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, errorKey, errorParams);
+            GlobalVariables.getErrorMap().put(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
         }
 
         return isAccessible;

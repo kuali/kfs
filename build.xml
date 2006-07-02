@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help task to view usage instructions -->
-	<target name="dist-local" if="is.local.build" depends="filter-local,dist-workflow-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="filter-local,dist-workflow-local,dist-cas-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.config.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
@@ -46,12 +46,15 @@
 		<condition property="dist.workflow.local">
 			<equals arg1="${is.local.workflow.build}" arg2="true" />
 		</condition>
+		<condition property="dist.cas.local">
+			<equals arg1="${is.local.cas.build}" arg2="true" />
+		</condition>
 		<echo message="Loaded properties in ${user.home}/${ant.project.name}-build.properties" />
 	</target>
 
 	<target name="init-project-properties" depends="init-user-properties">
 		<property file="build.properties" />
-		<condition property="load.institution.override.properties" value="true">
+		<condition property="load.institution.override.properties">
 			<available file="${build.institution.overrides.file}" />
 		</condition>
 		<echo message="Loaded properties in ./build.properties and set dependent properties" />
@@ -194,6 +197,16 @@
 		<delete dir="${workflow.security.directory}" failonerror="false" />
 		<delete dir="${workflow.logs.directory}" failonerror="false" />
 	</target>
+	
+	<target name="clean-cas-local" if="is.local.build" depends="init-project-properties">
+		<delete failonerror="false">
+			<fileset dir="${appserver.config.dir}" includes="${cas.application}-*" />
+		</delete>
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${appserver.deploy.dir}" includes="${cas.application}-*/**" />
+		</delete>
+		<delete dir="${cas.security.directory}" failonerror="false" />
+	</target>
 
 	<target name="filter-project" depends="init-filter-sets,clean-project">
 		<mkdir dir="${metainf.directory}" />
@@ -263,6 +276,13 @@
 		<copy file="${build.workflow.security.directory}/${workflow.webservices.keystore.file}" todir="${workflow.security.directory}" overwrite="true" />
 		<copy todir="${workflow.logs.directory}" overwrite="true">
 			<fileset dir="${build.workflow.logs.directory}" />
+		</copy>
+	</target>
+
+	<target name="filter-cas-local" if="dist.cas.local" depends="init-filter-sets,clean-cas-local">
+		<copy todir="${cas.security.directory}" overwrite="true">
+			<fileset dir="${build.cas.security.directory}" />
+			<filterset refid="security.filterset" />
 		</copy>
 	</target>
 
@@ -360,7 +380,11 @@
 	</target>
 
 	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local">
-		<copy file="${build.workflow.appserver.directory}/${workflow.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
+		<condition property="workflow.war.file" value="${workflow.application}-${build.environment}-cas-local.war">
+			<equals arg1="${is.local.cas.build}" arg2="true"/>
+		</condition>
+		<property name="workflow.war.file" value="${workflow.application}-${build.environment}.war"/>
+		<copy file="${build.workflow.appserver.directory}/${workflow.war.file}" tofile="${appserver.deploy.dir}/${workflow.application}-${build.environment}.war" />
 		<!-- when we move to 2.2, we'll be able to make workflow watch the project directory instead of doing this -->
 		<copy todir="${classes.directory}" overwrite="true">
 			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}" />
@@ -383,14 +407,18 @@
 			<fileset dir="${plugin.directory}" />
 		</copy>
 	</target>
+	
+	<target name="dist-cas-local" if="dist.cas.local" depends="filter-cas-local">
+		<copy file="${build.cas.appserver.directory}/${cas.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
+	</target>
 
 	<target name="continuous-integration" depends="test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 
-	<!-- don't forget to temporarily change 2 props in the plugin dev tokens file, till we move to 2.2 -->
+	<!-- don't forget to temporarily change 3 props in the plugin dev tokens file, till we move to 2.2 -->
 	<target name="update-workflow-war" depends="init-project-properties">
-		<ant dir="${workflow.project.directory}" target="clean" />
+		<ant dir="${workflow.project.directory}" target="clean"/>
 		<ant dir="${workflow.project.directory}" target="dist">
 			<property name="workflow.environment" value="${build.environment}" />
 			<property name="tomcat5.home" value="${appserver.home}" />
@@ -400,11 +428,12 @@
 		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.appserver.directory}" />
 	</target>
 
-	<target name="make-zips" depends="filter-local,filter-workflow-local">
+	<target name="make-zips" depends="filter-local,filter-workflow-local,filter-cas-local">
 		<zip destfile="settings.zip" basedir="${settings.directory}" />
 		<zip destfile="security.zip" basedir="${security.directory}" />
 		<zip destfile="workflow-settings.zip" basedir="${workflow.settings.directory}" />
 		<zip destfile="workflow-security.zip" basedir="${workflow.security.directory}" />
+		<zip destfile="cas-security.zip" basedir="${cas.security.directory}" />
 	</target>
 
 	<target name="help" description="Describe public targets">

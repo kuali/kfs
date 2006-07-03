@@ -27,13 +27,13 @@
         <description>Document used to create or update Project Director objects</description>
 
         <lockingKeys>
-            <field attributeName="universalUser.personUniversalIdentifier" />
+            <field attributeName="personUniversalIdentifier" />
         </lockingKeys>
 
         <maintainableSections>
             <maintainableSection title="Edit Project Director">
                 <maintainableItems>
-                    <maintainableField name="universalUser.personUniversalIdentifier" required="true"/>
+                    <maintainableField name="personUniversalIdentifier" required="true"/>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

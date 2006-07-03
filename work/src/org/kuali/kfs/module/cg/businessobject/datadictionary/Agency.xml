@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Contracts and Grants Agency</title>
+            <title>Contracts and Grants Agency Inquiry</title>
 
             <inquiryFields>
                 <field attributeName="agencyNumber" />
@@ -22,13 +22,13 @@
         </inquiry>
 
         <lookup>
-            <title>Agency</title>
+            <title>Contracts and Grants Agency Lookup</title>
 
             <menubar>
                 <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Agency">Create New</a>]]>
             </menubar>
 
-            <instructions>Lookup an Agency</instructions>
+            <instructions>Lookup a Contracts and Grants Agency</instructions>
 
             <defaultSort attributeName="fullName" sortAscending="true" />
 

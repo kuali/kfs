@@ -140,7 +140,7 @@ public class ReportServiceImpl implements ReportService {
      * @see org.kuali.module.gl.service.ReportService#generatePosterIcrStatisticsReport(java.util.Date, java.util.Map, int, int, int, int)
      */
     public void generatePosterIcrStatisticsReport(Date runDate, Map<Transaction,List<Message>> reportErrors, int reportExpendTranRetrieved,int reportExpendTranDeleted,int reportExpendTranKept,int reportOriginEntryGenerated) {
-        LOG.debug("generateScrubberLedgerSummaryReport() started");
+        LOG.debug("generatePosterIcrStatisticsReport() started");
 
         List summary = new ArrayList();
         summary.add(new Summary(1, "Number of GL_EXPEND_TRAN_T records retrieved:", reportExpendTranRetrieved));
@@ -161,7 +161,11 @@ public class ReportServiceImpl implements ReportService {
         LOG.debug("generateScrubberLedgerSummaryReport() started");
 
         LedgerReport ledgerReport = new LedgerReport();
-        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
+        if ( groups.size() > 0 ) {
+            ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        }
+
         ledgerReport.generateReport(ledgerEntries, runDate, "Ledger Report", "scrubber_ledger", reportsDirectory);
     }
 
@@ -200,7 +204,10 @@ public class ReportServiceImpl implements ReportService {
     public void generateScrubberBadBalanceTypeListingReport(Date runDate, Collection groups) {
         LOG.debug("generateScrubberBadBalanceTypeListingReport() started");
 
-        Iterator i = originEntryService.getBadBalanceEntries(groups);
+        Iterator i = null;
+        if ( groups.size() > 0 ) {
+            i = originEntryService.getBadBalanceEntries(groups);
+        }
 
         TransactionListingReport rept = new TransactionListingReport();
         rept.generateReport(i, runDate, "Scrubber Input Transactions with Bad Balance Types", "scrubber_badbal", reportsDirectory);
@@ -231,6 +238,7 @@ public class ReportServiceImpl implements ReportService {
             balanceTypeCodes.add(year.getActualFinancialBalanceTypeCd());
         } else {
             balanceTypeCodes.add(year.getBudgetCheckingBalanceTypeCd());
+
             // TODO these may need fields in the fs_option_t table
             balanceTypeCodes.add("BB");
             balanceTypeCodes.add("MB");
@@ -278,29 +286,36 @@ public class ReportServiceImpl implements ReportService {
     public void generatePosterMainLedgerSummaryReport(Date runDate, Collection groups) {
         LOG.debug("generatePosterMainLedgerSummaryReport() started");
 
-        LedgerEntryHolder ledgerEntries = null;
-        LedgerReport ledgerReport = new LedgerReport();
-        if ( groups.size() > 1) {
+        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
+        if ( groups.size() > 0) {
             ledgerEntries = originEntryService.getSummaryByGroupId(groups);
-        } else {
-            ledgerEntries = new LedgerEntryHolder();
         }
+
+        LedgerReport ledgerReport = new LedgerReport();
         ledgerReport.generateReport(ledgerEntries, runDate, "Main Poster Input Transactions", "poster_main_ledger", reportsDirectory);
     }
 
     public void generatePosterIcrLedgerSummaryReport(Date runDate, Collection groups) {
         LOG.debug("generatePosterIcrLedgerSummaryReport() started");
 
+        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
+        if ( groups.size() > 0) {
+            ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        }
+
         LedgerReport ledgerReport = new LedgerReport();
-        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
         ledgerReport.generateReport(ledgerEntries, runDate, "Icr Poster Input Transactions", "poster_icr_ledger", reportsDirectory);
     }
 
     public void generatePosterReversalLedgerSummaryReport(Date runDate, Collection groups) {
         LOG.debug("generatePosterReversalLedgerSummaryReport() started");
 
+        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
+        if ( groups.size() > 0) {
+            ledgerEntries = originEntryService.getSummaryByGroupId(groups);
+        }
+
         LedgerReport ledgerReport = new LedgerReport();
-        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groups);
         ledgerReport.generateReport(ledgerEntries, runDate, "Reversal Poster Input Transactions", "poster_reversal_ledger", reportsDirectory);
     }
 
@@ -313,7 +328,6 @@ public class ReportServiceImpl implements ReportService {
     private List<Summary> buildScrubberReportSummary(ScrubberReportData scrubberReport) {
         List<Summary> reportSummary = new ArrayList<Summary>();
 
-        reportSummary.add(new Summary(1, "GROUPS READ", new Integer(scrubberReport.getNumberOfGroupsRead())));
         reportSummary.add(new Summary(2, "UNSCRUBBED RECORDS READ", new Integer(scrubberReport.getNumberOfUnscrubbedRecordsRead())));
         reportSummary.add(new Summary(3, "SCRUBBED RECORDS WRITTEN", new Integer(scrubberReport.getNumberOfScrubbedRecordsWritten())));
         reportSummary.add(new Summary(4, "ERROR RECORDS WRITTEN", new Integer(scrubberReport.getNumberOfErrorRecordsWritten())));

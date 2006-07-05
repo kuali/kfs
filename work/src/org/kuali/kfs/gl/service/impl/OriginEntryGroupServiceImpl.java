@@ -39,7 +39,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.19 2006-06-26 14:29:22 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.20 2006-07-05 23:45:27 schoo Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -218,5 +218,10 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
+    }
+    
+    public OriginEntryGroup getExactMatchingEntryGroup(Integer id){
+        return originEntryGroupDao.getExactMatchingEntryGroup(id);
+        
     }
 }

@@ -60,7 +60,6 @@
 		        <field attributeName="organizationExtension.fiscalApproverUniversal.personName" />
 		        
 		        <field attributeName="organizationExtension.hrmsLastUpdateDate" />
-		        <field attributeName="organizationHierarchy" />
 		        
             </inquiryFields>
         </inquiry>
@@ -348,18 +347,6 @@
                 </description>
             </attribute>
             
-            <attributeReference name="organizationHierarchy" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
-                <label>Organization Hierarchy</label>
-                <shortLabel>Org Hierarchy</shortLabel>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </attributeReference>
-
             <attribute name="organizationStreetAddress" forceUppercase="false">
                 <label>Organization Street</label>
                 <shortLabel>Street</shortLabel>

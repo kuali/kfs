@@ -31,15 +31,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.util.cache.ObjectCacheOSCacheImpl;
 import org.kuali.module.chart.service.OrganizationService;
 
@@ -838,6 +841,38 @@ public class Org extends BusinessObjectBase {
         return result.toString();
     }
 
+    public String getOrganizationReviewHierarchy() {
+        
+        Properties params = new Properties();
+
+        params.put("returnLocation","");
+        params.put("quickFinderLookupable","");
+        params.put("backLocation","");
+        params.put("formKey","");
+        params.put("methodToCall","search");
+        params.put("lookupableImplServiceName","RuleBaseValuesLookupableImplService");
+        params.put("ruleTemplateName","KualiOrgReviewTemplate");
+        params.put("activeInd","");
+        params.put("delegateRuleSearch","ALL");
+        params.put("conversionFields","");
+        params.put("docTypeFullName","");
+        params.put("ruleDescription","");
+        params.put("workgroupName","");
+        params.put("ruleDelegationOnly","");
+        params.put("networkId","");
+        params.put("roleName","");
+        params.put("ruleBaseValuesId","");
+        params.put("delegationWizard","");
+        params.put("org_review_fin_coa_cd",this.chartOfAccountsCode);
+        params.put("org_review_org_cd",this.organizationCode);
+        params.put("fromAmount","");
+        params.put("toAmount","");
+        params.put("listKey","");
+        params.put("overrideCd","");
+        
+        return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString("workflow.base.url")+"/Lookup.do",params);
+    }
+    
     /**
      * Implementing equals so Org will behave reasonably in a hashed datastructure.
      * 

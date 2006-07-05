@@ -89,8 +89,8 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Checks object codes restrictions, including restrictions in parameters table.
-     * @param transactionalDocument 
-     * @param accountingLine 
+     * @param transactionalDocument
+     * @param accountingLine
      * @return boolean
      */
     public boolean validateObjectCode(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
@@ -149,8 +149,8 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Checks account number restrictions, including restrictions in parameters table.
-     * @param transactionalDocument 
-     * @param accountingLine 
+     * @param transactionalDocument
+     * @param accountingLine
      * @return boolean
      */
     public boolean validateAccountNumber(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
@@ -183,9 +183,9 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        //disallow error correction
+        // disallow error correction
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
-        return !IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
+        return IsDebitUtils.isDebitConsideringLineSection(this, transactionalDocument, accountingLine);
     }
 
     /**

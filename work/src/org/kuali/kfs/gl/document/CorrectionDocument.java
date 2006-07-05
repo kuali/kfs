@@ -30,14 +30,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.Constants;
-import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.dao.OriginEntryGroupDao;
+import org.kuali.module.gl.service.CorrectionDocumentService;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -465,14 +464,14 @@ public class CorrectionDocument extends DocumentBase {
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
             String docId = getDocumentHeader().getFinancialDocumentNumber();
-            DocumentDao documentDao = (DocumentDao) SpringServiceLocator.getBeanFactory().getBean("documentDao");
-            CorrectionDocument oldDoc = (CorrectionDocument) documentDao.findByDocumentHeaderId(CorrectionDocument.class, docId);
+            CorrectionDocumentService correctionDocumentService = (CorrectionDocumentService) SpringServiceLocator.getBeanFactory().getBean("glCorrectionDocumentService");
+            CorrectionDocument oldDoc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
             String groupId = oldDoc.getCorrectionOutputFileName();
             
-            OriginEntryGroupDao originEntryGroupDao = (OriginEntryGroupDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupDao");
-            OriginEntryGroup approvedGLCP = originEntryGroupDao.getExactMatchingEntryGroup(Integer.parseInt(groupId));
+            OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+            OriginEntryGroup approvedGLCP = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(groupId));
             approvedGLCP.setScrub(true);
-            originEntryGroupDao.save(approvedGLCP);
+            originEntryGroupService.save(approvedGLCP);
             
         }
         

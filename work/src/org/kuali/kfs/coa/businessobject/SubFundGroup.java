@@ -50,6 +50,8 @@ public class SubFundGroup extends BusinessObjectBase {
     private String financialReportingSortCode;
     private boolean subFundGroupWagesIndicator;
     private String fundGroupCode;
+    private String fundGroupBudgetAdjustmentRestrictionLevelCode;
+    
     private FundGroup fundGroup;
 
     /**
@@ -199,6 +201,22 @@ public class SubFundGroup extends BusinessObjectBase {
      */
     public void setFundGroupCode(String fundGroupCode) {
         this.fundGroupCode = fundGroupCode;
+    }
+
+    /**
+     * Gets the fundGroupBudgetAdjustmentRestrictionLevelCode attribute. 
+     * @return Returns the fundGroupBudgetAdjustmentRestrictionLevelCode.
+     */
+    public String getFundGroupBudgetAdjustmentRestrictionLevelCode() {
+        return fundGroupBudgetAdjustmentRestrictionLevelCode;
+    }
+
+    /**
+     * Sets the fundGroupBudgetAdjustmentRestrictionLevelCode attribute value.
+     * @param fundGroupBudgetAdjustmentRestrictionLevelCode The fundGroupBudgetAdjustmentRestrictionLevelCode to set.
+     */
+    public void setFundGroupBudgetAdjustmentRestrictionLevelCode(String fundGroupBudgetAdjustmentRestrictionLevelCode) {
+        this.fundGroupBudgetAdjustmentRestrictionLevelCode = fundGroupBudgetAdjustmentRestrictionLevelCode;
     }
 
     /**

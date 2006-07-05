@@ -33,7 +33,8 @@ import org.kuali.core.bo.KualiCodeBase;
 public class FundGroup extends KualiCodeBase {
     private static final long serialVersionUID = 6940405128416948259L;
     private String financialReportingSortCode;
-
+    private String fundGroupBudgetAdjustmentRestrictionLevelCode;
+    
     /**
      * This method...
      * 
@@ -50,5 +51,21 @@ public class FundGroup extends KualiCodeBase {
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
         this.financialReportingSortCode = financialReportingSortCode;
+    }
+
+    /**
+     * Gets the fundGroupBudgetAdjustmentRestrictionLevelCode attribute. 
+     * @return Returns the fundGroupBudgetAdjustmentRestrictionLevelCode.
+     */
+    public String getFundGroupBudgetAdjustmentRestrictionLevelCode() {
+        return fundGroupBudgetAdjustmentRestrictionLevelCode;
+    }
+
+    /**
+     * Sets the fundGroupBudgetAdjustmentRestrictionLevelCode attribute value.
+     * @param fundGroupBudgetAdjustmentRestrictionLevelCode The fundGroupBudgetAdjustmentRestrictionLevelCode to set.
+     */
+    public void setFundGroupBudgetAdjustmentRestrictionLevelCode(String fundGroupBudgetAdjustmentRestrictionLevelCode) {
+        this.fundGroupBudgetAdjustmentRestrictionLevelCode = fundGroupBudgetAdjustmentRestrictionLevelCode;
     }
 }

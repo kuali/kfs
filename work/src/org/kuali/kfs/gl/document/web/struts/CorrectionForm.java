@@ -134,27 +134,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
         setDocumentActionFlags(new TransactionalDocumentActionFlags());
     }
 
-    // /**
-    // *
-    // * @return
-    // */
-    // public Collection getAllOriginEntryGroupSourceCodes() {
-    // OriginEntrySourceDao originEntrySourceDao = new OriginEntrySourceDaoOjb();
-    // List codes = (List) originEntrySourceDao.findAll();
-    // Collections.sort(codes, new Comparator() {
-    // /* (non-Javadoc)
-    // * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-    // */
-    // public int compare(Object o1, Object o2) {
-    // OriginEntrySource s1 = (OriginEntrySource) o1;
-    // OriginEntrySource s2 = (OriginEntrySource) o2;
-    // return s1.getName().compareTo(s2.getName());
-    // }
-    //          
-    // });
-    // return Collections.unmodifiableList(codes);
-    // }
-
+  
     /**
      * Bogus method for Apache PropertyUtils compliance.
      * 
@@ -210,26 +190,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public void setAllEntries(Collection allEntriesForManualEdit) {
         this.allEntries = allEntriesForManualEdit;
     }
-
-    /**
-     * Expose a method of CorrectionActionHelper.
-     * 
-     * @return
-     */
-    /*
-     * public Collection getOriginEntryGroupsPendingProcessing() {
-     * 
-     * OriginEntryGroupService originEntryGroupService= (OriginEntryGroupService)
-     * SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
-     * 
-     * Collection<OriginEntryGroup> groupPendingList = originEntryGroupService.getOriginEntryGroupsPendingProcessing(); Collection
-     * returnCollection = new ArrayList();
-     * 
-     * Iterator iter = groupPendingList.iterator(); for(OriginEntryGroup oeg: groupPendingList){ oeg = (OriginEntryGroup)
-     * iter.next();
-     * 
-     * if (oeg.getSourceCode().equals("GLCP") & !oeg.getValid()){ } else {returnCollection.add(oeg);} } return returnCollection; }
-     */
 
     public String getChooseSystem() {
         return chooseSystem;

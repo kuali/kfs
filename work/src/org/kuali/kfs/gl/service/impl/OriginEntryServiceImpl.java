@@ -48,7 +48,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.20 2006-06-29 19:38:22 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.21 2006-07-05 23:45:49 schoo Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -286,7 +286,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return ledgerEntry;
     }
     //TODO
-    public File flatFile(String filename, Integer groupId) throws IOException {
+    public File flatFile(String filename, Integer groupId) {
         File returnFile = new File(filename);
         //FileWriter filewriter = new FileWriter(returnFile);
         
@@ -318,13 +318,20 @@ public class OriginEntryServiceImpl implements OriginEntryService {
                 }
             }
         }
-        
+    
         //returnFile.
-        
-        
         
         return returnFile; 
     
+    }
+    
+    public Collection getMatchingEntriesByCollection(Map searchCriteria){
+        return originEntryDao.getMatchingEntriesByCollection(searchCriteria);
+         
+    }
+    
+    public OriginEntry getExactMatchingEntry(Integer entryId){
+        return originEntryDao.getExactMatchingEntry(entryId);
     }
     
 }

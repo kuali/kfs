@@ -22,9 +22,10 @@
  */
 package org.kuali.module.gl.service;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -126,5 +127,13 @@ public interface OriginEntryService {
      * @param groupIdList the origin entry groups
      * @return a set of summarized information of the entries within the specified group
      */
+    
+    public File flatFile(String filename, Integer groupId);
+    
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
+    
+    public Collection getMatchingEntriesByCollection(Map searchCriteria);
+    
+    public OriginEntry getExactMatchingEntry(Integer entryId);
+    
 }

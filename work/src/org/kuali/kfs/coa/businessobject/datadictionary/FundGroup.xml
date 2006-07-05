@@ -84,7 +84,7 @@
                 <description>The Financial Reporting Sort Code represents...</description>
             </attribute>
 
-            <attribute name="name" forceUppercase="false">
+            <attribute name="name" forceUppercase="true">
                 <label>Fund Group Name</label>
                 <shortLabel>Name</shortLabel>
 

@@ -132,7 +132,7 @@
                 <description>The code used to represent an organization.</description>
             </attribute>
 
-            <attribute name="organizationName" forceUppercase="false">
+            <attribute name="organizationName" forceUppercase="true">
                 <label>Organization Name</label>
                 <shortLabel>Org Name</shortLabel>
 

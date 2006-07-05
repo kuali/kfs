@@ -1115,6 +1115,21 @@
         </property>
     </bean>
     
+    <bean id="glCorrectionDocumentService" class="org.kuali.module.gl.service.impl.CorrectionDocumentServiceImpl">
+        <property name="correctionChangeGroupDao">
+            <ref bean="glCorrectionChangeGroupDao" />
+        </property>
+        <property name="correctionChangeDao">
+        	<ref bean="glCorrectionChangeDao" />
+        </property>
+        <property name="correctionCriteriaDao">
+        	<ref bean="glCorrectionCriteriaDao" />
+        </property>
+        <property name="documentDao">
+        	<ref bean="glDocumentDao" />
+        </property>
+    </bean>
+    
     <bean id="glCorrectionChangeDao" class="org.kuali.module.gl.dao.ojb.CorrectionChangeDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
@@ -1133,7 +1148,11 @@
         </property>
     </bean>
     
-    
+    <bean id="glDocumentDao" class="org.kuali.core.dao.ojb.DocumentDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
     
     
     

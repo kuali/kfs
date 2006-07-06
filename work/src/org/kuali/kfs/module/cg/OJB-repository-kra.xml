@@ -556,6 +556,9 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetIndirectCostRate" column="BDGT_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
+    <reference-descriptor name="budgetPurpose" proxy="true" class-ref="org.kuali.module.kra.bo.BudgetPurposeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="budgetPurposeCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetIndirectCost" table="ER_BDGT_IDC_T">

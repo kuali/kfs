@@ -17,6 +17,7 @@
                 <field attributeName="subFundGroupWagesIndicator" />
                 <field attributeName="financialReportingSortCode" />
                 <field attributeName="subfundgrpActivityIndicator" />
+                <field attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
             </inquiryFields>
         </inquiry>
 
@@ -52,6 +53,7 @@
                 <field attributeName="subFundGroupWagesIndicator" />
                 <field attributeName="financialReportingSortCode" />
                 <field attributeName="subfundgrpActivityIndicator" />
+                <field attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
             </resultFields>
         </lookup>
 
@@ -139,6 +141,14 @@
                 <summary>Financial Reporting Sort Code</summary>
                 <description>The Financial Reporting Sort Code represents...</description>
             </attribute>
+            
+            <attributeReference name="fundGroupBudgetAdjustmentRestrictionLevelCode" 
+                                sourceClassName="org.kuali.module.chart.bo.FundGroup" 
+                                sourceAttributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" >
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAdjustmentSubFundRestrictionsValuesFinder"/>
+                </control>
+            </attributeReference>    
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

@@ -65,25 +65,9 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
      * generic, shared logic used to iniate a ba document
      */
     public void initiateDocument() {
-
         // setting default posting year
         Integer currentYearParam = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
-        Integer defaultYearParam = null;
-
-        try {
-            defaultYearParam = new Integer(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(BudgetAdjustmentDocumentRuleConstants.BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, BudgetAdjustmentDocumentRuleConstants.DEFAULT_FISCAL_YEAR_PARM_NM)));
-        }
-        catch (ApplicationParameterException e) {
-            // DO NOTHING: we don't want to throw an error if the default value is not found, just don't set it in the list
-        }
-
-        if (defaultYearParam != null) {
-            setPostingYear(defaultYearParam);
-        }
-        else {
-            setPostingYear(currentYearParam);
-        }
-
+        setPostingYear(currentYearParam);
     }
 
     /**

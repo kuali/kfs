@@ -58,14 +58,23 @@
 	<field-descriptor name="financialObjectBenefitsTypeCode" column="FINOBJ_BENE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+	<reference-descriptor name="benefitsCalculation" class-ref="org.kuali.module.labor.bo.BenefitsCalculation" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="financialObjectBenefitsTypeCode" />
+	</reference-descriptor>
+	
 	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="universityFiscal"
 		class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
@@ -87,19 +96,23 @@
 	<field-descriptor name="positionBenefitTypeCode" column="POS_BENEFIT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="positionFringeBenefitPercent" column="POS_FRNG_BENE_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="positionFringeBenefitPercent" column="POS_FRNG_BENE_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalKualiPercentFieldConversion"/>
 	<field-descriptor name="positionFringeBenefitObjectCode" column="POS_FRNGBEN_OBJ_CD" jdbc-type="VARCHAR" index="true"/>
+	
 	<reference-descriptor name="positionFringeBenefitObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="positionFringeBenefitObjectCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="positionBenefitType" class-ref="org.kuali.module.labor.bo.BenefitsType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="positionBenefitTypeCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="universityFiscal"
 		class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">

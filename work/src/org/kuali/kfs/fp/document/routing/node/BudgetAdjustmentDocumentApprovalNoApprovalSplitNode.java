@@ -25,12 +25,19 @@ package org.kuali.workflow.node;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
+import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -40,26 +47,81 @@ import edu.iu.uis.eden.engine.RouteHelper;
 import edu.iu.uis.eden.engine.node.SplitNode;
 import edu.iu.uis.eden.engine.node.SplitResult;
 import edu.iu.uis.eden.routetemplate.RouteContext;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.FUND_GROUP_CODE.CONTRACT_GRANTS;
 
-/* TODO this code is fake for POC - put the correct business logic in here
+/**
+ * Checks for conditions on a Budget Adjustment document that allow auto-approval by the initiator. If these conditions are not met,
+ * standard financial routing is performed.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * The conditions for auto-approval are: 1) Single account used on document 2) Initiator is fiscal officer or primary delegate for
+ * the account 3) Only current adjustments are being made 4) The fund group for the account is not contract and grants
+ * 
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements SplitNode {
 
     public SplitResult process(RouteContext routeContext, RouteHelper routeHelper) throws Exception {
-        XPath xpath = KualiWorkflowUtils.getXPath(KualiWorkflowUtils.getDocument(routeContext.getDocument().getDocContent()));
-        NodeList accountNumberNodeList = (NodeList) xpath.evaluate("//org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine/accountNumber/text()", KualiWorkflowUtils.getDocument(routeContext.getDocument().getDocContent()), XPathConstants.NODESET);
-        for (int accountNumberIndex = 0; accountNumberIndex < accountNumberNodeList.getLength(); accountNumberIndex++) {
-            Node accountNumberNode = accountNumberNodeList.item(accountNumberIndex);
-            if ("1031420".equals(accountNumberNode.getNodeValue())) {
-                List branchNames = new ArrayList();
-                branchNames.add("NoApprovalBranch");
-                return new SplitResult(branchNames);
+        boolean autoApprovalAllowed = true;
+
+        // retrieve ba document
+        String documentID = routeContext.getDocument().getRouteHeaderId().toString();
+        BudgetAdjustmentDocument budgetDocument = (BudgetAdjustmentDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentID);
+
+        List accountingLines = budgetDocument.getSourceAccountingLines();
+        accountingLines.addAll(budgetDocument.getTargetAccountingLines());
+      
+        /* only one account can be present on document and only current adjustments allowed */
+        String chart = "";
+        String accountNumber = "";
+        for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            if (StringUtils.isNotBlank(accountNumber)) {
+                if (!accountNumber.equals(line.getAccountNumber()) && !chart.equals(line.getChartOfAccountsCode())) {
+                    autoApprovalAllowed = false;
+                    break;
+                }
+            }
+            
+            if (line.getBaseBudgetAdjustmentAmount().isNonZero()) {
+                autoApprovalAllowed = false;
+                break;
+            }
+            chart = line.getChartOfAccountsCode();
+            accountNumber = line.getAccountNumber();
+        }
+        
+        // check remaining conditions
+        if (autoApprovalAllowed) {
+            // user should be fiscal officer or primary delegate for account
+            List userAccounts = SpringServiceLocator.getAccountService().getAccountsThatUserIsResponsibleFor(GlobalVariables.getUserSession().getKualiUser());
+            Account userAccount = null;
+            for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {
+                Account account = (Account) iter.next();
+                if (accountNumber.equals(account.getAccountNumber()) && chart.equals(account.getChartOfAccountsCode())) {
+                    userAccount = account;
+                    break;
+                }
+            }
+            
+            if (userAccount == null) {
+                autoApprovalAllowed = false;
+            }
+            else {
+                // fund group should not be CG
+                if (CONTRACT_GRANTS.equals(userAccount.getSubFundGroup().getFundGroupCode())) {
+                    autoApprovalAllowed = false;
+                }
             }
         }
+
         List branchNames = new ArrayList();
-        branchNames.add("ApprovalBranch");
+        if (autoApprovalAllowed) {
+            branchNames.add("NoApprovalBranch");
+        }
+        else {
+            branchNames.add("ApprovalBranch");
+        }
+        
         return new SplitResult(branchNames);
     }
 }

@@ -70,6 +70,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
         this.financialDocumentMonth10LineAmount = new KualiDecimal(0);
         this.financialDocumentMonth11LineAmount = new KualiDecimal(0);
         this.financialDocumentMonth12LineAmount = new KualiDecimal(0);
+        this.fringeBenefitIndicator = false;
     }
 
     /**

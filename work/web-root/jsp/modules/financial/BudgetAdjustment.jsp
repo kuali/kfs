@@ -19,7 +19,8 @@
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
-		currentBaseAmount="true" displayMonthlyAmounts="true" />
+		currentBaseAmount="true" displayMonthlyAmounts="true" 
+		extraHiddenFields=",budgetAdjustmentPeriodCode,fringeBenefitIndicator" />
 
 	<kul:generalLedgerPendingEntries />
 

@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiPercent;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
@@ -41,7 +42,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;
 	private String positionBenefitTypeCode;
-	private KualiDecimal positionFringeBenefitPercent;
+	private KualiPercent positionFringeBenefitPercent;
 	private String positionFringeBenefitObjectCode;
 
     private ObjectCode positionFringeBenefitObject;
@@ -125,7 +126,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
 	 * @return - Returns the positionFringeBenefitPercent
 	 * 
 	 */
-	public KualiDecimal getPositionFringeBenefitPercent() { 
+	public KualiPercent getPositionFringeBenefitPercent() { 
 		return positionFringeBenefitPercent;
 	}
 
@@ -135,7 +136,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
      * @param positionFringeBenefitPercent The positionFringeBenefitPercent to set.
 	 * 
 	 */
-	public void setPositionFringeBenefitPercent(KualiDecimal positionFringeBenefitPercent) {
+	public void setPositionFringeBenefitPercent(KualiPercent positionFringeBenefitPercent) {
 		this.positionFringeBenefitPercent = positionFringeBenefitPercent;
 	}
 

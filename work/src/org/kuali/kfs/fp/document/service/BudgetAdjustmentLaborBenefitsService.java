@@ -20,20 +20,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.financial.rules;
+package org.kuali.module.financial.service;
+
+import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
 /**
- * Holds constants for budget adjustments
+ * Service interface for implementing methods to generate labor benefit
+ * budget adjustment accounting lines.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetAdjustmentDocumentRuleConstants {
-    public static final String BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.BudgetAdjustmentDocument";
-   
-    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
-    public static final String RESTRICTED_OBJECT_CODES = "RestrictedObjectCodes";
+public interface BudgetAdjustmentLaborBenefitsService {
+
+    /**
+     * Checks the object codes from the document accounting lines against the labor
+     * object code table.
+     * @param budgetDocument
+     * @return true if any labor object codes were found
+     */
+    public boolean hasLaborObjectCodes(BudgetAdjustmentDocument budgetDocument);
     
-    public static final String DEFAULT_FISCAL_YEAR_PARM_NM = "DefaultFiscalYear";
-    public static final String GENERATE_TOF_GLPE_ENTRIES_PARM_NM = "GenerateTransferGLPEIndicator";
-    public static final String TRANSFER_OBJECT_CODE_PARM_NM = "TransferObjectCode";
+    /**
+     * Generates labor benefit accounting lines for the budget document.
+     * @param budgetDocument
+     */
+    public void generateLaborBenefitsAccountingLines(BudgetAdjustmentDocument budgetDocument);
+    
 }

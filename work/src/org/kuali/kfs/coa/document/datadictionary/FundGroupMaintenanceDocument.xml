@@ -36,6 +36,7 @@
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" required="true" />
                     <maintainableField name="financialReportingSortCode" required="true" />
+                    <maintainableField name="fundGroupBudgetAdjustmentRestrictionLevelCode" required="true" />
                     <maintainableField name="active" required="false" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

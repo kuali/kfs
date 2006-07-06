@@ -72,6 +72,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
         this.financialDocumentMonth10LineAmount = new KualiDecimal(0);
         this.financialDocumentMonth11LineAmount = new KualiDecimal(0);
         this.financialDocumentMonth12LineAmount = new KualiDecimal(0);
+        this.fringeBenefitIndicator = false;
     }
 
     /**
@@ -129,7 +130,9 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setBaseBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setBaseBudgetAdjustmentAmount(KualiInteger baseBudgetAdjustmentAmount) {
+        if (baseBudgetAdjustmentAmount != null) {
         this.baseBudgetAdjustmentAmount = baseBudgetAdjustmentAmount;
+        }
     }
 
     /**
@@ -157,7 +160,9 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setCurrentBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setCurrentBudgetAdjustmentAmount(KualiDecimal currentBudgetAdjustmentAmount) {
+        if (currentBudgetAdjustmentAmount != null) {
         this.currentBudgetAdjustmentAmount = currentBudgetAdjustmentAmount;
+        }
     }
 
     /**

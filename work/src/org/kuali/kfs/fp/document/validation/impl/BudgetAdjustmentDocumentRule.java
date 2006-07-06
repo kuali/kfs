@@ -31,6 +31,7 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseCons
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.TRANSFER_INCOME;
 import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -377,7 +378,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         boolean isAdjustmentAllowed = true;
 
-        List accountingLines = baDocument.getSourceAccountingLines();
+        List accountingLines = new ArrayList();
+        accountingLines.addAll(baDocument.getSourceAccountingLines());
         accountingLines.addAll(baDocument.getTargetAccountingLines());
 
         // fund group is global restriction
@@ -631,7 +633,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     public Map buildIncomeStreamBalanceMap(BudgetAdjustmentDocument baDocument) {
         Map incomeStreamBalance = new HashMap();
 
-        List accountingLines = baDocument.getSourceAccountingLines();
+        List accountingLines = new ArrayList();
+        accountingLines.addAll(baDocument.getSourceAccountingLines());
         accountingLines.addAll(baDocument.getTargetAccountingLines());
         for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) iter.next();

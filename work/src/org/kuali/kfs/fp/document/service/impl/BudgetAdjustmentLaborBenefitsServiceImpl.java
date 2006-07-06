@@ -122,7 +122,8 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
     public boolean hasLaborObjectCodes(BudgetAdjustmentDocument budgetDocument) {
         boolean hasLaborObjectCodes = false;
         
-        List accountingLines = budgetDocument.getSourceAccountingLines();
+        List accountingLines = new ArrayList();
+        accountingLines.addAll(budgetDocument.getSourceAccountingLines());
         accountingLines.addAll(budgetDocument.getTargetAccountingLines());
         
         Integer fiscalYear = budgetDocument.getPostingYear();

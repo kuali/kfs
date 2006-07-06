@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,7 +32,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
@@ -48,7 +48,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.21 2006-07-05 23:45:49 schoo Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.22 2006-07-06 20:39:45 schoo Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -286,43 +286,23 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return ledgerEntry;
     }
     //TODO
-    public File flatFile(String filename, Integer groupId) {
-        File returnFile = new File(filename);
-        //FileWriter filewriter = new FileWriter(returnFile);
-        
-        
+    public void flatFile(String filename, Integer groupId, BufferedOutputStream bw) {
+       
         LOG.debug("exportFlatFile() started");
 
-        BufferedWriter out = null;
         try {
-            out = new BufferedWriter(new FileWriter(filename));
-
+       
             OriginEntryGroup oeg = new OriginEntryGroup();
             oeg.setId(groupId);
             Iterator i = getEntriesByGroup(oeg);
             while (i.hasNext()) {
                 OriginEntry e = (OriginEntry) i.next();
-                out.write(e.getLine() + "\n");
+                bw.write((e.getLine() + "\n").getBytes());
             }
         }
         catch (IOException e) {
             LOG.error("exportFlatFile() Error writing to file", e);
         }
-        finally {
-            if (out != null) {
-                try {
-                    out.close();
-                }
-                catch (IOException ie) {
-                    LOG.error("exportFlatFile() Error closing file", ie);
-                }
-            }
-        }
-    
-        //returnFile.
-        
-        return returnFile; 
-    
     }
     
     public Collection getMatchingEntriesByCollection(Map searchCriteria){

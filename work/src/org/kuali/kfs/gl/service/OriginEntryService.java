@@ -22,7 +22,7 @@
  */
 package org.kuali.module.gl.service;
 
-import java.io.File;
+import java.io.BufferedOutputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -128,7 +128,7 @@ public interface OriginEntryService {
      * @return a set of summarized information of the entries within the specified group
      */
     
-    public File flatFile(String filename, Integer groupId);
+    public void flatFile(String filename, Integer groupId, BufferedOutputStream bw);
     
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
     

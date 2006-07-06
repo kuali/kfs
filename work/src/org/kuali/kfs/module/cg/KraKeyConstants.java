@@ -35,4 +35,5 @@ public class KraKeyConstants {
     public static final String AUDIT_MODULAR_CONSORTIUM = "audit.modular.consortium";
     public static final String AUDIT_PERSONNEL_STATUS = "audit.personnel.status";
     public static final String AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT = "audit.nonpersonnel.subcontractorExceesAmount";
+    public static final String AUDIT_PARAMETERS_NEGATIVE_IDC = "audit.parameters.negativeIdc";
 }

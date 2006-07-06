@@ -377,12 +377,12 @@
                     
                       <td>
                       
-					<%--                     
+					                    
 					<display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${reqSearchResults}" id="allEntries" pagesize="10"
-                      requestURI="generalLedgerCorrection.do?methodToCall=viewResults&searchResultKey=${searchResultKey}&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
-                     --%>
+                      requestURI="generalLedgerCorrection.do?methodToCall=viewResults&searchResultKey=${searchResultKey}&correctionFormKey=${correctionFormKey}&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
+                     
              		  
-             		 <display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${reqSearchResults}" id="allEntries" >
+             <%--		 <display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${reqSearchResults}" id="allEntries" > --%>
              		    
              		  
              		   <c:choose>

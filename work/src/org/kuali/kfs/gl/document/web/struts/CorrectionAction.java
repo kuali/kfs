@@ -23,8 +23,8 @@
 
 package org.kuali.module.gl.web.struts.action;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,7 +78,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.20 2006-07-05 23:46:13 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.21 2006-07-06 20:40:16 schoo Exp $
  * 
  */
 
@@ -659,12 +660,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @param response
      * @return
      * @throws Exception
-     */
+     *//*
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+    }*/
 
     /**
      * Method for Approve
@@ -677,11 +678,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
 
-    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /*public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
 
 
-    }
+    }*/
 
     /**
      * Method for Approve
@@ -694,10 +695,10 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
 
-    public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+   /* public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+    }*/
 
     /**
      * Method for Cancel
@@ -710,11 +711,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
 
-    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /*public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         return mapping.findForward(Constants.MAPPING_CANCEL);
     }
-
+*/
 
     /**
      * Method for Close
@@ -727,10 +728,10 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
 
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+/*    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_CLOSE);
     }
-
+*/
 
     /**
      * Creating search Map from searchField and searchValues
@@ -923,7 +924,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward chooseMainDropdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
 
@@ -1258,7 +1259,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         Map searchMap = new HashMap();
         Collection resultFromGroupId = new ArrayList();
-
+        Properties parameters = new Properties();
+        
         // Configure the query.
 
         for (String eachGroupId : groupId) {
@@ -1271,18 +1273,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
         
         
         request.setAttribute("reqSearchResults", resultFromGroupId);
-        /*if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
-            GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
-        }*/
-        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultFromGroupId, Constants.SEARCH_LIST_KEY_PREFIX));
-
-
-        // all entries to a Map
-        /*
-         * Iterator iter = resultFromGroupId.iterator(); while (iter.hasNext()){ OriginEntry oe = (OriginEntry) iter.next();
-         * errorCorrectionForm.getAllEntriesForManualEditHashMap().put(oe.getEntryId(), oe); }
-         */
-
+        
+        String searchResultKey = GlobalVariables.getUserSession().addObject(resultFromGroupId, Constants.SEARCH_LIST_KEY_PREFIX);
+        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, searchResultKey);
+        String correctionFormKey = GlobalVariables.getUserSession().addObject(errorCorrectionForm ,Constants.CORRECTION_FORM_KEY);
+        request.setAttribute(Constants.CORRECTION_FORM_KEY, correctionFormKey);
+        
     }
 
     /**
@@ -1713,14 +1709,28 @@ public class CorrectionAction extends KualiDocumentActionBase {
             }
         fileName = sourceCode+oeg.getId().toString()+"_"+oeg.getDate().toString()+".txt";
         
-        //fileName = "GLCP" + oeg.getId().toString() + oeg.getDate().toString()+".txt";
-        File returnFile = originEntryService.flatFile(fileName, Integer.parseInt(groupId[0]));
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        WebUtils.saveMimeOutputStreamAsFile(response, "application/txt", baos, fileName);
+        BufferedOutputStream bw = new BufferedOutputStream(response.getOutputStream());
         
+        
+        originEntryService.flatFile(fileName, Integer.parseInt(groupId[0]), bw);
+        
+        //set response
+        response.setContentType("application/txt");
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+        response.setHeader("Expires", "0");
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "public");
+        
+        //response.setContentLength(bw.size());
+        
+        // write to output
+        
+        bw.flush();
+        bw.close();
+       
        
         return (null);
-        
+        //return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     public ActionForward showPreviousCorrectionFiles(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws WorkflowException {
@@ -1823,7 +1833,20 @@ public class CorrectionAction extends KualiDocumentActionBase {
     
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
         request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
-        CorrectionForm errorCorrectionForm = (CorrectionForm) form;
+        
+        //UserSession userSession = (UserSession) request.getSession().getAttribute(Constants.USER_SESSION_KEY);
+        
+        String correctionFormKey = request.getParameter(Constants.CORRECTION_FORM_KEY);
+        CorrectionForm errorCorrectionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(correctionFormKey);
+        form = (ActionForm) GlobalVariables.getUserSession().retrieveObject(correctionFormKey);
+        
+        request.setAttribute(Constants.CORRECTION_FORM_KEY, correctionFormKey);
+        request.setAttribute(mapping.getAttribute(), form);
+        
+        //userSession.removeObject();
+        
+        
+        //CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         
         return mapping.findForward(Constants.MAPPING_BASIC);
 }

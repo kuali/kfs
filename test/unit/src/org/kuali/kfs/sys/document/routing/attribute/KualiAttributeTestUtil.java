@@ -23,16 +23,18 @@
 package org.kuali.workflow.attribute;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
 import org.apache.commons.lang.StringUtils;
 
+import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.exception.InvalidXmlException;
 import edu.iu.uis.eden.routeheader.DocumentContent;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 import edu.iu.uis.eden.routeheader.StandardDocumentContent;
+import edu.iu.uis.eden.routetemplate.RouteContext;
 
 /**
  * This class contains various utility methods for doing tests on 
@@ -45,7 +47,8 @@ public class KualiAttributeTestUtil {
     public static final String BASE_PATH = "/java/projects/kuali_project/test/src/org/kuali/workflow/attribute/";
 
     public static final String TOF_FEMP_SUBCODE_ONELINER = "TransferOfFunds_FEMPSubcode_OneLiner.xml";
-
+    public static final String PAYEE_MAINTENANCE_NEWDOC = "PayeeMaintenanceDocument_CreateNew.xml";
+    
     /**
      * 
      * This method loads a document XML from a file in this directory, and loads it into a 
@@ -56,12 +59,18 @@ public class KualiAttributeTestUtil {
      * @throws IOException
      * @throws InvalidXmlException
      */
-    public static final DocumentContent getDocumentContentFromXmlFile(String fileName) throws IOException, InvalidXmlException {
+    public static final DocumentContent getDocumentContentFromXmlFile(String fileName, String docTypeName) throws IOException, InvalidXmlException {
         if (StringUtils.isBlank(fileName)) {
             throw new IllegalArgumentException("The fileName parameter passed in was blank.");
         }
         BufferedReader reader = new BufferedReader(new FileReader(KualiAttributeTestUtil.BASE_PATH + fileName));
-        return new StandardDocumentContent(readerToString(reader));
+        RouteContext routeContext = RouteContext.getCurrentRouteContext();
+        DocumentRouteHeaderValue docRouteHeaderValue = new DocumentRouteHeaderValue();
+        DocumentType docType = new DocumentType();
+        docType.setName(docTypeName);
+        docRouteHeaderValue.setDocumentType(docType);
+        routeContext.setDocument(docRouteHeaderValue);
+        return new StandardDocumentContent(readerToString(reader), routeContext);
     }
 
     private static String readerToString(Reader is) throws IOException {

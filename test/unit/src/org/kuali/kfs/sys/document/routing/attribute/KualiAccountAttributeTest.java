@@ -22,12 +22,7 @@
  */
 package org.kuali.workflow.attribute;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -40,7 +35,6 @@ import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.exception.InvalidXmlException;
 import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routeheader.StandardDocumentContent;
 
 /**
  * This class...
@@ -65,7 +59,7 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
 
     public void testGetFiscalOfficerCriteria_TOFOneLiner() throws IOException, InvalidXmlException, XPathExpressionException {
 
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER);
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER, "KualiTransferOfFundsDocument");
 
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
@@ -83,4 +77,19 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
         }
     }
 
+    public void testSearchableAccountAttributeXPathTest() throws IOException, InvalidXmlException, XPathExpressionException {
+        
+        final String xpathQuery = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/accountNumber') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/accountNumber')";
+        
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER, "KualiTransferOfFundsDocument");
+
+        XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+        NodeList sourceLineNodes = (NodeList) xpath.evaluate(xpathQuery, docContent.getDocument(), XPathConstants.NODESET);
+        
+        for (int i = 0; i < sourceLineNodes.getLength(); i++) {
+            Node node = sourceLineNodes.item(i);
+            System.err.println("[" + i + "] (" + node.getNodeType() + ") " + node.getNodeName() + " = " + node.getTextContent());
+        }
+    }
+    
 }

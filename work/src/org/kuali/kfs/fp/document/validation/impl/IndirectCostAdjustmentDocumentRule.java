@@ -135,22 +135,48 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument,
-     *      AccountingLine)
+     * KULEDOCS-1406: show account not allowed message before expired account
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return processCommonCustomAccountingLineBusinessRules(accountingLine);
+    public boolean processAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        boolean valid = processCommonCustomAccountingLineBusinessRules(accountingLine);
+        if (valid) {
+            valid = super.processAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
+        }
+        return valid;
     }
 
-
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument,
-     *      AccountingLine, AccountingLine)
+     * KULEDOCS-1406: show account not allowed message before expired account
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
-        return processCommonCustomAccountingLineBusinessRules(updatedAccountingLine);
+    public boolean processReviewAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        boolean valid = processCommonCustomAccountingLineBusinessRules(accountingLine);
+        if (valid) {
+            valid = super.processReviewAccountingLineBusinessRules(transactionalDocument, accountingLine);
+        }
+        return valid;
+    }
+
+    /**
+     * KULEDOCS-1406: show account not allowed message before expired account
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     */
+    @Override
+    public boolean processUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
+        boolean valid = processCommonCustomAccountingLineBusinessRules(accountingLine);
+        if (valid) {
+            valid = super.processUpdateAccountingLineBusinessRules(transactionalDocument, accountingLine, updatedAccountingLine);
+        }
+        return valid;
     }
 
     /**
@@ -161,6 +187,8 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      */
 
     protected boolean processCommonCustomAccountingLineBusinessRules(AccountingLine accountingLine) {
+    //refresh line since this document calls the custom rules first. KULEDOCS-1406
+        accountingLine.refresh();
         boolean isValid = isChartOfAccountsAllowed(accountingLine);
         if (isValid) {
             isValid = isAccountAllowed(accountingLine);

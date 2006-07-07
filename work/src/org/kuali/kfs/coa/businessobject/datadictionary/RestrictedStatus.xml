@@ -51,7 +51,7 @@
                 <description>Restricted Status Codes</description>
             </attribute>
 
-            <attribute name="accountRestrictedStatusName" forceUppercase="false">
+            <attribute name="accountRestrictedStatusName" forceUppercase="true">
                 <label>Restricted Status Name</label>
                 <shortLabel>Name</shortLabel>
                 <maxLength>40</maxLength>

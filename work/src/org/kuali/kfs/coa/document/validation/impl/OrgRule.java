@@ -85,7 +85,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         success &= checkOrgClosureRules(document);
 
-        // check that end date is greater than begin date
+        // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
         success &= checkSimpleRules();
 
         return success;
@@ -109,7 +109,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
-        // check that end date is greater than begin date
+        // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
         success &= checkSimpleRules();
 
         success &= checkOrgClosureRules(document);
@@ -135,7 +135,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         checkOrgClosureRules(document);
 
-        // check that end date is greater than begin date
+        // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
         checkSimpleRules();
 
         return true;
@@ -338,6 +338,23 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 success &= false;
             }
         }
+        
+        // Reports To Chart/Org should not be same as this Chart/Org
+        if ((ObjectUtils.isNotNull(newOrg.getReportsToChartOfAccountsCode()))&&
+                (ObjectUtils.isNotNull(newOrg.getReportsToOrganizationCode())) &&
+                (ObjectUtils.isNotNull(newOrg.getChartOfAccountsCode())) &&
+                (ObjectUtils.isNotNull(newOrg.getOrganizationCode()))){
+            
+            
+            if ((newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode()))&&
+                    (newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode())))
+                
+            {
+                putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG );
+                success &= false;
+            }
+        }
+        
         return success;
     }
 

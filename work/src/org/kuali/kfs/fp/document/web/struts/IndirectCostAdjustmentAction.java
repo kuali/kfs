@@ -30,5 +30,5 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class IndirectCostAdjustmentAction extends KualiTransactionalDocumentActionBase {
-
+    // no difference from superclass
 }

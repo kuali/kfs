@@ -25,7 +25,6 @@ package org.kuali.module.financial.web.struts.form;
 import java.util.Map;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
@@ -73,7 +72,8 @@ public class IndirectCostAdjustmentForm extends KualiTransactionalDocumentFormBa
         SourceAccountingLine sourceAccountingLine = super.createNewSourceAccountingLine(transactionalDocument);
         String objectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
 
-        return (SourceAccountingLine) populateAccountingLineObjectCode(sourceAccountingLine, objectCode);
+        sourceAccountingLine.setFinancialObjectCode(objectCode);
+        return sourceAccountingLine;
     }
 
     /**
@@ -85,7 +85,8 @@ public class IndirectCostAdjustmentForm extends KualiTransactionalDocumentFormBa
         TargetAccountingLine targetAccountingLine = super.createNewTargetAccountingLine(transactionalDocument);
         String objectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
 
-        return (TargetAccountingLine) populateAccountingLineObjectCode(targetAccountingLine, objectCode);
+        targetAccountingLine.setFinancialObjectCode(objectCode);
+        return targetAccountingLine;
     }
 
     /**
@@ -98,13 +99,4 @@ public class IndirectCostAdjustmentForm extends KualiTransactionalDocumentFormBa
         return map;
     }
 
-    /**
-     * @param accountingLine
-     * @param objectCode
-     * @return an <code>AccountingLine</code> populated with a <code>ObjectCode</code>
-     */
-    private AccountingLine populateAccountingLineObjectCode(AccountingLine accountingLine, String objectCode) {
-        accountingLine.setFinancialObjectCode(objectCode);
-        return accountingLine;
-    }
 }

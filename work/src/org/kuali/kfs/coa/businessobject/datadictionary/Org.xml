@@ -267,7 +267,7 @@
             <attributeReference name="organizationDefaultAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Organization Default Account Number</label>
                 <shortLabel>Default Acct</shortLabel>
-                <required>true</required>
+                <required>false</required>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>

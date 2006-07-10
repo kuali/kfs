@@ -87,7 +87,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
         success &= checkSimpleRules();
-
+        
+        // check that defaultAccount is present unless 
+        //    ( (orgType = U or C) and ( document is a "create new" ))
+        success &= checkDefaultAccountNumber(document);
         return success;
     }
 
@@ -111,6 +114,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
         success &= checkSimpleRules();
+        
+        // check that defaultAccount is present unless 
+        //    ( (orgType = U or C) and ( document is a "create new" ))
+        success &= checkDefaultAccountNumber(document);
 
         success &= checkOrgClosureRules(document);
 
@@ -137,6 +144,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
         checkSimpleRules();
+        
+        // check that defaultAccount is present unless 
+        //    ( (orgType = U or C) and ( document is a "create new" ))
+        checkDefaultAccountNumber(document);
 
         return true;
     }
@@ -396,6 +407,33 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    // check that defaultAccount is present unless 
+    //    ( (orgType = U or C) and ( document is a "create new" ))
+
+    protected boolean checkDefaultAccountNumber(MaintenanceDocument document) {
+
+        boolean success = true;
+        boolean missingDefaultAccountNumber;
+        boolean exemptOrganizationTypeCode = false;
+        String organizationTypeCode;
+
+        // begin date must be greater than or equal to end date
+     
+        missingDefaultAccountNumber = StringUtils.isBlank(newOrg.getOrganizationDefaultAccountNumber());
+
+        if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
+            organizationTypeCode = newOrg.getOrganizationTypeCode();
+            if (applyApcRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
+                exemptOrganizationTypeCode = true;
+            }
+        }
+        if (missingDefaultAccountNumber && (!exemptOrganizationTypeCode | !document.isNew())) {
+            putFieldError("organizationDefaultAccountNumber", KeyConstants.ERROR_DOCUMENT_ORGMAINT_DEFAULT_ACCOUNT_NUMBER_REQUIRED);
+            success &= false;
+        }
+        return success;
+    }   
+    
     /**
      * 
      * This method compares an old and new value, and determines if they've changed.

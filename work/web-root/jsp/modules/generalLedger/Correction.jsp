@@ -113,7 +113,7 @@
 			               	
 							Copy To Desktop 
 							<input type="image" name="methodToCall.saveToDesktop" 
-									src="images/tinybutton-copy2.gif" alt="saveToDeskTop" class="tinybutton" />
+									src="images/tinybutton-copy2.gif" alt="saveToDeskTop" class="tinybutton" onclick="excludeSubmitRestriction=true" />
 									
 							Delete Document
 							<input type="image" name="methodToCall.confirmDeleteDocument" 

@@ -78,7 +78,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.21 2006-07-06 20:40:16 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.22 2006-07-10 14:47:02 schoo Exp $
  * 
  */
 
@@ -1164,8 +1164,16 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // searchResults is collection of OriginEntry
         searchResults = (Collection) lookupService.findCollectionBySearchUnbounded(OriginEntry.class, fieldValues);
 
-        errorCorrectionForm.setAllEntries(searchResults);
+        //errorCorrectionForm.setAllEntries(searchResults);
 
+        request.setAttribute("reqSearchResults", searchResults);
+        
+        String searchResultKey = GlobalVariables.getUserSession().addObject(searchResults , Constants.SEARCH_LIST_KEY_PREFIX);
+        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, searchResultKey);
+        String correctionFormKey = GlobalVariables.getUserSession().addObject(errorCorrectionForm ,Constants.CORRECTION_FORM_KEY);
+        request.setAttribute(Constants.CORRECTION_FORM_KEY, correctionFormKey);
+        
+        
         errorCorrectionForm.setEditableFlag("Y");
         // manualEditFlag is for activate a button for asking user to ask edit the docu.
         errorCorrectionForm.setManualEditFlag("N");

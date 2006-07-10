@@ -22,6 +22,15 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
@@ -46,5 +55,17 @@ public class BudgetAdjustmentAction extends KualiTransactionalDocumentActionBase
         ((BudgetAdjustmentDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
 
     }
+
+    /**
+     * Add warning message about copying a document with generated labor benefits.
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlobalVariables.getErrorMap().put(Constants.DOCUMENT_ERRORS, KeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
+        return super.copy(mapping, form, request, response);
+    }
+    
+    
 
 }

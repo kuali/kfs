@@ -33,7 +33,6 @@ public class BudgetAdjustmentDocumentRuleConstants {
     public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
     public static final String RESTRICTED_OBJECT_CODES = "RestrictedObjectCodes";
     
-    public static final String DEFAULT_FISCAL_YEAR_PARM_NM = "DefaultFiscalYear";
     public static final String GENERATE_TOF_GLPE_ENTRIES_PARM_NM = "GenerateTransferGLPEIndicator";
     public static final String TRANSFER_OBJECT_CODE_PARM_NM = "TransferObjectCode";
 }

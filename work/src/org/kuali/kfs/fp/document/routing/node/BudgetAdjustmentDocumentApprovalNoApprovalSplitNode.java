@@ -55,6 +55,7 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseCons
  * 
  * The conditions for auto-approval are: 1) Single account used on document 2) Initiator is fiscal officer or primary delegate for
  * the account 3) Only current adjustments are being made 4) The fund group for the account is not contract and grants
+ * 5) current income/expense decrease amount must equal increase amount
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -109,6 +110,12 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
             else {
                 // fund group should not be CG
                 if (CONTRACT_GRANTS.equals(userAccount.getSubFundGroup().getFundGroupCode())) {
+                    autoApprovalAllowed = false;
+                }
+                
+                // current income/expense decrease amount must equal increase amount
+                if (!budgetDocument.getSourceCurrentBudgetIncomeTotal().equals(budgetDocument.getTargetCurrentBudgetIncomeTotal()) ||
+                        !budgetDocument.getSourceCurrentBudgetExpenseTotal().equals(budgetDocument.getTargetCurrentBudgetExpenseTotal())) {
                     autoApprovalAllowed = false;
                 }
             }

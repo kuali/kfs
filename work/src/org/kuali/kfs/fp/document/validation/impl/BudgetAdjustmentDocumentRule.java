@@ -22,6 +22,10 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.SOURCE_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.Constants.TARGET_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM;
@@ -51,8 +55,10 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
@@ -726,6 +732,71 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             return false;
         }
     }
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLineTotalsUnchanged(org.kuali.core.document.TransactionalDocument)
+     */
+    @Override
+    protected boolean isAccountingLineTotalsUnchanged(TransactionalDocument transactionalDocument) {
+        boolean isUnchanged = true;
+        
+        BudgetAdjustmentDocument persistedDocument = (BudgetAdjustmentDocument) retrievePersistedDocument(transactionalDocument);
+        BudgetAdjustmentDocument currentDocument = (BudgetAdjustmentDocument) transactionalDocument;
+        
+        if (persistedDocument == null) {
+            handleNonExistentDocumentWhenApproving(transactionalDocument);
+        }
+        else {
+            // retrieve the persisted totals
+            KualiDecimal persistedSourceCurrentBudgetTotal = persistedDocument.getSourceCurrentBudgetTotal();
+            KualiInteger persistedSourceBaseBudgetTotal = persistedDocument.getSourceBaseBudgetTotal();
+            KualiDecimal persistedTargetCurrentBudgetTotal = persistedDocument.getTargetCurrentBudgetTotal();
+            KualiInteger persistedTargetBaseBudgetTotal = persistedDocument.getTargetBaseBudgetTotal();
+            
+            // retrieve the updated totals
+            KualiDecimal currentSourceCurrentBudgetTotal = currentDocument.getSourceCurrentBudgetTotal();
+            KualiInteger currentSourceBaseBudgetTotal = currentDocument.getSourceBaseBudgetTotal();
+            KualiDecimal currentTargetCurrentBudgetTotal = currentDocument.getTargetCurrentBudgetTotal();
+            KualiInteger currentTargetBaseBudgetTotal = currentDocument.getTargetBaseBudgetTotal();
+
+            // make sure that totals have remained unchanged, if not, recognize that, and
+            // generate appropriate error messages
+            if (persistedSourceCurrentBudgetTotal.compareTo(currentSourceCurrentBudgetTotal) != 0) {
+                isUnchanged = false;
+                buildTotalChangeErrorMessage(SOURCE_ACCOUNTING_LINE_ERRORS,"source current budget", persistedSourceCurrentBudgetTotal, currentSourceCurrentBudgetTotal);
+            }
+            if (persistedSourceBaseBudgetTotal.compareTo(currentSourceBaseBudgetTotal) != 0) {
+                isUnchanged = false;
+                buildTotalChangeErrorMessage(SOURCE_ACCOUNTING_LINE_ERRORS,"source base budget", persistedSourceBaseBudgetTotal.kualiDecimalValue(), currentSourceBaseBudgetTotal.kualiDecimalValue());
+            }
+            if (persistedTargetCurrentBudgetTotal.compareTo(currentTargetCurrentBudgetTotal) != 0) {
+                isUnchanged = false;
+                buildTotalChangeErrorMessage(TARGET_ACCOUNTING_LINE_ERRORS,"target current budget", persistedTargetCurrentBudgetTotal, currentTargetCurrentBudgetTotal);
+            }
+            if (persistedTargetBaseBudgetTotal.compareTo(currentTargetBaseBudgetTotal) != 0) {
+                isUnchanged = false;
+                buildTotalChangeErrorMessage(TARGET_ACCOUNTING_LINE_ERRORS,"target base budget", persistedTargetBaseBudgetTotal.kualiDecimalValue(), currentTargetBaseBudgetTotal.kualiDecimalValue());
+            }
+        }
+        
+        return isUnchanged;
+    }
+    
+    /**
+     * This method builds out the error message for when totals have changed.
+     * 
+     * @param propertyName
+     * @param sectionTitle
+     * @param persistedSourceLineTotal
+     * @param currentSourceLineTotal
+     */
+    private void buildTotalChangeErrorMessage(String propertyName, String sectionTitle, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
+        String persistedTotal = (String) new CurrencyFormatter().format(persistedSourceLineTotal);
+        String currentTotal = (String) new CurrencyFormatter().format(currentSourceLineTotal);
+
+        GlobalVariables.getErrorMap().put(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
+    }
+
 
 
 }

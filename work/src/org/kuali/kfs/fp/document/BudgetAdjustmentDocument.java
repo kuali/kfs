@@ -388,4 +388,39 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
         return new BudgetAdjustmentAccountingLineParser();
     }
 
+    /**
+     * The base checks that the posting year is the current year, not a requirement
+     * for the ba document.
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAllowsCopy()
+     */
+    @Override
+    public boolean getAllowsCopy() {
+        return true;
+    }
+
+    /**
+     * The base checks that the posting year is the current year, not a requirement
+     * for the ba document.
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAllowsErrorCorrection()
+     */
+    @Override
+    public boolean getAllowsErrorCorrection() {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getNullOrReasonNotToCopy(java.lang.String, boolean)
+     */
+    @Override
+    protected String getNullOrReasonNotToCopy(String actionGerund, boolean ddAllows) {
+        return null;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getNullOrReasonNotToErrorCorrect()
+     */
+    @Override
+    protected String getNullOrReasonNotToErrorCorrect() {
+        return null;
+    }
 }

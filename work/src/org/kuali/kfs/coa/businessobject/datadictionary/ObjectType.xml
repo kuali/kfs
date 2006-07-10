@@ -65,7 +65,7 @@
                 <description>The unique code representing this object type.</description>
             </attribute>
 
-            <attribute name="name" forceUppercase="false">
+            <attribute name="name" forceUppercase="true">
                 <label>Object Type Name</label>
                 <shortLabel>Name</shortLabel>
 

@@ -62,7 +62,7 @@
                 <description>The bank code for the bank associated with this bank account.</description>
             </attribute>
 
-            <attribute name="financialDocumentBankName" forceUppercase="false">
+            <attribute name="financialDocumentBankName" forceUppercase="true">
                 <label>Bank Name</label>
                 <shortLabel>Name</shortLabel>
 
@@ -77,7 +77,7 @@
 
             </attribute>
 
-            <attribute name="financialDocumentBankShortNm" forceUppercase="false">
+            <attribute name="financialDocumentBankShortNm" forceUppercase="true">
                 <label>Bank Short Name</label>
                 <shortLabel>Short Name</shortLabel>
 

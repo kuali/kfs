@@ -55,7 +55,7 @@
                 <description>The type of organization.</description>
             </attribute>
 
-            <attribute name="organizationTypeName" forceUppercase="false">
+            <attribute name="organizationTypeName" forceUppercase="true">
                 <label>Organization Type Name</label>
                 <shortLabel>Name</shortLabel>
 

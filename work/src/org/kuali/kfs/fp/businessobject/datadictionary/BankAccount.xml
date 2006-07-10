@@ -75,7 +75,7 @@
                 <description>Bank Account Number...</description>
             </attribute>
 
-            <attribute name="finDocumentBankAccountDesc" forceUppercase="false">
+            <attribute name="finDocumentBankAccountDesc" forceUppercase="true">
                 <label>Bank Account Description</label>
                 <shortLabel>Bank Acct Desc</shortLabel>
 

@@ -56,7 +56,7 @@
                 <description>Federal Funded Code</description>
             </attribute>
 
-            <attribute name="name" forceUppercase="false">
+            <attribute name="name" forceUppercase="true">
                 <label>Federal Funded Name</label>
                 <shortLabel>Name</shortLabel>
 

@@ -57,7 +57,7 @@
                 <description>Account Code</description>
             </attribute>
 
-            <attribute name="accountTypeName" forceUppercase="false">
+            <attribute name="accountTypeName" forceUppercase="true">
                 <label>Account Type Name</label>
                 <shortLabel>Name</shortLabel>
 

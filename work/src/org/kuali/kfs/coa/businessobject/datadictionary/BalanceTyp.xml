@@ -65,7 +65,7 @@
                 <description>The type of balance this offsetting definition is relevant for.</description>
             </attribute>
 
-            <attribute name="name" forceUppercase="false">
+            <attribute name="name" forceUppercase="true">
                 <label>Balance Type Name</label>
                 <shortLabel>Name</shortLabel>
 
@@ -80,7 +80,7 @@
                 <description>Balance Type Name...</description>
             </attribute>
 
-            <attribute name="financialBalanceTypeShortNm" forceUppercase="false">
+            <attribute name="financialBalanceTypeShortNm" forceUppercase="true">
                 <label>Short Name</label>
                 <shortLabel>Short Name</shortLabel>
 

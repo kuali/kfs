@@ -1,6 +1,7 @@
 <%@ include file="/jsp/core/tldHeader.jsp" %>
-<kul:documentPage showDocumentInfo="true" documentTypeName="KualiGeneralLedgerErrorCorrectionDocument" htmlFormAction="generalLedgerCorrection" renderMultipart="true" > 
-
+<kul:page showDocumentInfo="true" docTitle="General Ledger Correction Process"
+	htmlFormAction="generalLedgerCorrection"transactionalDocument="false"
+	renderMultipart="true" showTabButtons="true" defaultMethodToCall="save">
 
     <kul:hiddenDocumentFields isFinancialDocument="false" />
     <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
@@ -809,7 +810,7 @@
     <kul:routeLog/>
     <kul:panelFooter/>
     <kul:documentControls transactionalDocument="false" />
- </kul:documentPage>
+ </kul:page>
  
  
 

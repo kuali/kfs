@@ -29,6 +29,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.Country;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -43,7 +44,6 @@ public class PriorYearOrganization extends BusinessObjectBase {
     private String organizationPhysicalCampusCode;
     private String organizationTypeCode;
     private String organizationDefaultAccountNumber;
-    private String organizationStreetAddress;
     private String organizationCityName;
     private String organizationStateCode;
     private String organizationZipCode;
@@ -57,7 +57,10 @@ public class PriorYearOrganization extends BusinessObjectBase {
     private String campusPlantAccountNumber;
     private String organizationPlantChartCode;
     private String campusPlantChartCode;
-
+    private String organizationCountryCode;
+    private String organizationLine1Address;
+    private String organizationLine2Address;
+    
     private Chart chartOfAccounts;
     private Account organizationDefaultAccount;
     private Org organization;
@@ -68,7 +71,8 @@ public class PriorYearOrganization extends BusinessObjectBase {
     private Account campusPlantAccount;
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
-
+    private Country organizationCountry;
+    
     /**
      * Default constructor.
      */
@@ -242,28 +246,6 @@ public class PriorYearOrganization extends BusinessObjectBase {
     public void setOrganizationDefaultAccountNumber(String organizationDefaultAccountNumber) {
         this.organizationDefaultAccountNumber = organizationDefaultAccountNumber;
     }
-
-
-    /**
-     * Gets the organizationStreetAddress attribute.
-     * 
-     * @return - Returns the organizationStreetAddress
-     * 
-     */
-    public String getOrganizationStreetAddress() {
-        return organizationStreetAddress;
-    }
-
-    /**
-     * Sets the organizationStreetAddress attribute.
-     * 
-     * @param organizationStreetAddress The organizationStreetAddress to set.
-     * 
-     */
-    public void setOrganizationStreetAddress(String organizationStreetAddress) {
-        this.organizationStreetAddress = organizationStreetAddress;
-    }
-
 
     /**
      * Gets the organizationCityName attribute.
@@ -539,7 +521,54 @@ public class PriorYearOrganization extends BusinessObjectBase {
         this.campusPlantChartCode = campusPlantChartCode;
     }
 
+    /**
+     * Gets the organizationCountryCode attribute. 
+     * @return Returns the organizationCountryCode.
+     */
+    public String getOrganizationCountryCode() {
+        return organizationCountryCode;
+    }
 
+    /**
+     * Sets the organizationCountryCode attribute value.
+     * @param organizationCountryCode The organizationCountryCode to set.
+     */
+    public void setOrganizationCountryCode(String organizationCountryCode) {
+        this.organizationCountryCode = organizationCountryCode;
+    }
+
+    /**
+     * Gets the organizationLine1Address attribute. 
+     * @return Returns the organizationLine1Address.
+     */
+    public String getOrganizationLine1Address() {
+        return organizationLine1Address;
+    }
+
+    /**
+     * Sets the organizationLine1Address attribute value.
+     * @param organizationLine1Address The organizationLine1Address to set.
+     */
+    public void setOrganizationLine1Address(String organizationLine1Address) {
+        this.organizationLine1Address = organizationLine1Address;
+    }
+
+    /**
+     * Gets the organizationLine2Address attribute. 
+     * @return Returns the organizationLine2Address.
+     */
+    public String getOrganizationLine2Address() {
+        return organizationLine2Address;
+    }
+
+    /**
+     * Sets the organizationLine2Address attribute value.
+     * @param organizationLine2Address The organizationLine2Address to set.
+     */
+    public void setOrganizationLine2Address(String organizationLine2Address) {
+        this.organizationLine2Address = organizationLine2Address;
+    }
+    
     /**
      * Gets the chartOfAccounts attribute.
      * 
@@ -740,6 +769,23 @@ public class PriorYearOrganization extends BusinessObjectBase {
         this.campusPlantChart = campusPlantChart;
     }
 
+    /**
+     * Gets the organizationCountry attribute. 
+     * @return Returns the organizationCountry.
+     */
+    public Country getOrganizationCountry() {
+        return organizationCountry;
+    }
+
+    /**
+     * Sets the organizationCountry attribute value.
+     * @param organizationCountry The organizationCountry to set.
+     * @deprecated
+     */
+    public void setOrganizationCountry(Country organizationCountry) {
+        this.organizationCountry = organizationCountry;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

@@ -60,7 +60,7 @@
                     <maintainableField name="organizationTypeCode" required="true" />
                     <maintainableField name="organizationDefaultAccountNumber" required="true" />
                     <maintainableField name="organizationZipCode" required="true" />
-                    <maintainableField name="organizationStreetAddress" required="true" />
+                    <maintainableField name="organizationLine1Address" required="true" />
                     <maintainableField name="organizationCityName" required="true" />
                     <maintainableField name="organizationStateCode" required="true" />
                     <maintainableField name="organizationBeginDate" required="true">

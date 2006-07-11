@@ -21,7 +21,7 @@
                 <field attributeName="organizationTypeCode" />
                 <field attributeName="organizationDefaultAccountNumber" />
                 <field attributeName="organizationZipCode" />
-                <field attributeName="organizationStreetAddress" />
+                <field attributeName="organizationLine1Address" />
                 <field attributeName="organizationCityName" />
                 <field attributeName="organizationStateCode" />
                 <field attributeName="organizationBeginDate" />
@@ -347,8 +347,8 @@
                 </description>
             </attribute>
             
-            <attribute name="organizationStreetAddress" forceUppercase="false">
-                <label>Organization Street</label>
+            <attribute name="organizationLine1Address" forceUppercase="false">
+                <label>Organization Address Line 1</label>
                 <shortLabel>Street</shortLabel>
 
                 <maxLength>30</maxLength>

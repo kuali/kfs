@@ -39,6 +39,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.Country;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
@@ -63,7 +64,6 @@ public class Org extends BusinessObjectBase {
 
     private String organizationCode;
     private String organizationName;
-    private String organizationStreetAddress;
     private String organizationCityName;
     private String organizationStateCode;
     private String organizationZipCode;
@@ -81,7 +81,10 @@ public class Org extends BusinessObjectBase {
     private String campusPlantAccountNumber;
     private String organizationPlantChartCode;
     private String campusPlantChartCode;
-
+    private String organizationCountryCode;
+    private String organizationLine1Address;
+    private String organizationLine2Address;
+    
     private Chart chartOfAccounts;
     private Org hrisOrganization;
     private Account organizationDefaultAccount;
@@ -96,7 +99,8 @@ public class Org extends BusinessObjectBase {
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
     private PostalZipCode postalZip;
-
+    private Country organizationCountry;
+    
     //  HRMS Org fields
     private OrganizationExtension organizationExtension;
     private String editHrmsUnitSectionBlank;
@@ -148,26 +152,6 @@ public class Org extends BusinessObjectBase {
      */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
-    }
-
-    /**
-     * Gets the organizationStreetAddress attribute.
-     * 
-     * @return - Returns the organizationStreetAddress
-     * 
-     */
-    public String getOrganizationStreetAddress() {
-        return organizationStreetAddress;
-    }
-
-    /**
-     * Sets the organizationStreetAddress attribute.
-     * 
-     * @param organizationStreetAddress The organizationStreetAddress to set.
-     * 
-     */
-    public void setOrganizationStreetAddress(String organizationStreetAddress) {
-        this.organizationStreetAddress = organizationStreetAddress;
     }
 
     /**
@@ -551,6 +535,23 @@ public class Org extends BusinessObjectBase {
     }
 
     /**
+     * Gets the organizationCountry attribute. 
+     * @return Returns the organizationCountry.
+     */
+    public Country getOrganizationCountry() {
+        return organizationCountry;
+    }
+
+    /**
+     * Sets the organizationCountry attribute value.
+     * @param organizationCountry The organizationCountry to set.
+     * @deprecated
+     */
+    public void setOrganizationCountry(Country organizationCountry) {
+        this.organizationCountry = organizationCountry;
+    }
+    
+    /**
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode.
@@ -745,6 +746,54 @@ public class Org extends BusinessObjectBase {
     }
 
     /**
+     * Gets the organizationCountryCode attribute. 
+     * @return Returns the organizationCountryCode.
+     */
+    public String getOrganizationCountryCode() {
+        return organizationCountryCode;
+    }
+
+    /**
+     * Sets the organizationCountryCode attribute value.
+     * @param organizationCountryCode The organizationCountryCode to set.
+     */
+    public void setOrganizationCountryCode(String organizationCountryCode) {
+        this.organizationCountryCode = organizationCountryCode;
+    }
+
+    /**
+     * Gets the organizationLine1Address attribute. 
+     * @return Returns the organizationLine1Address.
+     */
+    public String getOrganizationLine1Address() {
+        return organizationLine1Address;
+    }
+
+    /**
+     * Sets the organizationLine1Address attribute value.
+     * @param organizationLine1Address The organizationLine1Address to set.
+     */
+    public void setOrganizationLine1Address(String organizationLine1Address) {
+        this.organizationLine1Address = organizationLine1Address;
+    }
+
+    /**
+     * Gets the organizationLine2Address attribute. 
+     * @return Returns the organizationLine2Address.
+     */
+    public String getOrganizationLine2Address() {
+        return organizationLine2Address;
+    }
+
+    /**
+     * Sets the organizationLine2Address attribute value.
+     * @param organizationLine2Address The organizationLine2Address to set.
+     */
+    public void setOrganizationLine2Address(String organizationLine2Address) {
+        this.organizationLine2Address = organizationLine2Address;
+    }
+    
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -913,5 +962,5 @@ public class Org extends BusinessObjectBase {
        return hashString.hashCode();
    }
 
-    
+  
 }

@@ -76,22 +76,9 @@
 
             </attributeReference>
 
-            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.document.DocumentType" sourceAttributeName="financialDocumentTypeCode">
-                <label>Document Type Code</label>
-                <shortLabel>DocType</shortLabel>
-
-                <required>true</required>
-
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.DocumentTypeValueFinder" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>The code for the business function of all documents of this type.</description>
-
-            </attributeReference>
+            <attributeReference name="financialDocumentTypeCode" 
+            					sourceClassName="org.kuali.core.document.DocumentType" 
+            					sourceAttributeName="financialDocumentTypeCode" />
 
             <attributeReference name="accountDelegateSystemId" sourceClassName="org.kuali.core.bo.user.KualiUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Account Delegate Universal ID</label>

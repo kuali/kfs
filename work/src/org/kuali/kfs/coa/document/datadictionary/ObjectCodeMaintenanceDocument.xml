@@ -35,6 +35,10 @@
             <field attributeName="financialObjectCode" />
         </lockingKeys>
 
+        <defaultExistenceChecks>
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+        </defaultExistenceChecks>
+
         <maintainableSections>
             <maintainableSection title="Edit Object Code">
                 <maintainableItems>

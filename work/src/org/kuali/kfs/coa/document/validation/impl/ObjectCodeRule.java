@@ -163,12 +163,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
             result = false;
         }
 
-        // RULE: fiscal year must be valid
-        if (!this.isValidYear(year)) {
-            this.putFieldError("financialObjectLevelCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Object Level Code");
-            result = false;
-        }
-
         objectCode.refresh();
 
         // Chart code (fin_coa_cd) must be valid - handled by dd

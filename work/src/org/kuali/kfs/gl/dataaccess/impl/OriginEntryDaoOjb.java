@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.25 2006-06-25 03:53:22 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.26 2006-07-11 17:16:32 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -152,9 +152,20 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
             qbc.addOrderByAscending("financialDocumentReversalDate");
             qbc.addOrderByAscending("universityFiscalPeriodCode");
             qbc.addOrderByAscending("universityFiscalYear");
-            // The above order by fields are required by the scrubber process. Adding this
-            // field makes the data in the exact same order as the COBOL scrubber.
+            // The above order by fields are required by the scrubber process. Adding these
+            // fields makes the data in the exact same order as the COBOL scrubber.
             qbc.addOrderByAscending("financialObjectCode");
+            qbc.addOrderByAscending("financialSubObjectCode");
+            qbc.addOrderByAscending("financialBalanceTypeCode");
+            qbc.addOrderByAscending("financialObjectTypeCode");
+            qbc.addOrderByAscending("universityFiscalPeriodCode");
+            qbc.addOrderByAscending("financialDocumentTypeCode");
+            qbc.addOrderByAscending("financialSystemOriginationCode");
+            qbc.addOrderByAscending("financialDocumentNumber");
+            qbc.addOrderByAscending("transactionLedgerEntrySequenceNumber");
+            qbc.addOrderByAscending("transactionLedgerEntryDescription");
+            qbc.addOrderByAscending("transactionLedgerEntryAmount");
+            qbc.addOrderByAscending("transactionDebitCreditCode");
         } else {
             qbc.addOrderByAscending("chartOfAccountsCode");
             qbc.addOrderByAscending("accountNumber");

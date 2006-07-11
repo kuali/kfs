@@ -108,11 +108,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         List<Message> errors = new ArrayList<Message>();
 
-        if ( LOG.isDebugEnabled() ) {
-            count++;
-            if (count % 100 == 0) {
-                System.out.println(count + " " + originEntry.getLine());
-            }
+        count++;
+        if (count % 100 == 0) {
+            System.out.println(count + " " + originEntry.getLine());
         }
 
         // The cobol checks fdoc_nbr, trn_ldgr_entr_desc, org_doc_nbr, org_reference_id, and fdoc_ref_nbr for characters less than
@@ -184,11 +182,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             errors.add(err);
         }
 
-        err = validateSubObjectCode(originEntry, scrubbedEntry);
-        if (err != null) {
-            errors.add(err);
-        }
-
         err = validateProjectCode(originEntry, scrubbedEntry);
         if (err != null) {
             errors.add(err);
@@ -222,6 +215,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
+        err = validateSubObjectCode(originEntry, scrubbedEntry);
+        if (err != null) {
+            errors.add(err);
+        }
+
         err = validateReferenceDocumentFields(originEntry, scrubbedEntry);
         if (err != null) {
             errors.add(err);
@@ -245,13 +243,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return errors;
     }
 
-    private void setAccount(OriginEntry workingEntry, String chartOfAccountsCode, String accountNumber) {
-        workingEntry.setChartOfAccountsCode(chartOfAccountsCode);
-        workingEntry.setAccountNumber(accountNumber);
-        persistenceService.retrieveReferenceObject(workingEntry, "chart");
-        persistenceService.retrieveReferenceObject(workingEntry, "account");
-    }
-
     /**
      * 
      * @param originEntry
@@ -260,22 +251,22 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
-        setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
-
         if (originEntry.getAccount() == null) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
 
-        if ("ACLO".equals(originEntry.getFinancialDocumentTypeCode())) {
-            setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
+        if ( "ACLO".equals(originEntry.getFinancialDocumentTypeCode()) ) {
+            workingEntry.setAccountNumber(originEntry.getAccountNumber());
+            workingEntry.setAccount(originEntry.getAccount());
             return null;
         }
 
         Account account = originEntry.getAccount();
 
-        if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
+        if ((account.getAccountExpirationDate() == null) && ! account.isAccountClosedIndicator()) {
             // account is neither closed nor expired
-            setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
+            workingEntry.setAccountNumber(originEntry.getAccountNumber());
+            workingEntry.setAccount(originEntry.getAccount());
             return null;
         }
 
@@ -284,13 +275,16 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + account.getChartOfAccountsCode() + "-" + account.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
 
-        if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(originEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(originEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
-            setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
+        if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(originEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(originEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && ! account.isAccountClosedIndicator()) {
+            workingEntry.setAccountNumber(originEntry.getAccountNumber());
+            workingEntry.setAccount(originEntry.getAccount());
             return null;
         }
 
         Calendar today = Calendar.getInstance();
         today.setTime(universityRunDate.getUniversityDate());
+
+        adjustAccountIfContractsAndGrants(account);
 
         if (isExpired(account, today) || account.isAccountClosedIndicator()) {
             Message error = continuationAccountLogic(originEntry, workingEntry, today);
@@ -299,7 +293,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
-        setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
+        workingEntry.setAccountNumber(originEntry.getAccountNumber());
+        workingEntry.setAccount(originEntry.getAccount());
         return null;
     }
 
@@ -347,10 +342,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     checkedAccountNumbers.add(chartCode + accountNumber);
 
                     // Add 3 months to the expiration date if it's a contract and grant account.
-                    Message msg = adjustAccountIfContractsAndGrants(account);
-                    if (msg != null) {
-                        return msg;
-                    }
+                    adjustAccountIfContractsAndGrants(account);
 
                     // Check that the account has not expired.
 
@@ -375,62 +367,18 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), Message.TYPE_FATAL);
     }
 
-    private Message adjustAccountIfContractsAndGrants(Account account) {
-        if (account.isInCg() && account.isAccountClosedIndicator()) {
+    private void adjustAccountIfContractsAndGrants(Account account) {
+        if (account.isInCg() && ( ! account.isAccountClosedIndicator())) {
             Calendar tempCal = Calendar.getInstance();
             tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
             tempCal.add(Calendar.MONTH, 3); // TODO: make this configurable
             account.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
         }
-        return null;
+        return;
     }
 
     private Message validateReversalDate(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateReversalDate() started");
-
-        // 3234 021620 IF FDOC-REVERSAL-DT OF GLEN-RECORD = SPACES
-        // 3235 021630 MOVE SPACES
-        // 3236 021640 TO FDOC-REVERSAL-DT OF ALT-GLEN-RECORD
-        // 3237 021650 ELSE
-        // 3238 021660 MOVE DCLSH-UNIV-DATE-T TO WS-UNIV-DATE-T
-        // 3239 021670 MOVE FDOC-REVERSAL-DT OF GLEN-RECORD TO SCREEN-DATE
-        // 3240 021680 MOVE 'S' TO DATE-TYPE
-        // 3241 021690 CALL 'gledates' USING DATE-ROUTINE-PARMS
-        // 3242 021700 IF DATE-IS-OK
-        // 3243 021710 MOVE DATE-CCYY-MM-DD
-        // 3244 021720 TO FDOC-REVERSAL-DT OF ALT-GLEN-RECORD
-        // 3245 021730 SHUDAT-UNIV-DT
-        // 3246 021740 EXEC SQL
-        // 3247 021750 SELECT UNIV_FISCAL_YR,
-        // 3248 021760 UNIV_FISCAL_PRD_CD
-        // 3249 021770 INTO :SHUDAT-UNIV-FISCAL-YR,
-        // 3250 021780 :SHUDAT-UNIV-FISCAL-PRD-CD
-        // 3251 021790 FROM SH_UNIV_DATE_T
-        // 3252 021800 WHERE UNIV_DT = RTRIM(:SHUDAT-UNIV-DT)
-        // 3253 021810 END-EXEC
-        // 3254 021830 EVALUATE SQLCODE
-        // 3255 021840 WHEN 0
-        // 3256 021850 MOVE FDOC-REVERSAL-DT OF GLEN-RECORD
-        // 3257 021860 TO FDOC-REVERSAL-DT OF ALT-GLEN-RECORD
-        // 3258 021870 WHEN +100
-        // 3259 021880 WHEN +1403
-        // 3260 021890 MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
-        // 3261 021900 MOVE FDOC-REVERSAL-DT OF GLEN-RECORD TO RP-DATA-ERROR
-        // 3262 021910 FDOC-REVERSAL-DT OF ALT-GLEN-RECORD
-        // 3263 021920 MOVE 'REVERSAL DATE NOT IN UDAT' TO RP-MSG-ERROR
-        // 3264 021930 PERFORM WRITE-ERROR-LINE THRU WRITE-ERROR-LINE-EXIT
-        // 3265 021940 MOVE SPACES TO DCLSH-UNIV-DATE-T
-        // 3266 021950 WHEN OTHER
-        // 3267 021960 DISPLAY ' ERROR ACCESSING UDAT TABLE '
-        // 3268 021970 'SQL CODE IS ' SQLCODE
-        // 3269 021980 DISPLAY ' DATA IS ' SHUDAT-UNIV-DT ' AT REV DATE'
-        // 3270 021990 MOVE 'Y' TO WS-FATAL-ERROR-FLAG
-        // 3271 022000 MOVE 'Y' TO WS-FATAL-ERROR-FLAG
-        // 3272 022010 GO TO 2000-ENTRY-EXIT
-        // 3273 022020 END-EVALUATE
-        // 3274 022030 MOVE WS-UNIV-DATE-T TO DCLSH-UNIV-DATE-T
-        // 3275 022040 END-IF
-        // 3276 022050 END-IF.
 
         if (originEntry.getFinancialDocumentReversalDate() != null) {
             UniversityDate universityDate = universityDateDao.getByPrimaryKey(originEntry.getFinancialDocumentReversalDate());
@@ -457,7 +405,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             if (!Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
                 if (originEntry.getSubAccount() == null) {
                     // sub account is not valid
-                    return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND) + "(" + workingEntry.getChartOfAccountsCode() + "-" + workingEntry.getAccountNumber() + "-" + workingEntry.getSubAccountNumber() + ")", Message.TYPE_FATAL);
+                    return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber() + ")", Message.TYPE_FATAL);
                 }
                 else {
                     // sub account IS valid
@@ -475,7 +423,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         }
                         else {
                             // document is NOT annual closing
-                            return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE) + "(" + workingEntry.getChartOfAccountsCode() + "-" + workingEntry.getAccountNumber() + "-" + workingEntry.getSubAccountNumber() + ")", Message.TYPE_FATAL);
+                            return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" + originEntry.getSubAccountNumber() + ")", Message.TYPE_FATAL);
                         }
                     }
                 }
@@ -639,23 +587,18 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateObjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateObjectCode() started");
 
-        if (!StringUtils.hasText(originEntry.getFinancialObjectCode())) {
+        if ( ! StringUtils.hasText(originEntry.getFinancialObjectCode()) ) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_EMPTY), Message.TYPE_FATAL);
         }
 
-        if (originEntry.getFinancialObject() == null) {
+        // We're checking the object code based on the year & chart from the working entry.
+        workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
+        persistenceService.retrieveReferenceObject(workingEntry, "financialObject");
+
+        if (workingEntry.getFinancialObject() == null) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND) + " (" + originEntry.getUniversityFiscalYear() + "-" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode() + ")", Message.TYPE_FATAL);
         }
-        else {
-            // object code IS valid
-            if (!originEntry.getFinancialObject().isFinancialObjectActiveCode()) {
-                return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_ACTIVE) + " (" + originEntry.getUniversityFiscalYear() + "-" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode() + ")", Message.TYPE_FATAL);
-            }
-        }
 
-        // object code IS active
-        workingEntry.setFinancialObject(originEntry.getFinancialObject());
-        workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
         return null;
     }
 
@@ -668,7 +611,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateObjectType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateObjectType() started");
 
-        if (!StringUtils.hasText(originEntry.getFinancialObjectTypeCode())) {
+        if ( ! StringUtils.hasText(originEntry.getFinancialObjectTypeCode()) ) {
             // If not specified, use the object type from the object code
             workingEntry.setFinancialObjectTypeCode(workingEntry.getFinancialObject().getFinancialObjectTypeCode());
             workingEntry.setObjectType(workingEntry.getFinancialObject().getFinancialObjectType());

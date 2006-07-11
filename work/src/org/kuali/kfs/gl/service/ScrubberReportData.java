@@ -27,7 +27,6 @@ public class ScrubberReportData {
     }
 
     int numberOfUnscrubbedRecordsRead = 0;
-    int numberOfGroupsRead = 0;
     int numberOfScrubbedRecordsWritten = 0;
     int numberOfErrorRecordsWritten = 0;
     int numberOfOffsetEntriesGenerated = 0;
@@ -37,10 +36,6 @@ public class ScrubberReportData {
     int numberOfCostShareEntriesGenerated = 0;
     int numberOfCostShareEncumbrancesGenerated = 0;
     int numberOfExpiredAccountsFound = 0;
-
-    public void incrementGroupsRead() {
-        numberOfGroupsRead++;
-    }
 
     public void incrementErrorRecordWritten() {
         numberOfErrorRecordsWritten++;
@@ -80,10 +75,6 @@ public class ScrubberReportData {
 
     public void incrementUnscrubbedRecordsRead() {
         numberOfUnscrubbedRecordsRead++;
-    }
-
-    public int getNumberOfGroupsRead() {
-        return numberOfGroupsRead;
     }
 
     /**

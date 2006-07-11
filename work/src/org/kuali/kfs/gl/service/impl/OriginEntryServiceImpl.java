@@ -48,7 +48,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.22 2006-07-06 20:39:45 schoo Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.23 2006-07-11 17:16:31 jsissom Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -239,6 +239,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
         LedgerEntryHolder ledgerEntryHolder = new LedgerEntryHolder();
 
+        if ( groupIdList.size() == 0 ) {
+            return ledgerEntryHolder;
+        }
+
         Iterator entrySummaryIterator = originEntryDao.getSummaryByGroupId(groupIdList);
         while (entrySummaryIterator.hasNext()) {
             Object[] entrySummary = (Object[]) entrySummaryIterator.next();
@@ -287,11 +291,12 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
     //TODO
     public void flatFile(String filename, Integer groupId, BufferedOutputStream bw) {
-       
+        
+        
         LOG.debug("exportFlatFile() started");
 
         try {
-       
+
             OriginEntryGroup oeg = new OriginEntryGroup();
             oeg.setId(groupId);
             Iterator i = getEntriesByGroup(oeg);
@@ -303,13 +308,13 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         catch (IOException e) {
             LOG.error("exportFlatFile() Error writing to file", e);
         }
-    }
-    
+                }
+        
     public Collection getMatchingEntriesByCollection(Map searchCriteria){
         return originEntryDao.getMatchingEntriesByCollection(searchCriteria);
-         
+        
     }
-    
+        
     public OriginEntry getExactMatchingEntry(Integer entryId){
         return originEntryDao.getExactMatchingEntry(entryId);
     }

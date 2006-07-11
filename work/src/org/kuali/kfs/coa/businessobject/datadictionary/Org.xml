@@ -22,8 +22,10 @@
                 <field attributeName="organizationDefaultAccountNumber" />
                 <field attributeName="organizationZipCode" />
                 <field attributeName="organizationLine1Address" />
+                <field attributeName="organizationLine2Address" />             
                 <field attributeName="organizationCityName" />
                 <field attributeName="organizationStateCode" />
+                <field attributeName="organizationCountryCode" />               
                 <field attributeName="organizationBeginDate" />
                 <field attributeName="organizationEndDate" />
                 <field attributeName="reportsToChartOfAccountsCode" />
@@ -325,9 +327,31 @@
                 </description>
             </attribute>
 
-            <attribute name="organizationStateCode" forceUppercase="false">
+            <attribute name="organizationStateCode" forceUppercase="true">
                 <label>Organization State Code</label>
                 <shortLabel>St Cd</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alpha exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="organizationCountryCode" forceUppercase="true">
+                <label>Organization Country Code</label>
+                <shortLabel>Country Cd</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>
@@ -369,6 +393,27 @@
                 </description>
             </attribute>
 
+            <attribute name="organizationLine2Address" forceUppercase="false">
+                <label>Organization Address Line 2</label>
+                <shortLabel>Street</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="30" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
             <attribute name="organizationCityName" forceUppercase="false">
                 <label>Organization City Name</label>
                 <shortLabel>City</shortLabel>

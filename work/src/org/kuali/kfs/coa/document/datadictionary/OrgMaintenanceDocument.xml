@@ -41,6 +41,7 @@
             <reference attributeName="organizationType" attributeToHighlightOnFail="organizationTypeCode" />
             <reference attributeName="organizationDefaultAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="organizationDefaultAccountNumber" />
             <reference attributeName="postalZip" attributeToHighlightOnFail="organizationZipCode" />
+            <reference attributeName="organizationCountry" attributeToHighlightOnFail="organizationCountryCode" />
             <reference attributeName="reportsToOrganization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="reportsToOrganizationCode" />
         </defaultExistenceChecks>
 
@@ -61,8 +62,10 @@
                     <maintainableField name="organizationDefaultAccountNumber" required="true" />
                     <maintainableField name="organizationZipCode" required="true" />
                     <maintainableField name="organizationLine1Address" required="true" />
+                    <maintainableField name="organizationLine2Address" required="false" />
                     <maintainableField name="organizationCityName" required="true" />
                     <maintainableField name="organizationStateCode" required="true" />
+                    <maintainableField name="organizationCountryCode" required="true" />
                     <maintainableField name="organizationBeginDate" required="true">
                         <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>

@@ -82,26 +82,26 @@ public class BalanceInquiryAction extends KualiAction {
 
         Collection displayList = new ArrayList();
         Collection resultTable = new ArrayList();
-
+        
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
-
+        
         try {
             displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
 
             CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
-
+            
             request.setAttribute("reqSearchResultsActualSize", totalSize);
             request.setAttribute("reqSearchResults", resultTable);
             if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
             }
             request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
-        }
+            }
         catch (NumberFormatException e) {
             GlobalVariables.getErrorMap().put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, KeyConstants.ERROR_CUSTOM, new String[] { "must be a number" });
         }
-        catch (Exception e){
+        catch (Exception e) {
             GlobalVariables.getErrorMap().put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Please report the server error." });
             e.printStackTrace();
             LOG.error("Application Errors", e);

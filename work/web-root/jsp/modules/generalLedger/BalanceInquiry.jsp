@@ -102,153 +102,103 @@
 				<a href="<c:out value='${amountViewSwitch}'/>"> <input type="button"
 					name="amountViewSwitch" value="<c:out value='${amountViewLabel}'/>" />
 				</a>
-			</c:if> <br />
+			</c:if>
+			
+			<br />
 			<br />
 
 			<c:if test="${reqSearchResultsActualSize>0}">
 				<c:out value="${reqSearchResultsActualSize}" /> items found.
-	          	</c:if> <display:table class="datatable-100" cellspacing="0"
-				cellpadding="0" name="${reqSearchResults[0]}" id="dummyRow"
-				export="false" pagesize="1" length="1" summary=""
+	        </c:if>
+	        
+	        <display:table class="datatable-100" cellspacing="0"
+				cellpadding="0" name="${reqSearchResults}" id="row"
+				export="true" pagesize="100" defaultsort="1" decorator="org.kuali.module.gl.web.BalanceInquiryTableDecorator"
 				requestURI="glBalanceInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
+				
+				<c:forEach items="${row.columns}" var="column" begin="1" varStatus="status">
+				
+					<c:choose>
+					
+						<c:when test="${status.index > 0}">
+					
+							<c:choose>
+		
+								<c:when test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
+		
+									<display:column class="numbercell" sortable="true" media="${(status.index < 12) ? 'all' : 'csv excel xml'}"
+										decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
+										title="${column.columnTitle}" comparator="${column.comparator}">
+										
+										<c:choose>
+		
+											<c:when test="${column.propertyURL != \"\"}">
+													<a href="<c:out value="${column.propertyURL}"/>"
+														target="blank"><c:out value="${column.propertyValue}" /></a>	
+											</c:when>
+											
+											<c:otherwise><c:out value="${column.propertyValue}" /></c:otherwise>
+											
+										</c:choose>
+										
+									</display:column>
+		
+								</c:when>
+		
+								<c:otherwise>
+		
+									<c:choose>
+		
+										<c:when test="${column.propertyURL != \"\"}">
+		
+											<display:column class="infocell" sortable="${column.sortable}"
+												decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
+												title="${column.columnTitle}" media="${(status.index < 12) ? 'all' : 'csv excel xml'}"
+												comparator="${column.comparator}">
+		
+												<a href="<c:out value="${column.propertyURL}"/>"
+													target="blank"><c:out value="${column.propertyValue}" /></a>
+		
+											</display:column>
+										
+										</c:when>
+										
+										<c:otherwise>
+											
+											<display:column class="infocell" sortable="${column.sortable}"
+												decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
+												title="${column.columnTitle}" media="${(status.index < 12) ? 'all' : 'csv excel xml'}"
+												comparator="${column.comparator}">
+												
+												<c:if test="${column.columnTitle == 'Project Code'}">
+													<div style="white-space: nowrap"><c:out
+														value="${column.propertyValue}" /></div>
+												</c:if>
+												
+												<c:if test="${column.columnTitle != 'Project Code'}">
+													<c:out value="${column.propertyValue}" />
+												</c:if>
+		
+											</display:column>
+		
+										</c:otherwise>
+		
+									</c:choose>
+		
+								</c:otherwise>
+		
+							</c:choose>
+					
+						</c:when>
+						
+						<c:otherwise></c:otherwise>
+					
+					</c:choose>
 
-				<display-el:setProperty name="paging.banner.one_item_found" value="" />
-
-				<display:column class="infocell">
-					<table width="100%" class="datatable-100" cellspacing="0"
-						cellpadding="0" id="row">
-						<c:forEach items="${reqSearchResults}" var="row"
-							varStatus="status">
-							<!-- c:if test="${status.count == 1}" -->
-							<tr>
-								<c:forEach items="${row.columns}" var="column" end="11">
-									<th class="infocell"><c:out value="${column.columnTitle}" /></th>
-								</c:forEach>
-							</tr>
-							<!-- /c:if -->
-
-							<tr>
-								<c:forEach items="${row.columns}" var="column" end="7">
-									<c:if
-										test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-										<td class="infocell"><a
-											href="<c:out value="${column.propertyURL}"/>" target="blank">
-										<c:out value="${column.propertyValue}" /> </a></td>
-									</c:if>
-									<c:if
-										test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
-										<td class="infocell"><c:out value="${column.propertyValue}" />
-										</td>
-									</c:if>
-								</c:forEach>
-								<c:forEach items="${row.columns}" var="column" begin="8"
-									end="11">
-									<c:if
-										test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-										<td class="numbercell"><a
-											href="<c:out value="${column.propertyURL}"/>" target="blank">
-										<c:out value="${column.propertyValue}" /> </a></td>
-									</c:if>
-									<c:if
-										test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
-										<td class="numbercell"><c:out value="${column.propertyValue}" />
-										</td>
-									</c:if>
-								</c:forEach>
-							</tr>
-
-							<tr>
-								<td colspan="12" class="infocell"><br>
-								<center>
-								<table class="datatable-80" cellspacing="0" cellpadding="0"
-									id="row">
-									<tr>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[12].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[12].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[12].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[15].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[15].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[15].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[18].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[18].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[18].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[21].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[21].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[21].propertyValue}" /> </a></td>
-									</tr>
-									<tr>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[13].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[13].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[13].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[16].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[16].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[16].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[19].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[19].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[19].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[22].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[22].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[22].propertyValue}" /> </a></td>
-									</tr>
-									<tr>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[14].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[14].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[14].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[17].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[17].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[17].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[20].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[20].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[20].propertyValue}" /> </a></td>
-										<th class="infocell" width="10%"><c:out
-											value="${row.columns[23].columnTitle}" /></th>
-										<td class="numbercell" width="15%"><a
-											href="<c:out value="${row.columns[23].propertyURL}"/>"
-											target="blank"> <c:out
-											value="${row.columns[23].propertyValue}" /> </a></td>
-									</tr>
-								</table>
-								</center>
-								<p>&nbsp;</p>
-								</td>
-							</tr>
-						</c:forEach>
-					</table>
-				</display:column>
-			</display:table></td>
+				</c:forEach>
+								
+			</display:table>
+			</td>
 			<td width="1%"><img src="images/pixel_clear.gif" alt="" height="20"
 				width="20"></td>
 		</tr>

@@ -61,7 +61,7 @@
             </attributeReference>
 
             <attribute name="finConsolidationObjectCode" forceUppercase="true">
-                <label>Consolidation Object Code</label>
+                <label>Consolidation Code</label>
                 <shortLabel>Cons Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -70,8 +70,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>Consolidation Object Code</summary>
-                <description>Consolidation Object Code...</description>
+                <summary>Consolidation Code</summary>
+                <description>Consolidation Code...</description>
             </attribute>
 
             <attribute name="finConsolidationObjectName" forceUppercase="true">

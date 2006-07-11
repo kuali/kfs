@@ -51,6 +51,7 @@ public class SubFundGroup extends BusinessObjectBase {
     private boolean subFundGroupWagesIndicator;
     private String fundGroupCode;
     private String fundGroupBudgetAdjustmentRestrictionLevelCode;
+    private String accountRestrictedStatusCode;
     
     private FundGroup fundGroup;
 
@@ -220,6 +221,22 @@ public class SubFundGroup extends BusinessObjectBase {
     }
 
     /**
+     * Gets the accountRestrictedStatusCode attribute. 
+     * @return Returns the accountRestrictedStatusCode.
+     */
+    public String getAccountRestrictedStatusCode() {
+        return accountRestrictedStatusCode;
+    }
+
+    /**
+     * Sets the accountRestrictedStatusCode attribute value.
+     * @param accountRestrictedStatusCode The accountRestrictedStatusCode to set.
+     */
+    public void setAccountRestrictedStatusCode(String accountRestrictedStatusCode) {
+        this.accountRestrictedStatusCode = accountRestrictedStatusCode;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -230,4 +247,5 @@ public class SubFundGroup extends BusinessObjectBase {
 
         return m;
     }
+
 }

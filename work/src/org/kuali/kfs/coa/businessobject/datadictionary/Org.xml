@@ -306,8 +306,8 @@
             </attributeReference>
 
             <attribute name="organizationZipCode" forceUppercase="false">
-                <label>Organization Zip Code</label>
-                <shortLabel>Zip</shortLabel>
+                <label>Organization Postal Code</label>
+                <shortLabel>Postal Code</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern>
@@ -328,7 +328,7 @@
             </attribute>
 
             <attribute name="organizationStateCode" forceUppercase="true">
-                <label>Organization State Code</label>
+                <label>Organization State/Province Code</label>
                 <shortLabel>St Cd</shortLabel>
 
                 <maxLength>2</maxLength>

@@ -43,7 +43,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     private String financialDocumentTypeCode;
     private KualiDecimal approvalFromThisAmount;
     private KualiDecimal approvalToThisAmount;
-    private String accountDelegatePrimaryRoutingCode;
+    private boolean accountDelegatePrimaryRoutingIndicator;
     private Date accountDelegateStartDate;
 
     private Chart chartOfAccounts;
@@ -203,23 +203,23 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
 
 
     /**
-     * Gets the accountDelegatePrimaryRoutingCode attribute.
+     * Gets the accountDelegatePrimaryRoutingIndicator attribute.
      * 
-     * @return - Returns the accountDelegatePrimaryRoutingCode
+     * @return - Returns the accountDelegatePrimaryRoutingIndicator
      * 
      */
-    public String getAccountDelegatePrimaryRoutingCode() {
-        return accountDelegatePrimaryRoutingCode;
+    public boolean getAccountDelegatePrimaryRoutingIndicator() {
+        return accountDelegatePrimaryRoutingIndicator;
     }
 
     /**
-     * Sets the accountDelegatePrimaryRoutingCode attribute.
+     * Sets the accountDelegatePrimaryRoutingIndicator attribute.
      * 
-     * @param accountDelegatePrimaryRoutingCode The accountDelegatePrimaryRoutingCode to set.
+     * @param accountDelegatePrimaryRoutingCode The accountDelegatePrimaryRoutingIndicator to set.
      * 
      */
-    public void setAccountDelegatePrimaryRoutingCode(String accountDelegatePrimaryRoutingCode) {
-        this.accountDelegatePrimaryRoutingCode = accountDelegatePrimaryRoutingCode;
+    public void setAccountDelegatePrimaryRoutingIndicator(boolean accountDelegatePrimaryRoutingCode) {
+        this.accountDelegatePrimaryRoutingIndicator = accountDelegatePrimaryRoutingCode;
     }
 
 

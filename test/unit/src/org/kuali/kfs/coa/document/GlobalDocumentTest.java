@@ -142,7 +142,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         List<DelegateChangeDocument> changes = new ArrayList();
 
         DelegateChangeDocument change = new DelegateChangeDocument();
-        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("20000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
@@ -191,7 +191,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         List<DelegateChangeDocument> changes = new ArrayList();
 
         DelegateChangeDocument change = new DelegateChangeDocument();
-        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("20000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
@@ -276,7 +276,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         List<DelegateChangeDocument> changes = new ArrayList();
 
         DelegateChangeDocument change = new DelegateChangeDocument();
-        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("019283749");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
@@ -363,7 +363,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         List<DelegateChangeDocument> changes = new ArrayList();
 
         DelegateChangeDocument change = new DelegateChangeDocument();
-        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("20000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
@@ -443,7 +443,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         changes = new ArrayList();
 
         change = new DelegateChangeDocument();
-        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("3000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));

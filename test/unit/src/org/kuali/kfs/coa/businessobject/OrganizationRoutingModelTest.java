@@ -22,8 +22,10 @@
  */
 package org.kuali.module.chart.bo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.dao.BusinessObjectDao;
@@ -58,10 +60,16 @@ public class OrganizationRoutingModelTest extends KualiTestBaseWithSpring {
     public boolean loadModel(String name) {
         
         Map fieldValues = new HashMap();
-        Collection foundModel=null;
+        Collection<OrganizationRoutingModel> foundModel;
         fieldValues.put("ORG_RTNG_MDL_NM",name);
         
         foundModel=boService.findMatching(model.getClass(),fieldValues);
+        
+        List<DelegateChangeDocument> delegateChanges = new ArrayList();
+        
+        for (OrganizationRoutingModel model : foundModel) {
+            delegateChanges.add(new DelegateChangeDocument(model));
+        }
         
         return foundModel!=null && foundModel.size()>0;
         

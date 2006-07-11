@@ -242,7 +242,6 @@
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]"
                                   name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][<c:out 
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]">
-                                    <option value="">Select Operator</option> 
                                     <c:forEach var="operator" items="${KualiForm.searchOperators}">
                                         <option value="<c:out value="${operator.key }" />"<c:if 
                                             test="${operator.key eq criterion.operator}">selected="true"</c:if>><c:out 
@@ -275,9 +274,9 @@
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][operator]">Operator</label> 
                             <select id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][operator]"
                                   name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][operator]">
-                                <option value="" selected="selected">Select Operator</option>
                                 <c:forEach var="operator" items="${ KualiForm.searchOperators}">
-                                    <option value="<c:out value="${operator.key}" />"><c:out value="${operator.value}" /></option> 
+                                <option value="<c:out value="${operator.key}" />" <c:if test="${operator.key =='eq'}">selected="true"</c:if>><c:out value="${operator.value}" />  </option> 
+
                                 </c:forEach>
                             </select>
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]">Value</label> 
@@ -703,7 +702,6 @@
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]"
                                   name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][<c:out 
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]">
-                                    <option value="">Select Operator</option> 
                                     <c:forEach var="operator" items="${KualiForm.searchOperators}">
                                         <option value="<c:out value="${operator.key }" />"<c:if 
                                             test="${operator.key eq criterion.operator}">selected="true"</c:if>><c:out 
@@ -736,9 +734,8 @@
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][operator]">Operator</label> 
                             <select id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][operator]"
                                   name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][operator]">
-                                <option value="" selected="selected">Select Operator</option>
                                 <c:forEach var="operator" items="${ KualiForm.searchOperators}">
-                                    <option value="<c:out value="${operator.key}" />"><c:out value="${operator.value}" /></option> 
+                                    <option value="<c:out value="${operator.key}" />" <c:if test="${operator.key =='eq'}">selected="true"</c:if>><c:out value="${operator.value}" />  </option> 
                                 </c:forEach>
                             </select>
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]">Value</label> 

@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,10 +66,25 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * Supplements a constructor for this voucher class
      */
     public VoucherForm() {
-        selectedAccountingPeriod = "";
-        setNewSourceLineCredit(new KualiDecimal(0));
-        setNewSourceLineDebit(new KualiDecimal(0));
+        populateDefaultSelectedAccountingPeriod();
+        setNewSourceLineCredit(KualiDecimal.ZERO);
+        setNewSourceLineDebit(KualiDecimal.ZERO);
         setVoucherLineHelpers(new ArrayList());
+    }
+
+    /**
+     * sets initial selected accounting period to current period
+     * 
+     */
+    private void populateDefaultSelectedAccountingPeriod() {
+        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(accountingPeriod.getUniversityFiscalPeriodCode());
+        sb.append(accountingPeriod.getUniversityFiscalYear());
+
+        setSelectedAccountingPeriod(sb.toString());
     }
 
     /**
@@ -95,7 +111,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * Helper method to make casting easier
      * 
-     * @return
+     * @return VoucherDocument
      */
     public VoucherDocument getVoucherDocument() {
         return (VoucherDocument) getDocument();
@@ -334,12 +350,9 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      */
     protected boolean processDebitAndCreditForNewSourceLine() {
         // using debits and credits supplied, populate the new source accounting line's amount and debit/credit code appropriately
-        if (!processDebitAndCreditForSourceLine(getNewSourceLine(), newSourceLineDebit, newSourceLineCredit, Constants.NEGATIVE_ONE)) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        boolean passed = processDebitAndCreditForSourceLine(getNewSourceLine(), newSourceLineDebit, newSourceLineCredit, Constants.NEGATIVE_ONE);
+
+        return passed;
     }
 
     /**
@@ -420,9 +433,10 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * @return boolean False if both the credit and debit fields have a value, true otherwise.
      */
     protected boolean validateCreditAndDebitAmounts(KualiDecimal debitAmount, KualiDecimal creditAmount, int index) {
-        KualiDecimal ZERO = new KualiDecimal(0);
+        boolean valid = false;
         if (null != creditAmount && null != debitAmount) {
-            if (ZERO.compareTo(creditAmount) != 0 && ZERO.compareTo(debitAmount) != 0) { // there's a value in both fields
+            if (KualiDecimal.ZERO.compareTo(creditAmount) != 0 && KualiDecimal.ZERO.compareTo(debitAmount) != 0) {
+                // there's a value in both fields
                 if (Constants.NEGATIVE_ONE == index) { // it's a new line
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(Constants.DEBIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(Constants.CREDIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
@@ -432,14 +446,14 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
-                return false;
             }
             else {
-                return true;
+                valid = true;
             }
         }
         else {
-            return true;
+            valid = true;
         }
+        return valid;
     }
 }

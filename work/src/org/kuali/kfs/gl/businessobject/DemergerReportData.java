@@ -27,7 +27,6 @@ public class DemergerReportData {
     }
 
     private int errorTransactionsRead = 0;
-    private int validTransactionsRead = 0;
     private int errorTransactionsSaved = 0;
     private int validTransactionsSaved = 0;
     private int offsetTransactionsBypassed = 0;
@@ -39,10 +38,6 @@ public class DemergerReportData {
 
     public void incrementErrorTransactionsRead() {
         errorTransactionsRead++;
-    }
-
-    public void incrementValidTransactionsRead() {
-        validTransactionsRead++;
     }
 
     public void incrementErrorTransactionsSaved() {
@@ -109,13 +104,7 @@ public class DemergerReportData {
         return transferTransactionsBypassed;
     }
 
-    public int getValidTransactionsRead() {
-        return validTransactionsRead;
-    }
-
     public int getValidTransactionsSaved() {
         return validTransactionsSaved;
     }
-
-
 }

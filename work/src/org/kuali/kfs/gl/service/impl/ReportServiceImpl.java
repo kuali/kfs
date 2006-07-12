@@ -353,7 +353,6 @@ public class ReportServiceImpl implements ReportService {
         List<Summary> reportSummary = new ArrayList<Summary>();
 
         reportSummary.add(new Summary(1, "SCRUBBER ERROR TRANSACTIONS READ", new Integer(demergerReport.getErrorTransactionsRead())));
-        reportSummary.add(new Summary(2, "SCRUBBER VALID TRANSACTIONS READ", new Integer(demergerReport.getValidTransactionsRead())));
         reportSummary.add(new Summary(3, "DEMERGER ERRORS SAVED", new Integer(demergerReport.getErrorTransactionsSaved())));
         reportSummary.add(new Summary(4, "DEMERGER VALID TRANSACTIONS SAVED", new Integer(demergerReport.getValidTransactionsSaved())));
         reportSummary.add(new Summary(5, "OFFSET TRANSACTIONS BYPASSED", new Integer(demergerReport.getOffsetTransactionsBypassed())));

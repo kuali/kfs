@@ -304,6 +304,8 @@ public class ScrubberProcess {
         Iterator<OriginEntry> errorDocuments = originEntryService.getDocumentsByGroup(errorGroup);
         while (errorDocuments.hasNext()) {
             OriginEntry document = errorDocuments.next();
+            demergerReport.incrementErrorTransactionsRead();
+            demergerReport.incrementErrorTransactionsSaved();
 
             // Get all the transactions for the document in the valid group
             Iterator<OriginEntry> transactions = originEntryService.getEntriesByDocument(validGroup, document.getFinancialDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
@@ -337,6 +339,7 @@ public class ScrubberProcess {
                     originEntryService.delete(transaction);
                 }
                 else {
+                    demergerReport.incrementErrorTransactionsSaved();
                     transaction.setGroup(errorGroup);
                     originEntryService.save(transaction);
                 }
@@ -347,6 +350,7 @@ public class ScrubberProcess {
         Iterator<OriginEntry> validTransactions = originEntryService.getDocumentsByGroup(validGroup);
         while (validTransactions.hasNext()) {
             OriginEntry transaction = validTransactions.next();
+            demergerReport.incrementValidTransactionsSaved();
 
             String transactionType = getTransactionType(transaction);
             if ("CS".equals(transactionType)) {

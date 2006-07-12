@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModelName">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Organization Routing Model Name Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="organizationRoutingModelName" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Organization Routing Model Name Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrganizationRoutingModelName">Create New</a>]]></menubar>
+
+            <instructions>Look up an Organization Routing Model Name</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="organizationRoutingModelName" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="organizationRoutingModelName" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="organizationRoutingModelName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="organizationRoutingModelName" forceUppercase="true">
+                <label>Organization Routing Model Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>organizationRoutingModelName</summary>
+                <description>organizationRoutingModelName description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

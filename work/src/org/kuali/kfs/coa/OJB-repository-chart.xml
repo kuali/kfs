@@ -1670,6 +1670,28 @@
     </reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationRoutingModelName" table="CA_ORG_RTNG_MDL_NM_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationRoutingModelName" column="ORG_RTNG_MDL_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+    <collection-descriptor name="organizationRoutingModel" element-class-ref="org.kuali.module.chart.bo.OrganizationRoutingModel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <orderby name="accountDelegateUniversalId" sort="ASC" />
+        <orderby name="financialDocumentTypeCode" sort="ASC" />
+        <inverse-foreignkey field-ref="chartOfAccountsCode" />
+        <inverse-foreignkey field-ref="organizationCode" />
+        <inverse-foreignkey field-ref="organizationRoutingModelName" />
+    </collection-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.chart.bo.PriorYearOrganization" table="CA_PRIOR_YR_ORG_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

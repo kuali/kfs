@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.SubFundGroupType">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Sub Fund Group Type Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="subFundGroupTypeActiveIndicator" />
+                <field attributeName="subFundGroupTypeCode" />
+                <field attributeName="subFundGroupTypeDescription" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Sub Fund Group Type Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubFundGroupType">Create New</a>]]></menubar>
+
+            <instructions>Look up a Sub Fund Group Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="subFundGroupTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="subFundGroupTypeActiveIndicator" required="false" />
+                <lookupField attributeName="subFundGroupTypeCode" required="false" />
+                <lookupField attributeName="subFundGroupTypeDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="subFundGroupTypeActiveIndicator" />
+                <field attributeName="subFundGroupTypeCode" />
+                <field attributeName="subFundGroupTypeDescription" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="subFundGroupTypeActiveIndicator" forceUppercase="true">
+                <label>Sub Fund Group Type Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>subFundGroupTypeActiveIndicator</summary>
+                <description>subFundGroupTypeActiveIndicator description...</description>
+			</attribute>
+
+            <attribute name="subFundGroupTypeCode" forceUppercase="true">
+                <label>Sub Fund Group Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>subFundGroupTypeCode</summary>
+                <description>subFundGroupTypeCode description...</description>
+			</attribute>
+
+            <attribute name="subFundGroupTypeDescription" forceUppercase="true">
+                <label>Sub Fund Group Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>subFundGroupTypeDescription</summary>
+                <description>subFundGroupTypeDescription description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

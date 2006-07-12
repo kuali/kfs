@@ -54,7 +54,8 @@ public class SubFundGroup extends BusinessObjectBase {
     private String accountRestrictedStatusCode;
     
     private FundGroup fundGroup;
-
+    private SubFundGroupType subFundGroupType;
+    
     /**
      * Gets the subFundGroupCode attribute.
      * 
@@ -237,6 +238,23 @@ public class SubFundGroup extends BusinessObjectBase {
     }
 
     /**
+     * Gets the subFundGroupType attribute. 
+     * @return Returns the subFundGroupType.
+     */
+    public SubFundGroupType getSubFundGroupType() {
+        return subFundGroupType;
+    }
+
+    /**
+     * Sets the subFundGroupType attribute value.
+     * @param subFundGroupType The subFundGroupType to set.
+     * @deprecated
+     */
+    public void setSubFundGroupType(SubFundGroupType subFundGroupType) {
+        this.subFundGroupType = subFundGroupType;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -246,6 +264,6 @@ public class SubFundGroup extends BusinessObjectBase {
 
 
         return m;
-    }
-
+    }    
+    
 }

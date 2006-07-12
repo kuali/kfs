@@ -227,6 +227,10 @@
     <reference-descriptor name="fundGroup" class-ref="org.kuali.module.chart.bo.FundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="fundGroupCode" />
     </reference-descriptor>
+    
+    <reference-descriptor name="subFundGroupType" class-ref="org.kuali.module.chart.bo.SubFundGroupType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="subFundGroupTypeCode" />
+    </reference-descriptor>    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.Campus" table="SH_CAMPUS_T">
@@ -1827,4 +1831,12 @@
         <orderby name="financialDocumentTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.SubFundGroupType" table="CA_SUB_FND_GRP_TYP_T">
+	<field-descriptor name="subFundGroupTypeCode" column="SUB_FUNDGRP_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="subFundGroupTypeDescription" column="SUB_FND_GRP_TYP_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subFundGroupTypeActiveIndicator" column="SUB_FND_GRP_TYP_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>

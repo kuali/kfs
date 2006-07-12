@@ -42,6 +42,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 
@@ -66,15 +67,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static final String RESTRICTED_CD_RESTRICTED = "R";
     private static final String RESTRICTED_CD_UNRESTRICTED = "U";
     private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-
-
     private static final String SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS = "MPRACT";
-
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private BalanceService balanceService;
-
+    private AccountService accountService;
+    
     private Account oldAccount;
     private Account newAccount;
 
@@ -88,6 +87,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // SpringServiceLocator, and configure the bean defs for spring.
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getBalanceService());
+        this.setAccountService(SpringServiceLocator.getAccountService());
     }
 
     /**
@@ -413,29 +413,42 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // fringe benefit account number is required
         if (StringUtils.isBlank(newAccount.getReportsToAccountNumber())) {
             putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
-            return false;
+            result &= false;
         }
 
         // fringe benefit chart of accounts code is required
         if (StringUtils.isBlank(newAccount.getReportsToChartOfAccountsCode())) {
             putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
-            return false;
+            result &= false;
         }
 
-        // if the reportsToAccount doesnt exist by the accountNumber and chartOfAccountsCode
-        DictionaryValidationService dvService = super.getDictionaryValidationService();
-        boolean referenceExists = dvService.validateReferenceExists(newAccount, "reportsToAccount");
-        if (!referenceExists) {
-            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, "Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + newAccount.getReportsToAccountNumber());
+        //  if either of the fringe benefit account fields are not present, then we're done
+        if (result == false) {
+            return result;
+        }
+        
+        //  attempt to load the fringe benefit account
+        Account fringeBenefitAccount = accountService.getByPrimaryId(newAccount.getReportsToChartOfAccountsCode(), newAccount.getReportsToAccountNumber());
+        
+        //  fringe benefit account must exist
+        if (fringeBenefitAccount == null) {
+            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, getFieldLabel(Account.class, "reportsToAccountNumber"));
             return false;
         }
-
-        // check active
-        boolean active = dvService.validateReferenceIsActive(newAccount, "reportsToAccount", "accountClosedIndicator", true);
-        if (!active) {
-            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
-            return false;
+        
+        //  fringe benefit account must be active
+        if (fringeBenefitAccount.isAccountClosedIndicator()) {
+            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_INACTIVE, getFieldLabel(Account.class, "reportsToAccountNumber"));
+            result &= false;
         }
+        
+        //  make sure the fringe benefit account specified is set to fringe benefits = Y
+        if (!fringeBenefitAccount.isAccountsFringesBnftIndicator()) {
+            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, 
+                    fringeBenefitAccount.getChartOfAccountsCode() + "-" + fringeBenefitAccount.getAccountNumber());
+            result &= false;
+        }
+        
         return result;
     }
 
@@ -945,6 +958,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
+    }
+
+    /**
+     * Sets the accountService attribute value.
+     * @param accountService The accountService to set.
+     */
+    public final void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
 }

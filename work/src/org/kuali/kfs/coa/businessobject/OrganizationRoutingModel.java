@@ -52,7 +52,15 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
      * Default constructor.
      */
     public OrganizationRoutingModel() {
+    }
 
+    public OrganizationRoutingModel(DelegateChangeDocument delegateChangeDocument) {
+        accountDelegateUniversalId=delegateChangeDocument.getAccountDelegateUniversalId();
+        accountDelegatePrimaryRoutingIndicator=delegateChangeDocument.getAccountDelegatePrimaryRoutingIndicator();
+        approvalFromThisAmount=delegateChangeDocument.getApprovalFromThisAmount();
+        approvalToThisAmount=delegateChangeDocument.getApprovalToThisAmount();
+        accountDelegateStartDate=delegateChangeDocument.getAccountDelegateStartDate();
+        financialDocumentTypeCode=delegateChangeDocument.getFinancialDocumentTypeCode();
     }
 
     /**

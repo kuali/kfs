@@ -99,4 +99,16 @@
             <value>dataSource</value>
         </property>
     </bean>
+    
+    <bean id="workflow-org.kuali.module.chart.bo.Chart-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.Chart</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.ObjectCodeCurrent-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.ObjectCodeCurrent</value>
+        </property>
+    </bean>
 </beans>

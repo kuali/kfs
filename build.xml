@@ -78,6 +78,13 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="context.docbase" value="" />
+		<condition property="application.url" value="${local.environment.url}${ant.project.name}-${build.environment}">
+			<equals arg1="${is.local.workflow.build}" arg2="true" />
+		</condition>
+		<condition property="application.url" value="${prod.environment.url}${ant.project.name}-${build.environment}">
+			<equals arg1="${build.environment}" arg2="ptd" />
+		</condition>
+		<property name="application.url" value="${test.environment.url}${ant.project.name}-${build.environment}" />
 		<condition property="cas.url" value="${local.environment.url}cas-${build.environment}">
 			<equals arg1="${is.local.cas.build}" arg2="true" />
 		</condition>
@@ -113,6 +120,7 @@
 			<filter token="attachments-root-directory" value="${attachments.root.directory}" />
 			<filter token="htdocs-directory" value="${htdocs.directory}" />
 			<filter token="staging-directory" value="${staging.directory}" />
+			<filter token="application-url" value="${application.url}" />
 			<filter token="cas-url" value="${cas.url}" />
 			<filter token="workflow-url" value="${workflow.url}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />

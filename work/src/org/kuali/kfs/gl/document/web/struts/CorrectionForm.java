@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,13 +37,9 @@ import java.util.TreeSet;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.service.OriginEntryGroupService;
 
 public class CorrectionForm extends KualiDocumentFormBase {
     static final private long serialVersionUID = 123456789L;
@@ -51,7 +48,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
      * This is a list of names of attributes of OriginEntry that can be both searched on and replaced via the GL Error Correction
      * Document. This static List is referenced by the JSP via the Struts form.
      */
-    static final public List fieldNames = new ArrayList();
+    static final public Map fieldNames = new TreeMap();
 
     private String chooseSystem;
     private String editMethod;
@@ -91,10 +88,94 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
         for (int i = 0; i < fields.length; i++) {
             if (!"serialVersionUID".equals(fields[i].getName()) && validMethods.contains(fields[i].getName()) && !"entryGroupId".equals(fields[i].getName()) && !"entryId".equals(fields[i].getName())) {
-                fieldNames.add(fields[i].getName());
+                //fieldNames.add(fields[i].getName());
+                                
+                if(fields[i].getName().equals("universityFiscalYear")){
+                    fieldNames.put(1, fields[i].getName());
+                }
+                if(fields[i].getName().equals("budgetYear")){
+                    fieldNames.put(2, fields[i].getName());
+                }
+                if(fields[i].getName().equals("chartOfAccountsCode")){
+                    fieldNames.put(3, fields[i].getName());
+                }
+                if(fields[i].getName().equals("accountNumber")){
+                    fieldNames.put(4, fields[i].getName());
+                }
+                if(fields[i].getName().equals("subAccountNumber")){
+                    fieldNames.put(5, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialObjectCode")){
+                    fieldNames.put(6, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialSubObjectCode")){
+                    fieldNames.put(7, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialBalanceTypeCode")){
+                    fieldNames.put(8, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialObjectTypeCode")){
+                    fieldNames.put(9, fields[i].getName());
+                }
+                if(fields[i].getName().equals("universityFiscalPeriodCode")){
+                    fieldNames.put(10, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialDocumentTypeCode")){
+                    fieldNames.put(11, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialSystemOriginationCode")){
+                    fieldNames.put(12, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialDocumentNumber")){
+                    fieldNames.put(13, fields[i].getName());
+                }
+                if(fields[i].getName().equals("transactionLedgerEntrySequenceNumber")){
+                    fieldNames.put(14, fields[i].getName());
+                }
+                if(fields[i].getName().equals("transactionLedgerEntryDescription")){
+                    fieldNames.put(15, fields[i].getName());
+                }
+                if(fields[i].getName().equals("transactionLedgerEntryAmount")){
+                    fieldNames.put(16, fields[i].getName());
+                }
+                if(fields[i].getName().equals("transactionDebitCreditCode")){
+                    fieldNames.put(17, fields[i].getName());
+                }
+                if(fields[i].getName().equals("transactionDate")){
+                    fieldNames.put(18, fields[i].getName());
+                }
+                if(fields[i].getName().equals("organizationDocumentNumber")){
+                    fieldNames.put(19, fields[i].getName());
+                }
+                if(fields[i].getName().equals("projectCode")){
+                    fieldNames.put(20, fields[i].getName());
+                }
+                
+                if(fields[i].getName().equals("organizationReferenceId")){
+                    fieldNames.put(21, fields[i].getName());
+                }
+                if(fields[i].getName().equals("referenceFinancialDocumentTypeCode")){
+                    fieldNames.put(22, fields[i].getName());
+                }
+                if(fields[i].getName().equals("referenceFinancialSystemOriginationCode")){
+                    fieldNames.put(23, fields[i].getName());
+                }
+                if(fields[i].getName().equals("referenceFinancialDocumentNumber")){
+                    fieldNames.put(24, fields[i].getName());
+                }
+                if(fields[i].getName().equals("financialDocumentReversalDate")){
+                    fieldNames.put(25, fields[i].getName());
+                }
+                if(fields[i].getName().equals("transactionEncumbranceUpdateCode")){
+                    fieldNames.put(26, fields[i].getName());
+                }
+                
             }
         }
 
+        //fieldNames.add("financialDocumentNumber");
+        
+        
         searchOperators.put("eq", "Equals");
         searchOperators.put("ne", "Not equal to");
         searchOperators.put("gt", "Greater than");
@@ -113,7 +194,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
      */
     private Collection allEntries;
     private OriginEntry eachEntryForManualEdit;
-    private Map allEntriesForManualEditHashMap;
+    
 
 
     /**
@@ -165,7 +246,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
      * 
      * @return
      */
-    public List getFieldNames() {
+    public Map getFieldNames() {
         return fieldNames;
     }
 
@@ -174,7 +255,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
      * 
      * @param bogusFieldNames
      */
-    public void setFieldNames(ArrayList bogusFieldNames) {
+    public void setFieldNames(Map bogusFieldNames) {
     }
 
     /**
@@ -205,14 +286,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setEditMethod(String editMethod) {
         this.editMethod = editMethod;
-    }
-
-    public Map getAllEntriesForManualEditHashMap() {
-        return allEntriesForManualEditHashMap;
-    }
-
-    public void setAllEntriesForManualEditHashMap(Map allEntriesForManualEditHashMap) {
-        this.allEntriesForManualEditHashMap = allEntriesForManualEditHashMap;
     }
 
     public OriginEntry getEachEntryForManualEdit() {
@@ -311,7 +384,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.oldDocId = oldDocId;
     }
 
-   
+    
 
 
 }

@@ -45,7 +45,7 @@
 
                 <maxLength>2</maxLength>
                 <validationPattern>
-                    <alpha exactLength="2" />
+                    <alphaNumeric exactLength="2" />
                 </validationPattern>
                 <required>true</required>
 

@@ -35,6 +35,7 @@
         <form-bean name="CashManagementStatusForm" type="org.kuali.module.financial.web.struts.form.CashManagementStatusForm" />
         <form-bean name="ProcurementCardForm" type="org.kuali.module.financial.web.struts.form.ProcurementCardForm" />
         <form-bean name="BudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.BudgetAdjustmentForm" />
+        <form-bean name="YearEndBudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.YearEndBudgetAdjustmentForm" />
 
         <!-- KRA Module Bean Definitions -->
         <form-bean name="BudgetForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />

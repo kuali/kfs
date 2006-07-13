@@ -108,47 +108,48 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * TODO clean the rest of the field defs up once chart is working this code up no arg constructor, which will initialize the fields and rows of the attribute
      */
     public KualiOrgReviewAttribute() {
-        org.kuali.core.web.uidraw.Field kualiChartField = FieldUtils.getPropertyField(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, false);
-        Field workflowChartField = new Field(kualiChartField.getFieldLabel(), WorkflowLookupableImpl.getHelpUrl(kualiChartField), Field.TEXT, true, ORG_REVIEW_FIN_COA_CD_KEY, kualiChartField.getPropertyValue(), kualiChartField.getFieldValidValues(), WorkflowLookupableImpl.CHART_LOOKUPABLE_IMPL_NAME, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-        Field workflowChartLookupField = new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.CHART_LOOKUPABLE_IMPL_NAME, null));
-
-        Field workflowOrgField = new Field("Org", "", Field.TEXT, true, ORG_REVIEW_ORG_CD_KEY, "", null, null, ORG_CD_KEY);
-        Field workflowFromAmountField = new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", null, null, FROM_AMOUNT_KEY);
-        Field workflowToAmountField = new Field("To Amount", "", Field.TEXT, true, TO_AMOUNT_KEY, "", null, null, TO_AMOUNT_KEY);
-        Field workflowOverrideCodeField = new Field("Override Code", "", Field.TEXT, true, OVERRIDE_CD_KEY, "", null, null, OVERRIDE_CD_KEY);
-        Field workflowTotalAmountField = new Field("Total Amount", "", Field.TEXT, true, TOTAL_AMOUNT_KEY, "", null, null, TOTAL_AMOUNT_KEY);
+        List fields = new ArrayList();
 
         ruleRows = new ArrayList();
-        List fields = new ArrayList();
-        fields.add(workflowChartField);
-        fields.add(workflowChartLookupField);
+        ruleRows.add(getChartRow());
+        ruleRows.add(getOrgRow());
+        ruleRows.add(getOverrideCodeRow());
+
+        fields = new ArrayList();
+        fields.add(new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", null, null, FROM_AMOUNT_KEY));
         ruleRows.add(new Row(fields));
         fields = new ArrayList();
-        fields.add(workflowOrgField);
-        ruleRows.add(new Row(fields));
-        fields = new ArrayList();
-        fields.add(workflowFromAmountField);
-        ruleRows.add(new Row(fields));
-        fields = new ArrayList();
-        fields.add(workflowToAmountField);
-        ruleRows.add(new Row(fields));
-        fields = new ArrayList();
-        fields.add(workflowOverrideCodeField);
+        fields.add(new Field("To Amount", "", Field.TEXT, true, TO_AMOUNT_KEY, "", null, null, TO_AMOUNT_KEY));
         ruleRows.add(new Row(fields));
 
         routingDataRows = new ArrayList();
+        routingDataRows.add(getChartRow());
+        routingDataRows.add(getOrgRow());
+        routingDataRows.add(getOverrideCodeRow());
+
         fields = new ArrayList();
-        fields.add(workflowChartField);
+        fields.add(new Field("Total Amount", "", Field.TEXT, true, TOTAL_AMOUNT_KEY, "", null, null, TOTAL_AMOUNT_KEY));
         routingDataRows.add(new Row(fields));
-        fields = new ArrayList();
-        fields.add(workflowOrgField);
-        routingDataRows.add(new Row(fields));
-        fields = new ArrayList();
-        fields.add(workflowTotalAmountField);
-        routingDataRows.add(new Row(fields));
-        fields = new ArrayList();
-        fields.add(workflowOverrideCodeField);
-        routingDataRows.add(new Row(fields));
+    }
+
+    private edu.iu.uis.eden.lookupable.Row getChartRow() {
+        org.kuali.core.web.uidraw.Field kualiChartField = FieldUtils.getPropertyField(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, false);
+        List chartFields = new ArrayList();
+        chartFields.add(new Field(kualiChartField.getFieldLabel(), WorkflowLookupableImpl.getHelpUrl(kualiChartField), Field.TEXT, true, ORG_REVIEW_FIN_COA_CD_KEY, kualiChartField.getPropertyValue(), kualiChartField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Chart.class), Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME));
+        chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Chart.class), null)));
+        return new Row(chartFields);
+    }
+
+    private edu.iu.uis.eden.lookupable.Row getOrgRow() {
+        List orgFields = new ArrayList();
+        orgFields.add(new Field("Org", "", Field.TEXT, true, ORG_REVIEW_ORG_CD_KEY, "", null, null, ORG_CD_KEY));
+        return new Row(orgFields);
+    }
+
+    private edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
+        List orgFields = new ArrayList();
+        orgFields.add(new Field("Override Code", "", Field.TEXT, true, OVERRIDE_CD_KEY, "", null, null, OVERRIDE_CD_KEY));
+        return new Row(orgFields);
     }
 
     /**

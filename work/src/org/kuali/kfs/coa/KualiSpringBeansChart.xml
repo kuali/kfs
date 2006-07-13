@@ -111,4 +111,40 @@
             <value>org.kuali.module.chart.bo.ObjectCodeCurrent</value>
         </property>
     </bean>
+    
+    <bean id="workflow-org.kuali.module.chart.bo.ObjLevel-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.ObjLevel</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.ObjectType-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.ObjectType</value>
+        </property>
+    </bean>
+    
+    <bean id="workflow-org.kuali.module.chart.bo.ObjSubTyp-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.ObjSubTyp</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.SubFundGroup</value>
+        </property>
+    </bean>
+    
+    <bean id="workflow-org.kuali.module.chart.bo.SubFundGroupType-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.SubFundGroupType</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.FundGroup-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.FundGroup</value>
+        </property>
+    </bean>    
 </beans>

@@ -41,7 +41,7 @@
         <attributes>
             <attribute name="accountTypeCode" forceUppercase="true">
                 <label>Account Type Code</label>
-                <shortLabel>AcctType</shortLabel>
+                <shortLabel>Account Type</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>

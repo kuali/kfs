@@ -55,7 +55,7 @@ public interface ChartService {
      * 
      * @return
      */
-    public Map getReportsToHierarchy();
+    public Map<String,String> getReportsToHierarchy();
 
     /**
      * 

@@ -81,6 +81,12 @@ public class ObjectCode extends BusinessObjectBase {
         this.financialObjectType = new ObjectType();
     }
 
+    public ObjectCode(Integer fiscalYear, String chart, String financialObjectCode) {
+        this.universityFiscalYear=fiscalYear;
+        this.chartOfAccountsCode=chart;
+        this.financialObjectCode=financialObjectCode;
+    }
+
     /**
      * This method is only for use by the framework
      */

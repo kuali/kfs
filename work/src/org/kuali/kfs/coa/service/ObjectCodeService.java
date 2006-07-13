@@ -48,7 +48,7 @@ public interface ObjectCodeService {
      * 
      * @param chartOfAccountsCode - Chart of Accounts Code
      * @param financialObjectCode - Financial Object Code
-     * @return a list containing integer years, given object code. The list maybe empty, but will not be null.
+     * @return a list containing integer years, given object code. The list may be empty, but will not be null.
      */
 
 

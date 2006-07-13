@@ -69,10 +69,10 @@ public class ChartServiceImpl implements ChartService {
     /**
      * @see org.kuali.module.chart.service.getReportsToHierarchy()
      */
-    public Map getReportsToHierarchy() {
+    public Map<String,String> getReportsToHierarchy() {
 
         LOG.debug("getReportsToHierarchy");
-        Map reportsToHierarchy = new HashMap();
+        Map<String,String> reportsToHierarchy = new HashMap();
 
         Iterator iter = getAllChartCodes().iterator();
         while (iter.hasNext()) {

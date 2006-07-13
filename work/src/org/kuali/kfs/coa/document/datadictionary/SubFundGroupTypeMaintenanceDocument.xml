@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.SubFundGroupType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiSubFundGroupTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>SFGT</documentTypeCode>
+
+        <label>Sub Fund Group Type Maintenance Document</label>
+        <shortLabel>SubFundGroupTypeMaintDoc</shortLabel>
+
+        <summary>Sub Fund Group Type Maintenance Document</summary>
+        <description>Document used to create or update Sub Fund Group Type objects</description>
+
+        <lockingKeys>
+            <field attributeName="subFundGroupTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Sub Fund Group Type">
+                <maintainableItems>
+                    <maintainableField name="subFundGroupTypeCode" required="true" />
+                    <maintainableField name="subFundGroupTypeDescription" required="true" />
+ 					<maintainableField name="subFundGroupTypeActiveIndicator" /> 
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

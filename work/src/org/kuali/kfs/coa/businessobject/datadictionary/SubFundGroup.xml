@@ -99,7 +99,7 @@
                 <maxLength>1</maxLength>
                 <required>true</required>
                 <control>
-                    <text size="3" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SubFundGroupTypeValuesFinder" />
                 </control>
 
                 <summary>The associated Type Code</summary>

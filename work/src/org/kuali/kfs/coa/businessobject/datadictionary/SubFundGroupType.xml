@@ -10,9 +10,9 @@
             <title>Sub Fund Group Type Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="subFundGroupTypeActiveIndicator" />
                 <field attributeName="subFundGroupTypeCode" />
                 <field attributeName="subFundGroupTypeDescription" />
+                <field attributeName="subFundGroupTypeActiveIndicator" />
             </inquiryFields>
         </inquiry>
 
@@ -30,15 +30,16 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="subFundGroupTypeActiveIndicator" required="false" />
-                <lookupField attributeName="subFundGroupTypeCode" required="false" />
-                <lookupField attributeName="subFundGroupTypeDescription" required="false" />
+            <lookupField attributeName="subFundGroupTypeCode" required="false" />
+            <lookupField attributeName="subFundGroupTypeDescription" required="false" />
+            <lookupField attributeName="subFundGroupTypeActiveIndicator" required="false" />
+    
             </lookupFields>
 
             <resultFields>
-                <field attributeName="subFundGroupTypeActiveIndicator" />
                 <field attributeName="subFundGroupTypeCode" />
                 <field attributeName="subFundGroupTypeDescription" />
+                <field attributeName="subFundGroupTypeActiveIndicator" />
             </resultFields>
         </lookup>
 
@@ -78,7 +79,10 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
 
                 <control>
                     <text size="42" />
@@ -88,21 +92,7 @@
                 <description>subFundGroupTypeDescription description...</description>
 			</attribute>
 
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
-			</attribute>
-
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

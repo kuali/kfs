@@ -62,6 +62,8 @@ import org.kuali.module.gl.util.OriginEntryOffsetPair;
 import org.kuali.module.gl.util.Summary;
 
 /**
+ * This class owns the logic to perform year end tasks.
+ * 
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
  */
@@ -1255,10 +1257,6 @@ public class YearEndServiceImpl implements YearEndService {
         int fakeCounter = 0;
         while (balanceIterator.hasNext()) {
 
-            LOG.debug("PROCESSING ENTRY #" + ++fakeCounter);
-
-            // 942 004650 FETCH-PROCESS.
-
             Balance balance = balanceIterator.next();
 
             // The rule helper maintains the state of the overall processing of the entire
@@ -1301,9 +1299,7 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * Roll all open encumbrances from the closing fiscal year into the opening fiscal year.
-     * 
-     * @param closingFiscalYear the year to close out
+     * Create origin entries to carry forward all open encumbrances from the closing fiscal year into the opening fiscal year.
      */
     public void forwardEncumbrances() {
         LOG.debug("forwardEncumbrances() started");
@@ -1311,91 +1307,120 @@ public class YearEndServiceImpl implements YearEndService {
         Integer varFiscalYear = null;
         Date varTransactionDate = null;
 
+        String YEAR_END_SCRIPT_NAME = "fis_gl_year_end.sh";
+        String FIELD_FISCAL_YEAR = "UNIV_FISCAL_YR";
+        String FIELD_TRANSACTION_DATE = "TRANSACTION_DT";
+        String TRANSACTION_DATE_FORMAT = "yyyy-MM-dd";
+        
+        // Get the current fiscal year.
         try {
-            varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "UNIV_FISCAL_YR"));
+            
+            varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(YEAR_END_SCRIPT_NAME, FIELD_FISCAL_YEAR));
+            
         }
         catch (ApplicationParameterException e) {
+            
             LOG.error("Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
             throw new RuntimeException("Unable to get university fiscal year from kualiConfigurationService", e);
+            
         }
 
+        // Get the current date (transaction date).
         try {
-            DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
+            
+            DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT);
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(YEAR_END_SCRIPT_NAME, FIELD_TRANSACTION_DATE)).getTime());
+            
         }
         catch (ApplicationParameterException e) {
+            
             LOG.error("Unable to get TRANSACTION_DT from kualiConfigurationService");
             throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", e);
+            
         }
         catch (ParseException pe) {
+            
             LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
             throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
+            
         }
 
+        // counters for the report
         int encumbrancesRead = 0;
         int encumbrancesSelected = 0;
         int originEntriesWritten = 0;
 
-        // Date today = new Date(dateTimeService.getCurrentDate().getTime());
-
-        // TODO I think the flags on this is wrong
         OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, true, true);
-
-        // encumbranceDao will return Encumbrances sorted properly by all of the appropriate keys.
+        
+        // encumbranceDao will return all encumbrances for the fiscal year sorted properly by all of the appropriate keys.
         Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose(varFiscalYear);
         while (encumbranceIterator.hasNext()) {
+            
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
             encumbrancesRead++;
 
+            // if the encumbrance is not completely relieved 
             if (encumbranceClosingRuleHelper.anEntryShouldBeCreatedForThisEncumbrance(encumbrance)) {
 
                 encumbrancesSelected++;
 
+                // build a pair of origin entries to carry forward the encumbrance.
                 OriginEntryOffsetPair beginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(encumbrance, varFiscalYear, varTransactionDate);
 
                 if (beginningBalanceEntryPair.isFatalErrorFlag()) {
+                    
                     continue;
+                    
                 }
                 else {
+                    
                     beginningBalanceEntryPair.getEntry().setGroup(originEntryGroup);
                     beginningBalanceEntryPair.getOffset().setGroup(originEntryGroup);
 
+                    // save the entries.
+                    
                     originEntryService.createEntry(beginningBalanceEntryPair.getEntry(), originEntryGroup);
                     originEntryService.createEntry(beginningBalanceEntryPair.getOffset(), originEntryGroup);
                     originEntriesWritten += 2;
+                    
                 }
-
+                
+                // handle cost sharing if appropriate.
+                
                 boolean isEligibleForCostShare = false;
 
                 try {
+                    
                     isEligibleForCostShare = encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(beginningBalanceEntryPair.getEntry(), beginningBalanceEntryPair.getOffset(), encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
+                    
                 }
                 catch (FatalErrorException fee) {
+                    
                     LOG.info(fee.getMessage());
+                    
                 }
 
                 if (isEligibleForCostShare) {
+                    
+                    // build and save an additional pair of origin entries to carry forward the encumbrance.
+                    
                     OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, beginningBalanceEntryPair.getEntry().getTransactionDebitCreditCode());
 
-                    if (costShareBeginningBalanceEntryPair.isFatalErrorFlag()) {
-                        continue;
-                    }
-                    else {
+                    if (!costShareBeginningBalanceEntryPair.isFatalErrorFlag()) {
+                        
                         costShareBeginningBalanceEntryPair.getEntry().setGroup(originEntryGroup);
                         costShareBeginningBalanceEntryPair.getOffset().setGroup(originEntryGroup);
 
+                        // save the cost share entries.
+                        
                         originEntryService.createEntry(costShareBeginningBalanceEntryPair.getEntry(), originEntryGroup);
                         originEntryService.createEntry(costShareBeginningBalanceEntryPair.getOffset(), originEntryGroup);
                         originEntriesWritten += 2;
+                        
                     }
-                }
-                else {
-                    continue; // Explicit if redundant.
                 }
             }
         }
-
-        LOG.info("Entries written: " + originEntriesWritten);
 
         // Assemble statistics.
         List statistics = new ArrayList();
@@ -1421,12 +1446,17 @@ public class YearEndServiceImpl implements YearEndService {
         encumbranceClosingReport.generateStatisticsReport(statistics, runDate);
     }
 
+    /**
+     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#orgReversionsCarryForwards()
+     */
     public void orgReversionsCarryForwards() {
         LOG.debug("orgReversionsCarryForwards() started");
         // TODO Write this
     }
 
     /**
+     * Field accessor for EncumbranceDao. 
+     * 
      * @param encumbranceDao The encumbranceDao to set.
      */
     public void setEncumbranceDao(EncumbranceDao encumbranceDao) {
@@ -1434,6 +1464,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for OriginEntryService.
+     * 
      * @param originEntryService The originEntryService to set.
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {
@@ -1441,6 +1473,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for EncumbranceClosingReport.
+     * 
      * @param encumbranceClosingReport The encumbranceClosingReport to set.
      */
     public void setEncumbranceClosingReport(EncumbranceClosingReport encumbranceClosingReport) {
@@ -1448,6 +1482,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for BalanceForwardReport.
+     * 
      * @param balanceForwardReport The balanceForwardReport to set.
      */
     public void setBalanceForwardReport(BalanceForwardReport balanceForwardReport) {
@@ -1455,6 +1491,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for DateTimeService.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -1462,6 +1500,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for OriginEntryGroupService.
+     * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
@@ -1469,6 +1509,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for EncumbranceClosingRuleHelper.
+     * 
      * @param yearEndEncumbranceClosingRuleHelper
      */
     public void setEncumbranceClosingRuleHelper(EncumbranceClosingRuleHelper encumbranceClosingRuleHelper) {
@@ -1476,6 +1518,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for BalanceService.
+     * 
      * @param balanceService The balanceService to set.
      */
     public void setBalanceService(BalanceService balanceService) {
@@ -1483,6 +1527,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for BalanceTypService.
+     * 
      * @param balanceTypeService The balanceTypeService to set.
      */
     public void setBalanceTypeService(BalanceTypService balanceTypeService) {
@@ -1490,6 +1536,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for ObjectTypeService.
+     * 
      * @param objectTypeService The objectTypeService to set.
      */
     public void setObjectTypeService(ObjectTypeService objectTypeService) {
@@ -1497,6 +1545,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for KualiConfigurationService.
+     * 
      * @param kualiConfigurationService
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
@@ -1504,6 +1554,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for PriorYearAccountService.
+     * 
      * @param priorYearAccountService
      */
     public void setPriorYearAccountService(PriorYearAccountService priorYearAccountService) {
@@ -1511,6 +1563,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for SubFundGroupService.
+     * 
      * @param subFundGroupService
      */
     public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
@@ -1518,6 +1572,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
+     * Field accessor for NominalActivityClosingReport.
+     * 
      * @param nominalActivityClosingReport
      */
     public void setNominalActivityClosingReport(NominalActivityClosingReport nominalActivityClosingReport) {

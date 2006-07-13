@@ -37,18 +37,14 @@ public class EncumbranceForwardStep implements Step {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see org.kuali.core.batch.Step#getName()
      */
     public String getName() {
         return "General Ledger Encumbrance Forward Step";
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kuali.core.batch.Step#performStep()
      */
     public boolean performStep() {

@@ -82,7 +82,11 @@ public class ReportServiceImpl implements ReportService {
 
         // Convert our summary to a list of items for the report
         List summary = new ArrayList();
-        summary.add(new Summary(1, "Number of GL_ORIGIN_ENTRY_T records selected:", (Integer) reportSummary.get("GL_ORIGIN_ENTRY_T,S")));
+        if ( mode == PosterService.MODE_REVERSAL ) {
+            summary.add(new Summary(1, "Number of GL_REVERSAL_T records selected:", (Integer) reportSummary.get("GL_REVERSAL_T,S")));            
+        } else {
+            summary.add(new Summary(1, "Number of GL_ORIGIN_ENTRY_T records selected:", (Integer) reportSummary.get("GL_ORIGIN_ENTRY_T,S")));
+        }
         summary.add(new Summary(2, "", 0));
 
         int count = 10;

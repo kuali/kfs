@@ -65,7 +65,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.34 2006-06-27 15:27:17 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.35 2006-07-13 15:17:28 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -194,8 +194,10 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             LOG.debug("postEntries() Processing reversal transactions");
             while (reversalTransactions.hasNext()) {
                 Transaction tran = (Transaction) reversalTransactions.next();
+                addReporting(reportSummary, "GL_REVERSAL_T", "S");
 
                 postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
+
                 LOG.info("postEntries() Posted Entry "+ (++ecount));
             }
         }
@@ -213,9 +215,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         // Update select count in the report
         if (mode == PosterService.MODE_ENTRIES) {
             addReporting(reportSummary, "GL_ORIGIN_ENTRY_T", "S");
-        }
-        else if (mode == PosterService.MODE_REVERSAL) {
-            addReporting(reportSummary, "GL_REVERSAL_T", "S");
         }
         else {
             addReporting(reportSummary, "GL_ORIGIN_ENTRY_T (ICR)", "S");
@@ -318,6 +317,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                 // Delete the reversal entry
                 if (mode == PosterService.MODE_REVERSAL) {
                     reversalDao.delete((Reversal) originalTransaction);
+                    addReporting(reportSummary, "GL_REVERSAL_T", "D");
                 }
             }
         }

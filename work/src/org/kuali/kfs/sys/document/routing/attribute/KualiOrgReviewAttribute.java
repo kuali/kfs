@@ -25,7 +25,6 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.workflow.KualiConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
-import org.kuali.workflow.beans.KualiFiscalOrganization;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -293,8 +292,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
         boolean matchesOrg = false;
         for (Iterator iter = chartOrgValues.iterator(); iter.hasNext();) {
-            KualiFiscalOrganization attribute = (KualiFiscalOrganization) iter.next();
-            if (attribute.getFinCoaCd().equals(this.getFinCoaCd()) && attribute.getOrgCd().equals(this.getOrgCd())) {
+            Org org = (Org) iter.next();
+            if (org.getChartOfAccountsCode().equals(this.getFinCoaCd()) && org.getOrganizationCode().equals(this.getOrgCd())) {
                 matchesOrg = true;
                 break;
             }

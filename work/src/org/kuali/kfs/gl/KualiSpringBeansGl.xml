@@ -725,9 +725,6 @@
         <property name="objectCodeService">
             <ref bean="objectCodeService" />
         </property>
-
-        <!--  This isn't implemented right now -->
-        <!--  <property name="indirectCostRecoveryThresholdDao"><ref bean="indirectCostRecoveryThresholdDao" /></property> -->
     </bean>
 
     <bean id="glIcrEncumbranceService" class="org.kuali.module.gl.service.impl.IndirectCostRecoveryEncumbranceServiceImpl">

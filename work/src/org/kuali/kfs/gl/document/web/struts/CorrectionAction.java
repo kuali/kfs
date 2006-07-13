@@ -25,7 +25,6 @@ package org.kuali.module.gl.web.struts.action;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,6 +43,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -56,7 +56,6 @@ import org.kuali.core.service.LookupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.gl.bo.CorrectionChange;
@@ -78,7 +77,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.22 2006-07-10 14:47:02 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.23 2006-07-13 00:32:22 schoo Exp $
  * 
  */
 
@@ -183,13 +182,18 @@ public class CorrectionAction extends KualiDocumentActionBase {
         
         HttpSession session = request.getSession(true);
         //in case of file upload
+        //TODO Need to discuss with Sterling
         String[] groupId = {(String) session.getAttribute("newGroupId")};
-        if (session.getAttribute("newGroupId") == null) {
-            groupId = errorCorrectionForm.getGroupIdList();
+        if (errorCorrectionForm.getGroupIdList() != null | session.getAttribute("newGroupId") != null){
+        
+            if (session.getAttribute("newGroupId") == null) {
+                groupId = errorCorrectionForm.getGroupIdList();
             
-        }
+            }
+           
             showAllEntries(groupId, errorCorrectionForm, request);
-
+        }
+        
           /*  errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
             errorCorrectionForm.setManualEditFlag("N");*/
@@ -232,13 +236,17 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
         //in case of file upload
+        //TODO Need to discuss with Sterling
         String[] groupId = {(String) session.getAttribute("newGroupId")};
-        if (session.getAttribute("newGroupId") == null) {
-            groupId = errorCorrectionForm.getGroupIdList();
+        if (errorCorrectionForm.getGroupIdList() != null | session.getAttribute("newGroupId") != null){
+        
+            if (session.getAttribute("newGroupId") == null) {
+                groupId = errorCorrectionForm.getGroupIdList();
             
-        }
+            }
+           
             showAllEntries(groupId, errorCorrectionForm, request);
-
+        }
             /*errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
             errorCorrectionForm.setManualEditFlag("N");*/
@@ -281,7 +289,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
             }
 
             criterion.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
-
+            
+            // In case user input unintened blanks.
+            criterion.setCorrectionFieldValue(StringUtils.strip((criterion.getCorrectionFieldValue())));
             // add the new criterion to the appropriate group of search criteria owned by the document
             correctionGroup.addSearchCriterion(criterion);
         }
@@ -293,13 +303,17 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
         //in case of file upload
+        //TODO Need to discuss with Sterling
         String[] groupId = {(String) session.getAttribute("newGroupId")};
-        if (session.getAttribute("newGroupId") == null) {
-            groupId = errorCorrectionForm.getGroupIdList();
+        if (errorCorrectionForm.getGroupIdList() != null | session.getAttribute("newGroupId") != null){
+        
+            if (session.getAttribute("newGroupId") == null) {
+                groupId = errorCorrectionForm.getGroupIdList();
             
-        }
+            }
+           
             showAllEntries(groupId, errorCorrectionForm, request);
-
+        }
          /*   errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
             errorCorrectionForm.setManualEditFlag("N");*/
@@ -339,14 +353,17 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
         //in case of file upload
+        //TODO Need to discuss with Sterling
         String[] groupId = {(String) session.getAttribute("newGroupId")};
-        if (session.getAttribute("newGroupId") == null) {
-            groupId = errorCorrectionForm.getGroupIdList();
+        if (errorCorrectionForm.getGroupIdList() != null | session.getAttribute("newGroupId") != null){
+        
+            if (session.getAttribute("newGroupId") == null) {
+                groupId = errorCorrectionForm.getGroupIdList();
             
-        }
+            }
+           
             showAllEntries(groupId, errorCorrectionForm, request);
-
-            
+        }
          /*   errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
             errorCorrectionForm.setManualEditFlag("N");*/
@@ -391,6 +408,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
             specification.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
 
+            
+            // In case user input unintened blanks.
+            specification.setCorrectionFieldValue(StringUtils.strip((specification.getCorrectionFieldValue())));
             // add the new specification to the appropriate group of search criteria owned by the document
             correctionGroup.addReplacementSpecification(specification);
         }
@@ -402,13 +422,17 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
         //in case of file upload
+        //TODO Need to discuss with Sterling
         String[] groupId = {(String) session.getAttribute("newGroupId")};
-        if (session.getAttribute("newGroupId") == null) {
-            groupId = errorCorrectionForm.getGroupIdList();
+        if (errorCorrectionForm.getGroupIdList() != null | session.getAttribute("newGroupId") != null){
+        
+            if (session.getAttribute("newGroupId") == null) {
+                groupId = errorCorrectionForm.getGroupIdList();
             
-        }
+            }
+           
             showAllEntries(groupId, errorCorrectionForm, request);
-
+        }
             /*errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
             errorCorrectionForm.setManualEditFlag("N");*/
@@ -448,13 +472,17 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // Don't need this if multiple dropdown keep holding choice from user
         HttpSession session = request.getSession(true);
         //in case of file upload
+        //TODO Need to discuss with Sterling
         String[] groupId = {(String) session.getAttribute("newGroupId")};
-        if (session.getAttribute("newGroupId") == null) {
-            groupId = errorCorrectionForm.getGroupIdList();
+        if (errorCorrectionForm.getGroupIdList() != null | session.getAttribute("newGroupId") != null){
+        
+            if (session.getAttribute("newGroupId") == null) {
+                groupId = errorCorrectionForm.getGroupIdList();
             
-        }
+            }
+           
             showAllEntries(groupId, errorCorrectionForm, request);
-
+        }
             /*errorCorrectionForm.setEditableFlag("N");
             // manualEditFlag is for activate a button for asking user to ask edit the docu.
             errorCorrectionForm.setManualEditFlag("N");*/
@@ -1164,7 +1192,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // searchResults is collection of OriginEntry
         searchResults = (Collection) lookupService.findCollectionBySearchUnbounded(OriginEntry.class, fieldValues);
 
-        //errorCorrectionForm.setAllEntries(searchResults);
+        errorCorrectionForm.setAllEntries(searchResults);
 
         request.setAttribute("reqSearchResults", searchResults);
         
@@ -1693,6 +1721,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setTotalDebitsOrBlanks(tempTotalDebitsOrBlanks);
         errorCorrectionForm.setTotalCredits(tempTotalCredits);
         errorCorrectionForm.setRowsOutput(resultCorrectionList.size());
+        
+        String searchResultKey = GlobalVariables.getUserSession().addObject(resultCorrectionList, Constants.SEARCH_LIST_KEY_PREFIX);
+        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, searchResultKey);
+        String correctionFormKey = GlobalVariables.getUserSession().addObject(errorCorrectionForm ,Constants.CORRECTION_FORM_KEY);
+        request.setAttribute(Constants.CORRECTION_FORM_KEY, correctionFormKey);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
 

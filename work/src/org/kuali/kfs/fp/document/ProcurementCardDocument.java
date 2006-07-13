@@ -169,6 +169,28 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
     }
 
     /**
+     * Override to use getTargetAccountingLines.
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLine(int)
+     */
+    public TargetAccountingLine getTargetAccountingLine(int index) {
+        List tempTargetAccountingLines = getTargetAccountingLines();
+        
+        while (tempTargetAccountingLines.size() <= index) {
+            try {
+                tempTargetAccountingLines.add(getTargetAccountingLineClass().newInstance());
+            }
+            catch (InstantiationException e) {
+                throw new RuntimeException("Unable to get class");
+            }
+            catch (IllegalAccessException e) {
+                throw new RuntimeException("Unable to get class");
+            }
+        }
+        return (TargetAccountingLine) tempTargetAccountingLines.get(index);
+    }
+    
+    /**
      * Override to get target accounting lines out of transactions
      * 
      * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLines()

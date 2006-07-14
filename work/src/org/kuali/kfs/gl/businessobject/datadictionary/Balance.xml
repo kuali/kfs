@@ -38,9 +38,7 @@
                 <lookupField attributeName="subAccountNumber" forceLookup="true" />
                 <lookupField attributeName="objectCode" />
                 <lookupField attributeName="subObjectCode" />
-                <lookupField attributeName="balanceTypeCode">
-                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder</defaultValueFinderClass>
-                </lookupField>
+                <lookupField attributeName="balanceTypeCode"/>
 
                 <lookupField attributeName="objectTypeCode" />
 
@@ -121,9 +119,6 @@
             </attributeReference>
 
             <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
-                <control>
-                    <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder" />
-                </control>
                 <description>Balance type categorizes transactions and balances into Budget, Actual or Encumbrance. There may be various types of each category.</description>
             </attributeReference>
 

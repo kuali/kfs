@@ -28,11 +28,13 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.bo.user.Options;
+import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
@@ -58,9 +60,12 @@ public class Encumbrance extends BusinessObjectBase {
     private KualiDecimal accountLineEncumbranceClosedAmount;
     private String accountLineEncumbrancePurgeCode;
     private Date timestamp;
+
     private SubAccount subAccount;
     private Chart chart;
     private Account account;
+    private SubObjCd financialSubObject;
+    private DocumentType documentType;
 
     private ObjectCode financialObject;
     private BalanceTyp balanceType;
@@ -449,7 +454,8 @@ public class Encumbrance extends BusinessObjectBase {
     }
 
     /**
-     * Gets the subAccount attribute. 
+     * Gets the subAccount attribute.
+     * 
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -458,9 +464,46 @@ public class Encumbrance extends BusinessObjectBase {
 
     /**
      * Sets the subAccount attribute value.
+     * 
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
+    }
+
+    /**
+     * Gets the documentType attribute.
+     * 
+     * @return Returns the documentType.
+     */
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    /**
+     * Sets the documentType attribute value.
+     * 
+     * @param documentType The documentType to set.
+     */
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
+
+    /**
+     * Gets the financialSubObject attribute.
+     * 
+     * @return Returns the financialSubObject.
+     */
+    public SubObjCd getFinancialSubObject() {
+        return financialSubObject;
+    }
+
+    /**
+     * Sets the financialSubObject attribute value.
+     * 
+     * @param financialSubObject The financialSubObject to set.
+     */
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+        this.financialSubObject = financialSubObject;
     }
 }

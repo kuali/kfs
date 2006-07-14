@@ -426,6 +426,18 @@
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
     
+    <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="objectCode" />
+        <foreignkey field-ref="subObjectCode" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="documentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="documentTypeCode" />
+    </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.Balance" table="GL_BALANCE_T">

@@ -31,6 +31,18 @@ import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConst
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.RESTRICTED_OBJECT_CODES;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_1_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_2_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_3_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_4_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_5_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_6_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_7_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_8_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_9_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_10_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_11_PERIOD_CODE;
+import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_12_PERIOD_CODE;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.INCOME_CASH;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.TRANSFER_INCOME;
 import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
@@ -72,6 +84,8 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
+    
+    private static final String INCOME_STREAM_CHART_ACCOUNT_DELIMITER = "|";
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
@@ -90,7 +104,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         allow = allow && validateObjectCode(transactionalDocument, accountingLine);
 
         LOG.debug("beginning account number validation ");
-        allow = allow & validateAccountNumber(transactionalDocument, accountingLine);
+        allow = allow && validateAccountNumber(transactionalDocument, accountingLine);
 
         LOG.debug("end validating accounting line, has errors: " + allow);
 
@@ -127,9 +141,12 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         boolean success = true;
 
         // determine if we are on increase or decrease side
-        KualiDecimal amountSign = new KualiDecimal(1);
+        KualiDecimal amountSign = null;
         if (accountingLine instanceof SourceAccountingLine) {
             amountSign = new KualiDecimal(-1);
+        }
+        else {
+            amountSign = new KualiDecimal(1);
         }
 
         BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
@@ -145,7 +162,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             explicitEntry.setTransactionLedgerEntryAmount(budgetAccountingLine.getBaseBudgetAdjustmentAmount().multiply(amountSign).kualiDecimalValue());
             // set fiscal period, if next fiscal year set to 01, else leave to current period
             if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
-                explicitEntry.setUniversityFiscalPeriodCode("01");
+                explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
             }
 
             // add the new explicit entry to the document now
@@ -175,51 +192,51 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             // create montly lines (MB)
             if (budgetAccountingLine.getFinancialDocumentMonth1LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "01", budgetAccountingLine.getFinancialDocumentMonth1LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_1_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth1LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth2LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "02", budgetAccountingLine.getFinancialDocumentMonth2LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_2_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth2LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth3LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "03", budgetAccountingLine.getFinancialDocumentMonth3LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_3_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth3LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth4LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "04", budgetAccountingLine.getFinancialDocumentMonth4LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_4_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth4LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth5LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "05", budgetAccountingLine.getFinancialDocumentMonth5LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_5_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth5LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth6LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "06", budgetAccountingLine.getFinancialDocumentMonth6LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_6_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth6LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth7LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "07", budgetAccountingLine.getFinancialDocumentMonth7LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_7_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth7LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth8LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "08", budgetAccountingLine.getFinancialDocumentMonth8LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_8_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth8LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth9LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "09", budgetAccountingLine.getFinancialDocumentMonth9LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_9_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth9LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth10LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "10", budgetAccountingLine.getFinancialDocumentMonth10LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_10_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth10LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth11LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "11", budgetAccountingLine.getFinancialDocumentMonth11LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_11_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth11LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth12LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                success &= createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, "12", budgetAccountingLine.getFinancialDocumentMonth12LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_12_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth12LineAmount().multiply(amountSign));
             }
         }
 
@@ -235,9 +252,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * @param monthAmount
      * @return boolean
      */
-    private boolean createMonthlyBudgetGLPE(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String fiscalPeriod, KualiDecimal monthAmount) {
-        boolean success = true;
-
+    private void createMonthlyBudgetGLPE(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String fiscalPeriod, KualiDecimal monthAmount) {
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         populateExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, explicitEntry);
 
@@ -249,8 +264,6 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         // add the new explicit entry to the document now
         transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
-
-        return success;
     }
 
     /**
@@ -283,7 +296,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                     AccountingLine accountingLine = new SourceAccountingLine();
 
                     // set income chart and account in line
-                    String[] incomeString = StringUtils.split(chartAccount, "|");
+                    String[] incomeString = StringUtils.split(chartAccount, INCOME_STREAM_CHART_ACCOUNT_DELIMITER);
                     accountingLine.setChartOfAccountsCode(incomeString[0]);
                     accountingLine.setAccountNumber(incomeString[1]);
                     accountingLine.setFinancialObjectCode(transferObjectCode);
@@ -302,7 +315,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
                     // set fiscal period, if next fiscal year set to 01, else leave to current period
                     if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
-                        explicitEntry.setUniversityFiscalPeriodCode("01");
+                        explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
                     }
 
                     // add the new explicit entry to the document now
@@ -326,7 +339,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
                     // set fiscal period, if next fiscal year set to 01, else leave to current period
                     if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
-                        explicitEntry.setUniversityFiscalPeriodCode("01");
+                        explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
                     }
 
                     // add the new explicit entry to the document now
@@ -389,7 +402,6 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         accountingLines.addAll(baDocument.getTargetAccountingLines());
 
         // fund group is global restriction
-        boolean restrictedToFund = true;
         boolean restrictedToSubFund = false;
         boolean restrictedToChart = false;
         boolean restrictedToOrg = false;
@@ -427,7 +439,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 restrictedToAccount = true;
                 accountRestrictingAccount = line.getAccountNumber();
             }
-            
+
             // if we have a sub fund restriction, this overrides anything coming later
             if (restrictedToSubFund) {
                 break;
@@ -537,14 +549,14 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         // check account has a budget recording level
         if (StringUtils.isBlank(accountingLine.getAccount().getBudgetRecordingLevelCode()) || ACCOUNT_NUMBER.BUDGET_LEVEL_NO_BUDGET.equals(accountingLine.getAccount().getBudgetRecordingLevelCode())) {
-            GlobalVariables.getErrorMap().put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NON_BUDGETED_ACCOUNT, accountingLine.getAccountNumber());
+            errors.put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NON_BUDGETED_ACCOUNT, accountingLine.getAccountNumber());
             accountNumberAllowed = false;
         }
 
         // if current adjustment amount is non zero, account must have an associated income stream chart and account
         if (budgetAccountingLine.getCurrentBudgetAdjustmentAmount().isNonZero()) {
-            if (accountingLine.getAccount().getIncomeStreamAccount() == null) {
-                GlobalVariables.getErrorMap().put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, accountingLine.getAccountNumber());
+            if (ObjectUtils.isNull(accountingLine.getAccount().getIncomeStreamAccount())) {
+                errors.put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, accountingLine.getAccountNumber());
                 accountNumberAllowed = false;
             }
         }
@@ -644,7 +656,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         accountingLines.addAll(baDocument.getTargetAccountingLines());
         for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) iter.next();
-            String incomeStreamKey = budgetAccountingLine.getAccount().getIncomeStreamAccount().getChartOfAccountsCode() + "|" + budgetAccountingLine.getAccount().getIncomeStreamAccount().getAccountNumber();
+            String incomeStreamKey = budgetAccountingLine.getAccount().getIncomeStreamFinancialCoaCode() + INCOME_STREAM_CHART_ACCOUNT_DELIMITER + budgetAccountingLine.getAccount().getIncomeStreamAccountNumber();
 
             KualiDecimal incomeStreamAmount = new KualiDecimal(0);
             if (incomeStreamBalance.containsKey(incomeStreamKey)) {
@@ -739,10 +751,10 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     @Override
     protected boolean isAccountingLineTotalsUnchanged(TransactionalDocument transactionalDocument) {
         boolean isUnchanged = true;
-        
+
         BudgetAdjustmentDocument persistedDocument = (BudgetAdjustmentDocument) retrievePersistedDocument(transactionalDocument);
         BudgetAdjustmentDocument currentDocument = (BudgetAdjustmentDocument) transactionalDocument;
-        
+
         if (persistedDocument == null) {
             handleNonExistentDocumentWhenApproving(transactionalDocument);
         }
@@ -752,7 +764,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             KualiInteger persistedSourceBaseBudgetTotal = persistedDocument.getSourceBaseBudgetTotal();
             KualiDecimal persistedTargetCurrentBudgetTotal = persistedDocument.getTargetCurrentBudgetTotal();
             KualiInteger persistedTargetBaseBudgetTotal = persistedDocument.getTargetBaseBudgetTotal();
-            
+
             // retrieve the updated totals
             KualiDecimal currentSourceCurrentBudgetTotal = currentDocument.getSourceCurrentBudgetTotal();
             KualiInteger currentSourceBaseBudgetTotal = currentDocument.getSourceBaseBudgetTotal();
@@ -763,25 +775,25 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             // generate appropriate error messages
             if (persistedSourceCurrentBudgetTotal.compareTo(currentSourceCurrentBudgetTotal) != 0) {
                 isUnchanged = false;
-                buildTotalChangeErrorMessage(SOURCE_ACCOUNTING_LINE_ERRORS,"source current budget", persistedSourceCurrentBudgetTotal, currentSourceCurrentBudgetTotal);
+                buildTotalChangeErrorMessage(SOURCE_ACCOUNTING_LINE_ERRORS, "source current budget", persistedSourceCurrentBudgetTotal, currentSourceCurrentBudgetTotal);
             }
             if (persistedSourceBaseBudgetTotal.compareTo(currentSourceBaseBudgetTotal) != 0) {
                 isUnchanged = false;
-                buildTotalChangeErrorMessage(SOURCE_ACCOUNTING_LINE_ERRORS,"source base budget", persistedSourceBaseBudgetTotal.kualiDecimalValue(), currentSourceBaseBudgetTotal.kualiDecimalValue());
+                buildTotalChangeErrorMessage(SOURCE_ACCOUNTING_LINE_ERRORS, "source base budget", persistedSourceBaseBudgetTotal.kualiDecimalValue(), currentSourceBaseBudgetTotal.kualiDecimalValue());
             }
             if (persistedTargetCurrentBudgetTotal.compareTo(currentTargetCurrentBudgetTotal) != 0) {
                 isUnchanged = false;
-                buildTotalChangeErrorMessage(TARGET_ACCOUNTING_LINE_ERRORS,"target current budget", persistedTargetCurrentBudgetTotal, currentTargetCurrentBudgetTotal);
+                buildTotalChangeErrorMessage(TARGET_ACCOUNTING_LINE_ERRORS, "target current budget", persistedTargetCurrentBudgetTotal, currentTargetCurrentBudgetTotal);
             }
             if (persistedTargetBaseBudgetTotal.compareTo(currentTargetBaseBudgetTotal) != 0) {
                 isUnchanged = false;
-                buildTotalChangeErrorMessage(TARGET_ACCOUNTING_LINE_ERRORS,"target base budget", persistedTargetBaseBudgetTotal.kualiDecimalValue(), currentTargetBaseBudgetTotal.kualiDecimalValue());
+                buildTotalChangeErrorMessage(TARGET_ACCOUNTING_LINE_ERRORS, "target base budget", persistedTargetBaseBudgetTotal.kualiDecimalValue(), currentTargetBaseBudgetTotal.kualiDecimalValue());
             }
         }
-        
+
         return isUnchanged;
     }
-    
+
     /**
      * This method builds out the error message for when totals have changed.
      * 
@@ -796,7 +808,6 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         GlobalVariables.getErrorMap().put(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
     }
-
 
 
 }

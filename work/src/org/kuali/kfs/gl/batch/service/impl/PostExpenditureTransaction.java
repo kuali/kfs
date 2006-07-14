@@ -39,6 +39,7 @@ import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.kuali.module.gl.service.IcrTransaction;
+import org.springframework.util.StringUtils;
 
 /**
  * @author jsissom
@@ -85,7 +86,8 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
 
         // Is the ICR indicator set and the ICR Series identifier set?
         // Is the period code a non-balance period? If so, continue, if not, we aren't posting this transaction
-        if (objectType.isFinObjectTypeIcrSelectionIndicator() && (account.getFinancialIcrSeriesIdentifier() != null) && (!"AB".equals(universityFiscalPeriodCode)) && (!"BB".equals(universityFiscalPeriodCode)) && (!"CB".equals(universityFiscalPeriodCode))) {
+        if ( objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && 
+                (!"AB".equals(universityFiscalPeriodCode)) && (!"BB".equals(universityFiscalPeriodCode)) && (!"CB".equals(universityFiscalPeriodCode)) ) {
             // Continue on the posting process
 
             // Check the sub account type code. A21 subaccounts with the type of CS don't get posted
@@ -109,8 +111,8 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
                 return true;
             }
             else {
-                // If the ICR type code is null or 10, don't post
-                if ((account.getAcctIndirectCostRcvyTypeCd() == null) || "10".equals(account.getAcctIndirectCostRcvyTypeCd())) {
+                // If the ICR type code is empty or 10, don't post
+                if ( (! StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || "10".equals(account.getAcctIndirectCostRcvyTypeCd()) ) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR type is null or 10 - not posted");
                     return false;

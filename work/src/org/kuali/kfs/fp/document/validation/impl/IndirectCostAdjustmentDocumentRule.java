@@ -62,7 +62,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
 
     /**
      * same logic as
-     * <code>IsDebitUtils#isDebitNotConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)</code>
+     * <code>IsDebitUtils#isDebitConsideringType(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)</code>
      * but has the following accounting line restrictions: for grant lines(source):
      * <ol>
      * <li>only allow expense object type codes
@@ -72,7 +72,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      * <li>only allow income object type codes
      * </ol>
      * 
-     * @see IsDebitUtils#isDebitNotConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringType(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -83,7 +83,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
 
-        return IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
+        return IsDebitUtils.isDebitConsideringType(this, transactionalDocument, accountingLine);
     }
 
     /**

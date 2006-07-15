@@ -85,13 +85,13 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * adds the following restrictions in addtion to those provided by
-     * <code>IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts</code>
+     * <code>IsDebitUtils.isDebitConsideringNothingPositiveOnly</code>
      * <ol>
      * <li> only allow income or expense object type codes
      * <li> target lines have the oposite debit/credit codes as the source lines
      * </ol>
      * 
-     * @see IsDebitUtils#isDebitNotConsideringLineSectionOnlyPositiveAmounts(TransactionalDocumentRuleBase, TransactionalDocument,
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
      *      AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
@@ -104,10 +104,10 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
         boolean isDebit = false;
         if (isSourceAccountingLine(accountingLine)) {
-            isDebit = IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
+            isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
         }
         else if (isTargetAccountingLine(accountingLine)) {
-            isDebit = !IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
+            isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
         }
         else {
             throw new IllegalStateException(IsDebitUtils.isInvalidLineTypeIllegalArgumentExceptionMessage);

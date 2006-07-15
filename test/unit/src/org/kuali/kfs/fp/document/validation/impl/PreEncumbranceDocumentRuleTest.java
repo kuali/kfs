@@ -224,7 +224,7 @@ public class PreEncumbranceDocumentRuleTest extends KualiTestBaseWithSession {
     }
 
     /**
-     * tests true is returned for a positive expense
+     * tests false is returned for a positive expense
      * 
      * @throws Exception
      */
@@ -232,7 +232,7 @@ public class PreEncumbranceDocumentRuleTest extends KualiTestBaseWithSession {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), PreEncumbranceDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -514,7 +514,7 @@ public class PreEncumbranceDocumentRuleTest extends KualiTestBaseWithSession {
     }
 
     /**
-     * tests true is returned for a positive expense
+     * tests an <code>IllegalStateException</code> is thrown for a zero expense
      * 
      * @throws Exception
      */
@@ -526,7 +526,7 @@ public class PreEncumbranceDocumentRuleTest extends KualiTestBaseWithSession {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero expense
+     * tests true is returned for a positive expense
      * 
      * @throws Exception
      */
@@ -534,7 +534,7 @@ public class PreEncumbranceDocumentRuleTest extends KualiTestBaseWithSession {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), PreEncumbranceDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**

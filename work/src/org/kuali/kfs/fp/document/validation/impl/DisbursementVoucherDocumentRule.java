@@ -1262,7 +1262,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     /**
      * error corrections are not allowed
      * 
-     * @see IsDebitUtils#isDebitNotConsideringLineSectionOnlyPositiveAmounts(TransactionalDocumentRuleBase, TransactionalDocument,
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
      *      AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
@@ -1271,7 +1271,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         // disallow error corrections
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
-        return IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
+        return IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
     }
 
 

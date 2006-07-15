@@ -22,17 +22,14 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.PropertyConstants.REVERSAL_DATE;
-import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.PropertyConstants.REVERSAL_DATE;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
@@ -44,6 +41,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
+import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 
@@ -230,17 +229,18 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
     /**
      * limits only to expense object type codes
      * 
-     * @see IsDebitUtils#isDebitNotConsideringLineSectionOnlyPositiveAmounts(TransactionalDocumentRuleBase, TransactionalDocument,
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
      *      AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        if (!isExpense(accountingLine)) {
+        // if not expense, or positive amount on an error-correction, or negative amount on a non-error-correction, throw exception
+        if (!isExpense(accountingLine) || (isErrorCorrection(transactionalDocument) == accountingLine.getAmount().isPositive())) {
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
 
-        return IsDebitUtils.isDebitNotConsideringLineSectionOnlyPositiveAmounts(this, transactionalDocument, accountingLine);
+        return !IsDebitUtils.isDebitConsideringSection(this, transactionalDocument, accountingLine);
     }
 }

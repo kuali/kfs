@@ -349,7 +349,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see IsDebitUtils#isDebitNotConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringType(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -357,7 +357,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         // error corrections are not allowed
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
-        return IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
+        return IsDebitUtils.isDebitConsideringType(this, transactionalDocument, accountingLine);
     }
 
 }

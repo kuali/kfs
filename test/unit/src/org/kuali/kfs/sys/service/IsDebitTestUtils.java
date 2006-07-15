@@ -85,6 +85,13 @@ public class IsDebitTestUtils {
         public static final String ASSET = "BA,6044900,x,8010,x,x,x,x,x,0";
         public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,0";
         public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,0";
+
+        private static class PreEncumrance {
+            public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,x,x,x,x,0";
+            public static final String ASSET = "BA,6044900,x,8010,x,x,x,x,x,x,x,0";
+            public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,x,x,0";
+            public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,x,x,0";
+        }
     }
 
 
@@ -114,7 +121,7 @@ public class IsDebitTestUtils {
         targetExpenseLines.put(GeneralErrorCorrectionDocument.class, Target.EXPENSE);
         targetExpenseLines.put(IndirectCostAdjustmentDocument.class, Target.EXPENSE);
         targetExpenseLines.put(InternalBillingDocument.class, Target.EXPENSE);
-        targetExpenseLines.put(PreEncumbranceDocument.class, Target.EXPENSE);
+        targetExpenseLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.EXPENSE);
         targetExpenseLines.put(ServiceBillingDocument.class, Target.EXPENSE);
         targetExpenseLines.put(TransferOfFundsDocument.class, Target.EXPENSE);
     }
@@ -145,7 +152,7 @@ public class IsDebitTestUtils {
         targetAssetLines.put(GeneralErrorCorrectionDocument.class, Target.ASSET);
         targetAssetLines.put(IndirectCostAdjustmentDocument.class, Target.ASSET);
         targetAssetLines.put(InternalBillingDocument.class, Target.ASSET);
-        targetAssetLines.put(PreEncumbranceDocument.class, Target.ASSET);
+        targetAssetLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.ASSET);
         targetAssetLines.put(ServiceBillingDocument.class, Target.ASSET);
         targetAssetLines.put(TransferOfFundsDocument.class, Target.ASSET);
     }
@@ -176,7 +183,7 @@ public class IsDebitTestUtils {
         targetIncomeLines.put(GeneralErrorCorrectionDocument.class, Target.INCOME);
         targetIncomeLines.put(IndirectCostAdjustmentDocument.class, Target.INCOME);
         targetIncomeLines.put(InternalBillingDocument.class, Target.INCOME);
-        targetIncomeLines.put(PreEncumbranceDocument.class, Target.INCOME);
+        targetIncomeLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.INCOME);
         targetIncomeLines.put(ServiceBillingDocument.class, Target.INCOME);
         targetIncomeLines.put(TransferOfFundsDocument.class, Target.INCOME);
     }
@@ -208,7 +215,7 @@ public class IsDebitTestUtils {
         targetLiabilityLines.put(GeneralErrorCorrectionDocument.class, Target.LIABILITY);
         targetLiabilityLines.put(IndirectCostAdjustmentDocument.class, Target.LIABILITY);
         targetLiabilityLines.put(InternalBillingDocument.class, Target.LIABILITY);
-        targetLiabilityLines.put(PreEncumbranceDocument.class, Target.LIABILITY);
+        targetLiabilityLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.LIABILITY);
         targetLiabilityLines.put(ServiceBillingDocument.class, Target.LIABILITY);
         targetLiabilityLines.put(TransferOfFundsDocument.class, Target.LIABILITY);
     }

@@ -185,7 +185,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         // disallow error correction
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
-        return IsDebitUtils.isDebitConsideringLineSection(this, transactionalDocument, accountingLine);
+        return IsDebitUtils.isDebitConsideringSection(this, transactionalDocument, accountingLine);
     }
 
     /**

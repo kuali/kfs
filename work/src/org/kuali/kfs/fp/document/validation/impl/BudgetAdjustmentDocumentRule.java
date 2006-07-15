@@ -25,7 +25,6 @@ package org.kuali.module.financial.rules;
 import static org.kuali.Constants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.TARGET_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
-import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.TRANSFER_OBJECT_CODE_PARM_NM;
@@ -737,7 +736,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         try {
-            return IsDebitUtils.isDebitNotConsideringLineSection(this, transactionalDocument, accountingLine);
+            return IsDebitUtils.isDebitConsideringType(this, transactionalDocument, accountingLine);
         }
         catch (IllegalStateException e) {
             // for all accounting lines except the transfer lines, the line amount will be 0 and this exception will be thrown

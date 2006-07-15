@@ -58,13 +58,13 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper;
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
-     * @see IsDebitUtils#isDebitConsideringLineSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        return IsDebitUtils.isDebitConsideringLineSection(this, transactionalDocument, accountingLine);
+        return IsDebitUtils.isDebitConsideringSection(this, transactionalDocument, accountingLine);
     }
 
     /**

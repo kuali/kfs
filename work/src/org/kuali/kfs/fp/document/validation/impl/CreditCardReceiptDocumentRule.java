@@ -62,7 +62,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
         boolean isValid = ccr.getSourceTotal().equals(ccr.getSumTotalAmount());
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
+            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
                     KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
         }
 
@@ -97,7 +97,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
 
         if(ccr.getCreditCardReceipts().size() == 0) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX,
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX,
                     KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
             return false;
         }

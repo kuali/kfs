@@ -184,7 +184,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
 
         if (!valid) {
             // add message
-            GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
+            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
         }
 
         return valid;
@@ -208,7 +208,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
 
         if (!valid) {
             // add message
-            GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
+            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
         }
 
         return valid;
@@ -230,7 +230,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
 
         if (!valid) {
             // add message
-            GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP, new String[] { objectCode.getFinancialObjectCode(), subFundGroupTypeCode });
+            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP, new String[] { objectCode.getFinancialObjectCode(), subFundGroupTypeCode });
         }
 
         return valid;
@@ -249,7 +249,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
 
         if (!valid) {
             // add message
-            GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE, new String[] { objectCode.getFinancialObjectCode(), consolidationCode });
+            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE, new String[] { objectCode.getFinancialObjectCode(), consolidationCode });
         }
 
         return valid;

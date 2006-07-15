@@ -107,7 +107,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
         /* make sure object code is active */
         if (!accountingLine.getObjectCode().isFinancialObjectActiveCode()) {
-            errors.put(errorKey, KeyConstants.ERROR_INACTIVE, "object code");
+            errors.putError(errorKey, KeyConstants.ERROR_INACTIVE, "object code");
             objectCodeAllowed = false;
         }
 

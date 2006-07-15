@@ -214,7 +214,7 @@ public class CashManagementDocumentRule extends FinancialDocumentRuleBase implem
         if (StringUtils.isNotBlank(deposit.getDepositBankCode()) && StringUtils.isNotBlank(deposit.getDepositBankAccountNumber())) {
             BankAccount bankAccount = deposit.getBankAccount();
             if (ObjectUtils.isNull(bankAccount)) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
+                GlobalVariables.getErrorMap().putError(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
             }
         }
 

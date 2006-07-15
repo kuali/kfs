@@ -99,10 +99,10 @@ public class BalanceInquiryAction extends KualiAction {
             request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
             }
         catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, KeyConstants.ERROR_CUSTOM, new String[] { "must be a number" });
+            GlobalVariables.getErrorMap().putError(PropertyConstants.UNIVERSITY_FISCAL_YEAR, KeyConstants.ERROR_CUSTOM, new String[] { "must be a number" });
         }
         catch (Exception e) {
-            GlobalVariables.getErrorMap().put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Please report the server error." });
+            GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Please report the server error." });
             e.printStackTrace();
             LOG.error("Application Errors", e);
         }
@@ -112,6 +112,7 @@ public class BalanceInquiryAction extends KualiAction {
     /**
      * refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
      */
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LookupForm lookupForm = (LookupForm) form;
         Lookupable kualiLookupable = lookupForm.getLookupable();

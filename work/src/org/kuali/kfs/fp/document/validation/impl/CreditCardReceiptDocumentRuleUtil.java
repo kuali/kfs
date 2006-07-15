@@ -57,7 +57,7 @@ public class CreditCardReceiptDocumentRuleUtil {
             isValid = !creditCardReceipt.getCreditCardAdvanceDepositAmount().isZero();
             if(!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT);
-                errorMap.put(PropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT, KeyConstants.ERROR_ZERO_AMOUNT, label);
+                errorMap.putError(PropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT, KeyConstants.ERROR_ZERO_AMOUNT, label);
             }
         }
         
@@ -65,14 +65,14 @@ public class CreditCardReceiptDocumentRuleUtil {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_TYPE);
             if (!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE);
-                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, KeyConstants.ERROR_EXISTENCE, label);
+                errorMap.putError(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, KeyConstants.ERROR_EXISTENCE, label);
             }
         }
         if (isValid) {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_VENDOR);
             if (!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER);
-                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
+                errorMap.putError(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
             }
         }
 

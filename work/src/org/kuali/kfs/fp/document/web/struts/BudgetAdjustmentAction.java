@@ -50,6 +50,7 @@ public class BudgetAdjustmentAction extends KualiTransactionalDocumentActionBase
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
         ((BudgetAdjustmentDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
@@ -62,7 +63,7 @@ public class BudgetAdjustmentAction extends KualiTransactionalDocumentActionBase
      */
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getErrorMap().put(Constants.DOCUMENT_ERRORS, KeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
+        GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, KeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
         return super.copy(mapping, form, request, response);
     }
     

@@ -127,7 +127,7 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
 
         String documentHeaderId = document.getFinancialDocumentNumber();
         if (documentHeaderId == null) {
-            GlobalVariables.getErrorMap().put("documentHeaderId", KeyConstants.ERROR_REQUIRED);
+            GlobalVariables.getErrorMap().putError("documentHeaderId", KeyConstants.ERROR_REQUIRED);
             success = false;
         }
 
@@ -141,13 +141,13 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
         GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
         Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
         if (newMaintainable == null) {
-            GlobalVariables.getErrorMap().put("", KeyConstants.ERROR_REQUIRED, "Account");
+            GlobalVariables.getErrorMap().putError("", KeyConstants.ERROR_REQUIRED, "Account");
             success = false;
         }
         else {
             Account newAccount = (Account) newMaintainable.getBusinessObject();
             if (StringUtils.isBlank(newAccount.getAccountName())) {
-                GlobalVariables.getErrorMap().put("accountNumber", KeyConstants.ERROR_REQUIRED, "Account Number");
+                GlobalVariables.getErrorMap().putError("accountNumber", KeyConstants.ERROR_REQUIRED, "Account Number");
                 success = false;
             }
         }
@@ -157,13 +157,13 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
             GlobalVariables.getErrorMap().addToErrorPath("oldMaintainableObject");
             Maintainable oldMaintainable = maintenanceDocument.getOldMaintainableObject();
             if (oldMaintainable == null) {
-                GlobalVariables.getErrorMap().put("", KeyConstants.ERROR_REQUIRED, "Account");
+                GlobalVariables.getErrorMap().putError("", KeyConstants.ERROR_REQUIRED, "Account");
                 success = false;
             }
             else {
                 Account oldAccount = (Account) oldMaintainable.getBusinessObject();
                 if (StringUtils.isBlank(oldAccount.getAccountName())) {
-                    GlobalVariables.getErrorMap().put("accountNumber", KeyConstants.ERROR_REQUIRED, "Account Number");
+                    GlobalVariables.getErrorMap().putError("accountNumber", KeyConstants.ERROR_REQUIRED, "Account Number");
                     success = false;
                 }
             }

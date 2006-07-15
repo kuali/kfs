@@ -285,7 +285,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             // create error message parameter list
             String[] errorParameters = { sufficientFundBalances.getAccountNumber(), sufficientFundsObjectCode, sufficientFundBalances.getAccountSufficientFundsCode() };
             for (Iterator i = propertyNames.iterator(); i.hasNext();) {
-                GlobalVariables.getErrorMap().put((String) i.next(), KeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, errorParameters);
+                GlobalVariables.getErrorMap().putError((String) i.next(), KeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, errorParameters);
             }
         }
         return isSufficient;

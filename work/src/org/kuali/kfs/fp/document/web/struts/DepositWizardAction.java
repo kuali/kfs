@@ -200,7 +200,7 @@ public class DepositWizardAction extends KualiAction {
         boolean hasBankAccountNumber = false;
         String bankAccountNumber = dform.getBankAccountNumber();
         if (StringUtils.isBlank(bankAccountNumber)) {
-            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANKACCOUNT);
+            GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANKACCOUNT);
         }
         else {
             hasBankAccountNumber = true;
@@ -208,7 +208,7 @@ public class DepositWizardAction extends KualiAction {
 
         String bankCode = dform.getBankCode();
         if (StringUtils.isBlank(bankCode)) {
-            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANK);
+            GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANK);
         }
         else {
             Map keyMap = new HashMap();
@@ -216,7 +216,7 @@ public class DepositWizardAction extends KualiAction {
 
             Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
             if (bank == null) {
-                GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
+                GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
             }
             else {
                 dform.setBank(bank);
@@ -227,7 +227,7 @@ public class DepositWizardAction extends KualiAction {
                     BankAccount bankAccount = (BankAccount) boService.findByPrimaryKey(BankAccount.class, keyMap);
                     if (bankAccount == null) {
                         String[] msgParams = { bankAccountNumber, bankCode };
-                        GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANKACCOUNT, msgParams);
+                        GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANKACCOUNT, msgParams);
                     }
                     else {
                         dform.setBankAccount(bankAccount);
@@ -248,7 +248,7 @@ public class DepositWizardAction extends KualiAction {
         }
 
         if (selectedIds.isEmpty()) {
-            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_CASHRECEIPT_ERROR, KeyConstants.Deposit.ERROR_NO_CASH_RECEIPTS_SELECTED);
+            GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_CASHRECEIPT_ERROR, KeyConstants.Deposit.ERROR_NO_CASH_RECEIPTS_SELECTED);
         }
 
         //

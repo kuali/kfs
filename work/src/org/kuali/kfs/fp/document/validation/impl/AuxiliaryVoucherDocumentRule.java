@@ -174,18 +174,18 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 
         // check for negative or zero amounts
         if (KualiDecimal.ZERO.equals(amount)) { // if 0
-            GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-            GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
             retval = false;
         }
         else if (amount.isNegative()) { // entered a negative number
             String debitCreditCode = accountingLine.getDebitCreditCode();
             if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
-                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
             else {
-                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
 
             retval = false;
@@ -630,6 +630,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @param transactionalDocument
      * @return boolean
      */
+    @Override
     protected boolean isDocumentBalanceValidConsideringDebitsAndCredits(TransactionalDocument transactionalDocument) {
         // generate GLPEs specifically here so that we can compare debits to credits
         if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(transactionalDocument)) {
@@ -655,7 +656,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         boolean isValid = debitAmount.compareTo(creditAmount) == 0;
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().put(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS, new String[] { creditAmount.toString(), debitAmount.toString() });
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS, new String[] { creditAmount.toString(), debitAmount.toString() });
         }
 
         return isValid;
@@ -699,7 +700,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 
         if (!retval) {
             String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), accountingLine.getObjectCode().getFinancialObjectType().getCode(), accountingLine.getObjectType().getCode(), accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode() };
-            GlobalVariables.getErrorMap().put(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, errorObjects);
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, errorObjects);
         }
 
         return retval;
@@ -720,7 +721,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 
         //can't post into a closed period
         if (acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(ACCOUNTING_PERIOD_STATUS_CLOSED)) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }
 
@@ -731,7 +732,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         int currPeriodVal = new Integer(currPeriod.getUniversityFiscalPeriodCode()).intValue();
         if (currPeriodVal == 1) {
             if (period < 11) {
-                GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN);
                 return false;
             }
         }
@@ -739,7 +740,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         //can't post back more than 2 periods
         if (period < currPeriodVal) {
             if ((currPeriodVal - period) > 2) {
-                GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
             }
         }
@@ -748,12 +749,12 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             //period 2 (see period 1 rule above)and period 13 as the only possible combination, 
             //if not then error out
             if (currPeriodVal != 2) {
-                GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
             }
             else {
                 if (period != 13) {
-                    GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                    GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                     return false;
                 }
             }
@@ -764,16 +765,16 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             //can't post into a previous fiscal year
             int currFiscalYear = currPeriod.getUniversityFiscalYear().intValue();
             if (!(currFiscalYear < year)) {
-                GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
                 return false;
             }
             //check the posting period, throw out if period 13
             if (period > 12) {
-                GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
                 return false;
             }
             else if (period < 1) {
-                GlobalVariables.getErrorMap().put(DOCUMENT_ERRORS, ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
                 return false;
             }
         }
@@ -787,6 +788,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      *
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
+    @Override
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
@@ -795,7 +797,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         valid &= succeedsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES, objectCode.getFinancialObjectSubTypeCode());
         if (!valid) {
             // add message
-            GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
+            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
         }
 
         return valid;
@@ -813,7 +815,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 
         valid &= succeedsRule(RESTRICTED_PERIOD_CODES, accountingPeriod.getUniversityFiscalPeriodCode());
         if (!valid) {
-            GlobalVariables.getErrorMap().put(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
         }
 
         return valid;

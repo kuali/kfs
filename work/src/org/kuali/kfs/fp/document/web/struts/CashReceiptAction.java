@@ -249,7 +249,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             }
         }
         else {
-            GlobalVariables.getErrorMap().put("document.check[" + deleteIndex + "]", KeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));
+            GlobalVariables.getErrorMap().putError("document.check[" + deleteIndex + "]", KeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);

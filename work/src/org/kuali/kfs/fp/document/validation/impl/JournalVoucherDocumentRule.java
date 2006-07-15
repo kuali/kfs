@@ -254,18 +254,18 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             // check for negative or zero amounts
             if (ZERO.compareTo(amount) == 0) { // if 0
-                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
                 return false;
             }
             else if (ZERO.compareTo(amount) == 1) { // entered a negative number
                 String debitCreditCode = accountingLine.getDebitCreditCode();
                 if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
                 else {
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
 
                 return false;
@@ -274,12 +274,12 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         else {
             // Check for zero amounts
             if (ZERO.compareTo(amount) == 0) { // amount == 0
-                GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
+                GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
                 return false;
             }
             else if (ZERO.compareTo(amount) == 1) {
                 if (!accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BUDGET_STATISTICS)) {
-                    GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
+                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }
             }
         }
@@ -342,7 +342,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         if (0 == transactionalDocument.getSourceAccountingLines().size()) {
-            GlobalVariables.getErrorMap().put("document.sourceAccountingLines", ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
+            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
         else {
@@ -426,7 +426,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         }
         else {
             String label = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ObjectType.class).getAttributeDefinition(GENERIC_CODE_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(OBJECT_TYPE_CODE_PROPERTY_NAME, ERROR_REQUIRED, label);
+            GlobalVariables.getErrorMap().putError(OBJECT_TYPE_CODE_PROPERTY_NAME, ERROR_REQUIRED, label);
             return false;
         }
 

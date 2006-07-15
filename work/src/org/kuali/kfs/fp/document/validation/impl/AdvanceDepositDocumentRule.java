@@ -56,7 +56,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
         boolean isValid = ad.getSourceTotal().equals(ad.getSumTotalAmount());
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
         }
 
         return isValid;
@@ -88,7 +88,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
         AdvanceDepositDocument ad = (AdvanceDepositDocument) document;
 
         if (ad.getAdvanceDeposits().size() == 0) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
             return false;
         }
         else {

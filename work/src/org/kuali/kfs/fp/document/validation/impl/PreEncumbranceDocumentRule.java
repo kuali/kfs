@@ -161,7 +161,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
     @Override
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         if (0 == transactionalDocument.getSourceAccountingLines().size() && 0 == transactionalDocument.getTargetAccountingLines().size()) {
-            GlobalVariables.getErrorMap().put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
+            GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
             return false;
         }
         else {

@@ -56,7 +56,7 @@ public class AdvanceDepositDocumentRuleUtil {
             isValid = !advanceDeposit.getFinancialDocumentAdvanceDepositAmount().isZero();
             if(!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(AdvanceDepositDetail.class, PropertyConstants.ADVANCE_DEPOSIT_AMOUNT);
-                errorMap.put(PropertyConstants.ADVANCE_DEPOSIT_AMOUNT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
+                errorMap.putError(PropertyConstants.ADVANCE_DEPOSIT_AMOUNT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
             }
         }
         
@@ -64,14 +64,14 @@ public class AdvanceDepositDocumentRuleUtil {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(advanceDeposit, PropertyConstants.FINANCIAL_DOCUMENT_BANK);
             if (!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(AdvanceDepositDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
-                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, KeyConstants.ERROR_EXISTENCE, label);
+                errorMap.putError(PropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, KeyConstants.ERROR_EXISTENCE, label);
             }
         }
         if (isValid) {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(advanceDeposit, PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
             if (!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(AdvanceDepositDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT_NUMBER);
-                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
+                errorMap.putError(PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
             }
         }
 

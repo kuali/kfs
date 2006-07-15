@@ -219,12 +219,12 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
         if (mandatoryTransferFromAmount.compareTo(mandatoryTransferToAmount) != 0) {
             isValid = false;
-            GlobalVariables.getErrorMap().put("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         if (nonMandatoryTransferFromAmount.compareTo(nonMandatoryTransferToAmount) != 0) {
             isValid = false;
-            GlobalVariables.getErrorMap().put("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         return isValid;
@@ -246,12 +246,12 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
         // make sure a object sub type code exists for this object code
         if (StringUtils.isBlank(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL, accountingLine.getFinancialObjectCode());
+            GlobalVariables.getErrorMap().putError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL, accountingLine.getFinancialObjectCode());
             return false;
         }
 
         if (!isMandatoryTransfersSubType(objectSubTypeCode) && !isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER, new String[] { accountingLine.getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(), accountingLine.getFinancialObjectCode() });
+            GlobalVariables.getErrorMap().putError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER, new String[] { accountingLine.getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(), accountingLine.getFinancialObjectCode() });
             return false;
         }
 

@@ -161,7 +161,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         }
         catch (RuntimeException e) {
             LOG.error("Error in calculating travel per diem: " + e.getMessage());
-            GlobalVariables.getErrorMap().put("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
+            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -184,12 +184,12 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         if (dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount() == null) {
             LOG.error("Total Mileage must be given");
-            GlobalVariables.getErrorMap().put(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_REQUIRED, "Total Mileage");
+            GlobalVariables.getErrorMap().putError(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_REQUIRED, "Total Mileage");
         }
 
         if (dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp() == null) {
             LOG.error("Travel Start Date must be given");
-            GlobalVariables.getErrorMap().put(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_REQUIRED, "Travel Start Date");
+            GlobalVariables.getErrorMap().putError(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_REQUIRED, "Travel Start Date");
         }
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
@@ -370,7 +370,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         /* user should not have generate button if not in tax group, but check just to make sure */
         if (!GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP))) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
-            GlobalVariables.getErrorMap().put(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
+            GlobalVariables.getErrorMap().putError(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
@@ -401,7 +401,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         /* user should not have generate button if not in tax group, but check just to make sure */
         if (!GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP))) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
-            GlobalVariables.getErrorMap().put(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
+            GlobalVariables.getErrorMap().putError(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 

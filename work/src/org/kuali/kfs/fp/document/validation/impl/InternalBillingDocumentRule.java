@@ -75,7 +75,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
     @Override
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
         if (accountingLine.getAmount().equals(Constants.ZERO)) {
-            GlobalVariables.getErrorMap().put(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putError(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
             return false;
         }
@@ -155,7 +155,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      */
     private boolean validateCapitalObjectCodes(AccountingLine accountingLine) {
         if (isSourceAccountingLine(accountingLine) && isCapitalObject(accountingLine)) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
             LOG.debug("APC rule failure " + ExceptionUtils.describeStackLevel(0));
             return false;
         }

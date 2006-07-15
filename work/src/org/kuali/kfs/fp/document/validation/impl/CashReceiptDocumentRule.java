@@ -64,7 +64,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         KualiDecimal amount = accountingLine.getAmount();
 
         if (Constants.ZERO.compareTo(amount) == 0) { // amount == 0
-            GlobalVariables.getErrorMap().put(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putError(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
 
@@ -101,7 +101,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
                 throw new IllegalStateException("There is no cash drawer associated with unitName '" + unitName + "' from cash receipt " + crd.getFinancialDocumentNumber());
             }
             else if (cd.isClosed()) {
-                GlobalVariables.getErrorMap().put(Constants.GLOBAL_ERRORS, KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getWorkgroupName());
+                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getWorkgroupName());
                 valid = false;
             }
         }
@@ -122,7 +122,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         // make sure that cash reconciliation total is greater than zero
         boolean isValid = cr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
         if (!isValid) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
         }
 
         if (isValid) {
@@ -130,7 +130,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
             isValid = cr.getSourceTotal().compareTo(cr.getSumTotalAmount()) == 0;
 
             if (!isValid) {
-                GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);
             }
         }
 
@@ -161,7 +161,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
+                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
             }
         }
 
@@ -199,7 +199,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_CONSOLIDATED_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(), consolidatedObjectCode });
+                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_CONSOLIDATED_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(), consolidatedObjectCode });
             }
         }
 
@@ -230,7 +230,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
+                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
             }
         }
 
@@ -256,7 +256,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         if (0 == transactionalDocument.getSourceAccountingLines().size()) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
         else {
@@ -328,7 +328,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
 
         // check to make sure the amount is also valid
         if (check.getAmount().compareTo(Constants.ZERO) <= 0) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.CashReceipt.ERROR_NEGATIVE_CHECK_AMOUNT, PropertyConstants.CHECKS);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.CHECK_AMOUNT, KeyConstants.CashReceipt.ERROR_NEGATIVE_CHECK_AMOUNT, PropertyConstants.CHECKS);
             isValid = false;
         }
 

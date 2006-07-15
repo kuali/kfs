@@ -768,7 +768,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
             this.dvPerdiemStartDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemStartDateTime);
         }
         catch (RuntimeException e) {
-            GlobalVariables.getErrorMap().put("document.dvNonEmployeeTravel.dvPerDiemStartDateTime", KeyConstants.ERROR_CUSTOM, e.getMessage());
+            GlobalVariables.getErrorMap().putError("document.dvNonEmployeeTravel.dvPerDiemStartDateTime", KeyConstants.ERROR_CUSTOM, e.getMessage());
         }
     }
 
@@ -791,7 +791,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
             this.dvPerdiemEndDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemEndDateTime);
         }
         catch (RuntimeException e) {
-            GlobalVariables.getErrorMap().put("document.dvNonEmployeeTravel.dvPerDiemEndDateTime", KeyConstants.ERROR_CUSTOM, e.getMessage());
+            GlobalVariables.getErrorMap().putError("document.dvNonEmployeeTravel.dvPerDiemEndDateTime", KeyConstants.ERROR_CUSTOM, e.getMessage());
         }
     }
 
@@ -861,6 +861,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);

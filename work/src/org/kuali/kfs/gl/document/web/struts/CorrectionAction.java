@@ -77,7 +77,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.23 2006-07-13 00:32:22 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.24 2006-07-15 01:24:14 wesprice Exp $
  * 
  */
 
@@ -645,7 +645,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @return
      * @throws Exception
      */
-
+    @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         
@@ -919,7 +919,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
          */
 
         if (groupId == null) {
-            GlobalVariables.getErrorMap().put("searchFieldError", KeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED);
+            GlobalVariables.getErrorMap().putError("searchFieldError", KeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED);
             returnVal = false;
         }
         Iterator groupIter = correctionGroups.iterator();
@@ -927,11 +927,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
             CorrectionChangeGroup correctionGroup = (CorrectionChangeGroup) groupIter.next();
             if (correctionGroup.getCorrectionCriteria().size() < 1) {
                 // displaing error message
-                GlobalVariables.getErrorMap().put("searchFieldError", KeyConstants.ERROR_GL_ERROR_CORRECTION_SEARCHFIELD_REQUIRED);
+                GlobalVariables.getErrorMap().putError("searchFieldError", KeyConstants.ERROR_GL_ERROR_CORRECTION_SEARCHFIELD_REQUIRED);
                 returnVal = false;
             }
             if (correctionGroup.getCorrectionChange().size() < 1) {
-                GlobalVariables.getErrorMap().put("searchFieldError", KeyConstants.ERROR_GL_ERROR_CORRECTION_MODIFYFIELD_REQUIRED);
+                GlobalVariables.getErrorMap().putError("searchFieldError", KeyConstants.ERROR_GL_ERROR_CORRECTION_MODIFYFIELD_REQUIRED);
                 returnVal = false;
             }
 
@@ -1901,6 +1901,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         return adHocRecipients;
 }
 
+    @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CorrectionForm errorCorrectionForm =  (CorrectionForm) form;

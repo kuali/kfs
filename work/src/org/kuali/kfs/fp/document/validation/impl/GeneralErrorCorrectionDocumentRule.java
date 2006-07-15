@@ -214,7 +214,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
 
         if (!retval) {
             // add message
-            GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE, new String[] { code.getFinancialObjectCode(), code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode() });
+            GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE, new String[] { code.getFinancialObjectCode(), code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode() });
         }
 
         return retval;
@@ -239,7 +239,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
+                GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
             }
         }
 
@@ -295,7 +295,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().put(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
+                GlobalVariables.getErrorMap().putError(FINANCIAL_OBJECT_CODE, ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
             }
         }
 

@@ -438,13 +438,13 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
             if (KualiDecimal.ZERO.compareTo(creditAmount) != 0 && KualiDecimal.ZERO.compareTo(debitAmount) != 0) {
                 // there's a value in both fields
                 if (Constants.NEGATIVE_ONE == index) { // it's a new line
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(Constants.DEBIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(Constants.CREDIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.DEBIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.CREDIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
                 else {
                     String errorKeyPath = Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + Constants.SQUARE_BRACKET_LEFT + Integer.toString(index) + Constants.SQUARE_BRACKET_RIGHT;
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
             }
             else {

@@ -377,7 +377,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         KualiDecimal monthlyTotal = budgetAdjustmentAccountingLine.getMonthlyLinesTotal();
         if (monthlyTotal.isNonZero() && monthlyTotal.compareTo(budgetAdjustmentAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
             validMonthlyLines = false;
         }
 
@@ -459,14 +459,14 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 String previousFundGroup = previousLine.getAccount().getSubFundGroup().getFundGroupCode();
 
                 if (!currentFundGroup.equals(previousFundGroup)) {
-                    errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_MIXED_FUND_GROUPS);
+                    errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_MIXED_FUND_GROUPS);
                     isAdjustmentAllowed = false;
                     break;
                 }
 
                 if (restrictedToSubFund) {
                     if (!line.getAccount().getSubFundGroupCode().equals(previousLine.getAccount().getSubFundGroupCode())) {
-                        errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingSubFund, "Sub Fund" });
+                        errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingSubFund, "Sub Fund" });
                         isAdjustmentAllowed = false;
                         break;
                     }
@@ -475,10 +475,10 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 if (restrictedToChart) {
                     if (!line.getChartOfAccountsCode().equals(previousLine.getChartOfAccountsCode())) {
                         if (restrictedToSubFund) {
-                            errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, "Sub Fund and Chart" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, "Sub Fund and Chart" });
                         }
                         else {
-                            errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, "Fund and Chart" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, "Fund and Chart" });
                         }
                         isAdjustmentAllowed = false;
                         break;
@@ -488,10 +488,10 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 if (restrictedToOrg) {
                     if (!line.getAccount().getOrganizationCode().equals(previousLine.getAccount().getOrganizationCode())) {
                         if (restrictedToSubFund) {
-                            errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, "Sub Fund and Organization" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, "Sub Fund and Organization" });
                         }
                         else {
-                            errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, "Fund and Organization" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, "Fund and Organization" });
                         }
                         isAdjustmentAllowed = false;
                         break;
@@ -500,7 +500,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
                 if (restrictedToAccount) {
                     if (!line.getAccountNumber().equals(previousLine.getAccountNumber())) {
-                        errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingAccount, "Account" });
+                        errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingAccount, "Account" });
                         isAdjustmentAllowed = false;
                         break;
                     }
@@ -549,14 +549,14 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         // check account has a budget recording level
         if (StringUtils.isBlank(accountingLine.getAccount().getBudgetRecordingLevelCode()) || ACCOUNT_NUMBER.BUDGET_LEVEL_NO_BUDGET.equals(accountingLine.getAccount().getBudgetRecordingLevelCode())) {
-            errors.put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NON_BUDGETED_ACCOUNT, accountingLine.getAccountNumber());
+            errors.putError(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NON_BUDGETED_ACCOUNT, accountingLine.getAccountNumber());
             accountNumberAllowed = false;
         }
 
         // if current adjustment amount is non zero, account must have an associated income stream chart and account
         if (budgetAccountingLine.getCurrentBudgetAdjustmentAmount().isNonZero()) {
             if (ObjectUtils.isNull(accountingLine.getAccount().getIncomeStreamAccount())) {
-                errors.put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, accountingLine.getAccountNumber());
+                errors.putError(errorKey, KeyConstants.ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT, accountingLine.getAccountNumber());
                 accountNumberAllowed = false;
             }
         }
@@ -578,7 +578,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         // check amounts both current and base amounts are not zero
         if (budgetAccountingLine.getCurrentBudgetAdjustmentAmount().isZero() && budgetAccountingLine.getBaseBudgetAdjustmentAmount().isZero()) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_BA_AMOUNT_ZERO);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_BA_AMOUNT_ZERO);
             amountValid = false;
         }
 
@@ -620,7 +620,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         // check base amounts are equal
         if (baDocument.getSourceBaseBudgetTotal().compareTo(baDocument.getTargetBaseBudgetTotal()) != 0) {
-            GlobalVariables.getErrorMap().put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNTS_BALANCED);
+            GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNTS_BALANCED);
             balanced = false;
         }
 
@@ -633,7 +633,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         }
 
         if (totalCurrentAmount.isNonZero()) {
-            GlobalVariables.getErrorMap().put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_CURRENT_AMOUNTS_BALANCED);
+            GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_CURRENT_AMOUNTS_BALANCED);
             balanced = false;
         }
 
@@ -691,11 +691,11 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         boolean correctSign = true;
 
         if (positive && amount.isNegative()) {
-            GlobalVariables.getErrorMap().put(propertyName, KeyConstants.ERROR_BA_AMOUNT_NEGATIVE, label);
+            GlobalVariables.getErrorMap().putError(propertyName, KeyConstants.ERROR_BA_AMOUNT_NEGATIVE, label);
             correctSign = false;
         }
         else if (!positive && amount.isPositive()) {
-            GlobalVariables.getErrorMap().put(propertyName, KeyConstants.ERROR_BA_AMOUNT_POSITIVE, label);
+            GlobalVariables.getErrorMap().putError(propertyName, KeyConstants.ERROR_BA_AMOUNT_POSITIVE, label);
             correctSign = false;
         }
 
@@ -712,7 +712,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         // check that both source and target are not empty, in which case is an error
         if (transactionalDocument.getSourceAccountingLines().isEmpty() && transactionalDocument.getTargetAccountingLines().isEmpty()) {
-            GlobalVariables.getErrorMap().put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
+            GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
             return false;
         }
 
@@ -806,7 +806,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         String persistedTotal = (String) new CurrencyFormatter().format(persistedSourceLineTotal);
         String currentTotal = (String) new CurrencyFormatter().format(currentSourceLineTotal);
 
-        GlobalVariables.getErrorMap().put(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
+        GlobalVariables.getErrorMap().putError(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
     }
 
 

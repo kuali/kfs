@@ -98,7 +98,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
             valid = !rule.failsRule(objectTypeCode);
             if (!valid) {
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
+                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
             }
         }
 

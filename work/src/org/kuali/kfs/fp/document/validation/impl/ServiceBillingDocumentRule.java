@@ -77,7 +77,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
             return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, action);
         }
         if (!super.accountIsAccessible(transactionalDocument, accountingLine)) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier()); 
+            GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier()); 
             return false;
         }
         return true;
@@ -101,7 +101,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(chartOfAccountsCode, accountNumber);
         if (ObjectUtils.isNull(control)) {
             if (action != null) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(action), accountingLine.getAccountNumber());
+                GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(action), accountingLine.getAccountNumber());
             }
             return false;
         }
@@ -114,7 +114,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
             }
             else {
                 if (action != null) {
-                    GlobalVariables.getErrorMap().put(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), currentUser.getPersonUserIdentifier(), group.getGroupName());
+                    GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), currentUser.getPersonUserIdentifier(), group.getGroupName());
                 }
                 return false;
             }

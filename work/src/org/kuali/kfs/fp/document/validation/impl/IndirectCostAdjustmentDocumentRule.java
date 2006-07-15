@@ -54,7 +54,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
         boolean isValid = accountingLine.getAmount().isNonZero();
         if (!isValid) {
-            GlobalVariables.getErrorMap().put(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putError(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
         }
         return isValid;
@@ -127,7 +127,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
             valid = !rule.failsRule(objectTypeCode);
             if (!valid) {
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
+                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
             }
         }
 

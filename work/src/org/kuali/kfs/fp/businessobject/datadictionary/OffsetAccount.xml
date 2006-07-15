@@ -58,7 +58,7 @@
                 <label>Offset Chart</label>
                 <shortLabel>Offset Chart</shortLabel>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <text size="2" />
                 </control>
                 <summary>Offset Chart</summary>
                 <description>Offset Chart...</description>

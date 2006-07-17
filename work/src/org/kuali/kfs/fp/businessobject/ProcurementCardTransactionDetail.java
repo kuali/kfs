@@ -60,7 +60,8 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     private String transactionPointOfSaleCode;
     private Date transactionCycleStartDate;
     private Date transactionCycleEndDate;
-
+    private KualiDecimal transactionTotalAmount;
+    
     private ProcurementCardVendor procurementCardVendor;
 
     private List sourceAccountingLines;
@@ -544,6 +545,22 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     }
 
     /**
+     * Gets the transactionTotalAmount attribute. 
+     * @return Returns the transactionTotalAmount.
+     */
+    public KualiDecimal getTransactionTotalAmount() {
+        return transactionTotalAmount;
+    }
+
+    /**
+     * Sets the transactionTotalAmount attribute value.
+     * @param transactionTotalAmount The transactionTotalAmount to set.
+     */
+    public void setTransactionTotalAmount(KualiDecimal transactionTotalAmount) {
+        this.transactionTotalAmount = transactionTotalAmount;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -554,4 +571,5 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
         }
         return m;
     }
+
 }

@@ -1479,6 +1479,7 @@
     <field-descriptor name="transactionPointOfSaleCode" column="TRN_PT_OF_SALE_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionCycleStartDate" column="TRN_CYCLE_STRT_DT" jdbc-type="DATE" />
     <field-descriptor name="transactionCycleEndDate" column="TRN_CYCLE_END_DT" jdbc-type="DATE" />
+    <field-descriptor name="transactionTotalAmount" column="TRN_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 
     <reference-descriptor name="procurementCardVendor" class-ref="org.kuali.module.financial.bo.ProcurementCardVendor" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="financialDocumentNumber" />

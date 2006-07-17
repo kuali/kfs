@@ -61,7 +61,7 @@
                       sourceAttributeName="chartOfAccountsCode">
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SimpleChartValuesFinder"/>
+                    <text size="2" />
                 </control>
             </attributeReference>
 

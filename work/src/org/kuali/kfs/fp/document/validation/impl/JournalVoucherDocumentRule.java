@@ -245,7 +245,6 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      */
     @Override
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
-        KualiDecimal ZERO = new KualiDecimal(0);
         KualiDecimal amount = accountingLine.getAmount();
 
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) document;
@@ -253,13 +252,13 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             // check for negative or zero amounts
-            if (ZERO.compareTo(amount) == 0) { // if 0
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            if (amount.isZero()) { // if 0
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
                 return false;
             }
-            else if (ZERO.compareTo(amount) == 1) { // entered a negative number
+            else if (amount.isNegative()) { // entered a negative number
                 String debitCreditCode = accountingLine.getDebitCreditCode();
                 if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
                     GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
@@ -273,11 +272,11 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         }
         else {
             // Check for zero amounts
-            if (ZERO.compareTo(amount) == 0) { // amount == 0
+            if (amount.isZero()) { // amount == 0
                 GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
-                return false;
+               return false;
             }
-            else if (ZERO.compareTo(amount) == 1) {
+            else if (amount.isNegative()) {
                 if (!accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BUDGET_STATISTICS)) {
                     GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }

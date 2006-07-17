@@ -64,7 +64,6 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
     // used to determine which way the change balance type action is switching
     // these are local constants only used within this action class
     // these should not be used outside of this class
-    protected static final KualiDecimal ZERO = new KualiDecimal("0.00");
 
     /**
      * We want to keep the bad data for the voucher.
@@ -133,8 +132,8 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
             voucherForm.getVoucherLineHelpers().add(helperLine);
 
             // now reset the debit and credit fields for adds
-            voucherForm.setNewSourceLineDebit(new KualiDecimal(0));
-            voucherForm.setNewSourceLineCredit(new KualiDecimal(0));
+            voucherForm.setNewSourceLineDebit(KualiDecimal.ZERO);
+            voucherForm.setNewSourceLineCredit(KualiDecimal.ZERO);
         }
 
         return actionForward;
@@ -174,8 +173,8 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
         VoucherForm voucherForm = (VoucherForm) kualiDocumentFormBase;
 
         populateAllVoucherAccountingLineHelpers(voucherForm);
-        voucherForm.setNewSourceLineCredit(ZERO);
-        voucherForm.setNewSourceLineDebit(ZERO);
+        voucherForm.setNewSourceLineCredit(KualiDecimal.ZERO);
+        voucherForm.setNewSourceLineDebit(KualiDecimal.ZERO);
 
         // always wipe out the new source line
         voucherForm.setNewSourceLine(null);
@@ -346,6 +345,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @throws FileNotFoundException
      * @throws IOException
      */
+    @Override
     public ActionForward uploadSourceLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
         // call method that sourceform and destination list
         uploadAccountingLines(true, form);
@@ -362,6 +362,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @throws FileNotFoundException
      * @throws IOException
      */
+    @Override
     protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
         super.uploadAccountingLines(isSource, form);
 

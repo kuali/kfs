@@ -936,7 +936,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        String errorKey = PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
+        String errorKey = PropertyConstants.FINANCIAL_OBJECT_CODE;
         boolean objectCodeAllowed = true;
 
         /* object code exist done in super, check we have a valid object */

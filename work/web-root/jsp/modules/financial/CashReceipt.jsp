@@ -111,7 +111,9 @@
 				</tr>
 				<tr>
 					<th>
-					<div align="right"><strong>Cash Reconciliation Total:</strong></div>
+					<div align="right"><strong><kul:htmlAttributeLabel
+						attributeEntry="${cashReceiptAttributes.sumTotalAmount}"
+						useShortLabel="false" skipHelpUrl="true" /></strong></div>
 					</th>
 					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedSumTotalAmount}&nbsp;&nbsp;&nbsp;
 					<c:if test="${!readOnly}">

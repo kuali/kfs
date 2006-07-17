@@ -79,7 +79,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        return !CashReceiptDocumentRuleUtil.areCashTotalsNegative((CashReceiptDocument) document);
+        return !CashReceiptDocumentRuleUtil.areCashTotalsInvalid((CashReceiptDocument) document);
     }
 
     /**

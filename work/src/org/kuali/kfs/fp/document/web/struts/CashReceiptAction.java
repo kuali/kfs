@@ -83,7 +83,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             }
 
             // generate errors for negative cash totals (especially for the recalculate button)
-            CashReceiptDocumentRuleUtil.areCashTotalsNegative(cdoc);
+            CashReceiptDocumentRuleUtil.areCashTotalsInvalid(cdoc);
         }
 
         // proceed as usual

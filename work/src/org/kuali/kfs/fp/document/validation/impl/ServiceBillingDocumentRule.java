@@ -27,19 +27,12 @@ import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstan
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.PropertyConstants;
-import org.kuali.KeyConstants;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for
@@ -60,7 +53,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             // The use from hasAccessibleAccountingLines() is not important for SB, which routes straight to final.
-            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, null);
+            return accountingLine.isTargetAccountingLine() || ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(accountingLine, null);
         }
         return super.accountIsAccessible(transactionalDocument, accountingLine);
     }
@@ -74,89 +67,13 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, action);
+            return accountingLine.isTargetAccountingLine() || ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(accountingLine, action);
         }
         if (!super.accountIsAccessible(transactionalDocument, accountingLine)) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier()); 
+            GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier());
             return false;
         }
         return true;
-    }
-
-    /**
-     * Checks the account and user against the SB control table.
-     * 
-     * @param accountingLine from the income section
-     * @param action kind of error messages to generate, if not null
-     * @return whether the current user is authorized to use the given account in the SB income section
-     */
-    private boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingLineAction action) {
-        assert accountingLine.isSourceAccountingLine();
-        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
-        String accountNumber = accountingLine.getAccountNumber();
-        if (StringUtils.isEmpty(chartOfAccountsCode) || StringUtils.isEmpty(accountNumber)) {
-            // Ignore empty key because hasAccessibleAccountingLines() may not validate beforehand.
-            return false;
-        }
-        ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(chartOfAccountsCode, accountNumber);
-        if (ObjectUtils.isNull(control)) {
-            if (action != null) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, noServiceBillingControlErrorKey(action), accountingLine.getAccountNumber());
-            }
-            return false;
-        }
-        try {
-            KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-            // todo: isMember(String) instead of going through KualiGroupService?
-            KualiGroup group = SpringServiceLocator.getKualiGroupService().getByGroupName(control.getWorkgroupName());
-            if (currentUser.isMember(group)) {
-                return true;
-            }
-            else {
-                if (action != null) {
-                    GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), currentUser.getPersonUserIdentifier(), group.getGroupName());
-                }
-                return false;
-            }
-        }
-        catch (GroupNotFoundException e) {
-            LOG.error("invalid workgroup in SB control for " + chartOfAccountsCode + accountNumber, e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * @param action
-     * @return the error key for not having an SB control
-     */
-    private String noServiceBillingControlErrorKey(AccountingLineAction action) {
-        switch (action) {
-            case ADD:
-                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NO_SB_CTRL;
-            case UPDATE:
-                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NO_SB_CTRL;
-            case DELETE:
-                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NO_SB_CTRL;
-            default:
-                throw new AssertionError(action);
-        }
-    }
-
-    /**
-     * @param action
-     * @return the error key for not being a member of the Workgroup of the necessary SB control
-     */
-    private String notControlGroupMemberErrorKey(AccountingLineAction action) {
-        switch (action) {
-            case ADD:
-                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NOT_IN_SB_CTRL_GRP;
-            case UPDATE:
-                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE_NOT_IN_SB_CTRL_GRP;
-            case DELETE:
-                return KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE_NOT_IN_SB_CTRL_GRP;
-            default:
-                throw new AssertionError(action);
-        }
     }
 
     /**

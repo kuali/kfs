@@ -28,9 +28,9 @@ import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineParser;
+import org.kuali.core.bo.AccountingLineParserBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.InternalBillingItem;
 
 
@@ -160,6 +160,6 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {
-        return new BasicFormatWithLineDescriptionAccountingLineParser();
+        return new AccountingLineParserBase();
     }
 }

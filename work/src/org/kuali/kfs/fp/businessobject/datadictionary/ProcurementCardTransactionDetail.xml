@@ -29,6 +29,7 @@
                 <field attributeName="transactionUnitContactName" />
                 <field attributeName="transactionCycleEndDate" />
                 <field attributeName="transactionCycleStartDate" />
+                <field attributeName="transactionTotalAmount" />
             </inquiryFields>
         </inquiry>
 
@@ -313,6 +314,23 @@
 
                 <summary>transactionCycleStartDate</summary>
                 <description>transactionCycleStartDate description...</description>
+            </attribute>
+
+            <attribute name="transactionTotalAmount" forceUppercase="true">
+                <label>Transaction Total Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>transactionTotalAmount</summary>
+                <description>transactionTotalAmount description...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

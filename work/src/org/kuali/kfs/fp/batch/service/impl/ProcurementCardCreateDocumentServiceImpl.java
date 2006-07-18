@@ -330,6 +330,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         transactionDetail.setTransactionTaxExemptIndicator(transaction.getTransactionTaxExemptIndicator());
         transactionDetail.setTransactionTravelAuthorizationCode(transaction.getTransactionTravelAuthorizationCode());
         transactionDetail.setTransactionUnitContactName(transaction.getTransactionUnitContactName());
+        transactionDetail.setTransactionTotalAmount(transaction.getFinancialDocumentTotalAmount());
 
         // create transaction vendor record
         createTransactionVendorRecord(pcardDocument, transaction, transactionDetail);

@@ -26,13 +26,17 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.workflow.KualiConstants;
 
 /**
  * 
@@ -75,6 +79,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
+        checkForDefaultSubFundGroupStatus();
 
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
@@ -84,6 +89,58 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         return true;
     }
 
+    /**
+     * 
+     * This method sets a default restricted status on an account if and only if the status code
+     * in SubFundGroup has been set and the user answers in the affirmative that they definitely
+     * want to use this SubFundGroup.
+     */
+    private void checkForDefaultSubFundGroupStatus() {
+        String restrictedStatusCode = "";
+
+        // if subFundGroupCode was not entered, then we have nothing
+        // to do here, so exit
+        if (ObjectUtils.isNull(copyAccount.getSubFundGroup()) || StringUtils.isBlank(copyAccount.getSubFundGroupCode())) {
+            return;
+        }
+        SubFundGroup subFundGroup = copyAccount.getSubFundGroup();
+        restrictedStatusCode = subFundGroup.getAccountRestrictedStatusCode().trim();
+
+        boolean useSubFundGroup = false;
+        if (StringUtils.isNotBlank(restrictedStatusCode)) {
+            String subFundGroupCd = subFundGroup.getSubFundGroupCode();
+            useSubFundGroup = askOrAnalyzeYesNoQuestion("SubFundGroup" + subFundGroupCd, buildSubFundGroupConfirmationQuestion(subFundGroupCd, restrictedStatusCode));
+            if(useSubFundGroup) {
+                //then set defaults for account based on this
+                newAccount.setAccountRestrictedStatusCode(restrictedStatusCode);
+            } else {
+                // the user did not want to use this sub fund group so we wipe it out
+                newAccount.setSubFundGroupCode(Constants.EMPTY_STRING);
+            }
+        }
+        
+    }
+    
+    /**
+     * 
+     * This method builds up the message string that gets sent to the user regarding using
+     * this SubFundGroup
+     * @param subFundGroupCd
+     * @param restrictedStatusCd
+     * @return
+     */
+    protected String buildSubFundGroupConfirmationQuestion(String subFundGroupCd, String restrictedStatusCd) {
+        String result = configService.getPropertyString(KeyConstants.QUESTION_ACCT_SUB_FUND_RESTRICTED_STATUS);
+        result = StringUtils.replace(result, "{0}", subFundGroupCd);
+        result = StringUtils.replace(result, "{1}", restrictedStatusCd);
+        return result;
+    }
+    
+    /**
+     * 
+     * This method checks for continuation accounts and presents the user with a question
+     * regarding their use on this account.
+     */
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
@@ -147,48 +204,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
         copyAccount = (Account) ObjectUtils.deepCopy(newAccount);
         copyAccount.refresh();
-    }
-
-    /**
-     * 
-     * This method sets the default values for RestrictedStatusCode, based on the FundGroups.
-     * 
-     * @param document - the MaintenanceDocument being evaluated
-     * 
-     */
-    private void setRestrictedCodeDefaults(MaintenanceDocument document) {
-
-        // NOTE that this method is no longer used. It was found to be confusing
-        // to the users when the field was silently changed with no explanation.
-
-        String fundGroupCode = "";
-
-        // if subFundGroupCode was not entered, then we have nothing
-        // to do here, so exit
-        if (ObjectUtils.isNull(copyAccount.getSubFundGroup()) || StringUtils.isBlank(copyAccount.getSubFundGroupCode())) {
-            return;
-        }
-        fundGroupCode = copyAccount.getSubFundGroup().getFundGroupCode().trim();
-
-        if (!StringUtils.isBlank(fundGroupCode)) {
-
-            // on the account screen, if the fund group of the account is CG (contracts & grants) or
-            // RF (restricted funds), the restricted status code is set to 'R'.
-            if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
-                newAccount.setAccountRestrictedStatusCode(RESTRICTED_CD_RESTRICTED);
-            }
-
-            // If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and
-            // must be set by the user
-            else if (fundGroupCode.equalsIgnoreCase(ENDOWMENT_FUND_CD) || fundGroupCode.equalsIgnoreCase(PLANT_FUND_CD)) {
-                // do nothing, must be set by user
-            }
-
-            // for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
-            else {
-                newAccount.setAccountRestrictedStatusCode(RESTRICTED_CD_UNRESTRICTED);
-            }
-        }
     }
 
     /**

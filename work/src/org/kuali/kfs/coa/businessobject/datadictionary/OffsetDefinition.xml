@@ -55,7 +55,7 @@
 
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <text size="2" />
                 </control>
             </attributeReference>
 

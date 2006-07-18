@@ -94,7 +94,7 @@
                 <shortLabel>Cash Off CoA</shortLabel>
                 <required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <text size="2" />
                 </control>
                 <summary>Cash Offset Chart Of Accounts Code</summary>
                 <description>Cash Offset Chart Of Accounts Code</description>

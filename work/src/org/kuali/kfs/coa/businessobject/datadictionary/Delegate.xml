@@ -63,7 +63,7 @@
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <text size="2" />
                 </control>
 
                 <description>The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts</description>

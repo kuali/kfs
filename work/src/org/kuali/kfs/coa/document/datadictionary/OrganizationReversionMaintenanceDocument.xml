@@ -61,7 +61,7 @@
                     <maintainableField name="budgetReversionAccountNumber" required="true" />
                     <maintainableField name="cashReversionFinancialChartOfAccountsCode" required="true" />
                     <maintainableField name="cashReversionAccountNumber" required="true" />
-                    <maintainableField name="carryForwardByObjectCodeIndicator" required="true" />
+                    <maintainableField name="carryForwardByObjectCodeIndicator" />
                     <maintainableField name="versionNumber" />
 
                     <maintainableCollection name="organizationReversionDetail" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail">

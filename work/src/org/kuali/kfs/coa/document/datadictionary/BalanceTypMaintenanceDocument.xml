@@ -34,7 +34,7 @@
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" required="true" />
                     <maintainableField name="financialBalanceTypeShortNm" required="true" />
-                    <maintainableField name="financialOffsetGenerationIndicator" required="true" />
+                    <maintainableField name="financialOffsetGenerationIndicator"  />
                     <maintainableField name="finBalanceTypeEncumIndicator" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

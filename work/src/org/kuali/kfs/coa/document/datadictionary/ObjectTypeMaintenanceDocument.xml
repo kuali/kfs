@@ -35,8 +35,8 @@
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" required="true" />
                     <maintainableField name="finObjectTypeDebitcreditCd" required="true" />
-                    <maintainableField name="finObjectTypeIcrSelectionIndicator" required="true" />
-                    <maintainableField name="fundBalanceIndicator" required="true" />
+                    <maintainableField name="finObjectTypeIcrSelectionIndicator"  />
+                    <maintainableField name="fundBalanceIndicator"  />
                     <maintainableField name="financialReportingSortCode" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

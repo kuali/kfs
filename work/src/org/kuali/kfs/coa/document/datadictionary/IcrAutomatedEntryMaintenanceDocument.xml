@@ -52,7 +52,7 @@
                     <maintainableField name="financialObjectCode" required="true" />
                     <maintainableField name="financialSubObjectCode" required="true" />
                     <maintainableField name="offsetBalanceSheetObjectCodeNumber" required="true" />
-                    <maintainableField name="transactionDebitIndicator" required="true" />
+                    <maintainableField name="transactionDebitIndicator"  />
                     <maintainableField name="awardIndrCostRcvyRatePct" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

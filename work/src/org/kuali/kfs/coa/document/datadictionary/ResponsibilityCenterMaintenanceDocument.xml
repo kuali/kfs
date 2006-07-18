@@ -36,7 +36,7 @@
                     <maintainableField name="responsibilityCenterCode" required="true" />
                     <maintainableField name="responsibilityCenterName" required="true" />
                     <maintainableField name="responsibilityCenterShortName" required="true" />
-                    <maintainableField name="responsibilityCenterActiveIndicator" required="true" />
+                    <maintainableField name="responsibilityCenterActiveIndicator"  />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

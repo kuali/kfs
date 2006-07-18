@@ -3,10 +3,15 @@
 	htmlFormAction="generalLedgerCorrection"transactionalDocument="false"
 	renderMultipart="true" showTabButtons="true">
 
+
     <kul:hiddenDocumentFields isFinancialDocument="false" />
     <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
     <input type="hidden" name="document.correctionChangeGroupNextLineNumber" value="<c:out value="${KualiForm.document.correctionChangeGroupNextLineNumber}" />" />
 
+    <input type="hidden" name="correctionFormKey" value="${correctionFormKey}">
+	
+	<kul:tab tabTitle="Correction Process" defaultOpen="true">
+ 	
  	<div class="tab-container" align="center" >
       
     	<table cellpadding=0 class="datatable" summary=""> 
@@ -107,9 +112,11 @@
                         
                         
                         
-                        <br/><br/> 
-                        
-	                        <input type="image" name="methodToCall.readDocument" 
+                        <br/><br/>  
+
+
+							
+	                        <input type="image" name="methodToCall.readDocument"  
 			                	   src="images/tinybutton-loaddoc.gif" alt="show all entries for manual edit" class="tinybutton" />
 			               	
 							Copy To Desktop 
@@ -378,8 +385,8 @@
                       <td>
                       
 					                    
-					<display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${reqSearchResults}" id="allEntries" pagesize="10"
-                      requestURI="generalLedgerCorrection.do?methodToCall=viewResults&searchResultKey=${searchResultKey}&correctionFormKey=${correctionFormKey}&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
+					<display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${KualiForm.allEntries}" id="allEntries" pagesize="10"
+                      requestURI="generalLedgerCorrection.do?methodToCall=viewResults&correctionFormKey=${correctionFormKey}&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
              		  
              <%--		 <display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${reqSearchResults}" id="allEntries" > --%>
 
@@ -771,7 +778,7 @@
    
    </c:if>
 
- 
+ </kul:tab>
    
 	<kul:notes/>
     <kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>        

@@ -78,6 +78,13 @@ public class IsDebitTestUtils {
         public static final String ASSET = "BA,6044900,x,8010,x,x,x,x,x,0";
         public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,0";
         public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,0";
+        
+        private static class WithDescription {
+            public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,description,x,x,0";
+            public static final String ASSET = "BA,6044900,x,8010,x,x,x,description,x,x,0";
+            public static final String INCOME = "BA,6044900,x,1301,x,x,x,description,x,x,0";
+            public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,description,x,x,0";
+        }
     }
 
     private static class Target {
@@ -86,11 +93,18 @@ public class IsDebitTestUtils {
         public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,0";
         public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,0";
 
-        private static class PreEncumrance {
+        private static class PreEncumbrance {
             public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,x,x,x,x,0";
             public static final String ASSET = "BA,6044900,x,8010,x,x,x,x,x,x,x,0";
             public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,x,x,0";
             public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,x,x,0";
+        }
+
+        private static class WithDescription {
+            public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,description,x,x,0";
+            public static final String ASSET = "BA,6044900,x,8010,x,x,x,description,x,x,0";
+            public static final String INCOME = "BA,6044900,x,1301,x,x,x,description,x,x,0";
+            public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,description,x,x,0";
         }
     }
 
@@ -100,16 +114,16 @@ public class IsDebitTestUtils {
          * EXPENSE:source
          */
         sourceExpenseLines.put(AdvanceDepositDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(CashReceiptDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(CreditCardReceiptDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(DisbursementVoucherDocument.class, Source.EXPENSE);
+        sourceExpenseLines.put(CashReceiptDocument.class, Source.WithDescription.EXPENSE);
+        sourceExpenseLines.put(CreditCardReceiptDocument.class, Source.WithDescription.EXPENSE);
+        sourceExpenseLines.put(DisbursementVoucherDocument.class, Source.WithDescription.EXPENSE);
         sourceExpenseLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.EXPENSE);
         sourceExpenseLines.put(GeneralErrorCorrectionDocument.class, Source.EXPENSE);
         sourceExpenseLines.put(IndirectCostAdjustmentDocument.class, Source.EXPENSE);
         sourceExpenseLines.put(InternalBillingDocument.class, Source.EXPENSE);
         sourceExpenseLines.put(NonCheckDisbursementDocument.class, Source.EXPENSE);
         sourceExpenseLines.put(PreEncumbranceDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(ServiceBillingDocument.class, Source.EXPENSE);
+        sourceExpenseLines.put(ServiceBillingDocument.class, Source.WithDescription.EXPENSE);
         sourceExpenseLines.put(TransferOfFundsDocument.class, Source.EXPENSE);
     }
 
@@ -121,8 +135,8 @@ public class IsDebitTestUtils {
         targetExpenseLines.put(GeneralErrorCorrectionDocument.class, Target.EXPENSE);
         targetExpenseLines.put(IndirectCostAdjustmentDocument.class, Target.EXPENSE);
         targetExpenseLines.put(InternalBillingDocument.class, Target.EXPENSE);
-        targetExpenseLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.EXPENSE);
-        targetExpenseLines.put(ServiceBillingDocument.class, Target.EXPENSE);
+        targetExpenseLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.EXPENSE);
+        targetExpenseLines.put(ServiceBillingDocument.class, Target.WithDescription.EXPENSE);
         targetExpenseLines.put(TransferOfFundsDocument.class, Target.EXPENSE);
     }
 
@@ -131,16 +145,16 @@ public class IsDebitTestUtils {
          * ASSET:source
          */
         sourceAssetLines.put(AdvanceDepositDocument.class, Source.ASSET);
-        sourceAssetLines.put(CashReceiptDocument.class, Source.ASSET);
-        sourceAssetLines.put(CreditCardReceiptDocument.class, Source.ASSET);
-        sourceAssetLines.put(DisbursementVoucherDocument.class, Source.ASSET);
+        sourceAssetLines.put(CashReceiptDocument.class, Source.WithDescription.ASSET);
+        sourceAssetLines.put(CreditCardReceiptDocument.class, Source.WithDescription.ASSET);
+        sourceAssetLines.put(DisbursementVoucherDocument.class, Source.WithDescription.ASSET);
         sourceAssetLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.ASSET);
         sourceAssetLines.put(GeneralErrorCorrectionDocument.class, Source.ASSET);
         sourceAssetLines.put(IndirectCostAdjustmentDocument.class, Source.ASSET);
         sourceAssetLines.put(InternalBillingDocument.class, Source.ASSET);
         sourceAssetLines.put(NonCheckDisbursementDocument.class, Source.ASSET);
         sourceAssetLines.put(PreEncumbranceDocument.class, Source.ASSET);
-        sourceAssetLines.put(ServiceBillingDocument.class, Source.ASSET);
+        sourceAssetLines.put(ServiceBillingDocument.class, Source.WithDescription.ASSET);
         sourceAssetLines.put(TransferOfFundsDocument.class, Source.ASSET);
     }
 
@@ -152,8 +166,8 @@ public class IsDebitTestUtils {
         targetAssetLines.put(GeneralErrorCorrectionDocument.class, Target.ASSET);
         targetAssetLines.put(IndirectCostAdjustmentDocument.class, Target.ASSET);
         targetAssetLines.put(InternalBillingDocument.class, Target.ASSET);
-        targetAssetLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.ASSET);
-        targetAssetLines.put(ServiceBillingDocument.class, Target.ASSET);
+        targetAssetLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.ASSET);
+        targetAssetLines.put(ServiceBillingDocument.class, Target.WithDescription.ASSET);
         targetAssetLines.put(TransferOfFundsDocument.class, Target.ASSET);
     }
 
@@ -162,16 +176,16 @@ public class IsDebitTestUtils {
          * INCOME:source
          */
         sourceIncomeLines.put(AdvanceDepositDocument.class, Source.INCOME);
-        sourceIncomeLines.put(CashReceiptDocument.class, Source.INCOME);
-        sourceIncomeLines.put(CreditCardReceiptDocument.class, Source.INCOME);
-        sourceIncomeLines.put(DisbursementVoucherDocument.class, Source.INCOME);
+        sourceIncomeLines.put(CashReceiptDocument.class, Source.WithDescription.INCOME);
+        sourceIncomeLines.put(CreditCardReceiptDocument.class, Source.WithDescription.INCOME);
+        sourceIncomeLines.put(DisbursementVoucherDocument.class, Source.WithDescription.INCOME);
         sourceIncomeLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.INCOME);
         sourceIncomeLines.put(GeneralErrorCorrectionDocument.class, Source.INCOME);
         sourceIncomeLines.put(IndirectCostAdjustmentDocument.class, Source.INCOME);
         sourceIncomeLines.put(InternalBillingDocument.class, Source.INCOME);
         sourceIncomeLines.put(NonCheckDisbursementDocument.class, Source.INCOME);
         sourceIncomeLines.put(PreEncumbranceDocument.class, Source.INCOME);
-        sourceIncomeLines.put(ServiceBillingDocument.class, Source.INCOME);
+        sourceIncomeLines.put(ServiceBillingDocument.class, Source.WithDescription.INCOME);
         sourceIncomeLines.put(TransferOfFundsDocument.class, Source.INCOME);
     }
 
@@ -183,8 +197,8 @@ public class IsDebitTestUtils {
         targetIncomeLines.put(GeneralErrorCorrectionDocument.class, Target.INCOME);
         targetIncomeLines.put(IndirectCostAdjustmentDocument.class, Target.INCOME);
         targetIncomeLines.put(InternalBillingDocument.class, Target.INCOME);
-        targetIncomeLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.INCOME);
-        targetIncomeLines.put(ServiceBillingDocument.class, Target.INCOME);
+        targetIncomeLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.INCOME);
+        targetIncomeLines.put(ServiceBillingDocument.class, Target.WithDescription.INCOME);
         targetIncomeLines.put(TransferOfFundsDocument.class, Target.INCOME);
     }
 
@@ -193,16 +207,16 @@ public class IsDebitTestUtils {
          * LIABILITY:source
          */
         sourceLiabilityLines.put(AdvanceDepositDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(CashReceiptDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(CreditCardReceiptDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(DisbursementVoucherDocument.class, Source.LIABILITY);
+        sourceLiabilityLines.put(CashReceiptDocument.class, Source.WithDescription.LIABILITY);
+        sourceLiabilityLines.put(CreditCardReceiptDocument.class, Source.WithDescription.LIABILITY);
+        sourceLiabilityLines.put(DisbursementVoucherDocument.class, Source.WithDescription.LIABILITY);
         sourceLiabilityLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.LIABILITY);
         sourceLiabilityLines.put(GeneralErrorCorrectionDocument.class, Source.LIABILITY);
         sourceLiabilityLines.put(IndirectCostAdjustmentDocument.class, Source.LIABILITY);
         sourceLiabilityLines.put(InternalBillingDocument.class, Source.LIABILITY);
         sourceLiabilityLines.put(NonCheckDisbursementDocument.class, Source.LIABILITY);
         sourceLiabilityLines.put(PreEncumbranceDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(ServiceBillingDocument.class, Source.LIABILITY);
+        sourceLiabilityLines.put(ServiceBillingDocument.class, Source.WithDescription.LIABILITY);
         sourceLiabilityLines.put(TransferOfFundsDocument.class, Source.LIABILITY);
 
     }
@@ -215,8 +229,8 @@ public class IsDebitTestUtils {
         targetLiabilityLines.put(GeneralErrorCorrectionDocument.class, Target.LIABILITY);
         targetLiabilityLines.put(IndirectCostAdjustmentDocument.class, Target.LIABILITY);
         targetLiabilityLines.put(InternalBillingDocument.class, Target.LIABILITY);
-        targetLiabilityLines.put(PreEncumbranceDocument.class, Target.PreEncumrance.LIABILITY);
-        targetLiabilityLines.put(ServiceBillingDocument.class, Target.LIABILITY);
+        targetLiabilityLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.LIABILITY);
+        targetLiabilityLines.put(ServiceBillingDocument.class, Target.WithDescription.LIABILITY);
         targetLiabilityLines.put(TransferOfFundsDocument.class, Target.LIABILITY);
     }
 

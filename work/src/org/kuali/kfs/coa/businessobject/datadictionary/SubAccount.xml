@@ -146,7 +146,7 @@
 
             <attribute name="subAccountName" forceUppercase="true">
                 <label>Sub-Account Name</label>
-                <shortLabel>Su-Acct Name</shortLabel>
+                <shortLabel>Sub-Acct Name</shortLabel>
 
                 <maxLength>40</maxLength>
                 <validationPattern>

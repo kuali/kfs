@@ -163,6 +163,21 @@ public class UserSession implements Serializable {
         objectMap.put(objectKey, object);
         return objectKey;
     }
+    
+    /**
+     * allows adding an arbitrary object to the session with static a string key that can be used to later access this object from
+     * the session using the retrieveObject method in this class
+     * 
+     * @param object
+     * 
+     */
+    public void addObject(String key, Object object) {
+        
+        objectMap.put(key, object);
+        
+    }
+
+    
 
     /**
      * allows adding an arbitrary object to the session and returns a string key that can be used to later access this object from

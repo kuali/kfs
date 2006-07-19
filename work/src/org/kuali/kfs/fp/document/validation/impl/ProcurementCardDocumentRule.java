@@ -22,6 +22,10 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.ZERO;
+import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +37,7 @@ import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -214,13 +219,24 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * For transactions that are credits back from the bank, accounting lines can be negative.
+     * For transactions that are credits back from the bank, accounting lines can be negative. It still checks that an amount is
+     * not zero.
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
+        KualiDecimal amount = accountingLine.getAmount();
+
+        // Check for zero, negative amounts (non-correction), positive amounts (correction)
+        String correctsDocumentId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        if (ZERO.compareTo(amount) == 0) { // amount == 0
+            GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
+            LOG.info("failing isAmountValid - zero check");
+            return false;
+        }
+        
         return true;
     }
 

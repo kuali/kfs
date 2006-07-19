@@ -92,7 +92,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="chartOfAccountsCode" noInquiry="true" />
+                <field attributeName="chartOfAccountsCode"  />
                 <field attributeName="organizationCode" />
                 <field attributeName="responsibilityCenterCode" />
                 <field attributeName="organizationTypeCode" />

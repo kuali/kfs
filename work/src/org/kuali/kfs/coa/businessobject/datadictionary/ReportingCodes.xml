@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Reporting Codes Inquiry</title>
+            <title>Financial Reporting Code Inquiry</title>
 
             <inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
@@ -20,13 +20,13 @@
         </inquiry>
 
         <lookup>
-            <title>Reporting Codes Lookup</title>
+            <title>Financial Reporting Code Lookup</title>
 
             <menubar>
                 <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ReportingCodes">Create New</a>]]>
             </menubar>
 
-            <instructions>Lookup Reporting Codes</instructions>
+            <instructions>Lookup Financial Reporting Code</instructions>
 
             <defaultSort attributeName="chartOfAccountsCode" sortAscending="true" />
 
@@ -60,7 +60,7 @@
 
             <attribute name="financialReportingCode" forceUppercase="true">
                 <label>Financial Reporting Code</label>
-                <shortLabel>Report Code</shortLabel>
+                <shortLabel>Financial Reporting Code</shortLabel>
 
                 <maxLength>10</maxLength>
                 <validationPattern>
@@ -111,7 +111,7 @@
             </attribute>
 
             <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
-                <label>Reporting Code Manager UserID</label>
+                <label>Financial Reporting Code Manager UserID</label>
                 <shortLabel>UserID</shortLabel>
                 <required>false</required>
                 <control>
@@ -122,7 +122,7 @@
             </attributeReference>
 
             <attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Reporting Code Manager Name</label>
+                <label>Financial Reporting Code Manager Name</label>
                 <shortLabel>Name</shortLabel>
                 <required>false</required>
                 <control>

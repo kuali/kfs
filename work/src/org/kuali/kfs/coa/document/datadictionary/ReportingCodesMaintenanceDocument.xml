@@ -20,10 +20,10 @@
 
         <documentTypeName>KualiReportingCodesMaintenanceDocument</documentTypeName>
         <documentTypeCode>RPTC</documentTypeCode>
-        <label>Reporting Codes Maintenance Document</label>
-        <shortLabel>RptCdMaintDoc</shortLabel>
-        <summary>Reporting Codes Maintenance Document</summary>
-        <description>Maintenance document which allows you to create, remove or modify Reporting Codes.</description>
+        <label>Financial Reporting Code Maintenance Document</label>
+        <shortLabel>FinRptCdMaintDoc</shortLabel>
+        <summary>Financial Reporting Code Maintenance Document</summary>
+        <description>Maintenance document which allows you to create, remove or modify Financial Reporting Codes.</description>
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
@@ -38,7 +38,7 @@
         </defaultExistenceChecks>
 
         <maintainableSections>
-            <maintainableSection title="Edit Reporting Codes">
+            <maintainableSection title="Edit Financial Reporting Codes">
                 <maintainableItems>
                     <maintainableField name="chartOfAccountsCode" required="true" />
                     <maintainableField name="organizationCode" required="true" />

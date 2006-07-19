@@ -80,26 +80,6 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the accountingPeriod attribute.
-     * 
-     * @return Returns the accountingPeriod.
-     */
-    @Override
-    public AccountingPeriod getAccountingPeriod() {
-        return accountingPeriod;
-    }
-
-    /**
-     * Sets the accountingPeriod attribute value.
-     * 
-     * @param accountingPeriod The accountingPeriod to set.
-     */
-    @Override
-    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
-        this.accountingPeriod = accountingPeriod;
-    }
-
-    /**
      * Gets the campusLocationCode attribute.
      * 
      * @return Returns the campusLocationCode.

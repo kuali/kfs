@@ -36,7 +36,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -54,7 +53,6 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public static final String CHECK_ENTRY_DETAIL = "individual";
     public static final String CHECK_ENTRY_TOTAL = "totals";
 
-    private AccountingPeriod accountingPeriod; // represented by the posting year and posting period code
     private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
     private Timestamp depositDate;
 

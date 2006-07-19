@@ -46,7 +46,6 @@ public class Delegate extends BusinessObjectBase {
     public Delegate() {
         this.finDocApprovalFromThisAmt = new KualiDecimal(0);
         this.finDocApprovalToThisAmount = new KualiDecimal(0);
-        this.accountDelegateActiveIndicator = true;
     }
 
     private String chartOfAccountsCode;

@@ -34,12 +34,12 @@
             <reference attributeName="financialDocumentCreditCardType" attributeToHighlightOnFail="financialDocumentCreditCardTypeCode" />
             <reference attributeName="incomeFinancialChartOfAccounts" attributeToHighlightOnFail="incomeFinancialChartOfAccountsCode" />
             <reference attributeName="incomeAccount" attributeToHighlightOnFail="incomeAccountNumber" />
-            <reference attributeName="incomeFinancialObject" attributeToHighlightOnFail="incomeFinancialChartOfAccountsCode" />
+            <reference attributeName="incomeFinancialObject" attributeToHighlightOnFail="incomeFinancialObjectCode" />
             <reference attributeName="incomeFinancialSubObject" attributeToHighlightOnFail="incomeFinancialSubObjectCode" />
             <reference attributeName="incomeSubAccount" attributeToHighlightOnFail="incomeSubAccountNumber" />
             <reference attributeName="expenseFinancialChartOfAccounts" attributeToHighlightOnFail="expenseFinancialChartOfAccountsCode" />
             <reference attributeName="expenseAccount" attributeToHighlightOnFail="expenseAccountNumber" />
-            <reference attributeName="expenseFinancialObject" attributeToHighlightOnFail="expenseFinancialChartOfAccountsCode" />
+            <reference attributeName="expenseFinancialObject" attributeToHighlightOnFail="expenseFinancialObjectCode" />
             <reference attributeName="expenseFinancialSubObject" attributeToHighlightOnFail="expenseFinancialSubObjectCode" />
             <reference attributeName="expenseSubAccount" attributeToHighlightOnFail="expenseSubAccountNumber" />
         </defaultExistenceChecks>

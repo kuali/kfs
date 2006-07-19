@@ -113,7 +113,7 @@ public class IsDebitTestUtils {
         /**
          * EXPENSE:source
          */
-        sourceExpenseLines.put(AdvanceDepositDocument.class, Source.EXPENSE);
+        sourceExpenseLines.put(AdvanceDepositDocument.class, Source.WithDescription.EXPENSE);
         sourceExpenseLines.put(CashReceiptDocument.class, Source.WithDescription.EXPENSE);
         sourceExpenseLines.put(CreditCardReceiptDocument.class, Source.WithDescription.EXPENSE);
         sourceExpenseLines.put(DisbursementVoucherDocument.class, Source.WithDescription.EXPENSE);
@@ -144,7 +144,7 @@ public class IsDebitTestUtils {
         /**
          * ASSET:source
          */
-        sourceAssetLines.put(AdvanceDepositDocument.class, Source.ASSET);
+        sourceAssetLines.put(AdvanceDepositDocument.class, Source.WithDescription.ASSET);
         sourceAssetLines.put(CashReceiptDocument.class, Source.WithDescription.ASSET);
         sourceAssetLines.put(CreditCardReceiptDocument.class, Source.WithDescription.ASSET);
         sourceAssetLines.put(DisbursementVoucherDocument.class, Source.WithDescription.ASSET);
@@ -175,7 +175,7 @@ public class IsDebitTestUtils {
         /**
          * INCOME:source
          */
-        sourceIncomeLines.put(AdvanceDepositDocument.class, Source.INCOME);
+        sourceIncomeLines.put(AdvanceDepositDocument.class, Source.WithDescription.INCOME);
         sourceIncomeLines.put(CashReceiptDocument.class, Source.WithDescription.INCOME);
         sourceIncomeLines.put(CreditCardReceiptDocument.class, Source.WithDescription.INCOME);
         sourceIncomeLines.put(DisbursementVoucherDocument.class, Source.WithDescription.INCOME);
@@ -206,7 +206,7 @@ public class IsDebitTestUtils {
         /**
          * LIABILITY:source
          */
-        sourceLiabilityLines.put(AdvanceDepositDocument.class, Source.LIABILITY);
+        sourceLiabilityLines.put(AdvanceDepositDocument.class, Source.WithDescription.LIABILITY);
         sourceLiabilityLines.put(CashReceiptDocument.class, Source.WithDescription.LIABILITY);
         sourceLiabilityLines.put(CreditCardReceiptDocument.class, Source.WithDescription.LIABILITY);
         sourceLiabilityLines.put(DisbursementVoucherDocument.class, Source.WithDescription.LIABILITY);

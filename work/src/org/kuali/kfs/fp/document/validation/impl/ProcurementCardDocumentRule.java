@@ -22,8 +22,10 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.ZERO;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
 import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
 
 import java.util.Arrays;
@@ -182,6 +184,30 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         return accountNumberAllowed;
     }
 
+    /**
+     * Overrides TransactionalDocumentRuleBase.isDocumentBalanceValid and changes the default debit/credit comparision to checking
+     * the target total against the total balance. If they don't balance, and error message is produced that is more appropriate
+     * for PCDO.
+     * 
+     * @param transactionalDocument
+     * @return boolean True if the document is balanced, false otherwise.
+     */
+    @Override
+    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
+        ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
+        
+        KualiDecimal targetTotal = pcDocument.getTargetTotal();
+        KualiDecimal sourceTotal = pcDocument.getSourceTotal();
+        
+        boolean isValid = targetTotal.compareTo(sourceTotal) == 0;
+
+        if (!isValid) {
+            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS, new String[] { sourceTotal.toString(), targetTotal.toString() });
+        }
+
+        return isValid;
+    }
+    
     /**
      * On procurement card, positive source amounts are credits, negative source amounts are debits
      * 

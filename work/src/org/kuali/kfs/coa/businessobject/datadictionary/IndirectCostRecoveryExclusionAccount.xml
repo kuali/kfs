@@ -85,8 +85,8 @@
                 <label>Object Chart</label>
                 <shortLabel>Object Chart</shortLabel>
                 <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+               <control>
+                    <text size="2" />
                 </control>
                 <summary>Object Chart</summary>
                 <description>Object Chart...</description>

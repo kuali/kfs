@@ -28,10 +28,10 @@
     <tr>
 	    <td class="tab-subhead">
 	      	<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-hide.gif" alt="hide" styleClass="tinybutton" onclick="javascript: if (document.forms[0].elements['tabState[${currentTabIndex}].open'].value == 'false') {document.getElementById('tab-${currentTabIndex}-div').style.display = ''; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'true'; this.src = 'images/tinybutton-hide.gif';  return false;} else { document.getElementById('tab-${currentTabIndex}-div').style.display = 'none'; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'false'; this.src = 'images/tinybutton-show.gif';  return false; } " />
+	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-hide.gif" alt="hide" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
 	        </c:if>
 	        <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" styleClass="tinybutton" onclick="javascript: if (document.forms[0].elements['tabState[${currentTabIndex}].open'].value == 'false') {document.getElementById('tab-${currentTabIndex}-div').style.display = ''; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'true'; this.src = 'images/tinybutton-hide.gif';  return false;} else { document.getElementById('tab-${currentTabIndex}-div').style.display = 'none'; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'false'; this.src = 'images/tinybutton-show.gif';  return false; } " />
+	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
 	        </c:if>
 	    </td>
 	    <td colspan="3" class="tab-subhead" width="99%"><b>${tabTitle} (${totalErrors})</b></td>

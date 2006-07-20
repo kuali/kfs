@@ -37,6 +37,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.exceptions.ApplicationParameterException;
+import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MaintenanceDocumentService;
@@ -230,7 +231,16 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
         // generate gross up
         if (document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode()) {
-            AccountingLine grossLine = new SourceAccountingLine();
+            AccountingLine grossLine = null;
+            try {
+                grossLine = (SourceAccountingLine) document.getSourceAccountingLineClass().newInstance();
+            }
+            catch (IllegalAccessException e) {
+                throw new InfrastructureException("unable to access sourceAccountingLineClass", e);
+            }
+            catch (InstantiationException e) {
+                throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
+            }
 
             grossLine.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
             grossLine.setSequenceNumber(document.getNextSourceLineNumber());
@@ -329,7 +339,16 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @param document
      */
     private AccountingLine generateTaxAccountingLine(DisbursementVoucherDocument document, String chart, String account, String objectCode, KualiDecimal taxPercent, KualiDecimal taxableAmount) {
-        AccountingLine taxLine = new SourceAccountingLine();
+        AccountingLine taxLine = null;
+        try {
+            taxLine = (SourceAccountingLine) document.getSourceAccountingLineClass().newInstance();
+        }
+        catch (IllegalAccessException e) {
+            throw new InfrastructureException("unable to access sourceAccountingLineClass", e);
+        }
+        catch (InstantiationException e) {
+            throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
+        }
 
         taxLine.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
         taxLine.setSequenceNumber(document.getNextSourceLineNumber());

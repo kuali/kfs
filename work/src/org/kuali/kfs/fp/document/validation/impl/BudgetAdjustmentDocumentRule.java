@@ -61,6 +61,7 @@ import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -83,7 +84,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
-    
+
     private static final String INCOME_STREAM_CHART_ACCOUNT_DELIMITER = "|";
 
     /**
@@ -292,7 +293,16 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 KualiDecimal streamAmount = (KualiDecimal) incomeStreamMap.get(chartAccount);
                 if (streamAmount.isNonZero()) {
                     // build dummy accounting line for gl population
-                    AccountingLine accountingLine = new SourceAccountingLine();
+                    AccountingLine accountingLine = null;
+                    try {
+                        accountingLine = (SourceAccountingLine) baDocument.getSourceAccountingLineClass().newInstance();
+                    }
+                    catch (IllegalAccessException e) {
+                        throw new InfrastructureException("unable to access sourceAccountingLineClass", e);
+                    }
+                    catch (InstantiationException e) {
+                        throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
+                    }
 
                     // set income chart and account in line
                     String[] incomeString = StringUtils.split(chartAccount, INCOME_STREAM_CHART_ACCOUNT_DELIMITER);

@@ -26,6 +26,8 @@ import static org.kuali.Constants.FROM;
 import static org.kuali.Constants.TO;
 
 import org.kuali.core.bo.AccountingLineParser;
+import org.kuali.core.bo.GECSourceAccountingLine;
+import org.kuali.core.bo.GECTargetAccountingLine;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.module.financial.bo.GeneralErrorCorrectionDocumentAccountingLineParser;
 

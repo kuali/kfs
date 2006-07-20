@@ -114,6 +114,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocument#addSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
      */
+    @Override
     public void addSourceAccountingLine(SourceAccountingLine sourceLine) {
         ProcurementCardSourceAccountingLine line = (ProcurementCardSourceAccountingLine) sourceLine;
 
@@ -134,6 +135,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocument#addTargetAccountingLine(org.kuali.core.bo.TargetAccountingLine)
      */
+    @Override
     public void addTargetAccountingLine(TargetAccountingLine targetLine) {
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) targetLine;
 
@@ -154,6 +156,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLines()
      */
+    @Override
     public List getSourceAccountingLines() {
         List sourceAccountingLines = new ArrayList();
 
@@ -173,6 +176,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      * 
      * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLines()
      */
+    @Override
     public List getTargetAccountingLines() {
         List targetAccountingLines = new ArrayList();
 
@@ -188,22 +192,9 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLineClass()
-     */
-    public Class getSourceAccountingLineClass() {
-        return ProcurementCardSourceAccountingLine.class;
-    }
-
-    /**
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLineClass()
-     */
-    public Class getTargetAccountingLineClass() {
-        return ProcurementCardTargetAccountingLine.class;
-    }
-
-    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);

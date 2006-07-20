@@ -365,22 +365,6 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getSourceAccountingLineClass()
-     */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        return BudgetAdjustmentSourceAccountingLine.class;
-    }
-
-    /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getTargetAccountingLineClass()
-     */
-    @Override
-    public Class getTargetAccountingLineClass() {
-        return BudgetAdjustmentTargetAccountingLine.class;
-    }
-
-    /**
      * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
      */
     @Override

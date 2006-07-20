@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd" [
+<!ENTITY accountingLineBaseAttributes SYSTEM "../../../core/datadictionary/entity/AccountingLineBaseAttributes.xml">
+]>
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.GECSourceAccountingLine">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <attributes>
+            &accountingLineBaseAttributes;
+        </attributes>
+
+        <collections>
+            <collection name="extendedAttributeValues">
+                <label>Extended Attribute Values</label>
+                <shortLabel>Values</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </collection>
+        </collections>
+    </businessObject>
+</dictionaryEntry>

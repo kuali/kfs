@@ -34,7 +34,7 @@
         <defaultExistenceChecks>
             <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" />
             <reference attributeName="org" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="universalUser" attributeToHighlightOnFail="financialReportingCodeMgrId" />
+            <reference attributeName="universalUser" attributeToHighlightOnFail="universalUser.personUserIdentifier" />
         </defaultExistenceChecks>
 
         <maintainableSections>

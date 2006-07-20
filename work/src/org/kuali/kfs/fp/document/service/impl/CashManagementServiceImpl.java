@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.Constants.DepositConstants;
@@ -117,8 +116,6 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new IllegalArgumentException("invalid (blank) docDescription");
         }
 
-        CashManagementDocument cmDoc = null;
-
         // check user authorization
         KualiUser user = GlobalVariables.getUserSession().getKualiUser();
         String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
@@ -129,6 +126,29 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // check cash drawer
         CashDrawer cd = cashDrawerService.getByWorkgroupName(unitName, true);
+        String controllingDocId = cd.getReferenceFinancialDocumentNumber();
+
+        // KULEDOCS-1475: adding handling for two things which should never happen:
+        // 1. CashDrawer is open or locked by document 'null'
+        // 2. CashDrawer is open or locked by a document which doesn't exist
+        if (!cd.isClosed()) {
+            boolean forceDrawerClosed = false;
+
+            if (StringUtils.isBlank(controllingDocId)) {
+                forceDrawerClosed = true;
+            }
+            else if (!documentService.documentExists(controllingDocId)) {
+                forceDrawerClosed = true;
+            }
+
+            if (forceDrawerClosed) {
+                cashDrawerService.closeCashDrawer(unitName);
+                cd = cashDrawerService.getByWorkgroupName(unitName, true);
+            }
+        }
+
+
+        CashManagementDocument cmDoc = null;
         if (cd.isClosed()) {
             // create the document
             try {
@@ -142,13 +162,12 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
         else {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
-            String controllingDocId = cd.getReferenceFinancialDocumentNumber();
+
             throw new CashDrawerStateException(unitName, controllingDocId, (String) f.format(CashDrawerConstants.STATUS_CLOSED), (String) f.format(cd.getStatusCode()));
         }
 
         return cmDoc;
     }
-
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#addInterimDeposit(org.kuali.module.financial.document.CashManagementDocument,

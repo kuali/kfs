@@ -117,7 +117,7 @@ public class EncumbranceClosingRuleHelper {
 
         }
 
-        // 
+        // pre-encumbrances
         if ("PE".equals(encumbrance.getBalanceTypeCode())) {
 
             PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());

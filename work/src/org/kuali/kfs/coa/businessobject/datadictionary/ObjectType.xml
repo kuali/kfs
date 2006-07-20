@@ -106,7 +106,7 @@
                 <required>true</required>
 
                 <control>
-                    <text size="1" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.DebitCreditValuesFinder" />
                 </control>
 
                 <summary>Object Type Debit Credit Code</summary>

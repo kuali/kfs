@@ -37,7 +37,7 @@
             <reference attributeName="chart" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="chartOfAccountsCode" displayFieldName="Chart Code" />
             <reference attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" displayFieldName="Account Number" />
             <reference attributeName="financialReportChart" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="chartOfAccountsCode" displayFieldName="Financial Reporting Chart Code" />
-            <reference attributeName="reportingCode" attributeToHighlightOnFail="financialReportingCode" displayFieldName="Financial Reporting Code" />
+            <reference attributeName="reportingCode" attributeToHighlightOnFail="financialReportingCode" displayFieldName="Financial Reporting Code for this Financial Reporting Chart Code and Financial Reporting Org Code combination" />
         
         </defaultExistenceChecks>
 

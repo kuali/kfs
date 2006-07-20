@@ -16,13 +16,13 @@
         </inquiry>
 
         <lookup>
-            <title>OrgType Lookup</title>
+            <title>Orgination Type Lookup</title>
 
             <menubar>
                 <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrgType">Create New</a>]]>
             </menubar>
 
-            <instructions>Lookup a Organization Type</instructions>
+            <instructions>Lookup an Organization Type</instructions>
 
             <defaultSort attributeName="organizationTypeCode" sortAscending="true" />
 

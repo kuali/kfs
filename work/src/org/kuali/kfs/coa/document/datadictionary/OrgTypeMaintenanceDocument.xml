@@ -19,10 +19,10 @@
 
         <documentTypeName>KualiOrganizationTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORTY</documentTypeCode>
-        <label>Org Type Maintenance Document</label>
+        <label>Organization Type Maintenance Document</label>
         <shortLabel>OrgTypeMaintDoc</shortLabel>
-        <summary>Org Type Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new Org Types, or modify existing Org Types.</description>
+        <summary>Organization Type Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Organization Types, or modify existing Organization Types.</description>
 
         <lockingKeys>
             <field attributeName="organizationTypeCode" />

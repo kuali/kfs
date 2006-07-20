@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Sub Fund Group Type Inquiry</title>
+            <title>Sub-Fund Group Type Inquiry</title>
 
             <inquiryFields>
                 <field attributeName="subFundGroupTypeCode" />
@@ -17,11 +17,11 @@
         </inquiry>
 
         <lookup>
-            <title>Sub Fund Group Type Lookup</title>
+            <title>Sub-Fund Group Type Lookup</title>
 
 			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubFundGroupType">Create New</a>]]></menubar>
 
-            <instructions>Look up a Sub Fund Group Type</instructions>
+            <instructions>Look up a Sub-Fund Group Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -46,7 +46,7 @@
         <attributes>
 
             <attribute name="subFundGroupTypeActiveIndicator" forceUppercase="true">
-                <label>Sub Fund Group Type Active Indicator</label>
+                <label>Sub-Fund Group Type Active Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -60,7 +60,7 @@
 			</attribute>
 
             <attribute name="subFundGroupTypeCode" forceUppercase="true">
-                <label>Sub Fund Group Type Code</label>
+                <label>Sub-Fund Group Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -75,7 +75,7 @@
 			</attribute>
 
             <attribute name="subFundGroupTypeDescription" forceUppercase="true">
-                <label>Sub Fund Group Type Description</label>
+                <label>Sub-Fund Group Type Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>

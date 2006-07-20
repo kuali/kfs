@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Object Sub Type Inquiry</title>
+            <title>Object Sub-Type Inquiry</title>
             <inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
@@ -15,13 +15,13 @@
         </inquiry>
 
         <lookup>
-            <title>Object Sub Type Lookup</title>
+            <title>Object Sub-Type Lookup</title>
 
             <menubar>
                 <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ObjSubTyp">Create New</a>]]>
             </menubar>
 
-            <instructions>Lookup an Object Sub Type</instructions>
+            <instructions>Lookup an Object Sub-Type</instructions>
 
             <defaultSort attributeName="code" sortAscending="true" />
 
@@ -39,8 +39,8 @@
         <attributes>
 
             <attribute name="code" forceUppercase="true">
-                <label>Object Sub Type Code</label>
-                <shortLabel>Object Sub Type Code</shortLabel>
+                <label>Object Sub-Type Code</label>
+                <shortLabel>Object Sub-Type Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>
@@ -52,12 +52,12 @@
                     <text size="2" />
                 </control>
 
-                <summary>Object Sub Type Code</summary>
-                <description>Object Sub Type Code</description>
+                <summary>Object Sub-Type Code</summary>
+                <description>Object Sub-Type Code</description>
             </attribute>
 
             <attribute name="name" forceUppercase="true">
-                <label>Object Sub Type Name</label>
+                <label>Object Sub-Type Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -67,8 +67,8 @@
                     <text size="40" />
                 </control>
 
-                <summary>Object Sub Type Name</summary>
-                <description>Object Sub Type Name...</description>
+                <summary>Object Sub-Type Name</summary>
+                <description>Object Sub-Type Name...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

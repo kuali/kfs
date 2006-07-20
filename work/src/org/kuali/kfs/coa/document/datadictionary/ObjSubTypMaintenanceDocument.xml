@@ -20,17 +20,17 @@
 
         <documentTypeName>KualiObjectSubTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>OSTY</documentTypeCode>
-        <label>Object Sub Type Maintenance Document</label>
+        <label>Object Sub-Type Maintenance Document</label>
         <shortLabel>ObjSubTypeMaintDoc</shortLabel>
-        <summary>Object Sub Type Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new Object Sub Types, or modify existing Object Sub Types.</description>
+        <summary>Object Sub-Type Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Object Sub-Types, or modify existing Object Sub-Types.</description>
 
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Object Sub Type">
+            <maintainableSection title="Edit Object Sub-Type">
                 <maintainableItems>
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" required="true" />

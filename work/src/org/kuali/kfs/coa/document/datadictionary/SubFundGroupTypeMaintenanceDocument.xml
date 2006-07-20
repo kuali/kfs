@@ -19,10 +19,10 @@
         <documentTypeName>KualiSubFundGroupTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>SFGT</documentTypeCode>
 
-        <label>Sub Fund Group Type Maintenance Document</label>
+        <label>Sub-Fund Group Type Maintenance Document</label>
         <shortLabel>SubFundGroupTypeMaintDoc</shortLabel>
 
-        <summary>Sub Fund Group Type Maintenance Document</summary>
+        <summary>Sub-Fund Group Type Maintenance Document</summary>
         <description>Document used to create or update Sub Fund Group Type objects</description>
 
         <lockingKeys>
@@ -30,7 +30,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Sub Fund Group Type">
+            <maintainableSection title="Edit Sub-Fund Group Type">
                 <maintainableItems>
                     <maintainableField name="subFundGroupTypeCode" required="true" />
                     <maintainableField name="subFundGroupTypeDescription" required="true" />

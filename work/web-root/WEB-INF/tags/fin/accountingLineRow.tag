@@ -206,7 +206,7 @@
     baselineAccountingLine="${baselineAccountingLine}"
     field="projectCode"
     detailFunction="loadProjectInfo"
-    detailField="project.projectDescription"
+    detailField="project.name"
     attributes="${accountingLineAttributes}"
     lookup="true"
     inquiry="true"

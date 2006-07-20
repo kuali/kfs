@@ -39,9 +39,9 @@
                 <field attributeName="accountResponsibilitySectionBlank" />
                 <field attributeName="accountResponsibilitySection" />
 
-                <field attributeName="accountFiscalOfficerUser.personUserIdentifier" />
-                <field attributeName="accountSupervisoryUser.personUserIdentifier" />
-                <field attributeName="accountManagerUser.personUserIdentifier" />
+                <field attributeName="accountFiscalOfficerUser.personName" />
+                <field attributeName="accountSupervisoryUser.personName" />
+                <field attributeName="accountManagerUser.personName" />
                 <field attributeName="continuationFinChrtOfAcctCd" />
                 <field attributeName="continuationAccountNumber" />
                 <field attributeName="incomeStreamFinancialCoaCode" />
@@ -105,8 +105,8 @@
             <defaultSort attributeName="accountNumber" sortAscending="true" />
 
             <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" noLookup="true" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" noLookup="true" />
                 <lookupField attributeName="accountName" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
                 <lookupField attributeName="accountTypeCode" required="false" />

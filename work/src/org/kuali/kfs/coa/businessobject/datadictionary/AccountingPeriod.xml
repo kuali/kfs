@@ -144,7 +144,7 @@
                 </validationPattern>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalYearValuesFinder" />
+                    <text size="4" />
                 </control>
 
                 <summary>universityFiscalYear summary...</summary>

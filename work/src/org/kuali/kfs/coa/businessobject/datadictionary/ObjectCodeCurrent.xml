@@ -173,8 +173,8 @@
             </attribute>
 
             <attribute name="financialObjectLevelCode" forceUppercase="true">
-                <label>Object Level Code</label>
-                <shortLabel>ObjLevlCde</shortLabel>
+                <label>Level Code</label>
+                <shortLabel>Level Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern>
@@ -258,8 +258,8 @@
             </attribute>
 
             <attribute name="financialObjectSubTypeCode" forceUppercase="true">
-                <label>Object Sub Type Code</label>
-                <shortLabel>ObjSubTypCode</shortLabel>
+                <label>Object Sub-Type Code</label>
+                <shortLabel>Object Sub-Type Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>

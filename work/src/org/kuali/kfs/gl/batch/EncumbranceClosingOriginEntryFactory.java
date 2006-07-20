@@ -286,7 +286,7 @@ public class EncumbranceClosingOriginEntryFactory {
         entry.setReferenceFinancialSystemOriginationCode(null);
         entry.setReferenceFinancialDocumentNumber(null);
         entry.setReversalDate(null);
-        entry.setTransactionEncumbranceUpdateCode(Constants.GL_DEBIT_CODE);
+        entry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_DOCUMENT_CD);
 
         pair.setEntry(entry);
 

@@ -37,6 +37,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>financialUniversityBudgetOfficeFunctionCode</titleAttribute>
+
         <attributes>
 
             <attribute name="financialUniversityBudgetOfficeFunctionCode" forceUppercase="true">

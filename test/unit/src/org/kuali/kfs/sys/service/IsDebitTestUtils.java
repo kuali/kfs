@@ -64,174 +64,49 @@ public class IsDebitTestUtils {
         public static final KualiDecimal NEGATIVE = new KualiDecimal("-5");
     }
 
-    private static Map<Class<? extends TransactionalDocument>, String> sourceExpenseLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> targetExpenseLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> sourceAssetLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> targetAssetLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> sourceIncomeLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> targetIncomeLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> sourceLiabilityLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> targetLiabilityLines = new HashMap<Class<? extends TransactionalDocument>, String>();
+    private static Map<Class<? extends TransactionalDocument>, String> sourceLines = new HashMap<Class<? extends TransactionalDocument>, String>();
+    private static Map<Class<? extends TransactionalDocument>, String> targetLines = new HashMap<Class<? extends TransactionalDocument>, String>();
 
-    private static class Source {
-        public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,x,x,0";
-        public static final String ASSET = "BA,6044900,x,8010,x,x,x,x,x,0";
-        public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,0";
-        public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,0";
-        
-        private static class WithDescription {
-            public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,description,x,x,0";
-            public static final String ASSET = "BA,6044900,x,8010,x,x,x,description,x,x,0";
-            public static final String INCOME = "BA,6044900,x,1301,x,x,x,description,x,x,0";
-            public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,description,x,x,0";
-        }
+    private static class BaChartObjectCodes {
+        public static final String EXPENSE = "5000";
+        public static final String ASSET = "8010";
+        public static final String INCOME = "1301";
+        public static final String LIABILITY = "9120";
     }
 
-    private static class Target {
-        public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,x,x,0";
-        public static final String ASSET = "BA,6044900,x,8010,x,x,x,x,x,0";
-        public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,0";
-        public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,0";
-
-        private static class PreEncumbrance {
-            public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,x,x,x,x,0";
-            public static final String ASSET = "BA,6044900,x,8010,x,x,x,x,x,x,x,0";
-            public static final String INCOME = "BA,6044900,x,1301,x,x,x,x,x,x,x,0";
-            public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,x,x,x,x,0";
-        }
-
-        private static class WithDescription {
-            public static final String EXPENSE = "BA,6044900,x,5000,x,x,x,description,x,x,0";
-            public static final String ASSET = "BA,6044900,x,8010,x,x,x,description,x,x,0";
-            public static final String INCOME = "BA,6044900,x,1301,x,x,x,description,x,x,0";
-            public static final String LIABILITY = "BA,6044900,x,9120,x,x,x,description,x,x,0";
-        }
+    private static class ImportLines {
+        public static final String DEFAULT = "BA,6044900,x,objc,x,x,x,x,x,0";
+        public static final String WITH_DESCRIPTION = "BA,6044900,x,objc,x,x,x,description,x,x,0";
+        public static final String WITH_REF_NUM_AND_DESCRIPTION = "BA,6044900,x,objc,x,x,x,refnum,description,x,x,0";
+        public static final String WITH_ORIGIN_CODE_AND_REF_NUM = "BA,6044900,x,objc,x,x,x,01,refnum,x,x,0";
+        public static final String WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION = "BA,6044900,x,objc,x,x,x,01,refnum,description,x,x,0";
+        public static final String WITHOUT_OBJECT_CODE = "BA,6044900,x,x,x,x,x,x,0";
     }
 
 
     static {
-        /**
-         * EXPENSE:source
-         */
-        sourceExpenseLines.put(AdvanceDepositDocument.class, Source.WithDescription.EXPENSE);
-        sourceExpenseLines.put(CashReceiptDocument.class, Source.WithDescription.EXPENSE);
-        sourceExpenseLines.put(CreditCardReceiptDocument.class, Source.WithDescription.EXPENSE);
-        sourceExpenseLines.put(DisbursementVoucherDocument.class, Source.WithDescription.EXPENSE);
-        sourceExpenseLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(GeneralErrorCorrectionDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(IndirectCostAdjustmentDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(InternalBillingDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(NonCheckDisbursementDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(PreEncumbranceDocument.class, Source.EXPENSE);
-        sourceExpenseLines.put(ServiceBillingDocument.class, Source.WithDescription.EXPENSE);
-        sourceExpenseLines.put(TransferOfFundsDocument.class, Source.EXPENSE);
+        sourceLines.put(AdvanceDepositDocument.class, ImportLines.WITH_DESCRIPTION);
+        sourceLines.put(CashReceiptDocument.class, ImportLines.WITH_DESCRIPTION);
+        sourceLines.put(CreditCardReceiptDocument.class, ImportLines.WITH_DESCRIPTION);
+        sourceLines.put(DisbursementVoucherDocument.class, ImportLines.WITH_DESCRIPTION);
+        sourceLines.put(DistributionOfIncomeAndExpenseDocument.class, ImportLines.DEFAULT);
+        sourceLines.put(GeneralErrorCorrectionDocument.class, ImportLines.WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION);
+        sourceLines.put(IndirectCostAdjustmentDocument.class, ImportLines.WITHOUT_OBJECT_CODE);
+        sourceLines.put(InternalBillingDocument.class, ImportLines.DEFAULT);
+        sourceLines.put(NonCheckDisbursementDocument.class, ImportLines.WITH_REF_NUM_AND_DESCRIPTION);
+        sourceLines.put(PreEncumbranceDocument.class, ImportLines.DEFAULT);
+        sourceLines.put(ServiceBillingDocument.class, ImportLines.WITH_DESCRIPTION);
+        sourceLines.put(TransferOfFundsDocument.class, ImportLines.DEFAULT);
     }
 
     static {
-        /**
-         * EXPENSE:target
-         */
-        targetExpenseLines.put(DistributionOfIncomeAndExpenseDocument.class, Target.EXPENSE);
-        targetExpenseLines.put(GeneralErrorCorrectionDocument.class, Target.EXPENSE);
-        targetExpenseLines.put(IndirectCostAdjustmentDocument.class, Target.EXPENSE);
-        targetExpenseLines.put(InternalBillingDocument.class, Target.EXPENSE);
-        targetExpenseLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.EXPENSE);
-        targetExpenseLines.put(ServiceBillingDocument.class, Target.WithDescription.EXPENSE);
-        targetExpenseLines.put(TransferOfFundsDocument.class, Target.EXPENSE);
-    }
-
-    static {
-        /**
-         * ASSET:source
-         */
-        sourceAssetLines.put(AdvanceDepositDocument.class, Source.WithDescription.ASSET);
-        sourceAssetLines.put(CashReceiptDocument.class, Source.WithDescription.ASSET);
-        sourceAssetLines.put(CreditCardReceiptDocument.class, Source.WithDescription.ASSET);
-        sourceAssetLines.put(DisbursementVoucherDocument.class, Source.WithDescription.ASSET);
-        sourceAssetLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.ASSET);
-        sourceAssetLines.put(GeneralErrorCorrectionDocument.class, Source.ASSET);
-        sourceAssetLines.put(IndirectCostAdjustmentDocument.class, Source.ASSET);
-        sourceAssetLines.put(InternalBillingDocument.class, Source.ASSET);
-        sourceAssetLines.put(NonCheckDisbursementDocument.class, Source.ASSET);
-        sourceAssetLines.put(PreEncumbranceDocument.class, Source.ASSET);
-        sourceAssetLines.put(ServiceBillingDocument.class, Source.WithDescription.ASSET);
-        sourceAssetLines.put(TransferOfFundsDocument.class, Source.ASSET);
-    }
-
-    static {
-        /**
-         * ASSET:target
-         */
-        targetAssetLines.put(DistributionOfIncomeAndExpenseDocument.class, Target.ASSET);
-        targetAssetLines.put(GeneralErrorCorrectionDocument.class, Target.ASSET);
-        targetAssetLines.put(IndirectCostAdjustmentDocument.class, Target.ASSET);
-        targetAssetLines.put(InternalBillingDocument.class, Target.ASSET);
-        targetAssetLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.ASSET);
-        targetAssetLines.put(ServiceBillingDocument.class, Target.WithDescription.ASSET);
-        targetAssetLines.put(TransferOfFundsDocument.class, Target.ASSET);
-    }
-
-    static {
-        /**
-         * INCOME:source
-         */
-        sourceIncomeLines.put(AdvanceDepositDocument.class, Source.WithDescription.INCOME);
-        sourceIncomeLines.put(CashReceiptDocument.class, Source.WithDescription.INCOME);
-        sourceIncomeLines.put(CreditCardReceiptDocument.class, Source.WithDescription.INCOME);
-        sourceIncomeLines.put(DisbursementVoucherDocument.class, Source.WithDescription.INCOME);
-        sourceIncomeLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.INCOME);
-        sourceIncomeLines.put(GeneralErrorCorrectionDocument.class, Source.INCOME);
-        sourceIncomeLines.put(IndirectCostAdjustmentDocument.class, Source.INCOME);
-        sourceIncomeLines.put(InternalBillingDocument.class, Source.INCOME);
-        sourceIncomeLines.put(NonCheckDisbursementDocument.class, Source.INCOME);
-        sourceIncomeLines.put(PreEncumbranceDocument.class, Source.INCOME);
-        sourceIncomeLines.put(ServiceBillingDocument.class, Source.WithDescription.INCOME);
-        sourceIncomeLines.put(TransferOfFundsDocument.class, Source.INCOME);
-    }
-
-    static {
-        /**
-         * INCOME:target
-         */
-        targetIncomeLines.put(DistributionOfIncomeAndExpenseDocument.class, Target.INCOME);
-        targetIncomeLines.put(GeneralErrorCorrectionDocument.class, Target.INCOME);
-        targetIncomeLines.put(IndirectCostAdjustmentDocument.class, Target.INCOME);
-        targetIncomeLines.put(InternalBillingDocument.class, Target.INCOME);
-        targetIncomeLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.INCOME);
-        targetIncomeLines.put(ServiceBillingDocument.class, Target.WithDescription.INCOME);
-        targetIncomeLines.put(TransferOfFundsDocument.class, Target.INCOME);
-    }
-
-    static {
-        /**
-         * LIABILITY:source
-         */
-        sourceLiabilityLines.put(AdvanceDepositDocument.class, Source.WithDescription.LIABILITY);
-        sourceLiabilityLines.put(CashReceiptDocument.class, Source.WithDescription.LIABILITY);
-        sourceLiabilityLines.put(CreditCardReceiptDocument.class, Source.WithDescription.LIABILITY);
-        sourceLiabilityLines.put(DisbursementVoucherDocument.class, Source.WithDescription.LIABILITY);
-        sourceLiabilityLines.put(DistributionOfIncomeAndExpenseDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(GeneralErrorCorrectionDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(IndirectCostAdjustmentDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(InternalBillingDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(NonCheckDisbursementDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(PreEncumbranceDocument.class, Source.LIABILITY);
-        sourceLiabilityLines.put(ServiceBillingDocument.class, Source.WithDescription.LIABILITY);
-        sourceLiabilityLines.put(TransferOfFundsDocument.class, Source.LIABILITY);
-
-    }
-
-    static {
-        /**
-         * LIABILITY:target
-         */
-        targetLiabilityLines.put(DistributionOfIncomeAndExpenseDocument.class, Target.LIABILITY);
-        targetLiabilityLines.put(GeneralErrorCorrectionDocument.class, Target.LIABILITY);
-        targetLiabilityLines.put(IndirectCostAdjustmentDocument.class, Target.LIABILITY);
-        targetLiabilityLines.put(InternalBillingDocument.class, Target.LIABILITY);
-        targetLiabilityLines.put(PreEncumbranceDocument.class, Target.PreEncumbrance.LIABILITY);
-        targetLiabilityLines.put(ServiceBillingDocument.class, Target.WithDescription.LIABILITY);
-        targetLiabilityLines.put(TransferOfFundsDocument.class, Target.LIABILITY);
+        targetLines.put(DistributionOfIncomeAndExpenseDocument.class, ImportLines.DEFAULT);
+        targetLines.put(GeneralErrorCorrectionDocument.class, ImportLines.WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION);
+        targetLines.put(IndirectCostAdjustmentDocument.class, ImportLines.WITHOUT_OBJECT_CODE);
+        targetLines.put(InternalBillingDocument.class, ImportLines.DEFAULT);
+        targetLines.put(PreEncumbranceDocument.class, ImportLines.WITH_ORIGIN_CODE_AND_REF_NUM);
+        targetLines.put(ServiceBillingDocument.class, ImportLines.WITH_DESCRIPTION);
+        targetLines.put(TransferOfFundsDocument.class, ImportLines.DEFAULT);
     }
 
     /**
@@ -257,18 +132,18 @@ public class IsDebitTestUtils {
         return transactionalDocument;
     }
 
-    private static AccountingLine getAccountingLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, Map<Class<? extends TransactionalDocument>, String> sourceLineMap, Map<Class<? extends TransactionalDocument>, String> targetLineMap, KualiDecimal amount) {
+    private static AccountingLine getAccountingLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount, String objectCode) {
         String unparsedLine = null;
         AccountingLine line = null;
         if (SourceAccountingLine.class.isAssignableFrom(lineClass)) {
-            unparsedLine = sourceLineMap.get(transactionalDocument.getClass());
+            unparsedLine = sourceLines.get(transactionalDocument.getClass());
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in sourceMap for: " + transactionalDocument.getClass() + ";" + lineClass);
             }
             line = transactionalDocument.getAccountingLineParser().parseSourceAccountingLine(transactionalDocument,unparsedLine);
         }
         else if (TargetAccountingLine.class.isAssignableFrom(lineClass)) {
-            unparsedLine = targetLineMap.get(transactionalDocument.getClass());
+            unparsedLine = targetLines.get(transactionalDocument.getClass());
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in targetMap for: " + transactionalDocument.getClass() + ";" + lineClass);
             }
@@ -279,6 +154,7 @@ public class IsDebitTestUtils {
         }
 
         line.setAmount(amount);
+        line.setFinancialObjectCode(objectCode);
         return line;
     }
 
@@ -289,7 +165,7 @@ public class IsDebitTestUtils {
      * @return AccountingLine
      */
     public static AccountingLine getExpenseLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount)  {
-        return getAccountingLine(transactionalDocument, lineClass, sourceExpenseLines, targetExpenseLines, amount);
+        return getAccountingLine(transactionalDocument, lineClass, amount, BaChartObjectCodes.EXPENSE);
     }
 
     /**
@@ -299,7 +175,7 @@ public class IsDebitTestUtils {
      * @return AccountingLine
      */
     public static AccountingLine getAssetLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount)  {
-        return getAccountingLine(transactionalDocument, lineClass, sourceAssetLines, targetAssetLines, amount);
+        return getAccountingLine(transactionalDocument, lineClass, amount, BaChartObjectCodes.ASSET);
     }
 
     /**
@@ -309,7 +185,7 @@ public class IsDebitTestUtils {
      * @return AccountingLine
      */
     public static AccountingLine getIncomeLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) {
-        return getAccountingLine(transactionalDocument, lineClass, sourceIncomeLines, targetIncomeLines, amount);
+        return getAccountingLine(transactionalDocument, lineClass, amount, BaChartObjectCodes.INCOME);
     }
 
     /**
@@ -319,7 +195,7 @@ public class IsDebitTestUtils {
      * @return AccountingLine
      */
     public static AccountingLine getLiabilityLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) {
-        return getAccountingLine(transactionalDocument, lineClass, sourceLiabilityLines, targetLiabilityLines, amount);
+        return getAccountingLine(transactionalDocument, lineClass, amount, BaChartObjectCodes.LIABILITY);
     }
 
 /**

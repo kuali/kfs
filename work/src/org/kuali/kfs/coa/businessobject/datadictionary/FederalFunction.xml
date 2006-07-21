@@ -37,6 +37,8 @@
             </resultFields>
         </lookup>
 
+       <titleAttribute>financialFederalFunctionCode</titleAttribute>
+
         <attributes>
 
             <attribute name="financialFederalFunctionCode" forceUppercase="true">

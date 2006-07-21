@@ -37,6 +37,7 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>accountTypeCode</titleAttribute>
 
         <attributes>
             <attribute name="accountTypeCode" forceUppercase="true">

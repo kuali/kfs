@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>finDocumentBankAccountNumber</titleAttribute>
+
         <attributes>
 
             <attributeReference name="financialDocumentBankCode" sourceClassName="org.kuali.module.financial.bo.Bank" sourceAttributeName="financialDocumentBankCode">

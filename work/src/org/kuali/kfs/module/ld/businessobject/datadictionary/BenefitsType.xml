@@ -42,6 +42,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>positionBenefitTypeCode</titleAttribute>
+
         <attributes>
 
             <attribute name="positionBenefitRetirementIndicator" forceUppercase="true">

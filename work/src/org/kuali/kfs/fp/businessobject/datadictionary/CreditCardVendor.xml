@@ -60,6 +60,8 @@
             </resultFields>
         </lookup>
 
+       <titleAttribute>financialDocumentCreditCardVendorNumber</titleAttribute>
+
         <attributes>
 
             <attribute name="financialDocumentCreditCardVendorNumber" forceUppercase="true">

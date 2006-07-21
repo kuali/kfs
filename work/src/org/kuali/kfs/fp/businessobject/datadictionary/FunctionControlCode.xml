@@ -43,7 +43,9 @@
                 <field attributeName="financialSystemFunctionDefaultIndicator" />
             </resultFields>
         </lookup>
-
+        
+       <titleAttribute>financialSystemFunctionControlCode</titleAttribute>
+       
         <attributes>
 
             <attribute name="financialSystemFunctionControlCode" forceUppercase="true">

@@ -37,6 +37,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>financialDocumentCreditCardTypeCode</titleAttribute>
+
         <attributes>
 
             <attribute name="financialDocumentCreditCardTypeCode" forceUppercase="true">

@@ -43,7 +43,9 @@
             </resultFields>
         </lookup>
 
-        <attributes>
+       <titleAttribute>financialHigherEdFunctionCd</titleAttribute>
+ 
+       <attributes>
 
             <attribute name="financialHigherEdFunctionCd" forceUppercase="true">
                 <label>Higher Education Function Code</label>

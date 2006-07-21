@@ -36,13 +36,15 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="financialDocumentBankCode" />
+                <field attributeName="financialDocumentBankCode" forceInquiry="true" />
                 <field attributeName="financialDocumentBankName" />
                 <field attributeName="financialDocumentBankShortNm" />
                 <field attributeName="bankRoutingNumber" />
             </resultFields>
         </lookup>
 
+        <titleAttribute>financialDocumentBankCode</titleAttribute>
+        
         <attributes>
 
             <attribute name="financialDocumentBankCode" forceUppercase="true">

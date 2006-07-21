@@ -37,6 +37,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>financialAicpaFunctionCode</titleAttribute>
+
         <attributes>
 
             <attribute name="financialAicpaFunctionCode" forceUppercase="true">

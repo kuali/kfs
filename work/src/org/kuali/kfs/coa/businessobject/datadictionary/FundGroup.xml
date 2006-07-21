@@ -47,6 +47,8 @@
             </resultFields>
         </lookup>
 
+       <titleAttribute>code</titleAttribute>
+ 
         <attributes>
             <attribute name="code" forceUppercase="true">
                 <label>Fund Group Code</label>

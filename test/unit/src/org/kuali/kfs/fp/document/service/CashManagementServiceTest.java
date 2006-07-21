@@ -118,7 +118,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it separately
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             // verify that the doc was saved
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -175,7 +175,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it separately
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             // verify it actually got saved
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -217,7 +217,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it separately
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             //
             // create Interim Deposit
@@ -338,7 +338,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             docId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, docId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), null, false);
         }
@@ -367,7 +367,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             docId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, docId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), new ArrayList(), false);
         }
@@ -396,7 +396,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             docId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, docId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, null, new ArrayList(), false);
         }
@@ -432,7 +432,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             testDocumentId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             // retrieve the document, for future use
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -528,7 +528,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             // retrieve the document, for future use
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -626,7 +626,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             //
             // add Interim Deposit
@@ -771,7 +771,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc, "saving it", null);
+            documentService.saveDocument(createdDoc);
 
             // try create a new CM doc
             cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
@@ -827,7 +827,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
         crDoc.setCampusLocationCode(cashReceiptService.getCampusCodeForCashReceiptVerificationUnit(workgroupName));
 
-        documentService.saveDocument(crDoc, "buildVerifiedCashReceiptDoc", null);
+        documentService.saveDocument(crDoc);
 
         CashReceiptDocument persistedDoc = (CashReceiptDocument) documentService.getByDocumentHeaderId(crDoc.getFinancialDocumentNumber());
         return persistedDoc;

@@ -303,7 +303,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashDrawerService cds = SpringServiceLocator.getCashDrawerService();
         cds.openCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getFinancialDocumentNumber());
         try {
-            SpringServiceLocator.getDocumentService().saveDocument(cmDoc, cmForm.getAnnotation(), null);
+            SpringServiceLocator.getDocumentService().saveDocument(cmDoc);
         }
         catch (WorkflowException e) {
             // force it closed if workflow proves recalcitrant

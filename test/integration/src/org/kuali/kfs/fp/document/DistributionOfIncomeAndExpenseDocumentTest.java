@@ -133,7 +133,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
                 createdDoc.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
                 createdDoc.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
 
-                getDocumentService().saveDocument(createdDoc, "saving populated doc", null);
+                getDocumentService().saveDocument(createdDoc);
             }
 
             {

@@ -63,7 +63,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBaseWithFixtures {
         boolean failedAsExpected = false;
 
         try {
-            SpringServiceLocator.getDocumentService().saveDocument(null, null, Collections.EMPTY_LIST);
+            SpringServiceLocator.getDocumentService().saveDocument(null);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;

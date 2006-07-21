@@ -117,8 +117,8 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
         String documentNumber = (String) getUserDefinedAttributeMap().get(attributeName);
-        parameter.put("docId", documentNumber);
-        parameter.put("methodToCall", "docHandler");
-        parameter.put("command", "displayDocSearchView");
+        parameter.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.DOC_HANDLER_METHOD);
+        parameter.put(Constants.PARAMETER_COMMAND, Constants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+        parameter.put(Constants.PARAMETER_DOC_ID, documentNumber);
     }
 }

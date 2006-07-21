@@ -24,6 +24,7 @@ package org.kuali.module.gl.web.inquirable;
 
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
@@ -57,9 +58,9 @@ public class InquirableFinancialDocument {
 
             String docTypeCode = transaction.getFinancialDocumentTypeCode();
             String docTypeName = dataDictionary.getDocumentTypeNameByTypeCode(docTypeCode);
+            
             if (docTypeName != null) {
-                String baseUrl = this.getBaseUrl(docTypeName);
-                return UrlFactory.parameterizeUrl(baseUrl, parameters);
+                return UrlFactory.buildDocumentActionUrl(docTypeName, parameters);
             }
         }
         return Constants.EMPTY_STRING;
@@ -67,26 +68,18 @@ public class InquirableFinancialDocument {
 
     // determine if the document of the given transaction is inquirable
     private boolean isInquirableDocument(Transaction transaction) {
-        int lengthOfDocumentNumber = transaction.getFinancialDocumentNumber() == null ? 0 : transaction.getFinancialDocumentNumber().length();
-        
-        boolean isInquirable = Constants.ORIGIN_CODE_KUALI.equals(transaction.getFinancialSystemOriginationCode());
-        isInquirable = isInquirable && (lengthOfDocumentNumber == 6);        
-        return isInquirable;
+        String documentNumber = transaction.getFinancialDocumentNumber();
+        String originationCode = transaction.getFinancialSystemOriginationCode();        
+        return Constants.ORIGIN_CODE_KUALI.equals(originationCode) && !StringUtils.isBlank(documentNumber);       
     }
 
     // build the parameter list that can be the query strings of inquiry url
     private Properties addParameters(Transaction transaction) {
         Properties parameters = new Properties();
-        parameters.put("methodToCall", "docHandler");
-        parameters.put("command", "displayDocSearchView");
-        parameters.put("docId", transaction.getFinancialDocumentNumber());
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.DOC_HANDLER_METHOD);
+        parameters.put(Constants.PARAMETER_COMMAND, Constants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+        parameters.put(Constants.PARAMETER_DOC_ID, transaction.getFinancialDocumentNumber());
 
         return parameters;
-    }
-
-    // get the base url of the inquiry url that is based on the document type name
-    private String getBaseUrl(String documentTypeName) {
-        String baseUrl = documentTypeName.substring(5, documentTypeName.indexOf("Document"));
-        return "financial" + baseUrl + ".do";
     }
 }

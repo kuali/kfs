@@ -89,7 +89,8 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
         userDefinedAttributeMap.put(PropertyConstants.MONTH10_AMOUNT, Constant.MONTH10);
         userDefinedAttributeMap.put(PropertyConstants.MONTH11_AMOUNT, Constant.MONTH11);
         userDefinedAttributeMap.put(PropertyConstants.MONTH12_AMOUNT, Constant.MONTH12);
-
+        userDefinedAttributeMap.put(PropertyConstants.MONTH13_AMOUNT, Constant.MONTH13);
+        
         return userDefinedAttributeMap;
     }
 
@@ -105,7 +106,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
      */
     protected Object getKeyValue(String keyName, Object keyValue) {
         if (isExclusiveField(keyName, keyValue)) {
-            keyValue = "";
+            keyValue = Constant.EMPTY_STRING;
         }
         return keyValue;
     }

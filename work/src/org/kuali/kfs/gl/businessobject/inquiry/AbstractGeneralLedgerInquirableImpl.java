@@ -23,6 +23,7 @@
 package org.kuali.module.gl.web.inquirable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
         String baseUrl = Constants.INQUIRY_ACTION;
         Properties parameters = new Properties();
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "start");
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.START_METHOD);
 
         Object attributeValue = null;
         Class inquiryBusinessObjectClass = null;
@@ -121,7 +122,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
             parameters.put(Constants.RETURN_LOCATION_PARAMETER, Constant.RETURN_LOCATION_VALUE);
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
-            parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
+            parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.SEARCH_METHOD);
             parameters.put(Constants.DOC_FORM_KEY, "88888888");
 
             // add more customized parameters into the current parameter map
@@ -237,7 +238,6 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      */
     protected abstract void addMoreParameters(Properties parameter, String attributeName);
 
-
     /**
      * This method determines whether the input name-value pair is exclusive from the processing
      * 
@@ -270,5 +270,47 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             }
         }
         return false;
+    }
+    
+    /**
+     * This method recovers the values of the given keys
+     * @param fieldValues
+     * @param keyName
+     * @param keyValue
+     * @return
+     */
+    protected String recoverFieldValueFromConsolidation(Map fieldValues, Object keyName, Object keyValue){
+        if(fieldValues == null || keyName == null || keyValue == null){
+            return Constant.EMPTY_STRING;
+        }
+        
+        Map convertedFieldValues = BusinessObjectFieldConverter.convertFromTransactionFieldValues(fieldValues);
+        String convertedKeyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(keyName.toString());
+
+        if (convertedKeyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+            return this.getValueFromFieldValues(convertedFieldValues, keyName);
+        }
+        else if (convertedKeyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+            return this.getValueFromFieldValues(convertedFieldValues, keyName);
+        }
+        else if (convertedKeyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
+            return this.getValueFromFieldValues(convertedFieldValues, keyName);
+        }
+        
+        return Constant.EMPTY_STRING;
+    }
+    
+    // get the value of the given key from the field values 
+    private String getValueFromFieldValues(Map fieldValues, Object keyName){
+        String keyValue = Constant.EMPTY_STRING;
+        
+        if(fieldValues.containsKey(keyName)){
+            keyValue = (String)fieldValues.get(keyName);
+        }        
+        return keyValue;
+    }
+
+    public Map getFieldValues(Map fieldValues){
+        return fieldValues;
     }
 }

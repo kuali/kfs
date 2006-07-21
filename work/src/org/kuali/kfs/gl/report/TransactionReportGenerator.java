@@ -50,7 +50,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class TransactionReportGenerator {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReportGenerator.class);
     public static final String PDF_FILE_EXTENSION = ".pdf";
 
     private Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);

@@ -75,12 +75,12 @@ public class IsDebitTestUtils {
     }
 
     private static class ImportLines {
-        public static final String DEFAULT = "BA,6044900,x,objc,x,x,x,x,x,0";
-        public static final String WITH_DESCRIPTION = "BA,6044900,x,objc,x,x,x,description,x,x,0";
-        public static final String WITH_REF_NUM_AND_DESCRIPTION = "BA,6044900,x,objc,x,x,x,refnum,description,x,x,0";
-        public static final String WITH_ORIGIN_CODE_AND_REF_NUM = "BA,6044900,x,objc,x,x,x,01,refnum,x,x,0";
-        public static final String WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION = "BA,6044900,x,objc,x,x,x,01,refnum,description,x,x,0";
-        public static final String WITHOUT_OBJECT_CODE = "BA,6044900,x,x,x,x,x,x,0";
+        public static final String DEFAULT = "BA,6044900,x,objc,x,x,x,x,0";
+        public static final String WITH_DESCRIPTION = "BA,6044900,x,objc,x,x,x,description,x,0";
+        public static final String WITH_REF_NUM_AND_DESCRIPTION = "BA,6044900,x,objc,x,x,x,refnum,description,x,0";
+        public static final String WITH_ORIGIN_CODE_AND_REF_NUM = "BA,6044900,x,objc,x,x,x,01,refnum,x,0";
+        public static final String WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION = "BA,6044900,x,objc,x,x,x,01,refnum,description,x,0";
+        public static final String WITHOUT_OBJECT_CODE = "BA,6044900,x,x,x,x,x,0";
     }
 
 

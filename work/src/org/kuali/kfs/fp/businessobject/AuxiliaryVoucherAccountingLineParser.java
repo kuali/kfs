@@ -23,9 +23,12 @@
 
 package org.kuali.module.financial.bo;
 
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import static org.kuali.KeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
 import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.PropertyConstants.BUDGET_YEAR;
 import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.PropertyConstants.CREDIT;
 import static org.kuali.PropertyConstants.DEBIT;
@@ -35,11 +38,6 @@ import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.PropertyConstants.OVERRIDE_CODE;
 import static org.kuali.PropertyConstants.PROJECT_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
-
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineParserBase;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.exceptions.AccountingLineParserException;
@@ -51,7 +49,7 @@ import org.kuali.core.util.KualiDecimal;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, BUDGET_YEAR, OVERRIDE_CODE, DEBIT, CREDIT };
+    private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, OVERRIDE_CODE, DEBIT, CREDIT };
 
     /**
      * Constructs a AuxiliaryVoucherAccountingLineParser.java.

@@ -25,7 +25,6 @@ package org.kuali.module.financial.bo;
 
 import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
 import static org.kuali.PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT;
-import static org.kuali.PropertyConstants.BUDGET_YEAR;
 import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
@@ -33,7 +32,6 @@ import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.PropertyConstants.OVERRIDE_CODE;
 import static org.kuali.PropertyConstants.PROJECT_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
-
 import org.kuali.core.bo.AccountingLineParserBase;
 
 /**
@@ -42,7 +40,7 @@ import org.kuali.core.bo.AccountingLineParserBase;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] AD_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, BUDGET_YEAR, OVERRIDE_CODE, BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT };
+    private static final String[] AD_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, OVERRIDE_CODE, BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT };
 
     /**
      * 

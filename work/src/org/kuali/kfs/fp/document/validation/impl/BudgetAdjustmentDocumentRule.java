@@ -46,6 +46,7 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseCons
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.TRANSFER_INCOME;
 import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,6 +57,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.Document;
@@ -71,6 +73,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
@@ -84,7 +87,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
-
+    
     private static final String INCOME_STREAM_CHART_ACCOUNT_DELIMITER = "|";
 
     /**
@@ -94,8 +97,15 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         boolean allow = true;
-
+        BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
+        
         LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
+        
+        /* if they have entered a base amount for line, verify it can be adjusted for the posting year */
+        if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero() && !SpringServiceLocator.getFiscalYearFunctionControlService().isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) transactionalDocument).getPostingYear())) {
+            GlobalVariables.getErrorMap().putError(PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNT_CHANGE_NOT_ALLOWED);
+            allow = false;
+        }
 
         LOG.debug("beginning monthly lines validation ");
         allow = allow && validateMonthlyLines(transactionalDocument, accountingLine);
@@ -120,8 +130,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) document;
 
         if (isValid) {
-            isValid &= isAllAccountingLinesMatchingBudgetYear((TransactionalDocument) document);
-            isValid &= validateFundGroupAdjustmentRestrictions(baDocument);
+            isValid = isValid && isAllAccountingLinesMatchingBudgetYear((TransactionalDocument) document);
+            isValid = isValid && validateFundGroupAdjustmentRestrictions(baDocument);
         }
 
         return isValid;
@@ -320,7 +330,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                     /* D/C code is empty for BA, set correct balance type, correct amount */
                     explicitEntry.setTransactionDebitCreditCode("");
                     explicitEntry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_CURRENT_BUDGET);
-                    explicitEntry.setTransactionLedgerEntryAmount(streamAmount.abs());
+                    explicitEntry.setTransactionLedgerEntryAmount(streamAmount);
 
                     // set fiscal period, if next fiscal year set to 01, else leave to current period
                     if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
@@ -344,7 +354,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                     explicitEntry.setFinancialObjectTypeCode(TRANSFER_INCOME);
 
                     /* set document type to tof */
-                    explicitEntry.setFinancialDocumentTypeCode(TRANSFER_OF_FUNDS_DOC_TYPE_CODE);
+                    explicitEntry.setFinancialDocumentTypeCode(getTransferDocumentType());
 
                     // set fiscal period, if next fiscal year set to 01, else leave to current period
                     if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
@@ -386,7 +396,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         KualiDecimal monthlyTotal = budgetAdjustmentAccountingLine.getMonthlyLinesTotal();
         if (monthlyTotal.isNonZero() && monthlyTotal.compareTo(budgetAdjustmentAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
             validMonthlyLines = false;
         }
 
@@ -534,13 +544,16 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         boolean objectCodeAllowed = true;
+        
         String errorKey = PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
-
+        String objectCodeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE);
+        String objectCodeSubTypeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE);
+        
         /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, objectCodeSubTypeLabel);
 
         /* check object code is in permitted list for payment reason */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode(), errorKey, "Object code");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode(), errorKey, objectCodeLabel);
 
         return objectCodeAllowed;
     }
@@ -816,6 +829,13 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         String currentTotal = (String) new CurrencyFormatter().format(currentSourceLineTotal);
 
         GlobalVariables.getErrorMap().putError(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
+    }
+    
+    /**
+     * @return the document type name to be used for the income stream transfer glpe
+     */
+    protected String getTransferDocumentType() {
+        return TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
     }
 
 

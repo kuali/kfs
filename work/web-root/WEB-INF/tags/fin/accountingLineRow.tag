@@ -278,18 +278,22 @@
     <c:when test="${currentBaseAmount}" >
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
+            accountingLine="${accountingLine}"
+            baselineAccountingLine="${baselineAccountingLine}"
             cellProperty="${currentCellProperty}"
             attributes="${accountingLineAttributes}"
-            field="amount"
-            readOnly="${readOnly&&(empty editableFields['amount'])}"
+            field="currentBudgetAdjustmentAmount"
+            readOnly="${readOnly&&(empty editableFields['currentBudgetAdjustmentAmount'])}"
             rowSpan="${rowCount}"
             />
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
+            accountingLine="${accountingLine}"
+            baselineAccountingLine="${baselineAccountingLine}"
             cellProperty="${baseCellProperty}"
             attributes="${accountingLineAttributes}"
-            field="amount"
-            readOnly="${(readOnly&&(empty editableFields['amount']))||!KualiForm.editingMode['baseAmtEntry']}"
+            field="baseBudgetAdjustmentAmount"
+            readOnly="${(readOnly&&(empty editableFields['baseBudgetAdjustmentAmount']))||!KualiForm.editingMode['baseAmtEntry']}"
             rowSpan="${rowCount}"
             />
     </c:when>

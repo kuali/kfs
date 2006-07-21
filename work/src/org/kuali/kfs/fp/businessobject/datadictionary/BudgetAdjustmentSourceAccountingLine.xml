@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd"
     [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../core/datadictionary/entity/AccountingLineBaseAttributes.xml">]>
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine">
@@ -32,7 +32,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -49,7 +49,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -66,7 +66,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -83,7 +83,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -100,7 +100,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -117,7 +117,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -134,7 +134,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -151,7 +151,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -168,7 +168,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -185,7 +185,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -202,7 +202,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -219,7 +219,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -236,7 +236,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>
@@ -253,7 +253,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern>
-                    <floatingPoint />
+                    <floatingPoint allowNegative="true"/>
                 </validationPattern>
 
                 <control>

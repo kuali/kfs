@@ -58,6 +58,9 @@
               description="A boolean whether the monthy amounts table is displayed
               below each accounting line (needed for budget adjustment document).
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
+              
+<%@ attribute name="accountingLineAttributes" required="false" type="java.util.Map"
+              description="A parameter to specify an data dictionary entry for a sub-classed accounting line." %>            
 
 <%@ attribute name="forcedReadOnlyFields" required="false" type="java.util.Map"
               description="map containing accounting line field names that should be marked as read only." %>
@@ -66,7 +69,9 @@
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
 <c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
 <c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
-<c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
+<c:if test="${empty accountingLineAttributes}">
+  <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
+</c:if>  
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 
 <c:set var="displayHidden" value="false" />

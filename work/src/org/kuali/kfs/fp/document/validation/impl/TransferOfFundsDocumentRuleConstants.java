@@ -38,4 +38,5 @@ public interface TransferOfFundsDocumentRuleConstants extends TransactionalDocum
     
     // doc type constant
     public static final String TRANSFER_OF_FUNDS_DOC_TYPE_CODE = "TF";
+    public static final String YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE = "YETF";
 }

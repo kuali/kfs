@@ -25,8 +25,7 @@ package org.kuali.module.financial.document;
 
 
 /**
- * Year End version of the <code>BudgetAdjustmentDocument</code> the only functional difference between the YearEnd
- * version and the non-yearEnd version of a document is the glpe's generation.
+ * Year End version of the <code>BudgetAdjustmentDocument</code> 
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -38,5 +37,5 @@ public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument im
     public YearEndBudgetAdjustmentDocument() {
         super();
     }
-    // empty do not change. see above.
+
 }

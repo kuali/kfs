@@ -14,7 +14,7 @@
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="description" />
-
+                <field attributeName="active" />
             </inquiryFields>
         </inquiry>
 
@@ -30,11 +30,13 @@
                 <lookupField attributeName="code" />
                 <lookupField attributeName="name" />
                 <lookupField attributeName="description" />
+                <lookupField attributeName="active" />
             </lookupFields>
             <resultFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="description" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -91,6 +93,7 @@
                 <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
             </attribute>
 
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

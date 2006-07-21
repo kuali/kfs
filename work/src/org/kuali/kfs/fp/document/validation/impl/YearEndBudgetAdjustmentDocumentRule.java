@@ -23,6 +23,8 @@
 
 package org.kuali.module.financial.rules;
 
+import static org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants.YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
+
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
@@ -50,5 +52,15 @@ public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumen
         super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
     }
+
+    /**
+     * @see org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule#getTransferDocumentType()
+     */
+    @Override
+    protected String getTransferDocumentType() {
+        return YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
+    }
+    
+    
 
 }

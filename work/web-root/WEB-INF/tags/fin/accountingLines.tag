@@ -59,6 +59,10 @@
 
 <%@ attribute name="forcedReadOnlyFields" required="false" type="java.util.Map"
               description="map containing accounting line field names that should be marked as read only." %>
+
+<%@ attribute name="accountingLineAttributes" required="false" type="java.util.Map"
+              description="A parameter to specify an data dictionary entry for a sub-classed accounting line." %> 
+
 <c:forEach items="${editableAccounts}" var="account">
   <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
 </c:forEach>
@@ -99,6 +103,7 @@
           includeObjectTypeCode="${includeObjectTypeCode}"
           displayMonthlyAmounts="${displayMonthlyAmounts}"
           forcedReadOnlyFields="${forcedReadOnlyFields}"
+          accountingLineAttributes="${accountingLineAttributes}"
           />
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
@@ -117,6 +122,7 @@
             includeObjectTypeCode="${includeObjectTypeCode}"
             displayMonthlyAmounts="${displayMonthlyAmounts}"
             forcedReadOnlyFields="${forcedReadOnlyFields}"
+            accountingLineAttributes="${accountingLineAttributes}"
             />
       </c:if>
     </table>

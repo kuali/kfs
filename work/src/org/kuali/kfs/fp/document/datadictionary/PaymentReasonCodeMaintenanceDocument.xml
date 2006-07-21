@@ -36,6 +36,7 @@
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" />
                     <maintainableField name="description" />
+                    <maintainableField name="active" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

@@ -10,6 +10,28 @@
 
         <attributes>
             &accountingLineBaseAttributes;
+            
+			<attribute name="referenceNumber" forceUppercase="true" override="true">
+			    <label>Reference Number</label>
+			    <shortLabel>Ref Number</shortLabel>
+			
+			    <maxLength>14</maxLength>
+			
+			    <validationPattern>
+			        <alphaNumeric />
+			    </validationPattern>
+			    <required>true</required>
+			    <control>
+			        <text size="16" />
+			    </control>
+			
+			    <summary>
+			        <![CDATA[&nbsp;]]>
+			    </summary>
+			    <description>
+			        <![CDATA[&nbsp;]]>
+			    </description>
+			</attribute>
         </attributes>
 
         <collections>

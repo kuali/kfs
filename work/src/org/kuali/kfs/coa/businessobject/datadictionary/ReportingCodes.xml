@@ -46,6 +46,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>financialReportingCode</titleAttribute>
+
         <attributes>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">

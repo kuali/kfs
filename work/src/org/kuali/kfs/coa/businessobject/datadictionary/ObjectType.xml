@@ -46,6 +46,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>code</titleAttribute>
+
         <attributes>
             <attribute name="code" forceUppercase="true">
                 <label>Object Type Code</label>

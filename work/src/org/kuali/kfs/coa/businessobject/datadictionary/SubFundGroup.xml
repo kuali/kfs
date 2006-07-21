@@ -57,6 +57,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>subFundGroupCode</titleAttribute>
+
         <attributes>
             <attribute name="subFundGroupCode" forceUppercase="true">
                 <label>Sub-Fund Group Code</label>

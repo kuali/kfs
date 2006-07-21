@@ -53,6 +53,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>subcontractorNumber</titleAttribute>
+
         <attributes>
 
             <attribute name="subcontractorNumber" forceUppercase="true">

@@ -34,6 +34,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>accountRestrictedStatusCode</titleAttribute>
+
         <attributes>
 
             <attribute name="accountRestrictedStatusCode" forceUppercase="true">

@@ -40,6 +40,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>organizationReversionCategoryCode</titleAttribute>
+
         <attributes>
 
             <attribute name="organizationReversionCategoryCode" forceUppercase="true">

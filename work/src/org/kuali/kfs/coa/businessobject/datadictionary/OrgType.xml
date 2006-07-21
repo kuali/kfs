@@ -37,6 +37,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>organizationTypeCode</titleAttribute>
+
         <attributes>
             <attribute name="organizationTypeCode" forceUppercase="true">
                 <label>Organization Type Code</label>

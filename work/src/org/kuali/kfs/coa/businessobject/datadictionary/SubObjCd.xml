@@ -60,7 +60,7 @@
             </resultFields>
         </lookup>
 
-        <titleAttribute>Sub Object Code</titleAttribute>
+        <titleAttribute>financialSubObjectCode</titleAttribute>
 
         <attributes>
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">

@@ -43,6 +43,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>subFundGroupTypeCode</titleAttribute>
+
         <attributes>
 
             <attribute name="subFundGroupTypeActiveIndicator" forceUppercase="true">

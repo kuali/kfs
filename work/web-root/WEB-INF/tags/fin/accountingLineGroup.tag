@@ -1,9 +1,4 @@
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
-<%@ taglib prefix="logic" uri="/tlds/struts-logic.tld" %>
-<%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
 
 <%@ attribute name="isSource" required="true"
               description="Boolean whether this group is of source or target lines." %>
@@ -67,11 +62,7 @@
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
-<c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
 <c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
-<c:if test="${empty accountingLineAttributes}">
-  <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
-</c:if>  
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 
 <c:set var="displayHidden" value="false" />
@@ -80,6 +71,12 @@
 <%-- need var titleName because the EL + operator is arithmetic only, not String concat --%>
 <c:set var="titleName" value="${sourceOrTarget}AccountingLinesSectionTitle"/>
 <c:set var="sectionTitle" value="${KualiForm.document[titleName]}"/>
+
+<c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
+<c:set var="oldAccountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
+
+<dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.${sourceOrTarget}AccountingLineEntryName" returnVar="accountingLineEntryName"/>
+<c:set var="accountingLineAttributes" value="${DataDictionary[accountingLineEntryName].attributes}" />
 
 <c:choose>
     <c:when test="${empty sectionTitle}">

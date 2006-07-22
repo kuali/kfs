@@ -464,6 +464,12 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 break;
             }
         }
+        
+        String fundLabel = AccountingLineRuleUtil.getFundGroupCodeLabel();
+        String subFundLabel = AccountingLineRuleUtil.getSubFundGroupCodeLabel();
+        String chartLabel = AccountingLineRuleUtil.getChartLabel();
+        String orgLabel = AccountingLineRuleUtil.getOrganizationCodeLabel();
+        String acctLabel = AccountingLineRuleUtil.getAccountLabel();
 
         /*
          * now iterate through the accounting lines again and check each record against the previous to verify the restrictions are
@@ -485,7 +491,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
                 if (restrictedToSubFund) {
                     if (!line.getAccount().getSubFundGroupCode().equals(previousLine.getAccount().getSubFundGroupCode())) {
-                        errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingSubFund, "Sub Fund" });
+                        errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingSubFund, subFundLabel });
                         isAdjustmentAllowed = false;
                         break;
                     }
@@ -494,10 +500,10 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 if (restrictedToChart) {
                     if (!line.getChartOfAccountsCode().equals(previousLine.getChartOfAccountsCode())) {
                         if (restrictedToSubFund) {
-                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, "Sub Fund and Chart" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, subFundLabel + " and " + chartLabel });
                         }
                         else {
-                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, "Fund and Chart" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingChart, fundLabel + " and " + chartLabel });
                         }
                         isAdjustmentAllowed = false;
                         break;
@@ -507,10 +513,10 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 if (restrictedToOrg) {
                     if (!line.getAccount().getOrganizationCode().equals(previousLine.getAccount().getOrganizationCode())) {
                         if (restrictedToSubFund) {
-                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, "Sub Fund and Organization" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, subFundLabel + " and " + orgLabel });
                         }
                         else {
-                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, "Fund and Organization" });
+                            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingOrg, fundLabel + " and " + orgLabel });
                         }
                         isAdjustmentAllowed = false;
                         break;
@@ -519,7 +525,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
                 if (restrictedToAccount) {
                     if (!line.getAccountNumber().equals(previousLine.getAccountNumber())) {
-                        errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingAccount, "Account" });
+                        errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BA_RESTRICTION_LEVELS, new String[] { accountRestrictingAccount, acctLabel });
                         isAdjustmentAllowed = false;
                         break;
                     }
@@ -546,14 +552,12 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         boolean objectCodeAllowed = true;
         
         String errorKey = PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
-        String objectCodeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE);
-        String objectCodeSubTypeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE);
         
         /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, objectCodeSubTypeLabel);
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
 
         /* check object code is in permitted list for payment reason */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode(), errorKey, objectCodeLabel);
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_CODES, accountingLine.getFinancialObjectCode(), errorKey, AccountingLineRuleUtil.getObjectCodeLabel());
 
         return objectCodeAllowed;
     }

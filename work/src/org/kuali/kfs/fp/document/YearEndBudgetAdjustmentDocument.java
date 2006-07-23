@@ -23,6 +23,8 @@
 
 package org.kuali.module.financial.document;
 
+import org.kuali.core.util.SpringServiceLocator;
+
 
 /**
  * Year End version of the <code>BudgetAdjustmentDocument</code> 
@@ -38,4 +40,11 @@ public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument im
         super();
     }
 
+    /**
+     * set posting year to previous fiscal year
+     */
+    public void initiateDocument() {
+        Integer previousYearParam = new Integer(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear().intValue()-1);
+        setPostingYear(previousYearParam);
+    }
 }

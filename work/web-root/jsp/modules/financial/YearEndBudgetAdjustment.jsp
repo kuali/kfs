@@ -4,23 +4,15 @@
 	htmlFormAction="financialYearEndBudgetAdjustment" renderMultipart="true"
 	showTabButtons="true">
 
-	<SCRIPT type="text/javascript">
-<!--
-    function submitForm() {
-        document.forms[0].submit();
-    }
-//-->
-</SCRIPT>
+	<kul:hiddenDocumentFields/>
 
-	<kul:hiddenDocumentFields excludePostingYear="true" />
-
-	<kul:documentOverview editingMode="${KualiForm.editingMode}"
-		includePostingYear="true" />
+	<kul:documentOverview editingMode="${KualiForm.editingMode}"/>
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		currentBaseAmount="true" displayMonthlyAmounts="true" 
-		extraHiddenFields=",budgetAdjustmentPeriodCode,fringeBenefitIndicator" />
+		extraHiddenFields=",budgetAdjustmentPeriodCode,fringeBenefitIndicator"
+		accountingLineAttributes="${DataDictionary['BudgetAdjustmentSourceAccountingLine'].attributes}" />
 
 	<kul:generalLedgerPendingEntries />
 

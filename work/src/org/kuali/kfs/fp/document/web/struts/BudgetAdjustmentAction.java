@@ -63,10 +63,8 @@ public class BudgetAdjustmentAction extends KualiTransactionalDocumentActionBase
      */
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, KeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
+        GlobalVariables.getMessageList().add(KeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
         return super.copy(mapping, form, request, response);
     }
-    
-    
 
 }

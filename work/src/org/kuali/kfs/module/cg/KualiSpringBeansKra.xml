@@ -3,13 +3,13 @@
 <beans>
     <!-- The following is temporary, only until SH_UNIV_DATE_T is corrected in the databse -->
 
-    <bean id="kraDateTimeService" class="org.kuali.module.kra.service.impl.DateTimeServiceImpl">
+    <bean id="dateTimeService" class="org.kuali.core.service.impl.DateTimeServiceImpl">
         <property name="universityDateDao">
-            <ref bean="kraUniversityDateDao" />
+            <ref bean="universityDateDao" />
         </property>
     </bean>
 
-    <bean id="kraUniversityDateDao" class="org.kuali.module.kra.dao.ojb.UniversityDateDaoOjb" />
+    <bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb" />
     <bean id="indirectCostLookupDao" class="org.kuali.module.kra.dao.ojb.IndirectCostLookupDaoOjb" />
 
     <bean id="budgetService" class="org.kuali.module.kra.service.impl.BudgetServiceImpl">
@@ -110,7 +110,7 @@
 
     <bean id="budgetPersonnelService" class="org.kuali.module.kra.service.impl.BudgetPersonnelServiceImpl">
         <property name="dateTimeService">
-            <ref bean="kraDateTimeService" />
+            <ref bean="dateTimeService" />
         </property>
         <property name="budgetFringeRateService">
             <ref bean="budgetFringeRateService" />

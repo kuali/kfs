@@ -605,14 +605,6 @@
     <field-descriptor name="budgetAdjustedModularDirectCostAmount" column="BDGT_ADJ_MOD_DCST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.UniversityDate" table="ER_UNIV_DATE_T">
-    <field-descriptor name="universityDate" column="UNIV_DT" jdbc-type="DATE" primarykey="true" />
-    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="universityFiscalAccountingPeriod" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.kra.bo.AppointmentTypeEffectiveDate" table="ER_APPT_TYP_EFF_DT_T">
     <field-descriptor name="appointmentTypeCode" column="UNIV_APPT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />

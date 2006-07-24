@@ -799,8 +799,6 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
 
         // clear waive wire
-        setDvNonEmployeeTravel(new DisbursementVoucherNonEmployeeTravel());
-        setDvPreConferenceDetail(new DisbursementVoucherPreConferenceDetail());
         getDvWireTransfer().setDisbursementVoucherWireTransferFeeWaiverIndicator(false);
 
         // check payee id number to see if still valid, if so retrieve their last information and set in the detail inform.

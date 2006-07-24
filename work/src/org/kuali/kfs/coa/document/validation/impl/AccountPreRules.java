@@ -104,10 +104,10 @@ public class AccountPreRules extends MaintenancePreRulesBase {
             return;
         }
         SubFundGroup subFundGroup = copyAccount.getSubFundGroup();
-        restrictedStatusCode = subFundGroup.getAccountRestrictedStatusCode().trim();
-
+        
         boolean useSubFundGroup = false;
-        if (StringUtils.isNotBlank(restrictedStatusCode)) {
+        if (StringUtils.isNotBlank(subFundGroup.getAccountRestrictedStatusCode())) {
+            restrictedStatusCode = subFundGroup.getAccountRestrictedStatusCode().trim();
             String subFundGroupCd = subFundGroup.getSubFundGroupCode();
             useSubFundGroup = askOrAnalyzeYesNoQuestion("SubFundGroup" + subFundGroupCd, buildSubFundGroupConfirmationQuestion(subFundGroupCd, restrictedStatusCode));
             if(useSubFundGroup) {

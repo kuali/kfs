@@ -665,7 +665,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>A checkbox that indicates if the Account will include pending transactions in calculating sufficient funds.</description>
+                <description>A checkbox that indicates whether or not sufficient funds checking is turned on within the Kuali application. It may be desirable to set the sufficient funds code to a value other than N but leave this box unchecked if there is a need for other applications to use the sufficient funds table but sufficient funds checking is not desired in Kuali.</description>
             </attributeReference>
 
             <attributeReference name="extrnlFinEncumSufficntFndIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">

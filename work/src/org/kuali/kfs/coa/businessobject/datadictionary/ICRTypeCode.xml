@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Federal Funded Code Inquiry</title>
+            <title>Indirect Cost Recovery Type Code Inquiry</title>
             <inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
@@ -21,7 +21,7 @@
                 <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.codes.ICRTypeCode">Create New</a>]]>
             </menubar>
 
-            <instructions>Lookup an ICR Type Code</instructions>
+            <instructions>Lookup an Indirect Cost Recovery Type Code</instructions>
 
             <defaultSort attributeName="code" sortAscending="true" />
 
@@ -41,8 +41,8 @@
         <attributes>
 
             <attribute name="code" forceUppercase="true">
-                <label>ICR Type Code</label>
-                <shortLabel>ICR Type Code</shortLabel>
+                <label>Indirect Cost Recovery Type Code</label>
+                <shortLabel>Indirect Cost Recovery Type Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>
@@ -53,12 +53,12 @@
                     <text size="2" />
                 </control>
 
-                <summary>ICR Type Code</summary>
-                <description>ICR Type Code</description>
+                <summary>Indirect Cost Recovery Type Code</summary>
+                <description>Indirect Cost Recovery Type Code</description>
             </attribute>
 
             <attribute name="name" forceUppercase="false">
-                <label>ICR Type Name</label>
+                <label>Indirect Cost Recovery Type Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -67,8 +67,8 @@
                     <text size="40" />
                 </control>
 
-                <summary>ICR Type Name</summary>
-                <description>ICR Type Name...</description>
+                <summary>Indirect Cost Recovery Type Name</summary>
+                <description>Indirect Cost Recovery Type Name...</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

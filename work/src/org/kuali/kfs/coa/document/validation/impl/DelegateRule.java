@@ -37,6 +37,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 
 /**
@@ -199,8 +200,15 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
                     success &= false;
                 }
             }
-
-
+        }
+        
+        // the account that has been chosen cannot be closed
+        Account account = newDelegate.getAccount();
+        if(ObjectUtils.isNotNull(account)) {
+            if (account.isAccountClosedIndicator()) {
+                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED);
+                success &= false;
+            }
         }
 
         return success;

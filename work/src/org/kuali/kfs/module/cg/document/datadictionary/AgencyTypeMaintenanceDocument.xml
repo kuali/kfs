@@ -12,7 +12,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>kualiUniversalGroup</workgroup>
+                    <workgroup>KRA_PRE_AWARD_ADMIN</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

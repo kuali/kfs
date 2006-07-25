@@ -52,6 +52,8 @@
         <form-bean name="BudgetIndirectCostForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
         <form-bean name="BudgetAuditModeForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
         <form-bean name="BudgetPermissionsForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+        <form-bean name="BudgetNotesForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+
 
         <!-- General Ledger Bean Definitions -->
         <form-bean name="CorrectionForm" type="org.kuali.module.gl.web.struts.form.CorrectionForm" />
@@ -181,6 +183,7 @@
             <forward name="indirectcost" path="/jsp/modules/research/BudgetIndirectCost.jsp" redirect="false" />
             <forward name="auditmode" path="/jsp/modules/research/BudgetAuditMode.jsp" redirect="false" />
             <forward name="permissions" path="/jsp/modules/research/BudgetPermissions.jsp" redirect="false" />
+            <forward name="notes" path="/jsp/modules/research/BudgetNotes.jsp" redirect="false" />
         </action>
 
         <action path="/cashManagementStatus" name="CashManagementStatusForm" type="org.kuali.module.financial.web.struts.action.CashManagementStatusAction" scope="request" attribute="KualiForm">

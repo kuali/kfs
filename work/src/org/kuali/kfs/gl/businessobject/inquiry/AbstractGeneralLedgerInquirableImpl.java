@@ -29,10 +29,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.KualiSystemCode;
+import org.kuali.core.datadictionary.AttributeDefinition;
+import org.kuali.core.datadictionary.AttributeReferenceDefinition;
+import org.kuali.core.datadictionary.DataDictionaryEntryBase;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.core.service.BusinessObjectDictionaryService;
@@ -61,7 +65,6 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
     public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
 
         BusinessObjectDictionaryService businessDictionary = SpringServiceLocator.getBusinessObjectDictionaryService();
-        DataDictionaryService dataObjectDictionary = SpringServiceLocator.getDataDictionaryService();
         PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
 
         String baseUrl = Constants.INQUIRY_ACTION;
@@ -88,6 +91,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
             inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClass(businessObject, attributeName);
+            //inquiryBusinessObjectClass = this.getNestedInquiryBusinessObjectClass(businessObject, attributeName);
         }
         else {
             Map primitiveReference = KualiLookupableImpl.getPrimitiveReference(businessObject, attributeName);
@@ -159,8 +163,11 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
                 keyValue = (keyValue == null) ? "" : keyValue.toString();
 
                 // convert the key value and name into the given ones
-                keyValue = getKeyValue(keyName, keyValue);
-                keyName = getKeyName(keyName);
+                Object tempKeyValue = this.getKeyValue(keyName, keyValue);
+                keyValue = tempKeyValue == null ? keyValue : tempKeyValue;
+                
+                String tempKeyName = this.getKeyName(keyName);
+                keyName = tempKeyName == null ? keyName : tempKeyName;
 
                 // add the key-value pair into the parameter map
                 if (keyName != null)
@@ -312,5 +319,41 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
     public Map getFieldValues(Map fieldValues){
         return fieldValues;
+    }
+    
+    // TODO: not finished
+    public Class getNestedInquiryBusinessObjectClass(BusinessObject businessObject, String attributeName){
+        Class inquiryBusinessObjectClass = null;
+        String entryName = businessObject.getClass().getName();
+        System.out.println("businessObject: " + entryName);
+        System.out.println("attributeName: " + attributeName);
+        
+        DataDictionaryService dataDictionary = SpringServiceLocator.getDataDictionaryService();
+        AttributeDefinition attributeDefinition = null;
+        
+        if (StringUtils.isBlank(attributeName)) {
+            throw new IllegalArgumentException("invalid (blank) attributeName");
+        }
+
+        DataDictionaryEntryBase entry = (DataDictionaryEntryBase) dataDictionary.getDataDictionary().getDictionaryObjectEntry(entryName);
+        if (entry != null) {
+            attributeDefinition = entry.getAttributeDefinition(attributeName);
+            inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClass(businessObject, attributeName);
+        }
+        
+        if (attributeDefinition instanceof AttributeReferenceDefinition) {
+            AttributeReferenceDefinition attributeReferenceDefinition = (AttributeReferenceDefinition) attributeDefinition;
+            System.out.println("Source Classname = " + attributeReferenceDefinition.getSourceClassName());
+            System.out.println("Source Attribute = " + attributeReferenceDefinition.getSourceAttributeName());
+            
+            try{
+                inquiryBusinessObjectClass = Class.forName(attributeReferenceDefinition.getSourceClassName()); 
+            }
+            catch(Exception e){
+                throw new IllegalArgumentException("fail to construct a Class");
+            }
+        }
+        
+        return inquiryBusinessObjectClass;
     }
 }

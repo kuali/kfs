@@ -34,6 +34,7 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.AddAccountingLineEvent;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.Timer;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -50,6 +51,25 @@ import org.kuali.module.financial.web.struts.form.ProcurementCardForm;
 public class ProcurementCardAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAction.class);
 
+    /**
+     * Override to accomodate multiple target lines.
+     * 
+     * @param transForm
+     */
+    @Override
+    protected void processAccountingLineOverrides(KualiTransactionalDocumentFormBase transForm) {
+        ProcurementCardForm procurementCardForm = (ProcurementCardForm) transForm;
+        
+        processAccountingLineOverrides(procurementCardForm.getNewSourceLine());
+        processAccountingLineOverrides(procurementCardForm.getNewTargetLines());
+        if (procurementCardForm.hasDocumentId()) {
+            TransactionalDocument transactionalDocument = (TransactionalDocument) procurementCardForm.getDocument();
+
+            processAccountingLineOverrides(transactionalDocument.getSourceAccountingLines());
+            processAccountingLineOverrides(transactionalDocument.getTargetAccountingLines());
+        }
+    }
+    
     /**
      * Override to add the new accounting line to the correct transaction
      * 

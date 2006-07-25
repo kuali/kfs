@@ -22,8 +22,13 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
@@ -42,6 +47,43 @@ public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private List newTargetLines;
 
+    /**
+     * Override to accomodate multiple target lines.
+     * 
+     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+
+        //
+        // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
+
+        // handle new accountingLine, if one is being added
+        String methodToCall = this.getMethodToCall();
+        if (StringUtils.isNotBlank(methodToCall)) {
+            if (methodToCall.equals(Constants.INSERT_SOURCE_LINE_METHOD)) {
+                populateSourceAccountingLine(getNewSourceLine());
+            }
+
+            if (methodToCall.equals(Constants.INSERT_TARGET_LINE_METHOD)) {
+                // This is the addition for the override: Handle multiple accounting lines ...
+                for (Iterator newTargetLinesIter = getNewTargetLines().iterator(); newTargetLinesIter.hasNext();) {
+                    TargetAccountingLine targetAccountingLine = (TargetAccountingLine) newTargetLinesIter.next();
+                    populateTargetAccountingLine(targetAccountingLine);
+                }
+            }
+        }
+
+        // don't call populateAccountingLines if you are copying or errorCorrecting a document,
+        // since you want the accountingLines in the copy to be "identical" to those in the original
+        if (!StringUtils.equals(methodToCall, Constants.COPY_METHOD) && !StringUtils.equals(methodToCall, Constants.ERRORCORRECT_METHOD)) {
+            populateAccountingLines();
+        }
+
+        setDocTypeName(discoverDocumentTypeName());
+    }
+    
     /**
      * Constructs a ProcurmentCardForm instance and sets up the appropriately casted document. Also, the newSourceLine needs to be
      * the extended ProcurementCardSourceAccountingLine, for the additional trans line nbr.

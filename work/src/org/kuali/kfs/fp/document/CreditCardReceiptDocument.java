@@ -41,7 +41,7 @@ import org.kuali.module.financial.bo.CreditCardDetail;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CreditCardReceiptDocument extends CashReceiptDocument {
+public class CreditCardReceiptDocument extends CashReceiptDocumentBase {
     // holds details about each credit card receipt
     private List<CreditCardDetail> creditCardReceipts = new ArrayList<CreditCardDetail>();
 
@@ -197,20 +197,6 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
         return total;
     }
 
-    /**
-     * Override to set the document status to APPROVED ("A").  This is typically done in the DocumentBase; however, 
-     * the CashReceipt, which is a parent to this document has a different life-cycle, but performs other common things. 
-     * So this overrides an override.
-     * 
-     * @see org.kuali.core.document.Document#handleRouteStatusChange()
-     */
-    @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
-        }
-    }
 
     /**
      * Overrides super to call super and then also add in the new list of credit card receipts that have to be managed.

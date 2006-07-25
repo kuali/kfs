@@ -39,7 +39,7 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AdvanceDepositDocument extends CashReceiptDocument {
+public class AdvanceDepositDocument extends CashReceiptDocumentBase {
     // holds details about each advance deposit
     private List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 
@@ -180,21 +180,6 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
         return this.totalAdvanceDepositAmount;
     }
     
-    /**
-     * Override to set the document status to APPROVED ("A").  This is typically done in the DocumentBase; however, 
-     * the CashReceipt, which is a parent to this document has a different life-cycle, but performs other common things. 
-     * So this overrides an override.
-     * 
-     * @see org.kuali.core.document.Document#handleRouteStatusChange()
-     */
-    @Override
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.APPROVED);
-        }
-    }
-
     /**
      * Overrides super to call super and then also add in the new list of advance deposits that have to be managed.
      * 

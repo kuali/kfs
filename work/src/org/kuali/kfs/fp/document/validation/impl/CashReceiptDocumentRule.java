@@ -44,6 +44,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.document.CashReceiptDocumentBase;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -79,7 +80,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        return !CashReceiptDocumentRuleUtil.areCashTotalsInvalid((CashReceiptDocument) document);
+        return !CashReceiptDocumentRuleUtil.areCashTotalsInvalid((CashReceiptDocumentBase) document);
     }
 
     /**
@@ -93,7 +94,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         boolean valid = super.processCustomApproveDocumentBusinessRules(approveEvent);
 
         if (valid) {
-            CashReceiptDocument crd = (CashReceiptDocument) approveEvent.getDocument();
+            CashReceiptDocumentBase crd = (CashReceiptDocumentBase) approveEvent.getDocument();
 
             String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
             CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(unitName, false);
@@ -117,7 +118,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      */
     @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        CashReceiptDocument cr = (CashReceiptDocument) transactionalDocument;
+        CashReceiptDocumentBase cr = (CashReceiptDocumentBase) transactionalDocument;
 
         // make sure that cash reconciliation total is greater than zero
         boolean isValid = cr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
@@ -343,7 +344,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * @param document
      * @return boolean
      */
-    public boolean isCoverSheetPrintable(CashReceiptDocument document) {
+    public boolean isCoverSheetPrintable(CashReceiptDocumentBase document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
     }

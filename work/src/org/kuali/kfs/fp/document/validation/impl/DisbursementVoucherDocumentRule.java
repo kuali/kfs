@@ -595,11 +595,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                         errors.putError(PropertyConstants.STATE_INCOME_TAX_PERCENT, KeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getStateIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
                     }
                 }
-
-                if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode())) {
-                    errors.putError(PropertyConstants.POSTAL_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED, "Country code ");
-                }
             }
+        }
+        
+        /* country code required, unless income type is nonreportable */
+        if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode()) && !NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
+            errors.putError(PropertyConstants.POSTAL_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED, "Country code ");
         }
 
         errors.removeFromErrorPath(PropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);

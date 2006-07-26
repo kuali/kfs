@@ -91,83 +91,82 @@ public class CorrectionForm extends KualiDocumentFormBase {
                 //fieldNames.add(fields[i].getName());
                                 
                 if(fields[i].getName().equals("universityFiscalYear")){
-                    fieldNames.put(1, fields[i].getName());
+                    fieldNames.put(1, "Fiscal Year");
                 }
                 if(fields[i].getName().equals("budgetYear")){
-                    fieldNames.put(2, fields[i].getName());
+                    fieldNames.put(2, "Budget Year");
                 }
                 if(fields[i].getName().equals("chartOfAccountsCode")){
-                    fieldNames.put(3, fields[i].getName());
+                    fieldNames.put(3, "Chart Code");
                 }
                 if(fields[i].getName().equals("accountNumber")){
-                    fieldNames.put(4, fields[i].getName());
+                    fieldNames.put(4, "Account Number");
                 }
                 if(fields[i].getName().equals("subAccountNumber")){
-                    fieldNames.put(5, fields[i].getName());
+                    fieldNames.put(5, "Sub Account Number");
                 }
                 if(fields[i].getName().equals("financialObjectCode")){
-                    fieldNames.put(6, fields[i].getName());
+                    fieldNames.put(6, "Object Code");
                 }
                 if(fields[i].getName().equals("financialSubObjectCode")){
-                    fieldNames.put(7, fields[i].getName());
+                    fieldNames.put(7, "Sub Object Code");
                 }
                 if(fields[i].getName().equals("financialBalanceTypeCode")){
-                    fieldNames.put(8, fields[i].getName());
+                    fieldNames.put(8, "Balance Type");
                 }
                 if(fields[i].getName().equals("financialObjectTypeCode")){
-                    fieldNames.put(9, fields[i].getName());
+                    fieldNames.put(9, "Object Type");
                 }
                 if(fields[i].getName().equals("universityFiscalPeriodCode")){
-                    fieldNames.put(10, fields[i].getName());
+                    fieldNames.put(10, "Fiscal Period");
                 }
                 if(fields[i].getName().equals("financialDocumentTypeCode")){
-                    fieldNames.put(11, fields[i].getName());
+                    fieldNames.put(11, "Document Type");
                 }
                 if(fields[i].getName().equals("financialSystemOriginationCode")){
-                    fieldNames.put(12, fields[i].getName());
+                    fieldNames.put(12, "Origin Code");
                 }
                 if(fields[i].getName().equals("financialDocumentNumber")){
-                    fieldNames.put(13, fields[i].getName());
+                    fieldNames.put(13, "Document Number");
                 }
                 if(fields[i].getName().equals("transactionLedgerEntrySequenceNumber")){
-                    fieldNames.put(14, fields[i].getName());
+                    fieldNames.put(14, "Sequence Number");
                 }
                 if(fields[i].getName().equals("transactionLedgerEntryDescription")){
-                    fieldNames.put(15, fields[i].getName());
+                    fieldNames.put(15, "Description");
                 }
                 if(fields[i].getName().equals("transactionLedgerEntryAmount")){
-                    fieldNames.put(16, fields[i].getName());
+                    fieldNames.put(16, "Amount");
                 }
                 if(fields[i].getName().equals("transactionDebitCreditCode")){
-                    fieldNames.put(17, fields[i].getName());
+                    fieldNames.put(17, "Debit Credit Indicator");
                 }
                 if(fields[i].getName().equals("transactionDate")){
-                    fieldNames.put(18, fields[i].getName());
+                    fieldNames.put(18, "Transaction Date");
                 }
                 if(fields[i].getName().equals("organizationDocumentNumber")){
-                    fieldNames.put(19, fields[i].getName());
+                    fieldNames.put(19, "Organization Document Number");
                 }
                 if(fields[i].getName().equals("projectCode")){
-                    fieldNames.put(20, fields[i].getName());
+                    fieldNames.put(20, "Project Code");
                 }
-                
                 if(fields[i].getName().equals("organizationReferenceId")){
-                    fieldNames.put(21, fields[i].getName());
+                    fieldNames.put(21, "Organization Reference Number");
                 }
                 if(fields[i].getName().equals("referenceFinancialDocumentTypeCode")){
-                    fieldNames.put(22, fields[i].getName());
+                    fieldNames.put(22, "Reference Document Type");
                 }
                 if(fields[i].getName().equals("referenceFinancialSystemOriginationCode")){
-                    fieldNames.put(23, fields[i].getName());
+                    fieldNames.put(23, "Reference Origin Code");
                 }
                 if(fields[i].getName().equals("referenceFinancialDocumentNumber")){
-                    fieldNames.put(24, fields[i].getName());
+                    fieldNames.put(24, "Reference Document Number");
                 }
                 if(fields[i].getName().equals("financialDocumentReversalDate")){
-                    fieldNames.put(25, fields[i].getName());
+                    fieldNames.put(25, "Reversal Date");
                 }
                 if(fields[i].getName().equals("transactionEncumbranceUpdateCode")){
-                    fieldNames.put(26, fields[i].getName());
+                    fieldNames.put(26, "Transaction Encumbrance Update Code");
                 }
                 
             }

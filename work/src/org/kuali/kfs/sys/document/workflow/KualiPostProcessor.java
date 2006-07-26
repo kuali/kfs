@@ -52,7 +52,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
 
     public boolean doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws RemoteException {
         try {
-            LOG.debug(new StringBuffer("started handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
+            LOG.info(new StringBuffer("started handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
             GlobalVariables.setUserSession(new UserSession(KualiUser.SYSTEM_USER));
             Document document = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
             if (document == null) {
@@ -77,7 +77,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
                     SpringServiceLocator.getDocumentService().updateDocument(document);
                 }
             }
-            LOG.debug(new StringBuffer("finished handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
+            LOG.info(new StringBuffer("finished handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
         }
         catch (Exception e) {
             logAndRethrow("route status", e);

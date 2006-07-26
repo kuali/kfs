@@ -68,7 +68,7 @@ public class KualiAttributeTestUtil {
         DocumentRouteHeaderValue docRouteHeaderValue = new DocumentRouteHeaderValue();
         DocumentType docType = new DocumentType();
         docType.setName(docTypeName);
-        docRouteHeaderValue.setDocumentType(docType);
+        docRouteHeaderValue.setDocumentTypeId(docType.getDocumentTypeId());
         routeContext.setDocument(docRouteHeaderValue);
         return new StandardDocumentContent(readerToString(reader), routeContext);
     }

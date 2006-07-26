@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Delegate;
 
 
 /**
@@ -43,6 +44,28 @@ public interface AccountService {
      * @return Account
      */
     public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber);
+
+    /**
+     * This method retrieves the fiscal officers primary delegate based on the chart, account, and document type specified on the
+     * example, along with the total dollar amount
+     * 
+     * @param delegateExample The object that contains the chart, account, and document type that should be used to query the
+     *        account delegate table
+     * @param totalDollarAmount The amount that should be compared to the from and to amount on the account delegate table
+     * @return The primary delegate for this account, document type, and amount
+     */
+    public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount);
+
+    /**
+     * This method retrieves the fiscal officers secondary delegates based on the chart, account, and document type specified on the
+     * example, along with the total dollar amount
+     * 
+     * @param delegateExample The object that contains the chart, account, and document type that should be used to query the
+     *        account delegate table
+     * @param totalDollarAmount The amount that should be compared to the from and to amount on the account delegate table
+     * @return The primary delegate for this account, document type, and amount
+     */
+    public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount);
 
     /**
      * Fetches the accounts that the user is either the fiscal officer or fiscal officer delegate for.

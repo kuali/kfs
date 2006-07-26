@@ -146,5 +146,7 @@
         <property name="businessObjectClassName">
             <value>org.kuali.module.chart.bo.FundGroup</value>
         </property>
-    </bean>    
+    </bean>
+    
+    <bean id="OrgReviewLookupable" class="org.kuali.workflow.attribute.OrgReviewLookupableImpl" singleton="false"/>
 </beans>

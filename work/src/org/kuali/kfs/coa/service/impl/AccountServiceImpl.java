@@ -28,6 +28,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
 import org.kuali.module.chart.service.AccountService;
 
@@ -77,6 +78,23 @@ public class AccountServiceImpl implements AccountService {
             LOG.debug("retrieved accountsResponsible list for user " + kualiUser.getPersonName());
         }
         return accountList;
+    }
+
+    /**
+     * @see org.kuali.module.chart.service.AccountService#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
+     *      java.lang.String)
+     */
+    public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount) {
+        return accountDao.getPrimaryDelegationByExample(delegateExample, totalDollarAmount);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.chart.service.AccountService#getSecondaryDelegationsByExample(org.kuali.module.chart.bo.Delegate,
+     *      java.lang.String)
+     */
+    public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount) {
+        return accountDao.getSecondaryDelegationsByExample(delegateExample, totalDollarAmount);
     }
 
     /**

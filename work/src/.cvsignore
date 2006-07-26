@@ -8,3 +8,4 @@ PluginSpringDataSource.xml
 JndiSpringDataSource.xml
 SpringDataSourceResources.xml
 OJB.properties
+META-INF

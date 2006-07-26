@@ -36,6 +36,8 @@ import org.kuali.module.chart.dao.ChartDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 /**
  * This class is the OJB implementation of the ChartDao interface.
  * 
@@ -60,6 +62,12 @@ public class ChartDaoOjb extends PersistenceBrokerDaoSupport implements ChartDao
         qbc.addOrderByAscending("chartOfAccountsCode");
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+    
+    public Chart getUniversityChart() {
+        Criteria criteria = new Criteria();
+        criteria.addEqualToField("FIN_COA_CD", "RPTS_TO_FIN_COA_CD");
+        return (Chart)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria)).iterator().next();
     }
 
 

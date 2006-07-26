@@ -35,6 +35,8 @@ import org.kuali.module.chart.bo.Chart;
  */
 public interface ChartDao {
     public Collection getAll();
+    
+    public Chart getUniversityChart();
 
     public Chart getByPrimaryId(String chartOfAccountsCode);
 

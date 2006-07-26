@@ -171,4 +171,10 @@
             <ref bean="businessObjectService" />
         </property>
     </bean>
+    
+    <bean id="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.financial.bo.PaymentReasonCode</value>
+        </property>
+    </bean>
 </beans>

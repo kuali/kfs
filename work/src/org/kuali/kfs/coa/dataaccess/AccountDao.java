@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Delegate;
 
 
 /**
@@ -44,6 +45,18 @@ public interface AccountDao {
      * Retrieves an Account object based on primary key.
      */
     public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber);
+
+    /**
+     * @see org.kuali.module.chart.service.AccountService#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
+     *      java.lang.String)
+     */
+    public Delegate getPrimaryDelegationByExample(Delegate delegateExample, String totalDollarAmount);
+
+    /**
+     * @see org.kuali.module.chart.service.AccountService#getSecondaryDelegationsByExample(org.kuali.module.chart.bo.Delegate,
+     *      java.lang.String)
+     */
+    public List getSecondaryDelegationsByExample(Delegate delegateExample, String totalDollarAmount);
 
     /**
      * fetch the AccountResponsibility objects that the user has associated with them

@@ -43,6 +43,12 @@
 
 	<target name="init-user-properties">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
+		<condition property="use.p6spy.local">
+			<and>
+				<equals arg1="${is.local.build}" arg2="true" />
+				<equals arg1="${use.p6spy}" arg2="true" />
+			</and>
+		</condition>
 		<condition property="dist.workflow.local">
 			<equals arg1="${is.local.workflow.build}" arg2="true" />
 		</condition>
@@ -78,29 +84,36 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="context.docbase" value="" />
+		<condition property="base.url" value="${local.environment.url}">
+			<equals arg1="${is.local.build}" arg2="true" />
+		</condition>
 		<condition property="application.url" value="${local.environment.url}${ant.project.name}-${build.environment}">
+			<equals arg1="${is.local.build}" arg2="true" />
+		</condition>
+		<condition property="cas.url" value="${local.environment.url}cas-${build.environment}">
+			<equals arg1="${is.local.cas.build}" arg2="true" />
+		</condition>
+		<condition property="workflow.url" value="${local.environment.url}en-${build.environment}">
 			<equals arg1="${is.local.workflow.build}" arg2="true" />
+		</condition>
+		<condition property="base.url" value="${prod.environment.url}">
+			<equals arg1="${build.environment}" arg2="ptd" />
 		</condition>
 		<condition property="application.url" value="${prod.environment.url}${ant.project.name}-${build.environment}">
 			<equals arg1="${build.environment}" arg2="ptd" />
 		</condition>
-		<property name="application.url" value="${test.environment.url}${ant.project.name}-${build.environment}" />
-		<condition property="cas.url" value="${local.environment.url}cas-${build.environment}">
-			<equals arg1="${is.local.cas.build}" arg2="true" />
-		</condition>
 		<condition property="cas.url" value="${prod.environment.url}cas-${build.environment}">
 			<equals arg1="${build.environment}" arg2="ptd" />
-		</condition>
-		<property name="cas.url" value="${test.environment.url}cas-unt" />
-		<condition property="workflow.url" value="${local.environment.url}en-${build.environment}">
-			<equals arg1="${is.local.workflow.build}" arg2="true" />
 		</condition>
 		<condition property="workflow.url" value="${prod.environment.url}en-${build.environment}">
 			<equals arg1="${build.environment}" arg2="ptd" />
 		</condition>
+		<property name="base.url" value="${test.environment.url}" />
+		<property name="application.url" value="${test.environment.url}${ant.project.name}-${build.environment}" />
+		<property name="cas.url" value="${test.environment.url}cas-unt" />
 		<property name="workflow.url" value="${test.environment.url}en-${build.environment}" />
 		<condition property="driver.class" value="${p6spy.driver.class}">
-			<equals arg1="${use.p6spy}" arg2="true" />
+			<isset property="use.p6spy.local" />
 		</condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut">
@@ -120,6 +133,7 @@
 			<filter token="attachments-root-directory" value="${attachments.root.directory}" />
 			<filter token="htdocs-directory" value="${htdocs.directory}" />
 			<filter token="staging-directory" value="${staging.directory}" />
+			<filter token="base-url" value="${base.url}" />
 			<filter token="application-url" value="${application.url}" />
 			<filter token="cas-url" value="${cas.url}" />
 			<filter token="workflow-url" value="${workflow.url}" />
@@ -159,6 +173,7 @@
 		<delete>
 			<fileset dir="${source.directory}" includes="${tokenized.source.files}" />
 		</delete>
+		<delete file="${lib.directory}/${log4j.library}" />
 		<delete dir="${war.directory}" />
 		<delete dir="${batch.directory}" />
 		<delete dir="${test.directory}" />
@@ -175,6 +190,7 @@
 		<delete failonerror="false">
 			<fileset dir="${appserver.lib.dir}" includes="${appserver.library.list}" />
 		</delete>
+		<delete file="${appserver.lib.dir}/${log4j.library}"/>
 		<delete failonerror="false">
 			<fileset dir="${appserver.config.dir}" includes="${ant.project.name}-*.xml" />
 		</delete>
@@ -201,9 +217,6 @@
 		<delete failonerror="false">
 			<fileset dir="${plugin.deploy.directory}" />
 		</delete>
-		<delete dir="${workflow.settings.directory}" failonerror="false" />
-		<delete dir="${workflow.security.directory}" failonerror="false" />
-		<delete dir="${workflow.logs.directory}" failonerror="false" />
 	</target>
 	
 	<target name="clean-cas-local" if="is.local.build" depends="init-project-properties">
@@ -215,8 +228,19 @@
 		</delete>
 		<delete dir="${cas.security.directory}" failonerror="false" />
 	</target>
+	
+	<!-- wrapper based on naming convention required by workflow build script -->
+	<target name="clean-plugin" depends="clean"/>
 
-	<target name="filter-project" depends="init-filter-sets,clean-project">
+	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-filter-sets,clean-project">
+		<copy file="${build.appserver.directory}/${log4j.library}" todir="${lib.directory}"/>
+	</target>
+	
+	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
+		<copy file="${build.appserver.directory}/${log4j.library}" todir="${appserver.lib.dir}"/>
+	</target>
+	
+	<target name="filter-project" depends="filter-project-p6spy">
 		<mkdir dir="${metainf.directory}" />
 		<copy file="${build.tokenized.resources.directory}/${tomcat.context.file}" todir="${metainf.directory}" overwrite="true">
 			<filterset refid="general.filterset" />
@@ -247,11 +271,13 @@
 			<filterset refid="general.filterset" />
 		</copy>
 		<copy todir="${security.directory}" overwrite="true">
-			<fileset dir="${build.security.directory}" excludes="${webservices.keystore.file}" />
+			<fileset dir="${build.security.directory}" excludes="${webservices.keystore.files}" />
 			<filterset refid="security.filterset" />
 			<filterset refid="general.filterset" />
 		</copy>
-		<copy file="${build.security.directory}/${webservices.keystore.file}" todir="${security.directory}" overwrite="true" />
+		<copy todir="${security.directory}" overwrite="true">
+			<fileset dir="${build.security.directory}" includes="${webservices.keystore.files}" />
+		</copy>
 		<copy todir="${logs.directory}" overwrite="true">
 			<fileset dir="${build.logs.directory}" />
 		</copy>
@@ -267,23 +293,14 @@
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${build.workflow.appserver.directory}" includes="${workflow.appserver.library.list}" />
 		</copy>
-		<filterset id="workflow.filterset">
-			<filter token="workflow-application" value="${workflow.application}" />
-			<filter token="workflow-logs-directory" value="${workflow.logs.directory}/" />
-		</filterset>
-		<copy todir="${workflow.settings.directory}" overwrite="true">
-			<fileset dir="${build.workflow.settings.directory}" />
-			<filterset refid="workflow.filterset" />
+		<copy todir="${workflow.usr.directory}" overwrite="true">
+			<fileset dir="${build.workflow.usr.directory}" />
 			<filterset refid="general.filterset" />
-		</copy>
-		<copy todir="${workflow.security.directory}" overwrite="true">
-			<fileset dir="${build.workflow.security.directory}" excludes="${workflow.webservices.keystore.file}" />
 			<filterset refid="security.filterset" />
-			<filterset refid="workflow.filterset" />
-		</copy>
-		<copy file="${build.workflow.security.directory}/${workflow.webservices.keystore.file}" todir="${workflow.security.directory}" overwrite="true" />
-		<copy todir="${workflow.logs.directory}" overwrite="true">
-			<fileset dir="${build.workflow.logs.directory}" />
+			<filterset>
+				<filter token="local-plugin-classes" value="${local.plugin.classes.token}"/>
+				<filter token="local-plugin-lib" value="${local.plugin.lib.token}"/>
+			</filterset>
 		</copy>
 	</target>
 
@@ -342,21 +359,21 @@
 			</fileset>
 		</copy>
 	</target>
-
-	<target name="make-plugin" depends="make-source">
+	
+	<target name="make-plugin-remote" depends="make-source">
 		<copy todir="${plugin.classes.directory}">
 			<fileset dir="${war.classes.directory}" />
 		</copy>
+	</target>
+
+	<target name="make-plugin" depends="init-project-properties">
 		<copy todir="${plugin.lib.directory}">
 			<fileset dir="${lib.directory}" excludes="${workflow.exclude.library.list}" />
 		</copy>
 		<copy file="${build.tokenized.resources.directory}/OJB.properties" todir="${plugin.classes.directory}" overwrite="true">
 			<filterset refid="plugin.filterset" />
 		</copy>
-		<replaceregexp file="${plugin.classes.directory}/workflow-config.properties" flags="-s" match=".+" replace="" />
-		<copy todir="${plugin.metainf.directory}">
-			<fileset file="${build.workflow.directory}/workflow.xml" />
-		</copy>
+		<copy file="${build.workflow.directory}/plugin/workflow.xml" todir="${plugin.metainf.directory}"/>
 	</target>
 
 	<target name="dist" depends="make-source">
@@ -366,7 +383,7 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-	<target name="dist-plugin" depends="make-plugin" description="Build plugin zip for remote deployment">
+	<target name="dist-plugin" depends="make-plugin-remote,make-plugin" description="Build plugin zip for remote deployment">
 		<zip destfile="en-plugins.zip" basedir="${plugin.directory}" />
 	</target>
 
@@ -387,32 +404,10 @@
 		<zip basedir="${batch.directory}" destfile="${ant.project.name}-${build.environment}.zip" />
 	</target>
 
-	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local">
-		<condition property="workflow.war.file" value="${workflow.application}-${build.environment}-cas-local.war">
-			<equals arg1="${is.local.cas.build}" arg2="true"/>
-		</condition>
-		<property name="workflow.war.file" value="${workflow.application}-${build.environment}.war"/>
-		<copy file="${build.workflow.appserver.directory}/${workflow.war.file}" tofile="${appserver.deploy.dir}/${workflow.application}-${build.environment}.war" />
-		<!-- when we move to 2.2, we'll be able to make workflow watch the project directory instead of doing this -->
-		<copy todir="${classes.directory}" overwrite="true">
-			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}" />
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy todir="${plugin.classes.directory}">
-			<fileset dir="${classes.directory}" />
-		</copy>
-		<copy todir="${plugin.lib.directory}">
-			<fileset dir="${lib.directory}" excludes="${workflow.exclude.library.list}" />
-		</copy>
-		<copy file="${build.tokenized.resources.directory}/OJB.properties" todir="${plugin.classes.directory}" overwrite="true">
-			<filterset refid="plugin.filterset" />
-		</copy>
-		<replaceregexp file="${plugin.classes.directory}/workflow-config.properties" flags="-s" match=".+" replace="" />
-		<copy todir="${plugin.metainf.directory}">
-			<fileset file="${build.workflow.directory}/workflow.xml" />
-		</copy>
+	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local,make-plugin">
+		<copy file="${build.workflow.appserver.directory}/${workflow.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
 		<copy todir="${plugin.deploy.directory}">
-			<fileset dir="${plugin.directory}" />
+			<fileset dir="${plugin.directory}" excludes="**/*.jar"/>
 		</copy>
 	</target>
 	
@@ -430,8 +425,8 @@
 		<ant dir="${workflow.project.directory}" target="dist">
 			<property name="workflow.environment" value="${build.environment}" />
 			<property name="tomcat5.home" value="${appserver.home}" />
-			<property name="plugin.dir" value="${workflow.plugin.project.directory}" />
-			<property name="institution" value="kul" />
+			<property name="plugin.dir" value="${basedir}" />
+			<property name="institution" value="${ant.project.name}" />
 		</ant>
 		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.appserver.directory}" />
 	</target>
@@ -439,9 +434,7 @@
 	<target name="make-zips" depends="filter-local,filter-workflow-local,filter-cas-local">
 		<zip destfile="settings.zip" basedir="${settings.directory}" />
 		<zip destfile="security.zip" basedir="${security.directory}" />
-		<zip destfile="workflow-settings.zip" basedir="${workflow.settings.directory}" />
-		<zip destfile="workflow-security.zip" basedir="${workflow.security.directory}" />
-		<zip destfile="cas-security.zip" basedir="${cas.security.directory}" />
+		<!--<zip destfile="cas-security.zip" basedir="${cas.security.directory}" />-->
 	</target>
 
 	<target name="help" description="Describe public targets">

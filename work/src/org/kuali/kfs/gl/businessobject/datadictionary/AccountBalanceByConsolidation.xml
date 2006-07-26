@@ -7,7 +7,7 @@
     <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByConsolidation">
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
-            <title>Available Account Balance</title>
+            <title>Available Balances Lookup By Consolidation</title>
             <inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />

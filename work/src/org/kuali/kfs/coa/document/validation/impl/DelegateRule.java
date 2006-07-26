@@ -33,6 +33,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.document.DocumentType;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiDecimal;
@@ -221,6 +222,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         boolean checkDb = false;
         boolean newPrimary;
+        boolean newActive;
+        boolean blockingDocumentExists;
+        DocumentType documentType;
 
         // exit out immediately if this doc is not requesting a primary route
         newPrimary = newDelegate.isAccountsDelegatePrmrtIndicator();
@@ -228,6 +232,20 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
+        // exit if new document not active
+        newActive = newDelegate.isAccountDelegateActiveIndicator();
+        if (!newActive) {
+            return success;
+        }
+    
+        // exit if document group corresponding to document type = "EX"
+        documentType = newDelegate.getDocumentType();
+        if(ObjectUtils.isNotNull(documentType)) {
+            if ((documentType.getFinancialDocumentGroupCode()).equals("EX")) {
+                return success;
+            }
+        }
+        
         // if its a new document, we are only interested if they have chosen this one
         // to be a primary route
         if (document.isNew()) {
@@ -306,15 +324,27 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
 
                 // get the docType of the primary route that is blocking this
                 String blockingDocType = "";
+                blockingDocumentExists = false;
                 for (Iterator iter = primaryRoutes.iterator(); iter.hasNext();) {
                     Delegate delegate = (Delegate) iter.next();
-                    blockingDocType = delegate.getFinancialDocumentTypeCode();
+                 
+                    // don't consider as blocking if document group corresponding to document type = "EX"
+                    documentType = delegate.getDocumentType();
+                    if(ObjectUtils.isNotNull(documentType)) {
+                        if (!(documentType.getFinancialDocumentGroupCode()).equals("EX")) {
+                            blockingDocumentExists = true;
+                            blockingDocType = delegate.getFinancialDocumentTypeCode();
+                        }
+                    }                   
                 }
 
-                // add the error
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_NEW_ALL, blockingDocType);
-                success &= false;
-                return success; // we're done, no sense in continuing
+                // add the error if blocking document found
+                
+                if (blockingDocumentExists == true){
+                    putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_NEW_ALL, blockingDocType);
+                    success &= false;
+                    return success; // we're done, no sense in continuing
+                }
             }
         }
         //

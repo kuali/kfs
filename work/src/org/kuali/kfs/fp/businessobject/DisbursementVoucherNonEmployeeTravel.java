@@ -30,9 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
@@ -764,12 +762,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
      * @param perDiemStartDateTime
      */
     public void setPerDiemStartDateTime(String perDiemStartDateTime) {
-        try {
-            this.dvPerdiemStartDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemStartDateTime);
-        }
-        catch (RuntimeException e) {
-            GlobalVariables.getErrorMap().putError("document.dvNonEmployeeTravel.dvPerDiemStartDateTime", KeyConstants.ERROR_CUSTOM, e.getMessage());
-        }
+        this.dvPerdiemStartDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemStartDateTime);
     }
 
     /**
@@ -787,12 +780,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
      * @param perDiemEndDateTime
      */
     public void setPerDiemEndDateTime(String perDiemEndDateTime) {
-        try {
-            this.dvPerdiemEndDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemEndDateTime);
-        }
-        catch (RuntimeException e) {
-            GlobalVariables.getErrorMap().putError("document.dvNonEmployeeTravel.dvPerDiemEndDateTime", KeyConstants.ERROR_CUSTOM, e.getMessage());
-        }
+        this.dvPerdiemEndDttmStamp = (Timestamp) new TimestampAMPMFormatter().convertFromPresentationFormat(perDiemEndDateTime);
     }
 
     /**

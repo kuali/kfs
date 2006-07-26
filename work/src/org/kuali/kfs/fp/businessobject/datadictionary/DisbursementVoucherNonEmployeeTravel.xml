@@ -137,7 +137,7 @@
             </attribute>
 
             <attribute name="perDiemStartDateTime">
-                <label>Start Date/Time</label>
+                <label>Start/End Date/Time</label>
                 <shortLabel>Dt</shortLabel>
 
                 <maxLength>20</maxLength>
@@ -151,13 +151,11 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
+                <description>A free-form text field that identifies the Date and Time of the Non-Employee Travel. Use the calendar icon to select and format the date.</description>
             </attribute>
 
             <attribute name="perDiemEndDateTime">
-                <label>Start Date/Time</label>
+                <label>Start/End Date/Time</label>
                 <shortLabel>Dt</shortLabel>
 
                 <maxLength>20</maxLength>

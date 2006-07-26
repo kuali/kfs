@@ -104,6 +104,11 @@ public class AuditCluster {
         this.softAudits = softAudits;
     }
 
+    /**
+     * Returns the number of audit errors in the cluster.
+     * 
+     * @return int size
+     */
     public int getSize() {
         return this.getAuditErrorList().size();
     }

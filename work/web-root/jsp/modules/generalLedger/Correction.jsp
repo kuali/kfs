@@ -122,6 +122,30 @@
        	</div>
 
 
+<!-- result -->
+ 
+          
+   <c:if test="${KualiForm.rowsOutput != '0'}" >  
+   
+   <div class="tab-container" align="center"> 
+	         <table cellpadding=0 class="datatable" summary=""> 
+             <tr>
+                <td align="left" valign="middle" class="subhead"><span class="subhead-left">Correction Result</span></td>
+             </tr>
+             <tr> 
+             	<td>
+             Total Debits/Blanks:  <c:out value="${KualiForm.totalDebitsOrBlanks}" /> <br/>
+             Total Credits: 	 <c:out value="${KualiForm.totalCredits}" /> 	<br/>
+             Rows output	 <c:out value="${KualiForm.rowsOutput}" /> 			<br/>
+             	</td>
+             </tr>
+   			</table>
+   	</div>
+   
+   </c:if>
+   
+   
+
 
  <c:if test="${KualiForm.editMethod == 'manual'}" >        	
       <div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">
@@ -554,7 +578,7 @@
                             </select>
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]">Value</label> 
                             <input id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]"
-                                  name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]" 
+                                  name="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]" 
                                   type="text">
                             <html:image property="methodToCall.addSearchCriterion" src="images/tinybutton-add1.gif" 
                                 alt="add search criteria" styleClass="tinybutton" />
@@ -761,27 +785,7 @@
       
      
     
-<!-- result -->
- 
-          
-   <c:if test="${KualiForm.rowsOutput != '0'}" >  
-   
-   <div class="tab-container" align="center"> 
-	         <table cellpadding=0 class="datatable" summary=""> 
-             <tr>
-                <td align="left" valign="middle" class="subhead"><span class="subhead-left">Correction Result</span></td>
-             </tr>
-             <tr> 
-             	<td>
-             Total Debits/Blanks:  <c:out value="${KualiForm.totalDebitsOrBlanks}" /> <br/>
-             Total Credits: 	 <c:out value="${KualiForm.totalCredits}" /> 	<br/>
-             Rows output	 <c:out value="${KualiForm.rowsOutput}" /> 			<br/>
-             	</td>
-             </tr>
-   			</table>
-   	</div>
-   
-   </c:if>
+
 
  </kul:tab>
    

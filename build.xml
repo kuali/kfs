@@ -194,9 +194,9 @@
 		<delete failonerror="false">
 			<fileset dir="${appserver.config.dir}" includes="${ant.project.name}-*.xml" />
 		</delete>
-		<delete dir="${settings.directory}" failonerror="false" />
-		<delete dir="${security.directory}" failonerror="false" />
-		<delete dir="${logs.directory}" failonerror="false" />
+		<delete dir="${settings.root.directory}" failonerror="false" />
+		<delete dir="${security.root.directory}" failonerror="false" />
+		<delete dir="${logs.root.directory}" failonerror="false" />
 		<delete dir="${attachments.root.directory}" failonerror="false" />
 		<delete dir="${htdocs.directory}" failonerror="false" />
 	</target>

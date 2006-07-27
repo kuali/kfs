@@ -191,12 +191,10 @@
 					
 						</c:when>
 						
-						<c:otherwise></c:otherwise>
-					
 					</c:choose>
-
+					
 				</c:forEach>
-								
+				
 			</display:table>
 			</td>
 			<td width="1%"><img src="images/pixel_clear.gif" alt="" height="20"

@@ -296,7 +296,6 @@
 		<copy todir="${workflow.usr.directory}" overwrite="true">
 			<fileset dir="${build.workflow.usr.directory}" />
 			<filterset refid="general.filterset" />
-			<filterset refid="security.filterset" />
 			<filterset>
 				<filter token="local-plugin-classes" value="${local.plugin.classes.token}"/>
 				<filter token="local-plugin-lib" value="${local.plugin.lib.token}"/>

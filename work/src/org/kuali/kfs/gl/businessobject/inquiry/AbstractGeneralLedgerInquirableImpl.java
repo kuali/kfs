@@ -63,7 +63,6 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
-
         BusinessObjectDictionaryService businessDictionary = SpringServiceLocator.getBusinessObjectDictionaryService();
         PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
 
@@ -91,7 +90,6 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
             inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClass(businessObject, attributeName);
-            //inquiryBusinessObjectClass = this.getNestedInquiryBusinessObjectClass(businessObject, attributeName);
         }
         else {
             Map primitiveReference = KualiLookupableImpl.getPrimitiveReference(businessObject, attributeName);
@@ -106,11 +104,11 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
             if (isExclusiveField(attributeName, attributeValue)) {
-                return Constants.EMPTY_STRING;
+                return "";
             }
 
             if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()) {
-                return Constants.EMPTY_STRING;
+                return "";
             }
 
             if (KualiSystemCode.class.isAssignableFrom(inquiryBusinessObjectClass)) {

@@ -22,7 +22,9 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,10 +67,15 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.35 2006-07-13 15:17:28 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.36 2006-07-27 12:48:31 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
+
+    public static final String INSERT_CODE = "I";
+    public static final String UPDATE_CODE = "U";
+    public static final String DELETE_CODE = "D";
+    public static final String SELECT_CODE = "S";
 
     private BeanFactory beanFactory;
     private List transactionPosters;
@@ -166,9 +173,9 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         Map reportSummary = new HashMap();
         for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
             PostTransaction poster = (PostTransaction) posterIter.next();
-            reportSummary.put(poster.getDestinationName() + ",D", new Integer(0));
-            reportSummary.put(poster.getDestinationName() + ",I", new Integer(0));
-            reportSummary.put(poster.getDestinationName() + ",U", new Integer(0));
+            reportSummary.put(poster.getDestinationName() + "," + PosterServiceImpl.DELETE_CODE, new Integer(0));
+            reportSummary.put(poster.getDestinationName() + "," + PosterServiceImpl.INSERT_CODE, new Integer(0));
+            reportSummary.put(poster.getDestinationName() + "," + PosterServiceImpl.UPDATE_CODE, new Integer(0));
         }
 
         int ecount = 0;
@@ -194,7 +201,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             LOG.debug("postEntries() Processing reversal transactions");
             while (reversalTransactions.hasNext()) {
                 Transaction tran = (Transaction) reversalTransactions.next();
-                addReporting(reportSummary, "GL_REVERSAL_T", "S");
+                addReporting(reportSummary, "GL_REVERSAL_T", PosterServiceImpl.SELECT_CODE);
 
                 postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
 
@@ -214,10 +221,10 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
         // Update select count in the report
         if (mode == PosterService.MODE_ENTRIES) {
-            addReporting(reportSummary, "GL_ORIGIN_ENTRY_T", "S");
+            addReporting(reportSummary, "GL_ORIGIN_ENTRY_T", PosterServiceImpl.SELECT_CODE);
         }
         else {
-            addReporting(reportSummary, "GL_ORIGIN_ENTRY_T (ICR)", "S");
+            addReporting(reportSummary, "GL_ORIGIN_ENTRY_T (ICR)", PosterServiceImpl.SELECT_CODE);
         }
 
         // If these are reversal entries, we need to reverse the entry and
@@ -282,7 +289,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         if (errors.size() > 0) {
             // Error on this transaction
             reportError.put(tran, errors);
-            addReporting(reportSummary, "WARNING", "S");
+            addReporting(reportSummary, "WARNING", PosterServiceImpl.SELECT_CODE);
 
             originEntryService.createEntry(tran, invalidGroup);
         }
@@ -297,17 +304,17 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                     errors.add(actionCode);
                     reportError.put(tran, errors);
                 }
-                else if (actionCode.indexOf("I") >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), "I");
+                else if (actionCode.indexOf(PosterServiceImpl.INSERT_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.INSERT_CODE);
                 }
-                else if (actionCode.indexOf("U") >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), "U");
+                else if (actionCode.indexOf(PosterServiceImpl.UPDATE_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.UPDATE_CODE);
                 }
-                else if (actionCode.indexOf("D") >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), "D");
+                else if (actionCode.indexOf(PosterServiceImpl.DELETE_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.DELETE_CODE);
                 }
-                else if (actionCode.indexOf("S") >= 0) {
-                    addReporting(reportSummary, poster.getDestinationName(), "S");
+                else if (actionCode.indexOf(PosterServiceImpl.SELECT_CODE) >= 0) {
+                    addReporting(reportSummary, poster.getDestinationName(), PosterServiceImpl.SELECT_CODE);
                 }
             }
 
@@ -317,13 +324,11 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                 // Delete the reversal entry
                 if (mode == PosterService.MODE_REVERSAL) {
                     reversalDao.delete((Reversal) originalTransaction);
-                    addReporting(reportSummary, "GL_REVERSAL_T", "D");
+                    addReporting(reportSummary, "GL_REVERSAL_T", PosterServiceImpl.DELETE_CODE);
                 }
             }
         }
     }
-
-    private static KualiDecimal ONEHUNDRED = new KualiDecimal("100");
 
     /**
      * This step reads the expenditure table and uses the data to generate Indirect Cost Recovery transactions.
@@ -356,6 +361,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
             Collection automatedEntries = icrAutomatedEntryDao.getEntriesBySeries(et.getUniversityFiscalYear(), et.getAccount().getFinancialIcrSeriesIdentifier(), et.getBalanceTypeCode());
             int automatedEntriesCount = automatedEntries.size();
+
             if (automatedEntriesCount > 0) {
                 int count = 0;
                 for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
@@ -366,29 +372,30 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
                     if (icrEntry.getAwardIndrCostRcvyEntryNbr().intValue() == 1) {
                         // Line 1 must have the total percentage of the transaction to distribute
-                        distributionPercent = icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED);
-                        distributionAmount = transactionAmount.multiply(new KualiDecimal(distributionPercent.toString())).divide(ONEHUNDRED);
+                        distributionPercent = icrEntry.getAwardIndrCostRcvyRatePct();
+                        distributionAmount = getPercentage(transactionAmount, distributionPercent.bigDecimalValue());
 
                         generatedTransactionAmount = distributionAmount;
                     }
                     else {
-                        generatedTransactionAmount = transactionAmount.multiply(new KualiDecimal(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED).toString())).divide(ONEHUNDRED);
-                        distributedAmount = distributedAmount.add(generatedTransactionAmount);
-
-                        // Do we need to round? Round on the last one
-                        if (automatedEntriesCount == (count + 1)) {
-                            KualiDecimal difference = distributionAmount.subtract(distributedAmount);
-
-                            if (difference.compareTo(KualiDecimal.ZERO) != 0) {
-                                if (difference.abs().compareTo(warningMaxDifference) >= 0) {
-                                    // TODO Rounding warning
-                                }
-                                distributedAmount.add(difference);
-                            }
+                        if ( automatedEntriesCount != count ) {
+                            generatedTransactionAmount = getPercentage(transactionAmount,icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
+                            distributedAmount = distributedAmount.add(generatedTransactionAmount);
+                        } else {
+                            // Distribute the remaining amount on the last one
+                            generatedTransactionAmount = distributionAmount.subtract(distributedAmount);
                         }
+
+//                            if (difference.compareTo(KualiDecimal.ZERO) != 0) {
+//                                if (difference.abs().compareTo(warningMaxDifference) >= 0) {
+//                                    // TODO Rounding warning
+//                                }
+//                                distributedAmount.add(difference);
+//                            }
+
                     }
 
-                    generateTransaction(et, icrEntry, generatedTransactionAmount, runDate, group, reportErrors);
+                    generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, group, reportErrors);
                     reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
                 }
             }
@@ -402,6 +409,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     }
 
     /**
+     * Generate a transfer transaction and an offset transaction
      * 
      * @param et
      * @param icrEntry
@@ -409,10 +417,14 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
      * @param runDate
      * @param group
      */
-    private void generateTransaction(ExpenditureTransaction et, IcrAutomatedEntry icrEntry, KualiDecimal generatedTransactionAmount, Date runDate, OriginEntryGroup group, Map reportErrors) {
-        OriginEntry e = new OriginEntry();
+    private void generateTransactions(ExpenditureTransaction et, IcrAutomatedEntry icrEntry, KualiDecimal generatedTransactionAmount, Date runDate, OriginEntryGroup group, Map reportErrors) {
+        BigDecimal pct = new BigDecimal(icrEntry.getAwardIndrCostRcvyRatePct().toString());
+        pct = pct.divide(BDONEHUNDRED);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+        OriginEntry e = new OriginEntry();
+        e.setTransactionLedgerEntrySequenceNumber(0);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
         // @ means we use the field from the expenditure entry, # means we use the ICR field from the account record, otherwise, use
         // the field in the icrEntry
@@ -426,7 +438,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                 e.setFinancialSubObjectCode(et.getSubObjectCode());
             }
             else {
-                e.setFinancialSubObjectCode(et.getSubObjectCode());
+                e.setFinancialSubObjectCode(icrEntry.getFinancialSubObjectCode());
             }
         }
 
@@ -444,16 +456,17 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             e.setAccountNumber(icrEntry.getAccountNumber());
             e.setSubAccountNumber(icrEntry.getSubAccountNumber());
             e.setChartOfAccountsCode(icrEntry.getChartOfAccountsCode());
+            // TODO Reporting thing line 1946
         }
 
         e.setFinancialDocumentTypeCode("ICR");
         e.setFinancialSystemOriginationCode("MF");
         e.setFinancialDocumentNumber(sdf.format(runDate));
         if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
-            e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED), et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount()));
+            e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount().abs()));
         }
         else {
-            e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED), et.getAccountObjectDirectCostAmount(), et.getChartOfAccountsCode(), et.getAccountNumber()));
+            e.setTransactionLedgerEntryDescription(getOffsetDescription(pct, et.getAccountObjectDirectCostAmount().abs(), et.getChartOfAccountsCode(), et.getAccountNumber()));
         }
         e.setTransactionDate(new java.sql.Date(runDate.getTime()));
         e.setTransactionDebitCreditCode(icrEntry.getTransactionDebitIndicator());
@@ -463,11 +476,21 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
         ObjectCode oc = objectCodeService.getByPrimaryId(e.getUniversityFiscalYear(), e.getChartOfAccountsCode(), e.getFinancialObjectCode());
         if (oc == null) {
+            // TODO This should be a report thing, not an exception
             throw new IllegalArgumentException("Unable to find object code in table for " + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
         }
         e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
 
-        e.setTransactionLedgerEntryAmount(generatedTransactionAmount);
+        if ( generatedTransactionAmount.isNegative() ) {
+            if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
+                e.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+            } else {
+                e.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+            }
+            e.setTransactionLedgerEntryAmount(generatedTransactionAmount.negated());
+        } else {
+            e.setTransactionLedgerEntryAmount(generatedTransactionAmount);
+        }
 
         if (et.getBalanceTypeCode().equals(et.getOption().getExtrnlEncumFinBalanceTypCd()) || et.getBalanceTypeCode().equals(et.getOption().getIntrnlEncumFinBalanceTypCd()) || et.getBalanceTypeCode().equals(et.getOption().getPreencumbranceFinBalTypeCd()) || et.getBalanceTypeCode().equals("CE")) {
             e.setFinancialDocumentNumber("ICR");
@@ -480,6 +503,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             e.setOrganizationReferenceId(et.getOrganizationReferenceId());
         }
 
+        // TODO 2031-2039
         originEntryService.createEntry(e, group);
 
         // Now generate Offset
@@ -493,64 +517,69 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         e.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
 
-        // TODO We need to have this check
-//        if ( icrEntry.getOffsetBalanceSheetObjectCode() == null ) {
-//            List warnings = new ArrayList(); warnings.add("Offset Object Code is invalid");
-//            reportErrors.put(e,warnings);
-//        } else {
-//             e.setFinancialObjectTypeCode(icrEntry.getOffsetBalanceSheetObjectCode().getFinancialObjectTypeCode());
-//        }
+        ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrEntry.getUniversityFiscalYear(), e.getChartOfAccountsCode(), icrEntry.getOffsetBalanceSheetObjectCodeNumber());
+        if ( balSheetObjectCode == null ) {
+            List warnings = new ArrayList(); 
+            warnings.add("Offset Object Code is invalid " + icrEntry.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" + icrEntry.getOffsetBalanceSheetObjectCodeNumber());
+            reportErrors.put(e,warnings);
+        } else {
+            e.setFinancialObjectTypeCode(balSheetObjectCode.getFinancialObjectTypeCode());
+        }
 
-         if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
-            e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED), et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount()));
+        if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
+            e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount().abs()));
         }
         else {
-            e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED), et.getAccountObjectDirectCostAmount(), et.getChartOfAccountsCode(), et.getAccountNumber()));
+            e.setTransactionLedgerEntryDescription(getOffsetDescription(pct, et.getAccountObjectDirectCostAmount().abs(), et.getChartOfAccountsCode(), et.getAccountNumber()));
         }
 
         originEntryService.createEntry(e, group);
     }
 
-    private String getChargeDescription(KualiDecimal rate, String objectCode, String type, KualiDecimal amount) {
-        NumberFormat nf = NumberFormat.getInstance();
+    private static KualiDecimal ONEHUNDRED = new KualiDecimal("100");
+    private static DecimalFormat DFPCT = new DecimalFormat("#0.000");
+    private static DecimalFormat DFAMT = new DecimalFormat("##########.00");
+    private static BigDecimal BDONEHUNDRED = new BigDecimal("100");
 
+    private KualiDecimal getPercentage(KualiDecimal amount,BigDecimal percent) {
+        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED).divide(BDONEHUNDRED,2,BigDecimal.ROUND_DOWN);
+        return new KualiDecimal(result);
+    }
+
+    private String getChargeDescription(BigDecimal rate, String objectCode, String type, KualiDecimal amount) {
         StringBuffer desc = new StringBuffer("CHG ");
-        nf.setMaximumFractionDigits(3);
-        nf.setMinimumFractionDigits(3);
-        nf.setMaximumIntegerDigits(2);
-        nf.setMinimumIntegerDigits(1);
-        desc.append(nf.format(rate));
+        if ( rate.doubleValue() < 10 ) {
+            desc.append(" ");
+        }
+        desc.append(DFPCT.format(rate));
         desc.append("% ON ");
         desc.append(objectCode);
         desc.append(" (");
         desc.append(type);
-        desc.append(") ");
-        nf.setMaximumFractionDigits(2);
-        nf.setMinimumFractionDigits(2);
-        nf.setMaximumIntegerDigits(11);
-        nf.setMinimumIntegerDigits(1);
-        desc.append(nf.format(amount));
+        desc.append(")  ");
+        String amt = DFAMT.format(amount);
+        while ( amt.length() < 13 ) {
+            amt = " " + amt;
+        }
+        desc.append(amt);
         return desc.toString();
     }
 
-    private String getOffsetDescription(KualiDecimal rate, KualiDecimal amount, String chartOfAccountsCode, String accountNumber) {
-        NumberFormat nf = NumberFormat.getInstance();
-
+    private String getOffsetDescription(BigDecimal rate, KualiDecimal amount, String chartOfAccountsCode, String accountNumber) {
         StringBuffer desc = new StringBuffer("RCV ");
-        nf.setMaximumFractionDigits(3);
-        nf.setMinimumFractionDigits(3);
-        nf.setMaximumIntegerDigits(2);
-        nf.setMinimumIntegerDigits(1);
-        desc.append(nf.format(rate));
+        if ( rate.doubleValue() < 10 ) {
+            desc.append(" ");
+        }
+        desc.append(DFPCT.format(rate));
         desc.append("% ON ");
-        nf.setMaximumFractionDigits(2);
-        nf.setMinimumFractionDigits(2);
-        nf.setMaximumIntegerDigits(11);
-        nf.setMinimumIntegerDigits(1);
-        desc.append(nf.format(amount));
+        String amt = DFAMT.format(amount);
+        while ( amt.length() < 13 ) {
+            amt = " " + amt;
+        }
+        desc.append(amt);
         desc.append(" FRM ");
-        desc.append(chartOfAccountsCode);
-        desc.append("-");
+//        desc.append(chartOfAccountsCode);
+//        desc.append("-");
         desc.append(accountNumber);
         return desc.toString();
     }

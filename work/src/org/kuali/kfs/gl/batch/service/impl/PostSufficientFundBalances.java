@@ -58,7 +58,7 @@ public class PostSufficientFundBalances implements PostTransaction {
 
         String returnCode = "U";
 
-        if ("N".equals(t.getAccount().getAccountSufficientFundsCode())) {
+        if (Constants.SF_TYPE_NO_CHECKING.equals(t.getAccount().getAccountSufficientFundsCode())) {
             // Don't need to post
             return "";
         }
@@ -94,6 +94,7 @@ public class PostSufficientFundBalances implements PostTransaction {
             sfBalance.setAccountActualExpenditureAmt(KualiDecimal.ZERO);
             sfBalance.setAccountEncumbranceAmount(KualiDecimal.ZERO);
             sfBalance.setCurrentBudgetBalanceAmount(KualiDecimal.ZERO);
+            sfBalance.setAccountSufficientFundsCode(t.getAccount().getSufficientFundsCode().getCode());
         }
 
         if (Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
@@ -125,7 +126,8 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
         else {
             // 2630-PROCESS-OBJECT-OR-ACCOUNT
-            if (t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjTypeExpenditureexpCd()) || t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjTypeExpendNotExpCode())) {
+            if (t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjTypeExpenditureexpCd()) || t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjTypeExpendNotExpCode()) ||
+                    "TE".equals(t.getFinancialObjectTypeCode()) | "ES".equals(t.getFinancialObjectTypeCode()) ) {
                 if (t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd())) {
                     // 2631-PROCESS-OBJTACCT-ACTUAL
                     updateExpendedAmount(t.getTransactionDebitCreditCode(), sfBalance, t.getTransactionLedgerEntryAmount());

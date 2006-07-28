@@ -158,11 +158,13 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     protected boolean checkSimpleRules() {
 
         boolean success = true;
+        boolean newActive;
         KualiDecimal fromAmount = newDelegate.getFinDocApprovalFromThisAmt();
         KualiDecimal toAmount = newDelegate.getFinDocApprovalToThisAmount();
+        newActive = newDelegate.isAccountDelegateActiveIndicator();
 
-        // start date must be greater than or equal to today
-        if (ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate())) {
+        // start date must be greater than or equal to today if active
+        if ( (ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate()))&& newActive ) {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
             if (newDelegate.getAccountDelegateStartDate().before(today)) {

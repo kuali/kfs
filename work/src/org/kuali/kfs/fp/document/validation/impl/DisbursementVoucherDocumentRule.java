@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
  * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
  * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
@@ -630,9 +630,25 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             return;
         }
 
+        /* must fill in all required per diem fields if any field is filled in */
+        boolean perDiemSectionComplete = validatePerDiemSection(document, errors);
+        
+        /* must fill in all required personal vehicle fields if any field is filled in */
+        boolean personalVehicleSectionComplete = validatePersonalVehicleSection(document, errors);
+        
         /* must have per diem change message if actual amount is different from calculated amount */
-        if (document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt().compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount()) != 0 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDvPerdiemChangeReasonText())) {
-            errors.putError(PropertyConstants.DV_PERDIEM_CHANGE_REASON_TEXT, KeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
+        if(perDiemSectionComplete) { // Only validate if per diem section is filled in
+            if (document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt().compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount()) != 0 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDvPerdiemChangeReasonText())) {
+                errors.putError(PropertyConstants.DV_PERDIEM_CHANGE_REASON_TEXT, KeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
+            }
+        }
+
+        /* make sure per diem fields have not changed since the per diem amount calculation */
+        if (perDiemSectionComplete) { // Only validate if per diem section is filled in
+            KualiDecimal calculatedPerDiem = SpringServiceLocator.getDisbursementVoucherTravelService().calculatePerDiemAmount(document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(), document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
+            if (calculatedPerDiem.compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) != 0) {
+                errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
+            }
         }
 
         /* total on nonemployee travel must equal Check Total */
@@ -643,22 +659,122 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
 
-        /* make sure per diem fields have not changed since the per diem amount calculation */
-        KualiDecimal calculatedPerDiem = SpringServiceLocator.getDisbursementVoucherTravelService().calculatePerDiemAmount(document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(), document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
-        if (calculatedPerDiem.compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) != 0) {
-            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
-        }
-
         /* make sure mileage fields have not changed since the mileage amount calculation */
-        if (document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt() != null && document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount() != null) {
-            KualiDecimal calculatedMileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
-            if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
-                errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
+        if (personalVehicleSectionComplete) {
+            if (ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) && ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount())) {
+                KualiDecimal calculatedMileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
+                if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
+                    errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
+                }
             }
         }
 
         errors.removeFromErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
     }
+
+    /**
+     * 
+     * This method checks to see if the per diem section of the non employee travel tab contains any values.
+     * If this section contains any values, the section is validated to ensure that all the required fields for this section
+     * are populated.  
+     * @param document
+     * @param errors
+     * @return Returns true if per diem section is used by user and that all fields contain values.
+     */
+    private boolean validatePerDiemSection(DisbursementVoucherDocument document, ErrorMap errors) {
+        boolean perDiemSectionComplete = true;
+        
+        // Checks to see if any per diem fields are filled in
+        boolean perDiemUsed = StringUtils.isNotBlank(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCategoryName()) ||
+                              ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate()) ||
+                              ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) ||
+                              ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount());
+
+        // If any per diem fields contain data, validates that all required per diem fields are filled in 
+        if(perDiemUsed) {
+            if(StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCategoryName())) {
+                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_CATEGORY_NAME, KeyConstants.ERROR_DV_PER_DIEM_CATEGORY);
+                perDiemSectionComplete = false;
+            }
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate())) {
+                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_RATE, KeyConstants.ERROR_DV_PER_DIEM_RATE);
+                perDiemSectionComplete = false;
+            }
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt())) {
+                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_CALCULATED_AMT, KeyConstants.ERROR_DV_PER_DIEM_CALC_AMT);
+                perDiemSectionComplete = false;
+            }
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount())) {
+                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_ACTUAL_AMOUNT, KeyConstants.ERROR_DV_PER_DIEM_ACTUAL_AMT);
+                perDiemSectionComplete = false;
+            }
+        }
+        perDiemSectionComplete = perDiemSectionComplete && perDiemUsed;
+        return perDiemSectionComplete;
+    }
+
+    /**
+     * 
+     * This method checks to see if the per diem section of the non employee travel tab contains any values.
+     * If this section contains any values, the section is validated to ensure that all the required fields for this section
+     * are populated.  
+     * @param document
+     * @param errors
+     * @return Returns true if per diem section is used by user and that all fields contain values.
+     */
+    private boolean validatePersonalVehicleSection(DisbursementVoucherDocument document, ErrorMap errors) {
+        boolean personalVehicleSectionComplete = true;
+        
+        // Checks to see if any per diem fields are filled in
+        boolean personalVehilcleUsed = ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromCityName()) ||
+                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromStateCode()) ||
+                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToCityName()) ||
+                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToStateCode()) ||
+                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount()) ||
+                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) ||
+                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount());
+                                       
+
+        // If any per diem fields contain data, validates that all required per diem fields are filled in 
+        if(personalVehilcleUsed) {
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromCityName())) {
+                errors.putError(PropertyConstants.DISB_VCHR_AUTO_FROM_CITY_NAME, KeyConstants.ERROR_DV_AUTO_FROM_CITY);
+                personalVehicleSectionComplete = false;
+            }
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToCityName())) {
+                errors.putError(PropertyConstants.DISB_VCHR_AUTO_TO_CITY_NAME, KeyConstants.ERROR_DV_AUTO_TO_CITY);
+                personalVehicleSectionComplete = false;
+            }
+            
+            // are state fields required always or only for US travel?
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromStateCode())) {
+                errors.putError(PropertyConstants.DISB_VCHR_AUTO_FROM_STATE_CODE, KeyConstants.ERROR_DV_AUTO_FROM_STATE);
+                personalVehicleSectionComplete = false;
+            }
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToStateCode())) {
+                errors.putError(PropertyConstants.DISB_VCHR_AUTO_TO_STATE_CODE, KeyConstants.ERROR_DV_AUTO_TO_STATE);
+                personalVehicleSectionComplete = false;
+            }
+            // end state field validation
+            
+            
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount())) {
+                errors.putError(PropertyConstants.DV_PERSONAL_CAR_MILEAGE_AMOUNT, KeyConstants.ERROR_DV_MILEAGE_AMT);
+                personalVehicleSectionComplete = false;
+            }
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt())) {
+                errors.putError(PropertyConstants.DISB_VCHR_MILEAGE_CALCULATED_AMT, KeyConstants.ERROR_DV_MILEAGE_CALC_AMT);
+                personalVehicleSectionComplete = false;
+            }
+            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount())) {
+                errors.putError(PropertyConstants.DISB_VCHR_PERSONAL_CAR_AMOUNT, KeyConstants.ERROR_DV_MILEAGE_ACTUAL_AMT);
+                personalVehicleSectionComplete = false;
+            }
+        }
+        personalVehicleSectionComplete = personalVehicleSectionComplete && personalVehilcleUsed;
+        return personalVehicleSectionComplete;
+    }
+
 
     /**
      * Validates pre paid travel information.

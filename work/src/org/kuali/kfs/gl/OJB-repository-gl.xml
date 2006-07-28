@@ -842,6 +842,23 @@
     <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
+
+    <reference-descriptor name="originationCode" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialSystemOriginationCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="projectCode" />
+    </reference-descriptor>
+	
+    <reference-descriptor name="referenceOriginationCode" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="referenceFinancialSystemOriginationCode" />
+    </reference-descriptor>
+	
+    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
+    </reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="SH_UNIV_DATE_T">

@@ -156,6 +156,27 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     }
 
     /**
+     * Gets the disbVchrExpenseCompanyName attribute.
+     * 
+     * @return - Returns the disbVchrExpenseCompanyName
+     * 
+     */
+    public String getDisbVchrPrePaidExpenseCompanyName() {
+        return disbVchrExpenseCompanyName;
+    }
+
+
+    /**
+     * Sets the disbVchrExpenseCompanyName attribute.
+     * 
+     * @param disbVchrExpenseCompanyName The disbVchrExpenseCompanyName to set.
+     * 
+     */
+    public void setDisbVchrPrePaidExpenseCompanyName(String disbVchrExpenseCompanyName) {
+        this.disbVchrExpenseCompanyName = disbVchrExpenseCompanyName;
+    }
+
+    /**
      * Gets the disbVchrExpenseAmount attribute.
      * 
      * @return - Returns the disbVchrExpenseAmount

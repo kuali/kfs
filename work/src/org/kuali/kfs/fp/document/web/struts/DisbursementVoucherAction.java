@@ -39,6 +39,7 @@ import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
@@ -169,6 +170,33 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
     }
 
     /**
+     * Clears the travel per diem amount
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward clearTravelPerDiem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        try {
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrPerdiemCalculatedAmt(null);
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrPerdiemActualAmount(null);
+        }
+        catch (RuntimeException e) {
+            LOG.error("Error in clearing travel per diem: " + e.getMessage());
+            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
      * Calculates the travel mileage amount.
      * 
      * @param mapping
@@ -204,6 +232,33 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
     }
 
     /**
+     * Clears the travel mileage amount
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward clearTravelMileageAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        try {
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrMileageCalculatedAmt(null);
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(null);
+        }
+        catch (RuntimeException e) {
+            LOG.error("Error in clearing travel personal vehicle amount: " + e.getMessage());
+            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
      * Adds a new employee travel expense line.
      * 
      * @param mapping
@@ -222,6 +277,18 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         // validate line
         GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
+
+        // Ensure all fields are filled in before attempting to add a new expense line
+        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
+            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_CODE, KeyConstants.ERROR_DV_EXPENSE_CODE);
+        }
+        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
+            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME, KeyConstants.ERROR_DV_EXPENSE_COMPANY_NAME);
+        }
+        if(ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
+            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KeyConstants.ERROR_DV_EXPENSE_AMOUNT);
+        }
+        
         GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
@@ -251,6 +318,17 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         // validate line
         GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_PREPAID_EXPENSE_LINE);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
+
+        // Ensure all fields are filled in before attempting to add a new expense line
+        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
+            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_CODE, KeyConstants.ERROR_DV_PREPAID_EXPENSE_CODE);
+        }
+        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
+            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_COMPANY_NAME, KeyConstants.ERROR_DV_PREPAID_EXPENSE_COMPANY_NAME);
+        }
+        if(ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
+            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KeyConstants.ERROR_DV_PREPAID_EXPENSE_AMOUNT);
+        }
         GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_PREPAID_EXPENSE_LINE);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {

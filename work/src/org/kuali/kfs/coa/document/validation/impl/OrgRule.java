@@ -23,10 +23,13 @@
 package org.kuali.module.chart.rules;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiUser;
@@ -86,7 +89,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         success &= checkOrgClosureRules(document);
 
         // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
-        success &= checkSimpleRules();
+        success &= checkSimpleRules(document);
         
         // check that defaultAccount is present unless 
         //    ( (orgType = U or C) and ( document is a "create new" ))
@@ -113,7 +116,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         success &= checkExistenceAndActive();
 
         // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
-        success &= checkSimpleRules();
+        success &= checkSimpleRules(document);
         
         // check that defaultAccount is present unless 
         //    ( (orgType = U or C) and ( document is a "create new" ))
@@ -143,7 +146,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         checkOrgClosureRules(document);
 
         // check that end date is greater than begin date and Reports To Chart/Org should not be same as this Chart/Org
-        checkSimpleRules();
+        checkSimpleRules(document);
         
         // check that defaultAccount is present unless 
         //    ( (orgType = U or C) and ( document is a "create new" ))
@@ -334,7 +337,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    protected boolean checkSimpleRules() {
+    protected boolean checkSimpleRules(MaintenanceDocument document) {
 
         boolean success = true;
         String lastReportsToChartOfAccountsCode;
@@ -356,6 +359,17 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        // start date must be greater than or equal to today if new Document
+        if ((ObjectUtils.isNotNull(newOrg.getOrganizationBeginDate()) && (document.isNew()))) {
+           Timestamp today = getDateTimeService().getCurrentTimestamp();
+            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
+            if (newOrg.getOrganizationBeginDate().before(today)) {
+                putFieldError("organizationBeginDate", KeyConstants.ERROR_DOCUMENT_ORGMAINT_STARTDATE_IN_PAST);
+                success &= false;
+            }
+        }
+        
+       
         // Reports To Chart/Org should not be same as this Chart/Org
         // However, allow special case where organizationCode = "UNIV"
         if ((ObjectUtils.isNotNull(newOrg.getReportsToChartOfAccountsCode())) && (ObjectUtils.isNotNull(newOrg.getReportsToOrganizationCode())) && (ObjectUtils.isNotNull(newOrg.getChartOfAccountsCode())) && (ObjectUtils.isNotNull(newOrg.getOrganizationCode())) && (!(newOrg.getOrganizationCode().equals("UNIV")))) {

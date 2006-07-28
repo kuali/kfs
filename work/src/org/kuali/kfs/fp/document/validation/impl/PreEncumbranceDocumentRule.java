@@ -195,11 +195,11 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
         }
         explicitEntry.setTransactionEntryProcessedTs(null);
         if (isSourceAccountingLine(accountingLine)) {
-            explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMBRANCE_UPDATE_CODES.ENCUMBRANCE);
+            explicitEntry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_DOCUMENT_CD);
         }
         else {
             assert isTargetAccountingLine(accountingLine) : accountingLine;
-            explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMBRANCE_UPDATE_CODES.DISENCUMBRANCE);
+            explicitEntry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
             explicitEntry.setReferenceFinancialSystemOriginationCode(accountingLine.getReferenceOriginCode());
             explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());
             explicitEntry.setReferenceFinancialDocumentTypeCode(REFERENCE_DOCUMENT_TYPE_CODES.PRE_ENCUMBRANCE);

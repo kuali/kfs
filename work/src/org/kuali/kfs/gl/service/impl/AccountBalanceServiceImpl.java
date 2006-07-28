@@ -27,15 +27,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 import org.kuali.module.gl.service.AccountBalanceService;
+import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class...
- * 
- * @author Bin Gao from Michigan State University
+ * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
+ * @version $Id: AccountBalanceServiceImpl.java,v 1.12 2006-07-28 14:46:05 larevans Exp $
  */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
@@ -77,13 +78,13 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
         // Put the 4 total lines at the beginning of the list
         List results = new ArrayList();
-        AccountBalance inc = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_INCOME);
-        AccountBalance exp = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS);
-        AccountBalance expin = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_IN);
+        AccountBalance income = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_INCOME);
+        AccountBalance expenseGross = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS);
+        AccountBalance expenseNet = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_IN);
         AccountBalance total = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_AVAILABLE);
-        results.add(inc);
-        results.add(exp);
-        results.add(expin);
+        results.add(income);
+        results.add(expenseGross);
+        results.add(expenseNet);
         results.add(total);
 
         // If you want a sub account, you can't do consolidated
@@ -97,42 +98,115 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
+            
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
-                    addBalanceToTotals(bbc, inc, exp, expin, total);
+                    
+                    addBalanceToTotals(bbc, income, expenseGross, expenseNet, total);
                     results.add(bbc);
+                    
                 }
             }
             else {
-                addBalanceToTotals(bbc, inc, exp, expin, total);
+                
+                addBalanceToTotals(bbc, income, expenseGross, expenseNet, total);
                 results.add(bbc);
+                
             }
+            
         }
-
-        // Calculate the transfer in total
-        inc.getDummyBusinessObject().setGenericAmount(inc.getAccountLineActualsBalanceAmount().subtract(inc.getCurrentBudgetLineBalanceAmount()));
-        exp.getDummyBusinessObject().setGenericAmount(exp.getCurrentBudgetLineBalanceAmount().subtract(exp.getAccountLineActualsBalanceAmount()).subtract(exp.getAccountLineEncumbranceBalanceAmount()));
-        expin.setCurrentBudgetLineBalanceAmount(exp.getCurrentBudgetLineBalanceAmount());
-        expin.setAccountLineActualsBalanceAmount(exp.getAccountLineActualsBalanceAmount());
-        expin.setAccountLineEncumbranceBalanceAmount(exp.getAccountLineEncumbranceBalanceAmount());
-        expin.getDummyBusinessObject().setGenericAmount(exp.getDummyBusinessObject().getGenericAmount());
-        total.getDummyBusinessObject().setGenericAmount(inc.getDummyBusinessObject().getGenericAmount().add(exp.getDummyBusinessObject().getGenericAmount()));
+        
+        total.getDummyBusinessObject().setGenericAmount(income.getDummyBusinessObject().getGenericAmount().add(expenseGross.getDummyBusinessObject().getGenericAmount()));
+        
+        income.getDummyBusinessObject().setGenericAmount(
+                income.getAccountLineActualsBalanceAmount().subtract(
+                        income.getCurrentBudgetLineBalanceAmount()));
+        
+        // should be the available amount
+        expenseGross.getDummyBusinessObject().setGenericAmount(
+                expenseGross.getCurrentBudgetLineBalanceAmount().subtract(
+                        expenseGross.getAccountLineActualsBalanceAmount()).subtract(
+                                expenseGross.getAccountLineEncumbranceBalanceAmount()));
+        
+        expenseNet.getDummyBusinessObject().setGenericAmount(
+                expenseGross.getDummyBusinessObject().getGenericAmount() );
+        
+        // Adjust net amount for balances by consolidation level.
+        List accountBalancesForConsolidationLevel = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, "TRSF", isCostShareExcluded, isConsolidated, pendingEntryCode);
+        
+        for(Iterator iterator = accountBalancesForConsolidationLevel.iterator(); iterator.hasNext();) {
+            
+            Object o = iterator.next();
+            Map balanceForLevel = (Map) o;
+            
+            String objectLevelCode = balanceForLevel.get("FIN_OBJ_LEVEL_CD").toString();
+            
+            if(!ObjectHelper.isOneOf(objectLevelCode, new String[]{"CORI", "TRIN"})) {
+                
+                continue;
+                
+            }
+            
+            // Pull balances from the map.
+            KualiDecimal budgetBalance = new KualiDecimal(balanceForLevel.get("CURR_BDLN_BAL_AMT").toString());
+            KualiDecimal actualBalance = new KualiDecimal(balanceForLevel.get("ACLN_ACTLS_BAL_AMT").toString());
+            KualiDecimal encumbranceBalance = new KualiDecimal(balanceForLevel.get("ACLN_ENCUM_BAL_AMT").toString());
+            
+            // Calculate variance
+            KualiDecimal variance = null;
+            if("B".equals(balanceForLevel.get("TYP_FIN_REPORT_SORT_CD"))) {
+                
+                variance = budgetBalance.subtract(actualBalance).subtract(encumbranceBalance);
+                
+            } else {
+                
+                variance = actualBalance.subtract(budgetBalance);
+                
+            }
+            
+            // Update the net expense.
+            expenseNet.getDummyBusinessObject().setGenericAmount(
+                    expenseNet.getDummyBusinessObject().getGenericAmount().subtract(variance));
+            
+            expenseNet.setCurrentBudgetLineBalanceAmount(
+                    expenseNet.getCurrentBudgetLineBalanceAmount().subtract(budgetBalance));
+            
+            expenseNet.setAccountLineActualsBalanceAmount(
+                    expenseNet.getAccountLineActualsBalanceAmount().subtract(actualBalance));
+            
+            expenseNet.setAccountLineEncumbranceBalanceAmount(
+                    expenseNet.getAccountLineEncumbranceBalanceAmount().subtract(encumbranceBalance));
+            
+        }
+        
         return results;
     }
 
-    private void addBalanceToTotals(AccountBalance add, AccountBalance inc, AccountBalance exp, AccountBalance expin, AccountBalance total) {
-        String reportingSortCode = add.getFinancialObject().getFinancialObjectType().getFinancialReportingSortCode();
+    /**
+     * @param accountBalance
+     * @param income
+     * @param grossExpense
+     * @param expin
+     * @param total
+     */
+    private void addBalanceToTotals(AccountBalance accountBalance, AccountBalance income, AccountBalance grossExpense, AccountBalance expin, AccountBalance total) {
+        String reportingSortCode = accountBalance.getFinancialObject().getFinancialObjectType().getFinancialReportingSortCode();
 
         if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {
-            exp.add(add);
+            grossExpense.add(accountBalance);
         }
         else {
-            inc.add(add);
+            income.add(accountBalance);
         }
     }
 
+    /**
+     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByLevel(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
+     */
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
         LOG.debug("findAccountBalanceByLevel() started");
 
@@ -164,7 +238,10 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
         return results;
     }
-
+    
+    /**
+     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByObject(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
+     */
     public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
         LOG.debug("findAccountBalanceByObject() started");
 
@@ -196,14 +273,14 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
         return results;
     }
-
+    
     /**
      * @see org.kuali.module.gl.service.AccountBalanceService#save(org.kuali.module.gl.bo.AccountBalance)
      */
     public void save(AccountBalance ab) {
         accountBalanceDao.save(ab);
     }
-
+    
     /**
      * Purge an entire fiscal year for a single chart.
      * 

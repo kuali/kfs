@@ -34,7 +34,7 @@
 
                 <maxLength>2</maxLength>
 
-                <required>true</required>
+                <required>false</required>
 
                 <control>
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder" />
@@ -52,7 +52,25 @@
 
                 <maxLength>40</maxLength>
 
-                <required>true</required>
+                <required>false</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the Company of the Non-Employee Traveler.</description>
+            </attribute>
+
+            <attribute name="disbVchrPrePaidExpenseCompanyName">
+                <label>Company</label>
+                <shortLabel>Company</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>false</required>
 
                 <control>
                     <text size="40" />
@@ -70,7 +88,7 @@
 
                 <maxLength>22</maxLength>
 
-                <required>true</required>
+                <required>false</required>
 
                 <control>
                     <text size="9" />

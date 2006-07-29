@@ -204,7 +204,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      */
     private boolean isAccountAllowed(AccountingLine accountingLine) {
         boolean isValid = true;
-        if (isValid && isSourceAccountingLine(accountingLine)) {
+        if (isValid && accountingLine.isSourceAccountingLine()) {
             String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAcctNbr();
             isValid &= StringUtils.isNotBlank(icrAccount);
             if (!isValid) {
@@ -227,7 +227,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
     private boolean isChartOfAccountsAllowed(AccountingLine accountingLine) {
         boolean isValid = true;
 
-        if (isSourceAccountingLine(accountingLine)) {
+        if (accountingLine.isSourceAccountingLine()) {
             String icrExpense = accountingLine.getChart().getIcrExpenseFinancialObjectCd();
             isValid &= StringUtils.isNotBlank(icrExpense);
             if (!isValid) {

@@ -103,10 +103,10 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
     }
         boolean isDebit = false;
-        if (isSourceAccountingLine(accountingLine)) {
+        if (accountingLine.isSourceAccountingLine()) {
             isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
         }
-        else if (isTargetAccountingLine(accountingLine)) {
+        else if (accountingLine.isTargetAccountingLine()) {
             isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
         }
         else {

@@ -36,6 +36,7 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import static org.kuali.core.util.AssertionUtils.assertThat;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -266,7 +267,7 @@ public class CashManagementDocumentRule extends FinancialDocumentRuleBase implem
             descriptionKey = KeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_FINAL;
         }
         else {
-            assert Constants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()) : deposit.getDepositTypeCode();
+            assertThat(Constants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()), deposit.getDepositTypeCode());
             descriptionKey = KeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_INTERIM;
         }
         return TransactionalDocumentRuleUtil.formatProperty(descriptionKey, interimDepositNumber);

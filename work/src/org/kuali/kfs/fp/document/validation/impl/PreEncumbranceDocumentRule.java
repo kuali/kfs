@@ -36,6 +36,7 @@ import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
+import static org.kuali.core.util.AssertionUtils.assertThat;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -91,7 +92,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
     private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
         boolean valid = true;
 
-        if (isTargetAccountingLine(accountingLine)) {
+        if (accountingLine.isTargetAccountingLine()) {
             BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(TargetAccountingLine.class);
             if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
                 putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
@@ -194,11 +195,11 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
             explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(peDoc.getReversalDate().getTime()));
         }
         explicitEntry.setTransactionEntryProcessedTs(null);
-        if (isSourceAccountingLine(accountingLine)) {
+        if (accountingLine.isSourceAccountingLine()) {
             explicitEntry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_DOCUMENT_CD);
         }
         else {
-            assert isTargetAccountingLine(accountingLine) : accountingLine;
+            assertThat(accountingLine.isTargetAccountingLine(), accountingLine);
             explicitEntry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
             explicitEntry.setReferenceFinancialSystemOriginationCode(accountingLine.getReferenceOriginCode());
             explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());

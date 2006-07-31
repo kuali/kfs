@@ -186,8 +186,6 @@
      
 
      <logic:iterate indexId="sCtr" name="KualiForm" property="document.transactionEntries[${ctr}].targetAccountingLines" id="currentLine">
-	    <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].objectCode.financialObjectActiveCode"/>
-     
         <%-- readonlyness of accountingLines depends on editingMode and user's account-list --%>
         <c:choose>
           <c:when test="${!empty editingMode['fullEntry']}">

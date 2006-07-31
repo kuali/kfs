@@ -22,70 +22,84 @@
  */
 package org.kuali.module.gl.web.inquirable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.LookupService;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.web.Constant;
-
 /**
- * This class is used to generate the URL for the user-defined attributes for the GL entry screen. It is entended the
- * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
- * 
- * @author Bin Gao from Michigan State University
+ * This class...
+ * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class EntryInquirableImpl extends AbstractGLInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryInquirableImpl.class);
-
+public class EncumbranceInquirableImpl extends AbstractGLInquirableImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceInquirableImpl.class);
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
+     */
     @Override
     protected List buildUserDefinedAttributeKeyList() {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
+     */
     @Override
     protected Map getUserDefinedAttributeMap() {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
+     */
     @Override
     protected String getAttributeName(String attributeName) {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
+     */
     @Override
     protected Object getKeyValue(String keyName, Object keyValue) {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
+     */
     @Override
     protected String getKeyName(String keyName) {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
+     */
     @Override
     protected String getLookupableImplAttributeName() {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
+     */
     @Override
     protected String getBaseUrl() {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass()
+     */
     @Override
     protected Class getInquiryBusinessObjectClass() {
         return null;
     }
 
+    /**
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     */
     @Override
-    protected void addMoreParameters(Properties parameter, String attributeName) {        
+    protected void addMoreParameters(Properties parameter, String attributeName) {
     }
 }

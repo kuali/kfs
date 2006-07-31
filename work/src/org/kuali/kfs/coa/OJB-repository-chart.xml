@@ -1216,7 +1216,7 @@
     </reference-descriptor>
 
     <reference-descriptor name="costShareChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="costShareSourceAccountNumber" />
+        <foreignkey field-ref="costShareChartOfAccountCode" />
     </reference-descriptor>
 
     <reference-descriptor name="costShareAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1343,7 +1343,7 @@
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
     <reference-descriptor name="cashReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
         <foreignkey field-ref="cashReversionAccountNumber" />
     </reference-descriptor>
     <reference-descriptor name="budgetReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1516,9 +1516,6 @@
     </reference-descriptor>
     <reference-descriptor name="incomeStreamFinancialCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="incomeStreamFinancialCoaCode" />
-    </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
     <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />

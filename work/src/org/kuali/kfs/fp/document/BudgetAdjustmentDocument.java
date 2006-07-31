@@ -28,6 +28,7 @@ package org.kuali.module.financial.document;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.exceptions.ApplicationParameterException;
@@ -444,5 +445,21 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     @Override
     protected String getNullOrReasonNotToErrorCorrect() {
         return null;
+    }
+    
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getSourceAccountingLinesSectionTitle()
+     */
+    @Override
+    public String getSourceAccountingLinesSectionTitle() {
+        return Constants.BudgetAdjustmentDocumentConstants.SOURCE_BA;
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getTargetAccountingLinesSectionTitle()
+     */
+    @Override
+    public String getTargetAccountingLinesSectionTitle() {
+        return Constants.BudgetAdjustmentDocumentConstants.TARGET_BA;
     }
 }

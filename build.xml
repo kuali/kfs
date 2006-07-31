@@ -194,9 +194,15 @@
 		<delete failonerror="false">
 			<fileset dir="${appserver.config.dir}" includes="${ant.project.name}-*.xml" />
 		</delete>
-		<delete dir="${settings.root.directory}" failonerror="false" />
-		<delete dir="${security.root.directory}" failonerror="false" />
-		<delete dir="${logs.root.directory}" failonerror="false" />
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${settings.root.directory}" includes="*/${ant.project.name}/"/>
+		</delete>
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${security.root.directory}" includes="*/${ant.project.name}/"/>
+		</delete>
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${logs.root.directory}" includes="*/${ant.project.name}/"/>
+		</delete>
 		<delete dir="${attachments.root.directory}" failonerror="false" />
 		<delete dir="${htdocs.directory}" failonerror="false" />
 	</target>

@@ -77,10 +77,9 @@
                 <field attributeName="financialObjectLevelCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialObjectSubTypeCode" />
-                <field attributeName="financialObjectActiveCode" />
                 <field attributeName="historicalFinancialObjectCode" />
                 <field attributeName="financialBudgetAggregationCd" />
-
+                <field attributeName="financialObjectActiveCode" />
             </resultFields>
         </lookup>
 

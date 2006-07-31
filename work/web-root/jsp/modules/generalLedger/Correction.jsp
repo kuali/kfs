@@ -46,39 +46,39 @@
 								<display:column title="Manual Edit" > </display:column>
 							</c:otherwise>
 						</c:choose>
-						<display:column class="infocell" sortable="true" title="University FiscalYear" >
+						<display:column class="infocell" sortable="true" title="Fiscal Year" >
 						<c:out value="${allEntries.universityFiscalYear}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="BudgetYear" >
+						<display:column class="infocell" sortable="true" title="Budget Year" >
 						<c:out value="${allEntries.budgetYear}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Chart Of Accounts Code" >
+						<display:column class="infocell" sortable="true" title="Chart Code" >
 						<c:out value="${allEntries.chartOfAccountsCode}" />&nbsp;</display:column>
 						<display:column class="infocell" sortable="true" title="Account Number" >
 						<c:out value="${allEntries.accountNumber}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Sub-Account Number" >
+						<display:column class="infocell" sortable="true" title="Sub Account Number" >
 						<c:out value="${allEntries.subAccountNumber}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial Object Code" >
+						<display:column class="infocell" sortable="true" title="Object Code" >
 						<c:out value="${allEntries.financialObjectCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial Sub-Object Code" >
+						<display:column class="infocell" sortable="true" title="Sub Object Code" >
 						<c:out value="${allEntries.financialSubObjectCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial Balance TypeCode" >
+						<display:column class="infocell" sortable="true" title="Balance Type" >
 						<c:out value="${allEntries.financialBalanceTypeCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial Object TypeCode" >
+						<display:column class="infocell" sortable="true" title="Object Type" >
 						<c:out value="${allEntries.financialObjectTypeCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="University FiscalPeriod Code" >
+						<display:column class="infocell" sortable="true" title="Fiscal Period" >
 						<c:out value="${allEntries.universityFiscalPeriodCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial Document TypeCode" >
+						<display:column class="infocell" sortable="true" title="Document Type" >
 						<c:out value="${allEntries.financialDocumentTypeCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial System Origination Code" >
+						<display:column class="infocell" sortable="true" title="Origin Code" >
 						<c:out value="${allEntries.financialSystemOriginationCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial Document Number" >
+						<display:column class="infocell" sortable="true" title="Document Number" >
 						<c:out value="${allEntries.financialDocumentNumber}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Transaction LedgerEntry Sequence Number" >
+						<display:column class="infocell" sortable="true" title="Sequence Number" >
 						<c:out value="${allEntries.transactionLedgerEntrySequenceNumber}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Transaction LedgerEntry Description" >
+						<display:column class="infocell" sortable="true" title="Description" >
 						<c:out value="${allEntries.transactionLedgerEntryDescription}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Transaction LedgerEntry Amount" >
+						<display:column class="infocell" sortable="true" title="Amount" >
 						<c:out value="${allEntries.transactionLedgerEntryAmount}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Transaction Debit Credit Code" >
+						<display:column class="infocell" sortable="true" title="Debit Credit Indicator" >
 						<c:out value="${allEntries.transactionDebitCreditCode}" />&nbsp;</display:column>
 						<display:column class="infocell" sortable="true" title="Transaction Date" >
 						<c:out value="${allEntries.transactionDate}" />&nbsp;</display:column>
@@ -86,15 +86,15 @@
 						<c:out value="${allEntries.organizationDocumentNumber}" />&nbsp;</display:column>
 						<display:column class="infocell" sortable="true" title="Project Code" >
 						<c:out value="${allEntries.projectCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Organization ReferenceId" >
+						<display:column class="infocell" sortable="true" title="Organization Reference Number" >
 						<c:out value="${allEntries.organizationReferenceId}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Reference Financial Document TypeCode" >
+						<display:column class="infocell" sortable="true" title="Reference Document Type" >
 						<c:out value="${allEntries.referenceFinancialDocumentTypeCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Reference Financial System Origination Code" >
+						<display:column class="infocell" sortable="true" title="Reference Origin Code" >
 						<c:out value="${allEntries.referenceFinancialSystemOriginationCode}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Reference Financial Document Number" >
+						<display:column class="infocell" sortable="true" title="Reference Document Number" >
 						<c:out value="${allEntries.financialDocumentNumber}" />&nbsp;</display:column>
-						<display:column class="infocell" sortable="true" title="Financial Document Reversal Date" >
+						<display:column class="infocell" sortable="true" title="Reversal Date" >
 						<c:out value="${allEntries.financialDocumentNumber}" />&nbsp;</display:column>
 						<display:column class="infocell" sortable="true" title="Transaction Encumbrance Update Code" >
 						<c:out value="${allEntries.transactionEncumbranceUpdateCode}" />&nbsp;</display:column>
@@ -158,76 +158,76 @@
         	<td>
    			<display:table id="eachEntryForManualEdit" name="${KualiForm.eachEntryForManualEdit}" requestURIcontext="false"  >
 	   			
-	   			<display:column title="ManualEdit" >
-	   				<input type="image" name="methodToCall.editEntry" value="${eachEntryForManualEdit.entryId}"
+	   			<display:column title="Manual Edit" >
+	   				<input size="5" type="image" name="methodToCall.editEntry" value="${eachEntryForManualEdit.entryId}"
 				           src="images/tinybutton-saveedits.gif" alt="Edit an Entry" class="tinybutton" />
 	   			</display:column>
-	   			<display:column title="University FiscalYear" >
-					<input size="9" type="text" name="editUniversityFiscalYear"
+	   			<display:column title="Fiscal Year" >
+					<input size="4" type="text" name="editUniversityFiscalYear"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.universityFiscalYear}" />">
 				</display:column>
-				<display:column title="BudgetYear" >
-					<input size="12" type="text" name="editBudgetYear"
+				<display:column title="Budget Year" >
+					<input size="7" type="text" name="editBudgetYear"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.budgetYear}" />">
 				</display:column>
-	   			<display:column title="Chart Of Accounts Code" >
-					<input size="9" type="text" name="editChartOfAccountsCode"
+	   			<display:column title="Chart Code" >
+					<input size="5" type="text" name="editChartOfAccountsCode"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.chartOfAccountsCode}" />">
 				</display:column>
 				<display:column title="Account Number" >
-   					<input size="8" type="text" name="editAccountNumber"
+   					<input size="7" type="text" name="editAccountNumber"
                 	       value="<c:out value="${KualiForm.eachEntryForManualEdit.accountNumber}" />">
         	    </display:column>
-				<display:column title="Sub-Account Number" >
-					<input size="13" type="text" name="editSubAccountNumber"
+				<display:column title="Sub Account Number" >
+					<input size="7" type="text" name="editSubAccountNumber"
     	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.subAccountNumber}" />">
 				</display:column>
-				<display:column title="Financial Object Code" >
-					<input size="9" type="text" name="editFinancialObjectCode"
+				<display:column title="Object Code" >
+					<input size="5" type="text" name="editFinancialObjectCode"
             	           value="<c:out value="${KualiForm.eachEntryForManualEdit.financialObjectCode}" />">
 				</display:column>
-				<display:column title="Financial Sub-Object Code" >
-					<input size="9" type="text" name="editFinancialSubObjectCode"
+				<display:column title="Sub Object Code" >
+					<input size="6" type="text" name="editFinancialSubObjectCode"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialSubObjectCode}" />">
 				</display:column>
-				<display:column title="Financial Balance TypeCode" >
-					<input size="9" type="text" name="editFinancialBalanceTypeCode"
+				<display:column title="Balance Type" >
+					<input size="8" type="text" name="editFinancialBalanceTypeCode"
                 	       value="<c:out value="${KualiForm.eachEntryForManualEdit.financialBalanceTypeCode}" />">
 				</display:column>
-				<display:column title="Financial Object TypeCode" >
-					<input size="9" type="text" name="editFinancialObjectTypeCode"
+				<display:column title="Object Type" >
+					<input size="6" type="text" name="editFinancialObjectTypeCode"
     	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialObjectTypeCode}" />">
 				</display:column>
-				<display:column title="University FiscalPeriod Code" >
-					<input size="12" type="text" name="editUniversityFiscalPeriodCode"
+				<display:column title="Fiscal Period" >
+					<input size="6" type="text" name="editUniversityFiscalPeriodCode"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.universityFiscalPeriodCode}" />">
 				</display:column>
-				<display:column title="Financial Document TypeCode" >
-					<input size="9" type="text" name="editFinancialDocumentTypeCode"
+				<display:column title="Document Type" >
+					<input size="10" type="text" name="editFinancialDocumentTypeCode"
     	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentTypeCode}" />">
 				</display:column>
-				<display:column title="Financial System Origination Code" >
-					<input size="9" type="text" name="editFinancialSystemOriginationCode"
+				<display:column title="Origin Code" >
+					<input size="6" type="text" name="editFinancialSystemOriginationCode"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialSystemOriginationCode}" />">
 				</display:column>
-				<display:column title="Financial Document Number" >
+				<display:column title="Document Number" >
         	    	<input size="9" type="text" name="editFinancialDocumentNumber"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
         	    </display:column>	
-        	    <display:column title="Transaction LedgerEntry Sequence Number" >
-					<input size="12" type="text" name="editTransactionLedgerEntrySequenceNumber"
+        	    <display:column title="Sequence Number" >
+					<input size="9" type="text" name="editTransactionLedgerEntrySequenceNumber"
             	           value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntrySequenceNumber}" />">
 				</display:column>
-				<display:column title="Transaction LedgerEntry Description" >
-					<input size="12" type="text" name="editTransactionLedgerEntryDescription"
+				<display:column title="Description" >
+					<input size="11" type="text" name="editTransactionLedgerEntryDescription"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntryDescription}" />">
 				</display:column>
-				<display:column title="Transaction LedgerEntry Amount" >
-					<input size="12" type="text" name="editTransactionLedgerEntryAmount"
+				<display:column title="Amount" >
+					<input size="7" type="text" name="editTransactionLedgerEntryAmount"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntryAmount}" />">
 				</display:column>
-				<display:column title="Transaction Debit Credit Code" >
-					<input size="10" type="text" name="editTransactionDebitCreditCode"
+				<display:column title="Debit Credit Indicator" >
+					<input size="9" type="text" name="editTransactionDebitCreditCode"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionDebitCreditCode}" />">
 				</display:column>
 				<display:column title="Transaction Date" >
@@ -235,32 +235,32 @@
             	           value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionDate}" />">
 				</display:column>
 				<display:column title="Organization Document Number" >
-					<input size="9" type="text" name="editOrganizationDocumentNumber"
+					<input size="12" type="text" name="editOrganizationDocumentNumber"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.organizationDocumentNumber}" />">
 				</display:column>
 				<display:column title="Project Code" >
-					<input size="9" type="text" name="editProjectCode"
+					<input size="7" type="text" name="editProjectCode"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.projectCode}" />">
 				</display:column>
-				<display:column title="Organization ReferenceId" >
+				<display:column title="Organization Reference Number" >
 					<input size="13" type="text" name="editOrganizationReferenceId"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.organizationReferenceId}" />">
 				</display:column>
 				
-				<display:column title="Reference Financial Document TypeCode" >
-					<input size="9" type="text" name="editReferenceFinancialDocumentTypeCode"
+				<display:column title="Reference Document Type" >
+					<input size="10" type="text" name="editReferenceFinancialDocumentTypeCode"
             	           value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialDocumentTypeCode}" />">
 				</display:column>
-				<display:column title="Reference Financial System Origination Code" >
-					<input size="9" type="text" name="editReferenceFinancialSystemOriginationCode"
+				<display:column title="Reference Origin Code" >
+					<input size="10" type="text" name="editReferenceFinancialSystemOriginationCode"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialSystemOriginationCode}" />">
 				</display:column>
-				<display:column title="Reference Financial Document Number" >
+				<display:column title="Reference Document Number" >
 					<input size="9" type="text" name="editReferenceFinancialDocumentNumber"
     	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialDocumentNumber}" />">
 				</display:column>
-				<display:column title="Financial Document Reversal Date" >
-					<input size="9" type="text" name="editFinancialDocumentReversalDate"
+				<display:column title="Reversal Date" >
+					<input size="8" type="text" name="editFinancialDocumentReversalDate"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentReversalDate}" />">
 				</display:column>				
 				<display:column title="Transaction Encumbrance Update Code" >

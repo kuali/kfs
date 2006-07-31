@@ -77,7 +77,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.26 2006-07-26 15:30:56 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.27 2006-07-31 15:54:55 schoo Exp $
  * 
  */
 
@@ -686,7 +686,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
             correctionSearchCriterion = (CorrectionCriteria) fieldIter.next();
             String operator = correctionSearchCriterion.getOperator();
             String searchValue = correctionSearchCriterion.getCorrectionFieldValue();
-            String searchField = correctionSearchCriterion.getCorrectionFieldName();
+            
+            // correctionFieldName should be changed to Java BO 
+            String searchField = changeFieldName(correctionSearchCriterion.getCorrectionFieldName());
             if (!operator.equals("eq")) {
                 // Add operator
                 searchValue = changeSearchField(operator, searchValue);
@@ -1714,10 +1716,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
         errorCorrectionForm.setDeleteFileFlag("Y");
-        
-        //mutliple dropdown!!
-        HttpSession session = request.getSession(true);
-        session.setAttribute("groupId", errorCorrectionForm.getGroupIdList());
        
         return mapping.findForward(Constants.MAPPING_BASIC);
         
@@ -1728,11 +1726,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
        
-        HttpSession session = request.getSession(true);
-        String[] groupId = (String[]) session.getAttribute("groupId");
-        for(int i=0; i<groupId.length; i++){
-            OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(groupId[i]));
-            oeg.setProcess(false);
+        for (String eachGroupId : errorCorrectionForm.getGroupIdList()) {
+        
+            OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(eachGroupId));
+            oeg.setValid(false);
+            /*oeg.setProcess(false);
+            oeg.setScrub(false);*/
             originEntryGroupService.save(oeg);
         }
         
@@ -1893,4 +1892,89 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }
+    
+public String changeFieldName(String fieldName){
+        
+        if(fieldName.equals("Fiscal Year")){
+            return "universityFiscalYear";
+        }
+        if(fieldName.equals("Budget Year")){
+            return "budgetYear";
+        }
+        if(fieldName.equals("Chart Code")){
+            return "chartOfAccountsCode";
+        }
+        if(fieldName.equals("Account Number")){
+            return "accountNumber";
+        }
+        if(fieldName.equals("Sub Account Number")){
+            return "subAccountNumber";
+        }
+        if(fieldName.equals("Object Code")){
+            return "financialObjectCode";
+        }
+        if(fieldName.equals("Sub Object Code")){
+            return "financialSubObjectCode";
+        }
+        if(fieldName.equals("Balance Type")){
+            return "financialBalanceTypeCode";
+        }
+        if(fieldName.equals("Object Type")){
+            return "financialObjectTypeCode";
+        }
+        if(fieldName.equals("Fiscal Period")){
+            return "universityFiscalPeriodCode";
+        }
+        if(fieldName.equals("Document Type")){
+            return "financialDocumentTypeCode";
+        }
+        if(fieldName.equals("Origin Code")){
+            return "financialSystemOriginationCode";
+        }
+        if(fieldName.equals("Document Number")){
+            return "financialDocumentNumber";
+        }
+        if(fieldName.equals("Sequence Number")){
+            return "transactionLedgerEntrySequenceNumber";
+        }
+        if(fieldName.equals("Description")){
+            return "transactionLedgerEntryDescription";
+        }
+        if(fieldName.equals("Amount")){
+            return "transactionLedgerEntryAmount";
+        }
+        if(fieldName.equals("Debit Credit Indicator")){
+            return "transactionDebitCreditCode";
+        }
+        if(fieldName.equals("Transaction Date")){
+            return "transactionDate";
+        }
+        if(fieldName.equals("Organization Document Number")){
+            return "organizationDocumentNumber";
+        }
+        if(fieldName.equals("Project Code")){
+            return "projectCode";
+        }
+        if(fieldName.equals("Organization Reference Number")){
+            return "organizationReferenceId";
+        }
+        if(fieldName.equals("Reference Document Type")){
+            return "referenceFinancialDocumentTypeCode";
+        }
+        if(fieldName.equals("Reference Origin Code")){
+            return "referenceFinancialSystemOriginationCode";
+        }
+        if(fieldName.equals("Reference Document Number")){
+            return "referenceFinancialDocumentNumber";
+        }
+        if(fieldName.equals("Reversal Date")){
+            return "financialDocumentReversalDate";
+        }
+        if(fieldName.equals("Transaction Encumbrance Update Code")){
+            return "transactionEncumbranceUpdateCode";
+        }
+        
+       return null;
+    }
+    
 }

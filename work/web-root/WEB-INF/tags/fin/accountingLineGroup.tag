@@ -252,12 +252,12 @@
         </c:when>
         <c:when test="${currentBaseAmount}" >
             <c:if test="${isSource}">
-              <td class="total-line" style="border-left: 0px;"><strong>Current Total: $${KualiForm.document.sourceCurrentBudgetTotal}</strong></td>
-              <td class="total-line" style="border-left: 0px;"><strong>Base Total: $${KualiForm.document.sourceBaseBudgetTotal}</strong></td>
+              <td class="total-line" style="border-left: 0px;"><strong>Current Total: $${KualiForm.document.currencyFormattedSourceCurrentBudgetTotal}</strong></td>
+              <td class="total-line" style="border-left: 0px;"><strong>Base Total: $${KualiForm.document.currencyFormattedSourceBaseBudgetTotal}</strong></td>
             </c:if>
             <c:if test="${!isSource}">
-              <td class="total-line" style="border-left: 0px;"><strong>Current Total: $${KualiForm.document.targetCurrentBudgetTotal}</strong></td>
-              <td class="total-line" style="border-left: 0px;"><strong>Base Total: $${KualiForm.document.targetBaseBudgetTotal}</strong></td>
+              <td class="total-line" style="border-left: 0px;"><strong>Current Total: $${KualiForm.document.currencyFormattedTargetCurrentBudgetTotal}</strong></td>
+              <td class="total-line" style="border-left: 0px;"><strong>Base Total: $${KualiForm.document.currencyFormattedTargetBaseBudgetTotal}</strong></td>
             </c:if>
         </c:when>
         <c:otherwise>

@@ -77,7 +77,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.27 2006-07-31 15:54:55 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.28 2006-07-31 16:38:18 schoo Exp $
  * 
  */
 
@@ -763,7 +763,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         while (replaceIter.hasNext()) {
             correctionReplacementSpecification = (CorrectionChange) replaceIter.next();
             String replaceValue = correctionReplacementSpecification.getCorrectionFieldValue();
-            String replaceField = correctionReplacementSpecification.getCorrectionFieldName();
+            
+            // correctionFieldName should be changed to Java BO 
+            String replaceField = changeFieldName(correctionReplacementSpecification.getCorrectionFieldName());
 
             if (replaceField.equals("financialDocumentReversalDate")) {
                 // convert String to Date

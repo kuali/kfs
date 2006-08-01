@@ -55,7 +55,9 @@
                     <text size="42" />
                 </control>
 
-                <summary>financialDocumentAdvanceDepositDescription</summary>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>financialDocumentAdvanceDepositDescription description...</description>
             </attribute>
             <attributeReference name="financialDocumentAdvanceDepositReferenceNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber">
@@ -73,12 +75,16 @@
                     <alphaNumeric/>
                 </validationPattern>
 
+				<required>true</required>
+
                 <control>
                     <text size="6" />
                 </control>
 
-                <summary>financialDocumentBankCode</summary>
-                <description>financialDocumentBankCode description...</description>
+                <summary>
+                	<![CDATA[&nbsp;]]>
+                </summary>
+                <description>The code that designates the bank at which the deposit was made.</description>
             </attribute>
 			<attribute name="financialDocumentBankAccountNumber" forceUppercase="true">
                 <label>Bank Account</label>
@@ -89,12 +95,16 @@
                     <alphaNumeric/>
                 </validationPattern>
 
+				<required>true</required>
+
                 <control>
                     <text size="15" />
                 </control>
 
-                <summary>financialDocumentBankAccountNumber</summary>
-                <description>financialDocumentBankAccountNumber description...</description>
+                <summary>
+                	<![CDATA[&nbsp;]]>
+                </summary>
+                <description>The bank account number into which the funds were deposited.</description>
             </attribute>
         </attributes>
     </businessObject>

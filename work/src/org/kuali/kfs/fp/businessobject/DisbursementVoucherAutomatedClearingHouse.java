@@ -48,7 +48,6 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
     private String disbursementVoucherPayeeAccountName;
     private String disbursementVoucherPayeeAccountTypeCode;
     private boolean disbursementVoucherWireTransferFeeWaiverIndicator;
-    private Account account;
 
     /**
      * Default constructor.
@@ -331,26 +330,6 @@ public class DisbursementVoucherAutomatedClearingHouse extends BusinessObjectBas
         this.disbursementVoucherWireTransferFeeWaiverIndicator = disbursementVoucherWireTransferFeeWaiverIndicator;
     }
 
-
-    /**
-     * Gets the account attribute.
-     * 
-     * @return - Returns the account
-     * 
-     */
-    public Account getAccount() {
-        return account;
-    }
-
-    /**
-     * Sets the account attribute.
-     * 
-     * @param account The account to set.
-     * @deprecated
-     */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

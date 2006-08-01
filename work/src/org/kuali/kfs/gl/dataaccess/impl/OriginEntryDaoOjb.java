@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.26 2006-07-11 17:16:32 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.27 2006-08-01 17:06:08 schoo Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -316,6 +316,13 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
     public OriginEntry getExactMatchingEntry(Integer entryId) {
         LOG.debug("getMatchingEntries() started");
-        return (OriginEntry) getPersistenceBrokerTemplate().getObjectById(OriginEntry.class, entryId);
+        OriginEntry oe = new OriginEntry();
+        // in case of no matching entry
+        try {
+            oe = (OriginEntry) getPersistenceBrokerTemplate().getObjectById(OriginEntry.class, entryId);
+            
+        } catch(Exception e) {}
+        
+        return oe;
     }
 }

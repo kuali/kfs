@@ -77,7 +77,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.28 2006-07-31 16:38:18 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.29 2006-08-01 17:06:49 schoo Exp $
  * 
  */
 
@@ -106,24 +106,19 @@ public class CorrectionAction extends KualiDocumentActionBase {
             
             previousForm.setAllEntries(errorCorrectionForm.getAllEntries());
             previousForm.setEditableFlag(errorCorrectionForm.getEditableFlag());
-            /*
-            //may not need this part if use strut tag 
-            CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument();  
-            CorrectionDocument previousDocument = (CorrectionDocument) previousForm.getDocument();
-            previousDocument.setCorrectionChangeGroup(document.getCorrectionChangeGroup());*/
-            
-            
-            
-            //previousForm.setDocument(errorCorrectionForm.getDocument());
-            
-            //arg2.setAttribute(arg0.getAttribute(), errorCorrectionForm);
+            previousForm.setManualEditFlag(errorCorrectionForm.getManualEditFlag());
             
         }
         
+        
+               
         if (request.getParameter("document.correctionChangeGroupNextLineNumber") != null){
             CorrectionActionHelper.rebuildDocumentState(request, previousForm);
         }
         
+        if (!previousForm.getMethodToCall().equals("viewResults")) {
+            GlobalVariables.getUserSession().addObject(Constants.CORRECTION_FORM_KEY, previousForm);
+        }
         
         
         return super.execute(mapping, form, request, response);
@@ -1781,17 +1776,44 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     
-        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
+   /*     request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
         request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
-        
+   */     
         //UserSession userSession = (UserSession) request.getSession().getAttribute(Constants.USER_SESSION_KEY);
         
-        String correctionFormKey = request.getParameter(Constants.CORRECTION_FORM_KEY);
-        CorrectionForm errorCorrectionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(correctionFormKey);
-        form = (ActionForm) GlobalVariables.getUserSession().retrieveObject(correctionFormKey);
         
-        request.setAttribute(Constants.CORRECTION_FORM_KEY, correctionFormKey);
-        request.setAttribute(mapping.getAttribute(), form);
+        //errorCorrectionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(Constants.CORRECTION_FORM_KEY);
+        //errorCorrectionForm.setMethodToCall("viewResults");
+        
+        CorrectionForm sessionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(Constants.CORRECTION_FORM_KEY);
+        
+        
+        
+        errorCorrectionForm = (CorrectionForm) form;
+        //form = (CorrectionForm) errorCorrectionForm;
+        
+        
+        
+        errorCorrectionForm.setChooseSystem(sessionForm.getChooseSystem());
+        errorCorrectionForm.setEditMethod(sessionForm.getEditMethod());
+        errorCorrectionForm.setManualEditFlag(sessionForm.getManualEditFlag());
+        errorCorrectionForm.setEditableFlag(sessionForm.getEditableFlag());
+        
+        
+        errorCorrectionForm.setDocument(sessionForm.getDocument());
+        errorCorrectionForm.setDeleteFileFlag(sessionForm.getDeleteFileFlag());
+        errorCorrectionForm.setDeleteOutput(sessionForm.getDeleteOutput());
+        errorCorrectionForm.setDocId(sessionForm.getDocId());
+        errorCorrectionForm.setDocTypeName(sessionForm.getDocTypeName());
+        errorCorrectionForm.setMatchCriteriaOnly(sessionForm.getMatchCriteriaOnly());
+        
+        //errorCorrectionForm.setTabStates(sessionForm.getTabStates());
+        
+       
+        
+        
+        //CorrectionForm previousForm = (CorrectionForm) form;
+        //previousForm.setAllEntries(errorCorrectionForm.getAllEntries());
         
         //userSession.removeObject();
         

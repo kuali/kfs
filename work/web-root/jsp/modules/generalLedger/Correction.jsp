@@ -12,7 +12,7 @@
  	
  	
  	
- 	
+ 	<c:if test="${KualiForm.groupIdList != null}" >  
  	 
  
     <!--  Search Results Control -->
@@ -121,7 +121,7 @@
        		 </table>
        	</div>
 
-
+	</c:if>
 <!-- result -->
  
           

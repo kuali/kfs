@@ -138,7 +138,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
-        return processCustomAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
+        return processCustomAddAccountingLineBusinessRules(transactionalDocument, updatedAccountingLine);
     }
 
     /**

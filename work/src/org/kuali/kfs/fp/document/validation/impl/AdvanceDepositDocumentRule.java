@@ -97,19 +97,13 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
     }
 
     /**
-     * Overrides to call super and then to validate all of the deposits associated with this document.
+     * Overrides to ONLY validate all of the deposits associated with this document.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-
-        if (isValid) {
-            isValid = validateAdvanceDeposits((AdvanceDepositDocument) document);
-        }
-
-        return isValid;
+        return validateAdvanceDeposits((AdvanceDepositDocument) document);
     }
 
     /**

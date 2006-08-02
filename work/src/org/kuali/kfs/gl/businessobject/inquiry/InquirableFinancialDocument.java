@@ -29,6 +29,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.module.gl.bo.Encumbrance;
@@ -44,7 +45,7 @@ import org.kuali.module.gl.bo.Transaction;
  */
 public class InquirableFinancialDocument {
 
-    private DataDictionaryService dataDictionary = SpringServiceLocator.getDataDictionaryService();
+    private KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
 
     /**
      * get the url of inquirable financial document for the given transaction
@@ -60,19 +61,17 @@ public class InquirableFinancialDocument {
         
         String docNumber   = transaction.getFinancialDocumentNumber();
         String originationCode = transaction.getFinancialSystemOriginationCode();
-        
-        if (this.isInquirableDocument(docNumber, originationCode)) {
-            String docTypeCode = transaction.getFinancialDocumentTypeCode();
-            String docTypeName = dataDictionary.getDocumentTypeNameByTypeCode(docTypeCode);
-            
-            Properties parameters = this.addParameters(docNumber);
-            if (docTypeName != null) {
-                return UrlFactory.buildDocumentActionUrl(docTypeName, parameters);
-            }
+
+        return getUrl(originationCode,docNumber);
+    }
+ 
+    private String getUrl(String originCode,String docNumber) {
+        if ( Constants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber) ) {
+            return kualiConfigurationService.getPropertyString("workflow.base.url") + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
         }
         return Constants.EMPTY_STRING;
     }
-    
+
     /**
      * get the url of inquirable financial document for the given encumbrance
      * 
@@ -87,31 +86,7 @@ public class InquirableFinancialDocument {
         
         String docNumber   = encumbrance.getDocumentNumber();
         String originationCode = encumbrance.getOriginCode();
-        
-        if (this.isInquirableDocument(docNumber, originationCode)) {            
-            String docTypeCode = encumbrance.getDocumentTypeCode();
-            String docTypeName = dataDictionary.getDocumentTypeNameByTypeCode(docTypeCode);
-            
-            Properties parameters = this.addParameters(docNumber);          
-            if (docTypeName != null) {
-                return UrlFactory.buildDocumentActionUrl(docTypeName, parameters);
-            }
-        }
-        return Constants.EMPTY_STRING;
-    }
-    
-    // determine if the given document is inquirable
-    private boolean isInquirableDocument(String documentNumber, String originationCode) {        
-        return Constants.ORIGIN_CODE_KUALI.equals(originationCode) && !StringUtils.isBlank(documentNumber);       
-    }
-    
-    // build the parameter list that can be the query strings of inquiry url
-    private Properties addParameters(String documentNumber) {
-        Properties parameters = new Properties();
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.DOC_HANDLER_METHOD);
-        parameters.put(Constants.PARAMETER_COMMAND, Constants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-        parameters.put(Constants.PARAMETER_DOC_ID, documentNumber);
 
-        return parameters;
+        return getUrl(originationCode,docNumber);
     }
 }

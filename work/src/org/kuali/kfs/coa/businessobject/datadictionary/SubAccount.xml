@@ -242,7 +242,7 @@
             </attributeReference>
 
             <attributeReference name="a21SubAccount.costShareSourceSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-                <label>Cost Sharing Sub Account Number</label>
+                <label>Cost Sharing Sub-Account Number</label>
                 <shortLabel>CostShareSubAcctNbr</shortLabel>
                 <required>false</required>
                 <summary>

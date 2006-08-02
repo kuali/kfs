@@ -968,8 +968,8 @@
 
         <collections>
             <collection name="subAccounts">
-                <label>Sub Accounts</label>
-                <shortLabel>SubAccounts</shortLabel>
+                <label>Sub-Accounts</label>
+                <shortLabel>Sub-Accounts</shortLabel>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>

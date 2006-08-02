@@ -21,11 +21,11 @@
         <documentTypeName>KualiSubAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>SACC</documentTypeCode>
 
-        <label>Sub Account Maintenance Document</label>
+        <label>Sub-Account Maintenance Document</label>
         <shortLabel>SubAccountMainDoc</shortLabel>
 
-        <summary>Sub Account maintenance document</summary>
-        <description>Document used to create or update Sub Account objects</description>
+        <summary>Sub-Account maintenance document</summary>
+        <description>Document used to create or update Sub-Account objects</description>
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
@@ -42,7 +42,7 @@
         </defaultExistenceChecks>
 
         <maintainableSections>
-            <maintainableSection title="Edit Sub Account Code">
+            <maintainableSection title="Edit Sub-Account Code">
                 <maintainableItems>
                     <maintainableField name="chartOfAccountsCode" required="true" />
                     <maintainableField name="accountNumber" required="true" />

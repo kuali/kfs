@@ -1022,6 +1022,9 @@
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
         </property>
+    	<property name="kualiConfigurationService">
+    		<ref bean="kualiConfigurationService"/>
+    	</property>
     </bean>
 
     <bean id="glOptionsDao" class="org.kuali.core.dao.ojb.OptionsDaoOjb">

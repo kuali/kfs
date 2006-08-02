@@ -468,7 +468,7 @@
     <field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="DATE" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
+ 
     <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
@@ -508,10 +508,6 @@
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="objectCode" />
         <foreignkey field-ref="subObjectCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 </class-descriptor>
 

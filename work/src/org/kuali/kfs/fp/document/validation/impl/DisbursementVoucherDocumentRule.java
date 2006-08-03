@@ -1388,14 +1388,14 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         // disallow error corrections
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
-        // special case - some accounts can be negative, and are debits if positive
-        String creditNegativeAccountTypes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.SWITCH_DEBIT_CREDIT_ACCOUNT_TYPES_PARM_NM);
-        if (creditNegativeAccountTypes.contains(accountingLine.getAccount().getAccountTypeCode())) {
-            return accountingLine.getAmount().isPositive();
+        if (transactionalDocument instanceof DisbursementVoucherDocument) {
+            // special case - dv NRA tax accounts can be negative, and are debits if positive
+            if (((DisbursementVoucherDocument) transactionalDocument).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(accountingLine.getSequenceNumber().toString())) {
+                return accountingLine.getAmount().isPositive();
+            }
         }
+        
         return IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
     }
-
 
 }

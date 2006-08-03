@@ -220,9 +220,7 @@
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.deploy.dir}" includes="${workflow.application}-*/**" />
 		</delete>
-		<delete failonerror="false">
-			<fileset dir="${plugin.deploy.directory}" />
-		</delete>
+		<delete dir="${plugin.deploy.directory}" failonerror="false" />
 	</target>
 	
 	<target name="clean-cas-local" if="is.local.build" depends="init-project-properties">

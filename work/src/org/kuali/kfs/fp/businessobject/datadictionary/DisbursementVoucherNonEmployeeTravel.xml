@@ -409,7 +409,7 @@
             </attribute>
 
             <attribute name="dvPersonalCarMileageAmount">
-                <label>Mileage Amount</label>
+                <label>Total Mileage</label>
                 <shortLabel>Mileage</shortLabel>
 
                 <maxLength>7</maxLength>

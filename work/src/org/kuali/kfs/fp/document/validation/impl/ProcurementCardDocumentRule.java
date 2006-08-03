@@ -82,19 +82,23 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
         String errorPath = PropertyConstants.DOCUMENT;
         
-        // Retrieve the appropriate transactionEntry containing the accountingLine in question.
-        int i = pcTargetAccountingLine.getFinancialDocumentTransactionLineNumber() - 1;
-        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) pcDocument.getTransactionEntries().get(i);
-        
-        // Loop over the transactionEntry to find the accountingLine's location. Keep a counter handy.
-        int j = 0;
-        for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); iterTargetAccountingLines.hasNext(); j++) {
-            ProcurementCardTargetAccountingLine targetAccountingLines = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
+        // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunatly I found
+        // that number doesn't always translate well into an index to getTransactionEntries().get(i), so I added the outer loop.
+        boolean done = false;
+        int i = 0;
+        for (Iterator iterTransactionEntries = pcDocument.getTransactionEntries().iterator(); !done && iterTransactionEntries.hasNext(); i++) {
+            ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iterTransactionEntries.next();
             
-            if(targetAccountingLines.getSequenceNumber().equals(pcTargetAccountingLine.getSequenceNumber())) {
-                // Found the item, capture error path, and break.
-                errorPath = errorPath + "." + PropertyConstants.TRANSACTION_ENTRIES + "[" + i + "]." + PropertyConstants.TARGET_ACCOUNTING_LINES + "[" + j + "]";
-                break;
+            // Loop over the transactionEntry to find the accountingLine's location. Keep a counter handy.
+            int j = 0;
+            for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); !done && iterTargetAccountingLines.hasNext(); j++) {
+                ProcurementCardTargetAccountingLine targetAccountingLines = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
+                
+                if(targetAccountingLines.getSequenceNumber().equals(pcTargetAccountingLine.getSequenceNumber())) {
+                    // Found the item, capture error path, and set boolean (break isn't enough for 2 loops).
+                    errorPath = errorPath + "." + PropertyConstants.TRANSACTION_ENTRIES + "[" + i + "]." + PropertyConstants.TARGET_ACCOUNTING_LINES + "[" + j + "]";
+                    done = true;
+                }
             }
         }
         

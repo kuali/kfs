@@ -272,8 +272,6 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         String textFlag = flag ? Constants.ParameterValues.YES : Constants.ParameterValues.NO;
         financialSystemParameter.setFinancialSystemParameterText(textFlag);
 
-        financialSystemParameter.setFinancialSystemParameterActiveIndicator(true);
-        financialSystemParameter.setFinancialSystemParameterOperator("A");
         financialSystemParameter.setFinancialSystemMultipleValueIndicator(false);
 
         this.resetBusinessObject(financialSystemParameter, keys);

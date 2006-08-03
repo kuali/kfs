@@ -130,7 +130,6 @@
             </attributeReference>
 
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
-                <label>Sub Account Number</label>
                 <description>A code that partitions an Account Number into greater detail. Sub-Accounts take on most of the attributes of the Account Number to which they report.</description>
             </attributeReference>
 
@@ -139,7 +138,6 @@
             </attributeReference>
 
             <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
-                <label>Sub Object Code</label>
                 <description>A code that partitions an Object Code into greater detail. Sub-Object Codes take on most of the attributes of the Object Code to which they report.</description>
             </attributeReference>
 
@@ -153,9 +151,6 @@
                 <maxLength>2</maxLength>
                 <control>
                     <text size="2" />
-	                <!-- 
-	                    <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder" />
-	                -->
                 </control>
                 <summary>Balance Type</summary>
                 <description>Balance type categorizes transactions and balances into Budget, Actual or Encumbrance. There may be various types of each category.</description>
@@ -173,11 +168,11 @@
             </attributeReference>
 
             <attribute name="financialDocumentTypeCode" forceUppercase="true">
-                <label>Doc Type Code</label>
+                <label>Document Type Code</label>
                 <shortLabel>Doc. Type Code</shortLabel>
                 <maxLength>4</maxLength>
                 <control>
-                    <text size="5" />
+                    <text size="4" />
                 </control>
                 <summary>Financial document type code.</summary>
                 <description>The code that represents the particular type of document being process, e.g., CR = Cash Receipts, JV = Journal Voucher, and DV = Disbursement Voucher.</description>
@@ -201,7 +196,7 @@
             <attributeReference name="transactionLedgerEntrySequenceNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
 
             <attribute name="transactionLedgerEntryDescription" forceUppercase="false">
-                <label>Description</label>
+                <label>Transaction Ledger Entry Description</label>
                 <shortLabel>Description</shortLabel>
                 <maxLength>40</maxLength>
                 <control>
@@ -212,7 +207,7 @@
             </attribute>
 
             <attributeReference name="transactionLedgerEntryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Ledger Entry Amount</label>
+                <label>Transaction Ledger Entry Amount</label>
                 <shortLabel>Amount</shortLabel>
                 <summary>transactionLedgerEntryAmount</summary>
                 <description>transactionLedgerEntryAmount description...</description>
@@ -220,7 +215,7 @@
             </attributeReference>
 
             <attribute name="transactionDebitCreditCode" forceUppercase="true">
-                <label>D/C</label>
+                <label>Debit Credit Code</label>
                 <shortLabel>D/C</shortLabel>
                 <maxLength>1</maxLength>
                 <control>
@@ -238,7 +233,7 @@
             </attributeReference>
 
             <attribute name="organizationDocumentNumber" forceUppercase="false">
-                <label>Org. Doc. Number</label>
+                <label>Organization Document Number</label>
                 <shortLabel>Org. Doc. Nbr.</shortLabel>
                 <maxLength>10</maxLength>
                 <control>
@@ -251,7 +246,7 @@
             <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code" />
 
             <attribute name="organizationReferenceId" forceUppercase="false">
-                <label>Org Ref ID</label>
+                <label>Organization Reference Id</label>
                 <shortLabel>Org Ref ID</shortLabel>
                 <maxLength>8</maxLength>
                 <control>
@@ -266,7 +261,7 @@
             </attribute>
 
             <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
-                <label>Ref Doc Type Code</label>
+                <label>Reference Document Type Code</label>
                 <shortLabel>Ref Doc Type Code</shortLabel>
                 <maxLength>4</maxLength>
                 <control>
@@ -277,18 +272,18 @@
             </attribute>
 
             <attribute name="referenceFinancialSystemOriginationCode" forceUppercase="false">
-                <label>Ref Origin Code</label>
+                <label>Reference Origin Code</label>
                 <shortLabel>Ref Origin Code</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
-                    <text size="3" />
+                    <text size="2" />
                 </control>
                 <summary>referenceOriginCode</summary>
                 <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
 
             <attribute name="referenceFinancialDocumentNumber" forceUppercase="false">
-                <label>Ref Doc Number</label>
+                <label>Reference Document Number</label>
                 <shortLabel>Ref Doc Number</shortLabel>
                 <maxLength>9</maxLength>
                 <control>
@@ -298,7 +293,12 @@
                 <description>Typically the document number for the preceding transaction in the chain of events. Example: for a purchase requistion this would typically be the purchase order number.</description>
             </attribute>
 
-            <attributeReference name="financialDocumentReversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" />
+            <attributeReference name="financialDocumentReversalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Document Reversal Date</label>
+                <shortLabel>Doc. Reversal Date</shortLabel>
+                <summary>documentReversalDate</summary>
+                <description>documentReversalDate description...</description>
+            </attributeReference>
 
             <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
                 <label>Encumbrance Update Code</label>

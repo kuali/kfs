@@ -146,8 +146,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             return abc.findAccountBalanceByConsolidation(universityFiscalYear,chartOfAccountsCode,accountNumber,isExcludeCostShare,isConsolidated,pendingEntriesCode);
         }
         catch (Exception e) {
-            LOG.error("findAccountBalanceByConsolidation() Error getting database connection", e);
-            throw new RuntimeException("Error getting database connection");
+            LOG.error("findAccountBalanceByConsolidation() " + e.getMessage(), e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -166,9 +166,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             return abl.findAccountBalanceByLevel(universityFiscalYear,chartOfAccountsCode,accountNumber,financialConsolidationObjectCode,isCostShareExcluded,isConsolidated,pendingEntriesCode);
         }
         catch (Exception e) {
-            LOG.error("findAccountBalanceByLevel() Error getting database connection", e);
-            throw new RuntimeException("Error getting database connection");
-        }        
+            LOG.error("findAccountBalanceByLevel() " + e.getMessage(), e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     /**
@@ -186,9 +186,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             return abo.findAccountBalanceByObject(universityFiscalYear,chartOfAccountsCode,accountNumber,financialObjectLevelCode,financialReportingSortCode,isCostShareExcluded,isConsolidated,pendingEntriesCode);
         }
         catch (Exception e) {
-            LOG.error("findAccountBalanceByLevel() Error getting database connection", e);
-            throw new RuntimeException("Error getting database connection");
-        }        
+            LOG.error("findAccountBalanceByLevel() " + e.getMessage(), e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     /**

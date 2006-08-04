@@ -22,6 +22,9 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -465,8 +468,8 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
                 }
                 else {
                     String errorKeyPath = Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + Constants.SQUARE_BRACKET_LEFT + Integer.toString(index) + Constants.SQUARE_BRACKET_RIGHT;
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
             }
             else {

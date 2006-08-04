@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
  * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
  * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
@@ -21,6 +21,9 @@
  *
  */
 package org.kuali.module.financial.rules;
+
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.Constants.GL_CREDIT_CODE;
 
 import java.util.List;
 
@@ -353,7 +356,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE);
-        explicitEntry.setTransactionDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
+        explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
 
         if (dvDocument.getDvWireTransfer().isDisbVchrForeignBankIndicator()) {
             explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getForeignChargeAmt());
@@ -407,7 +410,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         objectCode = (ObjectCode) SpringServiceLocator.getBusinessObjectService().retrieve(objectCode);
 
         explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        explicitEntry.setTransactionDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT);
+        explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
 
         // TODO: get sufficient funds object code
 
@@ -1356,7 +1359,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
 
         // always credit
-        String debitCreditCode = Constants.GL_CREDIT_CODE;
+        String debitCreditCode = GL_CREDIT_CODE;
         String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
         item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
 

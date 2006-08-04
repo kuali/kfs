@@ -22,6 +22,11 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.Constants.NEGATIVE_ONE;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +62,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      */
     @Override
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
+        offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         return true;
     }
 
@@ -69,7 +74,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
+        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         if (isExpense(accountingLine)) {
             explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.TRANSFER_EXPENSE);
         }
@@ -299,19 +304,19 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
         if (isExpense(accountingLine) || isIncome(accountingLine) || isAsset(accountingLine) || isLiability(accountingLine)) {
             if (accountingLine.getAmount().isPositive()) {
                 if (accountingLine.isSourceAccountingLine()) {
-                    offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
+                    offsetDebitCreditCode = GL_CREDIT_CODE;
                 }
                 else {
-                    offsetDebitCreditCode = Constants.GL_DEBIT_CODE;
+                    offsetDebitCreditCode = GL_DEBIT_CODE;
                 }
             }
             else {
-                lineAmount = lineAmount.multiply(new KualiDecimal(Constants.NEGATIVE_ONE));
+                lineAmount = lineAmount.multiply(new KualiDecimal(NEGATIVE_ONE));
                 if (accountingLine.isSourceAccountingLine()) {
-                    offsetDebitCreditCode = Constants.GL_DEBIT_CODE;
+                    offsetDebitCreditCode = GL_DEBIT_CODE;
                 }
                 else {
-                    offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
+                    offsetDebitCreditCode = GL_CREDIT_CODE;
                 }
             }
 

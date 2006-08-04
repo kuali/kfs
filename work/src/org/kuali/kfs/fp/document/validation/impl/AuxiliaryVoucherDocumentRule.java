@@ -29,8 +29,10 @@ import static org.kuali.Constants.AUXILIARY_LINE_HELPER_PROPERTY_NAME;
 import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.DOCUMENT_ERRORS;
-import static org.kuali.Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
@@ -81,7 +83,6 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
@@ -181,7 +182,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         }
         else if (amount.isNegative()) { // entered a negative number
             String debitCreditCode = accountingLine.getDebitCreditCode();
-            if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
+            if (StringUtils.isNotBlank(debitCreditCode) && GL_DEBIT_CODE.equals(debitCreditCode)) {
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
             else {
@@ -218,10 +219,10 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true), SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
             String indexWithParams = SQUARE_BRACKET_LEFT + index + SQUARE_BRACKET_RIGHT;
             if (isDebit) {
-                return AUXILIARY_LINE_HELPER_PROPERTY_NAME + indexWithParams + JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+                return AUXILIARY_LINE_HELPER_PROPERTY_NAME + indexWithParams + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
             }
             else {
-                return AUXILIARY_LINE_HELPER_PROPERTY_NAME + indexWithParams + JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+                return AUXILIARY_LINE_HELPER_PROPERTY_NAME + indexWithParams + VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
             }
         }
     }
@@ -246,7 +247,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         } else {
             explicitEntry.setFinancialDocumentReversalDate(null);
         }
-        explicitEntry.setFinancialDocumentTypeCode(getDocumentTypeCodeBasedOnVoucherTypeCode(auxVoucher)); // make sure to use the accrual type as the document type
+        explicitEntry.setFinancialDocumentTypeCode(auxVoucher.getTypeCode()); // make sure to use the accrual type as the document type
         explicitEntry.setFinancialObjectTypeCode(getObjectTypeCode(accountingLine));
         explicitEntry.setUniversityFiscalPeriodCode(auxVoucher.getPostingPeriodCode()); // use chosen posting period code
         explicitEntry.setUniversityFiscalYear(auxVoucher.getPostingYear()); // use chosen posting year
@@ -382,8 +383,8 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         offsetEntry.setFinancialDocumentReversalDate(null);
 
         // set the posting period and year to current
-        offsetEntry.setUniversityFiscalPeriodCode(null); // GL will assign to current automatically
-        offsetEntry.setUniversityFiscalYear(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+        offsetEntry.setUniversityFiscalPeriodCode(auxDoc.getPostingPeriodCode()); // use chosen posting period code
+        offsetEntry.setUniversityFiscalYear(auxDoc.getPostingYear()); // use chosen posting year
 
         // although they are offsets, we need to set the offset indicator to false
         offsetEntry.setTransactionEntryOffsetIndicator(false);
@@ -427,24 +428,6 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         transactionalDocument.getGeneralLedgerPendingEntries().add(recodeGlpe);
 
         return true;
-    }
-
-    /**
-     * This method returns the appropriate voucher type code based on the document passed in.
-     * 
-     * @param document
-     * @return voucher type code (AVAE, AVAD, AVRC)
-     */
-    protected String getDocumentTypeCodeBasedOnVoucherTypeCode(TransactionalDocument document) {
-        AuxiliaryVoucherDocument auxVoucher = (AuxiliaryVoucherDocument) document;
-
-        String voucherType = auxVoucher.getTypeCode();
-
-        if (StringUtils.isBlank(voucherType)) {
-            throw new IllegalStateException("The accrual type for Auxiliary Voucher " + document.getDocumentHeader().getFinancialDocumentNumber() + " is NULL.");
-        }
-
-        return voucherType;
     }
 
     /**
@@ -645,7 +628,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             GeneralLedgerPendingEntry glpe = (GeneralLedgerPendingEntry) i.next();
             // make sure we are looking at only the explicit entries that aren't DI types
             if(!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class))) {
-                if(GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT.equals(glpe.getTransactionDebitCreditCode())) {
+                if(GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
                     creditAmount = creditAmount.add(glpe.getTransactionLedgerEntryAmount());
                 }
                 else { // DEBIT

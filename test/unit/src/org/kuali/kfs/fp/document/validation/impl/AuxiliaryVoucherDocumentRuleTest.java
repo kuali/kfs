@@ -22,6 +22,9 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +35,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
@@ -858,7 +860,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleT
     public void testIsDebit_debitCode() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
-        accountingLine.setDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
+        accountingLine.setDebitCreditCode(GL_DEBIT_CODE);
 
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
@@ -871,7 +873,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleT
     public void testIsDebit_creditCode() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
-        accountingLine.setDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT);
+        accountingLine.setDebitCreditCode(GL_CREDIT_CODE);
 
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
@@ -897,7 +899,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleT
     public void testIsDebit_errorCorrection() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
-        accountingLine.setDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
+        accountingLine.setDebitCreditCode(GL_DEBIT_CODE);
 
         assertTrue(IsDebitTestUtils.isErrorCorrectionIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }

@@ -25,6 +25,8 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -410,7 +412,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         targetLine.setFinancialSubObjectCode(transaction.getFinancialSubObjectCode());
         targetLine.setProjectCode(transaction.getProjectCode());
 
-        if (TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT.equals(transaction.getTransactionDebitCreditCode())) {
+        if (GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
             targetLine.setAmount(transaction.getFinancialDocumentTotalAmount().negated());
         }
         else {
@@ -439,7 +441,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         sourceLine.setFinancialSubObjectCode("");
         sourceLine.setProjectCode("");
 
-        if (TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT.equals(transaction.getTransactionDebitCreditCode())) {
+        if (GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
             sourceLine.setAmount(transaction.getFinancialDocumentTotalAmount().negated());
         }
         else {

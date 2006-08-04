@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import static org.kuali.Constants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 import org.kuali.KeyConstants;
 import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
@@ -187,7 +188,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
      */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.PRE_ENCUMBRANCE);
+        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_PRE_ENCUMBRANCE);
 
         // set the reversal date to what was chosen by the user in the interface
         PreEncumbranceDocument peDoc = (PreEncumbranceDocument) transactionalDocument;

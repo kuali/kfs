@@ -1390,7 +1390,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
         if (transactionalDocument instanceof DisbursementVoucherDocument) {
             // special case - dv NRA tax accounts can be negative, and are debits if positive
-            if (((DisbursementVoucherDocument) transactionalDocument).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(accountingLine.getSequenceNumber().toString())) {
+            DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) transactionalDocument;
+            
+            if (dvDoc.getDvNonResidentAlienTax() != null 
+                    && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null 
+                    && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(accountingLine.getSequenceNumber().toString())) {
                 return accountingLine.getAmount().isPositive();
             }
         }

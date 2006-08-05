@@ -230,7 +230,6 @@
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.deploy.dir}" includes="${cas.application}-*/**" />
 		</delete>
-		<delete dir="${cas.security.directory}" failonerror="false" />
 	</target>
 	
 	<!-- wrapper based on naming convention required by workflow build script -->
@@ -304,13 +303,6 @@
 				<filter token="local-plugin-classes" value="${local.plugin.classes.token}"/>
 				<filter token="local-plugin-lib" value="${local.plugin.lib.token}"/>
 			</filterset>
-		</copy>
-	</target>
-
-	<target name="filter-cas-local" if="dist.cas.local" depends="init-filter-sets,clean-cas-local">
-		<copy todir="${cas.security.directory}" overwrite="true">
-			<fileset dir="${build.cas.security.directory}" />
-			<filterset refid="security.filterset" />
 		</copy>
 	</target>
 
@@ -414,16 +406,26 @@
 		</copy>
 	</target>
 	
-	<target name="dist-cas-local" if="dist.cas.local" depends="filter-cas-local">
-		<copy file="${build.cas.appserver.directory}/${cas.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
+	<target name="dist-cas-local" if="dist.cas.local" depends="init-filter-sets,clean-cas-local">
+		<property name="temp.directory" value="temp" />
+		<mkdir dir="${temp.directory}"/>
+		<unjar src="${build.cas.appserver.directory}/${cas.application}-${build.environment}.war" dest="${temp.directory}" />
+		<copy file="${build.cas.appserver.directory}/${tomcat.context.file}" todir="${temp.directory}/META-INF" overwrite="true">
+			<filterset>
+				<filter token="environment" value="${build.environment}" />
+				<filter token="datasource-file" value="${security.directory}/cas-datasource.xml" />
+			</filterset>
+		</copy>
+		<jar jarfile="${temp.directory}/${cas.application}-${build.environment}.war" basedir="${temp.directory}"  />
+		<copy file="${temp.directory}/${cas.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
+		<delete dir="${temp.directory}" />
 	</target>
 
 	<target name="continuous-integration" depends="test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 
-	<!-- don't forget to temporarily change 3 props in the plugin dev tokens file, till we move to 2.2 -->
-	<target name="update-workflow-war" depends="init-project-properties">
+	<target name="update-workflow" depends="init-project-properties">
 		<ant dir="${workflow.project.directory}" target="clean"/>
 		<ant dir="${workflow.project.directory}" target="dist">
 			<property name="workflow.environment" value="${build.environment}" />
@@ -431,13 +433,18 @@
 			<property name="plugin.dir" value="${basedir}" />
 			<property name="institution" value="${ant.project.name}" />
 		</ant>
-		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.appserver.directory}" />
+		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.appserver.directory}" overwrite="true" />
+	</target>
+	
+	<target name="update-cas" depends="init-project-properties">
+		<ant dir="${cas.project.directory}" target="dist" inheritall="false"/>
+		<copy file="${cas.project.directory}/${cas.metainf.directory}/${tomcat.context.file}" todir="${build.cas.appserver.directory}" overwrite="true" />
+		<copy file="${cas.project.directory}/${cas.application}-${build.environment}.war" todir="${build.cas.appserver.directory}" />
 	</target>
 
-	<target name="make-zips" depends="filter-local,filter-workflow-local,filter-cas-local">
+	<target name="make-zips" depends="filter-local,filter-workflow-local">
 		<zip destfile="settings.zip" basedir="${settings.directory}" />
 		<zip destfile="security.zip" basedir="${security.directory}" />
-		<!--<zip destfile="cas-security.zip" basedir="${cas.security.directory}" />-->
 	</target>
 
 	<target name="help" description="Describe public targets">

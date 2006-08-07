@@ -588,4 +588,12 @@ public class Chart extends BusinessObjectBase {
     public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
         this.reportsToChartOfAccountsCode = reportsToChartOfAccountsCode;
     }
+    
+    /**
+     * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
+     */
+    public String getCodeAndDescription() {
+        String theString = getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
+        return theString ;    }
+    
 }

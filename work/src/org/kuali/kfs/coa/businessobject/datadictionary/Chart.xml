@@ -89,6 +89,21 @@
                 <description>The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.</description>
             </attribute>
 
+            <attribute name="codeAndDescription" forceUppercase="true">
+                <label>Chart Code</label>
+                <shortLabel>Chart Code</shortLabel>
+
+                <maxLength>43</maxLength>
+
+                <control>
+                    <text size="43" />
+                </control>
+
+                <summary>Chart Code</summary>
+                <description>Chart Code</description>
+
+            </attribute>
+
             <attributeReference name="finCoaManagerUniversalId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Chart Manager Employee Id</label>
                 <shortLabel>Chart Manager</shortLabel>

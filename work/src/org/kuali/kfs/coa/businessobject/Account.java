@@ -103,6 +103,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     private String indirectCostRecoveryAcctNbr;
 
     private Chart chartOfAccounts;
+    private Chart endowmentIncomeChartOfAccounts;
     private Org organization;
     private AcctType accountType;
     private Campus accountPhysicalCampus;
@@ -1753,6 +1754,22 @@ public class Account extends BusinessObjectBase implements AccountIntf {
      */
     public String getGuidelinesAndPurposeSectionBlank() {
         return guidelinesAndPurposeSectionBlank;
+    }
+
+    /**
+     * Gets the endowmentIncomeChartOfAccounts attribute. 
+     * @return Returns the endowmentIncomeChartOfAccounts.
+     */
+    public Chart getEndowmentIncomeChartOfAccounts() {
+        return endowmentIncomeChartOfAccounts;
+    }
+
+    /**
+     * Sets the endowmentIncomeChartOfAccounts attribute value.
+     * @param endowmentIncomeChartOfAccounts The endowmentIncomeChartOfAccounts to set.
+     */
+    public void setEndowmentIncomeChartOfAccounts(Chart endowmentIncomeChartOfAccounts) {
+        this.endowmentIncomeChartOfAccounts = endowmentIncomeChartOfAccounts;
     }
 
 }

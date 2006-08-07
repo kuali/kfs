@@ -195,6 +195,14 @@ public class HigherEdFunction extends BusinessObjectBase {
     public void setAicpaFunction(AicpaFunction aicpaFunction) {
         this.aicpaFunction = aicpaFunction;
     }
+    
+    /**
+     * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
+     */
+    public String getCodeAndDescription() {
+        String theString = getFinancialHigherEdFunctionCd() + " - " + getFinancialHigherEdFunctionNm();
+        return theString ;    }
+
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

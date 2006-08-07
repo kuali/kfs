@@ -80,6 +80,21 @@
                 <description>Higher Education Function Name...</description>
             </attribute>
 
+            <attribute name="codeAndDescription" forceUppercase="true">
+                <label>Higher Education Function Code</label>
+                <shortLabel>Higher Education Function Code</shortLabel>
+
+                <maxLength>45</maxLength>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>Higher Education Function Code</summary>
+                <description>Higher Education Function Code</description>
+
+            </attribute>
+
             <attribute name="finUnivBdgtOfficeFunctionCd" forceUppercase="true">
                 <label>University Budget Office Function Code</label>
                 <shortLabel>UBO</shortLabel>

@@ -954,6 +954,13 @@ public class Org extends BusinessObjectBase {
         return equal;
     }
     
+    /**
+     * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
+     */
+    public String getCodeAndDescription() {
+        String theString = getOrganizationCode() + " - " + getOrganizationName();
+        return theString ;    }
+    
    /**
     * @see java.lang.Object#hashCode()
     */

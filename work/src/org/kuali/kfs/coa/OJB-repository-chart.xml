@@ -102,6 +102,10 @@
         <foreignkey field-ref="endowmentIncomeAccountNumber" />
     </reference-descriptor>
 
+    <reference-descriptor name="endowmentIncomeChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
+    </reference-descriptor>
+
     <reference-descriptor name="contractControlAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="contractControlFinCoaCode" />
         <foreignkey field-ref="contractControlAccountNumber" />

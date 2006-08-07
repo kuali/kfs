@@ -155,6 +155,23 @@
                 </description>
             </attribute>
 
+
+            <attribute name="codeAndDescription" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Org Code</shortLabel>
+
+                <maxLength>45</maxLength>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>Organization Code</summary>
+                <description>Organization Code</description>
+
+            </attribute>
+
+
             <attributeReference name="organizationManagerUniversalId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
                 <label>Organization Manager UserID</label>
                 <shortLabel>Manager UserID</shortLabel>

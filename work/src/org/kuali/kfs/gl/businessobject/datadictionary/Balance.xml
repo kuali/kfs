@@ -23,7 +23,7 @@
 
         <lookup>
             <lookupableID>glBalanceLookupable</lookupableID>
-            <title>General Ledger Balance</title>
+            <title>General Ledger Balance Lookup</title>
             <instructions>Lookup General Ledger balance for the specific accounts.</instructions>
 
             <defaultSort attributeName="accountNumber" />

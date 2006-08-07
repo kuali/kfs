@@ -18,7 +18,7 @@
 
         <lookup>
             <lookupableID>glCashBalanceLookupable</lookupableID>
-            <title>Cash Balance</title>
+            <title>Cash Balance Lookup</title>
             <instructions>Lookup Cash Balance for the specific account.</instructions>
 
             <defaultSort attributeName="accountNumber" />

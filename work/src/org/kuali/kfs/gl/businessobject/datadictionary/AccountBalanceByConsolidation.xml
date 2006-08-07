@@ -7,7 +7,7 @@
     <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByConsolidation">
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
-            <title>Available Balances Lookup By Consolidation</title>
+            <title>Balances By Consolidation</title>
             <inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
@@ -24,7 +24,7 @@
 
         <lookup>
             <lookupableID>glAccountBalanceByConsolidationLookupable</lookupableID>
-            <title>Available Account Balance By Consolidation</title>
+            <title>Balances By Consolidation Lookup</title>
 
             <instructions>Lookup Available Account Balance for the specific account.</instructions>
             <defaultSort attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />

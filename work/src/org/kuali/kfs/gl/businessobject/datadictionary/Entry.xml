@@ -6,7 +6,7 @@
     <businessObject businessObjectClass="org.kuali.module.gl.bo.Entry">
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
-            <title>Entry Inquiry</title>
+            <title>General Ledger Entry</title>
             <inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />

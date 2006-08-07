@@ -68,6 +68,9 @@
                 <lookupField attributeName="financialDocumentNumber" />
                 <lookupField attributeName="organizationDocumentNumber" />
 
+                <lookupField attributeName="projectCode" />
+                <lookupField attributeName="organizationReferenceId" />
+
                 <lookupField attributeName="referenceFinancialSystemOriginationCode" />
                 <lookupField attributeName="referenceFinancialDocumentTypeCode" />
                 <lookupField attributeName="referenceFinancialDocumentNumber" />

@@ -32,6 +32,7 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowFunctionResolver;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
 
@@ -43,6 +44,8 @@ import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
  */
 public class KualiWorkflowUtils {
 
+    private static final String XPATH_ROUTE_CONTEXT_KEY = "_xpathKey"; 
+    
     /**
      * 
      * This method sets up the XPath with the correct workflow namespace and resolver initialized. This ensures that the XPath
@@ -53,13 +56,24 @@ public class KualiWorkflowUtils {
      * 
      */
     public final static XPath getXPath(Document document) {
-        XPath xpath;
-        xpath = XPathFactory.newInstance().newXPath();
+        XPath xpath = getXPath(RouteContext.getCurrentRouteContext());
+//        xpath = XPathFactory.newInstance().newXPath();
         xpath.setNamespaceContext(new WorkflowNamespaceContext());
         WorkflowFunctionResolver resolver = new WorkflowFunctionResolver();
+        resolver.setXpath(xpath);
         resolver.setRootNode(document);
         xpath.setXPathFunctionResolver(resolver);
         return xpath;
+    }
+    
+    public final static XPath getXPath(RouteContext routeContext) {
+        if (routeContext == null) {
+            return XPathFactory.newInstance().newXPath();
+        }
+        if (! routeContext.getParameters().containsKey(XPATH_ROUTE_CONTEXT_KEY)) {
+            routeContext.getParameters().put(XPATH_ROUTE_CONTEXT_KEY, XPathFactory.newInstance().newXPath());
+        }
+        return (XPath)routeContext.getParameters().get(XPATH_ROUTE_CONTEXT_KEY);
     }
 
     /**

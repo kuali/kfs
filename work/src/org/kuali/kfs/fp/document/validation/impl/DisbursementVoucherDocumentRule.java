@@ -661,7 +661,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
         paidAmount = paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
-            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
+            errors.putErrorWithoutFullErrorPath(Constants.DV_CHECK_TRAVEL_TOTAL_ERROR, KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
         
 

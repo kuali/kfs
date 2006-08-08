@@ -426,14 +426,29 @@
 	</target>
 
 	<target name="update-workflow" depends="init-project-properties">
-		<ant dir="${workflow.project.directory}" target="clean"/>
-		<ant dir="${workflow.project.directory}" target="dist">
+		<ant dir="${workflow.project.directory}" target="clean" inheritall="false"/>
+		<ant dir="${workflow.project.directory}" target="dist" inheritall="false">
 			<property name="workflow.environment" value="${build.environment}" />
 			<property name="tomcat5.home" value="${appserver.home}" />
 			<property name="plugin.dir" value="${basedir}" />
 			<property name="institution" value="${ant.project.name}" />
 		</ant>
 		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.appserver.directory}" overwrite="true" />
+		<ant dir="${workflow.project.directory}" target="dist-client-not-iu" inheritall="false">
+			<property name="workflow.environment" value="${build.environment}" />
+			<property name="tomcat5.home" value="${appserver.home}" />
+			<property name="plugin.dir" value="${basedir}" />
+			<property name="institution" value="${ant.project.name}" />
+		</ant>
+		<copy file="${workflow.project.directory}/dist/workflow-client-2.2.2.jar" todir="${lib.directory}" overwrite="true" />
+		<ant dir="${workflow.project.directory}" target="bundle-workflow" inheritall="false">
+			<property name="workflow.environment" value="${build.environment}" />
+			<property name="tomcat5.home" value="${appserver.home}" />
+			<property name="plugin.dir" value="${basedir}" />
+			<property name="institution" value="${ant.project.name}" />
+			<property name="src.dist.loc" value="${workflow.project.directory}/dist" />
+		</ant>
+		<copy file="${workflow.project.directory}/dist/workflow_2.2.2.zip" todir="${dependencies.project.directory}" overwrite="true"/>
 	</target>
 	
 	<target name="update-cas" depends="init-project-properties">

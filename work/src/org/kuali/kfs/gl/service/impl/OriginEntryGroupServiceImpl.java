@@ -39,7 +39,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.20 2006-07-05 23:45:27 schoo Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.21 2006-08-08 00:39:12 schoo Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -138,6 +138,14 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
         return null;
     }
+    
+    public Collection getAllOriginEntryGroup(){
+        LOG.debug("getAllOriginEntryGroup() started");
+        Map criteria = new HashMap();
+
+        return originEntryGroupDao.getMatchingGroups(criteria);
+    }
+    
 
     /**
      * Create a new OriginEntryGroup and persist it to the database.
@@ -221,7 +229,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     }
     
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id){
-        return originEntryGroupDao.getExactMatchingEntryGroup(id);
+        OriginEntryGroup oeg = null;
+        try {oeg = originEntryGroupDao.getExactMatchingEntryGroup(id);}
+        catch (Exception e){
+            
+        }
+        return oeg;
         
     }
 }

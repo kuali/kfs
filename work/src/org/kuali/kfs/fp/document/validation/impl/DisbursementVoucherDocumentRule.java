@@ -657,7 +657,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         /* total on nonemployee travel must equal Check Total */
         /* if tax has been take out, need to add back in the tax amount for the check */
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
-        paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
+        paidAmount = paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
             errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
@@ -802,7 +802,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         /* total on prepaid travel must equal Check Total */
         /* if tax has been take out, need to add back in the tax amount for the check */
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
-        paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
+        paidAmount = paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(document.getDvPreConferenceDetail().getDisbVchrConferenceTotalAmt()) != 0) {
             errors.putErrorWithoutFullErrorPath(Constants.GENERAL_PREPAID_TAB_ERRORS, KeyConstants.ERROR_DV_PREPAID_CHECK_TOTAL);
         }

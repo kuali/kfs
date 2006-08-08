@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.Constants.SF_TYPE_CASH_AT_ACCOUNT;
 import static org.kuali.Constants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.TARGET_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
@@ -60,6 +62,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.document.TransactionalDocument;
@@ -80,6 +83,7 @@ import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to Budget Adjustment Card document.
@@ -87,7 +91,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
-    
+
     private static final String INCOME_STREAM_CHART_ACCOUNT_DELIMITER = "|";
 
     /**
@@ -98,9 +102,9 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         boolean allow = true;
         BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
-        
+
         LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
-        
+
         /* if they have entered a base amount for line, verify it can be adjusted for the posting year */
         if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero() && !SpringServiceLocator.getFiscalYearFunctionControlService().isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) transactionalDocument).getPostingYear())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNT_CHANGE_NOT_ALLOWED);
@@ -464,7 +468,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 break;
             }
         }
-        
+
         String fundLabel = AccountingLineRuleUtil.getFundGroupCodeLabel();
         String subFundLabel = AccountingLineRuleUtil.getSubFundGroupCodeLabel();
         String chartLabel = AccountingLineRuleUtil.getChartLabel();
@@ -550,9 +554,9 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         boolean objectCodeAllowed = true;
-        
+
         String errorKey = PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
-        
+
         /* check object sub type global restrictions */
         objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
 
@@ -821,6 +825,74 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     }
 
     /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine) performs sf check on current change amount if not 0 and account sf code is not
+     *      cash
+     */
+    @Override
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+        BudgetAdjustmentSourceAccountingLine baSourceLine = (BudgetAdjustmentSourceAccountingLine) sourceAccountingLine;
+        SufficientFundsItem item = null;
+
+        if (baSourceLine.getCurrentBudgetAdjustmentAmount().isNonZero()) {
+            String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
+            String accountNumber = sourceAccountingLine.getAccountNumber();
+            String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
+            String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
+            String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
+            // negate amount since this is the decrease side
+            KualiDecimal lineAmount = baSourceLine.getCurrentBudgetAdjustmentAmount().negated();
+            Integer fiscalYear = sourceAccountingLine.getPostingYear();
+            String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
+
+            if (!SF_TYPE_CASH_AT_ACCOUNT.equals(accountSufficientFundsCode)) {
+                // always set to debit
+                String debitCreditCode = GL_DEBIT_CODE;
+                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+                item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+            }
+        }
+
+        return item;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine) performs sf check on current change amount if not 0 and account sf code is not
+     *      cash
+     *      
+     *      The to (or increase side) is checked for the case of error corrections
+     */
+    @Override
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+        BudgetAdjustmentTargetAccountingLine baTargetLine = (BudgetAdjustmentTargetAccountingLine) targetAccountingLine;
+        SufficientFundsItem item = null;
+
+        if (baTargetLine.getCurrentBudgetAdjustmentAmount().isNonZero()) {
+            String chartOfAccountsCode = targetAccountingLine.getChartOfAccountsCode();
+            String accountNumber = targetAccountingLine.getAccountNumber();
+            String accountSufficientFundsCode = targetAccountingLine.getAccount().getAccountSufficientFundsCode();
+            String financialObjectCode = targetAccountingLine.getFinancialObjectCode();
+            String financialObjectLevelCode = targetAccountingLine.getObjectCode().getFinancialObjectLevelCode();
+
+            KualiDecimal lineAmount = baTargetLine.getCurrentBudgetAdjustmentAmount();
+            Integer fiscalYear = targetAccountingLine.getPostingYear();
+            String financialObjectTypeCode = targetAccountingLine.getObjectTypeCode();
+
+            if (!SF_TYPE_CASH_AT_ACCOUNT.equals(accountSufficientFundsCode)) {
+                // always set to debit
+                String debitCreditCode = GL_DEBIT_CODE;
+                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+                item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+            }
+        }
+
+        return item;
+    }
+
+    /**
      * This method builds out the error message for when totals have changed.
      * 
      * @param propertyName
@@ -834,7 +906,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
         GlobalVariables.getErrorMap().putError(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
     }
-    
+
     /**
      * @return the document type name to be used for the income stream transfer glpe
      */

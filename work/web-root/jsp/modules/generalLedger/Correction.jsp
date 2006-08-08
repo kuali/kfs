@@ -11,11 +11,131 @@
 	<kul:tab tabTitle="Correction Process" defaultOpen="true" tabErrorKey="Correction Process">
  	
  	
- 	
- 	<c:if test="${KualiForm.groupIdList != null}" >  
- 	 
+
+	<!-- result -->
+   <c:if test="${KualiForm.rowsOutput != '0'}" >  
+   
+   <div class="tab-container" align="center"> 
+	         <table cellpadding=0 class="datatable" summary=""> 
+             <tr>
+                <td align="left" valign="middle" class="subhead"><span class="subhead-left">Correction Result</span></td>
+             </tr>
+             <tr> 
+             	<td>
+             Total Debits/Blanks:  <c:out value="${KualiForm.totalDebitsOrBlanks}" /> <br/>
+             Total Credits: 	 <c:out value="${KualiForm.totalCredits}" /> 	<br/>
+             Rows output	 <c:out value="${KualiForm.rowsOutput}" /> 			<br/>
+             	</td>
+             </tr>
+   			</table>
+   	</div>
+   
+   </c:if>
+   
+   
+
+
  
-    <!--  Search Results Control -->
+ 	
+ 	<%-- for display --%>
+ 	<c:if test="${KualiForm.command !='displayDocSearchView'}">
+ 	
+ 	
+ 	
+ 	<div class="tab-container" align="center" >
+      
+    	<table cellpadding=0 class="datatable" summary=""> 
+        	  <tr>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Select System and Edit Method</td>
+         	  </tr>
+	    		<tr>
+     	 			<td>
+		     			<center>
+							<html:select property="chooseSystem">
+							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
+							</html:select>
+               
+      					    <html:select property="editMethod">
+							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionEditMethodValuesFinder" label="label" value="key"/>
+							</html:select>
+							
+							<html:image property="methodToCall.chooseMainDropdown.anchor${currentTabIndex}" 
+										src="images/tinybutton-select.gif" styleClass="tinybutton" alt="chooseMainDropdown" />
+		   				  </center>
+    				  </td>
+	  			</tr>
+		</table>
+ 	</div>
+ 	
+ 	
+<c:if test="${KualiForm.chooseSystem == 'system'}" >
+      	
+          <div class="tab-container" align="center"> 
+            <table cellpadding=0 class="datatable" summary="">
+            
+            <tr>
+	             <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Documents in System</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
+                    <center>
+                        <label for="pending-origin-entry-group-id"><strong>Origin Entry Group</strong></label><br/><br/>
+                        
+                        <html:select property="groupIdList" size="10" >
+							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionGroupEntriesFinder" label="label" value="key" />
+						</html:select>
+                        
+                        
+                        
+                        <br/><br/>  
+
+
+	   	    	         	 <html:image property="methodToCall.readDocument.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-loaddoc.gif" styleClass="tinybutton" alt="ShowAllEntriesForManualEdit" />
+			               	
+							Copy To Desktop 
+							<html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-copy2.gif" styleClass="tinybutton" alt="saveToDeskTop" onclick="excludeSubmitRestriction=true" />
+							Delete Document
+							<html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="deleteDocument" />
+						       
+			         
+                    </center>
+                </td>
+            </tr>
+        </table> 
+    
+ 	</div>
+
+</c:if>
+
+
+ 	 <c:if test="${KualiForm.chooseSystem == 'file'}" >
+   		 <!--  File upload control -->
+   			 <div class="tab-container" align="center"> 
+    
+     		   <div class="h2-container">
+    		   	 <h2>Corrections File Upload</h2>
+    	       </div>
+      		  <table cellpadding=0 class="datatable" summary=""> 
+ 	           	<tr>
+    	            <td class="bord-l-b" style="padding: 4px;">
+        	        
+        	        
+        	        <html:file size="30" property="sourceFile" />
+        	        <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="images/tinybutton-loaddoc.gif"
+                                    styleClass="tinybutton" alt="uploadFile" />
+        	     	</td>	    	    
+               	</tr>
+	        	</table>
+   			 </div>
+    </c:if>
+ 
+	
+  <!--  Search Results Control -->
+ 	<c:if test="${KualiForm.chooseSystem != null && KualiForm.editMethod !=null}" >   
+	
 	<div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">
       
             <table cellpadding=0 class="datatable" summary=""> 
@@ -29,16 +149,17 @@
 					                    
 					<display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${KualiForm.allEntries}" id="allEntries" pagesize="10"
                       requestURI="generalLedgerCorrection.do?methodToCall=viewResults&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
-             		  
-             <%--		 <display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${reqSearchResults}" id="allEntries" > --%>
-
+        
 	             		   <c:choose>
         	     			<c:when test="${KualiForm.editableFlag == 'Y'}">
              		    		<display:column title="Manual Edit" >
-             		    		    	 <input type="image" name="methodToCall.showOneEntry" value="${allEntries.entryId}"
-			    			               src="images/tinybutton-edit1.gif" alt="edit" class="tinybutton" />
-				           		          <input type="image" name="methodToCall.deleteEntry" value="${allEntries.entryId}"
-			    			               src="images/tinybutton-delete1.gif" alt="delete" class="tinybutton" />
+             		    		
+             		    				<html:image property="methodToCall.showOneEntry.anchor${currentTabIndex}" value="${allEntries.entryId}" 
+             		    						src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" />
+		   								
+		   								<html:image property="methodToCall.deleteEntry.anchor${currentTabIndex}" value="${allEntries.entryId}" 
+             		    						src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+             		    				
 			           		    	</display:column>
 			           		     
 			          			</c:when>
@@ -108,46 +229,26 @@
               	  <td>
               	  	<c:if test="${KualiForm.manualEditFlag == 'Y'}" >           
                       	<STRONG> Do you want to edit this document? </STRONG>
-                      	 <input type="image" name="methodToCall.showEditMethod" 
-			                   src="images/tinybutton-edit1.gif" alt="show edit" class="tinybutton" />
-           			</c:if>
+                    	  	<html:image property="methodToCall.showEditMethod.anchor${currentTabIndex}" src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="show edit" />
+		   			</c:if>
            			<c:if test="${KualiForm.deleteFileFlag == 'Y'}" >
            				<STRONG> Do you want to delete this document? </STRONG>
-                      	 <input type="image" name="methodToCall.deleteDocument" 
-			                   src="images/tinybutton-delete1.gif" alt="show edit" class="tinybutton" />
+           				<html:image property="methodToCall.deleteDocument.anchor${currentTabIndex}"
+             		    						src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="deleteDocument" />
            			</c:if>
            			
            		  </td>
        		 </table>
        	</div>
 
-	</c:if>
-<!-- result -->
- 
-          
-   <c:if test="${KualiForm.rowsOutput != '0'}" >  
-   
-   <div class="tab-container" align="center"> 
-	         <table cellpadding=0 class="datatable" summary=""> 
-             <tr>
-                <td align="left" valign="middle" class="subhead"><span class="subhead-left">Correction Result</span></td>
-             </tr>
-             <tr> 
-             	<td>
-             Total Debits/Blanks:  <c:out value="${KualiForm.totalDebitsOrBlanks}" /> <br/>
-             Total Credits: 	 <c:out value="${KualiForm.totalCredits}" /> 	<br/>
-             Rows output	 <c:out value="${KualiForm.rowsOutput}" /> 			<br/>
-             	</td>
-             </tr>
-   			</table>
-   	</div>
-   
-   </c:if>
-   
-   
-
-
- <c:if test="${KualiForm.editMethod == 'manual'}" >        	
+	</c:if> 
+            
+            
+            
+            
+            
+            
+<c:if test="${KualiForm.editMethod == 'manual'}" >        	
       <div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">
       
             <table cellpadding=0 class="datatable" summary=""> 
@@ -159,113 +260,87 @@
    			<display:table id="eachEntryForManualEdit" name="${KualiForm.eachEntryForManualEdit}" requestURIcontext="false"  >
 	   			
 	   			<display:column title="Manual Edit" >
-	   				<input size="5" type="image" name="methodToCall.editEntry" value="${eachEntryForManualEdit.entryId}"
-				           src="images/tinybutton-saveedits.gif" alt="Edit an Entry" class="tinybutton" />
-	   			</display:column>
+	   			
+	   			<html:image property="methodToCall.editEntry.anchor${currentTabIndex}" value="${eachEntryForManualEdit.entryId}"
+  						src="images/tinybutton-saveedits.gif" styleClass="tinybutton" alt="EditAnEntry" />
+             	</display:column>
 	   			<display:column title="Fiscal Year" >
-					<input size="4" type="text" name="editUniversityFiscalYear"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.universityFiscalYear}" />">
-				</display:column>
+		   			<html:text property="eachEntryForManualEdit.universityFiscalYear" size="5"  />
+	   			</display:column>
 				<display:column title="Budget Year" >
-					<input size="7" type="text" name="editBudgetYear"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.budgetYear}" />">
+		   			<html:text property="eachEntryForManualEdit.budgetYear" size="7"  />
 				</display:column>
 	   			<display:column title="Chart Code" >
-					<input size="5" type="text" name="editChartOfAccountsCode"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.chartOfAccountsCode}" />">
+		   			<html:text property="eachEntryForManualEdit.chartOfAccountsCode" size="5"  />
 				</display:column>
 				<display:column title="Account Number" >
-   					<input size="7" type="text" name="editAccountNumber"
-                	       value="<c:out value="${KualiForm.eachEntryForManualEdit.accountNumber}" />">
+   		   			<html:text property="eachEntryForManualEdit.accountNumber" size="7"  />
         	    </display:column>
 				<display:column title="Sub Account Number" >
-					<input size="7" type="text" name="editSubAccountNumber"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.subAccountNumber}" />">
+		   			<html:text property="eachEntryForManualEdit.subAccountNumber" size="7"  />
 				</display:column>
 				<display:column title="Object Code" >
-					<input size="5" type="text" name="editFinancialObjectCode"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.financialObjectCode}" />">
+		   			<html:text property="eachEntryForManualEdit.financialObjectCode" size="5"  />
 				</display:column>
 				<display:column title="Sub Object Code" >
-					<input size="6" type="text" name="editFinancialSubObjectCode"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialSubObjectCode}" />">
+		   			<html:text property="eachEntryForManualEdit.financialSubObjectCode" size="6"  />
 				</display:column>
 				<display:column title="Balance Type" >
-					<input size="8" type="text" name="editFinancialBalanceTypeCode"
-                	       value="<c:out value="${KualiForm.eachEntryForManualEdit.financialBalanceTypeCode}" />">
+		   			<html:text property="eachEntryForManualEdit.financialBalanceTypeCode" size="8"  />
 				</display:column>
 				<display:column title="Object Type" >
-					<input size="6" type="text" name="editFinancialObjectTypeCode"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialObjectTypeCode}" />">
+		   			<html:text property="eachEntryForManualEdit.financialObjectTypeCode" size="6"  />
 				</display:column>
 				<display:column title="Fiscal Period" >
-					<input size="6" type="text" name="editUniversityFiscalPeriodCode"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.universityFiscalPeriodCode}" />">
+		   			<html:text property="eachEntryForManualEdit.universityFiscalPeriodCode" size="6"  />
 				</display:column>
 				<display:column title="Document Type" >
-					<input size="10" type="text" name="editFinancialDocumentTypeCode"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentTypeCode}" />">
+		   			<html:text property="eachEntryForManualEdit.financialDocumentTypeCode" size="10"  />
 				</display:column>
 				<display:column title="Origin Code" >
-					<input size="6" type="text" name="editFinancialSystemOriginationCode"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialSystemOriginationCode}" />">
+		   			<html:text property="eachEntryForManualEdit.financialSystemOriginationCode" size="6"  />
 				</display:column>
 				<display:column title="Document Number" >
-        	    	<input size="9" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+		   			<html:text property="eachEntryForManualEdit.financialDocumentNumber" size="9"  />
         	    </display:column>	
         	    <display:column title="Sequence Number" >
-					<input size="9" type="text" name="editTransactionLedgerEntrySequenceNumber"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntrySequenceNumber}" />">
+		   			<html:text property="eachEntryForManualEdit.transactionLedgerEntrySequenceNumber" size="9"  />
 				</display:column>
 				<display:column title="Description" >
-					<input size="11" type="text" name="editTransactionLedgerEntryDescription"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntryDescription}" />">
+		   			<html:text property="eachEntryForManualEdit.transactionLedgerEntryDescription" size="11"  />
 				</display:column>
 				<display:column title="Amount" >
-					<input size="7" type="text" name="editTransactionLedgerEntryAmount"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntryAmount}" />">
+		   			<html:text property="eachEntryForManualEdit.transactionLedgerEntryAmount" size="7"  />
 				</display:column>
 				<display:column title="Debit Credit Indicator" >
-					<input size="9" type="text" name="editTransactionDebitCreditCode"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionDebitCreditCode}" />">
+		   			<html:text property="eachEntryForManualEdit.transactionDebitCreditCode" size="9"  />
 				</display:column>
 				<display:column title="Transaction Date" >
-					<input size="12" type="text" name="editTransactionDate"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionDate}" />">
+		   			<html:text property="eachEntryForManualEdit.transactionDate" size="12"  />
 				</display:column>
 				<display:column title="Organization Document Number" >
-					<input size="12" type="text" name="editOrganizationDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.organizationDocumentNumber}" />">
+		   			<html:text property="eachEntryForManualEdit.organizationDocumentNumber" size="12"  />
 				</display:column>
 				<display:column title="Project Code" >
-					<input size="7" type="text" name="editProjectCode"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.projectCode}" />">
+		   			<html:text property="eachEntryForManualEdit.projectCode" size="7"  />
 				</display:column>
 				<display:column title="Organization Reference Number" >
-					<input size="13" type="text" name="editOrganizationReferenceId"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.organizationReferenceId}" />">
+		   			<html:text property="eachEntryForManualEdit.organizationReferenceId" size="13"  />
 				</display:column>
-				
 				<display:column title="Reference Document Type" >
-					<input size="10" type="text" name="editReferenceFinancialDocumentTypeCode"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialDocumentTypeCode}" />">
+		   			<html:text property="eachEntryForManualEdit.referenceFinancialDocumentTypeCode" size="10"  />
 				</display:column>
 				<display:column title="Reference Origin Code" >
-					<input size="10" type="text" name="editReferenceFinancialSystemOriginationCode"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialSystemOriginationCode}" />">
+		   			<html:text property="eachEntryForManualEdit.referenceFinancialSystemOriginationCode" size="10"  />
 				</display:column>
 				<display:column title="Reference Document Number" >
-					<input size="9" type="text" name="editReferenceFinancialDocumentNumber"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialDocumentNumber}" />">
+		   			<html:text property="eachEntryForManualEdit.referenceFinancialDocumentNumber" size="9"  />
 				</display:column>
 				<display:column title="Reversal Date" >
-					<input size="8" type="text" name="editFinancialDocumentReversalDate"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentReversalDate}" />">
+		   			<html:text property="eachEntryForManualEdit.financialDocumentReversalDate" size="8"  />
 				</display:column>				
 				<display:column title="Transaction Encumbrance Update Code" >
-					<input size="13" type="text" name="editTransactionEncumbranceUpdateCode"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionEncumbranceUpdateCode}" />">
+		   			<html:text property="eachEntryForManualEdit.transactionEncumbranceUpdateCode" size="13"  />
 				</display:column>
 			</display:table>
                         
@@ -280,154 +355,28 @@
    		
    		<c:if test="${KualiForm.editableFlag == 'Y'}" >   
    			<div align="center" >	
-		    		<input type="checkbox" name="deleteOutput" <c:if test="${deleteOutput == 'on'}"> checked="TRUE"  </c:if> > <STRONG> Delete output file? </STRONG> </input>
-		    </div>
+		   		<html:checkbox property="deleteOutput" title="deleteOutput" /> <STRONG> Process In Batch </STRONG>
+   			</div>
 		    </br>
-   			<%--
-   			<div align="center" >	
-				 <input type="image" name="methodToCall.manualErrorCorrection" 
-		  			      src="images/buttonsmall_errcorr.gif" alt="error correction" class="tinybutton" />
-			</div>
-			
-			--%>
+   			
 		</c:if>  
 	</div>
  </c:if>
       
     
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 	<div class="tab-container" align="center" >
-      
-    	<table cellpadding=0 class="datatable" summary=""> 
-        	  <tr>
-                    <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Select System and Edit Method</td>
-         	  </tr>
-	    		<tr>
-     	 			<td>
-		     			<center>
-							<html:select property="chooseSystem">
-							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
-							</html:select>
-               
-      					    <html:select property="editMethod">
-							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionEditMethodValuesFinder" label="label" value="key"/>
-							</html:select>
-		
-	    		 			<input type="image" name="methodToCall.chooseMainDropdown" 
-                		   			src="images/tinybutton-select.gif" alt="chooseRadio" class="tinybutton" />
-				    	  </center>
-    				  </td>
-	  			</tr>
-		</table>
- 	</div>
- 	<c:if test="${KualiForm.chooseSystem == null && KualiForm.editMethod == null}" >
- 	   <div class="tab-container" align="center"> 
-            <table cellpadding=0 class="datatable" summary="">
+ 	            
             
-            <tr>
-	             <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Previous Error Correction</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
-                    <center>
-                        <label for="pending-origin-entry-group-id"><strong>GLCP Origin Entry Group</strong></label><br/><br/>
-                        
-                        <html:select property="oldDocId" size="10" >
-							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|PreviousGLCPDocuFinder" label="label" value="key" />
-						</html:select>
-                        
-                        
-                        
-                        <br/><br/> 
-                        
-	                        <input type="image" name="methodToCall.showPreviousCorrectionFiles" 
-			                	   src="images/tinybutton-loaddoc.gif" alt="show all entries for manual edit" class="tinybutton" />
-							
-                    </center>
-                </td>
-            </tr>
-        </table> 
-    
- 	</div>
- 	
- 	</c:if>
-
- 	 <c:if test="${KualiForm.chooseSystem == 'file'}" >
-   		 <!--  File upload control -->
-   			 <div class="tab-container" align="center"> 
-    
-     		   <div class="h2-container">
-    		   	 <h2>Corrections File Upload</h2>
-    	       </div>
-      		  <table cellpadding=0 class="datatable" summary=""> 
- 	           	<tr>
-    	            <td class="bord-l-b" style="padding: 4px;">
-        	        
-        	        
-        	        <html:file size="30" property="sourceFile" />
-        	        <html:image property="methodToCall.uploadFile" src="images/tinybutton-loaddoc.gif"
-                                    styleClass="tinybutton" alt="uploadFile" />
-        	     	</td>	    	    
-               	</tr>
-	        	</table>
-   			 </div>
-    </c:if>
- 
-	
+            
+            
+            
+            
+            
+            
+            
             
 
 
-<c:if test="${KualiForm.chooseSystem == 'system'}" >
-      	
-          <div class="tab-container" align="center"> 
-            <table cellpadding=0 class="datatable" summary="">
-            
-            <tr>
-	             <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Documents in System</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
-                    <center>
-                        <label for="pending-origin-entry-group-id"><strong>Origin Entry Group</strong></label><br/><br/>
-                        
-                        <html:select property="groupIdList" size="10" >
-							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionPendingGroupEntriesFinder" label="label" value="key" />
-						</html:select>
-                        
-                        
-                        
-                        <br/><br/>  
 
-
-							
-	                        <input type="image" name="methodToCall.readDocument"  
-			                	   src="images/tinybutton-loaddoc.gif" alt="show all entries for manual edit" class="tinybutton" />
-			               	
-							Copy To Desktop 
-							<input type="image" name="methodToCall.saveToDesktop" 
-									src="images/tinybutton-copy2.gif" alt="saveToDeskTop" class="tinybutton" onclick="excludeSubmitRestriction=true" />
-									
-							Delete Document
-							<input type="image" name="methodToCall.confirmDeleteDocument" 
-									src="images/tinybutton-delete1.gif" alt="deleteDocument" class="tinybutton" />
-							
-			                   
-			                   
-			         
-                    </center>
-                </td>
-            </tr>
-        </table> 
-    
- 	</div>
-
-</c:if>
 
 <c:if test="${KualiForm.editMethod == 'criteria'}" >	
  <div class="tab-container" align="center"> 
@@ -440,32 +389,19 @@
             <tr>
             	<td>
 					<center>
-						<html:checkbox property="deleteOutput" title="deleteOutput"/> <STRONG> Delete output file? </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;
-						<html:checkbox property="matchCriteriaOnly" alt="matchCriteriaOnly"/> <STRONG> Output only recoreds which match criteria? </STRONG>
+						<html:checkbox property="deleteOutput" title="deleteOutput" /> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
+						<html:checkbox property="matchCriteriaOnly" alt="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
 					</center>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<center>
+						<STRONG>Show Output Group<STRONG>
 						
-						<%--
-						<c:if test="${KualiForm.chooseSystem == 'system'}" >	
-	    		   			<input type="image" name="methodToCall.searchAndReplaceWithCriteria" 
-	  				         	  src="images/buttonsmall_errcorr.gif" alt="error correction" class="tinybutton" /> 
-			    	    </c:if>
-				
-		  	            <c:if test="${KualiForm.chooseSystem == 'file'}" >
-							<input type="image" name="methodToCall.fileUploadSearchAndReplaceWithCriteria" 
-				 		       	src="images/buttonsmall_errcorr.gif" alt="error correction" class="tinybutton" />
-						</c:if>	
-						--%>
-				
-				
-						<STRONG>Show Output file<STRONG>
-						<input type="image" name="methodToCall.showOutputFile" 
-								  src="images/tinybutton-show.gif" alt="showOutputFile" class="tinybutton" />
-					
+						<html:image property="methodToCall.showOutputFile.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-show.gif" styleClass="tinybutton" alt="showOutputFile" />
+						
 					</center>
 				</td>
 			</tr>
@@ -492,19 +428,14 @@
             </tr>
             
             
-               <c:forEach var="group" items="${ KualiForm.document.correctionChangeGroup}"> 
+               <c:forEach var="group" items="${KualiForm.document.correctionChangeGroup}"> 
                    <tr>
                        <td colspan="2" align="left" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
                            <strong>Group:</strong> 
-                           
-                           <%--
-                           <c:out value="${groupCounter}" /> 
-                           <c:set var="groupCounter" value="${groupCounter + 1}" />                           
-                           --%>
-                           
-                           <input type="image" 
-                            name="methodToCall.removeCorrectionGroup.group<c:out value="${group.correctionChangeGroupLineNumber}" />" 
-                            src="images/tinybutton-delete1.gif" alt="delete correction group" class="tinybutton" />
+                          		
+                           <html:image property="methodToCall.removeCorrectionGroup.group${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete correction group" />
+	    	              
                        </td>
                    </tr>
                 <tr style="border-bottom: 1px solid #333;"> 
@@ -552,10 +483,12 @@
                                     value="${ criterion.correctionFieldValue}"
                                     name="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][<c:out 
                                     value="${ criterion.correctionCriteriaLineNumber}" />][field-value]" type="text">
-                                <input type="image" 
-                                    name="methodToCall.removeSearchCriterion.criterion <c:out value="${criterion.correctionChangeGroupLineNumber}" />-<c:out 
-                                        value="${criterion.correctionCriteriaLineNumber}" />" 
-                                    src="images/tinybutton-delete1.gif" alt="delete search criterion" class="tinybutton" />
+                                
+                                
+                                <html:image property="methodToCall.removeSearchCriterion.criterion${criterion.correctionChangeGroupLineNumber}-${criterion.correctionCriteriaLineNumber}.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete search criterion" />
+							
+                                
                             </div>
                         </c:forEach>
 
@@ -580,15 +513,13 @@
                             <input id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]"
                                   name="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]" 
                                   type="text">
-                            <html:image property="methodToCall.addSearchCriterion" src="images/tinybutton-add1.gif" 
+                            <html:image property="methodToCall.addSearchCriterion.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" 
                                 alt="add search criteria" styleClass="tinybutton" />
                         </div>
                         
                     </td> 
                     <td class="bord-l-b" style="padding: 4px; vertical-align: top;">
                         <c:forEach var="specification" items="${group.correctionChange }">
-
-                           
                             <div>
                                 <label for="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][replacement-specifications][<c:out 
                                     value="${specification.correctionChangeLineNumber}" />][field-name]">Field</label>
@@ -611,10 +542,11 @@
                                     value="<c:out value="${specification.correctionFieldValue}" />"
                                     id="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][replacement-specifications][<c:out 
                                         value="${specification.correctionChangeLineNumber}" />][replacement-value]">
-                                <input type="image" 
-                                    name="methodToCall.removeReplacementSpecification.specification<c:out value="${specification.correctionChangeGroupLineNumber}" />-<c:out 
-                                    value="${ specification.correctionChangeLineNumber}" />" 
-                                    src="images/tinybutton-delete1.gif" alt="delete search specification" class="tinybutton" />
+
+
+
+                                <html:image property="methodToCall.removeReplacementSpecification.specification${specification.correctionChangeGroupLineNumber}-${specification.correctionChangeLineNumber}.anchor${currentTabIndex}" 
+	    	                 		src="images/tinybutton-delete1.gif" alt="delete search specification" styleClass="tinybutton" />
                             </div>
                         </c:forEach>
 
@@ -632,7 +564,7 @@
                             <input type="text" name="correction-groups[<c:out 
                                 value="${group.correctionChangeGroupLineNumber }" />][replacement-specifications][replacement-value]" 
                                 id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][replacement-specifications][replacement-value]"> 
-                            <html:image property="methodToCall.addReplacementSpecification" src="images/tinybutton-add1.gif" 
+                            <html:image property="methodToCall.addReplacementSpecification.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" 
                                 alt="add replacement specification" styleClass="tinybutton" /> 
                         </div>
 
@@ -647,9 +579,10 @@
 			<tr>
             	<td colspan="2" align="left" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
 					<center>
-			            <STRONG>Add Groups </STRONG> 
-    			        <input type="image" name="methodToCall.addCorrectionGroup" 
-            		       src="images/tinybutton-add1.gif" alt="add correction group" class="tinybutton" /> 
+			            <STRONG>Add Groups </STRONG>
+			             <html:image property="methodToCall.addCorrectionGroup.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-add1.gif" alt="add correction group" styleClass="tinybutton" />
+			            
             		 <center>
         	    </td>
             
@@ -677,8 +610,7 @@
            
      		<tr style="border-bottom: 1px solid #333;"> 
                     <td class="bord-l-b" style="padding: 4px; vertical-align: top;">
-                        <!--<input type="hidden" name="correction-groups[<c:out 
-                            value="${group.correctionChangeGroupLineNumber}" />][group-number]" value="" /> -->
+                        
                         <input type="hidden" name="correction-groups[<c:out 
                             value="${group.correctionChangeGroupLineNumber}" />][next-search-criterion-number]" value="<c:out 
                             value="${group.correctionCriteriaNextLineNumber}" />" /> 
@@ -722,11 +654,11 @@
                                     value="${ criterion.correctionFieldValue}"
                                     name="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][<c:out 
                                     value="${ criterion.correctionCriteriaLineNumber}" />][field-value]" type="text">
-                                <input type="image" 
-                                    name="methodToCall.removeSearchCriterionForManualEdit.criterion <c:out value="${criterion.correctionChangeGroupLineNumber}" />-<c:out 
-                                        value="${criterion.correctionCriteriaLineNumber}" />" 
-                                    src="images/tinybutton-delete1.gif" alt="delete search criterion" class="tinybutton" />
-                            </div>
+                                
+                                
+                                <html:image property="methodToCall.removeSearchCriterionForManualEdit.criterion${criterion.correctionChangeGroupLineNumber}-${criterion.correctionCriteriaLineNumber}.anchor${currentTabIndex}"
+	    	                 		src="images/tinybutton-delete1.gif" alt="delete search criterion" styleClass="tinybutton" />
+			            	</div>
                         </c:forEach>
 
                         <!-- New Search Criteria --> 
@@ -749,7 +681,7 @@
                             <input id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]"
                                   name="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-value]" 
                                   type="text">
-                            <html:image property="methodToCall.addSearchCriterionForManualEdit" src="images/tinybutton-add1.gif" 
+                            <html:image property="methodToCall.addSearchCriterionForManualEdit.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" 
                                 alt="add search criteria" styleClass="tinybutton" />
                         </div>
                         
@@ -765,16 +697,18 @@
     	 
      
 		</table>
+		
         	<div align="center" >
      	
 		
+		   			<html:image property="methodToCall.searchForManualEdit.anchor${currentTabIndex}"
+	    	                 		src="images/buttonsmall_search.gif" alt="search" styleClass="tinybutton" />
 		   			
-		   			<input type="image" name="methodToCall.searchForManualEdit" 
-			                   src="images/buttonsmall_search.gif" alt="search" class="tinybutton" />
+		   			
 		   		  			
 	    		  	
-		</div>		
-       </div>
+			</div>		
+       	</div>
       
      	</c:if>	
       </c:if>
@@ -784,7 +718,140 @@
       
       
      
-    
+   
+</c:if>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<c:if test="${KualiForm.command =='displayDocSearchView'}">
+
+
+
+<div class="tab-container" align="center" >
+      
+    	<table cellpadding=0 class="datatable" summary=""> 
+        	  <tr>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Select System and Edit Method</td>
+         	  </tr>
+	    		<tr>
+     	 			<td>
+		     			<center>
+							<c:out value="${KualiForm.chooseSystem}" />
+							<c:out value="${KualiForm.editMethod}" />
+						</center>
+    				  </td>
+	  			</tr>
+		</table>
+ 	</div>
+
+
+<div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">
+      
+            <table cellpadding=0 class="datatable" summary=""> 
+                <tr>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left">Search Results</span></td>
+                </tr>
+                <tr>
+                    
+                      <td>
+                      
+					                    
+					<display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${KualiForm.allEntries}" id="allEntries" pagesize="10"
+                      requestURI="generalLedgerCorrection.do?methodToCall=viewResults&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
+        
+       		    		<display:column class="infocell" sortable="true" title="Origin Entry Id" >
+						<c:out value="${allEntries.entryId}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Fiscal Year" >
+						<c:out value="${allEntries.universityFiscalYear}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Budget Year" >
+						<c:out value="${allEntries.budgetYear}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Chart Code" >
+						<c:out value="${allEntries.chartOfAccountsCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Account Number" >
+						<c:out value="${allEntries.accountNumber}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Sub Account Number" >
+						<c:out value="${allEntries.subAccountNumber}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Object Code" >
+						<c:out value="${allEntries.financialObjectCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Sub Object Code" >
+						<c:out value="${allEntries.financialSubObjectCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Balance Type" >
+						<c:out value="${allEntries.financialBalanceTypeCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Object Type" >
+						<c:out value="${allEntries.financialObjectTypeCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Fiscal Period" >
+						<c:out value="${allEntries.universityFiscalPeriodCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Document Type" >
+						<c:out value="${allEntries.financialDocumentTypeCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Origin Code" >
+						<c:out value="${allEntries.financialSystemOriginationCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Document Number" >
+						<c:out value="${allEntries.financialDocumentNumber}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Sequence Number" >
+						<c:out value="${allEntries.transactionLedgerEntrySequenceNumber}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Description" >
+						<c:out value="${allEntries.transactionLedgerEntryDescription}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Amount" >
+						<c:out value="${allEntries.transactionLedgerEntryAmount}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Debit Credit Indicator" >
+						<c:out value="${allEntries.transactionDebitCreditCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Transaction Date" >
+						<c:out value="${allEntries.transactionDate}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Organization Document Number" >
+						<c:out value="${allEntries.organizationDocumentNumber}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Project Code" >
+						<c:out value="${allEntries.projectCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Organization Reference Number" >
+						<c:out value="${allEntries.organizationReferenceId}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Reference Document Type" >
+						<c:out value="${allEntries.referenceFinancialDocumentTypeCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Reference Origin Code" >
+						<c:out value="${allEntries.referenceFinancialSystemOriginationCode}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Reference Document Number" >
+						<c:out value="${allEntries.financialDocumentNumber}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Reversal Date" >
+						<c:out value="${allEntries.financialDocumentNumber}" />&nbsp;</display:column>
+						<display:column class="infocell" sortable="true" title="Transaction Encumbrance Update Code" >
+						<c:out value="${allEntries.transactionEncumbranceUpdateCode}" />&nbsp;</display:column>
+						</display:table>
+                      
+                      
+                      </td>
+                      
+                 	
+              	  </tr>
+              	  <tr><td>
+              	  	<c:out value="${KualiForm.originEntryGroupDeletedMessage}" />
+              	  </td></tr>
+       		 </table>
+       	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</c:if>
 
 
  </kul:tab>

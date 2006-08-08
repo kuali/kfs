@@ -34,8 +34,13 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.servlet.ServletRequest;
+
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.Constants;
 import org.kuali.core.authorization.TransactionalDocumentActionFlags;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -53,9 +58,10 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String chooseSystem;
     private String editMethod;
     protected FormFile sourceFile;
+    
     private String[] groupIdList;
-    private String deleteOutput;
-    private String matchCriteriaOnly;
+    private boolean deleteOutput; 
+    private boolean matchCriteriaOnly;
     private String editableFlag;
     private String manualEditFlag;
     private String deleteFileFlag;
@@ -63,6 +69,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private KualiDecimal totalCredits; 
     private int rowsOutput;
     private Integer oldDocId;
+    private String originEntryGroupDeletedMessage;
     
     /**
      * This is a Map of operators that can be used in searches from the GL Error Correction Document. Each value in this Map
@@ -212,6 +219,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new TransactionalDocumentActionFlags());
+        
     }
 
   
@@ -311,19 +319,19 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.groupIdList = groupIdList;
     }
 
-    public String getDeleteOutput() {
+    public boolean getDeleteOutput() {
         return deleteOutput;
     }
 
-    public void setDeleteOutput(String deleteOutput) {
+    public void setDeleteOutput(boolean deleteOutput) {
         this.deleteOutput = deleteOutput;
     }
 
-    public String getMatchCriteriaOnly() {
+    public boolean getMatchCriteriaOnly() {
         return matchCriteriaOnly;
     }
 
-    public void setMatchCriteriaOnly(String matchCriteriaOnly) {
+    public void setMatchCriteriaOnly(boolean matchCriteriaOnly) {
         this.matchCriteriaOnly = matchCriteriaOnly;
     }
 
@@ -381,6 +389,28 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setOldDocId(Integer oldDocId) {
         this.oldDocId = oldDocId;
+    }
+
+
+    @Override
+    public void reset(ActionMapping arg0, ServletRequest arg1) {
+        // TODO Auto-generated method stub
+        deleteOutput = true;
+        //GlobalVariables.getUserSession().removeObject(Constants.CORRECTION_FORM_KEY);
+        
+        super.reset(arg0, arg1);
+        
+        
+    }
+
+
+    public String getOriginEntryGroupDeletedMessage() {
+        return originEntryGroupDeletedMessage;
+    }
+
+
+    public void setOriginEntryGroupDeletedMessage(String originEntryGroupDeletedMessage) {
+        this.originEntryGroupDeletedMessage = originEntryGroupDeletedMessage;
     }
 
     

@@ -34,6 +34,7 @@ import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
+import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 import edu.iu.uis.eden.util.Utilities;
@@ -80,6 +81,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
 
     private static final String PROJECT_CODE_DOC_TYPE = "KualiProjectCodeMaintenanceDocument";
+    
+    private static final String DOCUMENT_CHART_ORG_VALUES_KEY = "organizations";
 
     private String finCoaCd;
 
@@ -241,15 +244,13 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
-
         this.finCoaCd = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
         this.orgCd = getRuleExtentionValue(ORG_CD_KEY, ruleExtensions);
         this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
         this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
         this.overrideCd = getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions);
         DocumentType documentType = docContent.getRouteContext().getDocument().getDocumentType();
-        Set chartOrgValues = populateFromDocContent(documentType, docContent);
-
+        Set chartOrgValues = populateFromDocContent(documentType, docContent, docContent.getRouteContext());
         boolean matchesOrg = false;
         for (Iterator iter = chartOrgValues.iterator(); iter.hasNext();) {
             Org org = (Org) iter.next();
@@ -283,7 +284,6 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -325,96 +325,101 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * @return a list of OrgReviewAttribute objects that are contained in the doc, or roll up to able by one that is contained in
      *         the document
      */
-    private Set populateFromDocContent(DocumentType docType, DocumentContent docContent) {
-        Set chartOrgValues = new HashSet();
-        NodeList nodes = null;
-        XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-        try {
-            String chart = null;
-            String org = null;
-            boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
-            if (isReport) {
-                chart = xpath.evaluate("wf:xstreamsafe('//chart')", docContent.getDocument());
-                org = xpath.evaluate("wf:xstreamsafe('//org')", docContent.getDocument());
-            }
-            else if (docType.getName().equals(ACCOUNT_DOC_TYPE) || docType.getName().equals(FIS_USER_DOC_TYPE) || docType.getName().equals(PROJECT_CODE_DOC_TYPE)) {
-                chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-                org = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "organizationCode')", docContent.getDocument());
-            }
-            else if (docType.getName().equals(ORGANIZATION_DOC_TYPE)) {
-                chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "finCoaCd')", docContent.getDocument());
-                org = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "orgCd')", docContent.getDocument());
-            }
-            else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) || docType.getName().equals(ACCOUNT_DEL_DOC_TYPE) || docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
-                // these documents don't have the organization code on them so it must be looked up
-                chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-                String accountNumber = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
-                Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
-                org = account.getOrganizationCode();
-            }
-            if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
-                buildOrgReviewHierarchy(chartOrgValues, SpringServiceLocator.getOrganizationService().getByPrimaryId(chart, org));
-            }
-            else {
-                String xpathExp = null;
-                do {
-                    if (KualiConstants.MAINTENANCE_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
-                        xpathExp = "wf:xstreamsafe('//kualiUser')";
-                        break;
-                    }
-                    else if (KualiConstants.PROCUREMENT_CARD_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
-                        xpathExp = "wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine/account')";
-                        break;
-                    }
-                    else if (docType.getName().equals(KualiConstants.BUDGET_ADJUSTMENT_DOC_TYPE)) {
-                        xpathExp = "//org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine/account | //org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine/account";
-                        break;
-                    }
-                    else if (KualiConstants.isSourceLineOnly(docType.getName())) {
-                        xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account')";
-                        break;
-                    }
-                    else if (KualiConstants.isTargetLineOnly(docType.getName())) {
-                        xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
-                        break;
-                    }
-                    else if (KualiConstants.FINANCIAL_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
-                        xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
-                        break;
-                    }
-                    else if (KualiConstants.FINANCIAL_YEAR_END_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
-                        xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
-                        break;
-                    }
-                    else {
-                        docType = docType.getParentDocType();
-                    }
-                } while (docType != null);
-
-                if (xpathExp == null) {
-                    throw new RuntimeException("Did not find expected document type.  Doc type used = " + docType.getName());
+    private Set populateFromDocContent(DocumentType docType, DocumentContent docContent, RouteContext routeContext) {
+        Set chartOrgValues = null;
+        if (routeContext.getParameters().containsKey(DOCUMENT_CHART_ORG_VALUES_KEY)) {
+            chartOrgValues = (Set)routeContext.getParameters().get(DOCUMENT_CHART_ORG_VALUES_KEY);
+        } else {
+            chartOrgValues = new HashSet();
+            NodeList nodes = null;
+            XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+            try {
+                String chart = null;
+                String org = null;
+                boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+                if (isReport) {
+                    chart = xpath.evaluate("wf:xstreamsafe('//chart')", docContent.getDocument());
+                    org = xpath.evaluate("wf:xstreamsafe('//org')", docContent.getDocument());
                 }
-                nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
+                else if (docType.getName().equals(ACCOUNT_DOC_TYPE) || docType.getName().equals(FIS_USER_DOC_TYPE) || docType.getName().equals(PROJECT_CODE_DOC_TYPE)) {
+                    chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
+                    org = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "organizationCode')", docContent.getDocument());
+                }
+                else if (docType.getName().equals(ORGANIZATION_DOC_TYPE)) {
+                    chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "finCoaCd')", docContent.getDocument());
+                    org = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "orgCd')", docContent.getDocument());
+                }
+                else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) || docType.getName().equals(ACCOUNT_DEL_DOC_TYPE) || docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
+                    // these documents don't have the organization code on them so it must be looked up
+                    chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
+                    String accountNumber = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
+                    Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
+                    org = account.getOrganizationCode();
+                }
+                if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
+                    buildOrgReviewHierarchy(chartOrgValues, SpringServiceLocator.getOrganizationService().getByPrimaryId(chart, org));
+                }
+                else {
+                    String xpathExp = null;
+                    do {
+                        if (KualiConstants.MAINTENANCE_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
+                            xpathExp = "wf:xstreamsafe('//kualiUser')";
+                            break;
+                        }
+                        else if (KualiConstants.PROCUREMENT_CARD_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
+                            xpathExp = "wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine/account')";
+                            break;
+                        }
+                        else if (docType.getName().equals(KualiConstants.BUDGET_ADJUSTMENT_DOC_TYPE)) {
+                            xpathExp = "//org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine/account | //org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine/account";
+                            break;
+                        }
+                        else if (KualiConstants.isSourceLineOnly(docType.getName())) {
+                            xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account')";
+                            break;
+                        }
+                        else if (KualiConstants.isTargetLineOnly(docType.getName())) {
+                            xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
+                            break;
+                        }
+                        else if (KualiConstants.FINANCIAL_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
+                            xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
+                            break;
+                        }
+                        else if (KualiConstants.FINANCIAL_YEAR_END_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
+                            xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
+                            break;
+                        }
+                        else {
+                            docType = docType.getParentDocType();
+                        }
+                    } while (docType != null);
 
-                for (int i = 0; i < nodes.getLength(); i++) {
-                    Node accountingLineNode = nodes.item(i);
-                    // TODO: xstreamsafe should be handling this, but is not, therefore this code block
-                    String referenceString = xpath.evaluate("@reference", accountingLineNode);
-                    if (!StringUtils.isEmpty(referenceString)) {
-                        accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
+                    if (xpathExp == null) {
+                        throw new RuntimeException("Did not find expected document type.  Doc type used = " + docType.getName());
                     }
-                    String finCoaCd = xpath.evaluate("./chartOfAccountsCode", accountingLineNode);
-                    String orgCd = xpath.evaluate("./organizationCode", accountingLineNode);
-                    if (!StringUtils.isEmpty(finCoaCd) && !StringUtils.isEmpty(orgCd)) {
-                        Org organization = SpringServiceLocator.getOrganizationService().getByPrimaryId(finCoaCd, orgCd);
-                        chartOrgValues.add(organization);
-                        buildOrgReviewHierarchy(chartOrgValues, organization);
+                    nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); i++) {
+                        Node accountingLineNode = nodes.item(i);
+                        // TODO: xstreamsafe should be handling this, but is not, therefore this code block
+                        String referenceString = xpath.evaluate("@reference", accountingLineNode);
+                        if (!StringUtils.isEmpty(referenceString)) {
+                            accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
+                        }
+                        String finCoaCd = xpath.evaluate("./chartOfAccountsCode", accountingLineNode);
+                        String orgCd = xpath.evaluate("./organizationCode", accountingLineNode);
+                        if (!StringUtils.isEmpty(finCoaCd) && !StringUtils.isEmpty(orgCd)) {
+                            Org organization = SpringServiceLocator.getOrganizationService().getByPrimaryId(finCoaCd, orgCd);
+                            chartOrgValues.add(organization);
+                            buildOrgReviewHierarchy(chartOrgValues, organization);
+                        }
                     }
                 }
             }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            routeContext.getParameters().put(DOCUMENT_CHART_ORG_VALUES_KEY, chartOrgValues);
         }
         return chartOrgValues;
     }
@@ -458,6 +463,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         }
 
     }
+
 
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
@@ -506,6 +512,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             throw new RuntimeException(e);
         }
     }
+
 
     /**
      * simple getter for the rule rows

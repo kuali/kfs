@@ -44,6 +44,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.ErrorMap;
@@ -82,7 +83,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * Overrides to call super. If super fails, then we invoke some DV specific rules about FO routing to double check if the
      * individual has special conditions that they can alter accounting lines by.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.TransactionalDocumentRuleBase.AccountingLineAction) 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.TransactionalDocumentRuleBase.AccountingLineAction)
      */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLineAction action) {
@@ -600,7 +602,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 }
             }
         }
-        
+
         /* country code required, unless income type is nonreportable */
         if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode()) && !NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
             errors.putError(PropertyConstants.POSTAL_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED, "Country code ");
@@ -635,12 +637,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* must fill in all required per diem fields if any field is filled in */
         boolean perDiemSectionComplete = validatePerDiemSection(document, errors);
-        
+
         /* must fill in all required personal vehicle fields if any field is filled in */
         boolean personalVehicleSectionComplete = validatePersonalVehicleSection(document, errors);
-        
+
         /* must have per diem change message if actual amount is different from calculated amount */
-        if(perDiemSectionComplete) { // Only validate if per diem section is filled in
+        if (perDiemSectionComplete) { // Only validate if per diem section is filled in
             if (document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt().compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount()) != 0 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDvPerdiemChangeReasonText())) {
                 errors.putError(PropertyConstants.DV_PERDIEM_CHANGE_REASON_TEXT, KeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
             }
@@ -661,6 +663,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
             errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
+        
 
         /* make sure mileage fields have not changed since the mileage amount calculation */
         if (personalVehicleSectionComplete) {
@@ -677,37 +680,34 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * 
-     * This method checks to see if the per diem section of the non employee travel tab contains any values.
-     * If this section contains any values, the section is validated to ensure that all the required fields for this section
-     * are populated.  
+     * This method checks to see if the per diem section of the non employee travel tab contains any values. If this section
+     * contains any values, the section is validated to ensure that all the required fields for this section are populated.
+     * 
      * @param document
      * @param errors
      * @return Returns true if per diem section is used by user and that all fields contain values.
      */
     private boolean validatePerDiemSection(DisbursementVoucherDocument document, ErrorMap errors) {
         boolean perDiemSectionComplete = true;
-        
-        // Checks to see if any per diem fields are filled in
-        boolean perDiemUsed = StringUtils.isNotBlank(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCategoryName()) ||
-                              ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate()) ||
-                              ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) ||
-                              ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount());
 
-        // If any per diem fields contain data, validates that all required per diem fields are filled in 
-        if(perDiemUsed) {
-            if(StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCategoryName())) {
+        // Checks to see if any per diem fields are filled in
+        boolean perDiemUsed = StringUtils.isNotBlank(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCategoryName()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount());
+
+        // If any per diem fields contain data, validates that all required per diem fields are filled in
+        if (perDiemUsed) {
+            if (StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCategoryName())) {
                 errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_CATEGORY_NAME, KeyConstants.ERROR_DV_PER_DIEM_CATEGORY);
                 perDiemSectionComplete = false;
             }
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate())) {
                 errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_RATE, KeyConstants.ERROR_DV_PER_DIEM_RATE);
                 perDiemSectionComplete = false;
             }
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt())) {
                 errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_CALCULATED_AMT, KeyConstants.ERROR_DV_PER_DIEM_CALC_AMT);
                 perDiemSectionComplete = false;
             }
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount())) {
                 errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_ACTUAL_AMOUNT, KeyConstants.ERROR_DV_PER_DIEM_ACTUAL_AMT);
                 perDiemSectionComplete = false;
             }
@@ -718,58 +718,52 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * 
-     * This method checks to see if the per diem section of the non employee travel tab contains any values.
-     * If this section contains any values, the section is validated to ensure that all the required fields for this section
-     * are populated.  
+     * This method checks to see if the per diem section of the non employee travel tab contains any values. If this section
+     * contains any values, the section is validated to ensure that all the required fields for this section are populated.
+     * 
      * @param document
      * @param errors
      * @return Returns true if per diem section is used by user and that all fields contain values.
      */
     private boolean validatePersonalVehicleSection(DisbursementVoucherDocument document, ErrorMap errors) {
         boolean personalVehicleSectionComplete = true;
-        
-        // Checks to see if any per diem fields are filled in
-        boolean personalVehilcleUsed = ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromCityName()) ||
-                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromStateCode()) ||
-                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToCityName()) ||
-                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToStateCode()) ||
-                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount()) ||
-                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) ||
-                                       ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount());
-                                       
 
-        // If any per diem fields contain data, validates that all required per diem fields are filled in 
-        if(personalVehilcleUsed) {
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromCityName())) {
+        // Checks to see if any per diem fields are filled in
+        boolean personalVehilcleUsed = ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromCityName()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromStateCode()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToCityName()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToStateCode()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) || ObjectUtils.isNotNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount());
+
+
+        // If any per diem fields contain data, validates that all required per diem fields are filled in
+        if (personalVehilcleUsed) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromCityName())) {
                 errors.putError(PropertyConstants.DISB_VCHR_AUTO_FROM_CITY_NAME, KeyConstants.ERROR_DV_AUTO_FROM_CITY);
                 personalVehicleSectionComplete = false;
             }
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToCityName())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToCityName())) {
                 errors.putError(PropertyConstants.DISB_VCHR_AUTO_TO_CITY_NAME, KeyConstants.ERROR_DV_AUTO_TO_CITY);
                 personalVehicleSectionComplete = false;
             }
-            
+
             // are state fields required always or only for US travel?
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromStateCode())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromStateCode())) {
                 errors.putError(PropertyConstants.DISB_VCHR_AUTO_FROM_STATE_CODE, KeyConstants.ERROR_DV_AUTO_FROM_STATE);
                 personalVehicleSectionComplete = false;
             }
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToStateCode())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToStateCode())) {
                 errors.putError(PropertyConstants.DISB_VCHR_AUTO_TO_STATE_CODE, KeyConstants.ERROR_DV_AUTO_TO_STATE);
                 personalVehicleSectionComplete = false;
             }
             // end state field validation
-            
-            
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount())) {
+
+
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount())) {
                 errors.putError(PropertyConstants.DV_PERSONAL_CAR_MILEAGE_AMOUNT, KeyConstants.ERROR_DV_MILEAGE_AMT);
                 personalVehicleSectionComplete = false;
             }
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt())) {
                 errors.putError(PropertyConstants.DISB_VCHR_MILEAGE_CALCULATED_AMT, KeyConstants.ERROR_DV_MILEAGE_CALC_AMT);
                 personalVehicleSectionComplete = false;
             }
-            if(ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount())) {
+            if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount())) {
                 errors.putError(PropertyConstants.DISB_VCHR_PERSONAL_CAR_AMOUNT, KeyConstants.ERROR_DV_MILEAGE_ACTUAL_AMT);
                 personalVehicleSectionComplete = false;
             }
@@ -882,11 +876,15 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         /* for research payments over a certain limit the payee must be a vendor */
         String[] researchPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, RESEARCH_PAY_REASONS_PARM_NM);
 
-        String researchPayLimit = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
+        KualiParameterRule researchPayRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(DV_DOCUMENT_PARAMETERS_GROUP_NM, RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
+        String researchPayLimit = researchPayRule.getParameterText();
         KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
-        if (RulesUtils.makeSet(researchPaymentReasonCodes).contains(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode()) && document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && !document.getDvPayeeDetail().isVendor()) {
-            errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
+        // check rule is active
+        if (researchPayRule.isUsable()) {
+            if (RulesUtils.makeSet(researchPaymentReasonCodes).contains(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode()) && document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && !document.getDvPayeeDetail().isVendor()) {
+                errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
+            }
         }
     }
 
@@ -1382,8 +1380,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     /**
      * error corrections are not allowed
      * 
-     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
-     *      AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -1394,14 +1391,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         if (transactionalDocument instanceof DisbursementVoucherDocument) {
             // special case - dv NRA tax accounts can be negative, and are debits if positive
             DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) transactionalDocument;
-            
-            if (dvDoc.getDvNonResidentAlienTax() != null 
-                    && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null 
-                    && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(accountingLine.getSequenceNumber().toString())) {
+
+            if (dvDoc.getDvNonResidentAlienTax() != null && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(accountingLine.getSequenceNumber().toString())) {
                 return accountingLine.getAmount().isPositive();
             }
         }
-        
+
         return IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
     }
 

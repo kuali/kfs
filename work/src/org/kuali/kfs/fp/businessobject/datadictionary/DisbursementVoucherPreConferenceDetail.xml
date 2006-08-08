@@ -91,7 +91,7 @@
             </attribute>
 
             <attribute name="disbVchrConferenceTotalAmt">
-                <label>Grand Total</label>
+                <label>Total</label>
                 <shortLabel>Total</shortLabel>
 
                 <maxLength>22</maxLength>

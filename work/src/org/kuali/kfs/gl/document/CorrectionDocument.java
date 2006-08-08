@@ -37,6 +37,7 @@ import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.ScrubberService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -45,10 +46,10 @@ public class CorrectionDocument extends DocumentBase {
 
     // private String financialDocumentNumber;
     
-    private String correctionTypeCode; // Manual or Criteria?
-    private boolean correctionSelectionCode; // File or System?
-    private boolean correctionFileDeleteCode; // Delete Output?
-    private Integer correctionRowCount;
+    private String correctionTypeCode; // Smanual, Scriteria, Fmanual, Fcriteria
+    private boolean correctionSelectionCode; // Matched criteria
+    private boolean correctionFileDeleteCode; // Delete Output
+    private Integer correctionRowCount;  
     private KualiDecimal correctionDebitTotalAmount;
     private KualiDecimal correctionCreditTotalAmount;
     private String correctionInputFileName; //Should be integer?
@@ -472,6 +473,10 @@ public class CorrectionDocument extends DocumentBase {
             OriginEntryGroup approvedGLCP = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(groupId));
             approvedGLCP.setScrub(true);
             originEntryGroupService.save(approvedGLCP);
+            ScrubberService scrubberService = (ScrubberService) SpringServiceLocator.getBeanFactory().getBean("glScrubberService"); 
+            scrubberService.scrubGroupReportOnly(approvedGLCP);
+            
+
             
         }
         

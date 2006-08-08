@@ -167,10 +167,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         List extensions = new ArrayList();
         extensions.add(new RuleExtensionValue(FIN_COA_CD_KEY, this.finCoaCd));
         extensions.add(new RuleExtensionValue(ORG_CD_KEY, this.orgCd));
-        if (StringUtils.isBlank(this.fromAmount)) {
-            this.fromAmount = "0";
+        if (!StringUtils.isBlank(this.fromAmount)) {
+            extensions.add(new RuleExtensionValue(FROM_AMOUNT_KEY, this.fromAmount));
         }
-        extensions.add(new RuleExtensionValue(FROM_AMOUNT_KEY, this.fromAmount));
         if (!StringUtils.isBlank(this.toAmount)) {
             extensions.add(new RuleExtensionValue(TO_AMOUNT_KEY, this.toAmount));
         }
@@ -195,7 +194,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             if (StringUtils.isNotBlank(toAmount) && !StringUtils.isNumeric(toAmount)) {
                 errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", "routetemplate.dollarrangeattribute.toamount.invalid"));
             }
-            if (StringUtils.isNotBlank(toAmount) && !StringUtils.isNumeric(fromAmount)) {
+            if (StringUtils.isNotBlank(fromAmount) && !StringUtils.isNumeric(fromAmount)) {
                 errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", "routetemplate.dollarrangeattribute.fromamount.invalid"));
             }
         }
@@ -266,15 +265,19 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
         Float documentAmount = getAmount(documentType, docContent);
         if (documentAmount != null) {
-            Float ruleFromAmount = new Float(fromAmount);
-            if (!StringUtils.isEmpty(toAmount)) {
-                Float ruleToAmount = new Float(toAmount);
-                if (!(ruleFromAmount.floatValue() <= documentAmount.floatValue() && documentAmount.floatValue() >= ruleToAmount.floatValue())) {
+            Float ruleFromAmount = null;
+            Float ruleToAmount = null;
+            if (!StringUtils.isBlank(fromAmount)) {
+                ruleFromAmount = new Float(fromAmount); 
+                if (ruleFromAmount.floatValue() > documentAmount.floatValue()) {
                     return false;
                 }
             }
-            else if (!(ruleFromAmount.floatValue() <= documentAmount.floatValue())) {
-                return false;
+            if (!StringUtils.isBlank(toAmount)) {
+                ruleToAmount = new Float(toAmount);
+                if (ruleToAmount.floatValue() < documentAmount.floatValue()) {
+                    return false;
+                }
             }
         }
 

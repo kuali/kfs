@@ -70,7 +70,7 @@
  	
 <c:if test="${KualiForm.chooseSystem == 'system'}" >
       	
-          <div class="tab-container" align="center"> 
+          <div class="tab-container" align="center" > 
             <table cellpadding=0 class="datatable" summary="">
             
             <tr>
@@ -78,7 +78,7 @@
             </tr>
             <tr>
                 <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
-                    <center>
+                 <center>
                         <label for="pending-origin-entry-group-id"><strong>Origin Entry Group</strong></label><br/><br/>
                         
                         <html:select property="groupIdList" size="10" >
@@ -101,7 +101,7 @@
 	    	                 		src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="deleteDocument" />
 						       
 			         
-                    </center>
+	           		</center> 
                 </td>
             </tr>
         </table> 
@@ -136,7 +136,9 @@
   <!--  Search Results Control -->
  	<c:if test="${KualiForm.chooseSystem != null && KualiForm.editMethod !=null}" >   
 	
-	<div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">
+<%--	<div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;"> --%>
+<div class="tab-container" align="left" STYLE="overflow-x:scroll; overflow-y:hidden"> 
+
       
             <table cellpadding=0 class="datatable" summary=""> 
                 <tr>
@@ -154,10 +156,10 @@
         	     			<c:when test="${KualiForm.editableFlag == 'Y'}">
              		    		<display:column title="Manual Edit" >
              		    		
-             		    				<html:image property="methodToCall.showOneEntry.anchor${currentTabIndex}" value="${allEntries.entryId}" 
+             		    				<html:image property="methodToCall.showOneEntry.anchor${currentTabIndex}.${allEntries.entryId}" 
              		    						src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" />
 		   								
-		   								<html:image property="methodToCall.deleteEntry.anchor${currentTabIndex}" value="${allEntries.entryId}" 
+		   								<html:image property="methodToCall.deleteEntry.anchor${currentTabIndex}.${allEntries.entryId}" 
              		    						src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
              		    				
 			           		    	</display:column>
@@ -257,11 +259,10 @@
                 </tr>
                 
         	<td>
-   			<display:table id="eachEntryForManualEdit" name="${KualiForm.eachEntryForManualEdit}" requestURIcontext="false"  >
+   			<display:table id="eachEntry" name="${KualiForm.eachEntryForManualEdit}" requestURIcontext="false"  >
 	   			
 	   			<display:column title="Manual Edit" >
-	   			
-	   			<html:image property="methodToCall.editEntry.anchor${currentTabIndex}" value="${eachEntryForManualEdit.entryId}"
+	   			<html:image property="methodToCall.editEntry.anchor${currentTabIndex}.${eachEntryForManualEdit.entryId}"
   						src="images/tinybutton-saveedits.gif" styleClass="tinybutton" alt="EditAnEntry" />
              	</display:column>
 	   			<display:column title="Fiscal Year" >
@@ -355,7 +356,7 @@
    		
    		<c:if test="${KualiForm.editableFlag == 'Y'}" >   
    			<div align="center" >	
-		   		<html:checkbox property="deleteOutput" title="deleteOutput" /> <STRONG> Process In Batch </STRONG>
+		   		<html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG>
    			</div>
 		    </br>
    			
@@ -389,7 +390,7 @@
             <tr>
             	<td>
 					<center>
-						<html:checkbox property="deleteOutput" title="deleteOutput" /> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
+						<html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
 						<html:checkbox property="matchCriteriaOnly" alt="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
 					</center>
 				</td>

@@ -24,15 +24,19 @@ package org.kuali.workflow;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowFunctionResolver;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
@@ -46,6 +50,61 @@ import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
 public class KualiWorkflowUtils {
 
     private static final String XPATH_ROUTE_CONTEXT_KEY = "_xpathKey";
+    public static final String XSTREAM_SAFE_PREFIX = "wf:xstreamsafe('";
+    public static final String XSTREAM_SAFE_SUFFIX = "')";
+    public static final String XSTREAM_MATCH_ANYWHERE_PREFIX = "//";
+    public static final String XSTREAM_MATCH_RELATIVE_PREFIX = "./";
+    public static final String NEW_MAINTAINABLE_PREFIX = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "newMaintainableObject/businessObject/";
+    public static final String OLD_MAINTAINABLE_PREFIX = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "oldMaintainableObject/businessObject/";
+    public static final String ACCOUNT_DOC_TYPE = "KualiAccountMaintenanceDocument";
+    public static final String ACCOUNT_DEL_DOC_TYPE = "KualiAccountDelegateMaintenanceDocument";
+    public static final String SUB_ACCOUNT_DOC_TYPE = "KualiSubAccountMaintenanceDocument";
+    public static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
+    public static final String INTERNAL_BILLING_DOC_TYPE = "KualiInternalBillingDocument";
+    public static final String PRE_ENCUMBRANCE_DOC_TYPE = "KualiPreEncumbranceDocument";
+    public static final String DISBURSEMENT_VOCHER_DOC_TYPE = "KualiDisbursementVoucherDocument";
+    public static final String NON_CHECK_DISBURSEMENT_DOC_TYPE = "KualiNonCheckDisbursementDocument";
+    public static final String PROCUREMENT_CARD_DOC_TYPE = "KualiProcurementCardDocument";
+    public static final String BUDGET_ADJUSTMENT_DOC_TYPE = "KualiBudgetAdjustmentDocument";
+    public static final String GENERAL_ERROR_CORRECTION_DOC_TYPE = "KualiGeneralErrorCorrectionDocument";
+    public static final String GENERAL_LEDGER_ERROR_CORRECTION_DOC_TYPE = "KualiGeneralLedgerErrorCorrectionDocument";
+    public static final String MAINTENANCE_DOC_TYPE = "KualiMaintenanceDocument";
+    public static final String FINANCIAL_DOC_TYPE = "KualiFinancialDocument";
+    public static final String FINANCIAL_YEAR_END_DOC_TYPE = "KualiFinancialYearEndDocument";
+    public static final String FIS_USER_DOC_TYPE = "KualiUserMaintenanceDocument";
+    public static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
+    public static final String PROJECT_CODE_DOC_TYPE = "KualiProjectCodeMaintenanceDocument";
+    
+    public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
+    static {
+        SOURCE_LINE_ONLY_DOCUMENT_TYPES.add(DISBURSEMENT_VOCHER_DOC_TYPE);
+        SOURCE_LINE_ONLY_DOCUMENT_TYPES.add(PROCUREMENT_CARD_DOC_TYPE);
+    }
+    
+    public static final Set TARGET_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
+    static {
+        TARGET_LINE_ONLY_DOCUMENT_TYPES.add(INTERNAL_BILLING_DOC_TYPE);
+    }
+
+    public static boolean isSourceLineOnly(String documentTypeName) {
+        return SOURCE_LINE_ONLY_DOCUMENT_TYPES.contains(documentTypeName);
+    }
+    
+    public static boolean isTargetLineOnly(String documentTypeName) {
+        return TARGET_LINE_ONLY_DOCUMENT_TYPES.contains(documentTypeName);
+    }
+    
+    public static final boolean isMaintenanceDocument(DocumentType documentType) {
+        boolean isMaintenanceDocument = false;
+        DocumentType currentDocumentType = documentType.getParentDocType();
+        do {
+            if (MAINTENANCE_DOC_TYPE.equals(currentDocumentType.getName())) {
+                return true;
+            }
+            currentDocumentType = currentDocumentType.getParentDocType();
+        } while (currentDocumentType != null);
+        return false;
+    }
 
     /**
      * 

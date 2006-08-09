@@ -35,17 +35,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
+import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UuId;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
-import org.kuali.workflow.KualiConstants;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
@@ -95,15 +96,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
-
-    private static final String NEW_MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
-
-    private static final String OLD_MAINTAINABLE_PREFIX = "//oldMaintainableObject/businessObject/";
-
-    // TODO - here we need to integrate our AccountLookupable long term...
-    // private static final String LOOKUPABLE_CLASS =
-    // "AccountLookupableImplService";
-
+    
     private String finCoaCd;
 
     private String accountNbr;
@@ -178,12 +171,26 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * @return
      */
     public List validateRoutingData(Map paramMap) {
-        // TODO should this actually validate
-        // List errors = new ArrayList();
-        this.finCoaCd = (String) paramMap.get(FIN_COA_CD_KEY);
-        this.accountNbr = (String) paramMap.get(ACCOUNT_NBR_KEY);
-        this.totalDollarAmount = (String) paramMap.get(FDOC_TOTAL_DOLLAR_AMOUNT_KEY);
-        return new ArrayList();
+        List errors = new ArrayList();
+        if (isRequired()) {
+            this.finCoaCd = (String) paramMap.get(FIN_COA_CD_KEY);
+            this.accountNbr = (String) paramMap.get(ACCOUNT_NBR_KEY);
+            this.totalDollarAmount = (String) paramMap.get(FDOC_TOTAL_DOLLAR_AMOUNT_KEY);
+            validateAccount(errors);
+            if (StringUtils.isNotBlank(this.totalDollarAmount) && !StringUtils.isNumeric(this.totalDollarAmount)) {
+                errors.add(new WorkflowServiceErrorImpl("Total Dollar Amount is invalid.", "routetemplate.accountattribute.totaldollaramount.invalid"));
+            }
+        }
+        return errors;
+    }
+    
+    private void validateAccount(List errors) {
+        if (StringUtils.isBlank(this.finCoaCd) || StringUtils.isBlank(this.accountNbr)) {
+            errors.add(new WorkflowServiceErrorImpl("Account is required.", "routetemplate.accountattribute.account.required"));
+        }
+        else if (SpringServiceLocator.getAccountService().getByPrimaryId(finCoaCd, accountNbr) == null) {
+            errors.add(new WorkflowServiceErrorImpl("Account is invalid.", "routetemplate.accountattribute.account.invalid"));
+        }
     }
 
     /**
@@ -208,7 +215,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr())) {
             return "";
         }
-        return "<report><chart>" + getFinCoaCd() + "</chart><accountNumber>" + getAccountNbr() + "</accountNumber><totalDollarAmount>" + getTotalDollarAmount() + "</totalDollarAmount></report>";
+        return new StringBuffer("<report><chart>").append(getFinCoaCd()).append("</chart><accountNumber>").append(getAccountNbr()).append("</accountNumber><totalDollarAmount>").append(getTotalDollarAmount()).append("</totalDollarAmount></report>").toString();
     }
 
     public String getAttributeLabel() {
@@ -317,7 +324,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     private String getQualifiedRoleString(FiscalOfficerRole role) {
-        return getNullSafeValue(role.roleName) + ROLE_STRING_DELIMITER + getNullSafeValue(role.chart) + ROLE_STRING_DELIMITER + getNullSafeValue(role.accountNumber) + ROLE_STRING_DELIMITER + getNullSafeValue(role.totalDollarAmount) + ROLE_STRING_DELIMITER + getNullSafeValue(role.fiscalOfficerId);
+        return new StringBuffer(getNullSafeValue(role.roleName)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.chart)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.accountNumber)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.totalDollarAmount)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.fiscalOfficerId)).toString();
     }
 
     private static FiscalOfficerRole getUnqualifiedFiscalOfficerRole(String qualifiedRole) {
@@ -345,7 +352,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     private static String getQualifiedAccountSupervisorRoleString(String roleName, String accountSupervisorySystemsId) {
-        return roleName + ROLE_STRING_DELIMITER + accountSupervisorySystemsId;
+        return new StringBuffer(roleName).append(ROLE_STRING_DELIMITER).append(accountSupervisorySystemsId).toString();
     }
 
     private static String getUnqualifiedAccountSupervisorIdFromString(String qualifiedRole) {
@@ -357,22 +364,23 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * Supervisor routing.
      */
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
+        LOG.info(docContent.getDocContent());
         try {
             Set qualifiedRoleNames = new HashSet();
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
             String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 Set fiscalOfficers = new HashSet();
-                if (((Boolean) xpath.evaluate("wf:xstreamsafe('/report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
-                    String chart = xpath.evaluate("wf:xstreamsafe('/report/chart')", docContent.getDocument());
-                    String accountNumber = xpath.evaluate("wf:xstreamsafe('/report/accountNumber')", docContent.getDocument());
-                    String totalDollarAmount = xpath.evaluate("wf:xstreamsafe('/report/totalDollarAmount')", docContent.getDocument());
+                if (((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append("/report").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
+                    String chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append("/report/chart").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    String accountNumber = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append("/report/accountNumber").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    String totalDollarAmount = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append("/report/totalDollarAmount").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     FiscalOfficerRole role = new FiscalOfficerRole(roleName);
                     role.chart = chart;
                     role.accountNumber = accountNumber;
                     role.totalDollarAmount = totalDollarAmount;
                     fiscalOfficers.add(role);
-                } else if (docTypeName.equals(KualiConstants.ACCOUNT_DOC_TYPE)) {
+                } else if (KualiWorkflowUtils.ACCOUNT_DOC_TYPE.equals(docTypeName)) {
                     // 1) If this is a new account, it routes to the fiscal
                     // officer specified on the new account
                     // 2) If this is an account edit and the fiscal officer
@@ -381,8 +389,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     // 3) If this is an account edit and the fiscal officer HAS
                     // changed, route to the old fiscal officer and the new
                     // fiscal officer
-                    String newFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());
-                    String oldFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + OLD_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());
+                    String newFiscalOfficerId = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    String oldFiscalOfficerId = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.OLD_MAINTAINABLE_PREFIX).append(PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     boolean isNewAccount = oldFiscalOfficerId == null;
                     boolean isFiscalOfficerChanged = !newFiscalOfficerId.equals(oldFiscalOfficerId);
                     // if this is a new account or the fiscal officer has
@@ -396,29 +404,24 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     // account's fiscal officer
                     if (!isNewAccount) {
                         FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                        role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-                        role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
+                        role.chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                        role.accountNumber = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(Constants.ACCOUNT_NUMBER_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                         role.fiscalOfficerId = newFiscalOfficerId;
                         fiscalOfficers.add(role);
                     }
-                } else if (docTypeName.equals(KualiConstants.SUB_ACCOUNT_DOC_TYPE) || docTypeName.equals(KualiConstants.SUB_OBJECT_DOC_TYPE)) {
+                } else if (KualiWorkflowUtils.SUB_ACCOUNT_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.SUB_OBJECT_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.ACCOUNT_DEL_DOC_TYPE.equals(docTypeName)) {
                     FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                    role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-                    role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
-                    fiscalOfficers.add(role);
-                } else if (docTypeName.equals(KualiConstants.ACCOUNT_DEL_DOC_TYPE)) {
-                    FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                    role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "finCoaCd')", docContent.getDocument());
-                    role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNbr')", docContent.getDocument());
+                    role.chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    role.accountNumber = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(Constants.ACCOUNT_NUMBER_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     fiscalOfficers.add(role);
                 } else {
-                    if (!KualiConstants.isTargetLineOnly(docTypeName)) {
-                        NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//" + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName) + "')", docContent.getDocument(), XPathConstants.NODESET);
+                    if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
+                        NodeList sourceLineNodes = (NodeList) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.NODESET);
                         String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
                     }
-                    if (!KualiConstants.isSourceLineOnly(docTypeName)) {
-                        NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//" + KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName) + "')", docContent.getDocument(), XPathConstants.NODESET);
+                    if (!KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
+                        NodeList targetLineNodes = (NodeList) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName)).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.NODESET);
                         String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
                     }
@@ -430,8 +433,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             } else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
                 // only route to account supervisor on
                 // KualiAccountMaintenanceDocument
-                if (docTypeName.equals(KualiConstants.ACCOUNT_DOC_TYPE)) {
-                    String accountSupervisorId = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountsSupervisorySystemsIdentifier')", docContent.getDocument());
+                if (docTypeName.equals(KualiWorkflowUtils.ACCOUNT_DOC_TYPE)) {
+                    String accountSupervisorId = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append("accountsSupervisorySystemsIdentifier").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     if (!StringUtils.isEmpty(accountSupervisorId)) {
                         qualifiedRoleNames.add(getQualifiedAccountSupervisorRoleString(roleName, accountSupervisorId));
                     }
@@ -446,7 +449,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
         KualiDecimal sum = new KualiDecimal(0);
         for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
-            KualiDecimal addend = new KualiDecimal((String) xpath.evaluate("./amount/value", targetAccountingLineNodes.item(index), XPathConstants.STRING));
+            KualiDecimal addend = new KualiDecimal((String) xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "amount/value", targetAccountingLineNodes.item(index), XPathConstants.STRING));
             sum = sum.add(addend);
         }
         return sum.toString();
@@ -457,8 +460,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         for (int i = 0; i < accountingLineNodes.getLength(); i++) {
             Node accountingLineNode = accountingLineNodes.item(i);
             FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-            role.chart = xpath.evaluate("./chartOfAccountsCode", accountingLineNode);
-            role.accountNumber = xpath.evaluate("./accountNumber", accountingLineNode);
+            role.chart = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountingLineNode);
+            role.accountNumber = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountingLineNode);
             role.totalDollarAmount = totalDollarAmount;
             fiscalOfficers.add(role);
         }
@@ -509,15 +512,18 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static AuthenticationUserId getFiscalOfficerId(FiscalOfficerRole role) throws Exception {
         String fiscalOfficerNetworkId = null;
         if (role.accountNumber == null) {
-            fiscalOfficerNetworkId = SpringServiceLocator.getKualiUserService().getUniversalUser(new UuId(role.fiscalOfficerId)).getPersonUserIdentifier();
+            try {
+                fiscalOfficerNetworkId = SpringServiceLocator.getKualiUserService().getUniversalUser(new UuId(role.fiscalOfficerId)).getPersonUserIdentifier();
+            } catch (Exception e) {
+            }
         } else {
             Account account = SpringServiceLocator.getAccountService().getByPrimaryId(role.chart, role.accountNumber);
             if (account != null) {
                 fiscalOfficerNetworkId = account.getAccountFiscalOfficerUser().getPersonUserIdentifier();
             }
         }
-        if (StringUtils.isEmpty(fiscalOfficerNetworkId)) {
-            LOG.warn("Could not locate the fiscal officer for the given account " + role.accountNumber + " / fiscal officer uid " + role.fiscalOfficerId);
+        if (StringUtils.isBlank(fiscalOfficerNetworkId)) {
+            LOG.warn(new StringBuffer("Could not locate the fiscal officer for the given account ").append(role.accountNumber).append(" / fiscal officer uid ").append(role.fiscalOfficerId).toString());
             return null;
         }
         return new AuthenticationUserId(fiscalOfficerNetworkId);

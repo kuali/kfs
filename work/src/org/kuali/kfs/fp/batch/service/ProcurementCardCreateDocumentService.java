@@ -30,17 +30,6 @@ package org.kuali.module.financial.service;
  */
 public interface ProcurementCardCreateDocumentService {
 
-    public static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
-    public static String SINGLE_TRANSACTION_IND_PARM_NM = "SINGLE_TRANSACTION_INDICATOR";
-    public static String ERROR_TRANS_CHART_CODE_PARM_NM = "ERROR_TRANSACTION_CHART_CODE";
-    public static String ERROR_TRANS_ACCOUNT_PARM_NM = "ERROR_TRANSACTION_ACCOUNT_NUMBER";
-    public static String DEFAULT_TRANS_CHART_CODE_PARM_NM = "DEFAULT_TRANSACTION_CHART_CODE";
-    public static String DEFAULT_TRANS_ACCOUNT_PARM_NM = "DEFAULT_TRANSACTION_ACCOUNT_NUMBER";
-    public static String DEFAULT_TRANS_OBJECT_CODE_PARM_NM = "DEFAULT_TRANSACTION_OBJECT_CODE";
-    public static String DISPUTE_URL_PARM_NM = "DISPUTE_URL";
-    public static String AUTO_APPROVE_DOCUMENTS_IND = "AUTO_APPROVE_DOCUMENTS_IND";
-    public static String AUTO_APPROVE_NUMBER_OF_DAYS = "AUTO_APPROVE_NUMBER_OF_DAYS";
-
     /**
      * Creates procurement card documents and routes from the records loaded into the transaction table.
      * 

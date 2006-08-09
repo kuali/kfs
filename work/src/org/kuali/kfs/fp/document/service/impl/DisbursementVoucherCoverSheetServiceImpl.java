@@ -57,7 +57,7 @@ import com.lowagie.text.pdf.PdfStamper;
  * Service used for manipulating disbursement voucher cover sheets.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.5 2006-06-14 12:26:45 abyrne Exp $
+ * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.6 2006-08-09 14:38:28 dfriends Exp $
  */
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
@@ -65,7 +65,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     public static final String DV_COVERSHEET_TEMPLATE_RELATIVE_DIR = "templates/financial";
     public static final String DV_COVERSHEET_TEMPLATE_NM = "disbursementVoucherCoverSheetTemplate.pdf";
 
-    public static String DV_DOCUMENT_PARAMETERS_NM = "DVDocumentParameters";
+    public static String DV_DOCUMENT_PARAMETERS_NM = DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM;
     public static String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "DV_COVER_SHEET_TEMPLATE_LINES";
     public static String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "DV_COVER_SHEET_TEMPLATE_RLINES";
     public static String DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM = "DV_COVER_SHEET_TEMPLATE_ALIEN";

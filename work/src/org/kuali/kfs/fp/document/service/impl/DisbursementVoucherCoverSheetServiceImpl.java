@@ -46,6 +46,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherCoverSheetService;
+import static org.kuali.module.financial.rules.DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.AcroFields;
@@ -57,7 +58,7 @@ import com.lowagie.text.pdf.PdfStamper;
  * Service used for manipulating disbursement voucher cover sheets.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.6 2006-08-09 14:38:28 dfriends Exp $
+ * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.7 2006-08-09 14:41:46 dfriends Exp $
  */
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
@@ -65,7 +66,6 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     public static final String DV_COVERSHEET_TEMPLATE_RELATIVE_DIR = "templates/financial";
     public static final String DV_COVERSHEET_TEMPLATE_NM = "disbursementVoucherCoverSheetTemplate.pdf";
 
-    public static String DV_DOCUMENT_PARAMETERS_NM = DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM;
     public static String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "DV_COVER_SHEET_TEMPLATE_LINES";
     public static String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "DV_COVER_SHEET_TEMPLATE_RLINES";
     public static String DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM = "DV_COVER_SHEET_TEMPLATE_ALIEN";
@@ -105,25 +105,25 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
             // retrieve attachment label
             if (document.isDisbVchrAttachmentCode()) {
-                attachment = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_ATTACHMENT_PARM_NM);
+                attachment = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, DV_COVER_SHEET_TEMPLATE_ATTACHMENT_PARM_NM);
             }
             // retrieve handling label
             if (document.isDisbVchrSpecialHandlingCode()) {
-                handling = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM);
+                handling = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM);
             }
             // retrieve data for alien payment code
             if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
                 String taxDocumentationLocationCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM);
 
                 address = retrieveAddress(taxDocumentationLocationCode);
-                alien = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
-                lines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
+                alien = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
+                lines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
             // retrieve data for travel payment reasons
             String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
             if (RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
-                bar = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
-                rlines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
+                bar = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
+                rlines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
             }
 
             try {

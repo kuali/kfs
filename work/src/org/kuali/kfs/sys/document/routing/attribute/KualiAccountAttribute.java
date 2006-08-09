@@ -364,7 +364,6 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * Supervisor routing.
      */
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
-        LOG.info(docContent.getDocContent());
         try {
             Set qualifiedRoleNames = new HashSet();
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());

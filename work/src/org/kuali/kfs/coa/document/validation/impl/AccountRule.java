@@ -689,8 +689,37 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
                 result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), "When Fund Group is CG, ICR Cost Recovery Account");
                 result &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), "When Fund Group is CG, C&G Domestic Assistance Number");
+                result &= checkContractControlAccountNumberRequired(newAccount);
             }
         }
+        return result;
+    }
+
+    protected boolean checkContractControlAccountNumberRequired(Account newAccount) {
+        
+        boolean result = true;
+        
+        // Contract Control account must either exist or be the same as account being maintained
+        
+        if (ObjectUtils.isNull(newAccount.getContractControlFinCoaCode())) {
+            return result ;
+        }
+        if (ObjectUtils.isNull(newAccount.getContractControlAccountNumber())) {
+            return result ;
+        }
+        if ( (newAccount.getContractControlFinCoaCode().equals(newAccount.getChartOfAccountsCode())) &&
+                (newAccount.getContractControlAccountNumber().equals(newAccount.getAccountNumber()))){
+            return result ;
+        }  
+        
+        // do an existence/active test
+        DictionaryValidationService dvService = super.getDictionaryValidationService();
+        boolean referenceExists = dvService.validateReferenceExists(newAccount, "contractControlAccount");
+        if (!referenceExists) {
+            putFieldError("contractControlAccountNumber", KeyConstants.ERROR_EXISTENCE, "Contract Control Account: " + newAccount.getContractControlFinCoaCode() + "-" + newAccount.getContractControlAccountNumber());
+            result &= false;
+        }
+        
         return result;
     }
 
@@ -904,7 +933,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("checkSubFundGroup called");
 
         boolean success = true;
-
+     
         // if we dont have a valid subFundGroupCode and subFundGroup object, we cannot proceed
         if (StringUtils.isBlank(newAccount.getSubFundGroupCode()) || ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             return success;

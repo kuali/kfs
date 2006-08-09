@@ -42,7 +42,6 @@
             <reference attributeName="reportsToAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="reportsToAccountNumber" />
             <reference attributeName="continuationAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="continuationAccountNumber" />
             <reference attributeName="endowmentIncomeAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="endowmentIncomeAccountNumber" />
-            <reference attributeName="contractControlAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="contractControlAccountNumber" />
             <reference attributeName="incomeStreamAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="incomeStreamAccountNumber" />
             <reference attributeName="indirectCostRecoveryAcct" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" />
             <reference attributeName="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode" />

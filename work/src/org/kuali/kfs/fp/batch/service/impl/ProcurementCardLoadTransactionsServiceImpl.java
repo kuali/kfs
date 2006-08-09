@@ -47,6 +47,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.exceptions.NoTransactionsException;
 import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
 
 /**
  * Implementation of ProcurementCardDocumentService
@@ -57,7 +58,6 @@ import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService
 public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCardLoadTransactionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
 
-    private final static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
     private final static String PCDO_FILE_DIRECTORY_PARM_NM = "pcdo.staging.directory";
     private final static String BACK_UP_INCOMING_FILES_IND_PARM_NM = "BACK_UP_INCOMOING_FILES_IND";
     private final static String PACKAGE_PREFIX = "/org/kuali/module/financial/batch/pcard/";

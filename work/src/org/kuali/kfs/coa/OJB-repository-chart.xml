@@ -1645,6 +1645,11 @@
 	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
 	</reference-descriptor>
+	<collection-descriptor name="objectCodeChangeDetails" element-class-ref="org.kuali.module.chart.bo.ObjectCodeChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="chartOfAccountsCode" sort="ASC" />
+        <orderby name="universityFiscalYear" sort="ASC" />
+        <inverse-foreignkey field-ref="financialDocumentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.ObjectCodeChangeDetail" table="CA_OBJ_CD_CHG_DTL_T">

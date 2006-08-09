@@ -417,10 +417,6 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         // set the reversal date to null
         recodeGlpe.setFinancialDocumentReversalDate(null);
 
-        // set the posting period and year to current
-        recodeGlpe.setUniversityFiscalPeriodCode(null); // GL will assign to current automatically
-        recodeGlpe.setUniversityFiscalYear(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
-
         // although this is an offsets, we need to set the offset indicator to false
         recodeGlpe.setTransactionEntryOffsetIndicator(false);
 

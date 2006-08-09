@@ -29,6 +29,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
+import org.kuali.core.util.SpringServiceLocator;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -44,8 +45,8 @@ import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
  */
 public class KualiWorkflowUtils {
 
-    private static final String XPATH_ROUTE_CONTEXT_KEY = "_xpathKey"; 
-    
+    private static final String XPATH_ROUTE_CONTEXT_KEY = "_xpathKey";
+
     /**
      * 
      * This method sets up the XPath with the correct workflow namespace and resolver initialized. This ensures that the XPath
@@ -57,7 +58,6 @@ public class KualiWorkflowUtils {
      */
     public final static XPath getXPath(Document document) {
         XPath xpath = getXPath(RouteContext.getCurrentRouteContext());
-//        xpath = XPathFactory.newInstance().newXPath();
         xpath.setNamespaceContext(new WorkflowNamespaceContext());
         WorkflowFunctionResolver resolver = new WorkflowFunctionResolver();
         resolver.setXpath(xpath);
@@ -65,15 +65,15 @@ public class KualiWorkflowUtils {
         xpath.setXPathFunctionResolver(resolver);
         return xpath;
     }
-    
+
     public final static XPath getXPath(RouteContext routeContext) {
         if (routeContext == null) {
             return XPathFactory.newInstance().newXPath();
         }
-        if (! routeContext.getParameters().containsKey(XPATH_ROUTE_CONTEXT_KEY)) {
+        if (!routeContext.getParameters().containsKey(XPATH_ROUTE_CONTEXT_KEY)) {
             routeContext.getParameters().put(XPATH_ROUTE_CONTEXT_KEY, XPathFactory.newInstance().newXPath());
         }
-        return (XPath)routeContext.getParameters().get(XPATH_ROUTE_CONTEXT_KEY);
+        return (XPath) routeContext.getParameters().get(XPATH_ROUTE_CONTEXT_KEY);
     }
 
     /**
@@ -94,5 +94,43 @@ public class KualiWorkflowUtils {
         catch (Exception e) {
             throw new RuntimeException(KualiWorkflowUtils.class.getName() + " encountered an exception while attempting to convert and xmlDocumentContent String into a org.w3c.dom.Document", e);
         }
+    }
+
+    /**
+     * This method uses the TransactionalDocumentDataDictionaryService to get the name of the source accounting line class for a
+     * given workflow documentTypeName. It is intended for use by our workflow attributes when building xpath expressions
+     * 
+     * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
+     * @return the name of the source accounting line class associated with the specified workflow document type name
+     */
+    public static final String getSourceAccountingLineClassName(String documentTypeName) {
+        Class sourceAccountingLineClass = SpringServiceLocator.getTransactionalDocumentDictionaryService().getSourceAccountingLineClass(documentTypeName);
+        String sourceAccountingLineClassName = null;
+        if (sourceAccountingLineClass != null) {
+            sourceAccountingLineClassName = sourceAccountingLineClass.getName();
+        }
+        else {
+            sourceAccountingLineClassName = "org.kuali.core.bo.SourceAccountingLine";
+        }
+        return sourceAccountingLineClassName;
+    }
+
+    /**
+     * This method uses the TransactionalDocumentDataDictionaryService to get the name of the target accounting line class for a
+     * given workflow documentTypeName. It is intended for use by our workflow attributes when building xpath expressions
+     * 
+     * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
+     * @return the name of the target accounting line class associated with the specified workflow document type name
+     */
+    public static final String getTargetAccountingLineClassName(String documentTypeName) {
+        Class targetAccountingLineClass = SpringServiceLocator.getTransactionalDocumentDictionaryService().getTargetAccountingLineClass(documentTypeName);
+        String targetAccountingLineClassName = null;
+        if (targetAccountingLineClass != null) {
+            targetAccountingLineClassName = targetAccountingLineClass.getName();
+        }
+        else {
+            targetAccountingLineClassName = "org.kuali.core.bo.TargetAccountingLine";
+        }
+        return targetAccountingLineClassName;
     }
 }

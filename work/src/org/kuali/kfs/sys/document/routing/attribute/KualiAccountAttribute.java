@@ -411,25 +411,14 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "finCoaCd')", docContent.getDocument());
                     role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNbr')", docContent.getDocument());
                     fiscalOfficers.add(role);
-                } else if (docTypeName.equals(KualiConstants.PROCUREMENT_CARD_DOC_TYPE)) {
-                    NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
-                    String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
-                    fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
-                } else if (docTypeName.equals(KualiConstants.BUDGET_ADJUSTMENT_DOC_TYPE)) {
-                    NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
-                    // TODO: get total amount for BA
-                    String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
-                    fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
-                    NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
-                    fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
                 } else {
                     if (!KualiConstants.isTargetLineOnly(docTypeName)) {
-                        NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
+                        NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//" + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName) + "')", docContent.getDocument(), XPathConstants.NODESET);
                         String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
                     }
                     if (!KualiConstants.isSourceLineOnly(docTypeName)) {
-                        NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
+                        NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//" + KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName) + "')", docContent.getDocument(), XPathConstants.NODESET);
                         String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
                     }

@@ -35,7 +35,6 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.document.ProcurementCardDocument;
-import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DISPUTE_URL_PARM_NM;
 

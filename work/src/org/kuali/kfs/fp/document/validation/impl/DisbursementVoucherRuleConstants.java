@@ -53,7 +53,7 @@ public interface DisbursementVoucherRuleConstants {
     public static String NO_DOCUMENTATION_LOCATION = "N";
 
     // apc security group constants
-    public static String DV_DOCUMENT_PARAMETERS_GROUP_NM = "DVDocumentParameters";
+    public static String DV_DOCUMENT_PARAMETERS_GROUP_NM = "Kuali.FinancialTransactionProcessing.DisbursementVoucherDocument";
     public static String GLOBAL_FIELD_RESTRICTIONS_GROUP_NM = "DVGlobalFieldRestrictions";
     public static String PAYMENT_OBJECT_LEVEL_GROUP_NM = "DVPaymentObjectLevelRestrictions";
     public static String PAYMENT_OBJECT_CODE_GROUP_NM = "DVPaymentObjectCodeRestrictions";

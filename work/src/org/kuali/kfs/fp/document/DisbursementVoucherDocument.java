@@ -102,6 +102,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         dvPayeeDetail = new DisbursementVoucherPayeeDetail();
         dvPreConferenceDetail = new DisbursementVoucherPreConferenceDetail();
         dvWireTransfer = new DisbursementVoucherWireTransfer();
+        disbVchrCheckTotalAmount = new KualiDecimal(0);
     }
 
     /**
@@ -269,7 +270,9 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * 
      */
     public void setDisbVchrCheckTotalAmount(KualiDecimal disbVchrCheckTotalAmount) {
-        this.disbVchrCheckTotalAmount = disbVchrCheckTotalAmount;
+        if (disbVchrCheckTotalAmount != null) {
+          this.disbVchrCheckTotalAmount = disbVchrCheckTotalAmount;
+        }
     }
 
     /**

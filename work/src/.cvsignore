@@ -9,3 +9,4 @@ JndiSpringDataSource.xml
 SpringDataSourceResources.xml
 OJB.properties
 META-INF
+OJB-repository.xml

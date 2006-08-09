@@ -145,6 +145,7 @@
 			<filter token="appenders" value="${appenders}" />
 			<filter token="batch-logger" value="" />
 			<filter token="variable-ojb-properties" value="${application.ojb.properties}" />
+			<filter token="use-auto-commit" value="1" />
 		</filterset>
 		<filterset id="security.filterset">
 			<filter token="datasource-url" value="${datasource.url}" />
@@ -164,6 +165,7 @@
 		</filterset>
 		<filterset id="plugin.filterset">
 			<filter token="variable-ojb-properties" value="${plugin.ojb.properties}" />
+			<filter token="use-auto-commit" value="0" />
 		</filterset>
 	</target>
 
@@ -368,7 +370,17 @@
 		<copy file="${build.tokenized.resources.directory}/OJB.properties" todir="${plugin.classes.directory}" overwrite="true">
 			<filterset refid="plugin.filterset" />
 		</copy>
+		<copy file="${build.tokenized.resources.directory}/OJB-repository.xml" todir="${plugin.classes.directory}" overwrite="true">
+			<filterset refid="plugin.filterset" />
+		</copy>
 		<copy file="${build.workflow.directory}/plugin/workflow.xml" todir="${plugin.metainf.directory}"/>
+	</target>
+	
+	<target name="make-plugin-local" depends="init-project-properties">
+		<copy file="${classes.directory}/repository.dtd" todir="${plugin.classes.directory}"/>
+		<copy todir="${plugin.classes.directory}">
+			<fileset dir="${classes.directory}" includes="**/OJB-*.xml" />
+		</copy>
 	</target>
 
 	<target name="dist" depends="make-source">
@@ -399,7 +411,7 @@
 		<zip basedir="${batch.directory}" destfile="${ant.project.name}-${build.environment}.zip" />
 	</target>
 
-	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local,make-plugin">
+	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local,make-plugin,make-plugin-local">
 		<copy file="${build.workflow.appserver.directory}/${workflow.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
 		<copy todir="${plugin.deploy.directory}">
 			<fileset dir="${plugin.directory}" excludes="**/*.jar"/>

@@ -1516,6 +1516,7 @@
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_LINE_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="financialDocumentNumber" />

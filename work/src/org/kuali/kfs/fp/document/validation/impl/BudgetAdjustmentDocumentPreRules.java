@@ -30,6 +30,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
@@ -72,6 +73,10 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
             boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(Constants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
             if (generateBenefits) {
                 SpringServiceLocator.getBudgetAdjustmentLaborBenefitsService().generateLaborBenefitsAccountingLines(budgetDocument);
+                // update baselines in form
+                ((KualiTransactionalDocumentFormBase) form).setBaselineSourceAccountingLines(budgetDocument.getSourceAccountingLines());
+                ((KualiTransactionalDocumentFormBase) form).setBaselineTargetAccountingLines(budgetDocument.getTargetAccountingLines());
+                
                 // return to document after lines are generated
                 super.event.setActionForwardName(Constants.MAPPING_BASIC);
                 return false;

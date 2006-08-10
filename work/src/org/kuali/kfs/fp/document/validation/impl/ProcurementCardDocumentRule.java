@@ -26,6 +26,7 @@ import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.ZERO;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED;
 import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
 
 import java.util.Arrays;
@@ -41,6 +42,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
@@ -301,6 +303,18 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         return true;
     }
 
+    /**
+     * Override to avoid seeing ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED error message on PCDO.
+     * 
+     * @param propertyName
+     * @param persistedSourceLineTotal
+     * @param currentSourceLineTotal
+     */
+    @Override
+    protected void buildTotalChangeErrorMessage(String propertyName, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
+        return;
+    }
+    
     /**
      * Fix the GlobalVariables.getErrorMap errorPath for how PCDO needs them in order to properly display errors on the
      * interface. This is different from kuali accounting lines because instead PCDO has accounting lines insides of

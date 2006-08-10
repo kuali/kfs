@@ -823,6 +823,10 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
+
     </bean>
 
     <bean id="glAccountBalanceService" class="org.kuali.module.gl.service.impl.AccountBalanceServiceImpl">

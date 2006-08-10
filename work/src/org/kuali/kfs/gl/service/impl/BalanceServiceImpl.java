@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
@@ -49,6 +50,8 @@ public class BalanceServiceImpl implements BalanceService {
 
     protected BalanceDao balanceDao;
     protected DateTimeService dateTimeService;
+    protected OptionsService optionsService;
+       
 
     // must have no asset, liability or fund balance balances other than object code 9899
 
@@ -262,7 +265,7 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.module.gl.service.BalanceService#beginningBalanceLoaded(org.kuali.module.chart.bo.Account)
      */
     public boolean beginningBalanceLoaded(Account account) {
-        return true; // TODO: KULCOA-748 retrieve this from SystemOptions per Bill Overman
+        return optionsService.getCurrentYearOptions().isFinancialBeginBalanceLoadInd();
     }
 
     /**
@@ -286,6 +289,10 @@ public class BalanceServiceImpl implements BalanceService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 
     /**

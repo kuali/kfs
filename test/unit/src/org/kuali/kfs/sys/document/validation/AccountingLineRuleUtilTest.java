@@ -45,6 +45,20 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         super.setUp();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
+    
+    public void testLabelsAreInDataDictionary() {
+        assertNotNull(AccountingLineRuleUtil.getChartLabel());
+        assertNotNull(AccountingLineRuleUtil.getAccountLabel());
+        assertNotNull(AccountingLineRuleUtil.getSubAccountLabel());
+        assertNotNull(AccountingLineRuleUtil.getObjectCodeLabel());
+        assertNotNull(AccountingLineRuleUtil.getSubObjectCodeLabel());
+        assertNotNull(AccountingLineRuleUtil.getProjectCodeLabel());
+        assertNotNull(AccountingLineRuleUtil.getObjectTypeCodeLabel());
+        assertNotNull(AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
+        assertNotNull(AccountingLineRuleUtil.getOrganizationCodeLabel());
+        assertNotNull(AccountingLineRuleUtil.getFundGroupCodeLabel());
+        assertNotNull(AccountingLineRuleUtil.getSubFundGroupCodeLabel());
+    }
 
     public void testIsValidAccount_valid() {
         testIsValidAccount(getAccountFromFixture("activeAccount"), null);

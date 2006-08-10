@@ -32,7 +32,6 @@ import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.PropertyConstants.OVERRIDE_CODE;
 import static org.kuali.PropertyConstants.PROJECT_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
 import org.kuali.core.bo.AccountingLineParserBase;
 
@@ -45,7 +44,7 @@ import org.kuali.core.bo.AccountingLineParserBase;
  */
 public class PreEncumbranceDocumentAccountingLineParser extends AccountingLineParserBase {
     private static final String[] SOURCE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, OVERRIDE_CODE, AMOUNT };
-    private static final String[] TARGET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_ORIGIN_CODE, REFERENCE_NUMBER, OVERRIDE_CODE, AMOUNT };
+    private static final String[] TARGET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER, OVERRIDE_CODE, AMOUNT };
 
     /**
      * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()

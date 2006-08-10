@@ -960,13 +960,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* for payees with tax type ssn, check employee restrictions */
         if (TAX_TYPE_SSN.equals(dvPayee.getTaxpayerTypeCode())) {
-            if (isActiveEmployeeSSN(dvPayee.getTaxIdNumber())) {
+            if (isActiveEmployeeSSN(dvPayee.getTaxIdNumber()) || true) {
                 // determine if the rule is flagged off in the parm setting
-                String performPrepaidEmployeeInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
-
-                if (Constants.ACTIVE_INDICATOR.equals(performPrepaidEmployeeInd)) {
+                boolean performPrepaidEmployeeInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
+                
+                if (performPrepaidEmployeeInd) {
                     /* active payee employees cannot be paid for prepaid travel */
-                    String travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
+                    String[] travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
                     if (RulesUtils.makeSet(travelPrepaidPaymentReasonCodes).contains(payeeDetail.getDisbVchrPaymentReasonCode())) {
                         errors.putError(PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
                     }
@@ -975,9 +975,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             }
             else if (isEmployeeSSN(dvPayee.getTaxIdNumber())) {
                 // check parm setting for paid outside payroll check
-                String performPaidOutsidePayrollInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_EMPL_OUTSIDE_PAYROLL_PARM_NM);
-
-                if (Constants.ACTIVE_INDICATOR.equals(performPaidOutsidePayrollInd)) {
+                boolean performPaidOutsidePayrollInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
+                
+                if (performPaidOutsidePayrollInd) {
                     /* If payee is type payee and employee, payee record must be flagged as paid outside of payroll */
                     if (!dvPayee.isPayeeEmployeeCode()) {
                         errors.putError(PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_EMPLOYEE_PAID_OUTSIDE_PAYROLL);

@@ -62,6 +62,8 @@
         </lookup>
 
         <attributes>
+        
+        
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <required>true</required>
             </attributeReference>

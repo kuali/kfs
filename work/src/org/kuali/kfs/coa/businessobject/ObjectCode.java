@@ -81,10 +81,19 @@ public class ObjectCode extends BusinessObjectBase {
         this.financialObjectType = new ObjectType();
     }
 
+    /**
+     * 
+     * Constructs a ObjectCode.java with the given defaults; this way, it is not necessary
+     * to use any deprecated setters.
+     * @param fiscalYear
+     * @param chart
+     * @param financialObjectCode - an active object code
+     */
     public ObjectCode(Integer fiscalYear, String chart, String financialObjectCode) {
         this.universityFiscalYear=fiscalYear;
         this.chartOfAccountsCode=chart;
         this.financialObjectCode=financialObjectCode;
+        this.financialObjectActiveCode=true;
     }
 
     /**

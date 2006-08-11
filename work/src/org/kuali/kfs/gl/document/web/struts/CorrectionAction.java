@@ -53,6 +53,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.dao.DocumentDao;
+import org.kuali.core.lookup.keyvalues.CorrectionGroupEntriesFinder;
 import org.kuali.core.lookup.keyvalues.OEGDateComparator;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.LookupService;
@@ -80,7 +81,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.31 2006-08-09 19:06:26 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.32 2006-08-11 17:12:55 schoo Exp $
  * 
  */
 
@@ -919,6 +920,50 @@ public class CorrectionAction extends KualiDocumentActionBase {
         
         errorCorrectionForm.setProcessInBatch(true);
         
+        //if users choose database to get document, then set the default entry group
+        if (errorCorrectionForm.getChooseSystem().equals("system")){
+            
+            OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+            List <OriginEntryGroup> entryGroupList = (List) originEntryGroupService.getRecentGroupsByDays(Constants.CORRECTION_RECENT_GROUPS_DAY);
+            
+            //if there is at least one group on the list 
+            if (entryGroupList.size() > 0) {
+                List <OriginEntryGroup> sceGroupList = new ArrayList();
+                
+                for(OriginEntryGroup oeg: entryGroupList){
+                    if (oeg.getSourceCode().equals("SCE")){
+                        sceGroupList.add(oeg);
+                    }
+                }
+                //if there is at least one SCE group on the list
+                if (sceGroupList.size()>0){
+                    OEGDateComparator oegDateComparator = new OEGDateComparator();
+                    Collections.sort(sceGroupList, oegDateComparator);
+                    Collections.sort(entryGroupList, oegDateComparator);
+                    
+                    String[] defaultGroupId = {sceGroupList.get(0).getId().toString()}; 
+                    errorCorrectionForm.setGroupIdList(defaultGroupId);
+                } else {
+                    //if there is not SCE group on the list, default group is first group on the list
+                    String[] defaultGroupId = {entryGroupList.get(0).getId().toString()};
+                    errorCorrectionForm.setGroupIdList(defaultGroupId);
+                }
+                
+            }
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /*
         //default group is latest scrubber error file.
         OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
         List <OriginEntryGroup> entryGroupList = (List) originEntryGroupService.getAllOriginEntryGroup();
@@ -944,7 +989,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         }
         
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+*/        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 

@@ -272,7 +272,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
             pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
             pcardDocument.getDocumentHeader().setFinancialDocumentDescription("SYSTEM Generated");
-            pcardDocument.setExplanation(errorText);
+            // TODO: Fix for length problem of explanation, possibly make into note?
+           // pcardDocument.setExplanation(errorText);
         }
         catch (WorkflowException e) {
             LOG.error("Error creating pcdo documents: " + e.getMessage());

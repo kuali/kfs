@@ -55,7 +55,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-mock-1.2.8.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-1.2.8.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/db-ojb-1.0.4-kuali-mods-debug.jar"/>
-	<classpathentry sourcepath="/java/projects/workflow/src" kind="lib" path="work/web-root/WEB-INF/lib/workflow-client-2.2.2.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/workflow-client-2.2.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/wss4j-1.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jdom-beta8.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/opensaml-1.0.1.jar"/>

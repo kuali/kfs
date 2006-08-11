@@ -668,7 +668,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         DictionaryValidationService dvService = super.getDictionaryValidationService();
         boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
         if (!referenceExists) {
-            putFieldError("incomeStreamAccount", KeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
+            putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
             result &= false;
         }
 

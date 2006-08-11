@@ -28,6 +28,7 @@ package org.kuali.module.chart.bo;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentType;
@@ -309,6 +310,34 @@ public class Delegate extends BusinessObjectBase {
      */
     public void setChart(Chart chart) {
         this.chart = chart;
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            if (this.getClass().equals(obj.getClass())) {
+                Delegate other = (Delegate) obj;
+                if (StringUtils.equalsIgnoreCase(this.chartOfAccountsCode, other.chartOfAccountsCode)) {
+                    if (StringUtils.equalsIgnoreCase(this.accountNumber, other.accountNumber)) {
+                        if (StringUtils.equalsIgnoreCase(this.financialDocumentTypeCode, other.financialDocumentTypeCode)) {
+                            if (StringUtils.equalsIgnoreCase(this.accountDelegateSystemId, other.accountDelegateSystemId)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return toStringBuilder(toStringMapper()).hashCode();
     }
 
     /**

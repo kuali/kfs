@@ -25,8 +25,6 @@
  */
 package org.kuali.module.financial.document;
 
-import java.sql.Timestamp;
-
 import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
@@ -36,11 +34,11 @@ import org.kuali.module.financial.bo.PreEncumbranceDocumentAccountingLineParser;
  * The Pre-Encumbrance document provides the capability to record encumbrances independently of purchase orders, travel, or Physical Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments have already been made.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: PreEncumbranceDocument.java,v 1.4 2006-07-28 03:18:19 dbeutel Exp $
+ * @version $Id: PreEncumbranceDocument.java,v 1.5 2006-08-11 05:43:56 dbeutel Exp $
  */
 public class PreEncumbranceDocument extends TransactionalDocumentBase {
 
-    private Timestamp reversalDate;
+    private java.sql.Date reversalDate;
 
     /**
      * Initializes the array lists and some basic info.
@@ -53,7 +51,7 @@ public class PreEncumbranceDocument extends TransactionalDocumentBase {
      * 
      * @return Timestamp
      */
-    public Timestamp getReversalDate() {
+    public java.sql.Date getReversalDate() {
         return reversalDate;
     }
 
@@ -61,7 +59,7 @@ public class PreEncumbranceDocument extends TransactionalDocumentBase {
      * 
      * @param reversalDate
      */
-    public void setReversalDate(Timestamp reversalDate) {
+    public void setReversalDate(java.sql.Date reversalDate) {
         this.reversalDate = reversalDate;
     }
 

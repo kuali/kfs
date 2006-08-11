@@ -22,8 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import static org.kuali.Constants.BALANCE_TYPE_PRE_ENCUMBRANCE;
@@ -143,7 +141,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
      * @return boolean True if this document does not have a reversal date earlier than the current date, false otherwise.
      */
     private boolean isReversalDateValidForRouting(PreEncumbranceDocument preEncumbranceDocument) {
-        Timestamp reversalDate = preEncumbranceDocument.getReversalDate();
+        java.sql.Date reversalDate = preEncumbranceDocument.getReversalDate();
         return TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + REVERSAL_DATE);
     }
 
@@ -188,7 +186,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
         // set the reversal date to what was chosen by the user in the interface
         PreEncumbranceDocument peDoc = (PreEncumbranceDocument) transactionalDocument;
         if (peDoc.getReversalDate() != null) {
-            explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(peDoc.getReversalDate().getTime()));
+            explicitEntry.setFinancialDocumentReversalDate(peDoc.getReversalDate());
         }
         explicitEntry.setTransactionEntryProcessedTs(null);
         if (accountingLine.isSourceAccountingLine()) {

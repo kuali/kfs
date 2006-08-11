@@ -22,8 +22,6 @@
  */
 package org.kuali.module.financial.document;
 
-import java.sql.Timestamp;
-
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 
@@ -37,16 +35,16 @@ public interface VoucherDocument extends TransactionalDocument {
     /**
      * This method retrieves the reversal date associated with this document.
      * 
-     * @return Timestamp
+     * @return java.sql.Date
      */
-    public Timestamp getReversalDate();
+    public java.sql.Date getReversalDate();
 
     /**
      * This method sets the reversal date associated with this document.
      * 
      * @param reversalDate
      */
-    public void setReversalDate(Timestamp reversalDate);
+    public void setReversalDate(java.sql.Date reversalDate);
 
     /**
      * This method calculates the debit total for a voucher document keying off of the debit/debit code, only summing the accounting

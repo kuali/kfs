@@ -104,7 +104,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
             valid = !rule.failsRule(objectSubTypeCode);
 
             if (!valid) {
-                reportError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJ_SUB_TYPE, new String[] { objectCode.getFinancialObjectCode(), objectSubTypeCode });
+                reportError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJ_SUB_TYPE, objectCode.getFinancialObjectCode(), objectSubTypeCode);
             }
         }
         return valid;
@@ -208,7 +208,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
             String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAcctNbr();
             isValid &= StringUtils.isNotBlank(icrAccount);
             if (!isValid) {
-                reportError(PropertyConstants.ACCOUNT, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, new String[] { accountingLine.getAccountNumber() });
+                reportError(PropertyConstants.ACCOUNT, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());
             }
         }
         return isValid;

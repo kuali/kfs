@@ -22,16 +22,14 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import java.sql.Timestamp;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.Constants;
-import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
-
 import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
@@ -77,19 +75,19 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 	 * Handles special case display rules for displaying Reversal Date at UI layer
 	 */
 	public void populateReversalDateForRendering() {
-		Long NOW = System.currentTimeMillis();
+        java.sql.Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
 
 		if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) &&
 			(getAuxiliaryVoucherDocument().getReversalDate() == null || 
-			 NOW > getAuxiliaryVoucherDocument().getReversalDate().getTime())) {
-			getAuxiliaryVoucherDocument().setReversalDate(new Timestamp(NOW));
+			 getAuxiliaryVoucherDocument().getReversalDate().before(today))) {
+			getAuxiliaryVoucherDocument().setReversalDate(today);
 		}
 		else if (getAuxiliaryVoucherDocument().getTypeCode().equals(ADJUSTMENT_DOC_TYPE)) {
 			getAuxiliaryVoucherDocument().setReversalDate(null);
 		}
 		else if (getAuxiliaryVoucherDocument().getTypeCode().equals(RECODE_DOC_TYPE)) {
 			getAuxiliaryVoucherDocument()
-				.setReversalDate(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate());
+				.setReversalDate(new java.sql.Date(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate().getTime()));
 		}
 	}
 	

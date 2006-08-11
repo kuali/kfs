@@ -22,16 +22,14 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
-
-import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
@@ -52,7 +50,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
 
     private String typeCode = ADJUSTMENT_DOC_TYPE;
-    private Timestamp reversalDate;
+    private java.sql.Date reversalDate;
     
     /**
      * Initializes the array lists and some basic info.
@@ -64,9 +62,9 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     /**
      * Read Accessor for Reversal Date
      *
-     * @return Timestamp
+     * @return java.sql.Date
      */
-    public Timestamp getReversalDate() {
+    public java.sql.Date getReversalDate() {
         return reversalDate;
     }
     
@@ -75,7 +73,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
      *
      * @param reversalDate
      */
-    public void setReversalDate(Timestamp reversalDate) {
+    public void setReversalDate(java.sql.Date reversalDate) {
         this.reversalDate = reversalDate;
     }
     
@@ -197,15 +195,15 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
      */
     private void updateReversalDate() {
         if (isAccrualType() || isRecodeType()) {
-            Long NOW = new Long(SpringServiceLocator.getDateTimeService().getCurrentTimestamp().getTime());
-            if(NOW > getReversalDate().getTime()) {
+            java.sql.Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
+            if(getReversalDate().before(today)) {
                 // set the reversal date on the document
-                setReversalDate(new Timestamp(NOW));
+                setReversalDate(today);
                 
                 // set the reversal date on each GLPE for the document too
                 List<GeneralLedgerPendingEntry> glpes = getGeneralLedgerPendingEntries();
                 for (GeneralLedgerPendingEntry entry : glpes) {
-                    entry.setFinancialDocumentReversalDate(new java.sql.Date(getReversalDate().getTime()));
+                    entry.setFinancialDocumentReversalDate(getReversalDate());
                 }
             }
         }

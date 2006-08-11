@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.apache.commons.lang.StringUtils;
 import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
 import static org.kuali.Constants.BALANCE_TYPE_BASE_BUDGET;
@@ -36,13 +37,13 @@ import static org.kuali.Constants.GENERIC_CODE_PROPERTY_NAME;
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
-import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
 import static org.kuali.Constants.OBJECT_TYPE_CODE_PROPERTY_NAME;
 import static org.kuali.Constants.SF_TYPE_CASH_AT_ACCOUNT;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES;
 import static org.kuali.KeyConstants.ERROR_REQUIRED;
 import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
@@ -56,10 +57,6 @@ import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
 import static org.kuali.PropertyConstants.REVERSAL_DATE;
 import static org.kuali.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
-
-import java.sql.Timestamp;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -166,7 +163,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
         // check the chosen reversal date, only if they entered a value
         if (null != jvDoc.getReversalDate()) {
-            Timestamp reversalDate = jvDoc.getReversalDate();
+            java.sql.Date reversalDate = jvDoc.getReversalDate();
             valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + REVERSAL_DATE);
         }
 
@@ -207,7 +204,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
         // set the reversal date to what what specified at the document level
         if (jvDoc.getReversalDate() != null) {
-            explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(jvDoc.getReversalDate().getTime()));
+            explicitEntry.setFinancialDocumentReversalDate(jvDoc.getReversalDate());
         }
     }
 

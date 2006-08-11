@@ -22,10 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.sql.Timestamp;
-
 import junit.framework.AssertionFailedError;
-
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -50,13 +47,12 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
         return FIXTURE_COLLECTION_NAMES;
     }
 
-    private static long ONE_DAY_MILLIS = 86400000;
+    private static long ONE_DAY_MILLIS = 24 * 60 * 60 * 1000L;
 
     private String _balanceTypeActual;
     private String _btcAttrName;
 
     private String _annualBalancePeriodCode;
-    private String _apcAttrName;
     private Integer _currentFiscalYear;
 
 
@@ -190,19 +186,26 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
     }
 
     /**
-     * Fixture accessor method for getting a <code>{@link Timestamp}</code> instance that is in the past.
+     * Fixture accessor method for getting a <code>{@link java.sql.Date}</code> instance that is in the past.
      * 
      * @return Timestamp
      */
-    protected Timestamp getPastTimestamp() {
-        return new Timestamp(System.currentTimeMillis() - ONE_DAY_MILLIS);
+    private java.sql.Date getSqlDateYesterday() {
+        return new java.sql.Date(System.currentTimeMillis() - ONE_DAY_MILLIS);
     }
 
     /**
-     * Fixture accessor method for getting a <code>{@link Timestamp}</code> instance that is in the future.
+     * Fixture accessor method for getting a <code>{@link java.sql.Date}</code> instance that is in the future.
      */
-    protected Timestamp getFutureTimestamp() {
-        return new Timestamp(System.currentTimeMillis() + ONE_DAY_MILLIS);
+    private java.sql.Date getSqlDateTomorrow() {
+        return new java.sql.Date(System.currentTimeMillis() + ONE_DAY_MILLIS);
+    }
+
+    /**
+     * @return today's java.sql.Date
+     */
+    private java.sql.Date getSqlDateToday() {
+        return new java.sql.Date(System.currentTimeMillis());
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -319,7 +322,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Past() {
-        testIsValidReversalDate(getPastTimestamp(), false);
+        testIsValidReversalDate(getSqlDateYesterday(), false);
     }
 
     /**
@@ -328,7 +331,11 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Future() {
-        testIsValidReversalDate(getFutureTimestamp(), true);
+        testIsValidReversalDate(getSqlDateTomorrow(), true);
+    }
+
+    public void testIsValidReversalDate_Today() {
+        testIsValidReversalDate(getSqlDateToday(), true);
     }
 
     /**
@@ -338,7 +345,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
      * @param expected
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
-    protected void testIsValidReversalDate(Timestamp reversalDate, boolean expected) {
+    protected void testIsValidReversalDate(java.sql.Date reversalDate, boolean expected) {
         assertGlobalErrorMapEmpty();
         boolean result = TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, getErrorPropertyName());
         if (expected) {

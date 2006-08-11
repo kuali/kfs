@@ -22,15 +22,13 @@
  */
 package org.kuali.module.financial.document;
 
-import java.sql.Timestamp;
 import java.util.Iterator;
 
-import static org.kuali.Constants.EMPTY_STRING;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.PropertyConstants.BALANCE_TYPE;
-
 import org.apache.commons.lang.StringUtils;
+import static org.kuali.Constants.EMPTY_STRING;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.PropertyConstants.BALANCE_TYPE;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.bo.SourceAccountingLine;
@@ -38,7 +36,6 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -54,7 +51,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
     // document specific attributes
     private String balanceTypeCode; // balanceType key
     private BalanceTyp balanceType;
-    private Timestamp reversalDate;
+    private java.sql.Date reversalDate;
 
     /**
      * Constructs a JournalVoucherDocument instance.
@@ -105,9 +102,9 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
     /**
      * This method retrieves the reversal date associated with this document.
      * 
-     * @return Timestamp
+     * @return java.sql.Date
      */
-    public Timestamp getReversalDate() {
+    public java.sql.Date getReversalDate() {
         return reversalDate;
     }
 
@@ -116,7 +113,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
      * 
      * @param reversalDate
      */
-    public void setReversalDate(Timestamp reversalDate) {
+    public void setReversalDate(java.sql.Date reversalDate) {
         this.reversalDate = reversalDate;
     }
 

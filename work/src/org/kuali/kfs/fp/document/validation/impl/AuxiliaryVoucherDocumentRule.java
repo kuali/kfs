@@ -22,6 +22,13 @@
  */
 package org.kuali.module.financial.rules;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.ACCOUNTING_PERIOD_STATUS_CLOSED;
 import static org.kuali.Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
@@ -29,14 +36,15 @@ import static org.kuali.Constants.AUXILIARY_LINE_HELPER_PROPERTY_NAME;
 import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.DOCUMENT_ERRORS;
-import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
-import static org.kuali.KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR;
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import org.kuali.KeyConstants;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
 import static org.kuali.KeyConstants.ERROR_CUSTOM;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN;
@@ -46,23 +54,8 @@ import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVR
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
 import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
-import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.bo.SourceAccountingLine;
@@ -83,6 +76,11 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
@@ -241,9 +239,9 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument document, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         AuxiliaryVoucherDocument auxVoucher = (AuxiliaryVoucherDocument) document;
 
-        Timestamp reversalDate = auxVoucher.getReversalDate();
+        java.sql.Date reversalDate = auxVoucher.getReversalDate();
         if(reversalDate != null) {
-            explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(reversalDate.getTime()));
+            explicitEntry.setFinancialDocumentReversalDate(reversalDate);
         } else {
             explicitEntry.setFinancialDocumentReversalDate(null);
         }
@@ -549,7 +547,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             } else {
                 String currentChartCode = line.getChartOfAccountsCode();
                 if(!currentChartCode.equals(baseChartCode)) {
-                    reportError(ACCOUNTING_LINE_ERRORS, KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_CHARTS, new String[] {});
+                    reportError(ACCOUNTING_LINE_ERRORS, KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_CHARTS);
                     return false;
                 }
             }
@@ -578,7 +576,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             } else {
                 String currentSubFundGroup = line.getAccount().getSubFundGroupCode();
                 if(!currentSubFundGroup.equals(baseSubFundGroupCode)) {
-                    reportError(ACCOUNTING_LINE_ERRORS, KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS, new String[] {});
+                    reportError(ACCOUNTING_LINE_ERRORS, KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS);
                     return false;
                 }
             }
@@ -594,7 +592,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      */
     protected boolean isValidReversalDate(AuxiliaryVoucherDocument document) {
         if(document.isAccrualType() && document.getReversalDate() == null) {
-            reportError(PropertyConstants.REVERSAL_DATE, KeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE, new String[] {});
+            reportError(PropertyConstants.REVERSAL_DATE, KeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE);
             return false;
         }
         

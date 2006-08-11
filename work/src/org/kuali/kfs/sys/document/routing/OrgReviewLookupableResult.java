@@ -63,7 +63,9 @@ public class OrgReviewLookupableResult {
         if (ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.OVERRIDE_CD_KEY) != null) {
             this.overrideCd = ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.OVERRIDE_CD_KEY).getValue();
         }
-        this.fromAmount = ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.FROM_AMOUNT_KEY).getValue();
+        if (ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.FROM_AMOUNT_KEY) != null) {
+            this.fromAmount = ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.FROM_AMOUNT_KEY).getValue();
+        }
         if (ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.TO_AMOUNT_KEY) != null) {
             this.toAmount = ruleBaseValues.getRuleExtensionValue(KualiOrgReviewAttribute.TO_AMOUNT_KEY).getValue();
         }

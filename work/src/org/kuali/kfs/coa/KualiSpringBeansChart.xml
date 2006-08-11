@@ -148,5 +148,23 @@
         </property>
     </bean>
     
+    <bean id="workflow-org.kuali.module.chart.bo.Org-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.Org</value>
+        </property>
+    </bean>
+    
+    <bean id="workflow-org.kuali.module.chart.bo.ResponsibilityCenter-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.ResponsibilityCenter</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.OrgType-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.OrgType</value>
+        </property>
+    </bean>
+
     <bean id="OrgReviewLookupable" class="org.kuali.workflow.attribute.OrgReviewLookupableImpl" singleton="false"/>
 </beans>

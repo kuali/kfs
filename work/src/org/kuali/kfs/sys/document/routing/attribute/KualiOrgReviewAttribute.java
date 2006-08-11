@@ -123,8 +123,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     }
 
     private edu.iu.uis.eden.lookupable.Row getOrgRow() {
+        org.kuali.core.web.uidraw.Field kualiOrgField = FieldUtils.getPropertyField(Org.class, Constants.ORGANIZATION_CODE_PROPERTY_NAME, false);
         List orgFields = new ArrayList();
-        orgFields.add(new Field("Org", "", Field.TEXT, true, ORG_CD_KEY, "", null, null, ORG_CD_KEY));
+        orgFields.add(new Field(kualiOrgField.getFieldLabel(), WorkflowLookupableImpl.getHelpUrl(kualiOrgField), Field.TEXT, true, ORG_CD_KEY, kualiOrgField.getPropertyValue(), kualiOrgField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Org.class), ORG_CD_KEY));
+        orgFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Org.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(Constants.ORGANIZATION_CODE_PROPERTY_NAME).append(":").append(ORG_CD_KEY).toString())));
         return new Row(orgFields);
     }
 

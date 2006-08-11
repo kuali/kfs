@@ -23,25 +23,28 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
-import org.kuali.module.gl.util.BusinessObjectHandler;
+import org.kuali.module.gl.util.OJBUtility;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: EncumbranceDaoOjb.java,v 1.10 2006-07-13 21:20:44 larevans Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.11 2006-08-11 14:29:07 bgao Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -163,10 +166,26 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
     public Iterator findOpenEncumbrance(Map fieldValues) {
         LOG.debug("findOpenEncumbrance() started");
 
-        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new Encumbrance());
-        QueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);
-        
+        Query query = this.getOpenEncumbranceQuery(fieldValues);
+        OJBUtility.limitResultSize(query);        
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+    
+    /**
+     * @see org.kuali.module.gl.dao.EncumbranceDao#getOpenEncumbranceRecordCount(java.util.Map)
+     */
+    public Integer getOpenEncumbranceRecordCount(Map fieldValues) {
+        LOG.debug("getOpenEncumbranceRecordCount() started");
+
+        Query query = this.getOpenEncumbranceQuery(fieldValues);       
+        return getPersistenceBrokerTemplate().getCount(query);
+    }
+    
+    //  build the query for encumbrance search
+    private Query getOpenEncumbranceQuery(Map fieldValues){
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Encumbrance());
+        criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(Constants.ENCUMBRANCE_BALANCE_TYPE));        
+        return QueryFactory.newQuery(Encumbrance.class, criteria);       
     }
 
     /**

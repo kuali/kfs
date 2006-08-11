@@ -22,6 +22,8 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Map;
+
 public interface EntryService {
     /**
      * Purge the entry table by year/chart
@@ -30,4 +32,12 @@ public interface EntryService {
      * @param year
      */
     public void purgeYearByChart(String chart, int year);
+    
+    /**
+     * This method gets the number of GL entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @return the number of the open encumbrances
+     */
+    public Integer getEntryRecordCount(Map fieldValues);
 }

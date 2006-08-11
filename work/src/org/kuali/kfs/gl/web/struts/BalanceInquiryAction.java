@@ -103,7 +103,6 @@ public class BalanceInquiryAction extends KualiAction {
         }
         catch (Exception e) {
             GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Please report the server error." });
-            e.printStackTrace();
             LOG.error("Application Errors", e);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

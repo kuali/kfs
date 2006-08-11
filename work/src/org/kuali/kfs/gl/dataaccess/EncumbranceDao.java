@@ -30,7 +30,7 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDao.java,v 1.7 2006-06-30 17:08:14 bgao Exp $
+ * @version $Id: EncumbranceDao.java,v 1.8 2006-08-11 14:29:07 bgao Exp $
  */
 public interface EncumbranceDao {
     public Encumbrance getEncumbranceByTransaction(Transaction t);
@@ -62,4 +62,12 @@ public interface EncumbranceDao {
      * @return a collection of open encumbrances
      */
     public Iterator findOpenEncumbrance(Map fieldValues);
+    
+    /**
+     * This method gets the number of the open encumbrances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @return the number of the open encumbrances
+     */
+    public Integer getOpenEncumbranceRecordCount(Map fieldValues);
 }

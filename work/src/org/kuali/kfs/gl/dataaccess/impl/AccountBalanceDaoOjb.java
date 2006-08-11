@@ -47,7 +47,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 import org.kuali.module.gl.service.AccountBalanceService;
-import org.kuali.module.gl.util.BusinessObjectHandler;
+import org.kuali.module.gl.util.OJBUtility;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -101,7 +101,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
     public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findConsolidatedAvailableAccountBalance() started");
 
-        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
 
         String[] attributes = new String[] {
@@ -115,6 +115,26 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
 
         query.setAttributes(attributes);
         query.addGroupBy(groupBy);
+        OJBUtility.limitResultSize(query);
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
+    
+    /**
+     * @see org.kuali.module.gl.dao.AccountBalanceDao#getConsolidatedAccountBalanceRecordCount(java.util.Map)
+     */
+    public Iterator getConsolidatedAccountBalanceRecordCount(Map fieldValues) {
+        LOG.debug("getConsolidatedAccountBalanceRecordCount() started");
+
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountBalance());
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
+
+        query.setAttributes(new String[] {"count(*)"});
+
+        String[] groupBy = new String[] {
+            "universityFiscalYear","chartOfAccountsCode","accountNumber","objectCode","financialObject.financialObjectTypeCode"
+        };
+        query.addGroupBy(groupBy);
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
@@ -125,8 +145,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
     public Iterator findAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findAvailableAccountBalance(Map) started");
 
-        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountBalance());
         QueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
+        OJBUtility.limitResultSize(query);
         
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }

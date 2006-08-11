@@ -57,4 +57,12 @@ public interface EncumbranceService {
      * @return a collection of open encumbrances
      */
     public Iterator findOpenEncumbrance(Map fieldValues);
+    
+    /**
+     * This method gets the number of the open encumbrances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @return the number of the open encumbrances
+     */
+    public Integer getOpenEncumbranceRecordCount(Map fieldValues);
 }

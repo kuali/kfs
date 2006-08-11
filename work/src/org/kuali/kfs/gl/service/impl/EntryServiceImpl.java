@@ -22,8 +22,12 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.Map;
+
+import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.dao.EntryDao;
 import org.kuali.module.gl.service.EntryService;
+import org.kuali.module.gl.util.OJBUtility;
 
 public class EntryServiceImpl implements EntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryServiceImpl.class);
@@ -38,5 +42,12 @@ public class EntryServiceImpl implements EntryService {
 
     public void setEntryDao(EntryDao entryDao) {
         this.entryDao = entryDao;
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.EntryService#getEntryRecordCount(java.util.Map)
+     */
+    public Integer getEntryRecordCount(Map fieldValues) {
+        return OJBUtility.getResultSizeFromMap(fieldValues, new Entry()).intValue();
     }
 }

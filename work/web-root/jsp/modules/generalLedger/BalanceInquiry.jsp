@@ -75,8 +75,9 @@
 						return with no value </a>
 					</c:if>
 				</logic-el:present></div>
-			</c:if> <c:if test="${param.inquiryFlag == 'true'}">
-				<c:set var="url" value="${pageContext.request.requestURL}" />
+			</c:if> 
+			<c:if test="${param.inquiryFlag == 'true'}">
+				<c:set var="url" value="glBalanceInquiry.do" scope="request" />
 
 				<c:url value="${url}" var="amountViewSwitch">
 					<c:forEach items="${param}" var="params">
@@ -100,8 +101,7 @@
 				</c:url>
 
 				<a href="<c:out value='${amountViewSwitch}'/>"> <input type="button"
-					name="amountViewSwitch" value="<c:out value='${amountViewLabel}'/>" />
-				</a>
+					name="amountViewSwitch" value="<c:out value='${amountViewLabel}'/>" /></a>
 			</c:if>
 			
 			<br />

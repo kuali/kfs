@@ -155,6 +155,9 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
+        <property name="entryService">
+            <ref bean="glEntryService" />
+        </property>
     </bean>
 
     <bean id="glAccountBalanceLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceLookupableImpl" singleton="false">

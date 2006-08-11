@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.Balance;
 
 /**
  * @author Laran evans <lc278@cornell.edu>
- * @version $Id: BalanceService.java,v 1.11 2006-06-26 21:43:47 jsissom Exp $
+ * @version $Id: BalanceService.java,v 1.12 2006-08-11 14:29:07 bgao Exp $
  */
 
 public interface BalanceService {
@@ -69,13 +69,31 @@ public interface BalanceService {
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated);
 
     /**
+     * This method gets the size of cash balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @return the size of cash balance entries
+     */    
+    public Integer getCashBalanceRecordCount(Map fieldValues, boolean isConsolidated);
+    
+    /**
+     * This method gets the size of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @return the size of balance entries
+     */
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+
+    /**
      * This method finds the summary records of balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the summary records of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated);
 
     /**
      * Purge the sufficient funds balance table by year/chart

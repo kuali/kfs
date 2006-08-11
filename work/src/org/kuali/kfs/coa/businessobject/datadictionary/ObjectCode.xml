@@ -324,8 +324,13 @@
 
                 <maxLength>1</maxLength>
                 <required>true</required>
+<!-- 
                 <control>
                     <apcSelect group="ChartMaintenanceEDoc" parameterName="ObjectCodeValidBudgetAggregationCodes" />
+                </control>
+-->              
+                <control>
+                    <text size="1" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>

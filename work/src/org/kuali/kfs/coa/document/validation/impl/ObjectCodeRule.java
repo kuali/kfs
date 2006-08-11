@@ -54,11 +54,11 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     ObjectLevelService objectLevelService;
     ObjectCodeService objectCodeService;
 
-    final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIlegalValues";
+    final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIllegalValues";
     final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES = "ObjectCodeValidBudgetAggregationCodes";
     final static String OBJECT_CODE_VALID_YEAR_CODE_EXCEPTIONS = "ObjectCodeValidYearCodeExceptions";
     final static String OBJECT_CODE_VALID_MANDATORY_TRANSFER_ELIMINATION_CODES = "ObjectCodeValidMandatoryTransferEliminationCodes";
-    final static String OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES = "ObjectCodevalidFederalFundedCodes";
+    final static String OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES = "ObjectCodeValidFederalFundedCodes";
 
 
     private KualiConfigurationService configService;

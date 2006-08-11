@@ -99,4 +99,6 @@ public interface OriginEntryGroupDao {
      * @return
      */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id);
+    
+    public Collection<OriginEntryGroup> getRecentGroups(Date day);
 }

@@ -122,16 +122,20 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="accountFiscalOfficerUser.personName" forceInquiry="true" />
-                <field attributeName="accountManagerUser.personName" forceInquiry="true" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="accountName" />
+				<field attributeName="accountNumber" />
+				<field attributeName="accountName" />               
                 <field attributeName="organizationCode" />
                 <field attributeName="accountTypeCode" />
+                <field attributeName="subFundGroupCode" />
+                <field attributeName="programCode" />
+                <field attributeName="accountFiscalOfficerUser.personUserIdentifier" />               
+                <field attributeName="accountFiscalOfficerUser.personName" forceInquiry="true" />
+                <field attributeName="accountClosedIndicator" />                
+                <field attributeName="accountManagerUser.personName" forceInquiry="true" />
                 <field attributeName="accountCreateDate" />
                 <field attributeName="accountExpirationDate" />
-                <field attributeName="accountClosedIndicator" />
+
             </resultFields>
         </lookup>
 

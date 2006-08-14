@@ -97,8 +97,10 @@
                 <field attributeName="responsibilityCenterCode" />
                 <field attributeName="organizationTypeCode" />
                 <field attributeName="organizationName" />
+                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="reportsToOrganizationCode" />
+                <field attributeName="organizationActiveIndicator" />               
                 <field attributeName="organizationManagerUniversal.personName" />
-                <field attributeName="organizationActiveIndicator" />
             </resultFields>
         </lookup>
 

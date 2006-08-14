@@ -41,10 +41,10 @@
 
             <resultFields>
                 <field attributeName="code" />
-                <field attributeName="projectManagerUniversal.personName" forceInquiry="true" />
                 <field attributeName="name" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
+                <field attributeName="projectManagerUniversal.personName" forceInquiry="true" />               
             </resultFields>
         </lookup>
 

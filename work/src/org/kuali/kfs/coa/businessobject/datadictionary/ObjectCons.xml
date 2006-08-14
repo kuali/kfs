@@ -44,9 +44,9 @@
                 <field attributeName="finConsolidationObjectCode" />
                 <field attributeName="finConsolidationObjectName" />
                 <field attributeName="finConsolidationObjShortName" />
-                <field attributeName="finConsolidationObjActiveIndicator" />
                 <field attributeName="financialEliminationsObjectCode" />
                 <field attributeName="financialReportingSortCode" />
+                <field attributeName="finConsolidationObjActiveIndicator" />                              
             </resultFields>
         </lookup>
 

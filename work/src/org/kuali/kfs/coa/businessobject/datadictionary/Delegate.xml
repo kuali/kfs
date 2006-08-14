@@ -51,10 +51,11 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="financialDocumentTypeCode" />
                 <field attributeName="accountDelegate.personUserIdentifier" />
+                <field attributeName="accountDelegateActiveIndicator" />                
                 <field attributeName="finDocApprovalFromThisAmt" />
                 <field attributeName="finDocApprovalToThisAmount" />
                 <field attributeName="accountsDelegatePrmrtIndicator" />
-                <field attributeName="accountDelegateActiveIndicator" />
+
                 <field attributeName="accountDelegateStartDate" />
             </resultFields>
         </lookup>

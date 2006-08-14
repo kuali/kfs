@@ -52,11 +52,11 @@
 
             <resultFields>
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="finCoaManagerUniversal.personName" />
                 <field attributeName="finChartOfAccountDescription" />
                 <field attributeName="finChartOfAccountActiveIndicator" />
                 <field attributeName="financialCashObjectCode" />
                 <field attributeName="finAccountsPayableObjectCode" />
+                <field attributeName="finCoaManagerUniversal.personName" />
             </resultFields>
         </lookup>
 

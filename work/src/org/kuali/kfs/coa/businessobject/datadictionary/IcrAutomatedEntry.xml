@@ -50,13 +50,13 @@
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="financialIcrSeriesIdentifier" />
                 <field attributeName="balanceTypeCode" />
-                <field attributeName="awardIndrCostRcvyEntryNbr" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
-                <field attributeName="financialSubObjectCode" />
                 <field attributeName="offsetBalanceSheetObjectCodeNumber" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="awardIndrCostRcvyEntryNbr" />
                 <field attributeName="transactionDebitIndicator" />
                 <!--  <field attributeName="awardIndrCostRcvyRatePct" /> -->
             </resultFields>

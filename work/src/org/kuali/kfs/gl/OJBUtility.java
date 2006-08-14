@@ -159,7 +159,7 @@ public class OJBUtility {
     public static Integer getResultLimit(){
         // get the result limit number from configuration
         KualiConfigurationService kualiConfigurationService = (KualiConfigurationService)beanFactory.getBean("kualiConfigurationService");
-        String limitConfig = kualiConfigurationService.getPropertyString("lookup.results.limit");
+        String limitConfig = kualiConfigurationService.getApplicationParameterValue("SYSTEM","lookup.results.limit");
         
         Integer limit = Integer.MAX_VALUE;
         if (limitConfig != null) {

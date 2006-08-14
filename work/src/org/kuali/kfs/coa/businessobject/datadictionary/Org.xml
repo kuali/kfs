@@ -156,7 +156,7 @@
             </attribute>
 
 
-            <attribute name="codeAndDescription" forceUppercase="true">
+            <attribute name="codeAndDescription" forceUppercase="false">
                 <label>Organization Code</label>
                 <shortLabel>Org Code</shortLabel>
 

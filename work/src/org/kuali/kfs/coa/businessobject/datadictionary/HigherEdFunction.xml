@@ -80,7 +80,7 @@
                 <description>Higher Education Function Name...</description>
             </attribute>
 
-            <attribute name="codeAndDescription" forceUppercase="true">
+            <attribute name="codeAndDescription" forceUppercase="false">
                 <label>Higher Education Function Code</label>
                 <shortLabel>Higher Education Function Code</shortLabel>
 

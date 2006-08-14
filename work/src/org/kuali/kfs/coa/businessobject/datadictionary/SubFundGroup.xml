@@ -80,7 +80,7 @@
             </attribute>
 
 
-            <attribute name="codeAndDescription" forceUppercase="true">
+            <attribute name="codeAndDescription" forceUppercase="false">
                 <label>Sub-Fund Group Code</label>
                 <shortLabel>Sub-Fund Group Code</shortLabel>
 

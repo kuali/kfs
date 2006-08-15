@@ -205,7 +205,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         if (StringUtils.isBlank(this.finCoaCd) || StringUtils.isBlank(this.orgCd)) {
             errors.add(new WorkflowServiceErrorImpl("Chart/org is required.", "routetemplate.chartorgattribute.chartorg.required"));
         }
-        else if (SpringServiceLocator.getOrganizationService().getByPrimaryId(finCoaCd, orgCd) == null) {
+        else if (SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(finCoaCd, orgCd) == null) {
             errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
         }
     }
@@ -285,7 +285,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         if (startOrg.getReportsToChartOfAccountsCode().equals(startOrg.getChartOfAccountsCode()) && startOrg.getReportsToOrganizationCode().equals(startOrg.getOrganizationCode())) {
             return;
         }
-        Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryId(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
+        Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
         chartOrgSet.add(reportsToOrg);
         buildOrgReviewHierarchy(chartOrgSet, reportsToOrg);
     }
@@ -341,11 +341,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     // these documents don't have the organization code on them so it must be looked up
                     chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     String accountNumber = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(Constants.ACCOUNT_NUMBER_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-                    Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
+                    Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(chart, accountNumber);
                     org = account.getOrganizationCode();
                 }
                 if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
-                    buildOrgReviewHierarchy(chartOrgValues, SpringServiceLocator.getOrganizationService().getByPrimaryId(chart, org));
+                    buildOrgReviewHierarchy(chartOrgValues, SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org));
                 }
                 else {
                     String xpathExp = null;
@@ -373,7 +373,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                         String finCoaCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountingLineNode);
                         String orgCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + Constants.ORGANIZATION_CODE_PROPERTY_NAME, accountingLineNode);
                         if (!StringUtils.isEmpty(finCoaCd) && !StringUtils.isEmpty(orgCd)) {
-                            Org organization = SpringServiceLocator.getOrganizationService().getByPrimaryId(finCoaCd, orgCd);
+                            Org organization = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(finCoaCd, orgCd);
                             chartOrgValues.add(organization);
                             buildOrgReviewHierarchy(chartOrgValues, organization);
                         }

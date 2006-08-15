@@ -46,6 +46,13 @@ public interface AccountService {
     public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber);
 
     /**
+    * Method is used by KualiAccountAttribute to enable
+    * caching of orgs for routing.
+    * @see org.kuali.module.chart.service.AccountService#getByPrimaryId(java.lang.String, java.lang.String)
+     */
+    public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber);
+    
+    /**
      * This method retrieves the fiscal officers primary delegate based on the chart, account, and document type specified on the
      * example, along with the total dollar amount
      * 

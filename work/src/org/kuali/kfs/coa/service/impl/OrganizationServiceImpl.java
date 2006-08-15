@@ -48,6 +48,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
     }
+    
+    /**
+     * Implements the getByPrimaryId method defined by OrganizationService.  Method is used by KualiOrgReviewAttribute to enable
+     * caching of orgs for routing.
+     * 
+     * @see org.kuali.module.chart.service.impl.OrganizationServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
+     */
+    public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
+        return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
+    }
 
     /**
      * Implements the save() method defined by OrganizationService, including validation of the Org BO

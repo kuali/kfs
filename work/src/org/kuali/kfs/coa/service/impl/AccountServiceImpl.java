@@ -62,6 +62,15 @@ public class AccountServiceImpl implements AccountService {
         }
         return account;
     }
+    
+    /**
+    * Method is used by KualiAccountAttribute to enable
+    * caching of accounts for routing.
+    * @see org.kuali.module.chart.service.impl.AccountServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
+    */
+    public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
+        return accountDao.getByPrimaryId(chartOfAccountsCode, accountNumber);
+    }
 
     /**
      * @see org.kuali.module.chart.service.AccountService#getAccountsThatUserIsResponsibleFor(org.kuali.bo.user.KualiUser)

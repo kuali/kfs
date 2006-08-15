@@ -188,7 +188,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         if (StringUtils.isBlank(this.finCoaCd) || StringUtils.isBlank(this.accountNbr)) {
             errors.add(new WorkflowServiceErrorImpl("Account is required.", "routetemplate.accountattribute.account.required"));
         }
-        else if (SpringServiceLocator.getAccountService().getByPrimaryId(finCoaCd, accountNbr) == null) {
+        else if (SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(finCoaCd, accountNbr) == null) {
             errors.add(new WorkflowServiceErrorImpl("Account is invalid.", "routetemplate.accountattribute.account.invalid"));
         }
     }
@@ -516,7 +516,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             } catch (Exception e) {
             }
         } else {
-            Account account = SpringServiceLocator.getAccountService().getByPrimaryId(role.chart, role.accountNumber);
+            Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(role.chart, role.accountNumber);
             if (account != null) {
                 fiscalOfficerNetworkId = account.getAccountFiscalOfficerUser().getPersonUserIdentifier();
             }

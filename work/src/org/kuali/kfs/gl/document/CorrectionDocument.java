@@ -55,7 +55,9 @@ public class CorrectionDocument extends DocumentBase {
     private String correctionInputFileName; //Should be integer?
     private String correctionOutputFileName; //Should be integer?
     private String correctionScriptText;
-
+    private Long correctionInputGroupId;
+    private Long correctionOutputGroupId;
+    
     // private DocumentHeader financialDocument;
 
     /**
@@ -451,7 +453,38 @@ public class CorrectionDocument extends DocumentBase {
         this.originEntryGroupId = originEntryGroupId;
     }
 
+    /**
+     * Gets the correctionInputGroupId attribute. 
+     * @return Returns the correctionInputGroupId.
+     */
+    public Long getCorrectionInputGroupId() {
+        return correctionInputGroupId;
+    }
 
+    /**
+     * Sets the correctionInputGroupId attribute value.
+     * @param correctionInputGroupId The correctionInputGroupId to set.
+     */
+    public void setCorrectionInputGroupId(Long correctionInputGroupId) {
+        this.correctionInputGroupId = correctionInputGroupId;
+    }
+
+    /**
+     * Gets the correctionOutputGroupId attribute. 
+     * @return Returns the correctionOutputGroupId.
+     */
+    public Long getCorrectionOutputGroupId() {
+        return correctionOutputGroupId;
+    }
+
+    /**
+     * Sets the correctionOutputGroupId attribute value.
+     * @param correctionOutputGroupId The correctionOutputGroupId to set.
+     */
+    public void setCorrectionOutputGroupId(Long correctionOutputGroupId) {
+        this.correctionOutputGroupId = correctionOutputGroupId;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -482,6 +515,6 @@ public class CorrectionDocument extends DocumentBase {
         
         
     }
-    
-    
+
+   
 }

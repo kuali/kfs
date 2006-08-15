@@ -78,12 +78,6 @@ public class KualiPostProcessor implements PostProcessorRemote {
                 }
             }
             LOG.info(new StringBuffer("finished handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
-            if ((document instanceof ProcurementCardDocument) && EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-                Document retrievedDocument = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
-                if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()) && !EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
-                    throw new RuntimeException("KFS document status is out of sync with Workflow document status");
-                }
-            }
         }
         catch (Exception e) {
             logAndRethrow("route status", e);

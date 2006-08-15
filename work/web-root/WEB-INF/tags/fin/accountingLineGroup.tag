@@ -1,9 +1,4 @@
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
-<%@ taglib prefix="logic" uri="/tlds/struts-logic.tld" %>
-<%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
 
 <%@ attribute name="isSource" required="true"
               description="Boolean whether this group is of source or target lines." %>
@@ -70,7 +65,8 @@
 <c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
 <c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
 <c:if test="${empty accountingLineAttributes}">
-  <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
+    <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.${sourceOrTarget}AccountingLineEntryName" returnVar="accountingLineEntryName"/>
+    <c:set var="accountingLineAttributes" value="${DataDictionary[accountingLineEntryName].attributes}" />
 </c:if>  
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 

@@ -32,6 +32,28 @@
 			        <![CDATA[&nbsp;]]>
 			    </description>
 			</attribute>
+
+			<attribute name="referenceOriginCode" forceUppercase="true" override="true">
+			    <label>Reference Origin Code</label>
+			    <shortLabel>Ref Origin Code</shortLabel>
+			
+			    <maxLength>2</maxLength>
+			
+			    <validationPattern>
+			        <anyCharacter />
+			    </validationPattern>
+			    <required>true</required>
+			    <control>
+			        <text size="4" />
+			    </control>
+			
+			    <summary>
+			        <![CDATA[&nbsp;]]>
+			    </summary>
+			    <description>
+			        <![CDATA[&nbsp;]]>
+			    </description>
+			</attribute>
         </attributes>
 
         <collections>

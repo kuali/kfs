@@ -64,17 +64,18 @@ public interface AccountBalanceDao {
     public Iterator findAvailableAccountBalance(Map fieldValues);
 
     /**
-     * Get available balances by consolidation
+     * Get available balances by consolidation for specific object types
      * 
+     * @param objectTypes
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param isExcludeCostShare
      * @param isConsolidated
-     * @return a List of Maps
+     * @param pendingEntriesCode
+     * @return
      */
-    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated,int pendingEntryCode);
-
+    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes,Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated,int pendingEntriesCode);
 
     /**
      * Get available balances by level

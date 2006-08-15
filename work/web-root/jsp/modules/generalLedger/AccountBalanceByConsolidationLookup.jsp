@@ -25,7 +25,6 @@
 		<tr>
 			<td width="1%"><img src="images/pixel_clear.gif" alt="" width="20"
 				height="20" /></td>
-
 			<td>
 			<div id="lookup" align="center"><br />
 			<br />
@@ -75,7 +74,7 @@
 				</c:if>
 			</logic-el:present></div>
 
-			<c:set var="offset" value="5" /> <display:table class="datatable-100"
+			<c:set var="offset" value="8" /> <display:table class="datatable-100"
 				cellspacing="0" cellpadding="0" name="${reqSearchResults}" id="row"
 				export="true" pagesize="100" offset="${offset}"
 				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
@@ -104,42 +103,80 @@
 						</c:if>
 					</c:if>
 				</c:forEach>
-			</display:table> <c:if test="${reqSearchResultsActualSize>4}">
+			</display:table>
+
+			<c:if test="${reqSearchResultsActualSize>7}">
 				<div style="float: right; width: 70%;"><br />
 				<br />
-				<display:table class="datatable-100" cellspacing="0" cellpadding="0"
-					name="${reqSearchResults}" id="row" export="false"
-					length="${offset-2}">
-
-					<display:caption style="text-align: left; font-weight: bold;">Totals</display:caption>
-
-					<c:set var="indexOfbeginningColumn" value="5" />
-					<c:forEach items="${row.columns}" var="column" varStatus="status"
-						begin="${indexOfbeginningColumn}"
-						end="${indexOfbeginningColumn+4}">
-
-						<c:if test="${status.count == 1}">
-							<display:column class="infocell" title="Type">
-								<c:out value="${column.propertyValue}" />
-							</display:column>
-						</c:if>
-
-						<c:if test="${status.count != 1}">
-							<display:column class="numbercell" title="${column.columnTitle}">
-								<c:out value="${column.propertyValue}" />
-							</display:column>
-						</c:if>
-					</c:forEach>
-
-					<display:footer>
-						<tr>
-							<th colspan="${indexOfbeginningColumn-1}" class="infocell"
-								style="text-align: right">Available Balance:&nbsp;</th>
-							<td class="numbercell"><c:out
-								value="${reqSearchResults[3].columns[9].propertyValue}" /></td>
-						</tr>
-					</display:footer>
-				</display:table></div>
+                <table class="datatable-100" id="row" cellpadding="0" cellspacing="0">
+                  <caption style="text-align: left; font-weight: bold;">Totals</caption>
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Budget Amount</th>
+                      <th>Actuals Amount</th>
+                      <th>Encumbrance Amount</th>
+                      <th>Variance</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th colspan="4" class="infocell" style="text-align: right;">${reqSearchResults[6].columns[5].propertyValue}</th>
+                      <td class="numbercell">${reqSearchResults[6].columns[9].propertyValue}</td>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr class="odd">
+                      <td class="infocell">${reqSearchResults[0].columns[5].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[0].columns[6].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[0].columns[7].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[0].columns[8].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[0].columns[9].propertyValue}</td>
+                    </tr>
+                    <tr class="odd">
+                      <td class="infocell">${reqSearchResults[1].columns[5].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[1].columns[6].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[1].columns[7].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[1].columns[8].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[1].columns[9].propertyValue}</td>
+                    </tr>
+                    <tr class="even">
+                      <td class="infocell"><b>${reqSearchResults[2].columns[5].propertyValue}</b></td>
+                      <td class="numbercell">${reqSearchResults[2].columns[6].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[2].columns[7].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[2].columns[8].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[2].columns[9].propertyValue}</td>
+                    </tr>
+                    <tr class="odd">
+                      <td class="infocell" colspan="5">&nbsp;</td>
+                    </tr>
+                    <tr class="odd">
+                      <td class="infocell">${reqSearchResults[3].columns[5].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[3].columns[6].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[3].columns[7].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[3].columns[8].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[3].columns[9].propertyValue}</td>
+                    </tr>
+                    <tr class="odd">
+                      <td class="infocell">${reqSearchResults[4].columns[5].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[4].columns[6].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[4].columns[7].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[4].columns[8].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[4].columns[9].propertyValue}</td>
+                    </tr>
+                    <tr class="even">
+                      <td class="infocell"><b>${reqSearchResults[5].columns[5].propertyValue}</b></td>
+                      <td class="numbercell">${reqSearchResults[5].columns[6].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[5].columns[7].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[5].columns[8].propertyValue}</td>
+                      <td class="numbercell">${reqSearchResults[5].columns[9].propertyValue}</td>
+                    </tr>
+                    <tr class="odd">
+                      <td class="infocell" colspan="5">&nbsp;</td>
+                    </tr>
+                  </tbody>
+                </table>
+				</div>
 			</c:if></td>
 			<td width="1%"><img src="images/pixel_clear.gif" alt="" height="20"
 				width="20"></td>

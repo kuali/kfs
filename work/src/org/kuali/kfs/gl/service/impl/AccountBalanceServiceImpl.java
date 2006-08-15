@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.kuali.KeyConstants;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.dao.AccountBalanceDao;
@@ -38,21 +40,13 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: AccountBalanceServiceImpl.java,v 1.13 2006-08-11 14:29:07 bgao Exp $
+ * @version $Id: AccountBalanceServiceImpl.java,v 1.14 2006-08-15 14:22:01 jsissom Exp $
  */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
 
     AccountBalanceDao accountBalanceDao;
-
-    /**
-     * Sets the accountBalanceDao attribute value.
-     * 
-     * @param accountBalanceDao The accountBalanceDao to set.
-     */
-    public void setAccountBalanceDao(AccountBalanceDao accountBalanceDao) {
-        this.accountBalanceDao = accountBalanceDao;
-    }
+    KualiConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.module.gl.service.AccountBalanceService#findConsolidatedAvailableAccountBalance(java.util.Map)
@@ -72,21 +66,60 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         return accountBalanceDao.findAvailableAccountBalance(fieldValues);
     }
 
+    public void printIt(String[] data,String x) {
+        for (int e = 0; e < data.length; e++) {
+            LOG.error("printIt() XXXXXXXXXXXXX: " + x + " " + data[e]);
+        }
+    }
     /**
      * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByConsolidation(java.util.Map, boolean, boolean)
      */
     public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
         LOG.debug("findAccountBalanceByConsolidation() started");
 
-        // Put the 4 total lines at the beginning of the list
+        String[] incomeObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "INCOME_OBJECT_TYPE_CODES");
+        String[] incomeTransferObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "INCOME_TRANSFER_OBJECT_TYPE_CODES");
+        String[] expenseObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "EXPENSE_OBJECT_TYPE_CODES");
+        String[] expenseTransferObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "EXPENSE_TRANSFER_OBJECT_TYPE_CODES");
+
+        // Consolidate all object types into one array (yes I could have used lists, but it was just as many lines of code than this)
+        String[] allObjectTypes = new String[incomeObjectTypes.length + incomeTransferObjectTypes.length + expenseObjectTypes.length + expenseTransferObjectTypes.length];
+        int count = 0;
+        for (int i = 0; i < incomeObjectTypes.length; i++) {
+            allObjectTypes[count++] = incomeObjectTypes[i];
+        }
+        for (int i = 0; i < incomeTransferObjectTypes.length; i++) {
+            allObjectTypes[count++] = incomeTransferObjectTypes[i];
+        }
+        for (int i = 0; i < expenseObjectTypes.length; i++) {
+            allObjectTypes[count++] = expenseObjectTypes[i];
+        }
+        for (int i = 0; i < expenseTransferObjectTypes.length; i++) {
+            allObjectTypes[count++] = expenseTransferObjectTypes[i];
+        }
+
+        printIt(incomeObjectTypes,"income");
+        printIt(incomeTransferObjectTypes,"incomeTransfer");
+        printIt(expenseObjectTypes,"expense");
+        printIt(expenseTransferObjectTypes,"expenseTransfer");
+        printIt(allObjectTypes,"all");
+        
+        // Put the total lines at the beginning of the list
         List results = new ArrayList();
-        AccountBalance income = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_INCOME);
-        AccountBalance expenseGross = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS);
-        AccountBalance expenseNet = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_IN);
-        AccountBalance total = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_AVAILABLE);
+        AccountBalance income = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME));
+        AccountBalance incomeTransfers = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS));
+        AccountBalance incomeTotal = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME_TOTAL));
+        AccountBalance expense = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE));
+        AccountBalance expenseTransfers = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS));
+        AccountBalance expenseTotal = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE_TOTAL));
+        AccountBalance total = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.TOTAL));
+
         results.add(income);
-        results.add(expenseGross);
-        results.add(expenseNet);
+        results.add(incomeTransfers);
+        results.add(incomeTotal);
+        results.add(expense);
+        results.add(expenseTransfers);
+        results.add(expenseTotal);
         results.add(total);
 
         // If you want a sub account, you can't do consolidated
@@ -96,85 +129,92 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         }
 
         // Get the data
-        List balances = accountBalanceDao.findAccountBalanceByConsolidation(universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        List balances = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(allObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
-
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
 
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
-
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
-
-                    addBalanceToTotals(bbc, income, expenseGross, expenseNet, total);
+                    addBalanceToTotals(bbc,incomeTotal,expenseTotal);
                     results.add(bbc);
-
                 }
             }
             else {
-
-                addBalanceToTotals(bbc, income, expenseGross, expenseNet, total);
+                addBalanceToTotals(bbc,incomeTotal,expenseTotal);
                 results.add(bbc);
-
             }
-
         }
 
-        total.getDummyBusinessObject().setGenericAmount(income.getDummyBusinessObject().getGenericAmount().add(expenseGross.getDummyBusinessObject().getGenericAmount()));
+        // Calculate totals
 
-        income.getDummyBusinessObject().setGenericAmount(income.getAccountLineActualsBalanceAmount().subtract(income.getCurrentBudgetLineBalanceAmount()));
-
-        // should be the available amount
-        expenseGross.getDummyBusinessObject().setGenericAmount(expenseGross.getCurrentBudgetLineBalanceAmount().subtract(expenseGross.getAccountLineActualsBalanceAmount()).subtract(expenseGross.getAccountLineEncumbranceBalanceAmount()));
-
-        expenseNet.getDummyBusinessObject().setGenericAmount(expenseGross.getDummyBusinessObject().getGenericAmount());
-
-        // Adjust net amount for balances by consolidation level.
-        List accountBalancesForConsolidationLevel = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, "TRSF", isCostShareExcluded, isConsolidated, pendingEntryCode);
-
-        for (Iterator iterator = accountBalancesForConsolidationLevel.iterator(); iterator.hasNext();) {
-
-            Object o = iterator.next();
-            Map balanceForLevel = (Map) o;
-
-            String objectLevelCode = balanceForLevel.get("FIN_OBJ_LEVEL_CD").toString();
-
-            if (!ObjectHelper.isOneOf(objectLevelCode, new String[] { "CORI", "TRIN" })) {
-
-                continue;
-
-            }
-
-            // Pull balances from the map.
-            KualiDecimal budgetBalance = new KualiDecimal(balanceForLevel.get("CURR_BDLN_BAL_AMT").toString());
-            KualiDecimal actualBalance = new KualiDecimal(balanceForLevel.get("ACLN_ACTLS_BAL_AMT").toString());
-            KualiDecimal encumbranceBalance = new KualiDecimal(balanceForLevel.get("ACLN_ENCUM_BAL_AMT").toString());
-
-            // Calculate variance
-            KualiDecimal variance = null;
-            if ("B".equals(balanceForLevel.get("TYP_FIN_REPORT_SORT_CD"))) {
-
-                variance = budgetBalance.subtract(actualBalance).subtract(encumbranceBalance);
-
+        // Get balances for these parameters, then based on the object type code, put balances into the correct summary line
+        List data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        for (Iterator iter = data.iterator(); iter.hasNext();) {
+            Map bal = (Map) iter.next();
+            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
+                    income.add(bbc);
+                }
             }
             else {
-
-                variance = actualBalance.subtract(budgetBalance);
-
+                income.add(bbc);
             }
-
-            // Update the net expense.
-            expenseNet.getDummyBusinessObject().setGenericAmount(expenseNet.getDummyBusinessObject().getGenericAmount().subtract(variance));
-
-            expenseNet.setCurrentBudgetLineBalanceAmount(expenseNet.getCurrentBudgetLineBalanceAmount().subtract(budgetBalance));
-
-            expenseNet.setAccountLineActualsBalanceAmount(expenseNet.getAccountLineActualsBalanceAmount().subtract(actualBalance));
-
-            expenseNet.setAccountLineEncumbranceBalanceAmount(expenseNet.getAccountLineEncumbranceBalanceAmount().subtract(encumbranceBalance));
-
         }
+
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        for (Iterator iter = data.iterator(); iter.hasNext();) {
+            Map bal = (Map) iter.next();
+            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
+                    incomeTransfers.add(bbc);
+                }
+            }
+            else {
+                incomeTransfers.add(bbc);
+            }
+        }
+
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        for (Iterator iter = data.iterator(); iter.hasNext();) {
+            Map bal = (Map) iter.next();
+            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
+                    expense.add(bbc);
+                }
+            }
+            else {
+                expense.add(bbc);
+            }
+        }
+
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        for (Iterator iter = data.iterator(); iter.hasNext();) {
+            Map bal = (Map) iter.next();
+            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
+                    expenseTransfers.add(bbc);
+                }
+            }
+            else {
+                expenseTransfers.add(bbc);
+            }
+        }
+
+        // Add up variances
+        income.getDummyBusinessObject().setGenericAmount(income.getAccountLineActualsBalanceAmount().subtract(income.getCurrentBudgetLineBalanceAmount()));
+        incomeTransfers.getDummyBusinessObject().setGenericAmount(incomeTransfers.getAccountLineActualsBalanceAmount().subtract(incomeTransfers.getCurrentBudgetLineBalanceAmount()));
+        incomeTotal.getDummyBusinessObject().setGenericAmount(incomeTotal.getAccountLineActualsBalanceAmount().subtract(incomeTotal.getCurrentBudgetLineBalanceAmount()));
+        expense.getDummyBusinessObject().setGenericAmount(expense.getCurrentBudgetLineBalanceAmount().subtract(expense.getAccountLineActualsBalanceAmount().subtract(expense.getAccountLineEncumbranceBalanceAmount())));
+        expenseTransfers.getDummyBusinessObject().setGenericAmount(expenseTransfers.getCurrentBudgetLineBalanceAmount().subtract(expenseTransfers.getAccountLineActualsBalanceAmount().subtract(expenseTransfers.getAccountLineEncumbranceBalanceAmount())));
+        expenseTotal.getDummyBusinessObject().setGenericAmount(expenseTotal.getCurrentBudgetLineBalanceAmount().subtract(expenseTotal.getAccountLineActualsBalanceAmount().subtract(expenseTotal.getAccountLineEncumbranceBalanceAmount())));
+        total.getDummyBusinessObject().setGenericAmount(incomeTotal.getDummyBusinessObject().getGenericAmount().subtract(expenseTotal.getDummyBusinessObject().getGenericAmount()));
 
         return results;
     }
@@ -186,14 +226,14 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @param expin
      * @param total
      */
-    private void addBalanceToTotals(AccountBalance accountBalance, AccountBalance income, AccountBalance grossExpense, AccountBalance expin, AccountBalance total) {
+    private void addBalanceToTotals(AccountBalance accountBalance, AccountBalance incomeTotal, AccountBalance expenseTotal) {
         String reportingSortCode = accountBalance.getFinancialObject().getFinancialObjectType().getFinancialReportingSortCode();
 
         if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {
-            grossExpense.add(accountBalance);
+            expenseTotal.add(accountBalance);
         }
         else {
-            income.add(accountBalance);
+            incomeTotal.add(accountBalance);
         }
     }
 
@@ -302,5 +342,13 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             recordCount = recordCountList.size();
         }
         return recordCount;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kcs) {
+        kualiConfigurationService = kcs;
+    }
+
+    public void setAccountBalanceDao(AccountBalanceDao accountBalanceDao) {
+        this.accountBalanceDao = accountBalanceDao;
     }
 }

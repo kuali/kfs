@@ -154,17 +154,17 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
 
     /**
      * 
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByConsolidation(java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
+     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByConsolidationByObjectTypes(java.lang.String[], java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated,int pendingEntriesCode) {
-        LOG.debug("findAccountBalanceByConsolidation() started");
+    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes,Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated,int pendingEntriesCode) {
+        LOG.debug("findAccountBalanceByConsolidationByObjectTypes() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
             Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
             AccountBalanceConsolidation abc = new AccountBalanceConsolidation(this,optionsService,dateTimeService,c);
 
-            return abc.findAccountBalanceByConsolidation(universityFiscalYear,chartOfAccountsCode,accountNumber,isExcludeCostShare,isConsolidated,pendingEntriesCode);
+            return abc.findAccountBalanceByConsolidationObjectTypes(objectTypes,universityFiscalYear,chartOfAccountsCode,accountNumber,isExcludeCostShare,isConsolidated,pendingEntriesCode);
         }
         catch (Exception e) {
             LOG.error("findAccountBalanceByConsolidation() " + e.getMessage(), e);

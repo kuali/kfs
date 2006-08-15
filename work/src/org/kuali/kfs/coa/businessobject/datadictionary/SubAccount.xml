@@ -35,7 +35,7 @@
                 <field attributeName="subAccountName" />
                 <field attributeName="subAccountActiveIndicator" />
                 <field attributeName="a21SubAccount.subAccountTypeCode" />
-
+                
                 <field attributeName="financialReportingCodeSectionBlank" />
                 <field attributeName="financialReportingCodeSection" />
 
@@ -58,8 +58,6 @@
                 <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
                 <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
                 <field attributeName="a21SubAccount.offCampusCode" />
-
-
 
             </inquiryFields>
         </inquiry>
@@ -91,11 +89,14 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="subAccountName" />
+				<!-- JHK: KULCOA-1026 commented out to prevent horizontal scrolling
                 <field attributeName="financialReportChartCode" />
                 <field attributeName="finReportOrganizationCode" />
                 <field attributeName="financialReportingCode" />
+                -->
                 <field attributeName="subAccountActiveIndicator" />
                 <field attributeName="a21SubAccount.subAccountTypeCode" />
+				<!-- JHK: KULCOA-1026 commented out to prevent horizontal scrolling
                 <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
                 <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
                 <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
@@ -104,6 +105,7 @@
                 <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
                 <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
                 <field attributeName="a21SubAccount.offCampusCode" />
+                -->
             </resultFields>
         </lookup>
 

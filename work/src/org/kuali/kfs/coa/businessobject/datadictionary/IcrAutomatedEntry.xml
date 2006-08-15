@@ -156,7 +156,7 @@
             </attributeReference>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>SubObject Code</label>
+                <label>Sub-Object Code</label>
                 <shortLabel>SubObject</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -168,8 +168,8 @@
                     <text size="3" />
                 </control>
 
-                <summary>SubObject Code</summary>
-                <description>SubObject Code</description>
+                <summary>Sub-Object Code</summary>
+                <description>Sub-Object Code</description>
             </attribute>
 
             <attributeReference name="offsetBalanceSheetObjectCodeNumber" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">

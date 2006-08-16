@@ -1099,14 +1099,26 @@
 
     <!-- SUFFICIENT FUNDS SERVICE/DAO -->
     <bean id="sufficientFundsService" class="org.kuali.module.gl.service.impl.SufficientFundsServiceImpl">
-        <property name="sufficientFundBalancesDao">
-        	<ref bean="glSufficientFundBalancesDao"/>
-        </property>
+    	<property name="accountService">
+    		<ref bean="accountService"/>
+    	</property>
+    	<property name="objectLevelservice">
+    		<ref bean="objectLevelService"/>
+    	</property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="sufficientFundsDao">
             <ref bean="sufficientFundsDao" />
+        </property>
+        <property name="kualiRuleService">
+        	<ref bean="kualiRuleService" />
+        </property>
+        <property name="optionsDao">
+        	<ref bean="optionsDao"/>
+        </property>
+        <property name="sufficientFundBalancesDao">
+        	<ref bean="glSufficientFundBalancesDao"/>
         </property>
     </bean>
 

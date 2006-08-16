@@ -1102,7 +1102,7 @@
     	<property name="accountService">
     		<ref bean="accountService"/>
     	</property>
-    	<property name="objectLevelservice">
+    	<property name="objectLevelService">
     		<ref bean="objectLevelService"/>
     	</property>
         <property name="kualiConfigurationService">

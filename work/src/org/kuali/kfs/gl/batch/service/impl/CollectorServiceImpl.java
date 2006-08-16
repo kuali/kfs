@@ -22,22 +22,32 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.io.*;
-import java.util.Currency;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
-import org.apache.log4j.*;
-import org.bouncycastle.asn1.x509.qualified.MonetaryValue;
+import org.apache.log4j.Logger;
 import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
-import org.kuali.core.service.*;
-import org.kuali.module.gl.collector.xml.*;
-import org.kuali.module.gl.collector.xml.impl.*;
-import org.kuali.module.gl.service.*;
-import org.springframework.beans.*;
-import org.springframework.beans.factory.*;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.MailService;
+import org.kuali.module.gl.collector.xml.CollectorFileHandler;
+import org.kuali.module.gl.collector.xml.CollectorFileParser;
+import org.kuali.module.gl.collector.xml.FileReadException;
+import org.kuali.module.gl.collector.xml.XmlHeader;
+import org.kuali.module.gl.collector.xml.XmlTrailer;
+import org.kuali.module.gl.collector.xml.impl.CollectorFileHandlerImpl;
+import org.kuali.module.gl.collector.xml.impl.HardEditHandler;
+import org.kuali.module.gl.service.CollectorService;
+import org.kuali.module.gl.service.InterDepartmentalBillingService;
+import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.OriginEntryService;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 
 public class CollectorServiceImpl implements CollectorService, BeanFactoryAware {
     private static Logger LOG = Logger.getLogger(CollectorServiceImpl.class);

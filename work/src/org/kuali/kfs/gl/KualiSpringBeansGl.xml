@@ -681,6 +681,9 @@
         <property name="accountService">
             <ref bean="accountService" />
         </property>
+        <property name="sufficientFundsService">
+        	<ref bean="sufficientFundsService" />
+        </property>
     </bean>
 
     <bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl" init-method="init">
@@ -1099,26 +1102,23 @@
 
     <!-- SUFFICIENT FUNDS SERVICE/DAO -->
     <bean id="sufficientFundsService" class="org.kuali.module.gl.service.impl.SufficientFundsServiceImpl">
-    	<property name="accountService">
-    		<ref bean="accountService"/>
-    	</property>
-    	<property name="objectLevelService">
-    		<ref bean="objectLevelService"/>
-    	</property>
+        <property name="sufficientFundBalancesDao">
+        	<ref bean="glSufficientFundBalancesDao"/>
+        </property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="sufficientFundsDao">
             <ref bean="sufficientFundsDao" />
         </property>
-        <property name="kualiRuleService">
-        	<ref bean="kualiRuleService" />
-        </property>
         <property name="optionsService">
         	<ref bean="optionsService"/>
         </property>
-        <property name="sufficientFundBalancesDao">
-        	<ref bean="glSufficientFundBalancesDao"/>
+        <property name="kualiRuleService">
+        	<ref bean="kualiRuleService"/>
+        </property>
+        <property name="accountService">
+        	<ref bean="accountService"/>
         </property>
     </bean>
 

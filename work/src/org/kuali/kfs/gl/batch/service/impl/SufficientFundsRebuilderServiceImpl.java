@@ -48,6 +48,7 @@ import org.kuali.module.gl.dao.BalanceDao;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.kuali.module.gl.service.SufficientFundRebuildService;
 import org.kuali.module.gl.service.SufficientFundsRebuilderService;
+import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.Summary;
 
 /**
@@ -61,6 +62,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private KualiConfigurationService kualiConfigurationService;
     private BalanceDao balanceDao;
     private SufficientFundBalancesDao sufficientFundBalancesDao;
+    private SufficientFundsService sufficientFundsService;
     private SufficientFundRebuildService sufficientFundRebuildService;
     private OptionsDao optionsDao;
     private SufficientFundsReport sufficientFundsReportService;
@@ -78,7 +80,6 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private int sfrbRecordsReadCount;
     private int sfrbRecordsDeletedCount;
     private int sfrbNotDeletedCount;
-    // private int sfblRecordsDeletedCount;
     private int sfblInsertedCount;
     private int sfblUpdatedCount;
     private int warningCount;
@@ -90,21 +91,13 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     }
 
     private Integer getFiscalYear() {
-        String val;
-        try {
-            val = kualiConfigurationService.getApplicationParameterValue("fis_sf_rebuild.sh", "UNIV_FISCAL_YR");
-        }
-        catch (ApplicationParameterException e) {
-            LOG.error("getFiscalYear() Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
-            throw new RuntimeException("Unable to get fiscal year from kualiConfigurationService", e);
-        }
-
+        String val = kualiConfigurationService.getApplicationParameterValue("fis_sf_rebuild.sh", "UNIV_FISCAL_YR");
         int yr = Integer.parseInt(val);
         return new Integer(yr);
     }
 
     public void rebuildSufficientFunds() { // driver
-        LOG.debug("beginning sufficient funds rebuild process");
+        LOG.debug("rebuildSufficientFunds() started");
 
         universityFiscalYear = getFiscalYear();
         initService();
@@ -151,10 +144,10 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         for (Iterator iter = sufficientFundRebuildService.getAll().iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
 
-            if ((!"A".equals(sfrb.getAccountFinancialObjectTypeCode())) && (!"O".equals(sfrb.getAccountFinancialObjectTypeCode()))) {
+            if ( ( ! Constants.SF_TYPE_ACCOUNT.equals(sfrb.getAccountFinancialObjectTypeCode())) && ( ! Constants.SF_TYPE_OBJECT.equals(sfrb.getAccountFinancialObjectTypeCode())) ) {
                 ++sfrbRecordsReadCount;
                 transactionErrors = new ArrayList();
-                addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'");
+                addTransactionError("Invalid sufficient funds object type code");
                 ++warningCount;
                 ++sfrbNotDeletedCount;
                 batchError.put(sfrb, transactionErrors);
@@ -167,7 +160,6 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         reportSummary.add(new Summary(2, "Post conversion SFRB records read", new Integer(sfrbRecordsReadCount)));
         reportSummary.add(new Summary(3, "SFRB records deleted", new Integer(sfrbRecordsDeletedCount)));
         reportSummary.add(new Summary(4, "SFRB records kept due to errors", new Integer(sfrbNotDeletedCount)));
-        // reportSummary.add(new Summary(5, "SFBL records deleted", new Integer(sfblRecordsDeletedCount)));
         reportSummary.add(new Summary(6, "SFBL records added", new Integer(sfblInsertedCount)));
         reportSummary.add(new Summary(7, "SFBL records updated", new Integer(sfblUpdatedCount)));
         sufficientFundsReportService.generateReport(batchError, reportSummary, runDate, 0);
@@ -199,10 +191,10 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         for (Iterator fundBalancesIter = fundBalances.iterator(); fundBalancesIter.hasNext();) {
             SufficientFundBalances sfbl = (SufficientFundBalances) fundBalancesIter.next();
 
-            SufficientFundRebuild altSfrb = sufficientFundRebuildService.get(sfbl.getChartOfAccountsCode(), "A", sfbl.getAccountNumber());
+            SufficientFundRebuild altSfrb = sufficientFundRebuildService.get(sfbl.getChartOfAccountsCode(), Constants.SF_TYPE_ACCOUNT, sfbl.getAccountNumber());
             if (altSfrb == null) {
                 altSfrb = new SufficientFundRebuild();
-                altSfrb.setAccountFinancialObjectTypeCode("A");
+                altSfrb.setAccountFinancialObjectTypeCode(Constants.SF_TYPE_ACCOUNT);
                 altSfrb.setAccountNumberFinancialObjectCode(sfbl.getAccountNumber());
                 altSfrb.setChartOfAccountsCode(sfbl.getChartOfAccountsCode());
                 sufficientFundRebuildService.save(altSfrb);
@@ -213,11 +205,14 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
-        if ((sfrbAccount.getAccountSufficientFundsCode() != null) && ("ALCOHN".indexOf(sfrbAccount.getAccountSufficientFundsCode()) > -1)) {
+        if ( (sfrbAccount.getAccountSufficientFundsCode() != null) && ( Constants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) ||
+                Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) ||
+                Constants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) ||
+                Constants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()) ) ) {
             ++sfrbRecordsDeletedCount;
             sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 
-            if ((!sfrbAccount.isPendingAcctSufficientFundsIndicator()) || ("N".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode()))) {
+            if ((!sfrbAccount.isPendingAcctSufficientFundsIndicator()) || (Constants.SF_TYPE_NO_CHECKING.equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode()))) {
                 // nothing to do here, no errors either, just return
                 return;
             }
@@ -236,31 +231,15 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             while (balancesIterator.hasNext()) {
                 Balance balance = (Balance) balancesIterator.next();
 
-                String tempFinObjectCd = "";
-                if (Constants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode())) {
-                    tempFinObjectCd = balance.getObjectCode();
-                }
-                else if (Constants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode())) {
-                    tempFinObjectCd = balance.getFinancialObject().getFinancialObjectLevelCode();
-                }
-                else if (Constants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode())) {
-                    tempFinObjectCd = balance.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObjectCode();
-                }
-                else if (Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode())) {
-                    tempFinObjectCd = "    ";
-                }
+                String tempFinObjectCd = sufficientFundsService.getSufficientFundsObjectCode(balance.getFinancialObject(), sfrbAccount.getAccountSufficientFundsCode());
 
                 if (!tempFinObjectCd.equals(currentFinObjectCd)) {
                     // we have a change or are on the last record, write out the data if there is any
                     currentFinObjectCd = tempFinObjectCd;
 
                     if (currentSfbl != null) {
-                        // Only save if there is a balance in one of the 3 buckets
-                        if ((currentSfbl.getAccountActualExpenditureAmt().compareTo(KualiDecimal.ZERO) != 0) || (currentSfbl.getAccountEncumbranceAmount().compareTo(KualiDecimal.ZERO) != 0) || (currentSfbl.getCurrentBudgetBalanceAmount().compareTo(KualiDecimal.ZERO) != 0)) {
-
-                            sufficientFundBalancesDao.save(currentSfbl);
-                            ++sfblInsertedCount;
-                        }
+                        sufficientFundBalancesDao.save(currentSfbl);
+                        ++sfblInsertedCount;
                     }
 
                     currentSfbl = new SufficientFundBalances();
@@ -269,9 +248,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                     currentSfbl.setAccountNumber(sfrbAccount.getAccountNumber());
                     currentSfbl.setFinancialObjectCode(currentFinObjectCd);
                     currentSfbl.setAccountSufficientFundsCode(sfrbAccount.getAccountSufficientFundsCode());
-                    currentSfbl.setAccountActualExpenditureAmt(new KualiDecimal(0.0));
-                    currentSfbl.setAccountEncumbranceAmount(new KualiDecimal(0.0));
-                    currentSfbl.setCurrentBudgetBalanceAmount(new KualiDecimal(0.0));
+                    currentSfbl.setAccountActualExpenditureAmt(KualiDecimal.ZERO);
+                    currentSfbl.setAccountEncumbranceAmount(KualiDecimal.ZERO);
+                    currentSfbl.setCurrentBudgetBalanceAmount(KualiDecimal.ZERO);
                 }
 
                 if ("CG".equalsIgnoreCase(sfrbAccount.getSubFundGroup().getFundGroupCode())) {
@@ -288,10 +267,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
             // save the last one
             if (currentSfbl != null) {
-                if ((currentSfbl.getAccountActualExpenditureAmt().compareTo(KualiDecimal.ZERO) != 0) || (currentSfbl.getAccountEncumbranceAmount().compareTo(KualiDecimal.ZERO) != 0) || (currentSfbl.getCurrentBudgetBalanceAmount().compareTo(KualiDecimal.ZERO) != 0)) {
-                    sufficientFundBalancesDao.save(currentSfbl);
-                    ++sfblInsertedCount;
-                }
+                sufficientFundBalancesDao.save(currentSfbl);
+                ++sfblInsertedCount;
             }
         }
         else {
@@ -398,4 +375,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         this.accountService = accountService;
     }
 
+    public void setSufficientFundsService(SufficientFundsService sfs) {
+        sufficientFundsService = sfs;
+    }
 }

@@ -24,6 +24,7 @@ package org.kuali.module.gl.service.impl;
 
 import java.util.Collection;
 
+import org.kuali.Constants;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.service.SufficientFundRebuildService;
@@ -42,13 +43,13 @@ public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildSe
     public Collection getAllAccountEntries() {
         LOG.debug("getAllAccountEntries() started");
 
-        return sufficientFundRebuildDao.getByType("A");
+        return sufficientFundRebuildDao.getByType(Constants.SF_TYPE_ACCOUNT);
     }
 
     public Collection getAllObjectEntries() {
         LOG.debug("getAllObjectEntries() started");
 
-        return sufficientFundRebuildDao.getByType("O");
+        return sufficientFundRebuildDao.getByType(Constants.SF_TYPE_OBJECT);
     }
 
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode) {

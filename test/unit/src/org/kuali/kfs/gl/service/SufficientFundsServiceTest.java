@@ -72,67 +72,6 @@ public class SufficientFundsServiceTest extends KualiTestBaseWithFixtures {
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
 
-    public void testGetExpenditureCodes() {
-        List list = sufficientFundsService.getExpenditureCodes();
-        assertFalse(list.isEmpty());
-    }
-
-    public void testGetSpecialFinancialObjectCodes() {
-        List list = sufficientFundsService.getSpecialFinancialObjectCodes();
-        assertFalse(list.isEmpty());
-    }
-
-    public void testGetFinancialObjectCodeForCashInBank() {
-        String value = sufficientFundsService.getFinancialObjectCodeForCashInBank();
-        assertFalse(StringUtils.isBlank(value));
-    }
-
-    public void testGetSufficientFundsObjectCode_level_checking_object() {
-        String rv = sufficientFundsService.getSufficientFundsObjectCode(null, ARBITRARY_VALUE, Constants.SF_TYPE_OBJECT, null);
-        assertEquals(ARBITRARY_VALUE, rv);
-    }
-
-    public void testGetSufficientFundsObjectCode_level_checking_level() {
-        String rv = sufficientFundsService.getSufficientFundsObjectCode(null, null, Constants.SF_TYPE_LEVEL, ARBITRARY_VALUE);
-        assertEquals(ARBITRARY_VALUE, rv);
-    }
-
-    public void testGetSufficientFundsObjectCode_default_return_value() {
-        String rv = sufficientFundsService.getSufficientFundsObjectCode(null, null, ARBITRARY_VALUE, null);
-        assertEquals(Constants.NOT_AVAILABLE_STRING, rv);
-    }
-
-    public void testGetSufficientFundsObjectCode_level_checking_consolidation_invalidObjectLevel_nullKey() {
-        boolean faildAsExpected = false;
-        try {
-            sufficientFundsService.getSufficientFundsObjectCode(null, null, Constants.SF_TYPE_CONSOLIDATION, null);
-        }
-        catch (IllegalArgumentException e) {
-            faildAsExpected = true;
-        }
-
-        assertTrue(faildAsExpected);
-    }
-
-    public void testGetSufficientFundsObjectCode_level_checking_consolidation_invalidObjectLevel_InvalidKey() {
-        boolean faildAsExpected = false;
-        try {
-            sufficientFundsService.getSufficientFundsObjectCode("QU", null, Constants.SF_TYPE_CONSOLIDATION, "BADVALUE");
-        }
-        catch (IllegalArgumentException e) {
-            faildAsExpected = true;
-        }
-
-        assertTrue(faildAsExpected);
-    }
-
-    public void testGetSufficientFundsObjectCode_level_checking_consolidation() {
-        ObjLevel objectLevel = getObjectLevelFixture();
-        String rvObjectCode = sufficientFundsService.getSufficientFundsObjectCode(objectLevel.getChartOfAccountsCode(), null, Constants.SF_TYPE_CONSOLIDATION, objectLevel.getFinancialObjectLevelCode());
-
-        assertEquals(objectLevel.getFinancialConsolidationObjectCode(), rvObjectCode);
-    }
-
     /**
      * <code>
      public void testCheckSufficientfunds_global_budget_checking_disabled() throws Exception {

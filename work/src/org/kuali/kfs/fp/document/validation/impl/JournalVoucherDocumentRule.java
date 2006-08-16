@@ -471,7 +471,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             String debitCreditCode = null;
 
             // fi_djv:lp_proc_jrnl_ln.39-2...51-2
-            if (StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT) && StringUtils.equals(financialObjectCode, SpringServiceLocator.getSufficientFundsService().getFinancialObjectCodeForCashInBank())) {
+            if (StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT) && StringUtils.equals(financialObjectCode, sourceAccountingLine.getChart().getFinancialCashObjectCode())) {
                 // use debit credit code
                 debitCreditCode = sourceAccountingLine.getDebitCreditCode();
             }
@@ -492,7 +492,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
                 Integer fiscalYear = sourceAccountingLine.getPostingYear();
                 KualiDecimal lineAmount = sourceAccountingLine.getAmount();
                 String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
-                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(),accountSufficientFundsCode);
 
                 item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
             }

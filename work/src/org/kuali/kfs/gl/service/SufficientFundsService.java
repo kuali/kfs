@@ -3,6 +3,8 @@ package org.kuali.module.gl.service;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.gl.bo.Transaction;
 
 
 /**
@@ -13,45 +15,22 @@ import org.kuali.core.document.TransactionalDocument;
 public interface SufficientFundsService {
 
     /**
+     * This method checks for sufficient funds on a single document
      * 
-     * preforms sufficient funds checking for transactional documents
-     * 
-     * @param transactionalDocument
+     * @param transactionalDocument document
+     * @return true if has sufficient funds, false if not
      */
     public boolean checkSufficientFunds(TransactionalDocument transactionalDocument);
 
     /**
-     * fp_sasfc: operation get_sf_object_cd. 1-1...23 this operation derives the acct_sf_finobj_cd which is used to populate the PLE
+     * This operation derives the acct_sf_finobj_cd which is used to populate the General Ledger Pending entry
      * table, so that later we can do Suff Fund checking against that entry
      * 
-     * @param chartOfAccountsCode
-     * @param financialObjectCode
-     * @param sufficientFundsObjectCode
-     * @param financialObjectLevelCode
+     * @param financialObject
+     * @param accountSufficientFundsCode
      * @return
      */
-    public String getSufficientFundsObjectCode(String chartOfAccountsCode, String financialObjectCode, String accountSufficientFundsCode, String financialObjectLevelCode);
-
-    /**
-     * returns a list of special financial object codes for use with various sufficient funds related classes
-     * 
-     * @return
-     */
-    public List getSpecialFinancialObjectCodes();
-
-    /**
-     * returns object code for cash in bank. for use with various sufficient funds related classes
-     * 
-     * @return
-     */
-    public String getFinancialObjectCodeForCashInBank();
-
-    /**
-     * returns expenditure codes for use with various sufficient funds related classes
-     * 
-     * @return
-     */
-    public List getExpenditureCodes();
+    public String getSufficientFundsObjectCode(ObjectCode financialObject, String accountSufficientFundsCode);
 
     /**
      * Purge the sufficient funds balance table by year/chart

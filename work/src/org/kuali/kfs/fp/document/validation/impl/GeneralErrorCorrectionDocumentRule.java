@@ -350,22 +350,9 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
         else {
             debitCreditCode = GL_DEBIT_CODE;
         }
-        String sufficientFundsObjectCode = getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
         item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
 
         return item;
-    }
-
-    /**
-     * Helper method to get the sufficient funds object code.
-     * 
-     * @param chartOfAccountsCode
-     * @param financialObjectCode
-     * @param accountSufficientFundsCode
-     * @param financialObjectLevelCode
-     * @return String
-     */
-    private String getSufficientFundsObjectCode(String chartOfAccountsCode, String financialObjectCode, String accountSufficientFundsCode, String financialObjectLevelCode) {
-        return SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
     }
 }

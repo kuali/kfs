@@ -995,7 +995,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
 
         SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
-        line.setFinancialObjectCode(SpringServiceLocator.getSufficientFundsService().getFinancialObjectCodeForCashInBank());
+        line.setFinancialObjectCode(line.getChart().getFinancialCashObjectCode());
         line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_CASH_AT_ACCOUNT);
         // used arbitrary value to ensure what goes in is what goes out. if the 'standard' C/D values were used there is now way of
         // knowing if the code changed it.

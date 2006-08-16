@@ -849,7 +849,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             if (!SF_TYPE_CASH_AT_ACCOUNT.equals(accountSufficientFundsCode)) {
                 // always set to debit
                 String debitCreditCode = GL_DEBIT_CODE;
-                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(), accountSufficientFundsCode);
                 item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
             }
         }
@@ -884,7 +884,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
             if (!SF_TYPE_CASH_AT_ACCOUNT.equals(accountSufficientFundsCode)) {
                 // always set to debit
                 String debitCreditCode = GL_DEBIT_CODE;
-                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(targetAccountingLine.getObjectCode(), accountSufficientFundsCode);
                 item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
             }
         }

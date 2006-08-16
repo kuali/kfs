@@ -336,7 +336,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
             String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
             String financialObjectCode = accountingLine.getFinancialObjectCode();
             String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
-            String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+            String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
 
             item = buildSufficentFundsItem(acocuntNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, accountingLine.getPostingYear(), objectType);
         }

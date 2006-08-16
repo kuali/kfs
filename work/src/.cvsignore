@@ -10,3 +10,4 @@ SpringDataSourceResources.xml
 OJB.properties
 META-INF
 OJB-repository.xml
+SpringConfigurationResources.xml

@@ -91,13 +91,13 @@
 						test="${(column.propertyURL==\"\" || param['d-16544-e'] != null)}">
 						<c:if
 							test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
-							<display:column class="numbercell" title="${column.columnTitle}">
+							<display:column class="numbercell" title="${column.columnTitle}" sortable="${column.sortable}">
 								<c:out value="${column.propertyValue}" />
 							</display:column>
 						</c:if>
 						<c:if
 							test="${column.formatter.implementationClass != 'org.kuali.core.web.format.CurrencyFormatter'}">
-							<display:column class="infocell" title="${column.columnTitle}">
+							<display:column class="infocell" title="${column.columnTitle}" sortable="${column.sortable}">
 								<c:out value="${column.propertyValue}" />
 							</display:column>
 						</c:if>

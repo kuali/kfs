@@ -1114,8 +1114,8 @@
         <property name="kualiRuleService">
         	<ref bean="kualiRuleService" />
         </property>
-        <property name="optionsDao">
-        	<ref bean="optionsDao"/>
+        <property name="optionsService">
+        	<ref bean="optionsService"/>
         </property>
         <property name="sufficientFundBalancesDao">
         	<ref bean="glSufficientFundBalancesDao"/>

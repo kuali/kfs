@@ -22,19 +22,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.Options;
-import org.kuali.core.dao.OptionsDao;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.SufficientFundsCheckingPreparationEvent;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -66,7 +63,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     private KualiRuleService kualiRuleService;
     private SufficientFundsDao sufficientFundsDao;
     private SufficientFundBalancesDao sufficientFundBalanceDao;
-    private OptionsDao optionsDao;
+    private OptionsService optionsService;
 
     /**
      * Default constructor
@@ -108,7 +105,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     public boolean checkSufficientFunds(TransactionalDocument transactionalDocument) {
 
         // if global budget checking is not true then return
-        if (!StringUtils.equals(Constants.BUDGET_CHECKING_OPTIONS_CD_ACTIVE, optionsDao.getByPrimaryId(transactionalDocument.getPostingYear()).getBudgetCheckingOptionsCode())) {
+        if (!StringUtils.equals(Constants.BUDGET_CHECKING_OPTIONS_CD_ACTIVE, optionsService.getOptions(transactionalDocument.getPostingYear()).getBudgetCheckingOptionsCode())) {
             LOG.debug( "global budget checking is not true" );
             return true;
         }
@@ -226,7 +223,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         KualiDecimal pfyrEncum = null;
 
         // retrieve system options
-        Options options = optionsDao.getByPrimaryId(universityFiscalYear);
+        Options options = optionsService.getOptions(universityFiscalYear);
         // cash level checking
         if (StringUtils.equals(Constants.SF_TYPE_CASH_AT_ACCOUNT, accountSufficientFundsCode)) {
             // fp_sasfc:48-2...79-2
@@ -393,8 +390,8 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         this.kualiRuleService = kualiRuleService;
     }
 
-    public void setOptionsDao(OptionsDao optionsDao) {
-        this.optionsDao = optionsDao;
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 
     public void setSufficientFundBalancesDao(SufficientFundBalancesDao sufficientFundBalanceDao) {

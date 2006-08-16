@@ -145,12 +145,12 @@
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountGuideline" class-ref="org.kuali.module.chart.bo.AccountGuideline" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <reference-descriptor name="accountGuideline" class-ref="org.kuali.module.chart.bo.AccountGuideline" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountDescription" class-ref="org.kuali.module.chart.bo.AccountDescription" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+    <reference-descriptor name="accountDescription" class-ref="org.kuali.module.chart.bo.AccountDescription" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>

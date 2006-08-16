@@ -25,6 +25,7 @@ package org.kuali.module.chart.rules;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -39,6 +40,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCons;
+import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectLevelService;
 
@@ -62,7 +64,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
 
     private KualiConfigurationService configService;
-
+    private ChartService chartService;
+    private Map reportsTo;
     private static Set illegalValues;
     private static Set validYearCodeExceptions;
     private static Set validBudgetAggregationCodes;
@@ -87,6 +90,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         dateTimeService = SpringServiceLocator.getDateTimeService();
         objectLevelService = SpringServiceLocator.getObjectLevelService();
         objectCodeService = SpringServiceLocator.getObjectCodeService();
+        chartService = SpringServiceLocator.getChartService();
+        reportsTo = chartService.getReportsToHierarchy();
 
 
     }
@@ -142,10 +147,18 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         Integer year = objectCode.getUniversityFiscalYear();
         String chartCode = objectCode.getChartOfAccountsCode();
         String reportsToChartCode = objectCode.getReportsToChartOfAccountsCode();
+        String calculatedReportsToChartCode;
         String reportsToObjectCode = objectCode.getReportsToFinancialObjectCode();
+        
+        // We must calculate a reportsToChartCode here to duplicate the logic
+        // that takes place in the preRule.
+        // The reason is that when we do a SAVE, the pre-rules are not
+        // run and we will get bogus error messages.
+        // So, we are simulating here what the pre-rule will do.
+        calculatedReportsToChartCode = (String) reportsTo.get(chartCode);
 
-        if (!verifyReportsToChartCode(reportsToChartCode, year, reportsToObjectCode)) {
-            this.putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_INVALID_CHART, "Reports to Chart Code");
+        if (!verifyReportsToChartCode(calculatedReportsToChartCode, year, reportsToObjectCode)) {
+            this.putFieldError("reportsToFinancialObjectCode", KeyConstants.ERROR_DOCUMENT_REPORTS_TO_OBJCODE_ILLEGAL, reportsToObjectCode);
             result = false;
         }
 

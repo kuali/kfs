@@ -203,9 +203,9 @@
                 <validationPattern>
                     <alpha exactLength="2" />
                 </validationPattern>
-                <required>true</required>
+                <required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartOfAccountsCode();" />
+                    <text size="2" />
                 </control>
 
                 <summary>

@@ -742,10 +742,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
 
         // When updating an account expiration date, the date must be today or later
-        // (except for C&G accounts). Only run this test if this maint doc
+        // Only run this test if this maint doc
         // is an edit doc
         if (isUpdatedExpirationDateInvalid(maintenanceDocument)) {
-            putFieldError("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
+            putFieldError("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
             success &= false;
         }
 
@@ -761,17 +761,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        // If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then
+        // If creating a new account if acct_expiration_dt is set then
         // the acct_expiration_dt must be changed to a date that is today or later
-        if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
-            if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-                if (!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-                    if (!newExpDate.after(today) && !newExpDate.equals(today)) {
-                        putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
-                        success &= false;
-                    }
-                }
-            }
+        if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {          
+            if (!newExpDate.after(today) && !newExpDate.equals(today)) {
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                success &= false;
+            }         
         }
 
         // acct_expiration_dt can not be before acct_effect_dt
@@ -799,7 +795,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
 
         // When updating an account expiration date, the date must be today or later
-        // (except for C&G accounts). Only run this test if this maint doc
+        // Only run this test if this maint doc
         // is an edit doc
         boolean expDateHasChanged = false;
 
@@ -823,23 +819,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // make a shortcut to the newAccount
         Account newAccount = (Account) maintDoc.getNewMaintainableObject().getBusinessObject();
-
-        // if a subFundGroup isnt present, we cannot continue the testing
-        SubFundGroup subFundGroup = newAccount.getSubFundGroup();
-        if (ObjectUtils.isNull(subFundGroup)) {
-            return false;
-        }
-
-        // get the fundGroup code
-        String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
-
-        // if the account is part of the CG fund group, then this rule doenst
-        // apply, so we're done
-        if (CONTRACTS_GRANTS_CD.equalsIgnoreCase(fundGroupCode)) {
-            return false;
-        }
-
-        // at this point, we know its not a CG fund group, so we must apply the rule
 
         // expirationDate must be today or later than today (cannot be before today)
         if (newExpDate.equals(today) || newExpDate.after(today)) {

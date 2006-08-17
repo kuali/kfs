@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.KualiDecimal;
@@ -56,15 +57,14 @@ public class BalanceServiceImpl implements BalanceService {
 
     // must have no asset, liability or fund balance balances other than object code 9899
 
-    String[] fundBalanceObjectCodes = new String[] { "9899" }; // TODO Bill suggested
-    // adding this to CHART
+    String[] fundBalanceObjectCodes = new String[] { "9899" };
 
     // TODO extract these from APC
-    String[] assetLiabilityFundBalanceBalanceTypeCodes = new String[] { "AS", "LI", "FB" };
-    String[] encumbranceBaseBudgetBalanceTypeCodes = new String[] { "EX", "IE", "PE", "BB" };
-    String[] actualBalanceCodes = new String[] { "AC" };
-    String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };
-    String[] expenseObjectTypeCodes = new String[] { "EE", "ES", "EX", "TE" };
+    String[] assetLiabilityFundBalanceObjectTypeCodes = null;
+    String[] encumbranceBaseBudgetBalanceTypeCodes = null;
+    String[] actualBalanceCodes = null;
+    String[] incomeObjectTypeCodes = null;
+    String[] expenseObjectTypeCodes = null;
 
     private Collection wrap(String[] s) {
         return Arrays.asList(s);
@@ -124,7 +124,7 @@ public class BalanceServiceImpl implements BalanceService {
     public boolean hasAssetLiabilityFundBalanceBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, wrap(fundBalanceObjectCodes), wrap(assetLiabilityFundBalanceBalanceTypeCodes), wrap(actualBalanceCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, wrap(getFundBalanceObjectCodes()), wrap(getAssetLiabilityFundBalanceBalanceTypeCodes()), wrap(getActualBalanceCodes()));
 
         KualiDecimal begin;
         KualiDecimal annual;
@@ -202,7 +202,7 @@ public class BalanceServiceImpl implements BalanceService {
     protected KualiDecimal incomeBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, wrap(fundBalanceObjectCodes), null, wrap(incomeObjectTypeCodes), wrap(actualBalanceCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, wrap(getFundBalanceObjectCodes()), null, wrap(getIncomeObjectTypeCodes()), wrap(getActualBalanceCodes()));
 
         return sumBalances(balances);
 
@@ -223,7 +223,7 @@ public class BalanceServiceImpl implements BalanceService {
     protected KualiDecimal expenseBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, wrap(expenseObjectTypeCodes), wrap(actualBalanceCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, wrap(getExpenseObjectTypeCodes()), wrap(getActualBalanceCodes()));
 
         return sumBalances(balances);
 
@@ -256,7 +256,7 @@ public class BalanceServiceImpl implements BalanceService {
     public boolean hasEncumbrancesOrBaseBudgets(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, null, wrap(encumbranceBaseBudgetBalanceTypeCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, null, wrap(getEncumbranceBaseBudgetBalanceTypeCodes()));
 
         return sumBalances(balances).isNonZero();
     }
@@ -358,5 +358,93 @@ public class BalanceServiceImpl implements BalanceService {
         LOG.debug("purgeYearByChart() started");
 
         balanceDao.purgeYearByChart(chart, year);
+    }
+    
+    /**
+     * Private method to load the values from the system options
+     * service and store them locally for later use.
+     * 
+     * @author jkeller
+     */
+    private void loadConstantsFromOptions() {
+        LOG.debug("loadConstantsFromOptions() started");
+        Options options = optionsService.getCurrentYearOptions();
+        // String[] actualBalanceCodes = new String[] { "AC" };
+        actualBalanceCodes = new String[] { options.getActualFinancialBalanceTypeCd() }; // AC
+        //String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };
+        incomeObjectTypeCodes = new String[] { 
+            options.getFinObjTypeIncomeNotCashCd(), // IC
+            options.getFinObjectTypeIncomecashCode(), // IN
+            options.getFinObjTypeCshNotIncomeCd(), // CH
+            "TI" // TODO: add appropriate column for object type "TI" to options
+        };
+        // String[] expenseObjectTypeCodes = new String[] { "EE", "ES", "EX", "TE" };
+        expenseObjectTypeCodes = new String[] { 
+                options.getFinObjTypeExpendNotExpCode(), // EE?
+                options.getFinObjTypeExpenditureexpCd(), // ES
+                options.getFinObjTypeExpNotExpendCode(), // EX?
+                "TE" // TODO: add appropriate column for object type "TE" to options
+            };
+        // String[] assetLiabilityFundBalanceBalanceTypeCodes = new String[] { "AS", "LI", "FB" };
+        assetLiabilityFundBalanceObjectTypeCodes = new String[] { 
+                options.getFinancialObjectTypeAssetsCd(), // AS
+                options.getFinObjectTypeLiabilitiesCode(), // LI
+                options.getFinObjectTypeFundBalanceCd() // FB
+            };
+        // String[] encumbranceBaseBudgetBalanceTypeCodes = new String[] { "EX", "IE", "PE", "BB" };
+        encumbranceBaseBudgetBalanceTypeCodes = new String[] { 
+                options.getExtrnlEncumFinBalanceTypCd(), // EX
+                options.getIntrnlEncumFinBalanceTypCd(), // IE
+                options.getPreencumbranceFinBalTypeCd(), // PE
+                "BB" // TODO: add appropriate column for balance type "BB" to options
+            };
+        // TODO: load fundBalanceObjectCodes from options
+        // String[] fundBalanceObjectCodes = new String[] { "9899" };
+        // TODO Bill suggested adding this to CHART object
+        //fundBalanceObjectCodes = new String[] { 
+        //    options.getFundBalanceObjectCode()
+        //};
+    }
+    
+    private String[] getFundBalanceObjectCodes() {
+        if ( fundBalanceObjectCodes == null ) {
+            loadConstantsFromOptions();
+        }
+        return fundBalanceObjectCodes;
+    }
+
+    private String[] getActualBalanceCodes() {
+        if ( actualBalanceCodes == null ) {
+            loadConstantsFromOptions();
+        }
+        return actualBalanceCodes;
+    }
+
+    private String[] getIncomeObjectTypeCodes() {
+        if ( incomeObjectTypeCodes == null ) {
+            loadConstantsFromOptions();
+        }
+        return incomeObjectTypeCodes;
+    }
+
+    private String[] getExpenseObjectTypeCodes() {
+        if ( expenseObjectTypeCodes == null ) {
+            loadConstantsFromOptions();
+        }
+        return expenseObjectTypeCodes;
+    }
+
+    private String[] getAssetLiabilityFundBalanceBalanceTypeCodes() {
+        if ( assetLiabilityFundBalanceObjectTypeCodes == null ) {
+            loadConstantsFromOptions();
+        }
+        return assetLiabilityFundBalanceObjectTypeCodes;
+    }
+
+    private String[] getEncumbranceBaseBudgetBalanceTypeCodes() {
+        if ( encumbranceBaseBudgetBalanceTypeCodes == null ) {
+            loadConstantsFromOptions();
+        }
+        return encumbranceBaseBudgetBalanceTypeCodes;
     }
 }

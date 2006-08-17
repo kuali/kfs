@@ -555,9 +555,6 @@
         <property name="reportService">
         	<ref bean="glReportService"/>
         </property>
-        <property name="nominalActivityClosingReport">
-            <ref bean="glNominalActivityClosingYearEndReport" />
-        </property>
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
@@ -964,13 +961,7 @@
         </property>
     </bean>
 
-    <bean id="glNominalActivityClosingYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.NominalActivityClosingReportImpl" />
-
-    <bean id="glEncumbranceClosingYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.EncumbranceClosingReportImpl" />
-
-    <bean id="glBalanceForwardYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.BalanceForwardReportImpl" />
-
-    <bean id="glReportService" class="org.kuali.module.gl.service.impl.ReportServiceImpl">
+    <bean id="glReportService" class="org.kuali.module.gl.service.impl.ReportServiceImpl" init-method="init">
         <property name="originEntryService">
             <ref bean="glOriginEntryService" />
         </property>

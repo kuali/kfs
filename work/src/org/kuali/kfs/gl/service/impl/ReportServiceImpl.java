@@ -72,9 +72,11 @@ public class ReportServiceImpl implements ReportService {
 
     public ReportServiceImpl() {
         super();
+    }
 
+    public void init() {
         batchReportsDirectory = kualiConfigurationService.getPropertyString("batch.reports.directory");
-        onlineReportsDirectory = kualiConfigurationService.getPropertyString("online.reports.directory");
+        onlineReportsDirectory = kualiConfigurationService.getPropertyString("online.reports.directory");        
     }
 
     /**

@@ -26,6 +26,15 @@
 package org.kuali.module.financial.service.impl;
 
 import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_ACCOUNT_PARM_NM;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_CHART_CODE_PARM_NM;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_OBJECT_CODE_PARM_NM;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_ACCOUNT_PARM_NM;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.SINGLE_TRANSACTION_IND_PARM_NM;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -37,6 +46,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.AttributeReferenceDummy;
 import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -57,17 +67,7 @@ import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
 import org.kuali.module.financial.bo.ProcurementCardVendor;
 import org.kuali.module.financial.document.ProcurementCardDocument;
 import org.kuali.module.financial.rules.AccountingLineRuleUtil;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants;
 import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.SINGLE_TRANSACTION_IND_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_ACCOUNT_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_ACCOUNT_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_CHART_CODE_PARM_NM;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_OBJECT_CODE_PARM_NM;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -272,8 +272,21 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
             pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
             pcardDocument.getDocumentHeader().setFinancialDocumentDescription("SYSTEM Generated");
-            // TODO: Fix for length problem of explanation, possibly make into note?
-           // pcardDocument.setExplanation(errorText);
+            
+            // Remove duplicate messages from errorText
+            String messages[] = StringUtils.split(errorText, ".");
+            for (int i = 0; i < messages.length; i++) {
+                int countMatches = StringUtils.countMatches(errorText, messages[i]) - 1;
+                errorText = StringUtils.replace(errorText, messages[i] + ".", "", countMatches);
+            }
+            // In case errorText is still too long, truncate it and indicate so.
+            int documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(AttributeReferenceDummy.class.getName(), PropertyConstants.DOCUMENT_EXPLANATION);
+            if (errorText.length() <= documentExplanationMaxLength) {
+                pcardDocument.setExplanation(errorText);
+            } else {
+                String tuncatedMessage = " ... TRUNCATED.";
+                errorText = errorText.substring(0, documentExplanationMaxLength - tuncatedMessage.length()) + tuncatedMessage;
+            }
         }
         catch (WorkflowException e) {
             LOG.error("Error creating pcdo documents: " + e.getMessage());
@@ -474,15 +487,15 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         targetLine.refresh();
 
         if (!AccountingLineRuleUtil.isValidObjectCode(targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Object Code " + targetLine.getFinancialObjectCode() + " is invalid. Using default Object Code.");
-            errorText += (" Object Code " + targetLine.getFinancialObjectCode() + " is invalid. Using default Object Code.");
+            LOG.info("Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.");
+            errorText += (" Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.");
 
             targetLine.setFinancialObjectCode(getDefaultObjectCode());
         }
 
         if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !AccountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Sub Account " + targetLine.getSubAccountNumber() + " is invalid. Setting to blank");
-            errorText += " Sub Account " + targetLine.getSubAccountNumber() + " is invalid. Setting to blank";
+            LOG.info("Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting to blank.");
+            errorText += " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting to blank.";
 
             targetLine.setSubAccountNumber("");
         }
@@ -491,22 +504,22 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         targetLine.refresh();
 
         if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !AccountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid. Setting to blank");
-            errorText += " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid. Setting to blank";
+            LOG.info("Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting to blank.");
+            errorText += " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting to blank.";
 
             targetLine.setFinancialSubObjectCode("");
         }
 
         if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !AccountingLineRuleUtil.isValidProjectCode(targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid. Setting to blank");
-            errorText += " Project Code " + targetLine.getProjectCode() + " is invalid. Setting to blank";
+            LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
+            errorText += " Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
 
             targetLine.setProjectCode("");
         }
 
         if (!AccountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
-            LOG.info("Account " + targetLine.getAccountNumber() + " is invalid. Using error account.");
-            errorText += " Account " + targetLine.getAccountNumber() + " is invalid. Using error Chart & Account.";
+            LOG.info("Account " + targetLine.getAccountNumber() + " is invalid; using error account.");
+            errorText += " Account " + targetLine.getAccountNumber() + " is invalid; using error Chart & Account.";
 
             targetLine.setChartOfAccountsCode(getErrorChartCode());
             targetLine.setAccountNumber(getErrorAccountNumber());

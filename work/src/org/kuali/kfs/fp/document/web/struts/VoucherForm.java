@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -102,6 +103,12 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
         super.populate(request);
 
         // populate the drop downs
+        if(Constants.RETURN_METHOD_TO_CALL.equals(getMethodToCall())){
+            String selectedPeriod =(StringUtils.defaultString( request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE))+StringUtils.defaultString(request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_YEAR)));
+            if(StringUtils.isNotBlank(selectedPeriod )){
+                setSelectedAccountingPeriod(selectedPeriod);
+            }
+        }
         populateAccountingPeriodListForRendering();
 
         // we don't want to do this if we are just reloading the document
@@ -127,6 +134,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * util method to get posting period code out of selectedAccountingPeriod
+     * 
      * @return String
      */
     private String getSelectedPostingPeriodCode() {
@@ -335,7 +343,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * This method retrieves all of the "open for posting" accounting periods and prepares them to be rendered in a dropdown UI
      * component.
      */
-    protected void populateAccountingPeriodListForRendering() {
+    private void populateAccountingPeriodListForRendering() {
         // grab the list of valid accounting periods
         ArrayList accountingPeriods = new ArrayList(SpringServiceLocator.getAccountingPeriodService().getOpenAccountingPeriods());
         // set into the form for rendering
@@ -349,7 +357,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * This method parses the accounting period value from the form and builds a basic AccountingPeriod object so that the voucher
      * is properly persisted with the accounting period set for it.
      */
-    protected void populateSelectedVoucherAccountingPeriod() {
+    private void populateSelectedVoucherAccountingPeriod() {
         if (StringUtils.isNotBlank(getSelectedAccountingPeriod())) {
             AccountingPeriod ap = new AccountingPeriod();
             ap.setUniversityFiscalPeriodCode(getSelectedPostingPeriodCode());

@@ -69,8 +69,7 @@
 							alt="press this button to refresh the page after changing the accounting period" />
 						</NOSCRIPT>
 						<kul:lookup
-							boClassName="org.kuali.module.chart.bo.AccountingPeriod"
-							hideReturnLink="true" />
+							boClassName="org.kuali.module.chart.bo.AccountingPeriod" />
 					</c:if></td>
 				</tr>
 				<tr>

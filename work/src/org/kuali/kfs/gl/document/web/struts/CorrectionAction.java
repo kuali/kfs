@@ -81,7 +81,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.33 2006-08-17 22:52:20 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.34 2006-08-17 22:55:05 schoo Exp $
  * 
  */
 
@@ -1044,9 +1044,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setEditingEntryId(editEntryId);
        
         
-        Object displayTableParameterPage = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_PAGE_NUMBER); 
+       /* Object displayTableParameterPage = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_PAGE_NUMBER); 
         Object displayTableParameterColumn = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER);
-       /* 
+      */ /* 
         if (displayTableParameterPage != null) {
             request.getParameterMap().put(Constants.DISPLAY_TABLE_PARAMETER_PAGE_NAME, displayTableParameterPage);
         }
@@ -2010,13 +2010,13 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setDocTypeName(sessionForm.getDocTypeName());
         errorCorrectionForm.setMatchCriteriaOnly(sessionForm.getMatchCriteriaOnly());
         errorCorrectionForm.setGroupIdList(sessionForm.getGroupIdList());
-        
+       /* 
         Object displayTableParameterPage = request.getParameterMap().get(Constants.DISPLAY_TABLE_PARAMETER_PAGE_NAME);
         Object displayTableParameterColumn = request.getParameterMap().get(Constants.DISPLAY_TABLE_PARAMETER_COLUMN_NAME);
         
         GlobalVariables.getUserSession().addObject(Constants.DISPLAY_TABLE_PAGE_NUMBER, displayTableParameterPage);
         GlobalVariables.getUserSession().addObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER, displayTableParameterColumn);
-        
+        */
         
         return mapping.findForward(Constants.MAPPING_BASIC);
 }

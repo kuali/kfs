@@ -22,12 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.ACCOUNTING_PERIOD_STATUS_CLOSED;
 import static org.kuali.Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
@@ -42,13 +36,6 @@ import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
 import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
 import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
-import static org.kuali.Constants.AuxiliaryVoucher.ERROR_DOCUMENT_HAS_TARGET_LINES;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_CHARTS;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS;
-import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE;
-import static org.kuali.KeyConstants.ERROR_CUSTOM;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
@@ -57,12 +44,27 @@ import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVR
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
 import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_CHARTS;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.PropertyConstants.REVERSAL_DATE;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.KualiCodeBase;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
@@ -79,13 +81,7 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
@@ -842,52 +838,5 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 
         return retval;
     }
-    
-    /**
-     * Implements the specific sufficient funds checking for the Auxiliary Voucher document.  
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.SourceAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
-        String accountNumber = sourceAccountingLine.getAccountNumber();
-        String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
-        String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
-        String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
-        Integer fiscalYear = sourceAccountingLine.getPostingYear();
-        String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
-        KualiDecimal lineAmount = sourceAccountingLine.getAmount();
-        String offsetDebitCreditCode = null;
-        // fi_dica:lp_proc_grant_ln.36-2...62-2
-        // fi_dica:lp_proc_rcpt_ln.36-2...69-2
-        if (isDebit(transactionalDocument, sourceAccountingLine)) {
-            offsetDebitCreditCode = GL_CREDIT_CODE;
-        }
-        else {
-            offsetDebitCreditCode = GL_DEBIT_CODE;
-        }
-        lineAmount = lineAmount.abs();
 
-        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(), accountSufficientFundsCode);
-        SufficientFundsItem item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-        return item;
-    }
-
-
-    /**
-     * Auxiliary Voucher is one sided and should only have SourceAccountingLines.  This overridden method just throws an IllegalStateException b/c it 
-     * should never have been called.
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-     *      org.kuali.core.bo.TargetAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        if (targetAccountingLine != null) {
-            throw new IllegalArgumentException(ERROR_DOCUMENT_HAS_TARGET_LINES);
-        }
-        return null;
-    }
 }

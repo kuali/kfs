@@ -22,20 +22,15 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * This class holds document specific business rules for the Distribution of Income and Expense. It overrides methods in the base
@@ -114,58 +109,5 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     @Override
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         return isOptionalOneSidedDocumentAccountingLinesRequiredNumberForRoutingMet(transactionalDocument);
-    }
-
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.SourceAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine, transactionalDocument);
-    }
-
-
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.TargetAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine, transactionalDocument);
-    }
-
-    /**
-     * Prepares the input item that will be used for sufficient funds checking.
-     * 
-     * fi_ddi:lp_proc_frm_ln,lp_proc_to_ln conslidated
-     * 
-     * @param accountingLine
-     * @param transactionalDocument TODO
-     * @return <code>SufficientFundsItem</code>
-     */
-    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine, TransactionalDocument transactionalDocument) {
-        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
-        String accountNumber = accountingLine.getAccountNumber();
-        String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
-        String financialObjectCode = accountingLine.getFinancialObjectCode();
-        String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
-        Integer fiscalYear = accountingLine.getPostingYear();
-        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
-        KualiDecimal lineAmount = accountingLine.getAmount();
-        String offsetDebitCreditCode = null;
-        // fi_ddi:lp_proc_from_ln.43-2...69-2
-        // fi_ddi:lp_proc_to_ln.43-2...69-2
-        if (isDebit(transactionalDocument, accountingLine)) {
-            offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
-        }
-        else {
-            offsetDebitCreditCode = Constants.GL_DEBIT_CODE;
-        }
-        lineAmount = lineAmount.abs();
-
-        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
-        SufficientFundsItem item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-        return item;
     }
 }

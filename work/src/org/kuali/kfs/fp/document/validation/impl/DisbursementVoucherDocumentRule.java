@@ -22,8 +22,8 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
 
 import java.util.List;
 
@@ -33,15 +33,13 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.FinancialDocument;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.rule.KualiParameterRule;
@@ -62,7 +60,6 @@ import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.document.DisbursementVoucherDocumentAuthorizer;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 
 /**
@@ -1344,38 +1341,38 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
-    @Override
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        SufficientFundsItem item = null;
-        String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
-        String accountNumber = sourceAccountingLine.getAccountNumber();
-        String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
-        String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
-        String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
-        KualiDecimal lineAmount = sourceAccountingLine.getAmount();
-        Integer fiscalYear = sourceAccountingLine.getPostingYear();
-        String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
-
-        // always credit
-        String debitCreditCode = GL_CREDIT_CODE;
-        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(), accountSufficientFundsCode);
-        item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-
-        return item;
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-     *      org.kuali.core.bo.TargetAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        if (targetAccountingLine != null) {
-            throw new IllegalArgumentException("DV document doesn't have target accounting lines. This method should have never been entered");
-        }
-        return null;
-    }
+//    @Override
+//    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+//        SufficientFundsItem item = null;
+//        String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
+//        String accountNumber = sourceAccountingLine.getAccountNumber();
+//        String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
+//        String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
+//        String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
+//        KualiDecimal lineAmount = sourceAccountingLine.getAmount();
+//        Integer fiscalYear = sourceAccountingLine.getPostingYear();
+//        String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
+//
+//        // always credit
+//        String debitCreditCode = GL_CREDIT_CODE;
+//        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(), accountSufficientFundsCode);
+//        item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+//
+//        return item;
+//    }
+//
+//    /**
+//     * 
+//     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+//     *      org.kuali.core.bo.TargetAccountingLine)
+//     */
+//    @Override
+//    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+//        if (targetAccountingLine != null) {
+//            throw new IllegalArgumentException("DV document doesn't have target accounting lines. This method should have never been entered");
+//        }
+//        return null;
+//    }
 
     /**
      * error corrections are not allowed

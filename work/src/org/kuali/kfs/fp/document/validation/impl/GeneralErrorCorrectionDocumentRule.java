@@ -22,8 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE;
 import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE;
 import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE;
@@ -44,11 +42,9 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code>
@@ -307,52 +303,52 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
-    @Override
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, sourceAccountingLine);
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-     *      org.kuali.core.bo.TargetAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, targetAccountingLine);
-    }
-
-    /**
-     * Helper method to build a <code>{@link SufficientFundsItem}</code> from a <code>{@link TransactionalDocument}</code> and a
-     * <code>{@link AccountingLine}</code>
-     * 
-     * @param document
-     * @param accountingLine
-     * @return SufficientFundsItem
-     */
-    private SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument document, AccountingLine accountingLine) {
-        SufficientFundsItem item = null;
-        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
-        String accountNumber = accountingLine.getAccountNumber();
-        String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
-        String financialObjectCode = accountingLine.getObjectCode().getFinancialObjectCode();
-        String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
-        KualiDecimal lineAmount = getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine);
-        Integer fiscalYear = accountingLine.getPostingYear();
-        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
-
-        // always credit
-        String debitCreditCode = null;
-
-        if (isDebit(document, accountingLine)) {
-            debitCreditCode = GL_CREDIT_CODE;
-        }
-        else {
-            debitCreditCode = GL_DEBIT_CODE;
-        }
-        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
-        item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-
-        return item;
-    }
+//    @Override
+//    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+//        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, sourceAccountingLine);
+//    }
+//
+//    /**
+//     * 
+//     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+//     *      org.kuali.core.bo.TargetAccountingLine)
+//     */
+//    @Override
+//    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+//        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, targetAccountingLine);
+//    }
+//
+//    /**
+//     * Helper method to build a <code>{@link SufficientFundsItem}</code> from a <code>{@link TransactionalDocument}</code> and a
+//     * <code>{@link AccountingLine}</code>
+//     * 
+//     * @param document
+//     * @param accountingLine
+//     * @return SufficientFundsItem
+//     */
+//    private SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument document, AccountingLine accountingLine) {
+//        SufficientFundsItem item = null;
+//        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+//        String accountNumber = accountingLine.getAccountNumber();
+//        String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
+//        String financialObjectCode = accountingLine.getObjectCode().getFinancialObjectCode();
+//        String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
+//        KualiDecimal lineAmount = getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine);
+//        Integer fiscalYear = accountingLine.getPostingYear();
+//        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
+//
+//        // always credit
+//        String debitCreditCode = null;
+//
+//        if (isDebit(document, accountingLine)) {
+//            debitCreditCode = GL_CREDIT_CODE;
+//        }
+//        else {
+//            debitCreditCode = GL_DEBIT_CODE;
+//        }
+//        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
+//        item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+//
+//        return item;
+//    }
 }

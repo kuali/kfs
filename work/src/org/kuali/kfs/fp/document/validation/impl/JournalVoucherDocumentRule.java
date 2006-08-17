@@ -22,9 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.apache.commons.lang.StringUtils;
 import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
 import static org.kuali.Constants.BALANCE_TYPE_BASE_BUDGET;
 import static org.kuali.Constants.BALANCE_TYPE_BUDGET_STATISTICS;
 import static org.kuali.Constants.BALANCE_TYPE_CURRENT_BUDGET;
@@ -34,12 +32,10 @@ import static org.kuali.Constants.BLANK_SPACE;
 import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.GENERIC_CODE_PROPERTY_NAME;
-import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
 import static org.kuali.Constants.OBJECT_TYPE_CODE_PROPERTY_NAME;
-import static org.kuali.Constants.SF_TYPE_CASH_AT_ACCOUNT;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
 import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
@@ -57,9 +53,10 @@ import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
 import static org.kuali.PropertyConstants.REVERSAL_DATE;
 import static org.kuali.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
@@ -72,7 +69,6 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * This class holds document specific business rules for the Journal Voucher. It overrides methods in the base rule class to apply
@@ -456,64 +452,64 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
-    @Override
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        SufficientFundsItem item = null;
-        String balanceTypeCode = ((JournalVoucherDocument) transactionalDocument).getBalanceTypeCode();
-        // fp_dvj:lp_create_ple.10-1...11-1
-        if (StringUtils.equals(BALANCE_TYPE_ACTUAL, balanceTypeCode) || StringUtils.equals(BALANCE_TYPE_CURRENT_BUDGET, balanceTypeCode)) {
-
-            String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
-            String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
-
-
-            // fi_djv:lp_proc_jrnl_ln.37-1
-            String debitCreditCode = null;
-
-            // fi_djv:lp_proc_jrnl_ln.39-2...51-2
-            if (StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT) && StringUtils.equals(financialObjectCode, sourceAccountingLine.getChart().getFinancialCashObjectCode())) {
-                // use debit credit code
-                debitCreditCode = sourceAccountingLine.getDebitCreditCode();
-            }
-            else if (!StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT)) {
-                // fi_djv:lp+proc_jrnl_ln.39-2...43-2
-                if (StringUtils.equals(sourceAccountingLine.getDebitCreditCode(), GL_DEBIT_CODE)) {
-                    debitCreditCode = GL_CREDIT_CODE;
-                }
-                else {
-                    debitCreditCode = GL_DEBIT_CODE;
-                }
-            }
-            if (StringUtils.isNotBlank(debitCreditCode)) {
-
-                String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
-                String accountNumber = sourceAccountingLine.getAccountNumber();
-                String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
-                Integer fiscalYear = sourceAccountingLine.getPostingYear();
-                KualiDecimal lineAmount = sourceAccountingLine.getAmount();
-                String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
-                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(),accountSufficientFundsCode);
-
-                item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-            }
-        }
-
-        return item;
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-     *      org.kuali.core.bo.TargetAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        if (targetAccountingLine != null) {
-
-            throw new IllegalArgumentException("JV document doesn't have target accounting lines. This method should have never been entered");
-        }
-        return null;
-    }
+//    @Override
+//    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+//        SufficientFundsItem item = null;
+//        String balanceTypeCode = ((JournalVoucherDocument) transactionalDocument).getBalanceTypeCode();
+//        // fp_dvj:lp_create_ple.10-1...11-1
+//        if (StringUtils.equals(BALANCE_TYPE_ACTUAL, balanceTypeCode) || StringUtils.equals(BALANCE_TYPE_CURRENT_BUDGET, balanceTypeCode)) {
+//
+//            String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
+//            String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
+//
+//
+//            // fi_djv:lp_proc_jrnl_ln.37-1
+//            String debitCreditCode = null;
+//
+//            // fi_djv:lp_proc_jrnl_ln.39-2...51-2
+//            if (StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT) && StringUtils.equals(financialObjectCode, sourceAccountingLine.getChart().getFinancialCashObjectCode())) {
+//                // use debit credit code
+//                debitCreditCode = sourceAccountingLine.getDebitCreditCode();
+//            }
+//            else if (!StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT)) {
+//                // fi_djv:lp+proc_jrnl_ln.39-2...43-2
+//                if (StringUtils.equals(sourceAccountingLine.getDebitCreditCode(), GL_DEBIT_CODE)) {
+//                    debitCreditCode = GL_CREDIT_CODE;
+//                }
+//                else {
+//                    debitCreditCode = GL_DEBIT_CODE;
+//                }
+//            }
+//            if (StringUtils.isNotBlank(debitCreditCode)) {
+//
+//                String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
+//                String accountNumber = sourceAccountingLine.getAccountNumber();
+//                String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
+//                Integer fiscalYear = sourceAccountingLine.getPostingYear();
+//                KualiDecimal lineAmount = sourceAccountingLine.getAmount();
+//                String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
+//                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(),accountSufficientFundsCode);
+//
+//                item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+//            }
+//        }
+//
+//        return item;
+//    }
+//
+//    /**
+//     * 
+//     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+//     *      org.kuali.core.bo.TargetAccountingLine)
+//     */
+//    @Override
+//    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+//        if (targetAccountingLine != null) {
+//
+//            throw new IllegalArgumentException("JV document doesn't have target accounting lines. This method should have never been entered");
+//        }
+//        return null;
+//    }
 
     /**
      * 

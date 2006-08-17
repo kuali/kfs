@@ -25,16 +25,12 @@ package org.kuali.module.financial.rules;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 import org.kuali.test.KualiTestBaseWithFixtures;
-import org.kuali.test.parameters.AccountingLineParameter;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -58,48 +54,48 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
         changeCurrentUser("lraab");
     }
 
-    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
-        boolean failedAsExpected = false;
-        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
-        try {
-            TargetAccountingLine line = new TargetAccountingLine();
-
-            rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
-        }
-        catch (IllegalArgumentException e) {
-            failedAsExpected = true;
-        }
-        assertTrue(failedAsExpected);
-    }
-
-    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_null() {
-        boolean failedAsExpected = false;
-        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
-
-        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, null);
-
-        assertNull(item);
-    }
-
-    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation() throws Exception {
-        SourceAccountingLine line = (SourceAccountingLine) ((AccountingLineParameter) getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE_1).createObject()).createLine();
-
-        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
-
-        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
-
-        assertNotNull(item);
-        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
-        assertEquals(line.getAccountNumber(), item.getAccountNumber());
-        assertEquals(line.getAccount().getAccountSufficientFundsCode(), item.getAccountSufficientFundsCode());
-        assertTrue(line.getAmount().equals(item.getAmount()));
-        assertEquals(line.getChartOfAccountsCode(), item.getChartOfAccountsCode());
-        assertNotNull(item.getSufficientFundsObjectCode());
-        assertEquals(line.getFinancialObjectCode(), item.getFinancialObjectCode());
-        assertEquals(line.getObjectCode().getFinancialObjectLevelCode(), item.getFinancialObjectLevelCode());
-        assertEquals(line.getPostingYear(), item.getFiscalYear());
-        assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
-    }
+//    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
+//        boolean failedAsExpected = false;
+//        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
+//        try {
+//            TargetAccountingLine line = new TargetAccountingLine();
+//
+//            rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
+//        }
+//        catch (IllegalArgumentException e) {
+//            failedAsExpected = true;
+//        }
+//        assertTrue(failedAsExpected);
+//    }
+//
+//    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_null() {
+//        boolean failedAsExpected = false;
+//        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
+//
+//        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, null);
+//
+//        assertNull(item);
+//    }
+//
+//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation() throws Exception {
+//        SourceAccountingLine line = (SourceAccountingLine) ((AccountingLineParameter) getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE_1).createObject()).createLine();
+//
+//        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
+//
+//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
+//
+//        assertNotNull(item);
+//        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
+//        assertEquals(line.getAccountNumber(), item.getAccountNumber());
+//        assertEquals(line.getAccount().getAccountSufficientFundsCode(), item.getAccountSufficientFundsCode());
+//        assertTrue(line.getAmount().equals(item.getAmount()));
+//        assertEquals(line.getChartOfAccountsCode(), item.getChartOfAccountsCode());
+//        assertNotNull(item.getSufficientFundsObjectCode());
+//        assertEquals(line.getFinancialObjectCode(), item.getFinancialObjectCode());
+//        assertEquals(line.getObjectCode().getFinancialObjectLevelCode(), item.getFinancialObjectLevelCode());
+//        assertEquals(line.getPostingYear(), item.getFiscalYear());
+//        assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
+//    }
 
     /**
      * test that an <code>IllegalStateException</code> gets thrown for an error correction document

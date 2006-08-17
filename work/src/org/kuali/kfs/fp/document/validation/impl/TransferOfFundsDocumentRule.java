@@ -23,20 +23,14 @@
 package org.kuali.module.financial.rules;
 
 import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.Constants.NEGATIVE_ONE;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
@@ -44,7 +38,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to Transfer of Funds documents.
@@ -268,78 +261,78 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
-    @Override
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-     *      org.kuali.core.bo.TargetAccountingLine)
-     */
-    @Override
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
-    }
-
-    /**
-     * Prepares the input item that will be used for sufficient funds checking.
-     * 
-     * fi_dtf:lp_proc_frm_ln,lp_proc_to_ln conslidated
-     * 
-     * @param accountingLine
-     * @return SufficientFundsItem
-     */
-    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
-        SufficientFundsItem item = null;
-        String objectType = accountingLine.getObjectTypeCode();
-        String offsetDebitCreditCode = null;
-        KualiDecimal lineAmount = accountingLine.getAmount();
-        if (lineAmount == null) {
-            throw new IllegalArgumentException("Invalid (null) line amount");
-        }
-        // expense object types
-        // fi_dtf:lp_proc_frm_ln.36-2...48-3,50-3...67-3;; lp_proc_to_ln.36-2...48-3,50-3...67-3
-        if (isExpense(accountingLine) || isIncome(accountingLine) || isAsset(accountingLine) || isLiability(accountingLine)) {
-            if (accountingLine.getAmount().isPositive()) {
-                if (accountingLine.isSourceAccountingLine()) {
-                    offsetDebitCreditCode = GL_CREDIT_CODE;
-                }
-                else {
-                    offsetDebitCreditCode = GL_DEBIT_CODE;
-                }
-            }
-            else {
-                lineAmount = lineAmount.multiply(new KualiDecimal(NEGATIVE_ONE));
-                if (accountingLine.isSourceAccountingLine()) {
-                    offsetDebitCreditCode = GL_DEBIT_CODE;
-                }
-                else {
-                    offsetDebitCreditCode = GL_CREDIT_CODE;
-                }
-            }
-
-            // fi_dtf:lp_proc_frm_ln.46-03...48-3,lp_proc_to_ln.46-03...48-3
-            if (isExpense(accountingLine)) {
-                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE);
-            }
-            // fi_dtf:lp_proc_frm_ln.60-4...62-4,lp_proc_to_ln.60-4...62-4
-            else if (isIncome(accountingLine)) {
-                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE);
-            }
-            if (StringUtils.isBlank(objectType)) {
-                throw new IllegalArgumentException("Invalid (null) object type");
-            }
-            String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
-            String acocuntNumber = accountingLine.getAccountNumber();
-            String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
-            String financialObjectCode = accountingLine.getFinancialObjectCode();
-            String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
-            String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
-
-            item = buildSufficentFundsItem(acocuntNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, accountingLine.getPostingYear(), objectType);
-        }
-        return item;
-    }
+//    @Override
+//    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+//        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
+//    }
+//
+//    /**
+//     * 
+//     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+//     *      org.kuali.core.bo.TargetAccountingLine)
+//     */
+//    @Override
+//    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+//        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
+//    }
+//
+//    /**
+//     * Prepares the input item that will be used for sufficient funds checking.
+//     * 
+//     * fi_dtf:lp_proc_frm_ln,lp_proc_to_ln conslidated
+//     * 
+//     * @param accountingLine
+//     * @return SufficientFundsItem
+//     */
+//    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
+//        SufficientFundsItem item = null;
+//        String objectType = accountingLine.getObjectTypeCode();
+//        String offsetDebitCreditCode = null;
+//        KualiDecimal lineAmount = accountingLine.getAmount();
+//        if (lineAmount == null) {
+//            throw new IllegalArgumentException("Invalid (null) line amount");
+//        }
+//        // expense object types
+//        // fi_dtf:lp_proc_frm_ln.36-2...48-3,50-3...67-3;; lp_proc_to_ln.36-2...48-3,50-3...67-3
+//        if (isExpense(accountingLine) || isIncome(accountingLine) || isAsset(accountingLine) || isLiability(accountingLine)) {
+//            if (accountingLine.getAmount().isPositive()) {
+//                if (accountingLine.isSourceAccountingLine()) {
+//                    offsetDebitCreditCode = GL_CREDIT_CODE;
+//                }
+//                else {
+//                    offsetDebitCreditCode = GL_DEBIT_CODE;
+//                }
+//            }
+//            else {
+//                lineAmount = lineAmount.multiply(new KualiDecimal(NEGATIVE_ONE));
+//                if (accountingLine.isSourceAccountingLine()) {
+//                    offsetDebitCreditCode = GL_DEBIT_CODE;
+//                }
+//                else {
+//                    offsetDebitCreditCode = GL_CREDIT_CODE;
+//                }
+//            }
+//
+//            // fi_dtf:lp_proc_frm_ln.46-03...48-3,lp_proc_to_ln.46-03...48-3
+//            if (isExpense(accountingLine)) {
+//                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE);
+//            }
+//            // fi_dtf:lp_proc_frm_ln.60-4...62-4,lp_proc_to_ln.60-4...62-4
+//            else if (isIncome(accountingLine)) {
+//                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE);
+//            }
+//            if (StringUtils.isBlank(objectType)) {
+//                throw new IllegalArgumentException("Invalid (null) object type");
+//            }
+//            String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+//            String acocuntNumber = accountingLine.getAccountNumber();
+//            String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
+//            String financialObjectCode = accountingLine.getFinancialObjectCode();
+//            String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
+//            String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
+//
+//            item = buildSufficentFundsItem(acocuntNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, accountingLine.getPostingYear(), objectType);
+//        }
+//        return item;
+//    }
 }

@@ -35,6 +35,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.gl.web.Constant;
 
 /**
@@ -59,6 +60,7 @@ public class AccountBalance extends BusinessObjectBase {
     private Account account;
     private SubAccount subAccount;
     private ObjectCode financialObject;
+    private SubObjCd financialSubObject;
     private A21SubAccount a21SubAccount;
     private DummyBusinessObject dummyBusinessObject;
     private Options option;
@@ -360,4 +362,21 @@ public class AccountBalance extends BusinessObjectBase {
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }
+
+    /**
+     * Gets the subObject
+     * @return
+     */
+    public SubObjCd getFinancialSubObject() {
+        return financialSubObject;
+    }
+
+    /**
+     * Sets the subObject.
+     * @param financialSubObject
+     */
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+        this.financialSubObject = financialSubObject;
+    }
+    
 }

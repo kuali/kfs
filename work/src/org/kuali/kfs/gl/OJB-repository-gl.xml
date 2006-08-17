@@ -638,6 +638,15 @@
     <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
+    
+    <reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="objectCode" />
+        <foreignkey field-ref="subObjectCode" />
+    </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.document.CorrectionDocument" table="GL_COR_DOC_T">

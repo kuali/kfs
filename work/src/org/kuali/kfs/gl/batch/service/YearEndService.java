@@ -29,13 +29,21 @@ package org.kuali.module.gl.batch.closing.year.service;
  */
 
 public interface YearEndService {
-
+    /**
+     * 
+     * Year End Forward Encumbrances Job
+     */
     public void forwardEncumbrances();
 
+    /**
+     * 
+     * Year End Forward Balances Job
+     */
     public void forwardBalances();
 
+    /**
+     * 
+     * Year End Close Nominal Activity Job
+     */
     public void closeNominalActivity();
-
-    public void orgReversionsCarryForwards();
-
 }

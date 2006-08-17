@@ -273,7 +273,11 @@ public class ScrubberProcess {
         }
 
         // generate the scrubber status summary report
-        reportService.generateScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
+        if ( reportOnlyMode ) {
+            reportService.generateOnlineScrubberStatisticsReport(group.getId(),runDate, scrubberReport, scrubberReportErrors);            
+        } else {
+            reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
+        }
 
         // run the demerger and generate the demerger report
         if (!reportOnlyMode) {

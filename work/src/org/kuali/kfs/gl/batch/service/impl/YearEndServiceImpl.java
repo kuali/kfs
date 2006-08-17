@@ -40,9 +40,6 @@ import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.gl.batch.closing.year.reporting.BalanceForwardReport;
-import org.kuali.module.gl.batch.closing.year.reporting.EncumbranceClosingReport;
-import org.kuali.module.gl.batch.closing.year.reporting.NominalActivityClosingReport;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 import org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper;
 import org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper;
@@ -56,6 +53,7 @@ import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.util.FatalErrorException;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.OriginEntryOffsetPair;
@@ -73,9 +71,6 @@ public class YearEndServiceImpl implements YearEndService {
     private EncumbranceDao encumbranceDao;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
-    private EncumbranceClosingReport encumbranceClosingReport;
-    private BalanceForwardReport balanceForwardReport;
-    private NominalActivityClosingReport nominalActivityClosingReport;
     private DateTimeService dateTimeService;
     private BalanceService balanceService;
     private BalanceTypService balanceTypeService;
@@ -84,11 +79,16 @@ public class YearEndServiceImpl implements YearEndService {
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
     private EncumbranceClosingRuleHelper encumbranceClosingRuleHelper;
+    private ReportService reportService;
 
     public YearEndServiceImpl() {
         super();
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#closeNominalActivity()
+     */
     public void closeNominalActivity() {
 
         // Do some preliminary setup, getting application parameters.
@@ -1108,8 +1108,7 @@ public class YearEndServiceImpl implements YearEndService {
         statistics.add(summary);
 
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        nominalActivityClosingReport.generateStatisticsReport(jobParameters, statistics, runDate);
-
+        reportService.generateNominalActivityClosingStatisticsReport(jobParameters, statistics, runDate);
     }
 
     /**
@@ -1294,8 +1293,7 @@ public class YearEndServiceImpl implements YearEndService {
         statistics.add(summary);
 
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        balanceForwardReport.generateStatisticsReport(statistics, runDate);
-
+        reportService.generateBalanceForwardStatisticsReport(statistics, runDate);
     }
 
     /**
@@ -1443,140 +1441,54 @@ public class YearEndServiceImpl implements YearEndService {
         statistics.add(summary);
 
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        encumbranceClosingReport.generateStatisticsReport(statistics, runDate);
+        reportService.generateEncumbranceClosingStatisticsReport(statistics, runDate);
     }
 
-    /**
-     * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#orgReversionsCarryForwards()
-     */
-    public void orgReversionsCarryForwards() {
-        LOG.debug("orgReversionsCarryForwards() started");
-        // TODO Write this
-    }
-
-    /**
-     * Field accessor for EncumbranceDao. 
-     * 
-     * @param encumbranceDao The encumbranceDao to set.
-     */
     public void setEncumbranceDao(EncumbranceDao encumbranceDao) {
         this.encumbranceDao = encumbranceDao;
     }
 
-    /**
-     * Field accessor for OriginEntryService.
-     * 
-     * @param originEntryService The originEntryService to set.
-     */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }
 
-    /**
-     * Field accessor for EncumbranceClosingReport.
-     * 
-     * @param encumbranceClosingReport The encumbranceClosingReport to set.
-     */
-    public void setEncumbranceClosingReport(EncumbranceClosingReport encumbranceClosingReport) {
-        this.encumbranceClosingReport = encumbranceClosingReport;
+    public void setReportService(ReportService reportService) {
+        this.reportService = reportService;
     }
 
-    /**
-     * Field accessor for BalanceForwardReport.
-     * 
-     * @param balanceForwardReport The balanceForwardReport to set.
-     */
-    public void setBalanceForwardReport(BalanceForwardReport balanceForwardReport) {
-        this.balanceForwardReport = balanceForwardReport;
-    }
-
-    /**
-     * Field accessor for DateTimeService.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Field accessor for OriginEntryGroupService.
-     * 
-     * @param originEntryGroupService The originEntryGroupService to set.
-     */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
     }
 
-    /**
-     * Field accessor for EncumbranceClosingRuleHelper.
-     * 
-     * @param yearEndEncumbranceClosingRuleHelper
-     */
     public void setEncumbranceClosingRuleHelper(EncumbranceClosingRuleHelper encumbranceClosingRuleHelper) {
         this.encumbranceClosingRuleHelper = encumbranceClosingRuleHelper;
     }
 
-    /**
-     * Field accessor for BalanceService.
-     * 
-     * @param balanceService The balanceService to set.
-     */
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
     }
 
-    /**
-     * Field accessor for BalanceTypService.
-     * 
-     * @param balanceTypeService The balanceTypeService to set.
-     */
     public void setBalanceTypeService(BalanceTypService balanceTypeService) {
         this.balanceTypeService = balanceTypeService;
     }
 
-    /**
-     * Field accessor for ObjectTypeService.
-     * 
-     * @param objectTypeService The objectTypeService to set.
-     */
     public void setObjectTypeService(ObjectTypeService objectTypeService) {
         this.objectTypeService = objectTypeService;
     }
 
-    /**
-     * Field accessor for KualiConfigurationService.
-     * 
-     * @param kualiConfigurationService
-     */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    /**
-     * Field accessor for PriorYearAccountService.
-     * 
-     * @param priorYearAccountService
-     */
     public void setPriorYearAccountService(PriorYearAccountService priorYearAccountService) {
         this.priorYearAccountService = priorYearAccountService;
     }
 
-    /**
-     * Field accessor for SubFundGroupService.
-     * 
-     * @param subFundGroupService
-     */
     public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
         this.subFundGroupService = subFundGroupService;
-    }
-
-    /**
-     * Field accessor for NominalActivityClosingReport.
-     * 
-     * @param nominalActivityClosingReport
-     */
-    public void setNominalActivityClosingReport(NominalActivityClosingReport nominalActivityClosingReport) {
-        this.nominalActivityClosingReport = nominalActivityClosingReport;
     }
 }

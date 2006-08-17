@@ -38,6 +38,7 @@ import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.Summary;
+import org.kuali.module.gl.util.TransactionReport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
@@ -55,13 +56,22 @@ public interface ReportService {
     public void generateScrubberLedgerSummaryReport(Date runDate, Collection groups, String title);
 
     /**
-     * Scrubber Statistics report
+     * Scrubber Statistics report for batch reports
      * 
      * @param - runDate Run date of the report
      * @param - scrubberReport Summary information
      * @param - scrubberReportErrors Map of transactions with errors or warnings
      */
-    public void generateScrubberStatisticsReport(Date runDate, ScrubberReportData scrubberReport, Map<Transaction,List<Message>> scrubberReportErrors);
+    public void generateBatchScrubberStatisticsReport(Date runDate, ScrubberReportData scrubberReport, Map<Transaction,List<Message>> scrubberReportErrors);
+
+    /**
+     * Scrubber Statistics report for online reports
+     * 
+     * @param - runDate Run date of the report
+     * @param - scrubberReport Summary information
+     * @param - scrubberReportErrors Map of transactions with errors or warnings
+     */
+    public void generateOnlineScrubberStatisticsReport(Integer groupId,Date runDate, ScrubberReportData scrubberReport, Map<Transaction,List<Message>> scrubberReportErrors);
 
     /** 
      * Scrubber Demerger Statistics report
@@ -159,4 +169,29 @@ public interface ReportService {
      * @param groups
      */
     public void generatePosterReversalLedgerSummaryReport(Date runDate, Collection groups);
+
+    /**
+     * Balance Forward Year-End job Report
+     * 
+     * @param reportSummary
+     * @param runDate
+     */
+    public void generateBalanceForwardStatisticsReport(List reportSummary, Date runDate);
+
+    /**
+     * Encumbrance Closing Report
+     *
+     * @param reportSummary
+     * @param runDate
+     */
+    public void generateEncumbranceClosingStatisticsReport(List reportSummary, Date runDate);
+
+    /**
+     * Nominal Activity Closing Report
+     * 
+     * @param jobParameters
+     * @param reportSummary
+     * @param runDate
+     */
+    public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate);
 }

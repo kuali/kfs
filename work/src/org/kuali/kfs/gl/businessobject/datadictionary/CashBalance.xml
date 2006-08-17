@@ -21,7 +21,12 @@
             <title>Cash Balance Lookup</title>
             <instructions>Lookup Cash Balance for the specific account.</instructions>
 
-            <defaultSort attributeName="accountNumber" />
+            <defaultSort>
+            	 <sortAttributes>
+            	 	<sortAttribute attributeName="accountNumber" />
+            	 	<sortAttribute attributeName="subAccountNumber" />
+            	 </sortAttributes> 
+            </defaultSort>
 			
             <lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="true">
@@ -46,6 +51,9 @@
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
+                <field attributeName="objectCode" />
+                <field attributeName="subObjectCode" />
+                <field attributeName="objectTypeCode" />
                 <field attributeName="beginningBalanceLineAmount" />
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />
                 <field attributeName="accountLineAnnualBalanceAmount" />

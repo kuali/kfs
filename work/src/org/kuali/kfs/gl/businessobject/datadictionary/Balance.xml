@@ -70,7 +70,6 @@
                 <field attributeName="beginningBalanceLineAmount" />
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />
                 <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="month13Amount" />
 
                 <field attributeName="month1Amount" />
                 <field attributeName="month2Amount" />
@@ -84,6 +83,7 @@
                 <field attributeName="month10Amount" />
                 <field attributeName="month11Amount" />
                 <field attributeName="month12Amount" />
+                <field attributeName="month13Amount" />
             </resultFields>
         </lookup>
 
@@ -210,7 +210,7 @@
             </attributeReference>
 
             <attributeReference name="month13Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Year End Close</label>
+                <label>Year End</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 

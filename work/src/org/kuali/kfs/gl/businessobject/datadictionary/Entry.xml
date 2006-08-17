@@ -56,23 +56,27 @@
                 <lookupField attributeName="subAccountNumber" forceLookup="true" />
                 <lookupField attributeName="financialObjectCode" />
                 <lookupField attributeName="financialSubObjectCode" />
-                <lookupField attributeName="financialBalanceTypeCode" />
+                
+                <lookupField attributeName="financialBalanceTypeCode">
+                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder</defaultValueFinderClass>
+                </lookupField>
+                	                
                 <lookupField attributeName="financialObjectTypeCode" />
 
                 <lookupField attributeName="universityFiscalPeriodCode" required="true">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder</defaultValueFinderClass>
                 </lookupField>
 
-                <lookupField attributeName="financialSystemOriginationCode" />
                 <lookupField attributeName="financialDocumentTypeCode" />
+                <lookupField attributeName="financialSystemOriginationCode" />
                 <lookupField attributeName="financialDocumentNumber" />
                 <lookupField attributeName="organizationDocumentNumber" />
 
                 <lookupField attributeName="projectCode" />
                 <lookupField attributeName="organizationReferenceId" />
 
-                <lookupField attributeName="referenceFinancialSystemOriginationCode" />
                 <lookupField attributeName="referenceFinancialDocumentTypeCode" />
+                <lookupField attributeName="referenceFinancialSystemOriginationCode" />
                 <lookupField attributeName="referenceFinancialDocumentNumber" />
 
                 <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
@@ -329,7 +333,10 @@
                 <description>This is the budget year associated with this pending ledger entry.</description>
             </attribute>
 
-            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="pendingEntryOption" />
+            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="pendingEntryOption" >
+            	<label>Pending Entry Approved Indicator</label>
+                <shortLabel>Pending Entry Approved Indicator</shortLabel>
+            </attributeReference>
         </attributes>
     </businessObject>
 </dictionaryEntry>

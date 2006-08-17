@@ -88,6 +88,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     private ObjectType objectType;
     private ProjectCode project;
     private DocumentType documentType;
+    private DocumentType referenceDocumentType;
     private UniversityDate universityDate;
     private Options option;
     private AccountingPeriod accountingPeriod;
@@ -801,5 +802,21 @@ public class Entry extends BusinessObjectBase implements Transaction {
      */
     public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
+    }
+
+    /**
+     * Gets the referenceDocumentType attribute. 
+     * @return Returns the referenceDocumentType.
+     */
+    public DocumentType getReferenceDocumentType() {
+        return referenceDocumentType;
+    }
+
+    /**
+     * Sets the referenceDocumentType attribute value.
+     * @param referenceDocumentType The referenceDocumentType to set.
+     */
+    public void setReferenceDocumentType(DocumentType referenceDocumentType) {
+        this.referenceDocumentType = referenceDocumentType;
     }
 }

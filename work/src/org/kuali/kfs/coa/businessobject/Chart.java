@@ -51,7 +51,7 @@ public class Chart extends BusinessObjectBase {
     private String icrExpenseFinancialObjectCd;
     private String incBdgtEliminationsFinObjCd;
     private String expBdgtEliminationsFinObjCd;
-
+    private String fundBalanceObjectCode;
 
     private ObjectCode incBdgtEliminationsFinObj;
     private ObjectCode expBdgtEliminationsFinObj;
@@ -63,6 +63,7 @@ public class Chart extends BusinessObjectBase {
     private ObjectCode finAccountsReceivableObj;
     private ObjectCode finInternalEncumbranceObj;
     private ObjectCode icrExpenseFinancialObject;
+    private ObjectCode fundBalanceObject;
     private UniversalUser finCoaManagerUniversal;
     private Chart reportsToChartOfAccounts;
 
@@ -588,12 +589,46 @@ public class Chart extends BusinessObjectBase {
     public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
         this.reportsToChartOfAccountsCode = reportsToChartOfAccountsCode;
     }
+
+    /**
+     * Gets the fundBalanceObject attribute. 
+     * @return Returns the fundBalanceObject.
+     */
+    public ObjectCode getFundBalanceObject() {
+        return fundBalanceObject;
+    }
+
+    /**
+     * Sets the fundBalanceObject attribute value.
+     * @param fundBalanceObject The fundBalanceObject to set.
+     * @deprecated
+     */
+    public void setFundBalanceObject(ObjectCode fundBalanceObject) {
+        this.fundBalanceObject = fundBalanceObject;
+    }
+
+    /**
+     * Gets the fundBalanceObjectCode attribute. 
+     * @return Returns the fundBalanceObjectCode.
+     */
+    public String getFundBalanceObjectCode() {
+        return fundBalanceObjectCode;
+    }
+
+    /**
+     * Sets the fundBalanceObjectCode attribute value.
+     * @param fundBalanceObjectCode The fundBalanceObjectCode to set.
+     */
+    public void setFundBalanceObjectCode(String fundBalanceObjectCode) {
+        this.fundBalanceObjectCode = fundBalanceObjectCode;
+    }
+
     
     /**
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */
     public String getCodeAndDescription() {
         String theString = getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
-        return theString ;    }
+        return theString ;    }    
     
 }

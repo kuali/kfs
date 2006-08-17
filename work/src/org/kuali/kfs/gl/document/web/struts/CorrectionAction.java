@@ -81,7 +81,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.32 2006-08-11 17:12:55 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.33 2006-08-17 22:52:20 schoo Exp $
  * 
  */
 
@@ -111,32 +111,27 @@ public class CorrectionAction extends KualiDocumentActionBase {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", docTypeName);
             
         } */
-
-        
-        CorrectionForm errorCorrectionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(Constants.CORRECTION_FORM_KEY);
         CorrectionForm previousForm = (CorrectionForm) form;
         
-        if (errorCorrectionForm != null ) {
+        
+            CorrectionForm errorCorrectionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(Constants.CORRECTION_FORM_KEY);
+        
+        
+            if (errorCorrectionForm != null ) {
             
-            previousForm.setAllEntries(errorCorrectionForm.getAllEntries());
-            previousForm.setEditableFlag(errorCorrectionForm.getEditableFlag());
-            previousForm.setManualEditFlag(errorCorrectionForm.getManualEditFlag());
-            //previousForm.setGroupIdList(errorCorrectionForm.getGroupIdList());
-            previousForm.setEachEntryForManualEdit(errorCorrectionForm.getEachEntryForManualEdit());
-            
-        }
+                previousForm.setAllEntries(errorCorrectionForm.getAllEntries());
+                previousForm.setEditableFlag(errorCorrectionForm.getEditableFlag());
+                previousForm.setManualEditFlag(errorCorrectionForm.getManualEditFlag());
+                //previousForm.setGroupIdList(errorCorrectionForm.getGroupIdList());
+            }
         
+            if (request.getParameter("document.correctionChangeGroupNextLineNumber") != null){
+                CorrectionActionHelper.rebuildDocumentState(request, previousForm);
+            }
         
-               
-        if (request.getParameter("document.correctionChangeGroupNextLineNumber") != null){
-            CorrectionActionHelper.rebuildDocumentState(request, previousForm);
-        }
-        
-        if (!previousForm.getMethodToCall().equals("viewResults")) {
-            GlobalVariables.getUserSession().addObject(Constants.CORRECTION_FORM_KEY, previousForm);
-        }
-        
-        
+            if (!previousForm.getMethodToCall().equals("viewResults")) {
+                GlobalVariables.getUserSession().addObject(Constants.CORRECTION_FORM_KEY, previousForm);
+            }
         return super.execute(mapping, form, request, response);
     }
     public ActionForward uploadFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
@@ -906,8 +901,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      */
     public ActionForward chooseMainDropdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CorrectionForm errorCorrectionForm = new CorrectionForm();
-        errorCorrectionForm = (CorrectionForm) form;
+        CorrectionForm errorCorrectionForm  = (CorrectionForm) form;
         GlobalVariables.getUserSession().removeObject(Constants.CORRECTION_FORM_KEY);
         
         errorCorrectionForm.setAllEntries(null);
@@ -955,7 +949,17 @@ public class CorrectionAction extends KualiDocumentActionBase {
         
         
         
-        
+       /* //rebuild tabstate
+        if (errorCorrectionForm.getEditMethod().equals("Manual")){
+            errorCorrectionForm.getTabState(0).setOpen(true);
+            errorCorrectionForm.getTabState(0).setOpen(true);
+            errorCorrectionForm.getTabState(0).setOpen(true);
+            errorCorrectionForm.getTabState(0).setOpen(true);
+            errorCorrectionForm.getTabState(0).setOpen(false);
+            errorCorrectionForm.getTabState(0).setOpen(false);
+            
+            
+        }*/
         
         
         
@@ -1036,6 +1040,20 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setManualEditFlag("N");
 
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
+        
+        errorCorrectionForm.setEditingEntryId(editEntryId);
+       
+        
+        Object displayTableParameterPage = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_PAGE_NUMBER); 
+        Object displayTableParameterColumn = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER);
+       /* 
+        if (displayTableParameterPage != null) {
+            request.getParameterMap().put(Constants.DISPLAY_TABLE_PARAMETER_PAGE_NAME, displayTableParameterPage);
+        }
+        if (displayTableParameterColumn !=null) {
+            request.getParameterMap().put(Constants.DISPLAY_TABLE_PARAMETER_COLUMN_NAME, displayTableParameterColumn);
+        }*/
+        
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1146,6 +1164,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         Integer editEntryId;
         
         String stringEditEntryId = "";
+        
         for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
             String parameterName = (String) i.nextElement();
 
@@ -1190,6 +1209,32 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
 
     }
+    public ActionForward addEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CorrectionForm errorCorrectionForm = (CorrectionForm) form;
+        OriginEntry oe = errorCorrectionForm.getNewEntryForManualEdit();
+        
+        HttpSession session = request.getSession(true);
+        String[] newGroupId = { (String) session.getAttribute("newGroupId") };
+ 
+        OriginEntryGroup newOriginEntryGroup = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(newGroupId[0]));
+        originEntryService.createEntry(oe, newOriginEntryGroup);
+        
+        
+        showAllEntries(newGroupId, errorCorrectionForm, request);
+        
+        
+        
+        
+        
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+        
+        
+    
+    
 
     /**
      * Search function for Manual edit
@@ -1259,6 +1304,18 @@ public class CorrectionAction extends KualiDocumentActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
+    
+    
+    public ActionForward searchCancelForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CorrectionForm errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
+        document.getCorrectionChangeGroup().clear();
+        document.addCorrectionGroup(new CorrectionChangeGroup());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+        
+    
 
     /**
      * Creating a new output and change values from Manual edit.
@@ -1590,8 +1647,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setManualEditFlag("N");
 
         // for add an entry
-        OriginEntry newOriginEntry = new OriginEntry();
-        errorCorrectionForm.setEachEntryForManualEdit(newOriginEntry);
+        
+        errorCorrectionForm.setNewEntryForManualEdit(new OriginEntry());
         errorCorrectionForm.setProcessInBatch(true);
         // keep track the newGroupId in session
 
@@ -1954,18 +2011,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setMatchCriteriaOnly(sessionForm.getMatchCriteriaOnly());
         errorCorrectionForm.setGroupIdList(sessionForm.getGroupIdList());
         
-        //errorCorrectionForm.setTabStates(sessionForm.getTabStates());
+        Object displayTableParameterPage = request.getParameterMap().get(Constants.DISPLAY_TABLE_PARAMETER_PAGE_NAME);
+        Object displayTableParameterColumn = request.getParameterMap().get(Constants.DISPLAY_TABLE_PARAMETER_COLUMN_NAME);
         
-       
+        GlobalVariables.getUserSession().addObject(Constants.DISPLAY_TABLE_PAGE_NUMBER, displayTableParameterPage);
+        GlobalVariables.getUserSession().addObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER, displayTableParameterColumn);
         
-        
-        //CorrectionForm previousForm = (CorrectionForm) form;
-        //previousForm.setAllEntries(errorCorrectionForm.getAllEntries());
-        
-        //userSession.removeObject();
-        
-        
-        //CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         
         return mapping.findForward(Constants.MAPPING_BASIC);
 }
@@ -2012,7 +2063,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         Integer correctionChangeGroupNextLineNumber = oldDoc.getCorrectionChangeGroupNextLineNumber();
         Integer docId = Integer.parseInt(oldDoc.getFinancialDocumentNumber());
         CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument();
-        
+        try {
         if (oldDoc.getCorrectionTypeCode().equals("M")){
             errorCorrectionForm.setEditMethod("manual");
         } else {errorCorrectionForm.setEditMethod("criteria");}
@@ -2042,10 +2093,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
             }
         } 
         
-        errorCorrectionForm.setTotalCredits(oldDoc.getCorrectionCreditTotalAmount());
-        errorCorrectionForm.setTotalDebitsOrBlanks(oldDoc.getCorrectionDebitTotalAmount());
-        errorCorrectionForm.setRowsOutput(oldDoc.getCorrectionRowCount());
-    
+            errorCorrectionForm.setTotalCredits(oldDoc.getCorrectionCreditTotalAmount());
+            errorCorrectionForm.setTotalDebitsOrBlanks(oldDoc.getCorrectionDebitTotalAmount());
+            errorCorrectionForm.setRowsOutput(oldDoc.getCorrectionRowCount());
+        
+        
+        
         String[] groupId = {oldDoc.getCorrectionOutputFileName()};
         int intGroupId = 0;
         try{intGroupId = Integer.parseInt(groupId[0]);}
@@ -2062,7 +2115,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
         document.setFinancialDocumentNumber(docId.toString());
     
         }
-
+     catch (Exception e){
+        
+     }
+    }
+    
     public OriginEntryGroupService getOriginEntryGroupService() {
         return originEntryGroupService;
     }
@@ -2135,28 +2192,28 @@ public String changeFieldName(String fieldName){
         if(fieldName.equals("Transaction Date")){
             return "transactionDate";
         }
-        if(fieldName.equals("Organization Document Number")){
+        if(fieldName.equals("Org Doc Number")){
             return "organizationDocumentNumber";
         }
         if(fieldName.equals("Project Code")){
             return "projectCode";
         }
-        if(fieldName.equals("Organization Reference Number")){
+        if(fieldName.equals("Org Ref ID")){
             return "organizationReferenceId";
         }
-        if(fieldName.equals("Reference Document Type")){
+        if(fieldName.equals("Ref Doc Type")){
             return "referenceFinancialDocumentTypeCode";
         }
-        if(fieldName.equals("Reference Origin Code")){
+        if(fieldName.equals("Ref Origin Code")){
             return "referenceFinancialSystemOriginationCode";
         }
-        if(fieldName.equals("Reference Document Number")){
+        if(fieldName.equals("Ref Doc Number")){
             return "referenceFinancialDocumentNumber";
         }
         if(fieldName.equals("Reversal Date")){
             return "financialDocumentReversalDate";
         }
-        if(fieldName.equals("Transaction Encumbrance Update Code")){
+        if(fieldName.equals("Enc Update Code")){
             return "transactionEncumbranceUpdateCode";
         }
         

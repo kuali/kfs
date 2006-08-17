@@ -71,6 +71,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private int rowsOutput;
     private Integer oldDocId;
     private String originEntryGroupDeletedMessage;
+    private Integer editingEntryId;
     
     /**
      * This is a Map of operators that can be used in searches from the GL Error Correction Document. Each value in this Map
@@ -153,28 +154,28 @@ public class CorrectionForm extends KualiDocumentFormBase {
                     fieldNames.put(18, "Transaction Date");
                 }
                 if(fields[i].getName().equals("organizationDocumentNumber")){
-                    fieldNames.put(19, "Organization Document Number");
+                    fieldNames.put(19, "Org Doc Number");
                 }
                 if(fields[i].getName().equals("projectCode")){
                     fieldNames.put(20, "Project Code");
                 }
                 if(fields[i].getName().equals("organizationReferenceId")){
-                    fieldNames.put(21, "Organization Reference Number");
+                    fieldNames.put(21, "Org Ref ID");
                 }
                 if(fields[i].getName().equals("referenceFinancialDocumentTypeCode")){
-                    fieldNames.put(22, "Reference Document Type");
+                    fieldNames.put(22, "Ref Doc Type");
                 }
                 if(fields[i].getName().equals("referenceFinancialSystemOriginationCode")){
-                    fieldNames.put(23, "Reference Origin Code");
+                    fieldNames.put(23, "Ref Origin Code");
                 }
                 if(fields[i].getName().equals("referenceFinancialDocumentNumber")){
-                    fieldNames.put(24, "Reference Document Number");
+                    fieldNames.put(24, "Ref Doc Number");
                 }
                 if(fields[i].getName().equals("financialDocumentReversalDate")){
                     fieldNames.put(25, "Reversal Date");
                 }
                 if(fields[i].getName().equals("transactionEncumbranceUpdateCode")){
-                    fieldNames.put(26, "Transaction Encumbrance Update Code");
+                    fieldNames.put(26, "Enc Update Code");
                 }
                 
             }
@@ -412,6 +413,16 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setProcessInBatch(boolean processInBatch) {
         this.processInBatch = processInBatch;
+    }
+
+
+    public Integer getEditingEntryId() {
+        return editingEntryId;
+    }
+
+
+    public void setEditingEntryId(Integer editingEntryId) {
+        this.editingEntryId = editingEntryId;
     }
 
     

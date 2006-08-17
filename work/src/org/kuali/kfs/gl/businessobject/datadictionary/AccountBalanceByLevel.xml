@@ -59,13 +59,12 @@
                 <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
                 <field attributeName="financialObject.financialObjectLevel.financialObjectLevelCode" />
 
+                <field attributeName="dummyBusinessObject.linkButtonOption" />
+                
                 <field attributeName="currentBudgetLineBalanceAmount" />
                 <field attributeName="accountLineActualsBalanceAmount" />
                 <field attributeName="accountLineEncumbranceBalanceAmount" />
                 <field attributeName="dummyBusinessObject.genericAmount" />
-
-                <field attributeName="dummyBusinessObject.linkButtonOption" />
-
             </resultFields>
         </lookup>
 

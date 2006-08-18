@@ -25,7 +25,6 @@ package org.kuali.module.gl.service.impl;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,7 +66,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.36 2006-07-27 12:48:31 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.37 2006-08-18 19:56:24 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -542,16 +541,18 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static BigDecimal BDONEHUNDRED = new BigDecimal("100");
 
     private KualiDecimal getPercentage(KualiDecimal amount,BigDecimal percent) {
-        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED).divide(BDONEHUNDRED,2,BigDecimal.ROUND_DOWN);
+        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED,2,BigDecimal.ROUND_DOWN);
         return new KualiDecimal(result);
     }
 
     private String getChargeDescription(BigDecimal rate, String objectCode, String type, KualiDecimal amount) {
+        BigDecimal newRate = rate.multiply(PosterServiceImpl.BDONEHUNDRED);
+
         StringBuffer desc = new StringBuffer("CHG ");
-        if ( rate.doubleValue() < 10 ) {
+        if ( newRate.doubleValue() < 10 ) {
             desc.append(" ");
         }
-        desc.append(DFPCT.format(rate));
+        desc.append(DFPCT.format(newRate));
         desc.append("% ON ");
         desc.append(objectCode);
         desc.append(" (");
@@ -566,11 +567,13 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     }
 
     private String getOffsetDescription(BigDecimal rate, KualiDecimal amount, String chartOfAccountsCode, String accountNumber) {
+        BigDecimal newRate = rate.multiply(PosterServiceImpl.BDONEHUNDRED);
+
         StringBuffer desc = new StringBuffer("RCV ");
-        if ( rate.doubleValue() < 10 ) {
+        if ( newRate.doubleValue() < 10 ) {
             desc.append(" ");
         }
-        desc.append(DFPCT.format(rate));
+        desc.append(DFPCT.format(newRate));
         desc.append("% ON ");
         String amt = DFAMT.format(amount);
         while ( amt.length() < 13 ) {

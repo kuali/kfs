@@ -211,10 +211,10 @@
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="financialDocumentTypeCode" />
+    <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
-
+    
     <!--  
         <reference-descriptor name="universityDate" class-ref="org.kuali.module.gl.bo.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="transactionDate" />

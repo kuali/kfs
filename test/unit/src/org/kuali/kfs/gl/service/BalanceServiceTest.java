@@ -27,6 +27,7 @@ import java.util.List;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.test.KualiTestBaseWithSpring;
@@ -51,6 +52,11 @@ public class BalanceServiceTest extends KualiTestBaseWithSpring {
     static {
         account.setAccountNumber(ACCOUNT_NUMBER);
         account.setChartOfAccountsCode(CHART);
+        // jkeller: added Chart object since now used by the BalanceServiceImpl class.
+        Chart chart = new Chart();
+        chart.setFundBalanceObjectCode( "9899" );
+        chart.setChartOfAccountsCode( CHART );
+        account.setChartOfAccounts( chart );
     }
 
 

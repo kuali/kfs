@@ -57,9 +57,6 @@ public class BalanceServiceImpl implements BalanceService {
 
     // must have no asset, liability or fund balance balances other than object code 9899
 
-    String[] fundBalanceObjectCodes = new String[] { "9899" };
-
-    // TODO extract these from APC
     String[] assetLiabilityFundBalanceObjectTypeCodes = null;
     String[] encumbranceBaseBudgetBalanceTypeCodes = null;
     String[] actualBalanceCodes = null;
@@ -124,7 +121,9 @@ public class BalanceServiceImpl implements BalanceService {
     public boolean hasAssetLiabilityFundBalanceBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, wrap(getFundBalanceObjectCodes()), wrap(getAssetLiabilityFundBalanceBalanceTypeCodes()), wrap(getActualBalanceCodes()));
+        ArrayList fundBalanceObjectCodes = new ArrayList();
+        fundBalanceObjectCodes.add( account.getChartOfAccounts().getFundBalanceObjectCode() );
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, fundBalanceObjectCodes, wrap(getAssetLiabilityFundBalanceBalanceTypeCodes()), wrap(getActualBalanceCodes()));
 
         KualiDecimal begin;
         KualiDecimal annual;
@@ -202,7 +201,10 @@ public class BalanceServiceImpl implements BalanceService {
     protected KualiDecimal incomeBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, wrap(getFundBalanceObjectCodes()), null, wrap(getIncomeObjectTypeCodes()), wrap(getActualBalanceCodes()));
+        
+        ArrayList fundBalanceObjectCodes = new ArrayList();
+        fundBalanceObjectCodes.add( account.getChartOfAccounts().getFundBalanceObjectCode() );
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, fundBalanceObjectCodes, null, wrap(getIncomeObjectTypeCodes()), wrap(getActualBalanceCodes()));
 
         return sumBalances(balances);
 
@@ -376,14 +378,14 @@ public class BalanceServiceImpl implements BalanceService {
             options.getFinObjTypeIncomeNotCashCd(), // IC
             options.getFinObjectTypeIncomecashCode(), // IN
             options.getFinObjTypeCshNotIncomeCd(), // CH
-            "TI" // TODO: add appropriate column for object type "TI" to options
+            options.getFinancialObjectTypeTransferIncomeCode() // TI
         };
         // String[] expenseObjectTypeCodes = new String[] { "EE", "ES", "EX", "TE" };
         expenseObjectTypeCodes = new String[] { 
                 options.getFinObjTypeExpendNotExpCode(), // EE?
                 options.getFinObjTypeExpenditureexpCd(), // ES
                 options.getFinObjTypeExpNotExpendCode(), // EX?
-                "TE" // TODO: add appropriate column for object type "TE" to options
+                options.getFinancialObjectTypeTransferExpenseCode() // TE
             };
         // String[] assetLiabilityFundBalanceBalanceTypeCodes = new String[] { "AS", "LI", "FB" };
         assetLiabilityFundBalanceObjectTypeCodes = new String[] { 
@@ -396,23 +398,10 @@ public class BalanceServiceImpl implements BalanceService {
                 options.getExtrnlEncumFinBalanceTypCd(), // EX
                 options.getIntrnlEncumFinBalanceTypCd(), // IE
                 options.getPreencumbranceFinBalTypeCd(), // PE
-                "BB" // TODO: add appropriate column for balance type "BB" to options
+                options.getBaseBudgetFinancialBalanceTypeCode() // BB
             };
-        // TODO: load fundBalanceObjectCodes from options
-        // String[] fundBalanceObjectCodes = new String[] { "9899" };
-        // TODO Bill suggested adding this to CHART object
-        //fundBalanceObjectCodes = new String[] { 
-        //    options.getFundBalanceObjectCode()
-        //};
     }
     
-    private String[] getFundBalanceObjectCodes() {
-        if ( fundBalanceObjectCodes == null ) {
-            loadConstantsFromOptions();
-        }
-        return fundBalanceObjectCodes;
-    }
-
     private String[] getActualBalanceCodes() {
         if ( actualBalanceCodes == null ) {
             loadConstantsFromOptions();

@@ -6,7 +6,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.Account</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiAccountMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.chart.rules.AccountRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>

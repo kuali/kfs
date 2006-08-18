@@ -26,17 +26,23 @@
 package org.kuali.module.chart.bo;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
@@ -161,6 +167,34 @@ public class Account extends BusinessObjectBase implements AccountIntf {
 
         // IF C&G is a fund group, use this line
         return "CG".equals(getSubFundGroup().getFundGroupCode());
+    }
+    
+    /**
+     * This method gathers all SubAccounts related to this account if the account
+     * is marked as closed to deactivate
+     */
+    public List<BusinessObject> generateDeactivationsToPersist() {
+        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+
+        //  retreive all the existing sub accounts for this
+        List<SubAccount> bosToDeactivate = new ArrayList();
+        Map<String,Object> fieldValues;
+        Collection existingSubAccounts;
+        if(this.isAccountClosedIndicator() == true) {
+            fieldValues = new HashMap();
+            fieldValues.put("chartOfAccountsCode", this.getChartOfAccountsCode());
+            fieldValues.put("accountNumber", this.getAccountNumber());
+            fieldValues.put("subAccountActiveIndicator", true);
+            existingSubAccounts = boService.findMatching(SubAccount.class, fieldValues);
+            bosToDeactivate.addAll(existingSubAccounts);
+        }
+        
+        
+        //  mark all the sub accounts as inactive
+        for (SubAccount subAccount : bosToDeactivate) {
+            subAccount.setSubAccountActiveIndicator(false);
+        }
+        return new ArrayList<BusinessObject>(bosToDeactivate);
     }
 
     /**

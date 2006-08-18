@@ -22,7 +22,13 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.util.List;
+
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.core.web.uidraw.AccountingLineDecorator;
 
 /**
  * This class handles Actions for <ocde>IndirectCostAdjustmentDocument</code>s
@@ -30,5 +36,23 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class IndirectCostAdjustmentAction extends KualiTransactionalDocumentActionBase {
-    // no difference from superclass
+/**
+ * added target line baseline creation for lines created by source add
+ * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertAccountingLine(boolean, org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, org.kuali.core.bo.AccountingLine)
+ */
+    @Override
+    protected void insertAccountingLine(boolean isSource, KualiTransactionalDocumentFormBase transactionalDocumentForm, AccountingLine line) {
+        super.insertAccountingLine(isSource, transactionalDocumentForm, line);
+        if (isSource) {
+            AccountingLineDecorator decorator = new AccountingLineDecorator();
+            decorator.setRevertible(false);
+            // add it to the baseline, to prevent generation of spurious update events
+            TransactionalDocument tDoc = (TransactionalDocument) transactionalDocumentForm.getDocument();
+            List targetLines = tDoc.getTargetAccountingLines();
+            transactionalDocumentForm.getBaselineTargetAccountingLines().add(targetLines.get(targetLines.size() - 1));
+
+            // add the decorator
+            transactionalDocumentForm.getTargetLineDecorators().add(decorator);
+        }
+    }
 }

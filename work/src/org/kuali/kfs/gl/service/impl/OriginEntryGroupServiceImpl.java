@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,7 +40,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.22 2006-08-11 17:12:13 schoo Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.23 2006-08-20 04:22:25 jsissom Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -138,12 +139,38 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
         return null;
     }
-    
-    public Collection getAllOriginEntryGroup(){
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getAllOriginEntryGroup()
+     */
+    public Collection getAllOriginEntryGroup() {
         LOG.debug("getAllOriginEntryGroup() started");
         Map criteria = new HashMap();
 
-        return originEntryGroupDao.getMatchingGroups(criteria);
+        Collection c = originEntryGroupDao.getMatchingGroups(criteria);
+
+        // Get the row counts for each group
+        Iterator i = originEntryDao.getGroupCounts();
+        while ( i.hasNext() ) {
+            Object[] rowCount = (Object[])i.next();
+            int id = ((BigDecimal)rowCount[0]).intValue();
+            int count = ((BigDecimal)rowCount[1]).intValue();
+
+            // Find the correct group to add the count
+            for (Iterator iter = c.iterator(); iter.hasNext();) {
+                OriginEntryGroup group = (OriginEntryGroup)iter.next();
+                if ( group.getId().intValue() == id ) {
+                    group.setRows(new Integer(count));
+                }
+            }
+        }
+
+        for (Iterator iter = c.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup) iter.next();
+            LOG.error("getAllOriginEntryGroup() " + element.getId() + " " + element.getRows());
+        }
+        return c;
     }
     
 

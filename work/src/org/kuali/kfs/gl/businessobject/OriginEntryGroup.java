@@ -23,24 +23,27 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryGroup.java,v 1.3 2006-06-14 12:26:42 abyrne Exp $
+ * @version $Id: OriginEntryGroup.java,v 1.4 2006-08-20 04:21:48 jsissom Exp $
  * 
  */
 
 public class OriginEntryGroup extends BusinessObjectBase {
-    static final private long serialVersionUID = 1l;
     private Integer id;
     private Date date;
     private String sourceCode;
     private Boolean valid;
     private Boolean process;
     private Boolean scrub;
+
+    // This does not normally get populated.
+    private Integer rows = new Integer(0);
 
     private OriginEntrySource source;
 
@@ -55,6 +58,32 @@ public class OriginEntryGroup extends BusinessObjectBase {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", id);
         return map;
+    }
+
+    public String getName() {
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        StringBuffer sb = new StringBuffer(this.getSourceCode());
+        sb.append(" ");
+        sb.append(source.getName());
+        sb.append(" (");
+        sb.append(rows);
+        sb.append(") ");
+        sb.append(this.getId());
+        sb.append(" ");
+        sb.append(sdf.format(this.getDate()));
+        sb.append(" ");
+        sb.append(valid ? "Valid/" : "Invalid/");
+        sb.append(process ? " Will Be Processed/" : "Will Not Process/");
+        sb.append(scrub ? "To Scrub" : "Not to Scrub");
+        return sb.toString();
+    }
+
+    public Integer getRows() {
+        return rows;
+    }
+
+    public void setRows(Integer rows) {
+        this.rows = rows;
     }
 
     public OriginEntrySource getSource() {

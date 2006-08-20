@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.27 2006-08-01 17:06:08 schoo Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.28 2006-08-20 04:22:08 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -52,6 +52,22 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
      */
     public OriginEntryDaoOjb() {
         super();
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryDao#getGroupCounts()
+     */
+    public Iterator getGroupCounts() {
+        LOG.debug("getGroupCounts() started");
+
+        Criteria crit = new Criteria();
+
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(OriginEntry.class, crit);
+        q.setAttributes(new String[] { "entryGroupId", "count(*)" });
+        q.addGroupBy("entryGroupId");
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
     }
 
     /**

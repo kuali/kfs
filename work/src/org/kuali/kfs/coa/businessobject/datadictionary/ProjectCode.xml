@@ -75,8 +75,9 @@
             </attributeReference>
 
             <attributeReference name="projectManagerUniversalId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>Project Manager Univ</label>
-                <shortLabel>Proj</shortLabel>
+                <label>Project Manager UserID</label><!-- label changed for error messages -->
+                <!-- <displayLabelAttribute>projectManagerUniversal.personUserIdentifier</displayLabelAttribute> -->
+                <shortLabel>Mgr</shortLabel>
                 <required>true</required>
                 <control>
                     <hidden />

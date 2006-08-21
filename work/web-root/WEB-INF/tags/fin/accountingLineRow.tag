@@ -181,6 +181,25 @@
     inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.postingYear}"
     />
     
+<c:if test="${includeObjectTypeCode}">
+    <fin:accountingLineDataCell
+        dataCellCssClass="${dataCellCssClass}"
+        accountingLine="${accountingLine}"
+        baselineAccountingLine="${baselineAccountingLine}"
+        field="objectTypeCode"
+        detailFunction="loadObjectTypeInfo"
+        detailField="objectType.name"
+        attributes="${accountingLineAttributes}"
+        lookup="true"
+        inquiry="true"
+        boClassSimpleName="ObjectType"
+        conversionField="code"
+        readOnly="${readOnly}"
+        displayHidden="${displayHidden}"
+        accountingLineValuesMap="${accountingLineValuesMap}"
+        />
+</c:if>
+    
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     accountingLine="${accountingLine}"
@@ -214,28 +233,9 @@
     conversionField="code"
     readOnly="${readOnly&&(empty editableFields['projectCode'])}"
     displayHidden="${displayHidden}"
-    lookupOrInquiryKeys="chartOfAccountsCode"
     accountingLineValuesMap="${accountingLineValuesMap}"
     />
     
-<c:if test="${includeObjectTypeCode}">
-    <fin:accountingLineDataCell
-        dataCellCssClass="${dataCellCssClass}"
-        accountingLine="${accountingLine}"
-        baselineAccountingLine="${baselineAccountingLine}"
-        field="objectTypeCode"
-        detailFunction="loadObjectTypeInfo"
-        detailField="objectType.name"
-        attributes="${accountingLineAttributes}"
-        lookup="true"
-        inquiry="true"
-        boClassSimpleName="ObjectType"
-        conversionField="code"
-        readOnly="${readOnly}"
-        displayHidden="${displayHidden}"
-        accountingLineValuesMap="${accountingLineValuesMap}"
-        />
-</c:if>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     accountingLine="${accountingLine}"

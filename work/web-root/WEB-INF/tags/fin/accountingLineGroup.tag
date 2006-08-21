@@ -107,11 +107,11 @@
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.accountNumber}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.subAccountNumber}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialObjectCode}" hideRequiredAsterisk="${ !(empty forcedReadOnlyFields[accountingLineAttributes.financialObjectCode.name])}" rowspan="2"/>
-    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialSubObjectCode}" rowspan="2"/>
-    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}" rowspan="2"/>
     <c:if test="${includeObjectTypeCode}">
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.objectTypeCode}" rowspan="2" forceRequired="true" />
     </c:if>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialSubObjectCode}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.organizationReferenceId}" rowspan="2"/>
     <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>

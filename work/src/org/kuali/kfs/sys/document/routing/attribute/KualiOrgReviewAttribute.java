@@ -281,13 +281,14 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * @param chartOrgSet
      * @param chartOrg
      */
-    private void buildOrgReviewHierarchy(Set chartOrgSet, Org startOrg) {
+    private void buildOrgReviewHierarchy(int counter, Set chartOrgSet, Org startOrg) {
+        LOG.info("buildOrgReviewHierarchy iteration: " + counter);
         if (startOrg.getReportsToChartOfAccountsCode().equals(startOrg.getChartOfAccountsCode()) && startOrg.getReportsToOrganizationCode().equals(startOrg.getOrganizationCode())) {
             return;
         }
         Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
         chartOrgSet.add(reportsToOrg);
-        buildOrgReviewHierarchy(chartOrgSet, reportsToOrg);
+        buildOrgReviewHierarchy(counter++, chartOrgSet, reportsToOrg);
     }
 
     private String getRuleExtentionValue(String key, List ruleExtensions) {
@@ -345,7 +346,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     org = account.getOrganizationCode();
                 }
                 if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
-                    buildOrgReviewHierarchy(chartOrgValues, SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org));
+                    buildOrgReviewHierarchy(0, chartOrgValues, SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org));
                 }
                 else {
                     String xpathExp = null;
@@ -375,7 +376,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                         if (!StringUtils.isEmpty(finCoaCd) && !StringUtils.isEmpty(orgCd)) {
                             Org organization = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(finCoaCd, orgCd);
                             chartOrgValues.add(organization);
-                            buildOrgReviewHierarchy(chartOrgValues, organization);
+                            buildOrgReviewHierarchy(0, chartOrgValues, organization);
                         }
                     }
                 }

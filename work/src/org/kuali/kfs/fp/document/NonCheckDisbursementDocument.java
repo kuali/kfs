@@ -22,7 +22,7 @@
  */
 package org.kuali.module.financial.document;
 
-import org.kuali.Constants;
+import static org.kuali.Constants.EMPTY_STRING;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.module.financial.bo.NonCheckDisbursementDocumentAccountingLineParser;
@@ -51,17 +51,7 @@ public class NonCheckDisbursementDocument extends TransactionalDocumentBase {
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.FROM;
-    }
-
-    /**
-     * Overrides the base implementation to return "To".
-     * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
-     */
-    @Override
-    public String getTargetAccountingLinesSectionTitle() {
-        return Constants.TO;
+        return EMPTY_STRING;
     }
 
     /**

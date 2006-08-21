@@ -29,7 +29,11 @@
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>
-
+		
+		<defaultExistenceChecks>
+            <reference attributeName="travelExpenseTypeCode" attributeToHighlightOnFail="code" />
+        </defaultExistenceChecks>
+		
         <maintainableSections>
             <maintainableSection title="Edit Travel Company Code">
                 <maintainableItems>

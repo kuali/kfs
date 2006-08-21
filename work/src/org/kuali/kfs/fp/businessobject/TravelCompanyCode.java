@@ -31,6 +31,7 @@ import org.kuali.core.bo.KualiCodeBase;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class TravelCompanyCode extends KualiCodeBase {
+    private TravelExpenseTypeCode travelExpenseTypeCode;
 
     /**
      * Default no-arg constructor.
@@ -38,4 +39,23 @@ public class TravelCompanyCode extends KualiCodeBase {
     public TravelCompanyCode() {
 
     }
+
+    /**
+     * Gets the travelExpenseTypeCode attribute.
+     * 
+     * @return Returns the travelExpenseTypeCode.
+     */
+    public TravelExpenseTypeCode getTravelExpenseTypeCode() {
+        return travelExpenseTypeCode;
+    }
+
+    /**
+     * Sets the travelExpenseTypeCode attribute value.
+     * 
+     * @param travelExpenseTypeCode The travelExpenseTypeCode to set.
+     */
+    public void setTravelExpenseTypeCode(TravelExpenseTypeCode travelExpenseTypeCode) {
+        this.travelExpenseTypeCode = travelExpenseTypeCode;
+    }
+
 }

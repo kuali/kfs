@@ -42,22 +42,13 @@
 
         <attributes>
 
-            <attribute name="code" forceUppercase="true">
+            <attributeReference name="code" sourceClassName="org.kuali.module.financial.bo.TravelExpenseTypeCode" sourceAttributeName="code">
                 <label>Company Type Code</label>
                 <shortLabel>Type Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-
-                <control>
-                    <text size="2" />
-                </control>
-
                 <summary>Travel Company Code</summary>
                 <description>The code uniquely identify a travel company.</description>
-            </attribute>
+            </attributeReference>
 
             <attribute name="name" forceUppercase="false">
                 <label>Travel Company Name</label>

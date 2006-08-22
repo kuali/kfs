@@ -132,6 +132,8 @@
 			<filter token="logs-directory" value="${logs.directory}/" />
 			<filter token="attachments-root-directory" value="${attachments.root.directory}" />
 			<filter token="htdocs-directory" value="${htdocs.directory}" />
+			<filter token="batch-reports-directory" value="${batch.reports.directory}" />
+			<filter token="online-reports-directory" value="${online.reports.directory}" />
 			<filter token="staging-directory" value="${staging.directory}" />
 			<filter token="base-url" value="${base.url}" />
 			<filter token="application-url" value="${application.url}" />
@@ -289,7 +291,8 @@
 		</copy>
 		<mkdir dir="${attachments.root.directory}/${build.environment}" />
 		<unzip src="${static.content.zip}" dest="${htdocs.directory}" />
-		<mkdir dir="${htdocs.directory}/reports" />
+		<mkdir dir="${batch.reports.directory}" />
+		<mkdir dir="${online.reports.directory}" />
 	</target>
 
 	<target name="filter-workflow-local" if="dist.workflow.local" depends="init-filter-sets,clean-workflow-local">

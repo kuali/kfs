@@ -166,6 +166,9 @@
 	
 
 <!--  Search Results Control -->
+
+
+
 <kul:tab tabTitle="Search Results" defaultOpen="true" tabErrorKey="Search Results">    
  	<c:if test="${KualiForm.chooseSystem != null && KualiForm.editMethod !=null}" >   
 	<%--	<div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;"> --%>
@@ -177,9 +180,10 @@
                 <tr>
                     
                       <td>
-                      
-					                    
-					<display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${KualiForm.allEntries}" id="allEntries" pagesize="10"
+                	    <input type="hidden" name="d-2339813-p" value="${displayTablePageNumber}"/> 
+						<input type="hidden" name="d-2339813-s" value="${displayTableColumnNumber}"/> 
+						<input type="hidden" name="d-2339813-d" value="ASC"/>            
+					<display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${KualiForm.allEntries}" id="allEntries" pagesize="10"
                       requestURI="generalLedgerCorrection.do?methodToCall=viewResults&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
         
              			<c:choose>

@@ -50,10 +50,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.displaytag.tags.TableTagParameters;
+import org.displaytag.util.ParamEncoder;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.dao.DocumentDao;
-import org.kuali.core.lookup.keyvalues.CorrectionGroupEntriesFinder;
 import org.kuali.core.lookup.keyvalues.OEGDateComparator;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.LookupService;
@@ -81,7 +82,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.34 2006-08-17 22:55:05 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.35 2006-08-22 21:23:34 schoo Exp $
  * 
  */
 
@@ -132,6 +133,13 @@ public class CorrectionAction extends KualiDocumentActionBase {
             if (!previousForm.getMethodToCall().equals("viewResults")) {
                 GlobalVariables.getUserSession().addObject(Constants.CORRECTION_FORM_KEY, previousForm);
             }
+            
+            Object displayTablePageNumber = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_PAGE_NUMBER);
+            Object displayTableColumnNumber = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER); 
+            request.setAttribute("displayTablePageNumber", displayTablePageNumber);
+            request.setAttribute("displayTableColumnNumber", displayTableColumnNumber);
+            
+            
         return super.execute(mapping, form, request, response);
     }
     public ActionForward uploadFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
@@ -1033,7 +1041,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         String[] newGroupId = { (String) session.getAttribute("newGroupId") };
 
-        showAllEntries(newGroupId, errorCorrectionForm, request);
+        //showAllEntries(newGroupId, errorCorrectionForm, request);
 
         errorCorrectionForm.setEditableFlag("Y");
         // manualEditFlag is for activate a button for asking user to ask edit the docu.
@@ -1637,7 +1645,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
                 originEntryService.createEntry(oe, newOriginEntryGroup);
             }
             String[] groupIdList = { newOriginEntryGroup.getId().toString() };
-            showAllEntries(groupIdList, errorCorrectionForm, request);
+            //showAllEntries(groupIdList, errorCorrectionForm, request);
             session.setAttribute("newGroupId", newOriginEntryGroup.getId().toString());
         }
 
@@ -2010,13 +2018,13 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setDocTypeName(sessionForm.getDocTypeName());
         errorCorrectionForm.setMatchCriteriaOnly(sessionForm.getMatchCriteriaOnly());
         errorCorrectionForm.setGroupIdList(sessionForm.getGroupIdList());
-       /* 
-        Object displayTableParameterPage = request.getParameterMap().get(Constants.DISPLAY_TABLE_PARAMETER_PAGE_NAME);
-        Object displayTableParameterColumn = request.getParameterMap().get(Constants.DISPLAY_TABLE_PARAMETER_COLUMN_NAME);
         
+        Object displayTableParameterPage = request.getParameter(new ParamEncoder("allEntries").encodeParameterName(TableTagParameters.PARAMETER_PAGE));
+        Object displayTableParameterColumn = request.getParameter(new ParamEncoder("allEntries").encodeParameterName(TableTagParameters.PARAMETER_SORT)); 
+            
         GlobalVariables.getUserSession().addObject(Constants.DISPLAY_TABLE_PAGE_NUMBER, displayTableParameterPage);
         GlobalVariables.getUserSession().addObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER, displayTableParameterColumn);
-        */
+        
         
         return mapping.findForward(Constants.MAPPING_BASIC);
 }

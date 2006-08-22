@@ -31,7 +31,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.util.SpringServiceLocator;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -48,7 +48,7 @@ import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
  * 
  */
 public class KualiWorkflowUtils {
-
+    private static final Logger LOG = Logger.getLogger(KualiWorkflowUtils.class);
     private static final String XPATH_ROUTE_CONTEXT_KEY = "_xpathKey";
     public static final String XSTREAM_SAFE_PREFIX = "wf:xstreamsafe('";
     public static final String XSTREAM_SAFE_SUFFIX = "')";
@@ -95,14 +95,17 @@ public class KualiWorkflowUtils {
     }
     
     public static final boolean isMaintenanceDocument(DocumentType documentType) {
+        LOG.info("started isMaintenanceDocument: " + documentType.getName());
         boolean isMaintenanceDocument = false;
         DocumentType currentDocumentType = documentType.getParentDocType();
         do {
             if (MAINTENANCE_DOC_TYPE.equals(currentDocumentType.getName())) {
+                LOG.info("finished isMaintenanceDocument: " + documentType.getName() + " - true");
                 return true;
             }
             currentDocumentType = currentDocumentType.getParentDocType();
         } while (currentDocumentType != null);
+        LOG.info("started isMaintenanceDocument: " + documentType.getName() + " - false");
         return false;
     }
 

@@ -64,6 +64,7 @@ public class AccountBalance extends BusinessObjectBase {
     private A21SubAccount a21SubAccount;
     private DummyBusinessObject dummyBusinessObject;
     private Options option;
+    private String title;
 
     public AccountBalance() {
         super();
@@ -129,6 +130,7 @@ public class AccountBalance extends BusinessObjectBase {
 
     public AccountBalance(String title) {
         this();
+        this.title = title;
         financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode(title);
         currentBudgetLineBalanceAmount = KualiDecimal.ZERO;
         accountLineActualsBalanceAmount = KualiDecimal.ZERO;
@@ -179,6 +181,10 @@ public class AccountBalance extends BusinessObjectBase {
         return map;
     }
 
+    public String getTitle() {
+        return title;
+    }
+    
     public A21SubAccount getA21SubAccount() {
         return a21SubAccount;
     }

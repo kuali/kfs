@@ -22,7 +22,11 @@
  */
 package org.kuali.module.financial.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.Constants;
+import org.kuali.module.gl.util.SufficientFundsItem;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -33,11 +37,25 @@ import org.kuali.Constants;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CashReceiptDocument extends CashReceiptDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);
+
     /**
      * Initializes the array lists and line incrementers.
      */
     public CashReceiptDocument() {
         super();
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.document.TransactionalDocumentBase#checkSufficientFunds()
+     */
+    @Override
+    public List<SufficientFundsItem> checkSufficientFunds() {
+        LOG.debug("checkSufficientFunds() started");
+
+        // This document does not do sufficient funds checking
+        return new ArrayList<SufficientFundsItem>();
     }
 
     /**

@@ -79,7 +79,7 @@ public class SufficientFundsItem implements Serializable,Comparable {
     }
 
     public String getKey() {
-        return year.getUniversityFiscalYear() + account.getChartOfAccountsCode() + account.getAccountNumber() + sufficientFundsObjectCode;
+        return year.getUniversityFiscalYear() + account.getChartOfAccountsCode() + account.getAccountNumber() + financialObjectType.getCode() + sufficientFundsObjectCode;
     }
 
     public String getAccountSufficientFundsCode() {

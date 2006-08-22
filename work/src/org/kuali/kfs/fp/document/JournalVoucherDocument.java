@@ -22,7 +22,9 @@
  */
 package org.kuali.module.financial.document;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import static org.kuali.Constants.EMPTY_STRING;
@@ -36,6 +38,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
+import org.kuali.module.gl.util.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -48,6 +51,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class JournalVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(JournalVoucherDocument.class);
+
     // document specific attributes
     private String balanceTypeCode; // balanceType key
     private BalanceTyp balanceType;
@@ -59,6 +64,18 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
     public JournalVoucherDocument() {
         super();
         this.balanceType = new BalanceTyp();
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.document.TransactionalDocumentBase#checkSufficientFunds()
+     */
+    @Override
+    public List<SufficientFundsItem> checkSufficientFunds() {
+        LOG.debug("checkSufficientFunds() started");
+
+        // This document does not do sufficient funds checking
+        return new ArrayList<SufficientFundsItem>();
     }
 
     /**

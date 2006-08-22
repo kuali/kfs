@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.document;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,6 +38,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AuxiliaryVoucherAccountingLineParser;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.util.SufficientFundsItem;
 
 /**
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This 
@@ -58,7 +60,19 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public AuxiliaryVoucherDocument() {
         super();
     }
-    
+
+    /**
+     * 
+     * @see org.kuali.core.document.TransactionalDocumentBase#checkSufficientFunds()
+     */
+    @Override
+    public List<SufficientFundsItem> checkSufficientFunds() {
+        LOG.debug("checkSufficientFunds() started");
+
+        // This document does not do sufficient funds checking
+        return new ArrayList<SufficientFundsItem>();
+    }
+
     /**
      * Read Accessor for Reversal Date
      *

@@ -208,39 +208,40 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             return true;
         }
 
-        // TODO Not completely implemented yet
+        if ( Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode())  && !item.getFinancialObject().getChartOfAccounts().getFinancialCashObjectCode().equals(item.getFinancialObject().getFinancialObjectCode())) {
+            LOG.debug("hasSufficientFundsOnItem() SF checking is cash and transaction is not cash");
+            return true;
+        } else if (!Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode()) 
+                &&  kualiConfigurationService.getApplicationParameterRule(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.SUFFICIENT_FINDS_EXPENSE_OBJECT_TYPES).failsRule(item.getFinancialObjectType().getCode())) {
+            LOG.debug("hasSufficientFundsOnItem() SF checking is budget and transaction is not expense");
+            return true;
+        }
+
+        SufficientFundBalances sfBalance = sufficientFundBalanceDao.getByPrimaryId(item.getYear().getUniversityFiscalYear(), item.getAccount().getChartOfAccountsCode(), item.getAccount().getAccountNumber(), item.getSufficientFundsObjectCode());
+
+        // TODO Handle year bb not loaded
+        // TODO Handle pending
+
+        if ( sfBalance == null ) {
+            LOG.debug("hasSufficientFundsOnItem() No balance record, no sufficient funds");
+            return false;
+        }
+
+        KualiDecimal available = KualiDecimal.ZERO;
+        if ( Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode())) {
+            available = sfBalance.getCurrentBudgetBalanceAmount().subtract(sfBalance.getAccountActualExpenditureAmt());
+        } else {
+            // Budget checking
+            available = sfBalance.getCurrentBudgetBalanceAmount().subtract(sfBalance.getAccountActualExpenditureAmt()).subtract(sfBalance.getAccountEncumbranceAmount());
+        }
+
+        if ( item.getAmount().compareTo(available) > 0 ) {
+            LOG.debug("hasSufficientFundsOnItem() no sufficient funds");
+            return false;
+        }
+
+        LOG.debug("hasSufficientFundsOnItem() has sufficient funds");
         return true;
-//        LOG.debug("hasSufficientFundsOnItem() year " + item.getYear().getUniversityFiscalYear());
-//        LOG.debug("hasSufficientFundsOnItem() coa  " + item.getAccount().getChartOfAccountsCode());
-//        LOG.debug("hasSufficientFundsOnItem() acct " + item.getAccount().getAccountNumber());
-//        LOG.debug("hasSufficientFundsOnItem() code " + item.getSufficientFundsObjectCode());
-//
-//        SufficientFundBalances sfBalance = sufficientFundBalanceDao.getByPrimaryId(item.getYear().getUniversityFiscalYear(), item.getAccount().getChartOfAccountsCode(), item.getAccount().getAccountNumber(), item.getSufficientFundsObjectCode());
-//
-//        // TODO Handle year bb not loaded
-//        // TODO Handle pending
-//
-//        if ( sfBalance == null ) {
-//            LOG.debug("hasSufficientFundsOnItem() No balance record, no sufficient funds");
-//            return false;
-//        }
-//
-//        KualiDecimal available = KualiDecimal.ZERO;
-//        if ( Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode()) ) {
-//            // Cash checking
-//            available = sfBalance.getCurrentBudgetBalanceAmount().subtract(sfBalance.getAccountActualExpenditureAmt());
-//        } else {
-//            // Budget checking
-//            available = sfBalance.getCurrentBudgetBalanceAmount().subtract(sfBalance.getAccountActualExpenditureAmt()).subtract(sfBalance.getAccountEncumbranceAmount());
-//        }
-//
-//        if ( item.getAmount().compareTo(available) > 0 ) {
-//            LOG.debug("hasSufficientFundsOnItem() no sufficient funds");
-//            return false;
-//        }
-//
-//        LOG.debug("hasSufficientFundsOnItem() has sufficient funds");
-//        return true;
     }
 
     /**

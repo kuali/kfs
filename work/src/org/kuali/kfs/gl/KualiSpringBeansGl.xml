@@ -669,8 +669,8 @@
         <property name="optionsDao">
             <ref bean="optionsDao" />
         </property>
-        <property name="sufficientFundsReport">
-            <ref bean="glSufficientFundsReport" />
+        <property name="reportService">
+            <ref bean="glReportService" />
         </property>
         <property name="accountService">
             <ref bean="accountService" />

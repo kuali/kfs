@@ -47,6 +47,16 @@ import org.kuali.module.gl.util.TransactionReport;
 
 public interface ReportService {
     /**
+     * Sufficient Funds Summary Report
+     * 
+     * @param reportErrors
+     * @param reportSummary
+     * @param runDate
+     * @param mode
+     */
+    public void generateSufficientFundsReport(Map reportErrors, List reportSummary, Date runDate, int mode);
+
+    /**
      * Scrubber General Ledger Transaction Summary report
      * 
      * @param - runDate Run date of the report

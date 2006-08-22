@@ -46,6 +46,7 @@ import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
+import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.SufficientFundRebuildService;
 import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 import org.kuali.module.gl.service.SufficientFundsService;
@@ -65,7 +66,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private SufficientFundsService sufficientFundsService;
     private SufficientFundRebuildService sufficientFundRebuildService;
     private OptionsDao optionsDao;
-    private SufficientFundsReport sufficientFundsReportService;
+    private ReportService reportService;
     private AccountService accountService;
 
     private Date runDate;
@@ -162,7 +163,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         reportSummary.add(new Summary(4, "SFRB records kept due to errors", new Integer(sfrbNotDeletedCount)));
         reportSummary.add(new Summary(6, "SFBL records added", new Integer(sfblInsertedCount)));
         reportSummary.add(new Summary(7, "SFBL records updated", new Integer(sfblUpdatedCount)));
-        sufficientFundsReportService.generateReport(batchError, reportSummary, runDate, 0);
+        reportService.generateSufficientFundsReport(batchError, reportSummary, runDate, 0);
     }
 
     private void initService() {
@@ -367,8 +368,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         this.optionsDao = optionsDao;
     }
 
-    public void setSufficientFundsReport(SufficientFundsReport sfrs) {
-        sufficientFundsReportService = sfrs;
+    public void setReportService(ReportService sfrs) {
+        reportService = sfrs;
     }
 
     public void setAccountService(AccountService accountService) {

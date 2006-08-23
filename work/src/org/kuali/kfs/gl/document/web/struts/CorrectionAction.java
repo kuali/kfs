@@ -82,7 +82,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.36 2006-08-23 18:05:41 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.37 2006-08-23 18:11:36 schoo Exp $
  * 
  */
 
@@ -2118,9 +2118,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
         if (originEntryGroupService.getExactMatchingEntryGroup(new Integer(intGroupId)) != null){
             showAllEntries(groupId, errorCorrectionForm, request);
         } else {
-            errorCorrectionForm.setOriginEntryGroupDeletedMessage("Origin Entry Group Id '" + groupId[0] + "' does not exist.  It was deleted from system.");
+            errorCorrectionForm.setOriginEntryGroupDeletedMessage("There are no records for the origin entry group, '" + groupId[0] + "'.  It was deleted from system.");
         }
-        
+        //There are no records for the origin entry group selected
         //TODO: if errorCorrectionForm.getAllEntries is null (the OriginEntryGroup was deleted), then originEntryGroupDeletedMessage should have message.
         document.setFinancialDocumentNumber(docId.toString());
     

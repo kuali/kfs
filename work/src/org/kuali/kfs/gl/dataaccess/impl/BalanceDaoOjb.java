@@ -47,7 +47,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.36 2006-08-11 14:29:06 bgao Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.37 2006-08-23 20:22:52 larevans Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -568,7 +568,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             qbc.addOrderByAscending("objectCode");
         }
         else if (Constants.SF_TYPE_LEVEL.equals(sfCode)) {
-            qbc.addOrderByAscending("financialObject.financialObjectLevelCode");
+            qbc.addOrderByAscending("financialObject.financialObjectLevel.financialObjectLevelCode");
         }
         else if (Constants.SF_TYPE_CONSOLIDATION.equals(sfCode)) {
             qbc.addOrderByAscending("financialObject.financialObjectLevel.financialConsolidationObjectCode");

@@ -35,7 +35,7 @@
                 <lookupField attributeName="accountNumber" required="true" />
                 <lookupField attributeName="subAccountNumber" forceLookup="true" />
 
-                <lookupField attributeName="financialObject.financialObjectLevelCode" />
+                <lookupField attributeName="financialObject.financialObjectLevel.financialObjectLevelCode" />
                 <lookupField attributeName="financialObject.financialObjectLevel.financialReportingSortCode" />
 
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
@@ -58,7 +58,7 @@
                 <field attributeName="subAccountNumber" />
 
                 <field attributeName="objectCode" />
-                <field attributeName="financialObject.financialObjectLevelCode" />
+                <field attributeName="financialObject.financialObjectLevel.financialObjectLevelCode" />
 
                 <field attributeName="currentBudgetLineBalanceAmount" />
                 <field attributeName="accountLineActualsBalanceAmount" />
@@ -132,7 +132,7 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="financialObject.financialObjectLevelCode" sourceClassName="org.kuali.module.chart.bo.ObjLevel" sourceAttributeName="financialObjectLevelCode" />
+            <attributeReference name="financialObject.financialObjectLevel.financialObjectLevelCode" sourceClassName="org.kuali.module.chart.bo.ObjLevel" sourceAttributeName="financialObjectLevelCode" />
 
             <attributeReference name="financialObject.financialObjectLevel.financialReportingSortCode" sourceClassName="org.kuali.module.chart.bo.ObjLevel" sourceAttributeName="financialReportingSortCode" />
             <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode" />

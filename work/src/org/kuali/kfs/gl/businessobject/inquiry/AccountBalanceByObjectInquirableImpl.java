@@ -74,7 +74,7 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(PropertyConstants.FINANCIAL_OBJECT_CODE, "");
         userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
-        userDefinedAttributeMap.put("financialObject.financialObjectLevelCode", "");
+        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
         return userDefinedAttributeMap;
     }
 

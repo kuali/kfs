@@ -63,7 +63,7 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
         if ("dummyBusinessObject.linkButtonOption".equals(propertyName)) {
             return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
         }
-//        } else if ("financialObject.financialObjectLevelCode".equals(propertyName)) {
+//        } else if ("financialObject.financialObjectLevel.financialObjectLevelCode".equals(propertyName)) {
 //            return (new AccountBalanceByLevelInquirableImpl()).getInquiryUrl(bo, propertyName);
 //        }
         return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
@@ -96,7 +96,7 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
         String chartOfAccountsCode = (String) fieldValues.get("chartOfAccountsCode");
         String accountNumber = (String) fieldValues.get("accountNumber");
         String subAccountNumber = (String) fieldValues.get("subAccountNumber");
-        String financialObjectLevelCode = (String) fieldValues.get("financialObject.financialObjectLevelCode");
+        String financialObjectLevelCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialObjectLevelCode");
         String financialReportingSortCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialReportingSortCode");
         String financialConsolidationCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialConsolidationObjectCode");
 

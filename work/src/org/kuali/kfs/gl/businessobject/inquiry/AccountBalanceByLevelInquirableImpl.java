@@ -61,7 +61,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add("financialObject.financialObjectLevelCode");
+        keys.add("financialObject.financialObjectLevel.financialObjectLevelCode");
         keys.add("financialObject.financialObjectLevel.financialReportingSortCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
@@ -75,7 +75,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        //userDefinedAttributeMap.put("financialObject.financialObjectLevelCode", "");
+        //userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
         userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObjectCode", "");
         userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
         return userDefinedAttributeMap;
@@ -105,8 +105,8 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
-//        if (keyName.equals("financialObject.financialObjectLevelCode")) {
-//            keyName = "financialObject.financialObjectLevelCode";
+//        if (keyName.equals("financialObject.financialObjectLevel.financialObjectLevelCode")) {
+//            keyName = "financialObject.financialObjectLevel.financialObjectLevelCode";
 //        }
         return keyName;
     }
@@ -133,7 +133,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) {
             c = AccountBalanceByConsolidation.class;
         }
-        else if("financialObject.financialObjectLevelCode".equals(attributeName)) {
+        else if("financialObject.financialObjectLevel.financialObjectLevelCode".equals(attributeName)) {
             c = AccountBalance.class;
         }
         else if("objectCode".equals(attributeName)) {

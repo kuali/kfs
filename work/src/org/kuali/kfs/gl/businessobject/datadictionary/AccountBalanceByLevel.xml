@@ -57,7 +57,7 @@
                 <field attributeName="subAccountNumber" />
 
                 <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
-                <field attributeName="financialObject.financialObjectLevelCode" />
+                <field attributeName="financialObject.financialObjectLevel.financialObjectLevelCode" />
 
                 <field attributeName="dummyBusinessObject.linkButtonOption" />
                 
@@ -133,7 +133,7 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="financialObject.financialObjectLevelCode" sourceClassName="org.kuali.module.chart.bo.ObjLevel" sourceAttributeName="financialObjectLevelCode" />
+            <attributeReference name="financialObject.financialObjectLevel.financialObjectLevelCode" sourceClassName="org.kuali.module.chart.bo.ObjLevel" sourceAttributeName="financialObjectLevelCode" />
 
             <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode" />
 

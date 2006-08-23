@@ -26,16 +26,22 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
 import org.kuali.module.chart.bo.codes.FederalFundedCode;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
+import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ObjectCode extends BusinessObjectBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);
 
     private static final long serialVersionUID = -965833141452795485L;
     private Integer universityFiscalYear;
@@ -595,4 +601,36 @@ public class ObjectCode extends BusinessObjectBase {
         return m;
     }
 
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeUpdate(persistenceBroker);
+        try {
+            // KULCOA-549: update the sufficient funds table
+            // get the current data from the database
+            BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+            ObjectCode originalObjectCode = (ObjectCode)boService.retrieve( this );
+            
+            if ( originalObjectCode != null ) { 
+                if ( !originalObjectCode.getFinancialObjectLevelCode().equals( getFinancialObjectLevelCode() ) ) {            
+                    SufficientFundRebuild sfr = new SufficientFundRebuild();
+                    sfr.setAccountFinancialObjectTypeCode( SufficientFundRebuild.REBUILD_OBJECT );
+                    sfr.setChartOfAccountsCode( originalObjectCode.getChartOfAccountsCode() );
+                    sfr.setAccountNumberFinancialObjectCode( originalObjectCode.getFinancialObjectLevelCode() );
+                    if ( boService.retrieve( sfr ) == null ) {
+                        persistenceBroker.store( sfr );
+                    }
+                    sfr = new SufficientFundRebuild();
+                    sfr.setAccountFinancialObjectTypeCode( SufficientFundRebuild.REBUILD_OBJECT );
+                    sfr.setChartOfAccountsCode( getChartOfAccountsCode() );
+                    sfr.setAccountNumberFinancialObjectCode( getFinancialObjectLevelCode() );
+                    if ( boService.retrieve( sfr ) == null ) {
+                        persistenceBroker.store( sfr );
+                    }
+                }
+            }
+        } catch ( Exception ex ) {
+            LOG.error( "Problem updating sufficient funds rebuild table: ", ex );            
+        }
+    }
+    
 }

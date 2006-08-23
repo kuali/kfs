@@ -40,7 +40,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.23 2006-08-20 04:22:25 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.24 2006-08-23 18:06:33 schoo Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -270,8 +270,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getRecentGroupsByDays(int)
      */
     public Collection getRecentGroupsByDays(int days) {
-        LOG.debug("deleteOlderGroups() started");
-
+        
         Calendar today = dateTimeService.getCurrentCalendar();
         today.add(Calendar.DAY_OF_MONTH, 0 - days);
 

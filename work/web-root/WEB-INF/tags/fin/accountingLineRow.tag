@@ -312,47 +312,22 @@
 </c:choose>
 <c:if test="${!readOnly}">
     <c:choose>
-        <c:when test="${actionGroup == 'newLine' }" >
-            <c:set var="insertMethod" value="insert${actionInfix}Line" />
-
-            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
-                <html:image property="methodToCall.${insertMethod}" src="images/tinybutton-add1.gif" alt="insert" styleClass="tinybutton"/>
-                <fin:accountingLineDataCellDetail/></div>
-            </td>
+        <c:when test="${rowCount == 1}">
+            <fin:accountingLineActionDataCell
+                dataCellCssClass="${dataCellCssClass}"
+                actionGroup="${actionGroup}"
+                actionInfix="${actionInfix}"
+                accountingAddLineIndex="${accountingAddLineIndex}"
+                accountingLineIndex="${accountingLineIndex}"
+                decorator="${decorator}"
+                />
         </c:when>
-        
-        <c:when test="${actionGroup == 'newGroupLine' }" >
-            <c:set var="insertMethod" value="insert${actionInfix}Line.line${accountingAddLineIndex}" />
-
-            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
-                <html:image property="methodToCall.${insertMethod}" src="images/tinybutton-add1.gif" alt="insert" styleClass="tinybutton"/>
-                <fin:accountingLineDataCellDetail/></div>
+        <c:otherwise>
+            <td style="border-bottom-style: none">
+                <%-- No CSS class or bottom border so this cell looks like the start of one that spans two rows. --%>
+                &nbsp; <%-- This nbsp makes Firefox draw the left border of this cell. --%>
             </td>
-        </c:when>
-
-        <c:when test="${actionGroup == 'existingLine'}" >
-            <c:set var="revertible">
-                <bean:write name="KualiForm" property="${decorator}.revertible" />
-            </c:set>
-            <c:set var="deleteMethod" value="delete${actionInfix}Line.line${accountingLineIndex}" />
-            <c:set var="revertMethod" value="revert${actionInfix}Line.line${accountingLineIndex}" />
-            <c:set var="balanceInquiryMethod" value="performBalanceInquiryFor${actionInfix}Line.line${accountingLineIndex}" />
-
-            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap>
-                <div align="center">
-                <%-- persist accountingLineDecorator --%>
-		        <html:hidden name="KualiForm" property="${decorator}.revertible" />
-
-		        <html:image property="methodToCall.${deleteMethod}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/>
-        		<c:if test="${revertible}">
-            		<br>
-            		<html:image property="methodToCall.${revertMethod}" src="images/tinybutton-revert1.gif" alt="revert" styleClass="tinybutton"/>
-        		</c:if>
-        		<br>
-        		<html:image property="methodToCall.${balanceInquiryMethod}" src="images/tinybutton-balinquiry.gif" alt="balance inquiry" styleClass="tinybutton" />
-                </div>
-            </td>
-        </c:when>
+        </c:otherwise>
     </c:choose>
 </c:if>
 </tr>
@@ -360,7 +335,9 @@
 <%-- optional second row of accounting fields, between index and amount columns --%>
 <c:if test="${!empty extraRowFields}">
     <tr><td colspan="${columnCountUntilAmount - 1}" style="padding: 0px;border: 0px none ;">
-        <table cellpadding="0" cellspacing="0" style="width: 100%;border: 0px;">
+        <c:set var="hasMultipleActionButtons" value="${!readOnly && actionGroup == 'existingLine'}"/>
+        <%-- Multiple buttons increase this row's height, but the table can't automatically cover that extra height, so kludge it. --%>
+        <table cellpadding="0" cellspacing="0" style="width: 100%;border: 0px;${hasMultipleActionButtons ? 'height: 60px;' : ''}">
         <tr>
         <c:set var="delimitedExtraRowFields" value=",${extraRowFields},"/>
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceOriginCode,')}" >
@@ -432,8 +409,23 @@
             </c:if>
         </c:forTokens>
             <%-- use up the remaining space, to push the extra fields together --%>
-            <td class="${dataCellCssClass}" width="100%"/>
+            <td class="${dataCellCssClass}" width="100%">
+                &nbsp; <%-- This nbsp causes Firefox to draw the left and bottom borders of this empty cell. --%>
+            </td>
         </tr>
         </table>
-    </td></tr>
+    </td>
+        <%-- Assert rowCount == 2.  Browser skips 2-row amount columns here. --%>
+        <c:if test="${!readOnly}">
+            <%-- Action buttons go on the second row here, if any, to get the right default tab navigation. --%>
+            <fin:accountingLineActionDataCell
+                dataCellCssClass="${dataCellCssClass}"
+                actionGroup="${actionGroup}"
+                actionInfix="${actionInfix}"
+                accountingAddLineIndex="${accountingAddLineIndex}"
+                accountingLineIndex="${accountingLineIndex}"
+                decorator="${decorator}"
+                />
+        </c:if>
+    </tr>
 </c:if>

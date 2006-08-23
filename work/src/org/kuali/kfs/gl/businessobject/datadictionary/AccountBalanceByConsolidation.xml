@@ -60,7 +60,7 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
 
-                <field attributeName="financialObject.financialObjectType.financialReportingSortCode" />
+                <field attributeName="financialObject.financialObjectType.financialReportingSortCode" noInquiry="true" />
                 <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
 
                 <field attributeName="dummyBusinessObject.linkButtonOption" />

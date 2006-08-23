@@ -89,7 +89,11 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             isPkReference = true;
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
-            inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClass(businessObject, attributeName);
+            if(!"financialObject.financialObjectType.financialReportingSortCode".equals(attributeName)) {
+                inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClass(businessObject, attributeName);
+            } else {
+                return "";
+            }
         }
         else {
             Map primitiveReference = KualiLookupableImpl.getPrimitiveReference(businessObject, attributeName);

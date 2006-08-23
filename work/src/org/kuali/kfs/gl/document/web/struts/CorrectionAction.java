@@ -82,7 +82,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.35 2006-08-22 21:23:34 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.36 2006-08-23 18:05:41 schoo Exp $
  * 
  */
 
@@ -163,12 +163,14 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         try {
             String currentLine = br.readLine();
-            while (currentLine != null) {
-                entryFromFile.setFromTextFile(currentLine);
+            while (currentLine != null ) {
+                
+                if (!currentLine.equals("")){
+                    entryFromFile.setFromTextFile(currentLine);
 
-                entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
-                originEntryService.createEntry(entryFromFile, newOriginEntryGroup);
-
+                    entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
+                    originEntryService.createEntry(entryFromFile, newOriginEntryGroup);
+                }
                 currentLine = br.readLine();
             }
         }

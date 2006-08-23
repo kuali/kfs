@@ -40,7 +40,7 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: AccountBalanceServiceImpl.java,v 1.14 2006-08-15 14:22:01 jsissom Exp $
+ * @version $Id: AccountBalanceServiceImpl.java,v 1.15 2006-08-23 22:41:40 jsissom Exp $
  */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
@@ -66,11 +66,6 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         return accountBalanceDao.findAvailableAccountBalance(fieldValues);
     }
 
-    public void printIt(String[] data,String x) {
-        for (int e = 0; e < data.length; e++) {
-            LOG.error("printIt() XXXXXXXXXXXXX: " + x + " " + data[e]);
-        }
-    }
     /**
      * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByConsolidation(java.util.Map, boolean, boolean)
      */
@@ -97,12 +92,6 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         for (int i = 0; i < expenseTransferObjectTypes.length; i++) {
             allObjectTypes[count++] = expenseTransferObjectTypes[i];
         }
-
-        printIt(incomeObjectTypes,"income");
-        printIt(incomeTransferObjectTypes,"incomeTransfer");
-        printIt(expenseObjectTypes,"expense");
-        printIt(expenseTransferObjectTypes,"expenseTransfer");
-        printIt(allObjectTypes,"all");
         
         // Put the total lines at the beginning of the list
         List results = new ArrayList();
@@ -208,12 +197,14 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         }
 
         // Add up variances
-        income.getDummyBusinessObject().setGenericAmount(income.getAccountLineActualsBalanceAmount().subtract(income.getCurrentBudgetLineBalanceAmount()));
-        incomeTransfers.getDummyBusinessObject().setGenericAmount(incomeTransfers.getAccountLineActualsBalanceAmount().subtract(incomeTransfers.getCurrentBudgetLineBalanceAmount()));
-        incomeTotal.getDummyBusinessObject().setGenericAmount(incomeTotal.getAccountLineActualsBalanceAmount().subtract(incomeTotal.getCurrentBudgetLineBalanceAmount()));
-        expense.getDummyBusinessObject().setGenericAmount(expense.getCurrentBudgetLineBalanceAmount().subtract(expense.getAccountLineActualsBalanceAmount().subtract(expense.getAccountLineEncumbranceBalanceAmount())));
-        expenseTransfers.getDummyBusinessObject().setGenericAmount(expenseTransfers.getCurrentBudgetLineBalanceAmount().subtract(expenseTransfers.getAccountLineActualsBalanceAmount().subtract(expenseTransfers.getAccountLineEncumbranceBalanceAmount())));
-        expenseTotal.getDummyBusinessObject().setGenericAmount(expenseTotal.getCurrentBudgetLineBalanceAmount().subtract(expenseTotal.getAccountLineActualsBalanceAmount().subtract(expenseTotal.getAccountLineEncumbranceBalanceAmount())));
+        income.getDummyBusinessObject().setGenericAmount(income.getAccountLineActualsBalanceAmount().add(income.getAccountLineEncumbranceBalanceAmount()).subtract(income.getCurrentBudgetLineBalanceAmount()));
+        incomeTransfers.getDummyBusinessObject().setGenericAmount(incomeTransfers.getAccountLineActualsBalanceAmount().add(incomeTransfers.getAccountLineEncumbranceBalanceAmount()).subtract(incomeTransfers.getCurrentBudgetLineBalanceAmount()));
+        incomeTotal.getDummyBusinessObject().setGenericAmount(income.getDummyBusinessObject().getGenericAmount().add(incomeTransfers.getDummyBusinessObject().getGenericAmount()));
+
+        expense.getDummyBusinessObject().setGenericAmount(expense.getCurrentBudgetLineBalanceAmount().subtract(expense.getAccountLineActualsBalanceAmount()).subtract(expense.getAccountLineEncumbranceBalanceAmount()));
+        expenseTransfers.getDummyBusinessObject().setGenericAmount(expenseTransfers.getCurrentBudgetLineBalanceAmount().subtract(expenseTransfers.getAccountLineActualsBalanceAmount()).subtract(expenseTransfers.getAccountLineEncumbranceBalanceAmount()));
+        expenseTotal.getDummyBusinessObject().setGenericAmount(expense.getDummyBusinessObject().getGenericAmount().add(expenseTransfers.getDummyBusinessObject().getGenericAmount()));
+
         total.getDummyBusinessObject().setGenericAmount(incomeTotal.getDummyBusinessObject().getGenericAmount().subtract(expenseTotal.getDummyBusinessObject().getGenericAmount()));
 
         return results;

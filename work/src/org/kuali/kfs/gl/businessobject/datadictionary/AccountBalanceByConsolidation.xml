@@ -50,8 +50,6 @@
                 <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
                 </lookupField>
-                
-                <lookupField attributeName="financialObject.financialObjectType.financialReportingSortCode" noLookup="true" />
             </lookupFields>
 
             <resultFields>

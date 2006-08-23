@@ -122,28 +122,28 @@
                   </thead>
                   <tfoot>
                     <tr>
-                      <th colspan="4" class="infocell" style="text-align: right;">${reqSearchResults[6].columns[5].propertyValue}</th>
-                      <td class="numbercell">${reqSearchResults[6].columns[9].propertyValue}</td>
+                      <th colspan="4" class="infocell" style="text-align: right;">${totalsTable[6].columns[5].propertyValue}</th>
+                      <td class="numbercell">${totalsTable[6].columns[10].propertyValue}</td>
                     </tr>
                   </tfoot>
                   <tbody>
                     <tr class="odd">
                       <td class="infocell">${totalsTable[0].columns[5].propertyValue}</td>
-                      <td class="numbercell">${totalsTable[0].columns[6].propertyValue}</td>
+                      <td class="numbercell">${totalsTable[0].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[0].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[0].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[0].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="odd">
                       <td class="infocell">${totalsTable[1].columns[5].propertyValue}</td>
-                      <td class="numbercell">${totalsTable[1].columns[6].propertyValue}</td>
+                      <td class="numbercell">${totalsTable[1].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[1].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[1].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[1].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="even">
                       <td class="infocell"><b>${totalsTable[2].columns[5].propertyValue}</b></td>
-                      <td class="numbercell">${totalsTable[2].columns[6].propertyValue}</td>
+                      <td class="numbercell">${totalsTable[2].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[2].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[2].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[2].columns[10].propertyValue}</td>
@@ -153,21 +153,21 @@
                     </tr>
                     <tr class="odd">
                       <td class="infocell">${totalsTable[3].columns[5].propertyValue}</td>
-                      <td class="numbercell">${totalsTable[3].columns[6].propertyValue}</td>
+                      <td class="numbercell">${totalsTable[3].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[3].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[3].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[3].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="odd">
                       <td class="infocell">${totalsTable[4].columns[5].propertyValue}</td>
-                      <td class="numbercell">${totalsTable[4].columns[6].propertyValue}</td>
+                      <td class="numbercell">${totalsTable[4].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[4].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[4].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[4].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="even">
                       <td class="infocell"><b>${totalsTable[5].columns[5].propertyValue}</b></td>
-                      <td class="numbercell">${totalsTable[5].columns[6].propertyValue}</td>
+                      <td class="numbercell">${totalsTable[5].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[5].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[5].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[5].columns[10].propertyValue}</td>

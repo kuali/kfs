@@ -41,6 +41,7 @@ import org.kuali.core.service.OptionsService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjLevel;
@@ -175,6 +176,9 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             Options year = tran.getOption();
             if ( year == null ) {
                 year = currentYear;
+            }
+            if ( ObjectUtils.isNull(tran.getAccount()) ) {
+                throw new IllegalArgumentException("Invalid account: " + tran.getChartOfAccountsCode() + "-" + tran.getAccountNumber());
             }
             SufficientFundsItem sfi = new SufficientFundsItem(year,tran,getSufficientFundsObjectCode(tran.getFinancialObject(), tran.getAccount().getAccountSufficientFundsCode()));
 

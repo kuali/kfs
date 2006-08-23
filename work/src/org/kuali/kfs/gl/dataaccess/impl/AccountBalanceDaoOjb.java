@@ -207,7 +207,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             return abo.findAccountBalanceByObject(universityFiscalYear,chartOfAccountsCode,accountNumber,financialObjectLevelCode,financialReportingSortCode,isCostShareExcluded,isConsolidated,pendingEntriesCode);
         }
         catch (Exception e) {
-            LOG.error("findAccountBalanceByLevel() " + e.getMessage(), e);
+            LOG.error("findAccountBalanceByObject() " + e.getMessage(), e);
             throw new RuntimeException(e.getMessage());
         }
     }

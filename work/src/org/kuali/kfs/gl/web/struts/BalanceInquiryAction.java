@@ -68,7 +68,7 @@ public class BalanceInquiryAction extends KualiAction {
         kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
     }
     
-    private void setTotalTypes() {
+    private void setTotalTitles() {
         totalTitles = new String[7];
         
         totalTitles[0] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME);
@@ -83,7 +83,7 @@ public class BalanceInquiryAction extends KualiAction {
     
     private String[] getTotalTitles() {
         if(null == totalTitles) {
-            setTotalTypes();
+            setTotalTitles();
         }
         
         return totalTitles;

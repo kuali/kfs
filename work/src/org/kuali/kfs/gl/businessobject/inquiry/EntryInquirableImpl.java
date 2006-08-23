@@ -81,7 +81,7 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     @Override
-    protected Class getInquiryBusinessObjectClass() {
+    protected Class getInquiryBusinessObjectClass(String attributeName) {
         return null;
     }
 

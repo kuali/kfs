@@ -64,7 +64,7 @@ public class CashBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     @Override
-    public Class getInquiryBusinessObjectClass() {
+    public Class getInquiryBusinessObjectClass(String attributeName) {
         return null;
     }
 

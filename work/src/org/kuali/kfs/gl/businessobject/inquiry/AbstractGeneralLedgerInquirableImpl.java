@@ -81,7 +81,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         // determine the type of the given attribute: user-defined, regular, nested-referenced or primitive reference
         if (isUserDefinedAttribute) {
             attributeName = getAttributeName(attributeName);
-            inquiryBusinessObjectClass = getInquiryBusinessObjectClass();
+            inquiryBusinessObjectClass = getInquiryBusinessObjectClass(attributeName);
             isPkReference = true;
         }
         else if (attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {
@@ -230,11 +230,11 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
     protected abstract String getBaseUrl();
 
     /**
-     * This method gets the class name of the inquiry business object
+     * This method gets the class name of the inquiry business object for a given attribute.
      * 
-     * @return the class name of the inquiry business object
+     * @return the class name of the inquiry business object for a given attribute
      */
-    protected abstract Class getInquiryBusinessObjectClass();
+    protected abstract Class getInquiryBusinessObjectClass(String attributeName);
 
     /**
      * This method adds more parameters into the curren parameter map

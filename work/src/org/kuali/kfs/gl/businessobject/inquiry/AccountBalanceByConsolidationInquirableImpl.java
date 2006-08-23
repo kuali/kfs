@@ -32,6 +32,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
 import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.web.Constant;
 
@@ -80,9 +81,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
-        if (attributeName.equals("dummyBusinessObject.linkButtonOption")) {
-            attributeName = "financialObject.financialObjectLevel.financialConsolidationObjectCode";
-        }
+//        if (attributeName.equals("dummyBusinessObject.linkButtonOption")) {
+//            attributeName = "financialObject.financialObjectLevel";
+//        }
         return attributeName;
     }
 
@@ -118,10 +119,17 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass()
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
-    protected Class getInquiryBusinessObjectClass() {
-        return AccountBalanceByLevel.class;
+    protected Class getInquiryBusinessObjectClass(String attributeName) {
+        Class c = null;
+        if("dummyBusinessObject.linkButtonOption".equals(attributeName)) {
+            c = AccountBalanceByLevel.class;
+        }
+        else {
+            c = AccountBalanceByConsolidation.class;
+        }
+        return c;
     }
 
     /**

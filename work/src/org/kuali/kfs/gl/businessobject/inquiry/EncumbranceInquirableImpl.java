@@ -89,10 +89,10 @@ public class EncumbranceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass()
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     @Override
-    protected Class getInquiryBusinessObjectClass() {
+    protected Class getInquiryBusinessObjectClass(String attributeName) {
         return null;
     }
 

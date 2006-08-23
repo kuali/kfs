@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableImpl;
@@ -35,6 +34,7 @@ import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.DummyBusinessObject;
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.gl.web.inquirable.AccountBalanceByLevelInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 
@@ -60,12 +60,15 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        if (propertyName.equals("dummyBusinessObject.linkButtonOption")) {
+        if ("dummyBusinessObject.linkButtonOption".equals(propertyName)) {
             return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
         }
+//        } else if ("financialObject.financialObjectLevelCode".equals(propertyName)) {
+//            return (new AccountBalanceByLevelInquirableImpl()).getInquiryUrl(bo, propertyName);
+//        }
         return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
-
+    
     /**
      * Uses Lookup Service to provide a basic search.
      * 
@@ -95,6 +98,7 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
         String subAccountNumber = (String) fieldValues.get("subAccountNumber");
         String financialObjectLevelCode = (String) fieldValues.get("financialObject.financialObjectLevelCode");
         String financialReportingSortCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialReportingSortCode");
+        String financialConsolidationCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialConsolidationObjectCode");
 
         // Dashes means no sub account number
         if (Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {

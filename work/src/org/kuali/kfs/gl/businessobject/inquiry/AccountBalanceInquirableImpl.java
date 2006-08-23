@@ -124,9 +124,9 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass()
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
-    protected Class getInquiryBusinessObjectClass() {
+    protected Class getInquiryBusinessObjectClass(String attributeName) {
         return Balance.class;
     }
 

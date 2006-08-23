@@ -32,6 +32,9 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.module.gl.bo.AccountBalance;
+import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
+import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.bo.AccountBalanceByObject;
 import org.kuali.module.gl.web.Constant;
 
@@ -58,7 +61,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add("financialObject.financialObjectLevel.financialObjectLevelCode");
+        keys.add("financialObject.financialObjectLevelCode");
         keys.add("financialObject.financialObjectLevel.financialReportingSortCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
@@ -72,7 +75,8 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
+        //userDefinedAttributeMap.put("financialObject.financialObjectLevelCode", "");
+        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObjectCode", "");
         userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
         return userDefinedAttributeMap;
     }
@@ -82,7 +86,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      */
     protected String getAttributeName(String attributeName) {
         if (attributeName.equals("dummyBusinessObject.linkButtonOption")) {
-            attributeName = "financialObject.financialObjectLevel.financialObjectLevelCode";
+            attributeName = "objectCode";
         }
         return attributeName;
     }
@@ -101,9 +105,9 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
-        if (keyName.equals("financialObject.financialObjectLevel.financialObjectLevelCode")) {
-            keyName = "financialObject.financialObjectLevelCode";
-        }
+//        if (keyName.equals("financialObject.financialObjectLevelCode")) {
+//            keyName = "financialObject.financialObjectLevelCode";
+//        }
         return keyName;
     }
 
@@ -122,12 +126,26 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass()
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
-    protected Class getInquiryBusinessObjectClass() {
-        return AccountBalanceByObject.class;
+    protected Class getInquiryBusinessObjectClass(String attributeName) {
+        Class c = null;
+        if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) {
+            c = AccountBalanceByConsolidation.class;
+        }
+        else if("financialObject.financialObjectLevelCode".equals(attributeName)) {
+            c = AccountBalance.class;
+        }
+        else if("objectCode".equals(attributeName)) {
+            c = AccountBalanceByObject.class;
+        }
+        else {
+            c = AccountBalanceByLevel.class;
+        }
+        
+        return c;
     }
-
+    
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */

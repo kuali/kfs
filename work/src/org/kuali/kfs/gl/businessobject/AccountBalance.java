@@ -100,15 +100,16 @@ public class AccountBalance extends BusinessObjectBase {
         accountLineActualsBalanceAmount = new KualiDecimal((BigDecimal) data.get("ACLN_ACTLS_BAL_AMT"));
         accountLineEncumbranceBalanceAmount = new KualiDecimal((BigDecimal) data.get("ACLN_ENCUM_BAL_AMT"));
 
+        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get("FIN_CONS_OBJ_CD"));
+        
         if ("Consolidation".equals(type)) {
             financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get("FIN_REPORT_SORT_CD"));
             financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode((String) data.get("CONS_FIN_REPORT_SORT_CD"));
-            financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get("FIN_CONS_OBJ_CD"));
             fixVariance();
         }
         else if ("Level".equals(type)) {
-            financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get("FIN_CONS_OBJ_CD"));
             financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String) data.get("FIN_REPORT_SORT_CD"));
+            financialObject.setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LEVEL_CD"));
             financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LEVEL_CD"));
 
             // tricking it so getVariance() works

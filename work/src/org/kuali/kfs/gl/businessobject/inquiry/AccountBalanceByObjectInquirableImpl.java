@@ -32,7 +32,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.module.gl.bo.AccountBalancePendingEntry;
+import org.kuali.module.gl.bo.AccountBalanceByObject;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 
@@ -74,6 +74,7 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(PropertyConstants.FINANCIAL_OBJECT_CODE, "");
         userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
+        userDefinedAttributeMap.put("financialObject.financialObjectLevelCode", "");
         return userDefinedAttributeMap;
     }
 
@@ -120,10 +121,10 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
-     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass()
+     * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
-    protected Class getInquiryBusinessObjectClass() {
-        return AccountBalancePendingEntry.class;
+    protected Class getInquiryBusinessObjectClass(String attributeName) {
+        return AccountBalanceByObject.class;
     }
 
     /**

@@ -56,7 +56,6 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
  */
 public class Account extends BusinessObjectBase implements AccountIntf {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
-    private static final long serialVersionUID = -144120733742373200L;
 
     private String chartOfAccountsCode;
     private String accountNumber;

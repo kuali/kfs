@@ -39,6 +39,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
@@ -143,10 +144,9 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     private String guidelinesAndPurposeSection;
     private String accountDescriptionSectionBlank;
     private String accountDescriptionSection;
-        
-        
-        
-        
+
+    private boolean isCGAccount;
+
     private AccountGuideline accountGuideline;
     private AccountDescription accountDescription;
     
@@ -166,12 +166,28 @@ public class Account extends BusinessObjectBase implements AccountIntf {
      */
     public boolean isInCg() {
         // IF C&G is a sub fund group, use this line
-        // return "CG".equals(getSubFundGroupCode();
-
+        // return isInCgFundGroup();
+        
         // IF C&G is a fund group, use this line
-        return "CG".equals(getSubFundGroup().getFundGroupCode());
+        return isInCgSubFundGroup();
     }
-    
+
+    private boolean isInCgFundGroup() {
+        return "CG".equals(getSubFundGroup().getFundGroupCode());        
+    }
+
+    private boolean isInCgSubFundGroup() {
+        return "CG".equals(getSubFundGroupCode());        
+    }
+
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+
+        // This is needed to put a value in the object so the persisted XML has a flag that
+        // can be used in routing to determine if an account is a C&G Account
+        isCGAccount = isInCg();
+    }
+
     /**
      * This method gathers all SubAccounts related to this account if the account
      * is marked as closed to deactivate

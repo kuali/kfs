@@ -355,6 +355,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
+        
+        // The ICR fields must be empty if the sub-account type code is for cost sharing
+        if(checkCgIcrIsEmpty() == false){            
+            putFieldError("a21SubAccount.indirectCostRecoveryTypeCode",KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_ICR_SECTION_INVALID,a21.getSubAccountTypeCode());
+            success &= false;
+        }
+        
         return success;
     }
 
@@ -420,10 +427,60 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 putFieldError("a21SubAccount.indirectCostRecoveryAccountNumber", KeyConstants.ERROR_EXISTENCE, "ICR Account: " + a21.getIndirectCostRecoveryChartOfAccountsCode() + "-" + a21.getIndirectCostRecoveryAccountNumber());
             }
         }
-
+        
+        // The cost sharing fields must be empty if the sub-account type code is for ICR
+        if(checkCgCostSharingIsEmpty() == false){
+            putFieldError("a21SubAccount.costShareChartOfAccountCode",KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_SECTION_INVALID,a21.getSubAccountTypeCode());
+            
+            success &= false;
+        }
+        
         return success;
     }
 
+    /**
+     * 
+     * This method tests if all fields in the Cost Sharing section are empty.
+     *   
+     * @return - true if the cost sharing values passed in are empty, otherwise false.
+     * 
+     */
+    protected boolean checkCgCostSharingIsEmpty() {
+        
+        boolean success = true;
+        
+        A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
+        
+        success &= StringUtils.isEmpty(newA21SubAccount.getCostShareChartOfAccountCode());
+        success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceAccountNumber());
+        success &= StringUtils.isEmpty(newA21SubAccount.getCostShareSourceSubAccountNumber());        
+        
+        return success;
+    }
+    
+    /**
+     * 
+     * This method tests if all fields in the ICR section are empty.
+     * 
+     * @return - true if the ICR values passed in are empty, otherwise false.
+     * 
+     */
+    protected boolean checkCgIcrIsEmpty() {
+        
+        boolean success = true;
+        
+        A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
+
+        success &= StringUtils.isEmpty(newA21SubAccount.getFinancialIcrSeriesIdentifier());
+        success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode());
+        success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAccountNumber());
+        success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryTypeCode());
+        //this is a boolean, so create any value if set to true, meaning a user checked the box, otherwise assume it's empty
+        success &= StringUtils.isEmpty(newA21SubAccount.getOffCampusCode()?"1":"");
+
+        return success;
+    }
+    
     /**
      * 
      * This method tests whether the specified user is part of the group that grants authorization to the CG fields.

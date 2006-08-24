@@ -1600,8 +1600,8 @@
 
 <class-descriptor class="org.kuali.module.chart.bo.DelegateChangeDocument" table="CA_DLGT_CHG_DOC_T">
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountDelegateUniversalId" column="ACCT_DLGT_UNVL_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="accountDelegateUniversalId" column="ACCT_DLGT_UNVL_ID" jdbc-type="VARCHAR" index="true" primarykey="true" />
+    <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" index="true" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="approvalFromThisAmount" column="FDOC_APRV_FROM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />

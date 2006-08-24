@@ -22,11 +22,16 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.bo.OrganizationExtension;
 
 /**
  * This class...
@@ -48,6 +53,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
 
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
+        updateHRMSUpdateDate( (Org)document.getOldMaintainableObject().getBusinessObject(), (Org)document.getNewMaintainableObject().getBusinessObject() );
 
         return true;
     }
@@ -71,4 +77,46 @@ public class OrgPreRules extends MaintenancePreRulesBase {
         copyAccount = (Org) ObjectUtils.deepCopy(newAccount);
         copyAccount.refresh();
     }
+    
+    /**
+     * Check if the HRMS data has changed on this document.  If so, update
+     * the last update date.
+     * 
+     * @param oldData
+     * @param newData
+     */
+    private void updateHRMSUpdateDate( Org oldData, Org newData ) {
+        if ( oldData != null ) {
+            OrganizationExtension oldExt = oldData.getOrganizationExtension();
+            OrganizationExtension newExt = newData.getOrganizationExtension();
+            if ( oldExt != null ) {
+                UniversalUser oldFAUser = oldExt.getFiscalApproverUniversal();
+                UniversalUser newFAUser = newExt.getFiscalApproverUniversal();
+                UniversalUser oldPAUser = oldExt.getHrmsPersonnelApproverUniversal();
+                UniversalUser newPAUser = newExt.getHrmsPersonnelApproverUniversal();
+                if ( !ObjectUtils.nullSafeEquals( oldExt.getHrmsCompany(), newExt.getHrmsCompany() ) 
+                        || !ObjectUtils.nullSafeEquals( oldExt.getHrmsIuOrganizationAddress2(), newExt.getHrmsIuOrganizationAddress2() )
+                        || !ObjectUtils.nullSafeEquals( oldExt.getHrmsIuOrganizationAddress3(), newExt.getHrmsIuOrganizationAddress3() )
+                        || !ObjectUtils.nullSafeEquals( oldExt.getHrmsIuCampusCode(), newExt.getHrmsIuCampusCode() )
+                        || !ObjectUtils.nullSafeEquals( oldExt.getHrmsIuCampusBuilding(), newExt.getHrmsIuCampusBuilding() )
+                        || !ObjectUtils.nullSafeEquals( oldExt.getHrmsIuCampusRoom(), newExt.getHrmsIuCampusRoom() )
+                        || oldExt.isHrmsIuPositionAllowedFlag() != newExt.isHrmsIuPositionAllowedFlag()
+                        || oldExt.isHrmsIuTenureAllowedFlag() != newExt.isHrmsIuTenureAllowedFlag()
+                        || oldExt.isHrmsIuTitleAllowedFlag() != newExt.isHrmsIuTitleAllowedFlag()
+                        || oldExt.isHrmsIuOccupationalUnitAllowedFlag() != newExt.isHrmsIuOccupationalUnitAllowedFlag()
+                        || !ObjectUtils.nullSafeEquals( oldExt.getHrmsPersonnelApproverUniversalId(), newExt.getHrmsPersonnelApproverUniversalId() )
+                        || !ObjectUtils.nullSafeEquals( oldExt.getFiscalApproverUniversalId(), newExt.getFiscalApproverUniversalId() )
+                        || !ObjectUtils.nullSafeEquals( oldFAUser.getPersonUserIdentifier(), newFAUser.getPersonUserIdentifier() )
+                        || !ObjectUtils.nullSafeEquals( oldPAUser.getPersonUserIdentifier(), newPAUser.getPersonUserIdentifier() )
+                ) {
+                    newExt.setHrmsLastUpdateDate( new Timestamp( new Date().getTime() ) );
+                }
+            } else {
+                newExt.setHrmsLastUpdateDate( new Timestamp( new Date().getTime() ) );
+            }
+        } else {
+            newData.getOrganizationExtension().setHrmsLastUpdateDate( new Timestamp( new Date().getTime() ) );
+        }
+    }
+    
 }

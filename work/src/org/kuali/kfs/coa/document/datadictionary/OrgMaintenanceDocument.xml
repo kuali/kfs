@@ -105,7 +105,7 @@
 		          <maintainableField name="organizationExtension.fiscalApproverUniversalId" required="false" readOnly="true" />
 		          <maintainableField name="organizationExtension.fiscalApproverUniversal.personUserIdentifier" required="false" />
 		          <maintainableField name="organizationExtension.fiscalApproverUniversal.personName" required="false" readOnly="true" />
-		          <maintainableField name="organizationExtension.hrmsLastUpdateDate" required="false" readOnly="false" />        
+		          <maintainableField name="organizationExtension.hrmsLastUpdateDate" required="false" readOnly="true" />        
 		          <maintainableField name="organizationExtension.versionNumber" readOnly="true"  />
 		        </maintainableItems>
 		      </maintainableSection>

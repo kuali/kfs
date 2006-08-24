@@ -140,6 +140,25 @@
                 <summary>The description.</summary>
                 <description>This is the description of this Sub-Fund Group.</description>
             </attribute>
+            <attribute name="accountRestrictedStatusCode" forceUppercase="true">
+                <label>Default Account Restricted Status Code</label>
+                <shortLabel>Def. Acct. Restr. Stat. Cd.</shortLabel>
+
+                <maxLength>6</maxLength>
+
+                <validationPattern>
+                    <alpha maxLength="6" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>The description.</summary>
+                <description>This is the description of this Sub-Fund Group.</description>
+            </attribute>
+            
 
             <attribute name="financialReportingSortCode" forceUppercase="false">
                 <label>Financial Reporting Sort Code</label>

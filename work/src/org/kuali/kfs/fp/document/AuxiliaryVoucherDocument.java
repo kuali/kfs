@@ -35,6 +35,7 @@ import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.NumberUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AuxiliaryVoucherAccountingLineParser;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -229,5 +230,25 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     @Override
     public AccountingLineParser getAccountingLineParser() {
         return new AuxiliaryVoucherAccountingLineParser();
+    }
+    
+    /**
+     * Checks for a reason why this document should not be copied or error corrected. This is overriden
+     * to remove posting year check per KULEDOCS-1543.
+     * 
+     * @param actionGerund describes the action, "copying" or "error-correction"
+     * @param ddAllows whether the DataDictionary allows this kind of copying for this document
+     * @return a reason not to copy this document, or null if there is no reason
+     */
+    @Override
+    protected String getNullOrReasonNotToCopy(String actionGerund, boolean ddAllows) {
+
+        if (!ddAllows) {
+            return this.getClass().getName() + " does not support document-level " + actionGerund;
+        }
+
+        // posting year not checked per KULEDOCS-1543.
+
+        return null; // no reason not to copy
     }
 }

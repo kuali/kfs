@@ -1051,6 +1051,9 @@
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
+    	<property name="kualiConfigurationService">
+    		<ref bean="kualiConfigurationService"/>
+    	</property>
     </bean>
 
     <bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb">

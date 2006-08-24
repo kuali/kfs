@@ -36,6 +36,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.SufficientFundBalances;
@@ -47,10 +49,11 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.38 2006-08-24 15:09:34 larevans Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.39 2006-08-24 20:43:11 larevans Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
+    private KualiConfigurationService kualiConfigurationService;
 
     public BalanceDaoOjb() {
         super();
@@ -86,44 +89,6 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer year) {
         LOG.debug("findBalancesForFiscalYear() started");
-
-        // from gleacbfb (balance forward) cobol program
-
-        // 744 002750 DECLARE GLBL_CURSOR CURSOR FOR
-        // 745 002760 SELECT UNIV_FISCAL_YR,
-        // 746 002770 FIN_COA_CD,
-        // 747 002780 ACCOUNT_NBR,
-        // 748 002790 SUB_ACCT_NBR,
-        // 749 002800 FIN_OBJECT_CD,
-        // 750 002810 FIN_SUB_OBJ_CD,
-        // 751 002820 FIN_BALANCE_TYP_CD,
-        // 752 002830 FIN_OBJ_TYP_CD,
-        // 753 002840 ACLN_ANNL_BAL_AMT,
-        // 754 002850 FIN_BEG_BAL_LN_AMT,
-        // 755 002860 CONTR_GR_BB_AC_AMT,
-        // 756 002870 MO1_ACCT_LN_AMT,
-        // 757 002880 MO2_ACCT_LN_AMT,
-        // 758 002890 MO3_ACCT_LN_AMT,
-        // 759 002900 MO4_ACCT_LN_AMT,
-        // 760 002910 MO5_ACCT_LN_AMT,
-        // 761 002920 MO6_ACCT_LN_AMT,
-        // 762 002930 MO7_ACCT_LN_AMT,
-        // 763 002940 MO8_ACCT_LN_AMT,
-        // 764 002950 MO9_ACCT_LN_AMT,
-        // 765 002960 MO10_ACCT_LN_AMT,
-        // 766 002970 MO11_ACCT_LN_AMT,
-        // 767 002980 MO12_ACCT_LN_AMT,
-        // 768 002990 MO13_ACCT_LN_AMT
-        // 769 003000 FROM GL_BALANCE_T
-        // 770 003010 WHERE UNIV_FISCAL_YR = RTRIM(:GLGLBL-UNIV-FISCAL-YR)
-        // 771 003020 ORDER BY FIN_COA_CD,
-        // 772 003030 ACCOUNT_NBR,
-        // 773 003040 SUB_ACCT_NBR,
-        // 774 003050 FIN_OBJECT_CD,
-        // 775 003060 FIN_SUB_OBJ_CD,
-        // 776 003070 FIN_BALANCE_TYP_CD,
-        // 777 003080 FIN_OBJ_TYP_CD
-        // 778 003090 END-EXEC.
 
         Criteria c = new Criteria();
         c.addEqualTo("universityFiscalYear", year);
@@ -358,10 +323,23 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     // build the query for balance search
     private Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
+        LOG.debug("getBalanceQuery(Map, boolean) started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
 
+        String[] balanceTypesAsArray = 
+            kualiConfigurationService.getApplicationParameterValues(
+                    "Kuali.GeneralLedger.AvailableBalanceInquiry", 
+                    "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
+        
+        List balanceTypes = new ArrayList();
+        for(int x = 0; x < balanceTypesAsArray.length; x++) {
+            balanceTypes.add(balanceTypesAsArray[x]);
+        }
+        
+        criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, balanceTypes);
+        
         // if consolidated, then ignore subaccount number and balance type code
         if (isConsolidated) {
             List attributeList = buildAttributeList(true);
@@ -383,6 +361,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
             query.addGroupBy(groupBy);
         }
+        
         return query;
     }
 
@@ -597,4 +576,12 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         // the cache and return them. Clearing the cache forces OJB to go to the database again.
         getPersistenceBrokerTemplate().clearCache();
     }
+    
+    /**
+     * @param kualiConfigurationService
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
 }

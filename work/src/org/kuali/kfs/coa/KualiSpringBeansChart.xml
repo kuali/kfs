@@ -88,18 +88,12 @@
         </property>
     </bean>
 
-    <bean id="indirectCostRecoveryThresholdDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryThresholdDaoOjb">
-        <property name="jcdAlias">
-            <value>dataSource</value>
-        </property>
-    </bean>
-
     <bean id="a21SubAccountDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
     </bean>
-    
+
     <bean id="workflow-org.kuali.module.chart.bo.Chart-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
             <value>org.kuali.module.chart.bo.Chart</value>

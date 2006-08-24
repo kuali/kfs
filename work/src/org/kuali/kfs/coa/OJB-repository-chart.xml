@@ -1335,23 +1335,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.IndirectCostRecoveryThreshold" table="CA_ICR_THRESHOLD_T">
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="awardThresholdAmount" column="AWRD_THRESHOLD_AMT" jdbc-type="DECIMAL" primarykey="true" index="true" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardAccumulatedToDateDirectCostAmount" column="AWRD_ACCUMDCST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.chart.bo.OrganizationReversion" table="CA_ORG_REVERSION_T">
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

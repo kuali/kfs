@@ -741,10 +741,6 @@
         <property name="icrAutomatedEntryDao">
             <ref bean="icrAutomatedEntryDao" />
         </property>
-        <property name="indirectCostRecoveryThresholdDao">
-            <ref bean="indirectCostRecoveryThresholdDao" />
-        </property>
-
         <property name="objectCodeService">
             <ref bean="objectCodeService" />
         </property>

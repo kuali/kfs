@@ -101,6 +101,7 @@ public class AccountBalance extends BusinessObjectBase {
         accountLineEncumbranceBalanceAmount = new KualiDecimal((BigDecimal) data.get("ACLN_ENCUM_BAL_AMT"));
 
         financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get("FIN_CONS_OBJ_CD"));
+        financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinConsolidationObjectCode((String) data.get("FIN_CONS_OBJ_CD"));
         
         if ("Consolidation".equals(type)) {
             financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get("FIN_REPORT_SORT_CD"));

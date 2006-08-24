@@ -35,7 +35,7 @@
                 <lookupField attributeName="accountNumber" required="true" />
                 <lookupField attributeName="subAccountNumber" forceLookup="true" />
 
-                <lookupField attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" required="true"/>
+                <lookupField attributeName="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" required="true"/>
 
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
@@ -56,7 +56,7 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
 
-                <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
+                <field attributeName="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" />
                 <field attributeName="financialObject.financialObjectLevel.financialObjectLevelCode" />
 
                 <field attributeName="dummyBusinessObject.linkButtonOption" />
@@ -135,7 +135,7 @@
 
             <attributeReference name="financialObject.financialObjectLevel.financialObjectLevelCode" sourceClassName="org.kuali.module.chart.bo.ObjLevel" sourceAttributeName="financialObjectLevelCode" />
 
-            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode" />
+            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode" />
 
             <attributeReference name="financialObject.financialObjectLevel.financialReportingSortCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="financialReportingSortCode" />
 

@@ -88,7 +88,7 @@ public class AccountBalanceByLevelLookupableImpl extends KualiLookupableImpl {
         String chartOfAccountsCode = (String) fieldValues.get("chartOfAccountsCode");
         String accountNumber = (String) fieldValues.get("accountNumber");
         String subAccountNumber = (String) fieldValues.get("subAccountNumber");
-        String financialConsolidationObjectCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialConsolidationObjectCode");
+        String financialConsolidationObjectCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode");
 
         // Dashes means no sub account number
         if (Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {

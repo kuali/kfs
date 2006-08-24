@@ -76,7 +76,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         //userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
-        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObjectCode", "");
+        //userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode", "");
         userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
         return userDefinedAttributeMap;
     }
@@ -130,10 +130,10 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         Class c = null;
-        if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) {
+        /*if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) {
             c = AccountBalanceByConsolidation.class;
         }
-        else if("financialObject.financialObjectLevel.financialObjectLevelCode".equals(attributeName)) {
+        else*/ if("financialObject.financialObjectLevel.financialObjectLevelCode".equals(attributeName)) {
             c = AccountBalance.class;
         }
         else if("objectCode".equals(attributeName)) {

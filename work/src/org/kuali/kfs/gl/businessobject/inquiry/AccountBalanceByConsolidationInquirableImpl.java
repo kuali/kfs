@@ -59,7 +59,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
+        keys.add("financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
         keys.add(Constant.PENDING_ENTRY_OPTION);
@@ -72,7 +72,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObjectCode", "");
+        //userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObject.financialConsolidationObjectCode", "");
         userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
         return userDefinedAttributeMap;
     }
@@ -126,12 +126,12 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         if("dummyBusinessObject.linkButtonOption".equals(attributeName)) {
             c = AccountBalanceByLevel.class;
         }
-        else {
-            c = AccountBalanceByConsolidation.class;
-        }
+//        else {
+//            c = AccountBalanceByConsolidation.class;
+//        }
         return c;
     }
-
+    
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */

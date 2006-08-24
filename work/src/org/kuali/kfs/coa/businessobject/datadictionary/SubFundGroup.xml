@@ -149,7 +149,7 @@
                 <validationPattern>
                     <alpha maxLength="6" />
                 </validationPattern>
-                <required>true</required>
+                <required>false</required>
 
                 <control>
                     <text size="8" />

@@ -36,9 +36,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import static org.kuali.core.util.AssertionUtils.assertThat;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
@@ -209,16 +207,8 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
      */
     @Override
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        boolean success = true;
         offsetEntry.setFinancialObjectTypeCode(explicitEntry.getFinancialObjectTypeCode());
-        OffsetDefinition offsetDefinition = SpringServiceLocator.getOffsetDefinitionService().getByPrimaryId(transactionalDocument.getPostingYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
-        if (ObjectUtils.isNull(offsetDefinition)) {
-            success = false; // The superclass already puts an error for a missing offset definition, so do nothing here.
-        }
-        else {
-            offsetEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
-        }
-        return success;
+        return true;
     }
 
     /**

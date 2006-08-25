@@ -111,7 +111,7 @@ public class AccountBalance extends BusinessObjectBase {
         else if ("Level".equals(type)) {
             financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String) data.get("FIN_REPORT_SORT_CD"));
             financialObject.setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LEVEL_CD"));
-            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LEVEL_CD"));
+            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LVL_CD"));
 
             // tricking it so getVariance() works
             financialObject.getFinancialObjectType().setFinancialReportingSortCode("B");
@@ -120,6 +120,7 @@ public class AccountBalance extends BusinessObjectBase {
         else if ("Object".equals(type)) {
             objectCode = (String) data.get("FIN_OBJECT_CD");
             financialObject.setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LVL_CD"));
+            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LVL_CD"));
 
             // tricking it so getVariance() works
             financialObject.getFinancialObjectType().setFinancialReportingSortCode("B");

@@ -37,6 +37,7 @@
                 <lookupField attributeName="name" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -44,6 +45,7 @@
                 <field attributeName="name" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
+                <field attributeName="active" />
                 <field attributeName="projectManagerUniversal.personName" forceInquiry="true" />               
             </resultFields>
         </lookup>

@@ -61,8 +61,7 @@ public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implemen
 
         labels.add(new KeyLabelPair(o.getExtrnlEncumFinBalanceTypCd(), o.getExtrnlEncumFinBalanceTypCd() + " - " + o.getExtrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));
         labels.add(new KeyLabelPair(o.getIntrnlEncumFinBalanceTypCd(), o.getIntrnlEncumFinBalanceTypCd() + " - " + o.getIntrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));
-        // TODO The options table needs to be extended to add pre-encumbrances
-        labels.add(new KeyLabelPair(Constant.BALANCE_TYPE_PE, Constant.BALANCE_TYPE_PE + " - PRE-ENCUMBRANCE"));
+        labels.add(new KeyLabelPair(o.getPreencumbranceFinBalTypeCd(), o.getPreencumbranceFinBalTypeCd() + " - " + o.getPreencumbranceFinBalType().getFinancialBalanceTypeName()));
 
         return labels;
     }

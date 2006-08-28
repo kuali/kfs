@@ -167,7 +167,7 @@
     baselineAccountingLine="${baselineAccountingLine}"
     field="financialObjectCode"
     detailFunction="loadObjectInfo"
-    detailFunctionExtraParam="'${KualiForm.document.postingYear}', "
+    detailFunctionExtraParam="'${KualiForm.document.postingYear}', '${accountingLine}.objectType.name', '${accountingLine}.objectTypeCode', "
     detailField="objectCode.financialObjectCodeName"
     attributes="${accountingLineAttributes}"
     lookup="true"
@@ -177,6 +177,7 @@
     displayHidden="${displayHidden}"
     overrideField="objectBudgetOverride"
     lookupOrInquiryKeys="chartOfAccountsCode"
+    lookupUnkeyedFieldConversions="financialObjectTypeCode:${accountingLine}.objectTypeCode,"
     accountingLineValuesMap="${accountingLineValuesMap}"
     inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.postingYear}"
     />

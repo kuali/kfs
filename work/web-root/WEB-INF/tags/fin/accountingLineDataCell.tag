@@ -77,6 +77,8 @@
   
 <%@ attribute name="lookupOrInquiryKeys" required="false"
               description="comma separated list of inquiry key names in the accountingLineValuesMap" %>
+<%@ attribute name="lookupUnkeyedFieldConversions" required="false"
+			  description="lookup field conversions; use this instead of lookupOrInquiryKeys when property names don't match" %>
 <%@ attribute name="accountingLineValuesMap" required="false" type="java.util.Map"
               description="map of the accounting line primitive fields and values, for inquiry keys" %>
 <%@ attribute name="inquiryExtraKeyValues" required="false"
@@ -84,6 +86,8 @@
 
 <%@ attribute name="rowSpan" required="false"
               description="row span for the data cell" %>
+              
+           
 
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">
@@ -153,7 +157,7 @@
         <c:if test="${lookup}">
             <%-- todo: this lookup to field conversion swapping in accountingLineLookup.tag --%>
             <c:set var="lookupParameters" value=""/>
-            <c:set var="fieldConversions" value=""/>
+            <c:set var="fieldConversions" value="${lookupUnkeyedFieldConversions}"/>
             <c:forTokens var="key" items="${lookupOrInquiryKeys}" delims=",">
                 <c:set var="withAccountingLine" value="${accountingLine}.${key}"/>
                 <c:if test="${!empty lookupParameters}">

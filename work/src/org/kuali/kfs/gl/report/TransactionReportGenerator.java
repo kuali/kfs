@@ -184,7 +184,7 @@ public class TransactionReportGenerator {
             }
         }
         else{
-            cell = new PdfPCell(new Phrase("No errors occured!", headerFont));
+            cell = new PdfPCell(new Phrase("No errors occurred!", headerFont));
             cell.setColspan(14);
             errorTable.addCell(cell);            
         }

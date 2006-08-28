@@ -66,10 +66,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String editableFlag;
     private String manualEditFlag;
     private String deleteFileFlag;
-    private KualiDecimal totalDebitsOrBlanks;
-    private KualiDecimal totalCredits; 
-    private int rowsOutput;
-    private Integer oldDocId;
+    
+    
     private String originEntryGroupDeletedMessage;
     private Integer editingEntryId;
     
@@ -353,39 +351,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public void setDeleteFileFlag(String deleteFileFlag) {
         this.deleteFileFlag = deleteFileFlag;
     }
-
-    public KualiDecimal getTotalDebitsOrBlanks() {
-        return totalDebitsOrBlanks;
-    }
-
-    public void setTotalDebitsOrBlanks(KualiDecimal totalDebitsOrBlanks) {
-        this.totalDebitsOrBlanks = totalDebitsOrBlanks;
-    }
-
-    public int getRowsOutput() {
-        return rowsOutput;
-    }
-
-    public void setRowsOutput(int rowsOutput) {
-        this.rowsOutput = rowsOutput;
-    }
-
-    public KualiDecimal getTotalCredits() {
-        return totalCredits;
-    }
-
-    public void setTotalCredits(KualiDecimal totalCredits) {
-        this.totalCredits = totalCredits;
-    }
-
-    public Integer getOldDocId() {
-        return oldDocId;
-    }
-
-    public void setOldDocId(Integer oldDocId) {
-        this.oldDocId = oldDocId;
-    }
-
+    
     public String getOriginEntryGroupDeletedMessage() {
         return originEntryGroupDeletedMessage;
     }

@@ -126,7 +126,7 @@
 
             <attribute name="subAccountNumber" forceUppercase="true">
                 <label>Sub-Account Number</label>
-                <shortLabel>SubAccount</shortLabel>
+                <shortLabel>Sub-Account</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern>

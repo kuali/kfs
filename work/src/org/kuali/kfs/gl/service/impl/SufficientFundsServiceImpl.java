@@ -153,10 +153,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         for (Iterator iter = summaryItems.iterator(); iter.hasNext();) {
             SufficientFundsItem item = (SufficientFundsItem) iter.next();
             LOG.error("checkSufficientFunds() " + item.toString());
-        }
-
-        for (Iterator iter = summaryItems.iterator(); iter.hasNext();) {
-            SufficientFundsItem item = (SufficientFundsItem) iter.next();
             if ( hasSufficientFundsOnItem(item) ) {
                 iter.remove();
             }

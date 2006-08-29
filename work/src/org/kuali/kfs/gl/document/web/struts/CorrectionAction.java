@@ -54,7 +54,6 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.lookup.keyvalues.OEGDateComparator;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.LookupService;
@@ -78,11 +77,10 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.38 2006-08-28 14:08:24 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.39 2006-08-29 17:28:03 schoo Exp $
  * 
  */
 
@@ -150,10 +148,22 @@ public class CorrectionAction extends KualiDocumentActionBase {
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
         OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", false, false, false);
         
-
+        
         FormFile sourceFile = errorCorrectionForm.getSourceFile();
-        Object fileNameObject = sourceFile.getFileName();
-        GlobalVariables.getUserSession().addObject("fileName", fileNameObject);
+        String curDir = System.getProperty("user.dir");
+        String lowerCaseFileName = StringUtils.lowerCase(sourceFile.getFileName());
+        //sourceFile.setFileName(lowerCaseFileName);
+        //fullFileName has file path
+        String fullFileName = curDir + " - " + sourceFile.getFileName() + " - " + newOriginEntryGroup.getId().toString(); 
+        Object fullFileNameObject = (Object) fullFileName;
+        
+
+        sourceFile.getInputStream();
+        
+        GlobalVariables.getUserSession().addObject("fileName", fullFileNameObject);
+        //CommonsMultipartRequestHandler.CommonsFormFile test = (CommonsMultipartRequestHandler.CommonsFormFile) sourceFile;
+        //CommonsMultipartRequestHandler test = (CommonsMultipartRequestHandler) sourceFile;
+        
         
         /*DiskFile test = (DiskFile) sourceFile;
         String filePath = test.getFilePath();*/

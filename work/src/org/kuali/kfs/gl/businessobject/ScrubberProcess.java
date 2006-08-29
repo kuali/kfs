@@ -660,13 +660,8 @@ public class ScrubberProcess {
 
             costShareOffsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
             costShareOffsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
+            costShareOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
 
-            if (!StringUtils.hasText(offsetDefinition.getFinancialSubObjectCode())) {
-                costShareOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-            }
-            else {
-                costShareOffsetEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
-            }
         }
         else {
             Map<Transaction,List<Message>> errors = new HashMap<Transaction,List<Message>>();
@@ -762,13 +757,7 @@ public class ScrubberProcess {
 
             costShareSourceAccountOffsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
             costShareSourceAccountOffsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
-
-            if (!StringUtils.hasText(offsetDefinition.getFinancialSubObjectCode())) {
-                costShareSourceAccountOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-            }
-            else {
-                costShareSourceAccountOffsetEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
-            }
+            costShareSourceAccountOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
         else {
             Map<Transaction,List<Message>> errors = new HashMap<Transaction,List<Message>>();
@@ -1131,13 +1120,7 @@ public class ScrubberProcess {
             }
             costShareEncumbranceOffsetEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             costShareEncumbranceOffsetEntry.setFinancialObject(offset.getFinancialObject());
-
-            if (offset.getFinancialSubObjectCode() == null) {
-                costShareEncumbranceOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-            }
-            else {
-                costShareEncumbranceOffsetEntry.setFinancialSubObjectCode(offset.getFinancialSubObjectCode());
-            }
+            costShareEncumbranceOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
         else {
             StringBuffer offsetKey = new StringBuffer(" e ");
@@ -1333,15 +1316,9 @@ public class ScrubberProcess {
 
             offsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
             offsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
-
-            if (!StringUtils.hasText(offsetDefinition.getFinancialSubObjectCode())) {
-                offsetEntry.setFinancialSubObject(null);
-                offsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-            }
-            else {
-                offsetEntry.setFinancialSubObject(offsetDefinition.getFinancialSubObject());
-                offsetEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
-            }
+            
+            offsetEntry.setFinancialSubObject(null);
+            offsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
         else {
             StringBuffer sb = new StringBuffer("a "); // This is to help identifiy problems since this error appears in many places

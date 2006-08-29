@@ -24,6 +24,7 @@ package org.kuali.module.financial.rules;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -689,6 +690,12 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         return retval;
     }
 
+    private static final NumberFormat periodFormat = NumberFormat.getIntegerInstance();
+    static {
+        periodFormat.setMinimumIntegerDigits( 2 );
+        periodFormat.setMaximumIntegerDigits( 2 );
+    }
+    
     /**
      * This method determins if the posting period is valid for the document type
      * 
@@ -703,13 +710,23 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         Integer period = new Integer(document.getPostingPeriodCode());
         Integer year = document.getPostingYear();
         AccountingPeriodService perService = SpringServiceLocator.getAccountingPeriodService();
-        AccountingPeriod acctPeriod = perService.getByPeriod(period.toString(), year);
+        AccountingPeriod acctPeriod = perService.getByPeriod(periodFormat.format( period ), year);
 
         //if current period is period 1 can't post back more than 3 open periods
         //grab the current period
         Timestamp ts = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
         AccountingPeriod currPeriod = perService.getByDate(new Date(ts.getTime()));
         Integer currPeriodVal = new Integer(currPeriod.getUniversityFiscalPeriodCode());
+
+        /*
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "period: " + period );
+            LOG.debug( "currPeriodVal: " + currPeriodVal );
+            LOG.debug( "acctPeriod: " + acctPeriod );
+            LOG.debug( "currPeriod: " + currPeriod );
+        }
+        */
+
         if (currPeriodVal == 1) {
             if (period < 11) {
                 reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN);
@@ -718,7 +735,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         }
 
         //can't post back more than 2 periods
-        if (period < currPeriodVal) {
+        if (period <= currPeriodVal) {
             if ((currPeriodVal - period) > 2) {
                 reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
@@ -746,7 +763,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         }
 
         //can't post into a closed period
-        if (acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(ACCOUNTING_PERIOD_STATUS_CLOSED)) {
+        if (acctPeriod == null || acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(ACCOUNTING_PERIOD_STATUS_CLOSED)) {
             reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }

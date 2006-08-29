@@ -288,7 +288,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         }
         Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
         chartOrgSet.add(reportsToOrg);
-        buildOrgReviewHierarchy(counter++, chartOrgSet, reportsToOrg);
+        buildOrgReviewHierarchy(++counter, chartOrgSet, reportsToOrg);
     }
 
     private String getRuleExtentionValue(String key, List ruleExtensions) {

@@ -32,6 +32,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -98,15 +100,15 @@ public class KualiWorkflowUtils {
         LOG.info("started isMaintenanceDocument: " + documentType.getName());
         boolean isMaintenanceDocument = false;
         DocumentType currentDocumentType = documentType.getParentDocType();
-        do {
+        while ((currentDocumentType != null) && !isMaintenanceDocument) {
             if (MAINTENANCE_DOC_TYPE.equals(currentDocumentType.getName())) {
-                LOG.info("finished isMaintenanceDocument: " + documentType.getName() + " - true");
-                return true;
+                isMaintenanceDocument = true;
+            } else {
+                currentDocumentType = currentDocumentType.getParentDocType();
             }
-            currentDocumentType = currentDocumentType.getParentDocType();
-        } while (currentDocumentType != null);
-        LOG.info("started isMaintenanceDocument: " + documentType.getName() + " - false");
-        return false;
+        }
+        LOG.info(new StringBuffer("finished isMaintenanceDocument: ").append(documentType.getName()).append(" - ").append(isMaintenanceDocument));
+        return isMaintenanceDocument;
     }
 
     /**
@@ -172,7 +174,7 @@ public class KualiWorkflowUtils {
             sourceAccountingLineClassName = sourceAccountingLineClass.getName();
         }
         else {
-            sourceAccountingLineClassName = "org.kuali.core.bo.SourceAccountingLine";
+            sourceAccountingLineClassName = SourceAccountingLine.class.getName();
         }
         return sourceAccountingLineClassName;
     }
@@ -191,7 +193,7 @@ public class KualiWorkflowUtils {
             targetAccountingLineClassName = targetAccountingLineClass.getName();
         }
         else {
-            targetAccountingLineClassName = "org.kuali.core.bo.TargetAccountingLine";
+            targetAccountingLineClassName = TargetAccountingLine.class.getName();
         }
         return targetAccountingLineClassName;
     }

@@ -165,10 +165,10 @@ public class Account extends BusinessObjectBase implements AccountIntf {
      */
     public boolean isInCg() {
         // IF C&G is a sub fund group, use this line
-        // return isInCgFundGroup();
+        // return isInCgSubFundGroup();
         
         // IF C&G is a fund group, use this line
-        return isInCgSubFundGroup();
+        return isInCgFundGroup();
     }
 
     private boolean isInCgFundGroup() {

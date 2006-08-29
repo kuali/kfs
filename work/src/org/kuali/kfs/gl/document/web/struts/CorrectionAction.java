@@ -80,7 +80,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.39 2006-08-29 17:28:03 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.40 2006-08-29 18:08:28 schoo Exp $
  * 
  */
 
@@ -154,7 +154,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         String lowerCaseFileName = StringUtils.lowerCase(sourceFile.getFileName());
         //sourceFile.setFileName(lowerCaseFileName);
         //fullFileName has file path
-        String fullFileName = curDir + " - " + sourceFile.getFileName() + " - " + newOriginEntryGroup.getId().toString(); 
+        String fullFileName = curDir + " - " + sourceFile.getFileName(); 
         Object fullFileNameObject = (Object) fullFileName;
         
 
@@ -497,7 +497,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         document.setCorrectionCreditTotalAmount(tempTotalCredits);
         document.setCorrectionRowCount(resultCorrectionList.size());
         
-        
+        document.setCorrectionInputFileName(groupId[0].toString());
         document.setCorrectionOutputFileName(newOriginEntryGroup.getId().toString());
         document.setCorrectionTypeCode("C");
         //Store in DB CorrectionChange, CorrectionChangeGroup, CorrectionCriteria
@@ -1395,6 +1395,13 @@ public class CorrectionAction extends KualiDocumentActionBase {
         document.setCorrectionRowCount(searchResult.size());
         
         //TODO: should be changed.....if file upload then should be changed file name(with Directory).....etc
+        
+        //'errorCorrectionForm.getGroupIdList() is null' means file upload 
+        if (errorCorrectionForm.getGroupIdList() != null){
+            String inputFileName = errorCorrectionForm.getGroupIdList()[0].toString();
+            document.setCorrectionInputFileName(inputFileName);
+        }
+        
         document.setCorrectionOutputFileName(newOriginEntryGroup.getId().toString());
         document.setCorrectionTypeCode("M");
         

@@ -77,12 +77,12 @@
 			<c:set var="offset" value="0" />
 			<display:table class="datatable-100" 
 				cellspacing="0" cellpadding="0" name="${reqSearchResults}" id="row"
-				export="true" pagesize="100" offset="${offset}"
+				export="true" pagesize="100" offset="${offset}" 
 				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
 					<c:if
 						test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-						<display:column class="infocell" title="${column.columnTitle}">
+						<display:column class="infocell" title="${column.columnTitle}" sortable="${column.sortable}">
 							<a href="<c:out value="${column.propertyURL}"/>" target="blank">
 							<c:out value="${column.propertyValue}" /> </a>
 						</display:column>

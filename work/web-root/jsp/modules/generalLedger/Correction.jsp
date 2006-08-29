@@ -68,11 +68,11 @@
      	 			<td>
 		     			<center>
 							<html:select property="chooseSystem">
-							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|core|lookup|keyvalues|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
 							</html:select>
                
       					    <html:select property="editMethod">
-							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionEditMethodValuesFinder" label="label" value="key"/>
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|core|lookup|keyvalues|CorrectionEditMethodValuesFinder" label="label" value="key"/>
 							</html:select>
 							
 							<html:image property="methodToCall.chooseMainDropdown.anchor${currentTabIndex}" 
@@ -104,7 +104,7 @@
                         <label for="pending-origin-entry-group-id"><strong>Origin Entry Group</strong></label><br/><br/>
                         
                         <html:select property="groupIdList" size="10" >
-							<html:optionsCollection property="validOptionsMap.org|kuali|core|lookup|keyvalues|CorrectionGroupEntriesFinder" label="label" value="key" />
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|core|lookup|keyvalues|CorrectionGroupEntriesFinder" label="label" value="key" />
 						</html:select>
                         
                         

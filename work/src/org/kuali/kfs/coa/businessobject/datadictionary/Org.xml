@@ -6,7 +6,7 @@
         <customAttributeEnabled>true</customAttributeEnabled>
 
         <inquiry>
-            <title>Organization Inquiry</title>
+            <title>Organization Code Inquiry</title>
 
             <inquiryFields>
 
@@ -67,7 +67,7 @@
         </inquiry>
 
         <lookup>
-            <title>Organization Lookup</title>
+            <title>Organization Code Lookup</title>
 
             <menubar>
                 <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Org">Create New</a>]]>
@@ -83,7 +83,7 @@
                 <lookupField attributeName="responsibilityCenterCode" required="false" />
                 <lookupField attributeName="organizationTypeCode" required="false" />
                 <lookupField attributeName="organizationName" required="false" />
-                <lookupField attributeName="reportsToChartOfAccountsCode" required="false" noLookup="true" />
+                <lookupField attributeName="reportsToChartOfAccountsCode" required="false"  />
                 <lookupField attributeName="reportsToOrganizationCode" required="false" />
                 <lookupField attributeName="organizationActiveIndicator" required="false">
                     <defaultValue>Y</defaultValue>
@@ -459,9 +459,9 @@
                 <label>Reports to Chart Code</label>
                 <shortLabel>Rpts to Chart</shortLabel>
                 <required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
+       	 		<control>
+        	 	 <text size="2" />
+        		</control>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>

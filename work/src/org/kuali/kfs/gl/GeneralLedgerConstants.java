@@ -28,4 +28,40 @@ package org.kuali.module.gl;
  */
 public class GLConstants{
     public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";
+    
+    public static class DummyBusinessObject {
+        static final public String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
+        static final public String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";
+        static final public String CONSOLIDATION_OPTION = "dummyBusinessObject.consolidationOption";
+        static final public String LINK_BUTTON_OPTION = "dummyBusinessObject.linkButtonOption";
+    }
+    
+    public static class PendingEntryOptions {
+        static final public String APPROVED = "Approved";
+        static final public String ALL = "All";
+    }
+    
+    public static class ColumnNames {
+        static final public String SUB_ACCOUNT_NUMBER = "SUB_ACCT_NBR";
+        static final public String CURRENT_BDLN_BALANCE_AMOUNT = "CURR_BDLN_BAL_AMT";
+        static final public String ACCOUNTING_LINE_ACTUALS_BALANCE_AMOUNT = "ACLN_ACTLS_BAL_AMT";
+        static final public String ACCOUNTING_LINE_ENCUMBRANCE_BALANCE_AMOUNT = "ACLN_ENCUM_BAL_AMT";
+        static final public String CONSOLIDATION_OBJECT_CODE = "FIN_CONS_OBJ_CD";
+        static final public String REPORT_SORT_CODE = "FIN_REPORT_SORT_CD";
+        static final public String CONSOLIDATION_REPORT_SORT_CODE = "CONS_FIN_REPORT_SORT_CD";
+        static final public String OBJECT_LEVEL_CODE = "FIN_OBJ_LVL_CD";
+        static final public String OBJECT_CODE = "FIN_OBJECT_CD";
+        
+        static final public String UNIVERSITY_FISCAL_YEAR = "UNIV_FISCAL_YR";
+        static final public String CHART_OF_ACCOUNTS_CODE = "FIN_COA_CD";
+        static final public String ACCOUNT_NUMBER = "ACCOUNT_NBR";
+        static final public String SUB_OBJECT_CODE = "FIN_SUB_OBJ_CD";
+        static final public String OBJECT_TYPE_CODE = "FIN_OBJ_TYP_CD";
+        static final public String BALANCE_TYPE_CODE = "FIN_BALANCE_TYP_CD";
+        static final public String DEBIT_CREDIT_CODE = "TRN_DEBIT_CRDT_CD";
+        static final public String OBJECT_TYPE_DEBIT_CREDIT_CODE = "FIN_OBJTYP_DBCR_CD";
+        static final public String OFFSET_GENERATION_CODE = "FIN_OFFST_GNRTN_CD";
+        static final public String TRANSACTION_LEDGER_ENTRY_AMOUNT = "TRN_LDGR_ENTR_AMT";
+    }
+    
 }

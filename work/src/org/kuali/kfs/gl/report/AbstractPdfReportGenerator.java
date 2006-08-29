@@ -51,6 +51,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public abstract class AbstractPdfReportGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractPdfReportGenerator.class);
     public static final String PDF_FILE_EXTENSION = ".pdf";
+    private static String REPORT_FILE_DATE_FORMAT = "yyyyMMdd_HHmmss";
 
     // generate the PDF report with the given information
     public void generatePdfReport(Date reportingDate, String title, String reportFileName) {
@@ -81,7 +82,7 @@ public abstract class AbstractPdfReportGenerator {
     
     protected String generateReportFileName(String reportNamePrefix, String destinationDirectory, Date reportingDate){        
         String reportFilename = destinationDirectory + "/" + reportNamePrefix + "_";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(REPORT_FILE_DATE_FORMAT);
         reportFilename = reportFilename + dateFormat.format(reportingDate);
         reportFilename = reportFilename + PDF_FILE_EXTENSION;
         

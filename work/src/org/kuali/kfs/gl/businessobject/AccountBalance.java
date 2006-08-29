@@ -27,6 +27,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
@@ -36,6 +37,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.web.Constant;
 
 /**
@@ -66,6 +68,12 @@ public class AccountBalance extends BusinessObjectBase {
     private Options option;
     private String title;
 
+    static private String EXPENSE_SORT_CODE = "B";
+    
+    static private String TYPE_CONSOLIDATION = "Consolidation";
+    static private String TYPE_LEVEL = "Level";
+    static private String TYPE_OBJECT = "Object";
+    
     public AccountBalance() {
         super();
         this.dummyBusinessObject = new DummyBusinessObject();
@@ -94,36 +102,36 @@ public class AccountBalance extends BusinessObjectBase {
         this.universityFiscalYear = universityFiscalYear;
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;
-        subAccountNumber = (String) data.get("SUB_ACCT_NBR");
+        subAccountNumber = (String) data.get(GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER);
 
-        currentBudgetLineBalanceAmount = new KualiDecimal((BigDecimal) data.get("CURR_BDLN_BAL_AMT"));
-        accountLineActualsBalanceAmount = new KualiDecimal((BigDecimal) data.get("ACLN_ACTLS_BAL_AMT"));
-        accountLineEncumbranceBalanceAmount = new KualiDecimal((BigDecimal) data.get("ACLN_ENCUM_BAL_AMT"));
+        currentBudgetLineBalanceAmount = new KualiDecimal((BigDecimal) data.get(GLConstants.ColumnNames.CURRENT_BDLN_BALANCE_AMOUNT));
+        accountLineActualsBalanceAmount = new KualiDecimal((BigDecimal) data.get(GLConstants.ColumnNames.ACCOUNTING_LINE_ACTUALS_BALANCE_AMOUNT));
+        accountLineEncumbranceBalanceAmount = new KualiDecimal((BigDecimal) data.get(GLConstants.ColumnNames.ACCOUNTING_LINE_ENCUMBRANCE_BALANCE_AMOUNT));
 
-        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get("FIN_CONS_OBJ_CD"));
-        financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinConsolidationObjectCode((String) data.get("FIN_CONS_OBJ_CD"));
+        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
+        financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinConsolidationObjectCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
         
-        if ("Consolidation".equals(type)) {
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get("FIN_REPORT_SORT_CD"));
-            financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode((String) data.get("CONS_FIN_REPORT_SORT_CD"));
+        if (TYPE_CONSOLIDATION.equals(type)) {
+            financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.REPORT_SORT_CODE));
+            financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_REPORT_SORT_CODE));
             fixVariance();
         }
-        else if ("Level".equals(type)) {
-            financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String) data.get("FIN_REPORT_SORT_CD"));
-            financialObject.setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LVL_CD"));
-            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LVL_CD"));
+        else if (TYPE_LEVEL.equals(type)) {
+            financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.REPORT_SORT_CODE));
+            financialObject.setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
+            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode("B");
+            financialObject.getFinancialObjectType().setFinancialReportingSortCode(EXPENSE_SORT_CODE);
             fixVariance();
         }
-        else if ("Object".equals(type)) {
-            objectCode = (String) data.get("FIN_OBJECT_CD");
-            financialObject.setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LVL_CD"));
-            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get("FIN_OBJ_LVL_CD"));
+        else if (TYPE_OBJECT.equals(type)) {
+            objectCode = (String) data.get(GLConstants.ColumnNames.OBJECT_CODE);
+            financialObject.setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
+            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setFinancialReportingSortCode("B");
+            financialObject.getFinancialObjectType().setFinancialReportingSortCode(EXPENSE_SORT_CODE);
             fixVariance();
         }
         else {
@@ -174,13 +182,14 @@ public class AccountBalance extends BusinessObjectBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
+        
         LinkedHashMap map = new LinkedHashMap();
-        map.put("universityFiscalYear", getUniversityFiscalYear());
-        map.put("chartOfAccountsCode", getChartOfAccountsCode());
-        map.put("accountNumber", getAccountNumber());
-        map.put("subAccountNumber", getSubAccountNumber());
-        map.put("objectCode", getObjectCode());
-        map.put("subObjectCode", getSubObjectCode());
+        map.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
+        map.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        map.put(PropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+        map.put(PropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+        map.put(PropertyConstants.OBJECT_CODE, getObjectCode());
+        map.put(PropertyConstants.SUB_OBJECT_CODE, getSubObjectCode());
         return map;
     }
 

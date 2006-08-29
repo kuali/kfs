@@ -24,7 +24,6 @@ package org.kuali.module.gl.dao.ojb;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -33,22 +32,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.Constants;
-import org.kuali.core.bo.user.Options;
+import org.kuali.PropertyConstants;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.OptionsService;
+import org.kuali.module.gl.OracleSpecific;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.AccountBalanceDao;
-import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.util.OJBUtility;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
@@ -56,11 +51,12 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
  * TODO Oracle Specific Code in this class
  * 
  */
-public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements AccountBalanceDao {
+public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements AccountBalanceDao, OracleSpecific {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceDaoOjb.class);
 
     private DateTimeService dateTimeService;
     private OptionsService optionsService;
+    static final private String OBJ_TYP_CD = "financialObject.financialObjectTypeCode";
 
     public AccountBalanceDaoOjb() {
         super();
@@ -74,12 +70,12 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         LOG.debug("getByTransaction() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo("universityFiscalYear", t.getUniversityFiscalYear());
-        crit.addEqualTo("chartOfAccountsCode", t.getChartOfAccountsCode());
-        crit.addEqualTo("accountNumber", t.getAccountNumber());
-        crit.addEqualTo("subAccountNumber", t.getSubAccountNumber());
-        crit.addEqualTo("objectCode", t.getFinancialObjectCode());
-        crit.addEqualTo("subObjectCode", t.getFinancialSubObjectCode());
+        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
+        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
+        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
+        crit.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
+        crit.addEqualTo(PropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
+        crit.addEqualTo(PropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
 
         QueryByCriteria qbc = QueryFactory.newQuery(AccountBalance.class, crit);
         return (AccountBalance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -105,14 +101,17 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
 
         String[] attributes = new String[] {
-            "universityFiscalYear","chartOfAccountsCode","accountNumber","objectCode","financialObject.financialObjectTypeCode",
+            PropertyConstants.UNIVERSITY_FISCAL_YEAR,PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER,
+            PropertyConstants.OBJECT_CODE, OBJ_TYP_CD,
             "sum(currentBudgetLineBalanceAmount)","sum(accountLineActualsBalanceAmount)","sum(accountLineEncumbranceBalanceAmount)"
         };
 
         String[] groupBy = new String[] {
-            "universityFiscalYear","chartOfAccountsCode","accountNumber","objectCode","financialObject.financialObjectTypeCode"
+                PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE,
+                OBJ_TYP_CD
         };
-
+        
         query.setAttributes(attributes);
         query.addGroupBy(groupBy);
         OJBUtility.limitResultSize(query);
@@ -132,7 +131,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         query.setAttributes(new String[] {"count(*)"});
 
         String[] groupBy = new String[] {
-            "universityFiscalYear","chartOfAccountsCode","accountNumber","objectCode","financialObject.financialObjectTypeCode"
+                PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE,
+                OBJ_TYP_CD
         };
         query.addGroupBy(groupBy);
 
@@ -220,8 +221,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addLessThan("universityFiscalYear", new Integer(year));
+        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.addLessThan(PropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(AccountBalance.class, criteria));
 

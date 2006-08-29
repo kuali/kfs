@@ -35,6 +35,7 @@ import org.kuali.core.service.LookupService;
 import org.kuali.module.gl.bo.AccountBalanceByObject;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.gl.GLConstants;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the account balace by object screen. It is entended
@@ -73,8 +74,8 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(PropertyConstants.FINANCIAL_OBJECT_CODE, "");
-        userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
-        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
+        userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
+        userDefinedAttributeMap.put(OBJECT_LEVEL_CODE, "");
         return userDefinedAttributeMap;
     }
 
@@ -82,7 +83,7 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
-        if (attributeName.equals("dummyBusinessObject.linkButtonOption")) {
+        if (attributeName.equals(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION)) {
             attributeName = PropertyConstants.UNIVERSITY_FISCAL_YEAR;
         }
         return attributeName;

@@ -27,14 +27,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.KualiLookupableImpl;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.DummyBusinessObject;
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.inquirable.AccountBalanceByLevelInquirableImpl;
+import org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 
@@ -60,12 +62,9 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        if ("dummyBusinessObject.linkButtonOption".equals(propertyName)) {
+        if (GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(propertyName)) {
             return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
         }
-//        } else if ("financialObject.financialObjectLevel.financialObjectLevelCode".equals(propertyName)) {
-//            return (new AccountBalanceByLevelInquirableImpl()).getInquiryUrl(bo, propertyName);
-//        }
         return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
     
@@ -81,31 +80,30 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
 
-        String costShareOption = (String) fieldValues.get("dummyBusinessObject.costShareOption");
-        String pendingEntryOption = (String) fieldValues.get("dummyBusinessObject.pendingEntryOption");
-        String consolidationOption = (String) fieldValues.get("dummyBusinessObject.consolidationOption");
+        String costShareOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.COST_SHARE_OPTION);
+        String pendingEntryOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);
+        String consolidationOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
         boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
         int pendingEntryCode = AccountBalanceService.PENDING_NONE;
-        if ( "Approved".equals(pendingEntryOption) ) {
+        if (GLConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption) ) {
             pendingEntryCode = AccountBalanceService.PENDING_APPROVED;
-        } else if ( "All".equals(pendingEntryOption) ) {
+        } else if (GLConstants.PendingEntryOptions.ALL.equals(pendingEntryOption) ) {
             pendingEntryCode = AccountBalanceService.PENDING_ALL;
         }
         boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
 
-        String chartOfAccountsCode = (String) fieldValues.get("chartOfAccountsCode");
-        String accountNumber = (String) fieldValues.get("accountNumber");
-        String subAccountNumber = (String) fieldValues.get("subAccountNumber");
-        String financialObjectLevelCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialObjectLevelCode");
-        String financialReportingSortCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialReportingSortCode");
-        //String financialConsolidationCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode");
+        String chartOfAccountsCode = (String) fieldValues.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = (String) fieldValues.get(PropertyConstants.ACCOUNT_NUMBER);
+        String subAccountNumber = (String) fieldValues.get(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        String financialObjectLevelCode = (String) fieldValues.get(AbstractGLInquirableImpl.OBJECT_LEVEL_CODE);
+        String financialReportingSortCode = (String) fieldValues.get(AbstractGLInquirableImpl.REPORTING_SORT_CODE);
 
         // Dashes means no sub account number
         if (Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
             subAccountNumber = "";
         }
 
-        String ufy = (String) fieldValues.get("universityFiscalYear");
+        String ufy = (String) fieldValues.get(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
 
         // TODO Deal with invalid numbers
         Integer universityFiscalYear = new Integer(Integer.parseInt(ufy));

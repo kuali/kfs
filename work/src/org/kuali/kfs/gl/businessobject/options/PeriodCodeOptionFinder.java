@@ -25,12 +25,12 @@ package org.kuali.module.gl.web.optionfinder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
@@ -52,25 +52,25 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constant.MONTH1, Constant.MONTH1));
-        labels.add(new KeyLabelPair(Constant.MONTH2, Constant.MONTH2));
-        labels.add(new KeyLabelPair(Constant.MONTH3, Constant.MONTH3));
-        labels.add(new KeyLabelPair(Constant.MONTH4, Constant.MONTH4));
+        labels.add(new KeyLabelPair(Constants.MONTH1, Constants.MONTH1));
+        labels.add(new KeyLabelPair(Constants.MONTH2, Constants.MONTH2));
+        labels.add(new KeyLabelPair(Constants.MONTH3, Constants.MONTH3));
+        labels.add(new KeyLabelPair(Constants.MONTH4, Constants.MONTH4));
 
-        labels.add(new KeyLabelPair(Constant.MONTH5, Constant.MONTH5));
-        labels.add(new KeyLabelPair(Constant.MONTH6, Constant.MONTH6));
-        labels.add(new KeyLabelPair(Constant.MONTH7, Constant.MONTH7));
-        labels.add(new KeyLabelPair(Constant.MONTH8, Constant.MONTH8));
+        labels.add(new KeyLabelPair(Constants.MONTH5, Constants.MONTH5));
+        labels.add(new KeyLabelPair(Constants.MONTH6, Constants.MONTH6));
+        labels.add(new KeyLabelPair(Constants.MONTH7, Constants.MONTH7));
+        labels.add(new KeyLabelPair(Constants.MONTH8, Constants.MONTH8));
 
-        labels.add(new KeyLabelPair(Constant.MONTH9, Constant.MONTH9));
-        labels.add(new KeyLabelPair(Constant.MONTH10, Constant.MONTH10));
-        labels.add(new KeyLabelPair(Constant.MONTH11, Constant.MONTH11));
-        labels.add(new KeyLabelPair(Constant.MONTH12, Constant.MONTH12));
+        labels.add(new KeyLabelPair(Constants.MONTH9, Constants.MONTH9));
+        labels.add(new KeyLabelPair(Constants.MONTH10, Constants.MONTH10));
+        labels.add(new KeyLabelPair(Constants.MONTH11, Constants.MONTH11));
+        labels.add(new KeyLabelPair(Constants.MONTH12, Constants.MONTH12));
 
-        labels.add(new KeyLabelPair(Constant.MONTH13, Constant.MONTH13));
-        labels.add(new KeyLabelPair(Constant.ANNUAL_BALNCE, Constant.ANNUAL_BALNCE));
-        labels.add(new KeyLabelPair(Constant.BEGINNING_BALNCE, Constant.BEGINNING_BALNCE));
-        labels.add(new KeyLabelPair(Constant.CG_BEGINNING_BALNCE, Constant.CG_BEGINNING_BALNCE));
+        labels.add(new KeyLabelPair(Constants.MONTH13, Constants.MONTH13));
+        labels.add(new KeyLabelPair(Constants.ANNUAL_BALANCE, Constants.ANNUAL_BALANCE));
+        labels.add(new KeyLabelPair(Constants.BEGINNING_BALANCE, Constants.BEGINNING_BALANCE));
+        labels.add(new KeyLabelPair(Constants.CG_BEGINNING_BALANCE, Constants.CG_BEGINNING_BALANCE));
 
         return labels;
     }

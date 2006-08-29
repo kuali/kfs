@@ -68,11 +68,10 @@ public class AccountBalance extends BusinessObjectBase {
     private Options option;
     private String title;
 
-    static private String EXPENSE_SORT_CODE = "B";
-    
-    static private String TYPE_CONSOLIDATION = "Consolidation";
-    static private String TYPE_LEVEL = "Level";
-    static private String TYPE_OBJECT = "Object";
+    static final public String EXPENSE_SORT_CODE = "B";
+    static final public String TYPE_CONSOLIDATION = "Consolidation";
+    static final public String TYPE_LEVEL = "Level";
+    static final public String TYPE_OBJECT = "Object";
     
     public AccountBalance() {
         super();

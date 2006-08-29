@@ -28,19 +28,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.Constant;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: AccountBalanceServiceImpl.java,v 1.15 2006-08-23 22:41:40 jsissom Exp $
+ * @version $Id: AccountBalanceServiceImpl.java,v 1.16 2006-08-29 21:16:24 larevans Exp $
  */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
@@ -72,10 +72,10 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
         LOG.debug("findAccountBalanceByConsolidation() started");
 
-        String[] incomeObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "INCOME_OBJECT_TYPE_CODES");
-        String[] incomeTransferObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "INCOME_TRANSFER_OBJECT_TYPE_CODES");
-        String[] expenseObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "EXPENSE_OBJECT_TYPE_CODES");
-        String[] expenseTransferObjectTypes = kualiConfigurationService.getApplicationParameterValues("GL.ACCOUNT_BALANCE_SERVICE", "EXPENSE_TRANSFER_OBJECT_TYPE_CODES");
+        String[] incomeObjectTypes = kualiConfigurationService.getApplicationParameterValues(Constants.SystemGroupParameterNames.GL_ACCOUNT_BALANCE_SERVICE, Constants.GeneralLedgerApplicationParameterKeys.INCOME_OBJECT_TYPE_CODES);
+        String[] incomeTransferObjectTypes = kualiConfigurationService.getApplicationParameterValues(Constants.SystemGroupParameterNames.GL_ACCOUNT_BALANCE_SERVICE, Constants.GeneralLedgerApplicationParameterKeys.INCOME_TRANSFER_OBJECT_TYPE_CODES);
+        String[] expenseObjectTypes = kualiConfigurationService.getApplicationParameterValues(Constants.SystemGroupParameterNames.GL_ACCOUNT_BALANCE_SERVICE, Constants.GeneralLedgerApplicationParameterKeys.EXPENSE_OBJECT_TYPE_CODES);
+        String[] expenseTransferObjectTypes = kualiConfigurationService.getApplicationParameterValues(Constants.SystemGroupParameterNames.GL_ACCOUNT_BALANCE_SERVICE, Constants.GeneralLedgerApplicationParameterKeys.EXPENSE_TRANSFER_OBJECT_TYPE_CODES);
 
         // Consolidate all object types into one array (yes I could have used lists, but it was just as many lines of code than this)
         String[] allObjectTypes = new String[incomeObjectTypes.length + incomeTransferObjectTypes.length + expenseObjectTypes.length + expenseTransferObjectTypes.length];
@@ -123,7 +123,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
 
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
@@ -143,7 +143,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         List data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     income.add(bbc);
@@ -157,7 +157,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     incomeTransfers.add(bbc);
@@ -171,7 +171,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     expense.add(bbc);
@@ -185,7 +185,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     expenseTransfers.add(bbc);
@@ -249,8 +249,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            bal.put("FIN_CONS_OBJ_CD", financialConsolidationObjectCode);
-            AccountBalance bbc = new AccountBalance("Level", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            bal.put(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE, financialConsolidationObjectCode);
+            AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_LEVEL, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     results.add(bbc);
@@ -285,8 +285,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
-            bal.put("FIN_OBJ_LVL_CD", financialObjectLevelCode);
-            AccountBalance bbc = new AccountBalance("Object", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            bal.put(GLConstants.ColumnNames.OBJECT_LEVEL_CODE, financialObjectLevelCode);
+            AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_OBJECT, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     results.add(bbc);

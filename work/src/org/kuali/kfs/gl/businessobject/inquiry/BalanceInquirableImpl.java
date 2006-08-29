@@ -74,25 +74,25 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
 
-        userDefinedAttributeMap.put(PropertyConstants.MONTH1_AMOUNT, Constant.MONTH1);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH2_AMOUNT, Constant.MONTH2);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH3_AMOUNT, Constant.MONTH3);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH1_AMOUNT, Constants.MONTH1);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH2_AMOUNT, Constants.MONTH2);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH3_AMOUNT, Constants.MONTH3);
 
-        userDefinedAttributeMap.put(PropertyConstants.MONTH4_AMOUNT, Constant.MONTH4);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH5_AMOUNT, Constant.MONTH5);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH6_AMOUNT, Constant.MONTH6);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH4_AMOUNT, Constants.MONTH4);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH5_AMOUNT, Constants.MONTH5);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH6_AMOUNT, Constants.MONTH6);
 
-        userDefinedAttributeMap.put(PropertyConstants.MONTH7_AMOUNT, Constant.MONTH7);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH8_AMOUNT, Constant.MONTH8);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH9_AMOUNT, Constant.MONTH9);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH7_AMOUNT, Constants.MONTH7);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH8_AMOUNT, Constants.MONTH8);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH9_AMOUNT, Constants.MONTH9);
 
-        userDefinedAttributeMap.put(PropertyConstants.MONTH10_AMOUNT, Constant.MONTH10);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH11_AMOUNT, Constant.MONTH11);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH12_AMOUNT, Constant.MONTH12);
-        userDefinedAttributeMap.put(PropertyConstants.MONTH13_AMOUNT, Constant.MONTH13);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH10_AMOUNT, Constants.MONTH10);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH11_AMOUNT, Constants.MONTH11);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH12_AMOUNT, Constants.MONTH12);
+        userDefinedAttributeMap.put(PropertyConstants.MONTH13_AMOUNT, Constants.MONTH13);
         
-        userDefinedAttributeMap.put(PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, Constant.BEGINNING_BALNCE);
-        userDefinedAttributeMap.put(PropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, Constant.CG_BEGINNING_BALNCE);
+        userDefinedAttributeMap.put(PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, Constants.BEGINNING_BALANCE);
+        userDefinedAttributeMap.put(PropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, Constants.CG_BEGINNING_BALANCE);
         
         return userDefinedAttributeMap;
     }

@@ -357,14 +357,11 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      */
 
     private KualiDecimal executeReportQuery(ReportQueryByCriteria reportQuery) {
-        KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
-            rv = (KualiDecimal) ((Object[]) iterator.next())[0];
+            return (KualiDecimal) ((Object[]) iterator.next())[0];
+        } else {
+            return KualiDecimal.ZERO;
         }
-        if (rv == null) {
-            rv = KualiDecimal.ZERO;
-        }
-        return rv;
     }
 }

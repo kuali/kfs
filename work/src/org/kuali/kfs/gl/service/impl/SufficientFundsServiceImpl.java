@@ -202,13 +202,13 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         }
 
         if ( ! item.getAccount().isPendingAcctSufficientFundsIndicator() ) {
-            LOG.debug("hasSufficientFundsOnItem() No checking on eDocs");
+            LOG.debug("hasSufficientFundsOnItem() No checking on eDocs for account " + item.getAccount().getChartOfAccountsCode() + "-" + item.getAccount().getAccountNumber() );
             return true;
         }
 
         // exit sufficient funds checking if not enabled for an account
         if ( Constants.SF_TYPE_NO_CHECKING.equals(item.getAccountSufficientFundsCode()) ) {
-            LOG.debug("hasSufficientFundsOnItem() sufficient funds not enabled for account " + item.getAccount().getAccountNumber() );
+            LOG.debug("hasSufficientFundsOnItem() sufficient funds not enabled for account " + item.getAccount().getChartOfAccountsCode() + "-" + item.getAccount().getAccountNumber() );
             return true;
         }
 
@@ -223,16 +223,17 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
 
         SufficientFundBalances sfBalance = sufficientFundBalanceDao.getByPrimaryId(item.getYear().getUniversityFiscalYear(), item.getAccount().getChartOfAccountsCode(), item.getAccount().getAccountNumber(), item.getSufficientFundsObjectCode());
 
-        // TODO Handle year bb not loaded
-        // TODO Handle pending
-
         if ( sfBalance == null ) {
             LOG.debug("hasSufficientFundsOnItem() No balance record, no sufficient funds");
             return false;
         }
 
+        // TODO Handle year bb not loaded
+        // TODO Handle pending
+
         KualiDecimal available = KualiDecimal.ZERO;
         if ( Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode())) {
+            // Cash checking
             available = sfBalance.getCurrentBudgetBalanceAmount().subtract(sfBalance.getAccountActualExpenditureAmt());
         } else {
             // Budget checking

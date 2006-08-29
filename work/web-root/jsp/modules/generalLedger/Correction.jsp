@@ -41,8 +41,6 @@
              <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionRowCount}" /></td>
 			 
 			 </tr>
-
-             </tr>
    		</table>
    	</div>
 
@@ -173,6 +171,7 @@
  	<c:if test="${KualiForm.chooseSystem != null && KualiForm.editMethod !=null}" >   
 	<%--	<div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;"> --%>
 	<div class="tab-container" align="left" STYLE="overflow-x:scroll; overflow-y:hidden"> 
+	<kul:errors keyMatch="numberFormatError" />
             <table cellpadding=0 class="datatable" summary=""> 
                 <tr>
                     <td align="left" valign="middle" class="subhead"><span class="subhead-left">Search Results</span></td>
@@ -540,7 +539,8 @@
     <div class="tab-container" align="center"> 
     
         <kul:errors keyMatch="searchFieldError" />
-    
+    	
+    	 
         <table cellpadding=0 class="datatable" summary="">
         
             <tr>
@@ -871,17 +871,43 @@
       
     	<table cellpadding=0 class="datatable" summary=""> 
         	  <tr>
-                    <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Select System and Edit Method</td>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>System and Edit Method</td>
          	  </tr>
 	    		<tr>
      	 			<td>
 		     			<center>
-							<c:out value="${KualiForm.chooseSystem}" />
-							<c:out value="${KualiForm.editMethod}" />
+							<Strong> <c:out value="${KualiForm.chooseSystem}" /> </Strong>
+							<Strong> <c:out value="${KualiForm.editMethod}" /> </Strong>
 						</center>
     				  </td>
 	  			</tr>
 		</table>
+ 	</div>
+
+
+<div class="tab-container" align="center" >
+      
+    	<table cellpadding=0 class="datatable" summary=""> 
+        	  <tr>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left"></span>Input and Output File</td>
+         	  </tr>
+	  	</table>
+			<table>
+             <tr> 
+            
+             <td width="20%" align="left" valign="middle" > Input File Name: </td> 
+             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionInputFileName}" /></td>
+
+			 </tr>
+			 <tr>
+			 
+			 <td width="20%" align="left" valign="middle" > Output File Name: </td> 
+             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionOutputFileName}" /></td>
+			 
+			 </tr>
+		
+   		</table>
+		
  	</div>
 
 
@@ -891,6 +917,7 @@
                 <tr>
                     <td align="left" valign="middle" class="subhead"><span class="subhead-left">Search Results</span></td>
                 </tr>
+               
                 <tr>
                     
                       <td>

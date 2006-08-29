@@ -28,10 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.document.DocumentType;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
@@ -47,7 +49,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.31 2006-06-16 21:07:17 jsissom Exp $
+ * @version $Id: OriginEntry.java,v 1.32 2006-08-29 20:02:35 schoo Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
@@ -182,7 +184,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     }
 
     public OriginEntry(String line) {
-        setFromTextFile(line);
+        setFromTextFile(line, 0);
     }
 
     public void setTransaction(Transaction t) {
@@ -244,13 +246,22 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         return StringUtils.trimTrailingWhitespace(v);
     }
 
-    public void setFromTextFile(String line) {
+    //lineNumber is for showing error message
+    public void setFromTextFile(String line, int lineNumber) throws NumberFormatException {
 
       // Just in case
       line = line + SPACES;
 
       if (!"    ".equals(line.substring(0, 4))) {
-          setUniversityFiscalYear(new Integer(line.substring(0, 4)));
+          try{
+              setUniversityFiscalYear(new Integer(line.substring(0, 4)));
+          } catch (NumberFormatException e){
+              //GlobalVariables.getErrorMap().putError(errorField, rule.getErrorMessageKey(), new String[] { errorParameter, restrictedFieldValue, parameterName, parameterGroupName, rule.getParameterText() });
+              GlobalVariables.getErrorMap().putError("numberFormatError", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[]{new Integer(lineNumber).toString(), "University Fiscal Year"});
+              throw (e);
+              
+          }
+          
       } else {
           setUniversityFiscalYear(null);
       }
@@ -272,16 +283,36 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
           setTransactionLedgerEntrySequenceNumber(null);
       }
       setTransactionLedgerEntryDescription(getValue(line,51, 91));
-      setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
+      
+      try {
+          setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
+      } catch (NumberFormatException e) {
+          GlobalVariables.getErrorMap().putError("numberFormatError", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[]{new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount"});
+          throw (e);
+      }
+      
       setTransactionDebitCreditCode(line.substring(108, 109));
-      setTransactionDate(parseDate(line.substring(109, 119), false));
+      
+      try {
+          setTransactionDate(parseDate(line.substring(109, 119), false));
+      } catch (NumberFormatException e) {
+          GlobalVariables.getErrorMap().putError("numberFormatError", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[]{new Integer(lineNumber).toString(), "Transaction Date"});
+          throw (e);
+      }
+      
       setOrganizationDocumentNumber(getValue(line,119, 129));
       setProjectCode(getValue(line,129, 139));
       setOrganizationReferenceId(getValue(line,139, 147));
       setReferenceFinancialDocumentTypeCode(getValue(line,147, 151));
       setReferenceFinancialSystemOriginationCode(getValue(line,151, 153));
       setReferenceFinancialDocumentNumber(getValue(line,153, 162));
-      setFinancialDocumentReversalDate(parseDate(line.substring(162, 172), true));
+      try{
+          setFinancialDocumentReversalDate(parseDate(line.substring(162, 172), true));
+      } catch (NumberFormatException e) {
+          GlobalVariables.getErrorMap().putError("numberFormatError", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[]{new Integer(lineNumber).toString(), "Financial Document Reversal Date"});
+          throw (e);
+      }
+      
       setTransactionEncumbranceUpdateCode(line.substring(172, 173));
     }
 

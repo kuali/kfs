@@ -80,7 +80,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.40 2006-08-29 18:08:28 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.41 2006-08-29 20:02:49 schoo Exp $
  * 
  */
 
@@ -170,17 +170,24 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
         OriginEntry entryFromFile = new OriginEntry();
-
+        int lineNumber = 0;
         try {
             String currentLine = br.readLine();
             while (currentLine != null ) {
-                
+                lineNumber += 1;
                 if (!currentLine.equals("")){
-                    entryFromFile.setFromTextFile(currentLine);
-
-                    entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
-                    originEntryService.createEntry(entryFromFile, newOriginEntryGroup);
+                    
+                    try{
+                        entryFromFile.setFromTextFile(currentLine, lineNumber);
+                        entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
+                        originEntryService.createEntry(entryFromFile, newOriginEntryGroup);
+                    } catch (NumberFormatException e){
+                        
+                    } 
+                    
+                    
                 }
+                
                 currentLine = br.readLine();
             }
         }
@@ -1092,91 +1099,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         OriginEntry oe = errorCorrectionForm.getEachEntryForManualEdit();
         OriginEntry temp = (OriginEntry) request.getAttribute("eachEntryForManualEdit");
-        /*Date convertDate;
-        int convertInt;
-
-        OriginEntry oe = new OriginEntry();
-
-        String editAccountNumber = request.getParameter("editAccountNumber");
-        String editFinancialDocumentNumber = request.getParameter("editFinancialDocumentNumber");
-        String editReferenceFinancialDocumentNumber = request.getParameter("editReferenceFinancialDocumentNumber");
-        String editReferenceFinancialDocumentTypeCode = request.getParameter("editReferenceFinancialDocumentTypeCode");
-        String editFinancialDocumentReversalDate = request.getParameter("editFinancialDocumentReversalDate");
-        String editFinancialDocumentTypeCode = request.getParameter("editFinancialDocumentTypeCode");
-        String editFinancialBalanceTypeCode = request.getParameter("editFinancialBalanceTypeCode");
-        String editChartOfAccountsCode = request.getParameter("editChartOfAccountsCode");
-        String editFinancialObjectTypeCode = request.getParameter("editFinancialObjectTypeCode");
-        String editFinancialObjectCode = request.getParameter("editFinancialObjectCode");
-        String editFinancialSubObjectCode = request.getParameter("editFinancialSubObjectCode");
-        String editFinancialSystemOriginationCode = request.getParameter("editFinancialSystemOriginationCode");
-        String editReferenceFinancialSystemOriginationCode = request.getParameter("editReferenceFinancialSystemOriginationCode");
-        String editOrganizationDocumentNumber = request.getParameter("editOrganizationDocumentNumber");
-        String editOrganizationReferenceId = request.getParameter("editOrganizationReferenceId");
-        String editProjectCode = request.getParameter("editProjectCode");
-        String editSubAccountNumber = request.getParameter("editSubAccountNumber");
-        String editTransactionDate = request.getParameter("editTransactionDate");
-        String editTransactionDebitCreditCode = request.getParameter("editTransactionDebitCreditCode");
-        String editTransactionEncumbranceUpdateCode = request.getParameter("editTransactionEncumbranceUpdateCode");
-        String editTransactionLedgerEntrySequenceNumber = request.getParameter("editTransactionLedgerEntrySequenceNumber");
-        String editTransactionLedgerEntryAmount = request.getParameter("editTransactionLedgerEntryAmount");
-        String editTransactionLedgerEntryDescription = request.getParameter("editTransactionLedgerEntryDescription");
-        String editUniversityFiscalPeriodCode = request.getParameter("editUniversityFiscalPeriodCode");
-        String editUniversityFiscalYear = request.getParameter("editUniversityFiscalYear");
-        String editBudgetYear = request.getParameter("editBudgetYear");
-
-
-        oe.setAccountNumber(editAccountNumber);
-        oe.setFinancialDocumentNumber(editFinancialDocumentNumber);
-        oe.setReferenceFinancialDocumentNumber(editReferenceFinancialDocumentNumber);
-        oe.setReferenceFinancialDocumentTypeCode(editReferenceFinancialDocumentTypeCode);
-
-        if (!(editFinancialDocumentReversalDate == null | editFinancialDocumentReversalDate.equals(""))) {
-            convertDate = SpringServiceLocator.getDateTimeService().convertToSqlDate(editFinancialDocumentReversalDate);
-            oe.setFinancialDocumentReversalDate(convertDate);
-        }
-
-        oe.setFinancialDocumentTypeCode(editFinancialDocumentTypeCode);
-        oe.setFinancialBalanceTypeCode(editFinancialBalanceTypeCode);
-        oe.setChartOfAccountsCode(editChartOfAccountsCode);
-        oe.setFinancialObjectTypeCode(editFinancialObjectTypeCode);
-        oe.setFinancialObjectCode(editFinancialObjectCode);
-        oe.setFinancialSubObjectCode(editFinancialSubObjectCode);
-        oe.setFinancialSystemOriginationCode(editFinancialSystemOriginationCode);
-        oe.setReferenceFinancialSystemOriginationCode(editReferenceFinancialSystemOriginationCode);
-        oe.setOrganizationDocumentNumber(editOrganizationDocumentNumber);
-        oe.setOrganizationReferenceId(editOrganizationReferenceId);
-        oe.setProjectCode(editProjectCode);
-        oe.setSubAccountNumber(editSubAccountNumber);
-
-        if (!(editTransactionDate == null | editTransactionDate.equals(""))) {
-            convertDate = SpringServiceLocator.getDateTimeService().convertToSqlDate(editTransactionDate);
-            oe.setTransactionDate(convertDate);
-        }
-
-        oe.setTransactionDebitCreditCode(editTransactionDebitCreditCode);
-        oe.setTransactionEncumbranceUpdateCode(editTransactionEncumbranceUpdateCode);
-
-        if (!(editTransactionLedgerEntrySequenceNumber == null | editTransactionLedgerEntrySequenceNumber.equals(""))) {
-            convertInt = Integer.parseInt(editTransactionLedgerEntrySequenceNumber);
-            oe.setTransactionLedgerEntrySequenceNumber(new Integer(convertInt));
-        }
-        if (!(editTransactionLedgerEntryAmount == null | editTransactionLedgerEntryAmount.equals(""))) {
-            oe.setTransactionLedgerEntryAmount(new KualiDecimal(editTransactionLedgerEntryAmount));
-        }
-
-        oe.setTransactionLedgerEntryDescription(editTransactionLedgerEntryDescription);
-        oe.setUniversityFiscalPeriodCode(editUniversityFiscalPeriodCode);
-
-        if (!(editUniversityFiscalYear == null | editUniversityFiscalYear.equals(""))) {
-            convertInt = Integer.parseInt(editUniversityFiscalYear);
-            oe.setUniversityFiscalYear(new Integer(convertInt));
-        }
-
-        if (!(editBudgetYear == null | editBudgetYear.equals(""))) {
-            convertInt = Integer.parseInt(editBudgetYear);
-//            oe.setBudgetYear(new Integer(convertInt));
-        }
-*/
+      
         // set entryId
         // null id means user added a new entry.
         HttpSession session = request.getSession(true);

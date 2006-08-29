@@ -1307,7 +1307,7 @@ public class ScrubberProcess {
                 offsetKey.append("-");
                 offsetKey.append(offsetDefinition.getFinancialObjectCode());
 
-                addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), offsetKey.toString(), Message.TYPE_FATAL);
+                putTransactionError(offsetEntry,kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), offsetKey.toString(), Message.TYPE_FATAL);
                 return;
             }
 
@@ -1330,7 +1330,7 @@ public class ScrubberProcess {
             sb.append("-");
             sb.append(scrubbedEntry.getFinancialBalanceTypeCode());
 
-            addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), sb.toString(), Message.TYPE_FATAL);
+            putTransactionError(offsetEntry,kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), sb.toString(), Message.TYPE_FATAL);
             return;
         }
 
@@ -1502,6 +1502,12 @@ public class ScrubberProcess {
      */
     private void addTransactionError(String errorMessage, String errorValue, int type) {
         transactionErrors.add(new Message(errorMessage + " (" + errorValue + ")", type));
+    }
+
+    private void putTransactionError(Transaction s, String errorMessage, String errorValue, int type) {
+        List te = new ArrayList();
+        te.add(new Message(errorMessage + "(" + errorValue + ")", type));
+        scrubberReportErrors.put(s, te);
     }
 
     class UnitOfWorkInfo {

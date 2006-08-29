@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -50,7 +51,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: TransactionReport.java,v 1.18 2006-06-21 02:57:26 jsissom Exp $
+ * @version $Id: TransactionReport.java,v 1.19 2006-08-29 18:57:52 jsissom Exp $
  */
 public class TransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
@@ -93,6 +94,8 @@ public class TransactionReport {
     }
 
     /**
+     * Generate transaction report
+     * 
      * @param reportErrors
      * @param reportSummary
      * @param runDate
@@ -101,6 +104,23 @@ public class TransactionReport {
      * @param destinationDirectory
      */
     public void generateReport(Map<Transaction,List<Message>> reportErrors, List<Summary> reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
+        LOG.debug("generateReport() started");
+
+        List transactions = new ArrayList();
+        transactions.addAll(reportErrors.keySet());
+        
+        generateReport(transactions,reportErrors,reportSummary,runDate,title,fileprefix,destinationDirectory);
+    }
+
+    /**
+     * @param reportErrors
+     * @param reportSummary
+     * @param runDate
+     * @param title
+     * @param fileprefix
+     * @param destinationDirectory
+     */
+    public void generateReport(List<Transaction> errorSortedList,Map<Transaction,List<Message>> reportErrors, List<Summary> reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
 
         Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
@@ -202,7 +222,7 @@ public class TransactionReport {
                 cell = new PdfPCell(new Phrase("Warning", headerFont));
                 warnings.addCell(cell);
 
-                for (Iterator errorIter = reportErrors.keySet().iterator(); errorIter.hasNext();) {
+                for (Iterator errorIter = errorSortedList.iterator(); errorIter.hasNext();) {
                     Transaction tran = (Transaction) errorIter.next();
                     boolean first = true;
 

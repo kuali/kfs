@@ -172,7 +172,12 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     }
 
     private boolean isInCgFundGroup() {
-        return "CG".equals(getSubFundGroup().getFundGroupCode());        
+        if ( getSubFundGroup() != null) {
+            return "CG".equals(getSubFundGroup().getFundGroupCode());        
+        } else {
+            // If sub fund group is missing
+            return false;
+        }
     }
 
     private boolean isInCgSubFundGroup() {

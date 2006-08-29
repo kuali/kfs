@@ -228,15 +228,19 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         // TODO Handle pending
 
         KualiDecimal available = KualiDecimal.ZERO;
+        KualiDecimal balanceAmount = item.getAmount();
         if ( Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode())) {
             // Cash checking
             available = sfBalance.getCurrentBudgetBalanceAmount().subtract(sfBalance.getAccountActualExpenditureAmt());
+            // We need to change the sign on the amount because the amount in the item is an increase in cash.  We only care
+            // about decreases in cash.
+            balanceAmount = balanceAmount.negated();
         } else {
             // Budget checking
             available = sfBalance.getCurrentBudgetBalanceAmount().subtract(sfBalance.getAccountActualExpenditureAmt()).subtract(sfBalance.getAccountEncumbranceAmount());
         }
 
-        if ( item.getAmount().compareTo(available) > 0 ) {
+        if ( balanceAmount.compareTo(available) > 0 ) {
             LOG.debug("hasSufficientFundsOnItem() no sufficient funds");
             return false;
         }

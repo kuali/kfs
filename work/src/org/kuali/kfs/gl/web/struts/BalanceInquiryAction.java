@@ -126,7 +126,8 @@ public class BalanceInquiryAction extends KualiAction {
             
             String lookupableName = kualiLookupable.getClass().getName().substring(kualiLookupable.getClass().getName().lastIndexOf('.') + 1);
             
-            if(lookupableName.startsWith("AccountBalanceByConsolidation") && totalSize > 7) {
+            if(lookupableName.startsWith("AccountBalanceByConsolidation")) {
+                
                 
                 Collection totalsTable = new ArrayList();
                 
@@ -141,7 +142,9 @@ public class BalanceInquiryAction extends KualiAction {
                     boolean ok = ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
                     if(ok) {
                         
-                        totalsTable.add(resultTableAsArray[arrayIndex]);
+                        if(totalSize > 7) {
+                            totalsTable.add(resultTableAsArray[arrayIndex]);
+                        }
                         resultTable.remove(resultTableAsArray[arrayIndex]);
                         
                         incompleteDisplayList.remove(balance);

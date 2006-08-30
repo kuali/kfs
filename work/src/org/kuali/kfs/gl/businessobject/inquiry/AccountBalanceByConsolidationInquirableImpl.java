@@ -126,9 +126,6 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         if("dummyBusinessObject.linkButtonOption".equals(attributeName)) {
             c = AccountBalanceByLevel.class;
         }
-//        else {
-//            c = AccountBalanceByConsolidation.class;
-//        }
         return c;
     }
     

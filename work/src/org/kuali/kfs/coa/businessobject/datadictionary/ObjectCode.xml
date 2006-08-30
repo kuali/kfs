@@ -324,14 +324,9 @@
 
                 <maxLength>1</maxLength>
                 <required>true</required>
-<!-- 
                 <control>
-                    <apcSelect group="ChartMaintenanceEDoc" parameterName="ObjectCodeValidBudgetAggregationCodes" />
-                </control>
--->              
-                <control>
-                    <text size="1" />
-                </control>
+                        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAggregationCodeValuesFinder" />
+				</control>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>

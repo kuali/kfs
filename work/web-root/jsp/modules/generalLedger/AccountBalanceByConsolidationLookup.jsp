@@ -77,7 +77,7 @@
 			<c:set var="offset" value="0" />
 			<display:table class="datatable-100" 
 				cellspacing="0" cellpadding="0" name="${reqSearchResults}" id="row"
-				export="true" pagesize="100" offset="${offset}" 
+				export="true" pagesize="100" offset="${offset}"
 				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
 					<c:if
@@ -128,21 +128,21 @@
                   </tfoot>
                   <tbody>
                     <tr class="odd">
-                      <td class="infocell">${totalsTable[0].columns[5].propertyValue}</td>
+                      <td class="infocell">Income</td>
                       <td class="numbercell">${totalsTable[0].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[0].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[0].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[0].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="odd">
-                      <td class="infocell">${totalsTable[1].columns[5].propertyValue}</td>
+                      <td class="infocell">Income From Transfers</td>
                       <td class="numbercell">${totalsTable[1].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[1].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[1].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[1].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="even">
-                      <td class="infocell"><b>${totalsTable[2].columns[5].propertyValue}</b></td>
+                      <td class="infocell"><b>Total Income</b></td>
                       <td class="numbercell">${totalsTable[2].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[2].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[2].columns[9].propertyValue}</td>
@@ -152,21 +152,21 @@
                       <td class="infocell" colspan="5">&nbsp;</td>
                     </tr>
                     <tr class="odd">
-                      <td class="infocell">${totalsTable[3].columns[5].propertyValue}</td>
+                      <td class="infocell">Expense</td>
                       <td class="numbercell">${totalsTable[3].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[3].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[3].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[3].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="odd">
-                      <td class="infocell">${totalsTable[4].columns[5].propertyValue}</td>
+                      <td class="infocell">Expense From Transfers</td>
                       <td class="numbercell">${totalsTable[4].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[4].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[4].columns[9].propertyValue}</td>
                       <td class="numbercell">${totalsTable[4].columns[10].propertyValue}</td>
                     </tr>
                     <tr class="even">
-                      <td class="infocell"><b>${totalsTable[5].columns[5].propertyValue}</b></td>
+                      <td class="infocell"><b>Total Expense</b></td>
                       <td class="numbercell">${totalsTable[5].columns[7].propertyValue}</td>
                       <td class="numbercell">${totalsTable[5].columns[8].propertyValue}</td>
                       <td class="numbercell">${totalsTable[5].columns[9].propertyValue}</td>

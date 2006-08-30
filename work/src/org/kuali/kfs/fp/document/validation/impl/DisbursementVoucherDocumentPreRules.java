@@ -23,7 +23,10 @@
 package org.kuali.module.financial.rules;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
@@ -38,6 +41,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
+import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
@@ -59,6 +63,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         checkSpecialHandlingIndicator(dvDocument);
 
         preRulesOK &= checkNonEmployeeTravelTabState(dvDocument);
+        
+        preRulesOK &= checkWireTransferTabState(dvDocument);
+
+        preRulesOK &= checkForeignDraftTabState(dvDocument);
         
         return preRulesOK;
     }
@@ -87,10 +95,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         
         String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
         
-        if(hasValues(dvNonEmplTrav) && !RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
-            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CLEAR_NON_EMPLOYEE_TRAVEL_TAB);
+        if(hasNonEmployeeTravelValues(dvNonEmplTrav) && !RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
-            Object[] args = { dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), travelNonEmplPaymentReasonCodes[0] };
+            Object[] args = { "payment reason", dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), "Non-Employee Travel", travelNonEmplPaymentReasonCodes[0] };
             questionText = MessageFormat.format(questionText, args);
             
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(Constants.DisbursementVoucherDocumentConstants.CLEAR_NON_EMPLOYEE_TAB_QUESTION_ID, questionText);
@@ -115,39 +123,50 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
      * @param dvNonEmplTrav
      * @return True if non employee travel tab contains any data in any fields.
      */
-    private boolean hasValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
+    private boolean hasNonEmployeeTravelValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
         boolean hasValues = false;
 
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrNonEmpTravelerName());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrServicePerformedDesc());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDvServicePerformedLocName());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDvServiceRegularEmprName());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelFromCityName());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelFromStateCode());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDvTravelFromCountryCode());
-        hasValues |= ObjectUtils.isNotNull(dvNonEmplTrav.getDvPerdiemStartDttmStamp());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToCityName());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToStateCode());
-        hasValues |= StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToCountryCode());
-        hasValues |= ObjectUtils.isNotNull(dvNonEmplTrav.getDvPerdiemEndDttmStamp());
-        
+        // Checks each explicit field in the tab for user entered values
+        hasValues = hasNonEmployeeTravelGeneralValues(dvNonEmplTrav);
+
+        // Checks per diem section for values
         if(!hasValues) {
-            hasValues = hasPerDiemValues(dvNonEmplTrav);
+            hasValues = hasNonEmployeeTravelPerDiemValues(dvNonEmplTrav);
         }
         
         if(!hasValues) {
-            hasValues = hasPersonalVehicleValues(dvNonEmplTrav);
+            hasValues = hasNonEmployeeTravelPersonalVehicleValues(dvNonEmplTrav);
         }
         
         if(!hasValues) {
-            hasValues = hasNonEmployeeTravelExpenses(dvNonEmplTrav);
+            hasValues = dvNonEmplTrav.getDvNonEmployeeExpenses().size() > 0;
         }
         
         if(!hasValues) {
-            hasValues = hasNonEmployeeTravelPrepaidExpenses(dvNonEmplTrav);
+            hasValues = dvNonEmplTrav.getDvPrePaidEmployeeExpenses().size() > 0;
         }
         
         return hasValues;
+    }
+
+    /**
+     * This method...
+     * @param dvNonEmplTrav
+     * @return True if any values are found in the non employee travel tab
+     */
+    private boolean hasNonEmployeeTravelGeneralValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
+        return StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrNonEmpTravelerName()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrServicePerformedDesc()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDvServicePerformedLocName()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDvServiceRegularEmprName()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelFromCityName()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelFromStateCode()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDvTravelFromCountryCode()) ||
+               ObjectUtils.isNotNull(dvNonEmplTrav.getDvPerdiemStartDttmStamp()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToCityName()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToStateCode()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToCountryCode()) ||
+               ObjectUtils.isNotNull(dvNonEmplTrav.getDvPerdiemEndDttmStamp());
     }
 
     /**
@@ -156,12 +175,12 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
      * @param dvNonEmplTrav
      * @return True if non employee travel tab contains data in any of the fields in the per diem section
      */
-    private boolean hasPerDiemValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {        
-        return !StringUtils.isBlank(dvNonEmplTrav.getDisbVchrPerdiemCategoryName()) || 
-               !ObjectUtils.isNull(dvNonEmplTrav.getDisbVchrPerdiemRate()) || 
-               !ObjectUtils.isNull(dvNonEmplTrav.getDisbVchrPerdiemCalculatedAmt()) || 
-               !ObjectUtils.isNull(dvNonEmplTrav.getDisbVchrPerdiemActualAmount()) ||
-               !StringUtils.isBlank(dvNonEmplTrav.getDvPerdiemChangeReasonText());
+    private boolean hasNonEmployeeTravelPerDiemValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {        
+        return StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrPerdiemCategoryName()) || 
+               ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPerdiemRate()) || 
+               ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPerdiemCalculatedAmt()) || 
+               ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPerdiemActualAmount()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDvPerdiemChangeReasonText());
     }
 
     /**
@@ -170,33 +189,155 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
      * @param dvNonEmplTrav
      * @return True if non employee travel tab contains data in any of the fields in the personal vehicle section
      */
-    private boolean hasPersonalVehicleValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {        
-        return !StringUtils.isBlank(dvNonEmplTrav.getDisbVchrAutoFromCityName()) || 
-               !StringUtils.isBlank(dvNonEmplTrav.getDisbVchrAutoFromStateCode()) || 
-               !StringUtils.isBlank(dvNonEmplTrav.getDisbVchrAutoToCityName()) ||
-               !StringUtils.isBlank(dvNonEmplTrav.getDisbVchrAutoToStateCode()) ||
-               !ObjectUtils.isNull(dvNonEmplTrav.getDisbVchrMileageCalculatedAmt()) ||
-               !ObjectUtils.isNull(dvNonEmplTrav.getDisbVchrPersonalCarAmount());
+    private boolean hasNonEmployeeTravelPersonalVehicleValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {        
+        return StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoFromCityName()) || 
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoFromStateCode()) || 
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoToCityName()) ||
+               StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoToStateCode()) ||
+               ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrMileageCalculatedAmt()) ||
+               ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPersonalCarAmount());
     }
 
     /**
      * 
      * This method...
-     * @return
+     * @param dvDocument
+     * @return Returns true if the state of all the tabs is valid, false otherwise.
      */
-    private boolean hasNonEmployeeTravelExpenses(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
-        return dvNonEmplTrav.getDvNonEmployeeExpenses().size() > 0;
-    }
+    private boolean checkForeignDraftTabState(DisbursementVoucherDocument dvDocument) {
+        boolean tabStatesOK = true; 
+        
+        DisbursementVoucherWireTransfer dvForeignDraft = dvDocument.getDvWireTransfer();
+        
+        // if payment method is CHECK and wire tab contains data, ask user to clear tab
+        if((StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || 
+            StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE, dvDocument.getDisbVchrPaymentMethodCode())) && hasForeignDraftValues(dvForeignDraft)) {
+            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
+            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Foreign Draft", DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT };
+            questionText = MessageFormat.format(questionText, args);
+            
+            boolean clearTab = super.askOrAnalyzeYesNoQuestion(Constants.DisbursementVoucherDocumentConstants.CLEAR_FOREIGN_DRAFT_TAB_QUESTION_ID, questionText);
+            if (clearTab) {
+                // NOTE: Can't replace with new instance because Wire Transfer uses same object
+                clearForeignDraftValues(dvForeignDraft);
+            } else {
+                // return to document if the user doesn't want to clear the Wire Transfer tab
+                super.event.setActionForwardName(Constants.MAPPING_BASIC);
+                tabStatesOK = false;
+            }
+        }
+        
+        return tabStatesOK;
+    }
+    
+    /**
+     * 
+     * This method...
+     * 
+     * NOTE: Currently does not validate based on only required fields.  Checks all fields within tab for data.
+     * 
+     * @param dvForeignDraft
+     * @return True if foreign draft tab contains any data in any fields.
+     */
+    private boolean hasForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
+        boolean hasValues = false;
+
+        // Checks each explicit field in the tab for user entered values
+        hasValues |= StringUtils.isNotBlank(dvForeignDraft.getDisbursementVoucherForeignCurrencyTypeCode());
+        hasValues |= StringUtils.isNotBlank(dvForeignDraft.getDisbursementVoucherForeignCurrencyTypeName());
+
+        return hasValues;
+    }
 
     /**
      * 
      * This method...
-     * @param dvNonEmplTrav
-     * @return
+     * @param dvForeignDraft
      */
-    private boolean hasNonEmployeeTravelPrepaidExpenses(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
-        return dvNonEmplTrav.getDvPrePaidEmployeeExpenses().size() > 0;
+    private void clearForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
+        dvForeignDraft.setDisbursementVoucherForeignCurrencyTypeCode(null);
+        dvForeignDraft.setDisbursementVoucherForeignCurrencyTypeName(null);
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param dvDocument
+     * @return Returns true if the state of all the tabs is valid, false otherwise.
+     */
+    private boolean checkWireTransferTabState(DisbursementVoucherDocument dvDocument) {
+        boolean tabStatesOK = true; 
+        
+        DisbursementVoucherWireTransfer dvWireTransfer = dvDocument.getDvWireTransfer();
+        
+        // if payment method is CHECK and wire tab contains data, ask user to clear tab
+        if((StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || 
+            StringUtils.equals(DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT, dvDocument.getDisbVchrPaymentMethodCode())) && hasWireTransferValues(dvWireTransfer)) {
+            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
+
+            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Wire Transfer", DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE };
+            questionText = MessageFormat.format(questionText, args);
+            
+            boolean clearTab = super.askOrAnalyzeYesNoQuestion(Constants.DisbursementVoucherDocumentConstants.CLEAR_WIRE_TRANSFER_TAB_QUESTION_ID, questionText);
+            if (clearTab) {
+                // NOTE: Can't replace with new instance because Foreign Draft uses same object
+                clearWireTransferValues(dvWireTransfer);
+            } else {
+                // return to document if the user doesn't want to clear the Wire Transfer tab
+                super.event.setActionForwardName(Constants.MAPPING_BASIC);
+                tabStatesOK = false;
+            }
+        }
+        
+        return tabStatesOK;
+    }
+    
+    /**
+     * 
+     * This method...
+     * 
+     * NOTE: Currently does not validate based on only required fields.  Checks all fields within tab for data.
+     * 
+     * @param dvWireTransfer
+     * @return True if wire transfer tab contains any data in any fields.
+     */
+    private boolean hasWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
+        boolean hasValues = false;
+
+        // Checks each explicit field in the tab for user entered values
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbursementVoucherAutomatedClearingHouseProfileNumber());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbursementVoucherBankName());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankRoutingNumber());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankCityName());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankStateCode());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankCountryCode());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrPayeeAccountNumber());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrAttentionLineText());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrCurrencyTypeName());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrAdditionalWireText());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbursementVoucherPayeeAccountName());
+
+        return hasValues;
+    }
+
+    /**
+     * 
+     * This method...
+     * @param dvWireTransfer
+     */
+    private void clearWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
+        dvWireTransfer.setDisbursementVoucherAutomatedClearingHouseProfileNumber(null);
+        dvWireTransfer.setDisbursementVoucherBankName(null);
+        dvWireTransfer.setDisbVchrBankRoutingNumber(null);
+        dvWireTransfer.setDisbVchrBankCityName(null);
+        dvWireTransfer.setDisbVchrBankStateCode(null);
+        dvWireTransfer.setDisbVchrBankCountryCode(null);
+        dvWireTransfer.setDisbVchrPayeeAccountNumber(null);
+        dvWireTransfer.setDisbVchrAttentionLineText(null);
+        dvWireTransfer.setDisbVchrCurrencyTypeName(null);
+        dvWireTransfer.setDisbVchrAdditionalWireText(null);
+        dvWireTransfer.setDisbursementVoucherPayeeAccountName(null);
     }
     
 }

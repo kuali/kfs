@@ -14,7 +14,7 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="objectCode" />
-                <field attributeName="subObjectCode" />
+                <!--  <field attributeName="subObjectCode" /> -->
                 <field attributeName="currentBudgetLineBalanceAmount" />
                 <field attributeName="accountLineActualsBalanceAmount" />
                 <field attributeName="accountLineEncumbranceBalanceAmount" />
@@ -37,7 +37,7 @@
                 <lookupField attributeName="chartOfAccountsCode" required="true" />
                 <lookupField attributeName="accountNumber" required="true" />
                 <lookupField attributeName="subAccountNumber" forceLookup="true" />
-                <lookupField attributeName="subObjectCode" forceLookup="true" />
+                <!--  <lookupField attributeName="subObjectCode" forceLookup="true" /> -->
 
                 <lookupField attributeName="dummyBusinessObject.consolidationOption">
                     <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>

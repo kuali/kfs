@@ -29,6 +29,7 @@ import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
@@ -198,4 +199,42 @@ public class KualiWorkflowUtils {
         }
         return targetAccountingLineClassName;
     }
+    
+    /**
+     * 
+     * This method will do a simple XPath.evaluate, while wrapping your xpathExpression with the 
+     * xstreamSafe function.  It assumes a String result, and will return such.
+     * 
+     * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
+     * 
+     * @param xpath A correctly initialized XPath instance.
+     * @param xpathExpression Your XPath Expression that needs to be wrapped in an xstreamSafe wrapper and run.
+     * @param item The document contents you will be searching within.
+     * @return The string value of the xpath.evaluate().
+     */
+    public static final String xstreamSafeEval(XPath xpath, String xpathExpression, Object item) {
+        String xstreamSafeXPath = new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString(); 
+        String evalResult = "";
+        try {
+            evalResult = xpath.evaluate(xstreamSafeXPath, item);
+        }
+        catch (XPathExpressionException e) {
+            throw new RuntimeException("XPathExpressionException occurred on xpath: " + xstreamSafeXPath, e);
+        }
+        return evalResult;
+    }
+    
+    /**
+     * 
+     * This method wraps the passed-in XPath expression in XStream Safe wrappers, so that 
+     * XStream generated reference links will be handled correctly.
+     * 
+     * @param xpathExpression The XPath Expression you wish to use.
+     * @return Your XPath Expression wrapped in the XStreamSafe wrapper.
+     * 
+     */
+    public static final String xstreamSafeXPath(String xpathExpression) {
+        return new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString();
+    }
+    
 }

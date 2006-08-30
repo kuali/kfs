@@ -69,7 +69,7 @@
             </attributeReference>
 
             <attributeReference name="disbVchrPayeeZipCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeZipCode">
-                <description>The numeric Zip Code assigned by the US Postal Service for the Address of the Payee.</description>
+                <description>The Postal Code for the Address of the Payee. For a US address, this is the numeric ZIP Code assigned by the US Postal Service.</description>
 
             </attributeReference>
 
@@ -131,13 +131,13 @@
 
 
             <attributeReference name="disbVchrRemitZipCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeZipCode">
-                <label>Remit Zip Code</label>
-                <shortLabel>Remit Zip</shortLabel>
+                <label>Remit Postal Code</label>
+                <shortLabel>Remit Postal</shortLabel>
 
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>The numeric Zip code assigned by the US Postal Service for the Address of the individual or organization that takes initial receipt of the Payment.</description>
+                <description>The Postal Code for the Address of the individual or organization that takes initial receipt of the Payment. For a US address, this is the numeric ZIP Code assigned by the US Postal Service.</description>
             </attributeReference>
 
             <attributeReference name="disbVchrRemitCountryCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCountryCode">

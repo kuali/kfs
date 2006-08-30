@@ -50,6 +50,7 @@ public class GLConstants{
         static final public String REPORT_SORT_CODE = "FIN_REPORT_SORT_CD";
         static final public String CONSOLIDATION_REPORT_SORT_CODE = "CONS_FIN_REPORT_SORT_CD";
         static final public String OBJECT_LEVEL_CODE = "FIN_OBJ_LVL_CD";
+        static final public String OBJECT_LEVEL_CODE2 = "FIN_OBJ_LEVEL_CD";
         static final public String OBJECT_CODE = "FIN_OBJECT_CD";
         
         static final public String UNIVERSITY_FISCAL_YEAR = "UNIV_FISCAL_YR";

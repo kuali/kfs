@@ -117,8 +117,8 @@ public class AccountBalance extends BusinessObjectBase {
         }
         else if (TYPE_LEVEL.equals(type)) {
             financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.REPORT_SORT_CODE));
-            financialObject.setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
-            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE));
+            financialObject.setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE2));
+            financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GLConstants.ColumnNames.OBJECT_LEVEL_CODE2));
 
             // tricking it so getVariance() works
             financialObject.getFinancialObjectType().setFinancialReportingSortCode(EXPENSE_SORT_CODE);

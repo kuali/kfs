@@ -121,8 +121,8 @@
                     </tr>
                   </thead>
                   <tfoot>
-                    <tr>
-                      <th colspan="4" class="infocell" style="text-align: right;">${totalsTable[6].columns[5].propertyValue}</th>
+                    <tr class="odd">
+                      <th colspan="4" class="infocell" style="text-align: right;">Available Balance</th>
                       <td class="numbercell">${totalsTable[6].columns[10].propertyValue}</td>
                     </tr>
                   </tfoot>

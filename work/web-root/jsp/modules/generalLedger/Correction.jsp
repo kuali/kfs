@@ -52,7 +52,7 @@
  
  	
  	<%-- for display --%>
- 	<c:if test="${KualiForm.command !='displayDocSearchView'}">
+ <c:if test="${KualiForm.command !='displayDocSearchView'}">
  	
  	<kul:tab tabTitle="Correction Process" defaultOpen="true" tabErrorKey="Correction Process">
  	
@@ -184,10 +184,7 @@
 						<input type="hidden" name="d-2339813-d" value="ASC"/>            
 					<display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${KualiForm.allEntries}" id="allEntries" pagesize="10"
                       requestURI="generalLedgerCorrection.do?methodToCall=viewResults&document.financialDocumentNumber=${KualiForm.document.documentHeader.financialDocumentNumber}" >
-        
-             			<c:choose>
-	      		    		<c:when test="${KualiForm.editingEntryId != allEntries.entryId}">
-        	         		   <c:choose>
+         	         		   <c:choose>
         			     			<c:when test="${KualiForm.editableFlag == 'Y'}">
 	    		       		    		<display:column title="Manual Edit" >
     	        			    			<html:image property="methodToCall.showOneEntry.anchor${currentTabIndex}.${allEntries.entryId}" 
@@ -201,6 +198,7 @@
 										<display:column title="" > </display:column>
 									</c:otherwise>
 								</c:choose>
+						
 						<display:column class="infocell" sortable="true" title="Fiscal Year" >
 						<c:out value="${allEntries.universityFiscalYear}" />&nbsp;</display:column>
 						<display:column class="infocell" sortable="true" title="Budget Year" >
@@ -253,14 +251,33 @@
 						<c:out value="${allEntries.financialDocumentReversalDate}" />&nbsp;</display:column>
 						<display:column class="infocell" sortable="true" title="Enc Update Code" >
 						<c:out value="${allEntries.transactionEncumbranceUpdateCode}" />&nbsp;</display:column>
-						
-						
-						</c:when>
-						
-							<c:otherwise>
-						<display:column title="Manual Edit" >
-	   			<html:image property="methodToCall.editEntry.anchor${currentTabIndex}.${allEntries.entryId}"
-  						src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="EditAnEntry" />
+					
+						</display:table>
+
+                    
+                      
+                      </td>
+                      
+                 	
+              	  </tr>
+              	 
+              	  
+          	<c:if test="${KualiForm.editMethod == 'manual'}" >        	
+		    <c:if test="${KualiForm.editableFlag == 'Y'}" >    
+           
+                <tr>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left">Manual Editing</span></td>
+                </tr>
+			<tr>                
+        	<td>
+        	
+
+   			<display:table id="eachEntryForManualEdit" name="${KualiForm.eachEntryForManualEdit}" requestURIcontext="false"  >
+   			 
+	   			<display:column title="Manual Edit" >
+
+	   			<html:image property="methodToCall.editEntry.anchor${currentTabIndex}.${eachEntryForManualEdit.entryId}" value="${eachEntryForManualEdit.entryId}"
+  						src="images/tinybutton-saveedits.gif" styleClass="tinybutton" alt="EditAnEntry" />
              	</display:column>
 	   			<display:column title="Fiscal Year" >
 		   			<html:text property="eachEntryForManualEdit.universityFiscalYear" size="5"  />
@@ -316,131 +333,37 @@
 				<display:column title="Transaction Date" >
 		   			<html:text property="eachEntryForManualEdit.transactionDate" size="12"  />
 				</display:column>
-				<display:column title="Org Doc Number" >
+				<display:column title="Organization Document Number" >
 		   			<html:text property="eachEntryForManualEdit.organizationDocumentNumber" size="12"  />
 				</display:column>
 				<display:column title="Project Code" >
 		   			<html:text property="eachEntryForManualEdit.projectCode" size="7"  />
 				</display:column>
-				<display:column title="Org Ref ID" >
+				<display:column title="Organization Reference Number" >
 		   			<html:text property="eachEntryForManualEdit.organizationReferenceId" size="13"  />
 				</display:column>
-				<display:column title="Ref Doc Type" >
+				<display:column title="Reference Document Type" >
 		   			<html:text property="eachEntryForManualEdit.referenceFinancialDocumentTypeCode" size="10"  />
 				</display:column>
-				<display:column title="Ref Origin Code" >
+				<display:column title="Reference Origin Code" >
 		   			<html:text property="eachEntryForManualEdit.referenceFinancialSystemOriginationCode" size="10"  />
 				</display:column>
-				<display:column title="Ref Doc Number" >
+				<display:column title="Reference Document Number" >
 		   			<html:text property="eachEntryForManualEdit.referenceFinancialDocumentNumber" size="9"  />
 				</display:column>
 				<display:column title="Reversal Date" >
 		   			<html:text property="eachEntryForManualEdit.financialDocumentReversalDate" size="8"  />
 				</display:column>				
-				<display:column title="Enc Update Code" >
+				<display:column title="Transaction Encumbrance Update Code" >
 		   			<html:text property="eachEntryForManualEdit.transactionEncumbranceUpdateCode" size="13"  />
 				</display:column>
-						  </c:otherwise>
-								</c:choose>
-						</display:table>
-
-                    
-                      
-                      </td>
-                      
-                 	
-              	  </tr>
-              	  <tr>
-              	  <td>
+			</display:table>
+                        
+   			</td>
+   			</tr>
+   			
+   			</c:if>
               	  
-              	<display:table name="${KualiForm.newEntryForManualEdit}"  >
-                <display:column title="Manual Edit" >
-	   			<html:image property="methodToCall.addEntry.anchor${currentTabIndex}"
-  						src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="addAnEntry" />
-             	</display:column>
-	   			<display:column title="Fiscal Year" >
-		   			<html:text property="newEntryForManualEdit.universityFiscalYear" size="5"  />
-	   			</display:column>
-				<display:column title="Budget Year" >
-		   			<html:text property="newEntryForManualEdit.budgetYear" size="7"  />
-				</display:column>
-	   			<display:column title="Chart Code" >
-		   			<html:text property="newEntryForManualEdit.chartOfAccountsCode" size="5"  />
-				</display:column>
-				<display:column title="Account Number" >
-   		   			<html:text property="newEntryForManualEdit.accountNumber" size="7"  />
-        	    </display:column>
-				<display:column title="Sub Account Number" >
-		   			<html:text property="newEntryForManualEdit.subAccountNumber" size="7"  />
-				</display:column>
-				<display:column title="Object Code" >
-		   			<html:text property="newEntryForManualEdit.financialObjectCode" size="5"  />
-				</display:column>
-				<display:column title="Sub Object Code" >
-		   			<html:text property="newEntryForManualEdit.financialSubObjectCode" size="6"  />
-				</display:column>
-				<display:column title="Balance Type" >
-		   			<html:text property="newEntryForManualEdit.financialBalanceTypeCode" size="8"  />
-				</display:column>
-				<display:column title="Object Type" >
-		   			<html:text property="newEntryForManualEdit.financialObjectTypeCode" size="6"  />
-				</display:column>
-				<display:column title="Fiscal Period" >
-		   			<html:text property="newEntryForManualEdit.universityFiscalPeriodCode" size="6"  />
-				</display:column>
-				<display:column title="Document Type" >
-		   			<html:text property="newEntryForManualEdit.financialDocumentTypeCode" size="10"  />
-				</display:column>
-				<display:column title="Origin Code" >
-		   			<html:text property="newEntryForManualEdit.financialSystemOriginationCode" size="6"  />
-				</display:column>
-				<display:column title="Document Number" >
-		   			<html:text property="newEntryForManualEdit.financialDocumentNumber" size="9"  />
-        	    </display:column>	
-        	    <display:column title="Sequence Number" >
-		   			<html:text property="newEntryForManualEdit.transactionLedgerEntrySequenceNumber" size="9"  />
-				</display:column>
-				<display:column title="Description" >
-		   			<html:text property="newEntryForManualEdit.transactionLedgerEntryDescription" size="11"  />
-				</display:column>
-				<display:column title="Amount" >
-		   			<html:text property="newEntryForManualEdit.transactionLedgerEntryAmount" size="7"  />
-				</display:column>
-				<display:column title="Debit Credit Indicator" >
-		   			<html:text property="newEntryForManualEdit.transactionDebitCreditCode" size="9"  />
-				</display:column>
-				<display:column title="Transaction Date" >
-		   			<html:text property="newEntryForManualEdit.transactionDate" size="12"  />
-				</display:column>
-				<display:column title="Org Doc Number" >
-		   			<html:text property="newEntryForManualEdit.organizationDocumentNumber" size="12"  />
-				</display:column>
-				<display:column title="Project Code" >
-		   			<html:text property="newEntryForManualEdit.projectCode" size="7"  />
-				</display:column>
-				<display:column title="Org Ref ID" >
-		   			<html:text property="newEntryForManualEdit.organizationReferenceId" size="13"  />
-				</display:column>
-				<display:column title="Ref Doc Type" >
-		   			<html:text property="newEntryForManualEdit.referenceFinancialDocumentTypeCode" size="10"  />
-				</display:column>
-				<display:column title="Ref Origin Code" >
-		   			<html:text property="newEntryForManualEdit.referenceFinancialSystemOriginationCode" size="10"  />
-				</display:column>
-				<display:column title="Ref Doc Number" >
-		   			<html:text property="newEntryForManualEdit.referenceFinancialDocumentNumber" size="9"  />
-				</display:column>
-				<display:column title="Reversal Date" >
-		   			<html:text property="newEntryForManualEdit.financialDocumentReversalDate" size="8"  />
-				</display:column>				
-				<display:column title="Enc Update Code" >
-		   			<html:text property="newEntryForManualEdit.transactionEncumbranceUpdateCode" size="13"  />
-				</display:column>
-              	</display:table>  
-              	  
-              	  
-              	  </td>
-              	  </tr>
               	  
               	  <td>
               	  	<c:if test="${KualiForm.manualEditFlag == 'Y'}" >           
@@ -457,7 +380,7 @@
        		
        
 
-	
+	</c:if>
             
             
             
@@ -1180,6 +1103,7 @@
  </kul:page>
  
  
+
 
 
 

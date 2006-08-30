@@ -211,6 +211,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public CorrectionForm() {
         super();
         setDocument(new CorrectionDocument());
+        newEntryForManualEdit = new OriginEntry();
+        eachEntryForManualEdit = new OriginEntry();
 
         /*
          * allEntriesForManualEdit = new ArrayList(); eachEntryForManualEdit = null; allEntriesForManualEditHashMap = new HashMap();

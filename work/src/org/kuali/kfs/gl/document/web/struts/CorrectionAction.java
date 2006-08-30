@@ -80,7 +80,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.41 2006-08-29 20:02:49 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.42 2006-08-30 18:57:56 schoo Exp $
  * 
  */
 
@@ -134,8 +134,16 @@ public class CorrectionAction extends KualiDocumentActionBase {
             
             Object displayTablePageNumber = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_PAGE_NUMBER);
             Object displayTableColumnNumber = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER); 
-            request.setAttribute("displayTablePageNumber", displayTablePageNumber);
-            request.setAttribute("displayTableColumnNumber", displayTableColumnNumber);
+            
+            if (displayTablePageNumber != null){
+                request.setAttribute("displayTablePageNumber", displayTablePageNumber.toString());
+            }
+            
+            
+            if (displayTableColumnNumber !=null){
+                request.setAttribute("displayTableColumnNumber", displayTableColumnNumber.toString());
+            }
+            
             
             
         return super.execute(mapping, form, request, response);
@@ -1098,7 +1106,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward editEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         OriginEntry oe = errorCorrectionForm.getEachEntryForManualEdit();
-        OriginEntry temp = (OriginEntry) request.getAttribute("eachEntryForManualEdit");
+        //OriginEntry temp = (OriginEntry) request.getAttribute("eachEntryForManualEdit");
       
         // set entryId
         // null id means user added a new entry.

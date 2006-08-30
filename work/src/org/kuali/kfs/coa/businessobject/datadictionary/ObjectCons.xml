@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Object Code Restrictions Inquiry</title>
+            <title>Object Consolidation Inquiry</title>
             <inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="finConsolidationObjectCode" />

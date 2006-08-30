@@ -129,7 +129,7 @@
             </attribute>
 
             <attribute name="vendorZipCode" forceUppercase="true">
-                <label>Vendor Zip Code</label>
+                <label>Vendor Postal (ZIP) Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>20</maxLength>

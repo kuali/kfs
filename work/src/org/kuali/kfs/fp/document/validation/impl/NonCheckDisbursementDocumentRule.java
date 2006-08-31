@@ -250,50 +250,6 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
     }
 
     /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-     *      org.kuali.core.bo.SourceAccountingLine)
-     */
-//    @Override
-//    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine accountingLine) {
-//        SufficientFundsItem item = null;
-//        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
-//        String accountNumber = accountingLine.getAccountNumber();
-//        String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
-//        String financialObjectCode = accountingLine.getObjectCode().getFinancialObjectCode();
-//        String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
-//        KualiDecimal lineAmount = getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine);
-//        Integer fiscalYear = accountingLine.getPostingYear();
-//        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
-//
-//        // always credit
-//        String debitCreditCode = null;
-//
-//        if (isDebit(transactionalDocument, accountingLine)) {
-//            debitCreditCode = GL_CREDIT_CODE;
-//        }
-//        else {
-//            debitCreditCode = GL_DEBIT_CODE;
-//        }
-//
-//        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountSufficientFundsCode);
-//
-//        item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-//
-//        return item;
-//    }
-//
-//    /**
-//     * 
-//     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-//     *      org.kuali.core.bo.TargetAccountingLine)
-//     */
-//    @Override
-//    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-//        return null;
-//    }
-
-    /**
      * This method checks that values exist in the three reference fields that are required
      * 
      * @param accountingLine

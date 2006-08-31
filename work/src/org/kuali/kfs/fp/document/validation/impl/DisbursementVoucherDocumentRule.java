@@ -1338,44 +1338,6 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     }
 
     /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-     *      org.kuali.core.bo.SourceAccountingLine)
-     */
-//    @Override
-//    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-//        SufficientFundsItem item = null;
-//        String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
-//        String accountNumber = sourceAccountingLine.getAccountNumber();
-//        String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
-//        String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
-//        String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
-//        KualiDecimal lineAmount = sourceAccountingLine.getAmount();
-//        Integer fiscalYear = sourceAccountingLine.getPostingYear();
-//        String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
-//
-//        // always credit
-//        String debitCreditCode = GL_CREDIT_CODE;
-//        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(), accountSufficientFundsCode);
-//        item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-//
-//        return item;
-//    }
-//
-//    /**
-//     * 
-//     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-//     *      org.kuali.core.bo.TargetAccountingLine)
-//     */
-//    @Override
-//    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-//        if (targetAccountingLine != null) {
-//            throw new IllegalArgumentException("DV document doesn't have target accounting lines. This method should have never been entered");
-//        }
-//        return null;
-//    }
-
-    /**
      * error corrections are not allowed
      * 
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)

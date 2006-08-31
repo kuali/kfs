@@ -82,12 +82,12 @@ public class KualiWorkflowUtils {
     public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
     static {
         SOURCE_LINE_ONLY_DOCUMENT_TYPES.add(DISBURSEMENT_VOCHER_DOC_TYPE);
-        SOURCE_LINE_ONLY_DOCUMENT_TYPES.add(PROCUREMENT_CARD_DOC_TYPE);
     }
     
     public static final Set TARGET_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
     static {
         TARGET_LINE_ONLY_DOCUMENT_TYPES.add(INTERNAL_BILLING_DOC_TYPE);
+        TARGET_LINE_ONLY_DOCUMENT_TYPES.add(PROCUREMENT_CARD_DOC_TYPE);
     }
 
     public static boolean isSourceLineOnly(String documentTypeName) {

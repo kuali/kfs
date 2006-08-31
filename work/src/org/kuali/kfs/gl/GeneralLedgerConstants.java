@@ -63,6 +63,13 @@ public class GLConstants{
         static final public String OBJECT_TYPE_DEBIT_CREDIT_CODE = "FIN_OBJTYP_DBCR_CD";
         static final public String OFFSET_GENERATION_CODE = "FIN_OFFST_GNRTN_CD";
         static final public String TRANSACTION_LEDGER_ENTRY_AMOUNT = "TRN_LDGR_ENTR_AMT";
+        
+        static final public String TRANSACTION_DT = "TRANSACTION_DT";
+        static final public String FIN_OBJ_TYP_CODE = "FIN_OBJ_TYP_CODE";
+        static final public String NET_EXP_OBJECT_CD = "NET_EXP_OBJECT_CD";
+        static final public String NET_REV_OBJECT_CD = "NET_REV_OBJECT_CD";
+        static final public String FUND_BAL_OBJ_TYP_CD = "FUND_BAL_OBJ_TYP_CD";
+        static final public String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
+        static final public String UNIV_DT = "UNIV_DT";
     }
-    
 }

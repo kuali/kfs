@@ -71,7 +71,7 @@
 
                 <maxLength>40</maxLength>
                 <validationPattern>
-                    <anyCharacter />
+                    <anyCharacter allowWhitespace="true" />
                 </validationPattern>
 
                 <control>

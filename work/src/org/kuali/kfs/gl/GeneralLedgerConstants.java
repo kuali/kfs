@@ -90,12 +90,4 @@ public class GLConstants{
     public static class LookupableBeanKeys {
         static final public String PENDING_ENTRY = "glPendingEntryLookupableImpl";
     }
-    
-    public static List<String> getEncumbranceBalanceTypeCodeList() {         
-        String[] balanceTypesAsArray = 
-            kualiConfigurationService.getApplicationParameterValues(
-                    "Kuali.GeneralLedger.AvailableBalanceInquiry", 
-                    "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
-        return Arrays.asList(balanceTypesAsArray);
-    }
 }

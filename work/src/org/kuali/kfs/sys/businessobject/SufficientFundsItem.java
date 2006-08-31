@@ -45,7 +45,7 @@ public class SufficientFundsItem implements Serializable,Comparable {
     private ObjectType financialObjectType;
     private String sufficientFundsObjectCode;
     private KualiDecimal amount;
-
+    private String documentTypeCode;
 
     public SufficientFundsItem() {
         amount = KualiDecimal.ZERO;
@@ -78,6 +78,14 @@ public class SufficientFundsItem implements Serializable,Comparable {
 
     public String getKey() {
         return year.getUniversityFiscalYear() + account.getChartOfAccountsCode() + account.getAccountNumber() + financialObjectType.getCode() + sufficientFundsObjectCode;
+    }
+
+    public String getDocumentTypeCode() {
+        return documentTypeCode;
+    }
+
+    public void setDocumentTypeCode(String documentTypeCode) {
+        this.documentTypeCode = documentTypeCode;
     }
 
     public String getAccountSufficientFundsCode() {

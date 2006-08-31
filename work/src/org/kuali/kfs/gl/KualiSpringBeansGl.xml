@@ -804,6 +804,18 @@
         <property name="kualiRuleService">
             <ref bean="kualiRuleService" />
         </property>
+        <property name="chartService">
+        	<ref bean="chartService" />
+        </property>
+		<property name="optionsService">
+			<ref bean="optionsService"/>
+		</property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="balanceTypeService">
+        	<ref bean="balanceTypService"/>
+        </property>
     </bean>
 
     <bean id="glEntryService" class="org.kuali.module.gl.service.impl.EntryServiceImpl">
@@ -1090,27 +1102,30 @@
 
     <!-- SUFFICIENT FUNDS SERVICE/DAO -->
     <bean id="sufficientFundsService" class="org.kuali.module.gl.service.impl.SufficientFundsServiceImpl">
-        <property name="sufficientFundBalancesDao">
-        	<ref bean="glSufficientFundBalancesDao"/>
+        <property name="accountService">
+        	<ref bean="accountService"/>
         </property>
+    	<property name="objectLevelService">
+    		<ref bean="objectLevelService"/>
+    	</property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="sufficientFundsDao">
-            <ref bean="sufficientFundsDao" />
+            <ref bean="glSufficientFundsDao" />
+        </property>
+        <property name="sufficientFundBalancesDao">
+        	<ref bean="glSufficientFundBalancesDao"/>
         </property>
         <property name="optionsService">
         	<ref bean="optionsService"/>
         </property>
-        <property name="kualiRuleService">
-        	<ref bean="kualiRuleService"/>
-        </property>
-        <property name="accountService">
-        	<ref bean="accountService"/>
-        </property>
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService"/>
+		</property>
     </bean>
 
-    <bean id="sufficientFundsDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb">
+    <bean id="glSufficientFundsDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
@@ -1136,26 +1151,22 @@
             <value>dataSource</value>
         </property>
     </bean>
-    
+
     <bean id="glCorrectionChangeGroupDao" class="org.kuali.module.gl.dao.ojb.CorrectionChangeGroupDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
     </bean>
-    
+
     <bean id="glCorrectionCriteriaDao" class="org.kuali.module.gl.dao.ojb.CorrectionCriteriaDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
     </bean>
-    
+
     <bean id="glDocumentDao" class="org.kuali.core.dao.ojb.DocumentDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
     </bean>
-    
-    
-    
-    
 </beans>

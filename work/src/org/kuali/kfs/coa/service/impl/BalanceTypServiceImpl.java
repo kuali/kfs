@@ -26,6 +26,7 @@ import java.util.Collection;
 
 import org.kuali.core.service.KualiCodeService;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.chart.dao.BalanceTypeDao;
 import org.kuali.module.chart.service.BalanceTypService;
 
 /**
@@ -35,11 +36,13 @@ import org.kuali.module.chart.service.BalanceTypService;
  * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
  */
 public class BalanceTypServiceImpl implements BalanceTypService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypServiceImpl.class);
+
     // balance type constants
     private static final String ACTUAL_BALANCE_TYPE = "AC";
 
-    // member data
     private KualiCodeService kualiCodeService;
+    private BalanceTypeDao balanceTypeDao;
 
     /**
      * @see org.kuali.module.chart.service.BalanceTypService#getActualBalanceTyp()
@@ -49,21 +52,13 @@ public class BalanceTypServiceImpl implements BalanceTypService {
     }
 
     /**
-     * This method retrieves an instance of the generic kuali code service.
      * 
-     * @return
+     * @see org.kuali.module.chart.service.BalanceTypService#getEncumbranceBalanceTypes()
      */
-    public KualiCodeService getKualiCodeService() {
-        return kualiCodeService;
-    }
+    public Collection getEncumbranceBalanceTypes() {
+        LOG.debug("getEncumbranceBalanceTypes() started");
 
-    /**
-     * This method sets the instance of the generic business object service.
-     * 
-     * @param businessObjectService
-     */
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
+        return balanceTypeDao.getEncumbranceBalanceTypes();
     }
 
     /**
@@ -81,5 +76,13 @@ public class BalanceTypServiceImpl implements BalanceTypService {
      */
     public Collection getAllBalanceTyps() {
         return kualiCodeService.getAll(BalanceTyp.class);
+    }
+
+    public void setKualiCodeService(KualiCodeService kualiCodeService) {
+        this.kualiCodeService = kualiCodeService;
+    }
+
+    public void setBalanceTypeDao(BalanceTypeDao balanceTypeDao) {
+        this.balanceTypeDao = balanceTypeDao;
     }
 }

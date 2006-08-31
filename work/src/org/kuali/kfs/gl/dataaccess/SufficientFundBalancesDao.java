@@ -31,12 +31,41 @@ import org.kuali.module.gl.bo.SufficientFundBalances;
  * 
  */
 public interface SufficientFundBalancesDao {
+    /**
+     * 
+     * This method...
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param financialObjectCode
+     * @return
+     */
     public Collection getByObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
 
+    /**
+     * 
+     * This method...
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     */
     public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
+    /**
+     * 
+     * This method...
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param financialObjectCode
+     * @return
+     */
     public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
 
+    /**
+     * Save a sufficient funds balance
+     * 
+     * @param sfb
+     */
     public void save(SufficientFundBalances sfb);
 
     /**

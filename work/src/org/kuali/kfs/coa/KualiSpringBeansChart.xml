@@ -5,6 +5,9 @@
         <property name="kualiCodeService">
             <ref bean="kualiCodeService" />
         </property>
+        <property name="balanceTypeDao">
+        	<ref bean="balanceTypeDao" />
+        </property>
     </bean>
 
     <bean id="accountingPeriodService" class="org.kuali.module.chart.service.impl.AccountingPeriodServiceImpl">
@@ -47,6 +50,12 @@
     </bean>
 
     <bean id="organizationReversionDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+
+    <bean id="balanceTypeDao" class="org.kuali.module.chart.dao.ojb.BalanceTypeDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>

@@ -448,7 +448,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
         KualiDecimal sum = new KualiDecimal(0);
         for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
-            KualiDecimal addend = new KualiDecimal((String) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("amount/value"), targetAccountingLineNodes.item(index), XPathConstants.STRING));
+            KualiDecimal addend = new KualiDecimal((String) xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "amount/value", targetAccountingLineNodes.item(index), XPathConstants.STRING));
             sum = sum.add(addend);
         }
         return sum.toString();

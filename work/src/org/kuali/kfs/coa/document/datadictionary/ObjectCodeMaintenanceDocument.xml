@@ -37,6 +37,7 @@
 
         <defaultExistenceChecks>
             <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />            
         </defaultExistenceChecks>
 
         <maintainableSections>

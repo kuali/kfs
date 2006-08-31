@@ -189,4 +189,21 @@ public class BusinessObjectFieldConverter {
         }
         return transactionPropertyName;
     }
+    
+    public static void escapeSpecialCharacter(Map fieldValues, String specialCharacter, String replacement) {
+        Iterator propsIter = fieldValues.keySet().iterator();
+        while (propsIter.hasNext()) {
+            String propertyName = (String) propsIter.next();
+            String propertyValue = (String) fieldValues.get(propertyName);
+            
+            String propertyValueAfterEscaped = propertyValue.replaceAll(specialCharacter, replacement);
+            fieldValues.put(propertyName, propertyValueAfterEscaped);            
+        }
+    }
+    
+    public static void escapeSingleQuote(Map fieldValues){
+        String specialCharacter = "'";
+        String replacement = " ";
+        escapeSpecialCharacter(fieldValues, specialCharacter, replacement);
+    }
 }

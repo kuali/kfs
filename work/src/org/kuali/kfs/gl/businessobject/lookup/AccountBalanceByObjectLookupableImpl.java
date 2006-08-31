@@ -35,16 +35,12 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.DummyBusinessObject;
 import org.kuali.module.gl.service.AccountBalanceService;
+import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 
-/**
- * This class...
- * 
- * @author Bin Gao from Michigan State University
- */
 public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectLookupableImpl.class);
 
@@ -79,6 +75,8 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
 
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        
+        BusinessObjectFieldConverter.escapeSingleQuote(fieldValues);
 
         String costShareOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.COST_SHARE_OPTION);
         String pendingEntryOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);

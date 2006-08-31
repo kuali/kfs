@@ -34,12 +34,14 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
@@ -98,7 +100,17 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         if(hasNonEmployeeTravelValues(dvNonEmplTrav) && !RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
             String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
-            Object[] args = { "payment reason", dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), "Non-Employee Travel", travelNonEmplPaymentReasonCodes[0] };
+            PaymentReasonValuesFinder payReasonValues = new PaymentReasonValuesFinder();
+            List<KeyLabelPair> reasons = payReasonValues.getKeyValues();
+            String nonEmplTravReasonStr = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+                
+            for(KeyLabelPair r : reasons) {
+                if(r.getKey().equals(travelNonEmplPaymentReasonCodes[0])) {
+                    nonEmplTravReasonStr = r.getLabel();
+                }
+            }
+
+            Object[] args = { "payment reason", "'"+dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonName()+"'", "Non-Employee Travel", "'"+nonEmplTravReasonStr+"'"};
             questionText = MessageFormat.format(questionText, args);
             
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(Constants.DisbursementVoucherDocumentConstants.CLEAR_NON_EMPLOYEE_TAB_QUESTION_ID, questionText);

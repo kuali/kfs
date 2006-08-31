@@ -172,24 +172,6 @@
                 <description>The foreign or domestic currency for the Wire Transfer. Select one from the pulldown list.</description>
             </attribute>
 
-            <attribute name="disbVchrForeignBankIndicator">
-                <label>Wire To</label>
-                <shortLabel>Wire To</shortLabel>
-
-                <maxLength>40</maxLength>
-
-                <required>false</required>
-
-                <control>
-                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ForeignBankIndicatorValuesFinder" />
-                </control>
-
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Radiobuttons to specify that the Wire Transfer is sent to either a domestic or foreign bank</description>
-            </attribute>
-
             <attribute name="disbVchrCurrencyTypeName">
                 <label>Currency Type</label>
                 <shortLabel>Curr Typ</shortLabel>

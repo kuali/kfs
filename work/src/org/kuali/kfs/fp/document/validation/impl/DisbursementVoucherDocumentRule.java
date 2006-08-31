@@ -356,11 +356,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE);
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
 
-        if (dvDocument.getDvWireTransfer().isDisbVchrForeignBankIndicator()) {
-            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getForeignChargeAmt());
+        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(dvDocument.getDvWireTransfer().getDisbVchrBankCountryCode())) {
+            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
         }
         else {
-            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
+            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getForeignChargeAmt());
         }
 
         explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
@@ -495,11 +495,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         errors.addToErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(document.getDvWireTransfer());
 
-        if (!document.getDvWireTransfer().isDisbVchrForeignBankIndicator() && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
+        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
             errors.putError(PropertyConstants.DISB_VCHR_BANK_ROUTING_NUMBER, KeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
         }
 
-        if (!document.getDvWireTransfer().isDisbVchrForeignBankIndicator() && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankStateCode())) {
+        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankStateCode())) {
             errors.putError(PropertyConstants.DISB_VCHR_BANK_STATE_CODE, KeyConstants.ERROR_REQUIRED, "Bank State");
         }
 

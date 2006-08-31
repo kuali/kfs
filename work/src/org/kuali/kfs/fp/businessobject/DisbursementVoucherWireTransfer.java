@@ -48,7 +48,6 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     private String disbVchrPayeeAccountNumber;
     private String disbVchrCurrencyTypeName;
     private String disbVchrCurrencyTypeCode;
-    private boolean disbVchrForeignBankIndicator;
     private boolean disbursementVoucherWireTransferFeeWaiverIndicator;
     private String disbursementVoucherPayeeAccountName;
     private String disbursementVoucherPayeeAccountTypeCode;
@@ -63,7 +62,6 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
      * Default no-arg constructor.
      */
     public DisbursementVoucherWireTransfer() {
-        disbVchrForeignBankIndicator = false;
         disbursementVoucherWireTransferFeeWaiverIndicator = false;
     }
 
@@ -344,26 +342,6 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     }
 
     /**
-     * Gets the disbVchrForeignBankIndicator attribute.
-     * 
-     * @return - Returns the disbVchrForeignBankIndicator
-     * 
-     */
-    public boolean isDisbVchrForeignBankIndicator() {
-        return disbVchrForeignBankIndicator;
-    }
-
-    /**
-     * Sets the disbVchrForeignBankIndicator attribute.
-     * 
-     * @param disbVchrForeignBankIndicator The disbVchrForeignBankIndicator to set.
-     * 
-     */
-    public void setDisbVchrForeignBankIndicator(boolean disbVchrForeignBankIndicator) {
-        this.disbVchrForeignBankIndicator = disbVchrForeignBankIndicator;
-    }
-
-    /**
      * Gets the disbursementVoucherWireTransferFeeWaiverIndicator attribute.
      * 
      * @return - Returns the disbursementVoucherWireTransferFeeWaiverIndicator
@@ -461,14 +439,6 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
      */
     public void setDisbursementVoucherDocument(DisbursementVoucherDocument disbursementVoucherDocument) {
         this.disbursementVoucherDocument = disbursementVoucherDocument;
-    }
-
-    /**
-     * Returns the wire to name
-     */
-    public String getDisbVchrForeignBankIndicatorName() {
-        Map indicators = new ForeignBankIndicatorValuesFinder().getKeyLabelMap();
-        return (String) indicators.get(new Boolean(disbVchrForeignBankIndicator).toString().toLowerCase());
     }
 
     public void setDisbVchrForeignBankIndicatorName(String name) {

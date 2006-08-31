@@ -1465,7 +1465,6 @@
     <field-descriptor name="disbVchrPayeeAccountNumber" column="DV_PAYEE_ACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="disbVchrCurrencyTypeName" column="DV_CRNCY_TYP_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="disbVchrCurrencyTypeCode" column="DV_CRNCY_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrForeignBankIndicator" column="DV_FRGN_BNK_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="disbursementVoucherWireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="disbursementVoucherPayeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="disbursementVoucherPayeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR" />

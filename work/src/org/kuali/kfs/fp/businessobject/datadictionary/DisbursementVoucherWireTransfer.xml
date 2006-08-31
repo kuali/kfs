@@ -223,7 +223,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>The code to specify that the Wire Transfer fee should be waived, expressed as "Yes" or "No".</description>
+                <description>The code to specify that the Wire Transfer fee should be waived, expressed as "Yes" or "No". The field is for central accounting use only.</description>
             </attribute>
 
             <attribute name="disbursementVoucherPayeeAccountName">

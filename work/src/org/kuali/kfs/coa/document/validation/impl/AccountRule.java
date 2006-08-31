@@ -290,6 +290,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * Checks whether the account restricted status code is the default from the sub fund group.
+     * 
+     * @param account
+     * @return
+     */
+    protected boolean hasDefaultRestrictedStatusCode( Account account ) {
+        boolean result = false;
+        
+        if (StringUtils.isNotBlank(account.getAccountRestrictedStatusCode())) {
+            result = account.getAccountRestrictedStatusCode().equals( account.getSubFundGroup().getAccountRestrictedStatusCode() );
+        }
+        
+        return result;
+    }
+    
+    /**
      * 
      * This method checks some of the general business rules associated with this document
      * 
@@ -856,30 +872,44 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             }
 
             if (ObjectUtils.isNotNull(restrictedStatusCode)) {
-                // on the account screen, if the fund group of the account is CG (contracts & grants) or
-                // RF (restricted funds), the restricted status code must be 'R'.
-                if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
-                    if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED)) {
-                        putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_R);
-                        success &= false;
-                    }
+                /*
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug( "restrictedStatusCode: " + restrictedStatusCode );
+                    LOG.debug( "SFG.restrictedStatus: " + subFundGroup.getAccountRestrictedStatus() );
+                    LOG.debug( "SFG.restrictedStatusCode: " + subFundGroup.getAccountRestrictedStatusCode() );
+                    LOG.debug( "fundGroupCode: " + fundGroupCode );
                 }
-
-                // If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and
-                // must be set by the user
-                else if (fundGroupCode.equalsIgnoreCase(ENDOWMENT_FUND_CD) || fundGroupCode.equalsIgnoreCase(PLANT_FUND_CD)) {
-                    if (StringUtils.isBlank(restrictedStatusCode) || (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED) && !restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED))) {
-
-                        putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U_OR_R);
-                        success &= false;
+                */
+                // KULCOA-1100: don't bother with the restricted code checks if the
+                // value is the same as the default from the sub fund group
+                if ( !hasDefaultRestrictedStatusCode( newAccount ) ) {
+                    // on the account screen, if the fund group of the account is CG (contracts & grants) or
+                    // RF (restricted funds), the restricted status code must be 'R'.
+                    // KULCOA-1100: only enforce this restriction when the account restriction code on the
+                    // sub fund group is blank
+                    if (StringUtils.isBlank(subFundGroup.getAccountRestrictedStatusCode()) && fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
+                        if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED)) {
+                            putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_R);
+                            success &= false;
+                        }
                     }
-                }
-
-                // for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
-                else {
-                    if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED)) {
-                        putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U);
-                        success &= false;
+    
+                    // If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and
+                    // must be set by the user
+                    else if (fundGroupCode.equalsIgnoreCase(ENDOWMENT_FUND_CD) || fundGroupCode.equalsIgnoreCase(PLANT_FUND_CD)) {
+                        if (StringUtils.isBlank(restrictedStatusCode) || (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED) && !restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED))) {
+    
+                            putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U_OR_R);
+                            success &= false;
+                        }
+                    }
+    
+                    // for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
+                    else {
+                        if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED)) {
+                            putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U);
+                            success &= false;
+                        }
                     }
                 }
             }

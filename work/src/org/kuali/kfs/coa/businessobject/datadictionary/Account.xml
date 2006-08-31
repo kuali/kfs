@@ -46,8 +46,8 @@
                 <field attributeName="continuationAccountNumber" />
                 <field attributeName="incomeStreamFinancialCoaCode" />
                 <field attributeName="incomeStreamAccountNumber" />
-				<field attributeName="budgetRecordingLevelCode" /> 
-                <field attributeName="accountSufficientFundsCode" />
+				<field attributeName="budgetRecordingLevelCode" noInquiry="true" /> 
+                <field attributeName="accountSufficientFundsCode" noInquiry="true" />
 
                 <field attributeName="pendingAcctSufficientFundsIndicator" />
                 <field attributeName="extrnlFinEncumSufficntFndIndicator" />

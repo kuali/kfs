@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.LookupForm;
@@ -128,6 +129,7 @@ public class BalanceInquiryForm extends LookupForm {
             
             Map fieldValues = new HashMap();
             Map formFields = getFields();
+            Class boClass = Class.forName(getBusinessObjectClassName());
             for (Iterator iter = localLookupable.getRows().iterator(); iter.hasNext();) {
                 Row row = (Row) iter.next();
 
@@ -143,6 +145,10 @@ public class BalanceInquiryForm extends LookupForm {
                     if (request.getParameter(field.getPropertyName()) != null) {
                         field.setPropertyValue(request.getParameter(field.getPropertyName()));
                     }
+
+                    //  force uppercase if necessary
+                    field.setPropertyValue(LookupUtils.forceUppercase(boClass, field.getPropertyName(), field.getPropertyValue()));
+                    
                     fieldValues.put(field.getPropertyName(), field.getPropertyValue());
                 }
             }

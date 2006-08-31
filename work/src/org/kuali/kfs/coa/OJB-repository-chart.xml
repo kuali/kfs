@@ -234,7 +234,7 @@
     
     <reference-descriptor name="subFundGroupType" class-ref="org.kuali.module.chart.bo.SubFundGroupType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="subFundGroupTypeCode" />
-    </reference-descriptor> 
+    </reference-descriptor>    
     
     <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountRestrictedStatusCode" />
@@ -550,6 +550,7 @@
     <field-descriptor name="monthlyBudgetFinancialBalanceTypeCode" column="MO_BDGT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialObjectTypeTransferIncomeCode" column="FIN_OBJECT_TYP_TRNFR_INC_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialObjectTypeTransferExpenseCode" column="FIN_OBJECT_TYP_TRNFR_EXP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="nominalFinancialBalanceTypeCode" column="NMNL_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
@@ -635,6 +636,10 @@
 
     <reference-descriptor name="monthlyBudgetFinancialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="monthlyBudgetFinancialBalanceTypeCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="nominalFinancialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="nominalFinancialBalanceTypeCode" />
     </reference-descriptor>
 </class-descriptor>
 

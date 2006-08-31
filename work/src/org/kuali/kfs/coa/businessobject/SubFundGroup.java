@@ -55,7 +55,7 @@ public class SubFundGroup extends BusinessObjectBase {
     
     private FundGroup fundGroup;
     private SubFundGroupType subFundGroupType;
-    
+    private RestrictedStatus accountRestrictedStatus;    
     /**
      * Gets the subFundGroupCode attribute.
      * 
@@ -255,6 +255,23 @@ public class SubFundGroup extends BusinessObjectBase {
     }
 
     
+    
+    /**
+     * Gets the accountRestrictedStatus attribute. 
+     * @return Returns the accountRestrictedStatus.
+     */
+    public RestrictedStatus getAccountRestrictedStatus() {
+        return accountRestrictedStatus;
+    }
+
+    /**
+     * Sets the accountRestrictedStatus attribute value.
+     * @param accountRestrictedStatus The accountRestrictedStatus to set.
+     */
+    public void setAccountRestrictedStatus(RestrictedStatus accountRestrictedStatus) {
+        this.accountRestrictedStatus = accountRestrictedStatus;
+    }
+
     /**
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */

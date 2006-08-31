@@ -234,7 +234,12 @@
     
     <reference-descriptor name="subFundGroupType" class-ref="org.kuali.module.chart.bo.SubFundGroupType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="subFundGroupTypeCode" />
-    </reference-descriptor>    
+    </reference-descriptor> 
+    
+    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="accountRestrictedStatusCode" />
+    </reference-descriptor>
+   
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.Campus" table="SH_CAMPUS_T">

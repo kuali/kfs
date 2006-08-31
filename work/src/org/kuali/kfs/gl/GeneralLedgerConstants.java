@@ -22,11 +22,18 @@
  */
 package org.kuali.module.gl;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.SpringServiceLocator;
+
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class GLConstants{
+    public static final KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
     public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";
     
     public static class DummyBusinessObject {
@@ -84,4 +91,11 @@ public class GLConstants{
         static final public String PENDING_ENTRY = "glPendingEntryLookupableImpl";
     }
     
+    public static List<String> getEncumbranceBalanceTypeCodeList() {         
+        String[] balanceTypesAsArray = 
+            kualiConfigurationService.getApplicationParameterValues(
+                    "Kuali.GeneralLedger.AvailableBalanceInquiry", 
+                    "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
+        return Arrays.asList(balanceTypesAsArray);
+    }
 }

@@ -29,8 +29,8 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.FinancialDocument;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -39,6 +39,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BankAccount;
+import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
@@ -47,11 +48,11 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
+public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
     /**
-     * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts
-     * equals the sum total of the accounting lines.
-     *
+     * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts equals the sum total of
+     * the accounting lines.
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     @Override
@@ -62,16 +63,14 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
         boolean isValid = ccr.getSourceTotal().equals(ccr.getSumTotalAmount());
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
-                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
         }
 
         return isValid;
     }
 
     /**
-     * Overrides to call super and then make sure the minimum number of credit card receipt 
-     * lines exist on this document.
+     * Overrides to call super and then make sure the minimum number of credit card receipt lines exist on this document.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
@@ -79,7 +78,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        if(isValid) {
+        if (isValid) {
             isValid = isMinimumNumberOfCreditCardReceiptsMet(document);
         }
 
@@ -87,8 +86,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
     }
 
     /**
-     * This method is a helper that checks to make sure that at least one credit card receipt 
-     * line exists for the document.
+     * This method is a helper that checks to make sure that at least one credit card receipt line exists for the document.
      * 
      * @param document
      * @return boolean
@@ -96,9 +94,8 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
     private boolean isMinimumNumberOfCreditCardReceiptsMet(Document document) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
 
-        if(ccr.getCreditCardReceipts().size() == 0) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX,
-                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
+        if (ccr.getCreditCardReceipts().size() == 0) {
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
             return false;
         }
         return true;
@@ -113,7 +110,12 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
 
-        if(isValid) {
+        if ( isValid ) {
+            isValid &= validateAccountingLineTotal((CashReceiptFamilyBase) document);
+            isValid &= !CreditCardReceiptDocumentRuleUtil.areCashTotalsInvalid((CreditCardReceiptDocument) document);
+        }
+
+        if (isValid) {
             isValid = validateCreditCardReceipts((CreditCardReceiptDocument) document);
         }
 
@@ -122,7 +124,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
 
     /**
      * Validates all the CreditCardReceipts in the given Document.
-     *
+     * 
      * @param creditCardReceiptDocument
      * @return boolean
      */
@@ -141,7 +143,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
 
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
-     *
+     * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -149,18 +151,21 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
         CreditCardReceiptDocument ccrDoc = (CreditCardReceiptDocument) financialDocument;
         if (ccrDoc.isBankCashOffsetEnabled()) {
             KualiDecimal depositTotal = ccrDoc.calculateCreditCardReceiptTotal();
-            // todo: what if the total is 0?  e.g., 5 minus 5, should we generate a 0 amount GLPE and offset?  I think the other rules combine to prevent a 0 total, though.
+            // todo: what if the total is 0? e.g., 5 minus 5, should we generate a 0 amount GLPE and offset? I think the other rules
+            // combine to prevent a 0 total, though.
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
             success &= TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(getOffsetBankAccount(), depositTotal, ccrDoc, ccrDoc.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
-            // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not successful.
+            // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not
+            // successful.
             if (success) {
                 bankOffsetEntry.setTransactionLedgerEntryDescription(TransactionalDocumentRuleUtil.formatProperty(KeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
                 ccrDoc.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
-    
+
                 GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
                 success &= populateOffsetGeneralLedgerPendingEntry(ccrDoc.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-                // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe neither should?)
+                // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe neither
+                // should?)
                 ccrDoc.getGeneralLedgerPendingEntries().add(offsetEntry);
                 sequenceHelper.increment();
             }
@@ -182,7 +187,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
         }
         final String bankCode = parameterValues[0];
         final String bankAccountNumber = parameterValues[1];
-        final Map<String,Object> primaryKeys = new HashMap<String,Object>();
+        final Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(PropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, bankCode);
         primaryKeys.put(PropertyConstants.FIN_DOCUMENT_BANK_ACCOUNT_NUMBER, bankAccountNumber);
         final BankAccount offsetBankAccount = (BankAccount) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BankAccount.class, primaryKeys);
@@ -190,5 +195,5 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule imple
             throw new ApplicationParameterException(scriptName, parameter, "invalid parameter contents: bank " + bankCode + " account " + bankAccountNumber + " does not exist.");
         }
         return offsetBankAccount;
-    } 
+    }
 }

@@ -39,7 +39,7 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AdvanceDepositDocument extends CashReceiptDocumentBase {
+public class AdvanceDepositDocument extends CashReceiptFamilyBase {
     // holds details about each advance deposit
     private List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 

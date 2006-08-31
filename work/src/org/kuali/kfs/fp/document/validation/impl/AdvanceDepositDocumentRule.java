@@ -25,6 +25,7 @@ package org.kuali.module.financial.rules;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.KeyConstants.CashReceipt;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.document.TransactionalDocument;
@@ -34,6 +35,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -41,7 +43,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
+public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
     /**
      * For Advance Deposit documents, the document is balanced if the sum total of advance deposits equals the sum total of the
      * accounting lines.
@@ -97,13 +99,20 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
     }
 
     /**
-     * Overrides to ONLY validate all of the deposits associated with this document.
+     * Overrides to validate all of the deposits associated with this document.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        return validateAdvanceDeposits((AdvanceDepositDocument) document);
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+
+        if (isValid) {
+            isValid &= validateAccountingLineTotal((CashReceiptFamilyBase) document);
+            isValid &= validateAdvanceDeposits((AdvanceDepositDocument) document);
+        }
+
+        return isValid;
     }
 
     /**
@@ -122,13 +131,20 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
             isValid &= AdvanceDepositDocumentRuleUtil.validateAdvanceDeposit(advanceDepositDocument.getAdvanceDepositDetail(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
+        
+        // don't bother checking the total if some deposits are broken
+        if (isValid && advanceDepositDocument.getTotalAdvanceDepositAmount().isZero()) {
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(PropertyConstants.ADVANCE_DEPOSIT_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, "Advance Deposit Total");
+        }
+
         GlobalVariables.getErrorMap().removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
         return isValid;
     }
 
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
-     *
+     * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -142,7 +158,8 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule implemen
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
                 if (!TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), advanceDepositDocument, advanceDepositDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
                     success = false;
-                    continue;  // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all.
+                    continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
+                    // all.
                 }
                 bankOffsetEntry.setTransactionLedgerEntryDescription(TransactionalDocumentRuleUtil.formatProperty(KeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
                 advanceDepositDocument.getGeneralLedgerPendingEntries().add(bankOffsetEntry);

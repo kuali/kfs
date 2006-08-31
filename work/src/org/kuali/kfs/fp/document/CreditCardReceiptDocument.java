@@ -41,7 +41,7 @@ import org.kuali.module.financial.bo.CreditCardDetail;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CreditCardReceiptDocument extends CashReceiptDocumentBase {
+public class CreditCardReceiptDocument extends CashReceiptFamilyBase {
     // holds details about each credit card receipt
     private List<CreditCardDetail> creditCardReceipts = new ArrayList<CreditCardDetail>();
 

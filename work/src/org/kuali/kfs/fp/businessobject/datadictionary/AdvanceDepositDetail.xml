@@ -66,46 +66,24 @@
                 <maxLength>10</maxLength>
                 <required>true</required>
             </attributeReference>
-			<attribute name="financialDocumentBankCode" forceUppercase="true">
+			 <attributeReference name="financialDocumentBankCode" sourceClassName="org.kuali.module.financial.bo.Bank" sourceAttributeName="financialDocumentBankCode">
                 <label>Bank</label>
                 <shortLabel>Bank</shortLabel>
-                
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <alphaNumeric/>
-                </validationPattern>
-
-				<required>true</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-
+                <required>true</required>
                 <summary>
                 	<![CDATA[&nbsp;]]>
                 </summary>
                 <description>The code that designates the bank at which the deposit was made.</description>
-            </attribute>
-			<attribute name="financialDocumentBankAccountNumber" forceUppercase="true">
+            </attributeReference>
+			<attributeReference name="financialDocumentBankAccountNumber" sourceClassName="org.kuali.module.financial.bo.BankAccount" sourceAttributeName="finDocumentBankAccountNumber">
                 <label>Bank Account</label>
                 <shortLabel>Bank Account</shortLabel>
-                
-                <maxLength>15</maxLength>
-                <validationPattern>
-                    <alphaNumeric/>
-                </validationPattern>
-
-				<required>true</required>
-
-                <control>
-                    <text size="15" />
-                </control>
-
+                <required>true</required>
                 <summary>
                 	<![CDATA[&nbsp;]]>
                 </summary>
                 <description>The bank account number into which the funds were deposited.</description>
-            </attribute>
+            </attributeReference>
         </attributes>
     </businessObject>
 </dictionaryEntry>

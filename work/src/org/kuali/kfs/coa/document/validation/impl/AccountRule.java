@@ -781,7 +781,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // the acct_expiration_dt must be changed to a date that is today or later
         if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {          
             if (!newExpDate.after(today) && !newExpDate.equals(today)) {
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                putFieldError("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                // putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
                 success &= false;
             }         
         }
@@ -790,7 +791,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         Timestamp effectiveDate = newAccount.getAccountEffectiveDate();
         if (ObjectUtils.isNotNull(effectiveDate) && ObjectUtils.isNotNull(newExpDate)) {
             if (newExpDate.before(effectiveDate)) {
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
+                putFieldError("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
+                // putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
                 success &= false;
             }
         }

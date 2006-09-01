@@ -27,19 +27,17 @@
              <tr> 
              
              <td width="20%" align="left" valign="middle" > Total Debits/Blanks: </td> 
-             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionDebitTotalAmount}" /></td>
-
+             <td align="left" valign="middle" > <fmt:formatNumber value="${KualiForm.document.correctionDebitTotalAmount}" groupingUsed="true"/></td>
 			 </tr>
 			 <tr>
 			 
 			 <td width="20%" align="left" valign="middle" > Total Credits: </td> 
-             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionCreditTotalAmount}" /></td>
+             <td align="left" valign="middle" > <fmt:formatNumber value="${KualiForm.document.correctionCreditTotalAmount}" groupingUsed="true"/></td>
 			 
 			 </tr>
 			 <tr>
 			 <td width="20%" align="left" valign="middle" > Rows output: </td> 
-             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionRowCount}" /></td>
-			 
+             <td align="left" valign="middle" > <fmt:formatNumber value="${KualiForm.document.correctionRowCount}" groupingUsed="true"/></td>
 			 </tr>
    		</table>
    	</div>

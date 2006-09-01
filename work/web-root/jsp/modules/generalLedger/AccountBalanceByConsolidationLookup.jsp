@@ -82,7 +82,7 @@
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
 					<c:if
 						test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-						<display:column class="infocell" title="${column.columnTitle}" sortable="${column.sortable}">
+						<display:column class="infocell" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">
 							<a href="<c:out value="${column.propertyURL}"/>" target="blank">
 							<c:out value="${column.propertyValue}" /> </a>
 						</display:column>
@@ -92,13 +92,13 @@
 						test="${(column.propertyURL==\"\" || param['d-16544-e'] != null)}">
 						<c:if
 							test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
-							<display:column class="numbercell" title="${column.columnTitle}" sortable="${column.sortable}">
+							<display:column class="numbercell" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${column.sortable}">
 								<c:out value="${column.propertyValue}" />
 							</display:column>
 						</c:if>
 						<c:if
 							test="${column.formatter.implementationClass != 'org.kuali.core.web.format.CurrencyFormatter'}">
-							<display:column class="infocell" title="${column.columnTitle}" sortable="${column.sortable}">
+							<display:column class="infocell" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${column.sortable}">
 								<c:out value="${column.propertyValue}" />
 							</display:column>
 						</c:if>

@@ -141,7 +141,7 @@ public class AccountBalance extends BusinessObjectBase {
     public AccountBalance(String title) {
         this();
         this.title = title;
-        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode(title);
+        //financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode(title);
         currentBudgetLineBalanceAmount = KualiDecimal.ZERO;
         accountLineActualsBalanceAmount = KualiDecimal.ZERO;
         accountLineEncumbranceBalanceAmount = KualiDecimal.ZERO;

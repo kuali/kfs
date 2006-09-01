@@ -71,7 +71,7 @@ public class AccountBalanceByLevelLookupableImpl extends KualiLookupableImpl {
 
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
-        
+
         BusinessObjectFieldConverter.escapeSingleQuote(fieldValues);
         
         String costShareOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.COST_SHARE_OPTION);
@@ -89,7 +89,7 @@ public class AccountBalanceByLevelLookupableImpl extends KualiLookupableImpl {
         String chartOfAccountsCode = (String) fieldValues.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = (String) fieldValues.get(PropertyConstants.ACCOUNT_NUMBER);
         String subAccountNumber = (String) fieldValues.get(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        String financialConsolidationObjectCode = (String) fieldValues.get(AbstractGLInquirableImpl.CONSOLIDATION_OBJECT_CODE);
+        String financialConsolidationObjectCode = (String) fieldValues.get(GLConstants.BalanceInquiryDrillDowns.CONSOLIDATION_OBJECT_CODE);
 
         // Dashes means no sub account number
         if (Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {

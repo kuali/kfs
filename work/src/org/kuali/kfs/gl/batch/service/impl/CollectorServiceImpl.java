@@ -29,11 +29,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.Constants;
 import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.collector.xml.CollectorFileHandler;
 import org.kuali.module.gl.collector.xml.CollectorFileParser;
 import org.kuali.module.gl.collector.xml.FileReadException;
@@ -61,7 +63,7 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
     private BeanFactory beanFactory;
 
     public void loadCollectorFile(String fileName) {
-        CollectorFileParser collectorFileParser = (CollectorFileParser)beanFactory.getBean("glCollectorFileParser");
+        CollectorFileParser collectorFileParser = (CollectorFileParser)beanFactory.getBean(GLConstants.LookupableBeanKeys.COLLECTOR_FILE_PARSER);
         doHardEditParse(collectorFileParser, fileName);
         List errors = collectorFileParser.getFileHandler().getErrorMessages();
         if (errors.isEmpty())
@@ -84,9 +86,10 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
     private void sendEmail(CollectorFileHandler collectorFileHandler) {
         LOG.debug("sendNoteEmails() starting");
         MailMessage message = new MailMessage();
-        message.setFromAddress("doNotReply@KUALI.SYSTEM");
+        
+        message.setFromAddress(kualiConfigurationService.getApplicationParameterValue("Kuali.GeneralLedger.Collector", "Kuali.GeneralLedger.EmailAddress.DoNotReply"));
         message.setSubject("Collector Input Summary");
-
+        
         String body = createMessageBody(collectorFileHandler);
 
         message.setMessage(body);
@@ -156,7 +159,7 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
         this.kualiConfigurationService = kualiConfigurationService;
     }
     public String getStagingDirectory() {
-        return kualiConfigurationService.getPropertyString("collector.staging.directory");
+        return kualiConfigurationService.getPropertyString(Constants.GL_COLLECTOR_STAGING_DIRECTORY);
     }
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;

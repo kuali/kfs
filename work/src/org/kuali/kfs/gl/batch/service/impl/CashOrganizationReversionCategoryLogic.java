@@ -28,6 +28,9 @@ import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 public class CashOrganizationReversionCategoryLogic implements OrganizationReversionCategoryLogic {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashOrganizationReversionCategoryLogic.class);
 
+    static final public String NAME = "Cash";
+    static final public String CODE = "CASH";
+    
     public boolean containsObjectCode(ObjectCode oc) {
         LOG.debug("containsObjectCode() started");
 
@@ -38,11 +41,11 @@ public class CashOrganizationReversionCategoryLogic implements OrganizationRever
     }
 
     public String getCode() {
-        return "CASH";
+        return CODE;
     }
 
     public String getName() {
-        return "Cash";
+        return NAME;
     }
 
     public boolean isExpense() {

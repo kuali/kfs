@@ -60,6 +60,9 @@ import org.kuali.module.gl.web.struts.form.BalanceInquiryForm;
 
 public class BalanceInquiryAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryAction.class);
+    
+    private static final String TOTALS_TABLE_KEY = "totalsTable";
+    
     private KualiConfigurationService kualiConfigurationService;
     private String[] totalTitles;
     
@@ -122,7 +125,7 @@ public class BalanceInquiryAction extends KualiAction {
             CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
             
-            request.setAttribute("reqSearchResultsActualSize", totalSize);
+            request.setAttribute(Constants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
             
             String lookupableName = kualiLookupable.getClass().getName().substring(kualiLookupable.getClass().getName().lastIndexOf('.') + 1);
             
@@ -159,14 +162,14 @@ public class BalanceInquiryAction extends KualiAction {
                     
                 }
                 
-                request.setAttribute("reqSearchResults", resultTable);
+                request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, resultTable);
                 
-                request.setAttribute("totalsTable", totalsTable);
-                GlobalVariables.getUserSession().addObject("totalsTable", totalsTable);
+                request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
+                GlobalVariables.getUserSession().addObject(TOTALS_TABLE_KEY, totalsTable);
                 
             } else {
                 
-                request.setAttribute("reqSearchResults", resultTable);
+                request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, resultTable);
                 
             }
             
@@ -219,8 +222,8 @@ public class BalanceInquiryAction extends KualiAction {
                 fieldValues.put(field.getPropertyName(), field.getPropertyValue());
             }
         }
-        fieldValues.put("docFormKey", lookupForm.getFormKey());
-        fieldValues.put("backLocation", lookupForm.getBackLocation());
+        fieldValues.put(Constants.DOC_FORM_KEY, lookupForm.getFormKey());
+        fieldValues.put(Constants.BACK_LOCATION, lookupForm.getBackLocation());
 
         if (kualiLookupable.checkForAdditionalFields(fieldValues)) {
             for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
@@ -280,15 +283,15 @@ public class BalanceInquiryAction extends KualiAction {
     
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
-        request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
-        request.setAttribute("reqSearchResultsActualSize", request.getParameter("reqSearchResultsActualSize"));
+        request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
+        request.setAttribute(Constants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(Constants.REQUEST_SEARCH_RESULTS_SIZE));
         
         String boClassName = ((BalanceInquiryForm) form).getBusinessObjectClassName();
         String lookupableName = boClassName.substring(boClassName.lastIndexOf('.') + 1);
         
         if(lookupableName.startsWith("AccountBalanceByConsolidation")) {
-            Object totalsTable = GlobalVariables.getUserSession().retrieveObject("totalsTable");
-            request.setAttribute("totalsTable", totalsTable);
+            Object totalsTable = GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
+            request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);

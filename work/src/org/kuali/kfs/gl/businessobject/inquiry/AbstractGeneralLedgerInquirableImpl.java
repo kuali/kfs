@@ -55,11 +55,6 @@ import org.kuali.module.gl.web.Constant;
  */
 public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
-    static final public String OBJECT_LEVEL_CODE = "financialObject.financialObjectLevel.financialObjectLevelCode";
-    static final public String REPORTING_SORT_CODE = "financialObject.financialObjectLevel.financialReportingSortCode";
-    static final public String CONSOLIDATION_OBJECT_CODE = "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode";
-    
-    
     /**
      * Helper method to build an inquiry url for a result field.
      * 

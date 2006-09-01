@@ -61,8 +61,8 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(OBJECT_LEVEL_CODE);
-        keys.add(REPORTING_SORT_CODE);
+        keys.add(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
+        keys.add(GLConstants.BalanceInquiryDrillDowns.REPORTING_SORT_CODE);
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
         keys.add(Constant.PENDING_ENTRY_OPTION);
@@ -128,7 +128,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         /*if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) {
             c = AccountBalanceByConsolidation.class;
         }
-        else*/ if(OBJECT_LEVEL_CODE.equals(attributeName)) {
+        else*/ if(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE.equals(attributeName)) {
             c = AccountBalance.class;
         }
         else if(PropertyConstants.OBJECT_CODE.equals(attributeName)) {

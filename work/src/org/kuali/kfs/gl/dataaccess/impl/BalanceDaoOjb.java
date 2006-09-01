@@ -23,6 +23,7 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +40,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
@@ -49,7 +51,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.40 2006-08-29 21:16:24 larevans Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.41 2006-09-01 15:11:14 bgao Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -269,7 +271,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     }
 
     private ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
         criteria.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, "AC");
         criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.OBJECT_CODE);
 
@@ -292,7 +294,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     // build the query for cash balance search
     private Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
         criteria.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, "AC");
         criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.OBJECT_CODE);
 
@@ -325,20 +327,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     private Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getBalanceQuery(Map, boolean) started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
-
-        String[] balanceTypesAsArray = 
-            kualiConfigurationService.getApplicationParameterValues(
-                    "Kuali.GeneralLedger.AvailableBalanceInquiry", 
-                    "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
-        
-        List balanceTypes = new ArrayList();
-        for(int x = 0; x < balanceTypesAsArray.length; x++) {
-            balanceTypes.add(balanceTypesAsArray[x]);
-        }
-        
-        criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, balanceTypes);
         
         // if consolidated, then ignore subaccount number and balance type code
         if (isConsolidated) {
@@ -367,7 +357,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     // build the query for balance search
     private ReportQueryByCriteria getBalanceCountQuery(Map fieldValues) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
 
         // set the selection attributes
@@ -391,42 +381,29 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param balance
      * @return a query criteria
      */
-    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance, boolean isBalanceTypeHandled) {
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Balance());
-
-        Iterator propsIter = fieldValues.keySet().iterator();
-        while (propsIter.hasNext()) {
-            String propertyName = (String) propsIter.next();
-            String propertyValue = (String) fieldValues.get(propertyName);
-
-            // if searchValue is empty and the key is not a valid property ignore
-            if (StringUtils.isBlank(propertyValue) || !(PropertyUtils.isWriteable(balance, propertyName))) {
-                continue;
-            }
-
-            // with this option, the method becomes specific and bad
-            if (isBalanceTypeHandled && propertyValue.equals("EN") && propertyName.equals(PropertyConstants.BALANCE_TYPE_CODE)) {
-                List balanceTypeCodeList = buildBalanceTypeCodeList();
-                criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, balanceTypeCodeList);
+    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance) {
+        Criteria criteria = new Criteria();
+        
+        // handle encumbrance balance type
+        String propertyName = PropertyConstants.BALANCE_TYPE_CODE;
+        if(fieldValues.containsKey(propertyName)){    
+            String propertyValue = (String) fieldValues.get(propertyName);        
+            if (Constants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
+                fieldValues.remove(PropertyConstants.BALANCE_TYPE_CODE);
+                criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
             }
         }
+        
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new Balance()));
         return criteria;
     }
-
-    /**
-     * This method builds an balance type code list
-     * 
-     * @return List a balance type code list
-     */
-    private List<String> buildBalanceTypeCodeList() {
-        List balanceTypeCodeList = new ArrayList();
-
-        balanceTypeCodeList.add("EX");
-        balanceTypeCodeList.add("IE");
-        balanceTypeCodeList.add("PE");
-        balanceTypeCodeList.add("CE");
-
-        return balanceTypeCodeList;
+    
+    private List<String> getEncumbranceBalanceTypeCodeList() {         
+        String[] balanceTypesAsArray = 
+            kualiConfigurationService.getApplicationParameterValues(
+                    "Kuali.GeneralLedger.AvailableBalanceInquiry", 
+                    "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
+        return Arrays.asList(balanceTypesAsArray);
     }
 
     /**

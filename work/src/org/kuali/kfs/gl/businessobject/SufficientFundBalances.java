@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -54,6 +55,9 @@ public class SufficientFundBalances extends BusinessObjectBase {
     private ObjectCode objectCode;
     private Chart chart;
     private Account account;
+    
+    public static final String BLANKS = "                 ";
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Default constructor.
@@ -106,27 +110,27 @@ public class SufficientFundBalances extends BusinessObjectBase {
         sb.append(getField(4, financialObjectCode));
         sb.append(getField(1, accountSufficientFundsCode));
         if (currentBudgetBalanceAmount == null) {
-            sb.append("                 ");
+            sb.append(BLANKS);
         }
         else {
             String a = nf.format(currentBudgetBalanceAmount.doubleValue());
-            sb.append("                 ".substring(0, 17 - a.length()));
+            sb.append(BLANKS.substring(0, 17 - a.length()));
             sb.append(a);
         }
         if (accountActualExpenditureAmt == null) {
-            sb.append("                 ");
+            sb.append(BLANKS);
         }
         else {
             String a = nf.format(accountActualExpenditureAmt.doubleValue());
-            sb.append("                 ".substring(0, 17 - a.length()));
+            sb.append(BLANKS.substring(0, 17 - a.length()));
             sb.append(a);
         }
         if (accountEncumbranceAmount == null) {
-            sb.append("                 ");
+            sb.append(BLANKS);
         }
         else {
             String a = nf.format(accountEncumbranceAmount.doubleValue());
-            sb.append("                 ".substring(0, 17 - a.length()));
+            sb.append(BLANKS.substring(0, 17 - a.length()));
             sb.append(a);
         }
         return sb.toString();
@@ -153,8 +157,6 @@ public class SufficientFundBalances extends BusinessObjectBase {
             return null;
         }
         else {
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             sdf.setLenient(beLenientWithDates);
 
             try {
@@ -172,7 +174,6 @@ public class SufficientFundBalances extends BusinessObjectBase {
             return "          ";
         }
         else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             return sdf.format(date);
         }
     }
@@ -431,10 +432,10 @@ public class SufficientFundBalances extends BusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear.toString());
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        m.put("financialObjectCode", this.financialObjectCode);
+        m.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear.toString());
+        m.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
+        m.put(PropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
+        m.put(PropertyConstants.FINANCIAL_OBJECT_CODE, this.financialObjectCode);
         return m;
     }
 }

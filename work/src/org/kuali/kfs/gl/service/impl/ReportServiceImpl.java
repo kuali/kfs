@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -86,14 +87,16 @@ public class ReportServiceImpl implements ReportService {
     private BalanceService balanceService;
     private OptionsService optionsService;
     private KualiConfigurationService kualiConfigurationService;
+    
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
     public ReportServiceImpl() {
         super();
     }
 
     public void init() {
-        batchReportsDirectory = kualiConfigurationService.getPropertyString("batch.reports.directory");
-        onlineReportsDirectory = kualiConfigurationService.getPropertyString("online.reports.directory");        
+        batchReportsDirectory = kualiConfigurationService.getPropertyString(Constants.BATCH_REPORTS_DIRECTORY);
+        onlineReportsDirectory = kualiConfigurationService.getPropertyString(Constants.ONLINE_REPORTS_DIRECTORY);        
     }
 
     /**
@@ -118,7 +121,7 @@ public class ReportServiceImpl implements ReportService {
 
         try {
             String filename = batchReportsDirectory + "/" + fileprefix + "_";
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            
             filename = filename + sdf.format(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
@@ -356,7 +359,7 @@ public class ReportServiceImpl implements ReportService {
         });
 
         List summary = buildScrubberReportSummary(scrubberReport);
-
+        
         TransactionReport transactionReport = new TransactionReport();
         transactionReport.generateReport(tranKeys,scrubberReportErrors, summary, runDate, "Scrubber Report ", "scrubber", batchReportsDirectory);
     }

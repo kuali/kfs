@@ -80,7 +80,7 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
         
         userDefinedAttributeMap.put(PropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB);
         userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, o.getActualFinancialBalanceTypeCd());
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, o.getExtrnlEncumFinBalanceTypCd());
+        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, Constants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE);
 
         return userDefinedAttributeMap;
     }

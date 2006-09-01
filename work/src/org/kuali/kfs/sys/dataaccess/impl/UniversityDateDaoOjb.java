@@ -29,6 +29,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -48,7 +49,7 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
         LOG.debug("getByPrimaryKey() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo("universityDate", date);
+        crit.addEqualTo(PropertyConstants.UNIVERSITY_DATE, date);
 
         QueryByCriteria qbc = QueryFactory.newQuery(UniversityDate.class, crit);
 
@@ -68,11 +69,11 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
         Criteria subCrit = new Criteria();
         Criteria crit = new Criteria();
 
-        subCrit.addEqualTo("universityFiscalYear", fiscalYear);
+        subCrit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         subQuery = QueryFactory.newReportQuery(UniversityDate.class, subCrit);
         subQuery.setAttributes(new String[] { "max(univ_dt)" });
 
-        crit.addGreaterOrEqualThan("universityDate", subQuery);
+        crit.addGreaterOrEqualThan(PropertyConstants.UNIVERSITY_DATE, subQuery);
 
         QueryByCriteria qbc = QueryFactory.newQuery(UniversityDate.class, crit);
 
@@ -84,11 +85,11 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
         Criteria subCrit = new Criteria();
         Criteria crit = new Criteria();
 
-        subCrit.addEqualTo("universityFiscalYear", fiscalYear);
+        subCrit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         subQuery = QueryFactory.newReportQuery(UniversityDate.class, subCrit);
         subQuery.setAttributes(new String[] { "min(univ_dt)" });
 
-        crit.addGreaterOrEqualThan("universityDate", subQuery);
+        crit.addGreaterOrEqualThan(PropertyConstants.UNIVERSITY_DATE, subQuery);
 
         QueryByCriteria qbc = QueryFactory.newQuery(UniversityDate.class, crit);
 
@@ -102,8 +103,8 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
         Criteria criteria = new Criteria();
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(UniversityDate.class, criteria);
-        query.setAttributes(new String[] { "distict universityFiscalAccountingPeriod" });
-        query.addOrderByAscending("universityFiscalAccountingPeriod");
+        query.setAttributes(new String[] { "distict " + PropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD });
+        query.addOrderByAscending(PropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }

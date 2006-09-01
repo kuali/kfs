@@ -40,6 +40,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.SufficientFundBalances;
@@ -92,7 +93,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     }
 
     private Integer getFiscalYear() {
-        String val = kualiConfigurationService.getApplicationParameterValue("fis_sf_rebuild.sh", "UNIV_FISCAL_YR");
+        String val = kualiConfigurationService.getApplicationParameterValue(Constants.SUFFICIENT_FUND_REBUILDER_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
         int yr = Integer.parseInt(val);
         return new Integer(yr);
     }
@@ -148,7 +149,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             if ( ( ! Constants.SF_TYPE_ACCOUNT.equals(sfrb.getAccountFinancialObjectTypeCode())) && ( ! Constants.SF_TYPE_OBJECT.equals(sfrb.getAccountFinancialObjectTypeCode())) ) {
                 ++sfrbRecordsReadCount;
                 transactionErrors = new ArrayList();
-                addTransactionError("Invalid sufficient funds object type code");
+                addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_SF_OBJECT_TYPE_CODE));
                 ++warningCount;
                 ++sfrbNotDeletedCount;
                 batchError.put(sfrb, transactionErrors);
@@ -221,7 +222,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             Iterator balancesIterator = balanceDao.findAccountBalances(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode(), sfrbAccount.getAccountSufficientFundsCode());
 
             if (balancesIterator == null) {
-                addTransactionError("Balances not found in database for this COA/Account/fiscal year (" + universityFiscalYear + ")");
+                addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_NOT_FOUND_FOR) + universityFiscalYear + ")");
                 ++warningCount;
                 ++sfrbNotDeletedCount;
                 return;
@@ -254,7 +255,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                     currentSfbl.setCurrentBudgetBalanceAmount(KualiDecimal.ZERO);
                 }
 
-                if ("CG".equalsIgnoreCase(sfrbAccount.getSubFundGroup().getFundGroupCode())) {
+                if (sfrbAccount.isInCg()) {
                     balance.setAccountLineAnnualBalanceAmount(balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()));
                 }
 
@@ -273,7 +274,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             }
         }
         else {
-            addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account");
+            addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_ACCOUNT_SF_CODE_FOR));
             ++warningCount;
             ++sfrbNotDeletedCount;
             return;
@@ -281,11 +282,16 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     }
 
     private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
-        if (options.getFinObjTypeExpenditureexpCd().equalsIgnoreCase(balance.getObjectTypeCode()) || "TE".equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) || "ES".equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd())) {
+        if (options.getFinObjTypeExpenditureexpCd().equalsIgnoreCase(balance.getObjectTypeCode()) 
+                || balance.getOption().getFinancialObjectTypeTransferExpenseCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) 
+                || balance.getOption().getFinObjTypeExpNotExpendCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd())) {
             if (options.getActualFinancialBalanceTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode())) {
                 processObjtAcctActual(balance);
             }
-            else if (options.getExtrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) || options.getIntrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) || options.getPreencumbranceFinBalTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode()) || "CE".equalsIgnoreCase(balance.getBalanceTypeCode())) {
+            else if (options.getExtrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) 
+                    || options.getIntrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) 
+                    || options.getPreencumbranceFinBalTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode()) 
+                    || options.getCostShareEncumbranceBalanceTypeCode().equalsIgnoreCase(balance.getBalanceTypeCode())) {
                 processObjtAcctEncmbrnc(balance);
             }
             else if (options.getBudgetCheckingBalanceTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode())) {
@@ -314,8 +320,14 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 processCashActual(sfrbAccount, balance);
             }
         }
-        else if (balance.getBalanceTypeCode().equalsIgnoreCase(options.getExtrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equalsIgnoreCase(options.getIntrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equalsIgnoreCase(options.getPreencumbranceFinBalTypeCd()) || "CE".equalsIgnoreCase(balance.getBalanceTypeCode())) {
-            if (balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) || balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpendNotExpCode()) || "TE".equalsIgnoreCase(balance.getObjectTypeCode()) || "ES".equalsIgnoreCase(balance.getObjectTypeCode())) {
+        else if (balance.getBalanceTypeCode().equalsIgnoreCase(options.getExtrnlEncumFinBalanceTypCd()) 
+                || balance.getBalanceTypeCode().equalsIgnoreCase(options.getIntrnlEncumFinBalanceTypCd()) 
+                || balance.getBalanceTypeCode().equalsIgnoreCase(options.getPreencumbranceFinBalTypeCd()) 
+                || options.getCostShareEncumbranceBalanceTypeCode().equalsIgnoreCase(balance.getBalanceTypeCode())) {
+            if (balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) 
+                    || balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpendNotExpCode()) 
+                    || options.getFinancialObjectTypeTransferExpenseCode().equalsIgnoreCase(balance.getObjectTypeCode()) 
+                    || options.getFinObjTypeExpNotExpendCode().equalsIgnoreCase(balance.getObjectTypeCode())) {
                 processCashEncumbrance(balance);
             }
         }

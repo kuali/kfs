@@ -30,6 +30,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.SufficientFundBalances;
@@ -341,8 +342,8 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addLessThan("universityFiscalYear", new Integer(year));
+        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.addLessThan(PropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(SufficientFundBalances.class, criteria));
 
@@ -363,5 +364,5 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         } else {
             return KualiDecimal.ZERO;
         }
+        }
     }
-}

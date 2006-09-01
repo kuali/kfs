@@ -122,5 +122,13 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         return result;
     }
 
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public KualiConfigurationService getConfigService() {
+        return configService;
+    }
+
 
 }

@@ -25,6 +25,7 @@ package org.kuali.module.chart.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubAccount;
 
@@ -35,10 +36,8 @@ import org.kuali.module.chart.bo.SubAccount;
  */
 public class SubAccountPreRules extends MaintenancePreRulesBase {
 
-
-    private SubAccount newAccount;
-    private SubAccount copyAccount;
-
+    private SubAccount newSubAccount;
+    //private SubAccount copyAccount;
 
     public SubAccountPreRules() {
 
@@ -47,9 +46,10 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
-
+        
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
+        copyICRFromAccount();
 
         return true;
     }
@@ -57,11 +57,11 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
-        if (StringUtils.isNotBlank(newAccount.getAccountNumber())) {
-            Account account = checkForContinuationAccount("Account Number", newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber(), "");
+        if (StringUtils.isNotBlank(newSubAccount.getAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", newSubAccount.getChartOfAccountsCode(), newSubAccount.getAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                newAccount.setAccountNumber(account.getAccountNumber());
-                newAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                newSubAccount.setAccountNumber(account.getAccountNumber());
+                newSubAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
@@ -69,8 +69,32 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount = (SubAccount) document.getNewMaintainableObject().getBusinessObject();
-        copyAccount = (SubAccount) ObjectUtils.deepCopy(newAccount);
-        copyAccount.refresh();
+        newSubAccount = (SubAccount) document.getNewMaintainableObject().getBusinessObject();
+        //copyAccount = (SubAccount) ObjectUtils.deepCopy(newAccount);
+        //copyAccount.refresh();
+    }
+    
+    private void copyICRFromAccount() {
+        // only need to do this of the account sub type is EX
+        A21SubAccount a21SubAccount = newSubAccount.getA21SubAccount();
+        Account account = newSubAccount.getAccount();
+        if ( a21SubAccount.getSubAccountTypeCode().equals( SubAccountRule.CG_A21_TYPE_ICR ) ) {
+            if ( account == null || StringUtils.isBlank( account.getAccountNumber() ) ) {
+                account = getAccountService().getByPrimaryId( newSubAccount.getChartOfAccountsCode(), newSubAccount.getAccountNumber() );
+                if ( ObjectUtils.isNotNull(account) ) {
+                    if ( StringUtils.isBlank( a21SubAccount.getIndirectCostRecoveryAccountNumber() ) ) {
+                        a21SubAccount.setIndirectCostRecoveryAccountNumber( account.getIndirectCostRecoveryAcctNbr() );
+                        a21SubAccount.setIndirectCostRecoveryChartOfAccountsCode( account.getIndirectCostRcvyFinCoaCode() );
+                    }
+                    if ( StringUtils.isBlank( a21SubAccount.getFinancialIcrSeriesIdentifier() ) ) {
+                        a21SubAccount.setFinancialIcrSeriesIdentifier( account.getFinancialIcrSeriesIdentifier() );
+                        a21SubAccount.setOffCampusCode( account.isAccountOffCampusIndicator() );
+                    }
+                    if ( StringUtils.isBlank( a21SubAccount.getIndirectCostRecoveryTypeCode() ) ) {
+                        a21SubAccount.setIndirectCostRecoveryTypeCode( account.getAcctIndirectCostRcvyTypeCd() );
+                    }
+                }
+            }
+        }
     }
 }

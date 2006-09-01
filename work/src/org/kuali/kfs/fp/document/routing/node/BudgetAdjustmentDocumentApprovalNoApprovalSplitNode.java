@@ -22,32 +22,25 @@
  */
 package org.kuali.workflow.node;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.FUND_GROUP_CODE.CONTRACT_GRANTS;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.AccountResponsibility;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.workflow.KualiWorkflowUtils;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.engine.RouteHelper;
 import edu.iu.uis.eden.engine.node.SplitNode;
 import edu.iu.uis.eden.engine.node.SplitResult;
 import edu.iu.uis.eden.routetemplate.RouteContext;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.FUND_GROUP_CODE.CONTRACT_GRANTS;
 
 /**
  * Checks for conditions on a Budget Adjustment document that allow auto-approval by the initiator. If these conditions are not met,
@@ -93,13 +86,14 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
         
         // check remaining conditions
         if (autoApprovalAllowed) {
-            // user should be fiscal officer or primary delegate for account
-            List userAccounts = SpringServiceLocator.getAccountService().getAccountsThatUserIsResponsibleFor(GlobalVariables.getUserSession().getKualiUser());
+            // initiator should be fiscal officer or primary delegate for account
+            KualiUser initiator = SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(budgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+            List userAccounts = SpringServiceLocator.getAccountService().getAccountsThatUserIsResponsibleFor(initiator);
             Account userAccount = null;
             for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {
-                Account account = (Account) iter.next();
-                if (accountNumber.equals(account.getAccountNumber()) && chart.equals(account.getChartOfAccountsCode())) {
-                    userAccount = account;
+                AccountResponsibility account = (AccountResponsibility) iter.next();
+                if (accountNumber.equals(account.getAccount().getAccountNumber()) && chart.equals(account.getAccount().getChartOfAccountsCode())) {
+                    userAccount = account.getAccount();
                     break;
                 }
             }

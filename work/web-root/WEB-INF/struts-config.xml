@@ -75,6 +75,8 @@
         <forward name="save" path="/index.jsp" redirect="true" />
         <forward name="cancel" path="/index.jsp" redirect="true" />
         <forward name="close" path="/index.jsp" redirect="true" />
+
+        <forward name="portal" path="/index.jsp" redirect="true" />
     </global-forwards>
 
     <action-mappings>

@@ -43,6 +43,7 @@ import org.kuali.module.chart.bo.ObjectCons;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectLevelService;
+import org.kuali.module.chart.service.ObjectConsService;
 
 /**
  * 
@@ -55,6 +56,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     DateTimeService dateTimeService;
     ObjectLevelService objectLevelService;
     ObjectCodeService objectCodeService;
+    ObjectConsService  objectConsService;
 
     final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIllegalValues";
     final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES = "ObjectCodeValidBudgetAggregationCodes";
@@ -92,6 +94,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         objectCodeService = SpringServiceLocator.getObjectCodeService();
         chartService = SpringServiceLocator.getChartService();
         reportsTo = chartService.getReportsToHierarchy();
+        objectConsService = SpringServiceLocator.getObjectConsService();
 
 
     }
@@ -200,12 +203,12 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         }
 
         if (!this.consolidationTableDoesNotHave(chartCode, objCode)) {
-            this.putFieldError("chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Chart Code");
+            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Object Code");
             result = false;
         }
 
         if (!this.objectLevelTableDoesNotHave(chartCode, objCode)) {
-            this.putFieldError("", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Chart Code");
+            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR, "Object Code" );
             result = false;
         }
 
@@ -274,7 +277,11 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      */
     public boolean consolidationTableDoesNotHave(String chartCode, String objectCode) {
         try {
-            ObjectCons objectCons = null; // TODO need ObjConsService?
+            ObjectCons objectCons = objectConsService.getByPrimaryId(chartCode, objectCode);
+            if (objectCons != null) {
+                objectCons.getFinConsolidationObjectCode(); // this might throw an Exception when proxying is in effect
+                return false;
+            }
         }
         catch (PersistenceBrokerException e) {
             // intentionally ignore the Exception

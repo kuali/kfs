@@ -35,6 +35,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.Constants.DisbursementVoucherDocumentConstants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
@@ -49,6 +50,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherCoverSheetService;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl;
@@ -161,8 +163,14 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             dvDocument.getDvNonEmployeeTravel().setDisbVchrPerdiemActualAmount(perDiemAmount);
         }
         catch (RuntimeException e) {
-            LOG.error("Error in calculating travel per diem: " + e.getMessage());
-            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
+            String errorMessage = e.getMessage();
+            
+            if(StringUtils.isBlank(errorMessage)) {
+                errorMessage = "The per diem amount could not be calculated.  Please ensure all required per diem fields are filled in before attempting to calculate the per diem amount.";
+            }
+            
+            LOG.error("Error in calculating travel per diem: " + errorMessage);
+            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, errorMessage);
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);

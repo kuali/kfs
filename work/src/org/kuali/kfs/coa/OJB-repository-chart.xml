@@ -1025,7 +1025,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
 
     <reference-descriptor name="universityFiscal" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
@@ -1048,16 +1047,6 @@
     <reference-descriptor name="financialDocumentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
-
-    <!--reference-descriptor name="financialSubObject"
-        class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true"
-        auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-        <foreignkey field-ref="financialObjectCode" />
-        <foreignkey field-ref="financialSubObjectCode" />
-        </reference-descriptor-->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.PriorYearAccount" table="CA_PRIOR_YR_ACCT_T">

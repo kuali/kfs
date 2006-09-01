@@ -126,18 +126,7 @@ public class EncumbranceClosingOriginEntryFactory {
         if (null != offsetDefinition) {
 
             offset.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
-
-            if (null == offsetDefinition.getFinancialSubObjectCode() || "".equals(offsetDefinition.getFinancialSubObjectCode().trim())) {
-
-                offset.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-
-            }
-            else {
-
-                offset.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
-
-            }
-
+            offset.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
         else { // Log an exception if the offset definition was not found.
 

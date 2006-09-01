@@ -44,11 +44,9 @@ public class OffsetDefinition extends BusinessObjectBase {
     private String financialBalanceTypeCode;
     private String chartOfAccountsCode;
     private String financialObjectCode;
-    private String financialSubObjectCode;
 
     private Options universityFiscal;
     private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
     private Chart chartOfAccounts;
     private BalanceTyp financialBalanceType;
     private DocumentType financialDocumentType;
@@ -241,23 +239,6 @@ public class OffsetDefinition extends BusinessObjectBase {
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
-    }
-
-
-    public SubObjCd getFinancialSubObject() {
-        return financialSubObject;
-    }
-
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
-        this.financialSubObject = financialSubObject;
-    }
-
-    public String getFinancialSubObjectCode() {
-        return financialSubObjectCode;
-    }
-
-    public void setFinancialSubObjectCode(String financialSubObjectCode) {
-        this.financialSubObjectCode = financialSubObjectCode;
     }
 
     /**

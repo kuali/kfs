@@ -49,8 +49,6 @@
 
 	<dv:dvPayee />
 
-	<dv:dvSpecialHandling />
-
 	<dv:dvPayment />
 
 	<fin:accountingLines sourceAccountingLinesOnly="true"
@@ -60,6 +58,8 @@
 		extraSourceRowFields="financialDocumentLineDescription" />
 
 	<dv:dvContact />
+
+    <dv:dvSpecialHandling />
 
 	<dv:dvNRATax />
 

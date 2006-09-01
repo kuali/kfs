@@ -147,7 +147,7 @@
 		includeObjectTypeCode="true" />
 	<kul:generalLedgerPendingEntries />
 	<kul:notes />
-	<kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>
+	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
 	<kul:documentControls transactionalDocument="true" />

@@ -24,7 +24,6 @@ package org.kuali.module.financial.rules;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,6 +38,7 @@ import static org.kuali.Constants.DOCUMENT_ERRORS;
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+import static org.kuali.Constants.SHEBANG;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
 import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
@@ -59,15 +59,19 @@ import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.PropertyConstants.REVERSAL_DATE;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getKualiConfigurationService;
+import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjSubTyp;
@@ -76,6 +80,8 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.module.financial.rules.stack.Lexical;
+
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
@@ -667,33 +673,19 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     private boolean isValidDocWithSubAndLevel(TransactionalDocument document, AccountingLine accountingLine) {
         boolean retval = true;
 
-        try {
-            retval = succeedsRule(RESTRICTED_COMBINED_CODES, getMockCodeBaseInstance(ObjectType.class, accountingLine.getObjectCode().getFinancialObjectTypeCode()).toString());
+        StackRuntimeRule rule = getStackRuntimeRule(RESTRICTED_COMBINED_CODES);
+        rule = rule.withLexical(new Lexical("objectType", accountingLine.getObjectType().getCode()))
+            .withLexical(new Lexical("objSubTyp", accountingLine.getObjectCode().getFinancialObjectSubType().getCode()))
+            .withLexical(new Lexical("objLevel", accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode()));
 
-            if (retval) {
-                retval = succeedsRule(RESTRICTED_COMBINED_CODES, getMockCodeBaseInstance(ObjSubTyp.class, accountingLine.getObjectCode().getFinancialObjectSubTypeCode()).toString());
-            }
-
-            if (retval) {
-                retval = succeedsRule(RESTRICTED_COMBINED_CODES, getMockObjLevelInstance(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode()).toString());
-            }
-        }
-        catch (Exception e) {
-            retval = false;
-        }
+        retval = rule.succeedsRule(new String());
 
         if (!retval) {
-            String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), accountingLine.getObjectCode().getFinancialObjectType().getCode(), accountingLine.getObjectType().getCode(), accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode() };
+            String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode(), accountingLine.getObjectCode().getFinancialObjectSubType().getCode(), accountingLine.getObjectType().getCode()};
             reportError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, errorObjects);
         }
 
         return retval;
-    }
-
-    private static final NumberFormat periodFormat = NumberFormat.getIntegerInstance();
-    static {
-        periodFormat.setMinimumIntegerDigits( 2 );
-        periodFormat.setMaximumIntegerDigits( 2 );
     }
     
     /**
@@ -709,23 +701,13 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         boolean valid = true;
         Integer period = new Integer(document.getPostingPeriodCode());
         Integer year = document.getPostingYear();
-        AccountingPeriodService perService = SpringServiceLocator.getAccountingPeriodService();
-        AccountingPeriod acctPeriod = perService.getByPeriod(periodFormat.format( period ), year);
+        AccountingPeriod acctPeriod = getAccountingPeriodService().getByPeriod(document.getPostingPeriodCode(), year);
 
         //if current period is period 1 can't post back more than 3 open periods
         //grab the current period
         Timestamp ts = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
-        AccountingPeriod currPeriod = perService.getByDate(new Date(ts.getTime()));
+        AccountingPeriod currPeriod = getAccountingPeriodService().getByDate(new Date(ts.getTime()));
         Integer currPeriodVal = new Integer(currPeriod.getUniversityFiscalPeriodCode());
-
-        /*
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "period: " + period );
-            LOG.debug( "currPeriodVal: " + currPeriodVal );
-            LOG.debug( "acctPeriod: " + acctPeriod );
-            LOG.debug( "currPeriod: " + currPeriod );
-        }
-        */
 
         if (currPeriodVal == 1) {
             if (period < 11) {
@@ -757,7 +739,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             }
         }
 
-        valid = succeedsRule(RESTRICTED_PERIOD_CODES, period.toString());
+        valid = succeedsRule(RESTRICTED_PERIOD_CODES, document.getPostingPeriodCode());
         if (!valid) {
             reportError(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
         }
@@ -771,8 +753,8 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         //check for specific posting issues
         if (document.isRecodeType()) {
             //can't post into a previous fiscal year
-            int currFiscalYear = currPeriod.getUniversityFiscalYear().intValue();
-            if (!(currFiscalYear < year)) {
+            Integer currFiscalYear = currPeriod.getUniversityFiscalYear();
+            if (currFiscalYear > year) {
                 reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
                 return false;
             }
@@ -811,51 +793,24 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         return valid;
     }
 
-    /**
-     * Generic factory method for creating instances of
-     * <code>{@link KualiCodeBase}</code> like an <code>{@link ObjectType}</code> 
-     * instance or a <code>{@link ObjSubTyp}</code> instance.<br/>
-     * 
-     * <p>The mock object method is needed to validate using APC. The parameter uses non-specific 
-     * <code>{@link KualiCodeBase}</code> codes, so things like chart code are unimportant.</p>
-     * 
-     * <p>This method uses reflections, so a <code>{@link ClassNotFoundException}</code>,
-     * <code>{@link InstantiationException}</code>, <code>{@link IllegalAccessException}</code> 
-     * may be thrown</p>
-     *
-     * @param type
-     * @param code
-     * @return KualiCodebase
-     * @exception ClassNotFoundException
-     * @exception InstantiationException
-     * @exception IllegalAccessException
-     */
-    protected KualiCodeBase getMockCodeBaseInstance(Class type, String code) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        KualiCodeBase retval = (KualiCodeBase) type.newInstance();
-
-        retval.setCode(code);
-
-        return retval;
-    }
 
     /**
-     * Factory method for creating instances of <code>{@link ObjLevel}</code>. This 
-     * method is more specific than <code>{@link #getMockCodeBaseInstance(Class, String)}</code> 
-     * because it is aimed specifically towards <code>{@link ObjLevel}</code> which is
-     * not part of the <code>{@link KualiCodeBase}</code> class hieraarchy.<br/>
-     * 
-     * <p>The mock object method is needed to validate using APC. The parameter uses non-specific 
-     * <code>{@link ObjLevel}</code> codes, so things like chart code are unimportant.</p>
+     * helper method that is more of a FactoryMethod which determines from the <code>{@link BusinessRule}</code> what kind of <code>{@link KualiParameterRule}</code> instance to create.
      *
-     * @param code
-     * @return ObjLevel
+     * @param parameterName 
+     * @return <code>{@link StackRuntimeRule}</code>
+     * @see org.kuali.core.service.impl.KualiConfigurationServiiceImpl#getApplicationParameterRule(String, String)
      */
-    protected ObjLevel getMockObjLevelInstance(String code) {
-        ObjLevel retval = new ObjLevel();
+    private StackRuntimeRule getStackRuntimeRule(String parameterName) {
+        StackRuntimeRule retval = null;
+        BusinessRule param = getKualiConfigurationService().getApplicationRule(getDefaultSecurityGrouping(), parameterName);
+        
+        if (param.getRuleText() != null && param.getRuleText().startsWith(SHEBANG)) {
+            retval = new StackRuntimeRule(new KualiParameterRule(param.getRuleGroupName() + ":" + param.getRuleName(), param.getRuleText(), param.getRuleOperatorCode(), param.isFinancialSystemParameterActiveIndicator()));
+        }
 
-        retval.setFinancialObjectLevelCode(code);
-
+        LOG.info("Returning " + retval);
+        
         return retval;
     }
-
 }

@@ -32,7 +32,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Ownership Tax Percent:">
+            <maintainableSection title="Edit Non Resident Alien Tax Percent:">
                 <maintainableItems>
                     <maintainableField name="incomeClassCode" required="true" />
                     <maintainableField name="incomeTaxTypeCode" required="true" />

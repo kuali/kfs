@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import static org.kuali.Constants.EMPTY_STRING;
 import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
@@ -222,6 +223,16 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
                 }
             }
         }
+    }
+
+    /**
+     * Overrides the base implementation to return "From".
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
+     */
+    @Override
+    public String getSourceAccountingLinesSectionTitle() {
+        return EMPTY_STRING;
     }
 
     /**

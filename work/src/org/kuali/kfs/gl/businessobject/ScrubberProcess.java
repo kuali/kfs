@@ -893,7 +893,14 @@ public class ScrubberProcess {
     private String processCapitalization(OriginEntry scrubbedEntry) {
         OriginEntry capitalizationEntry = new OriginEntry(scrubbedEntry);
 
-        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && !ObjectHelper.isOneOf(scrubbedEntry.getFinancialDocumentTypeCode(), badDocumentTypeCodesForCapitalization) && !ObjectHelper.isOneOf(scrubbedEntry.getUniversityFiscalPeriodCode(), badUniversityFiscalPeriodCodesForCapitalization) && !"ACLO".equals(scrubbedEntry.getFinancialDocumentTypeCode()) && ObjectHelper.isOneOf(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode(), goodObjectSubTypeCodesForCapitalization) && !"EXTAGY".equals(scrubbedEntry.getAccount().getSubFundGroupCode()) && !"HO".equals(scrubbedEntry.getChartOfAccountsCode())) {
+        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && 
+                scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && 
+                !ObjectHelper.isOneOf(scrubbedEntry.getFinancialDocumentTypeCode(), badDocumentTypeCodesForCapitalization) && 
+                !ObjectHelper.isOneOf(scrubbedEntry.getUniversityFiscalPeriodCode(), badUniversityFiscalPeriodCodesForCapitalization) && 
+                !"ACLO".equals(scrubbedEntry.getFinancialDocumentTypeCode()) && 
+                ObjectHelper.isOneOf(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode(), goodObjectSubTypeCodesForCapitalization) && 
+                !"EXTAGY".equals(scrubbedEntry.getAccount().getSubFundGroupCode()) && !
+                "HO".equals(scrubbedEntry.getChartOfAccountsCode())) {
             String objectSubTypeCode = scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode();
             if (objectSubTypeCodesToObjectCodesForCapitalization.containsKey(objectSubTypeCode)) {
                 capitalizationEntry.setFinancialObjectCode((String) objectSubTypeCodesToObjectCodesForCapitalization.get(objectSubTypeCode));
@@ -1058,7 +1065,10 @@ public class ScrubberProcess {
     private String processLiabilities(OriginEntry scrubbedEntry) {
         OriginEntry liabilityEntry = new OriginEntry(scrubbedEntry);
 
-        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && !ObjectHelper.isOneOf(scrubbedEntry.getFinancialDocumentTypeCode(), invalidDocumentTypesForLiabilities) && !ObjectHelper.isOneOf(scrubbedEntry.getUniversityFiscalPeriodCode(), invalidFiscalPeriodCodesForOffsetGeneration) && !"ACLO".equals(scrubbedEntry.getFinancialDocumentTypeCode()) && "CL".equals(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode()) && !"EXTAGY".equals(scrubbedEntry.getAccount().getSubFundGroupCode()) && !"HO".equals(scrubbedEntry.getChartOfAccountsCode())) {
+        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && 
+                !ObjectHelper.isOneOf(scrubbedEntry.getFinancialDocumentTypeCode(), invalidDocumentTypesForLiabilities) && !ObjectHelper.isOneOf(scrubbedEntry.getUniversityFiscalPeriodCode(), invalidFiscalPeriodCodesForOffsetGeneration) && 
+                !"ACLO".equals(scrubbedEntry.getFinancialDocumentTypeCode()) && "CL".equals(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode()) && 
+                !"EXTAGY".equals(scrubbedEntry.getAccount().getSubFundGroupCode()) && !"HO".equals(scrubbedEntry.getChartOfAccountsCode())) {
             liabilityEntry.setFinancialObjectCode("9603"); // NOTES_PAYABLE_CAPITAL_LEASE
             liabilityEntry.setFinancialObjectTypeCode("LI"); // LIABILITY
 

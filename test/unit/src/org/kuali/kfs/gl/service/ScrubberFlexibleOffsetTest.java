@@ -44,33 +44,18 @@ import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
+import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.test.MockService;
 
 /**
- * This class...
+ * Test Flexible Offset in the scrubber
  * 
  * @author Bin Gao from Michigan State University
  */
 public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberFlexibleOffsetTest.class);
 
-    private BusinessObjectService businessObjectService;
-    private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private DocumentTypeService documentTypeService;
     private ScrubberService scrubberService;
-    private KualiConfigurationService originalConfigService;
-
-    public final Integer FISCAL_YEAR = new Integer(2004);
-    public final String COA_CODE = "BL";
-    public final String ACCOUNT_NUMBER = "1031400";
-
-    public final String OFFSET_COA_CODE = "UA";
-    public final String OFFSET_ACCOUNT_NUMBER = "1912201";
-    public final String OFFSET_OBJECT_CODE = "8100";
-
-    public final String OBJECT_CODE = "4190";
-    public final String BALANCE_TYPE_CODE = "AC";
-    public final String DOCUMENT_TYPE_CODE = "PCDO";
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -79,11 +64,6 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         super.setUp();
 
         scrubberService = (ScrubberService) beanFactory.getBean(GLSpringBeansRegistry.glScrubberService);
-
-        businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        documentTypeService = (DocumentTypeService) beanFactory.getBean("documentTypeService");
-
-        flexibleOffsetAccountService = (FlexibleOffsetAccountService) beanFactory.getBean("flexibleOffsetAccountService");
 
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();
@@ -95,163 +75,102 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     }
 
     /**
-     * test the primary scenario of flexible offset generation, that is, the given origin entry must have a flexible offset entry
-     * generated.
+     * Test to make sure that flexible offset is off when the flag is off
+     * 
+     * @throws Exception
+     */
+    public void testNonFlexibleOffsetGeneration() throws Exception {
+
+        resetFlexibleOffsetEnableFlag(false);
+
+        updateDocTypeForScrubberOffsetGeneration();
+        setOffsetAccounts();
+
+        String[] input = new String[] {
+                "2007BA9120656-----4190---ACEX02ID0101NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                  ",
+                "2007BA6044900-----4190---ACEX02ID0101NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                  ",
+                "2007BL1023200-----4190---ACEX02ID0101NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                  ",
+                "2007BL1023200-----7030---ACEX02ID0101NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                  ",
+                "2007BL2331473-----4190---ACEX02ID0101NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                  ",
+        };
+
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BA9120656-----4190---ACEX02ID0101NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BA6044900-----4190---ACEX02ID0101NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BL1023200-----4190---ACEX02ID0101NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BL1023200-----7030---ACEX02ID0101NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BL2331473-----4190---ACEX02ID0101NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA9120656-----4190---ACEX02ID0101NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA9120656-----8000---ACAS02ID0101NOFLEX00100000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA6044900-----4190---ACEX02ID0101NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA6044900-----8000---ACAS02ID0101NOFLEX00200000GENERATED OFFSET                                  1000.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----4190---ACEX02ID0101NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----8000---ACAS02ID0101NOFLEX00300000GENERATED OFFSET                                  3000.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL9520004-----8611---ACAS02ID0101NOFLEX00400000GENERATED CAPITALIZATION                          3500.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL9520004-----9899---ACFB02ID0101NOFLEX00400000GENERATED CAPITALIZATION                          3500.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----7030---ACEX02ID0101NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----8000---ACAS02ID0101NOFLEX00400000GENERATED OFFSET                                  3500.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL2331473-----4190---ACEX02ID0101NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL2331473-----8000---ACAS02ID0101NOFLEX00500000GENERATED OFFSET                                  4000.00C2006-01-01          ----------                                  "),
+        };
+
+        scrub(input);
+        assertOriginEntries(4,output);
+    }
+
+    /**
+     * Test it when the flag is on
      * 
      * @throws Exception
      */
     public void testFlexibleOffsetGeneration() throws Exception {
 
-        // reset the preconditions of flexible offset generation so that they have the vaild values
         resetFlexibleOffsetEnableFlag(true);
-        resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
-        resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
-        resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
+
+        updateDocTypeForScrubberOffsetGeneration();
+        setOffsetAccounts();
 
         String[] input = new String[] {
-                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  ",
-                "2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  ",
+                "2007BA9120656-----4190---ACEX02ID0101NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                  ",
+                "2007BA6044900-----4190---ACEX02ID0101NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                  ",
+                "2007BL1023200-----4190---ACEX02ID0101NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                  ",
+                "2007BL1023200-----7030---ACEX02ID0101NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                  ",
+                "2007BL2331473-----4190---ACEX02ID0101NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                  ",
         };
 
         EntryHolder[] output = new EntryHolder[] {
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004UA1912201-----8100---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
-        };
-
-        fail("I think this is wrong...there should be 2 offsets?");
-        scrub(input);
-        assertOriginEntries(4,output);
-    }
-
-    /**
-     * test the case when the global flexible offset enable flag is set to false. In this case, the offset generation must not be
-     * executed, that is, there is no flexible offset entry generated.
-     * 
-     * @throws Exception
-     */
-    public void testFlexibleOffsetEnableFlag() throws Exception {
-        this.clearOriginEntryTables();
-        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-
-        // disable the global flexible offset enable flag
-        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(false));
-        resetFlexibleOffsetEnableFlag(false);
-
-        // reset the preconditions of flexible offset generation so that they have the vaild values
-        resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
-        resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
-        resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
-
-        String[] input = new String[] {
-                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
-        };
-
-        EntryHolder[] output = new EntryHolder[] {
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8100---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BA9120656-----4190---ACEX02ID0101NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BA6044900-----4190---ACEX02ID0101NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BL1023200-----4190---ACEX02ID0101NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BL1023200-----7030---ACEX02ID0101NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.BACKUP,"2007BL2331473-----4190---ACEX02ID0101NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA9120656-----4190---ACEX02ID0101NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA9120656-----8000---ACAS02ID0101NOFLEX00100000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA6044900-----4190---ACEX02ID0101NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL2231402-----8000---ACAS02ID0101NOFLEX00200000GENERATED OFFSET                                  1000.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----4190---ACEX02ID0101NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----8000---ACAS02ID0101NOFLEX00300000GENERATED OFFSET                                  3000.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL9520004-----8611---ACAS02ID0101NOFLEX00400000GENERATED CAPITALIZATION                          3500.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL2231419-----9899---ACFB02ID0101NOFLEX00400000GENERATED CAPITALIZATION                          3500.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----7030---ACEX02ID0101NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL1023200-----8000---ACAS02ID0101NOFLEX00400000GENERATED OFFSET                                  3500.00C2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BL2331473-----4190---ACEX02ID0101NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2007BA9120657-----8000---ACAS02ID0101NOFLEX00500000GENERATED OFFSET                                  4000.00C2006-01-01          ----------                                  "),
         };
 
         scrub(input);
         assertOriginEntries(4,output);
     }
 
-    /**
-     * test the case when the scrubber generation indicator is set to false. In this case, the offset generation must not be
-     * executed, that is, there is no flexible offset entry generated.
-     * 
-     * @throws Exception
-     */
-    public void testScrubberGenerationIndicator() throws Exception {
-        this.clearOriginEntryTables();
-        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-
-        // disable the scrubber generation indicator
-        resetScrubberGenerationIndicator(false, DOCUMENT_TYPE_CODE);
-
-        // reset the preconditions of flexible offset generation so that they have the vaild values
-        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
-        resetFlexibleOffsetEnableFlag(true);
-
-        resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
-        resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
-
-        String[] input = new String[] {
-                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
-        };
-
-        EntryHolder[] output = new EntryHolder[] {
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-        };
-
-        scrub(input);
-        assertOriginEntries(4,output);
+    private void updateDocTypeForScrubberOffsetGeneration() {
+        unitTestSqlDao.sqlCommand("update fp_doc_type_t set TRN_SCRBBR_OFST_GEN_IND = 'Y' where fdoc_typ_cd = 'ID01'");
     }
 
-    /**
-     * test the case when there is no corresponding offset account for the given origin entry. In this case, the flexible offset generation
-     * must not be executed, that is, there is no flexible offset entry generated.  But there should be a non-flexible offset generated
-     * 
-     * @throws Exception
-     */
-    public void testOffsetAccount() throws Exception {
-        this.clearOriginEntryTables();
-        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-
-        // reset the preconditions of flexible offset generation so that they have the vaild values
-        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
-        resetFlexibleOffsetEnableFlag(true);
-        resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
-        resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
-        resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
-
-        String[] input = new String[] {
-                "2004BA6044913-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
-        };
-
-        EntryHolder[] output = new EntryHolder[] {
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BA6044913-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----4190---ACEX07PCDO01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----8000---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                  "),
-        };
-
-        scrub(input);
-        assertOriginEntries(4,output);
-    }
-
-    /**
-     * test the case when there is no offset object available. In this case, the offset generation must not be executed, that is,
-     * there is no flexible offset entry generated.
-     * 
-     * @throws Exception
-     */
-    public void testOffsetDefinition() throws Exception {
-        this.clearOriginEntryTables();
-        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-
-        // reset the preconditions of flexible offset generation so that they have the vaild values
-        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
-        resetFlexibleOffsetEnableFlag(true);
-        resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
-        resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
-        resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
-
-        String[] input = new String[] {
-                "2004BL1031400-----4190---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "
-        };
-
-        EntryHolder[] output = new EntryHolder[] {
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07GEC 01OFFSETDTP00000TEST FLEXIBLE OFFSET                              2000.00D2006-01-01          ----------                                  "),
-        };
-        fail("I think this is wrong");
-
-        scrub(input);
-        assertOriginEntries(4,output);
+    private void setOffsetAccounts() {
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','2331473','8000','BA','9120657')");
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BA','6044900','8000','BL','2231402')");
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','1023200','9040','BL','2231419')");
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','9520004','9899','BL','2231419')");
     }
 
     /**
@@ -260,108 +179,13 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      * @param flag the given value of the flag.
      */
     private void resetFlexibleOffsetEnableFlag(boolean flag) {
-        HashMap keys = new HashMap();
-        keys.put(Constants.PARM_SECTION_NAME_FIELD, Constants.ParameterGroups.SYSTEM);
-        keys.put(Constants.PARM_PARM_NAME_FIELD, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
-
-        // create a new flexible offset enable flag
-        FinancialSystemParameter financialSystemParameter = new FinancialSystemParameter();
-        financialSystemParameter.setFinancialSystemScriptName(Constants.ParameterGroups.SYSTEM);
-        financialSystemParameter.setFinancialSystemParameterName(Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
-
-        String textFlag = flag ? Constants.ParameterValues.YES : Constants.ParameterValues.NO;
-        financialSystemParameter.setFinancialSystemParameterText(textFlag);
-
-        financialSystemParameter.setFinancialSystemMultipleValueIndicator(false);
-
-        this.resetBusinessObject(financialSystemParameter, keys);
-        // System.out.println("Enabled: " + flexibleOffsetAccountService.getEnabled());
-    }
-
-    /**
-     * reset the scubber generation indicator to the given value of the indicator for the specified document type
-     * 
-     * @param indicator the given value of the indicator.
-     * @param documentTypeCode the code of the given document type
-     */
-    private void resetScrubberGenerationIndicator(boolean indicator, String documentTypeCode) {
-        HashMap keys = new HashMap();
-        keys.put(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
-
-        // create a new flexible offset enable flag
-        DocumentType documentType = new DocumentType();
-        documentType.setFinancialDocumentTypeCode(documentTypeCode);
-        documentType.setTransactionScrubberOffsetGenerationIndicator(indicator);
-
-        this.resetBusinessObject(documentType, keys);
-    }
-
-    /**
-     * reset the offset account whose primary key is the combination of the given information so that the offset account can be
-     * available during proccessing.
-     * 
-     * @param chartOfAccountsCode the given chart of account code
-     * @param accountNumber the given account number
-     * @param financialOffsetObjectCode the given offset object code
-     */
-    private void resetAnOffsetAccount(String chartOfAccountsCode, String accountNumber, String financialOffsetObjectCode) {
-        HashMap keys = new HashMap();
-        keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        keys.put(PropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        keys.put(PropertyConstants.FINANCIAL_OFFSET_OBJECT_CODE, financialOffsetObjectCode);
-
-        OffsetAccount offsetAccount = new OffsetAccount();
-        offsetAccount.setChartOfAccountsCode(chartOfAccountsCode);
-        offsetAccount.setAccountNumber(accountNumber);
-        offsetAccount.setFinancialOffsetObjectCode(financialOffsetObjectCode);
-
-        offsetAccount.setFinancialOffsetChartOfAccountCode(OFFSET_COA_CODE);
-        offsetAccount.setFinancialOffsetAccountNumber(OFFSET_ACCOUNT_NUMBER);
-
-        this.resetBusinessObject(offsetAccount, keys);
-    }
-
-    /**
-     * reset the offset definition whose primary key is the combination of the given information so that the offset definition can
-     * be available during proccessing. Essentially, it ensures the value of object code is OFFSET_OBJECT_CODE.
-     * 
-     * @param fiscalYear the given fiscal year
-     * @param chartOfAccountsCode the given chart of accounts code
-     * @param documentTypeCode the given document type code
-     * @param balanceTypeCode the given balance type code
-     */
-    private void resetAnOffsetDefinition(Integer fiscalYear, String chartOfAccountsCode, String documentTypeCode, String balanceTypeCode) {
-        HashMap keys = new HashMap();
-        keys.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-        keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        keys.put(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
-        keys.put(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCode);
-
-        OffsetDefinition offsetDefinition = new OffsetDefinition();
-        offsetDefinition.setUniversityFiscalYear(fiscalYear);
-        offsetDefinition.setChartOfAccountsCode(chartOfAccountsCode);
-        offsetDefinition.setFinancialDocumentTypeCode(documentTypeCode);
-        offsetDefinition.setFinancialBalanceTypeCode(balanceTypeCode);
-        offsetDefinition.setFinancialObjectCode(OFFSET_OBJECT_CODE);
-
-        this.resetBusinessObject(offsetDefinition, keys);
-    }
-
-    /**
-     * reset the business object with underlying database. There are two steps: delete the business object from database, and create
-     * a new record with the given business object.
-     * 
-     * @param businessObject the given business object
-     * @param keys the primary key of the record of the given business object in the database
-     */
-    private void resetBusinessObject(BusinessObject businessObject, Map keys) {
-        businessObjectService.deleteMatching(businessObject.getClass(), keys);
-        businessObjectService.save(businessObject);
+        unitTestSqlDao.sqlCommand("update fs_parm_t set fs_parm_txt = '" + (flag ? "Y" : "N") + "' where fs_scr_nm = '" + Constants.ParameterGroups.SYSTEM + 
+                "' and fs_parm_nm = '" + Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG + "'");
     }
 
     private void scrub(String[] inputTransactions) {
         clearOriginEntryTables();
-        loadInputTransactions(OriginEntrySource.EXTERNAL,inputTransactions,date);
+        loadInputTransactions(OriginEntrySource.BACKUP,inputTransactions,date);
         persistenceService.getPersistenceBroker().clearCache();
         scrubberService.scrubEntries();
     }

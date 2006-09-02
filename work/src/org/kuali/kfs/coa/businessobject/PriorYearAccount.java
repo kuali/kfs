@@ -33,6 +33,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
@@ -147,7 +148,6 @@ public class PriorYearAccount extends BusinessObjectBase implements AccountIntf 
     public PriorYearAccount() {
     }
 
-
     /**
      * This tells if this account is a C&G account.
      * 
@@ -155,10 +155,23 @@ public class PriorYearAccount extends BusinessObjectBase implements AccountIntf 
      */
     public boolean isInCg() {
         // IF C&G is a sub fund group, use this line
-        // return "CG".equals(getSubFundGroupCode();
-
+        // return isInCgSubFundGroup();
+        
         // IF C&G is a fund group, use this line
-        return "CG".equals(getSubFundGroup().getFundGroupCode());
+        return isInCgFundGroup();
+    }
+
+    private boolean isInCgFundGroup() {
+        if ( getSubFundGroup() != null) {
+            return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroup().getFundGroupCode());        
+        } else {
+            // If sub fund group is missing
+            return false;
+        }
+    }
+
+    private boolean isInCgSubFundGroup() {
+        return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroupCode());        
     }
 
     /**

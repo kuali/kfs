@@ -58,7 +58,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static final String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
     private static final String ACCT_CAPITAL_SUBFUNDGROUP = "Account.CapitalSubFundGroup";
 
-    private static final String CONTRACTS_GRANTS_CD = "CG";
     private static final String GENERAL_FUND_CD = "GF";
     private static final String RESTRICTED_FUND_CD = "RF";
     private static final String ENDOWMENT_FUND_CD = "EN";
@@ -654,7 +653,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
 
         // if this is a CG fund group, then its required
-        if (CONTRACTS_GRANTS_CD.equalsIgnoreCase(fundGroupCode)) {
+        if ( newAccount.isInCg() ) {
             required = true;
         }
 
@@ -697,7 +696,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-            if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
+            if (newAccount.isInCg()) {
                 result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), "When Fund Group is CG, Contract Control Chart of Accounts Code");
                 result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), "When Fund Group is CG, Contract Control Account Number");
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "When Fund Group is CG, ICR Type Code");

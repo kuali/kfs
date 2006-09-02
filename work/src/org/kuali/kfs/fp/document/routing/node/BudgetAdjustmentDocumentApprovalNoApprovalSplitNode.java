@@ -22,8 +22,6 @@
  */
 package org.kuali.workflow.node;
 
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.FUND_GROUP_CODE.CONTRACT_GRANTS;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -103,7 +101,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
             }
             else {
                 // fund group should not be CG
-                if (CONTRACT_GRANTS.equals(userAccount.getSubFundGroup().getFundGroupCode())) {
+                if ( userAccount.isInCg() ) {
                     autoApprovalAllowed = false;
                 }
                 

@@ -157,7 +157,6 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     public Account() {
     }
 
-
     /**
      * This tells if this account is a C&G account.
      * 
@@ -173,7 +172,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
 
     private boolean isInCgFundGroup() {
         if ( getSubFundGroup() != null) {
-            return "CG".equals(getSubFundGroup().getFundGroupCode());        
+            return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroup().getFundGroupCode());        
         } else {
             // If sub fund group is missing
             return false;
@@ -181,7 +180,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     }
 
     private boolean isInCgSubFundGroup() {
-        return "CG".equals(getSubFundGroupCode());        
+        return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroupCode());        
     }
 
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {

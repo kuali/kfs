@@ -58,7 +58,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     private Account newAccount;
     private Account copyAccount;
 
-    private static final String CONTRACTS_GRANTS_CD = "CG";
     private static final String GENERAL_FUND_CD = "GF";
     private static final String RESTRICTED_FUND_CD = "RF";
     private static final String ENDOWMENT_FUND_CD = "EN";

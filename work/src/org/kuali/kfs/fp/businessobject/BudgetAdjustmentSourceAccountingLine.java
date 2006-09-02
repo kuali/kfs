@@ -22,6 +22,9 @@
  */
 package org.kuali.module.financial.bo;
 
+import java.util.Map;
+
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
@@ -59,65 +62,35 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     public BudgetAdjustmentSourceAccountingLine() {
         super();
         super.ojbConcreteClass = this.getClass().getName();
-        this.currentBudgetAdjustmentAmount = new KualiDecimal(0);
-        this.baseBudgetAdjustmentAmount = new KualiInteger(0);
-        this.financialDocumentMonth1LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth2LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth3LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth4LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth5LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth6LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth7LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth8LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth9LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth10LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth11LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth12LineAmount = new KualiDecimal(0);
-        this.fringeBenefitIndicator = false;
+        BudgetAdjustmentAccountingLineUtil.init(this);
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.bo.AccountingLineBase#getValuesMap()
+     */
+    @Override
+    public Map getValuesMap() {
+        Map simpleValues = super.getValuesMap();
+        BudgetAdjustmentAccountingLineUtil.appendToValuesMap(simpleValues, this);
+        return simpleValues;
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.bo.AccountingLineBase#copyFrom(org.kuali.core.bo.AccountingLine)
+     */
+    @Override
+    public void copyFrom(AccountingLine other) {
+        super.copyFrom(other);
+        BudgetAdjustmentAccountingLineUtil.copyFrom(this, other);
     }
 
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
      */
     public KualiDecimal getMonthlyLinesTotal() {
-        KualiDecimal total = new KualiDecimal(0);
-        if (getFinancialDocumentMonth1LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth1LineAmount());
-        }
-        if (getFinancialDocumentMonth2LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth2LineAmount());
-        }
-        if (getFinancialDocumentMonth3LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth3LineAmount());
-        }
-        if (getFinancialDocumentMonth4LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth4LineAmount());
-        }
-        if (getFinancialDocumentMonth5LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth5LineAmount());
-        }
-        if (getFinancialDocumentMonth6LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth6LineAmount());
-        }
-        if (getFinancialDocumentMonth7LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth7LineAmount());
-        }
-        if (getFinancialDocumentMonth8LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth8LineAmount());
-        }
-        if (getFinancialDocumentMonth9LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth9LineAmount());
-        }
-        if (getFinancialDocumentMonth10LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth10LineAmount());
-        }
-        if (getFinancialDocumentMonth11LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth11LineAmount());
-        }
-        if (getFinancialDocumentMonth12LineAmount() != null) {
-            total = total.add(getFinancialDocumentMonth12LineAmount());
-        }
-        return total;
+        return BudgetAdjustmentAccountingLineUtil.getMonthlyLinesTotal(this);
     }
 
     /**
@@ -256,7 +229,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
         }
     }
 
-
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth6LineAmount()
      */
@@ -272,7 +244,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
             this.financialDocumentMonth6LineAmount = financialDocumentMonth6LineAmount;
         }
     }
-
 
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth7LineAmount()
@@ -290,7 +261,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
         }
     }
 
-
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth8LineAmount()
      */
@@ -306,7 +276,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
             this.financialDocumentMonth8LineAmount = financialDocumentMonth8LineAmount;
         }
     }
-
 
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth9LineAmount()
@@ -324,7 +293,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
         }
     }
 
-
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth10LineAmount()
      */
@@ -340,7 +308,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
             this.financialDocumentMonth10LineAmount = financialDocumentMonth10LineAmount;
         }
     }
-
 
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth11LineAmount()

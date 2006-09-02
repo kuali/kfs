@@ -25,6 +25,7 @@ package org.kuali.module.gl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
 
@@ -32,8 +33,7 @@ import org.kuali.core.util.SpringServiceLocator;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class GLConstants{
-    public static final KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+public class GLConstants {
     public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";
     
     public static class DummyBusinessObject {
@@ -78,7 +78,6 @@ public class GLConstants{
     	static final public String FUND_BAL_OBJ_TYP_CD = "FUND_BAL_OBJ_TYP_CD";
     	static final public String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
 	    static final public String UNIV_DT = "UNIV_DT";
-
     }
 
     public static class BalanceInquiryDrillDowns {
@@ -86,9 +85,58 @@ public class GLConstants{
         static final public String REPORTING_SORT_CODE = "financialObject.financialObjectLevel.financialReportingSortCode";
         static final public String CONSOLIDATION_OBJECT_CODE = "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode";
     }
-    
+
     public static class LookupableBeanKeys {
         static final public String PENDING_ENTRY = "glPendingEntryLookupableImpl";
         static final public String COLLECTOR_FILE_PARSER = "glCollectorFileParser";
+    }
+
+    public static final String GL_SCRUBBER_GROUP = "GL.SCRUBBER";
+
+    public static class GlScrubberGroupParameters {
+        static final public String CAPITALIZATION_IND = "CAPITALIZATION.IND";
+        static final public String CAPITALIZATION_SUBTYPE_OBJECT_PREFIX = "CAPITALIZATION.SUBTYPE_OBJECT_";
+
+        static final public String COST_SHARE_LEVEL_OBJECT_PREFIX = "COST_SHARE.LEVEL_OBJECT_";
+        static final public String COST_SHARE_LEVEL_OBJECT_DEFAULT = "COST_SHARE.LEVEL_OBJECT_DEFAULT";
+        static final public String COST_SHARE_OBJECT_CODE = "COST_SHARE.OBJECT_CODE";
+
+        static final public String LIABILITY_IND = "LIABILITY.IND";
+        static final public String LIABILITY_OBJECT_CODE = "LIABILITY.OBJECT_CODE";
+
+        static final public String PLANT_INDEBTEDNESS_IND = "PLANT_INDEBTEDNESS.IND";
+    }
+
+    public static class GlScrubberGroupRules {
+        static final public String CAPITALIZATION_DOC_TYPE_CODES = "CAPITALIZATION.DOC_TYPE_CODES";
+        static final public String CAPITALIZATION_FISCAL_PERIOD_CODES = "CAPITALIZATION.FISCAL_PERIOD_CODES";
+        static final public String CAPITALIZATION_OBJ_SUB_TYPE_CODES = "CAPITALIZATION.OBJ_SUB_TYPE_CODES";
+        static final public String CAPITALIZATION_SUB_FUND_GROUP_CODES = "CAPITALIZATION.SUB_FUND_GROUP_CODES";
+        static final public String CAPITALIZATION_CHART_CODES = "CAPITALIZATION.CHART_CODES";
+
+        static final public String CAP_LIAB_PLANT_DOC_TYPE_CODES = "CAP_LIAB_PLANT.DOC_TYPE_CODES";
+
+        static final public String COST_SHARE_BAL_TYP_CODES = "COST_SHARE.BAL_TYP_CODES";
+        static final public String COST_SHARE_OBJ_TYPE_CODES = "COST_SHARE.OBJ_TYPE_CODES";
+        static final public String COST_SHARE_FISCAL_PERIOD_CODES = "COST_SHARE.FISCAL_PERIOD_CODES";
+
+        static final public String COST_SHARE_ENC_BAL_TYP_CODES = "COST_SHARE_ENC.BAL_TYP_CODES";
+        static final public String COST_SHARE_ENC_DOC_TYPE_CODES = "COST_SHARE_ENC.DOC_TYPE_CODES";
+        static final public String COST_SHARE_ENC_FISCAL_PERIOD_CODES = "COST_SHARE_ENC.FISCAL_PERIOD_CODES";
+
+        static final public String LIABILITY_CHART_CODES = "LIABILITY.CHART_CODES";
+        static final public String LIABILITY_DOC_TYPE_CODES = "LIABILITY.DOC_TYPE_CODES";
+        static final public String LIABILITY_FISCAL_PERIOD_CODES = "LIABILITY.FISCAL_PERIOD_CODES";
+        static final public String LIABILITY_OBJ_SUB_TYPE_CODES = "LIABILITY.OBJ_SUB_TYPE_CODES";
+        static final public String LIABILITY_SUB_FUND_GROUP_CODES = "LIABILITY.SUB_FUND_GROUP_CODES";
+
+        static final public String OFFSET_DOC_TYPE_CODES = "OFFSET.DOC_TYPE_CODES";
+        static final public String OFFSET_FISCAL_PERIOD_CODES = "OFFSET.FISCAL_PERIOD_CODES";
+
+        static final public String PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES = "PLANT_FUND.CAMPUS_OBJECT_SUB_TYPE_CODES";
+        static final public String PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES = "PLANT_FUND.ORG_OBJECT_SUB_TYPE_CODES";
+        
+        static final public String PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES = "PLANT_INDEBTEDNESS.OBJ_SUB_TYPE_CODES";
+        static final public String PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES = "PLANT_INDEBTEDNESS.SUB_FUND_GROUP_CODES";
     }
 }

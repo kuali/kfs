@@ -46,6 +46,7 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -312,12 +313,23 @@ public class ScrubberProcess {
             demergerReport.incrementErrorTransactionsSaved();
 
             // Get all the transactions for the document in the valid group
+            Integer lastId = -1;
             Iterator<OriginEntry> transactions = originEntryService.getEntriesByDocument(validGroup, document.getFinancialDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
 
             while (transactions.hasNext()) {
                 OriginEntry transaction = transactions.next();
 
+                // I have no clue why, but when we run this query, sometime we retrieve the exact same row multiple times.
+                // Since they are sorted by ID, we can eliminate the duplicates this way.  There much be a better way to 
+                // solve this, but this works for now.
+                if ( lastId.intValue() == transaction.getEntryId().intValue() ) {
+                    continue;
+                } else {
+                    lastId = transaction.getEntryId();
+                }
+
                 String transactionType = getTransactionType(transaction);
+
                 if ("CE".equals(transactionType)) {
                     demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
                     originEntryService.delete(transaction);
@@ -431,8 +443,8 @@ public class ScrubberProcess {
         Iterator entries = originEntryService.getEntriesByGroup(originEntryGroup);
         while (entries.hasNext()) {
             OriginEntry unscrubbedEntry = (OriginEntry) entries.next();
-
             scrubberReport.incrementUnscrubbedRecordsRead();
+
             transactionErrors = new ArrayList<Message>();
 
             // This is done so if the code modifies this row, then saves it, it will be an insert,
@@ -476,7 +488,10 @@ public class ScrubberProcess {
                 // See if unit of work has changed
                 if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
                     // Generate offset for last unit of work
-                    generateOffset(lastEntry);
+                    if ( ! generateOffset(lastEntry) ) {
+                        saveValidTransaction = false;
+                        saveErrorTransaction = true;
+                    }
 
                     unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
                 }
@@ -528,9 +543,26 @@ public class ScrubberProcess {
                 }
 
                 if ( ! ObjectHelper.isOneOf(scrubbedEntry.getFinancialDocumentTypeCode(), new String[] { "JV", "ACLO" }) ) {
-                    processCapitalization(scrubbedEntry);
-                    processLiabilities(scrubbedEntry);
-                    processPlantIndebtedness(scrubbedEntry);
+                    String m = processCapitalization(scrubbedEntry);
+                    if ( m != null ) {
+                        saveValidTransaction = false;
+                        saveErrorTransaction = false;
+                        addTransactionError(m, "", Message.TYPE_FATAL);
+                    }
+
+                    m = processLiabilities(scrubbedEntry);
+                    if ( m != null ) {
+                        saveValidTransaction = false;
+                        saveErrorTransaction = false;
+                        addTransactionError(m, "", Message.TYPE_FATAL);
+                    }
+
+                    m = processPlantIndebtedness(scrubbedEntry);
+                    if ( m != null ) {
+                        saveValidTransaction = false;
+                        saveErrorTransaction = false;
+                        addTransactionError(m, "", Message.TYPE_FATAL);
+                    }
                 }
 
                 if ( ! scrubCostShareAmount.isZero() ) {
@@ -649,9 +681,9 @@ public class ScrubberProcess {
         if (offsetDefinition != null) {
             if ( offsetDefinition.getFinancialObject() ==  null ) {
                 StringBuffer objectCodeKey = new StringBuffer();
-                objectCodeKey.append(costShareEntry.getUniversityFiscalYear());
-                objectCodeKey.append("-").append(scrubbedEntry.getChartOfAccountsCode());
-                objectCodeKey.append("-").append(scrubbedEntry.getFinancialObjectCode());
+                objectCodeKey.append(offsetDefinition.getUniversityFiscalYear());
+                objectCodeKey.append("-").append(offsetDefinition.getChartOfAccountsCode());
+                objectCodeKey.append("-").append(offsetDefinition.getFinancialObjectCode());
 
                 Message m = new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND) + " (" + objectCodeKey.toString() + ")", Message.TYPE_FATAL);
                 LOG.debug("generateCostShareEntries() Error 1 object not found");
@@ -666,7 +698,7 @@ public class ScrubberProcess {
         else {
             Map<Transaction,List<Message>> errors = new HashMap<Transaction,List<Message>>();
 
-            StringBuffer offsetKey = new StringBuffer(" c ");
+            StringBuffer offsetKey = new StringBuffer("cost share transfer ");
             offsetKey.append(scrubbedEntry.getUniversityFiscalYear());
             offsetKey.append("-");
             offsetKey.append(scrubbedEntry.getChartOfAccountsCode());
@@ -686,6 +718,15 @@ public class ScrubberProcess {
         }
         else {
             costShareOffsetEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+        }
+
+        try {
+            flexibleOffsetAccountService.updateOffset(costShareOffsetEntry);
+        }
+        catch (InvalidFlexibleOffsetException e) {
+            Message m = new Message(e.getMessage(), Message.TYPE_FATAL);
+            LOG.debug("generateCostShareEntries() Cost Share Transfer Flexible Offset Error: " + e.getMessage());
+            return new TransactionError(costShareEntry,m);
         }
 
         createOutputEntry(costShareOffsetEntry, validGroup);
@@ -762,7 +803,7 @@ public class ScrubberProcess {
         else {
             Map<Transaction,List<Message>> errors = new HashMap<Transaction,List<Message>>();
 
-            StringBuffer offsetKey = new StringBuffer(" d ");
+            StringBuffer offsetKey = new StringBuffer("cost share transfer source ");
             offsetKey.append(scrubbedEntry.getUniversityFiscalYear());
             offsetKey.append("-");
             offsetKey.append(scrubbedEntry.getChartOfAccountsCode());
@@ -784,6 +825,15 @@ public class ScrubberProcess {
             costShareSourceAccountOffsetEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
         }
 
+        try {
+            flexibleOffsetAccountService.updateOffset(costShareOffsetEntry);
+        }
+        catch (InvalidFlexibleOffsetException e) {
+            Message m = new Message(e.getMessage(), Message.TYPE_FATAL);
+            LOG.debug("generateCostShareEntries() Cost Share Transfer Account Flexible Offset Error: " + e.getMessage());
+            return new TransactionError(costShareEntry,m);
+        }
+        
         createOutputEntry(costShareSourceAccountOffsetEntry, validGroup);
         scrubberReport.incrementCostShareEntryGenerated();
 
@@ -838,8 +888,9 @@ public class ScrubberProcess {
      * Generate capitalization entries if necessary
      * 
      * @param scrubbedEntry
+     * @return null if no error, message if error
      */
-    private void processCapitalization(OriginEntry scrubbedEntry) {
+    private String processCapitalization(OriginEntry scrubbedEntry) {
         OriginEntry capitalizationEntry = new OriginEntry(scrubbedEntry);
 
         if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && !ObjectHelper.isOneOf(scrubbedEntry.getFinancialDocumentTypeCode(), badDocumentTypeCodesForCapitalization) && !ObjectHelper.isOneOf(scrubbedEntry.getUniversityFiscalPeriodCode(), badUniversityFiscalPeriodCodesForCapitalization) && !"ACLO".equals(scrubbedEntry.getFinancialDocumentTypeCode()) && ObjectHelper.isOneOf(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode(), goodObjectSubTypeCodesForCapitalization) && !"EXTAGY".equals(scrubbedEntry.getAccount().getSubFundGroupCode()) && !"HO".equals(scrubbedEntry.getChartOfAccountsCode())) {
@@ -874,9 +925,18 @@ public class ScrubberProcess {
                 capitalizationEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
 
+            try {
+                flexibleOffsetAccountService.updateOffset(capitalizationEntry);
+            }
+            catch (InvalidFlexibleOffsetException e) {
+                LOG.debug("processCapitalization() Capitalization Flexible Offset Error: " + e.getMessage());
+                return e.getMessage();
+            }
+
             createOutputEntry(capitalizationEntry, validGroup);
             scrubberReport.incrementCapitalizationEntryGenerated();
         }
+        return null;
     }
 
     /**
@@ -885,8 +945,9 @@ public class ScrubberProcess {
      * Generate the plant indebtedness entries
      * 
      * @param scrubbedEntry
+     * @return null if no error, message if error
      */
-    private void processPlantIndebtedness(OriginEntry scrubbedEntry) {
+    private String processPlantIndebtedness(OriginEntry scrubbedEntry) {
 
         OriginEntry plantIndebtednessEntry = new OriginEntry(scrubbedEntry);
 
@@ -913,6 +974,15 @@ public class ScrubberProcess {
             plantIndebtednessEntry.setTransactionDebitCreditCode(scrubbedEntry.getTransactionDebitCreditCode());
 
             plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
+
+            try {
+                flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
+            }
+            catch (InvalidFlexibleOffsetException e) {
+                LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
+                return e.getMessage();
+            }
+
             createOutputEntry(plantIndebtednessEntry, validGroup);
             scrubberReport.incrementPlantIndebtednessEntryGenerated();
 
@@ -962,9 +1032,19 @@ public class ScrubberProcess {
                 plantIndebtednessEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
 
+            try {
+                flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
+            }
+            catch (InvalidFlexibleOffsetException e) {
+                LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
+                return e.getMessage();
+            }
+
             createOutputEntry(plantIndebtednessEntry, validGroup);
             scrubberReport.incrementPlantIndebtednessEntryGenerated();
         }
+
+        return null;
     }
 
     /**
@@ -973,8 +1053,9 @@ public class ScrubberProcess {
      * Generate the liability entries
      * 
      * @param scrubbedEntry
+     * @return null if no error, message if error
      */
-    private void processLiabilities(OriginEntry scrubbedEntry) {
+    private String processLiabilities(OriginEntry scrubbedEntry) {
         OriginEntry liabilityEntry = new OriginEntry(scrubbedEntry);
 
         if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && !ObjectHelper.isOneOf(scrubbedEntry.getFinancialDocumentTypeCode(), invalidDocumentTypesForLiabilities) && !ObjectHelper.isOneOf(scrubbedEntry.getUniversityFiscalPeriodCode(), invalidFiscalPeriodCodesForOffsetGeneration) && !"ACLO".equals(scrubbedEntry.getFinancialDocumentTypeCode()) && "CL".equals(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode()) && !"EXTAGY".equals(scrubbedEntry.getAccount().getSubFundGroupCode()) && !"HO".equals(scrubbedEntry.getChartOfAccountsCode())) {
@@ -1003,9 +1084,18 @@ public class ScrubberProcess {
                 liabilityEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
 
+            try {
+                flexibleOffsetAccountService.updateOffset(liabilityEntry);
+            }
+            catch (InvalidFlexibleOffsetException e) {
+                LOG.debug("processLiabilities() Liability Flexible Offset Error: " + e.getMessage());
+                return e.getMessage();
+            }
+
             createOutputEntry(liabilityEntry, validGroup);
             scrubberReport.incrementLiabilityEntryGenerated();
         }
+        return null;
     }
 
     /**
@@ -1094,8 +1184,6 @@ public class ScrubberProcess {
 
         costShareEncumbranceEntry.setTransactionDate(runDate);
 
-        setCostShareObjectCode(costShareEncumbranceEntry, scrubbedEntry);
-
         costShareEncumbranceEntry.setTransactionScrubberOffsetGenerationIndicator(true);
         createOutputEntry(costShareEncumbranceEntry, validGroup);
         scrubberReport.incrementCostShareEncumbranceGenerated();
@@ -1107,13 +1195,13 @@ public class ScrubberProcess {
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(costShareEncumbranceEntry.getUniversityFiscalYear(), costShareEncumbranceEntry.getChartOfAccountsCode(), costShareEncumbranceEntry.getFinancialDocumentTypeCode(), costShareEncumbranceEntry.getFinancialBalanceTypeCode());
 
         if (offset != null) {
-            if ( costShareEncumbranceOffsetEntry.getFinancialObject() == null ) {
+            if ( offset.getFinancialObject() == null ) {
                     StringBuffer offsetKey = new StringBuffer();
-                    offsetKey.append(costShareEncumbranceEntry.getUniversityFiscalYear());
+                    offsetKey.append(offset.getUniversityFiscalYear());
                     offsetKey.append("-");
-                    offsetKey.append(costShareEncumbranceEntry.getChartOfAccountsCode());
+                    offsetKey.append(offset.getChartOfAccountsCode());
                     offsetKey.append("-");
-                    offsetKey.append(costShareEncumbranceEntry.getFinancialObjectCode());
+                    offsetKey.append(offset.getFinancialObjectCode());
 
                     LOG.debug("generateCostShareEncumbranceEntries() object code not found");
                     return new TransactionError(costShareEncumbranceEntry,new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD) + "(" + offsetKey.toString() + ")", Message.TYPE_FATAL));
@@ -1123,7 +1211,7 @@ public class ScrubberProcess {
             costShareEncumbranceOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
         else {
-            StringBuffer offsetKey = new StringBuffer(" e ");
+            StringBuffer offsetKey = new StringBuffer("Cost share encumbrance ");
             offsetKey.append(costShareEncumbranceEntry.getUniversityFiscalYear());
             offsetKey.append("-");
             offsetKey.append(costShareEncumbranceEntry.getChartOfAccountsCode());
@@ -1156,6 +1244,16 @@ public class ScrubberProcess {
         costShareEncumbranceOffsetEntry.setTransactionEncumbranceUpdateCode(null);
 
         costShareEncumbranceOffsetEntry.setTransactionScrubberOffsetGenerationIndicator(true);
+
+        try {
+            flexibleOffsetAccountService.updateOffset(costShareEncumbranceOffsetEntry);
+        }
+        catch (InvalidFlexibleOffsetException e) {
+            Message m = new Message(e.getMessage(), Message.TYPE_FATAL);
+            LOG.debug("generateCostShareEncumbranceEntries() Cost Share Encumbrance Flexible Offset Error: " + e.getMessage());
+            return new TransactionError(costShareEncumbranceOffsetEntry,m);
+        }
+
         createOutputEntry(costShareEncumbranceOffsetEntry, validGroup);
         scrubberReport.incrementCostShareEncumbranceGenerated();
 
@@ -1268,22 +1366,22 @@ public class ScrubberProcess {
      * 
      * @param scrubbedEntry
      */
-    private void generateOffset(OriginEntry scrubbedEntry) {
+    private boolean generateOffset(OriginEntry scrubbedEntry) {
         LOG.debug("generateOffset() started");
 
         // There was no previous unit of work so we need no offset
         if (scrubbedEntry == null) {
-            return;
+            return true;
         }
 
         // If the offset amount is zero, don't bother to lookup the offset definition ...
         if (unitOfWork.offsetAmount.isZero()) {
-            return;
+            return true;
         }
 
         // No offsets if it is a JV
         if ( "JV".equals(scrubbedEntry.getFinancialDocumentTypeCode()) ) {
-            return;
+            return true;
         }
 
         // do nothing if flexible offset is enabled and scrubber offset indicator of the document
@@ -1291,7 +1389,7 @@ public class ScrubberProcess {
         String documentTypeCode = scrubbedEntry.getFinancialDocumentTypeCode();
         DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
         if ((!documentType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled()) {
-            return;
+            return true;
         }
 
         // Create an offset
@@ -1308,11 +1406,8 @@ public class ScrubberProcess {
                 offsetKey.append(offsetDefinition.getFinancialObjectCode());
 
                 putTransactionError(offsetEntry,kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), offsetKey.toString(), Message.TYPE_FATAL);
-                return;
+                return false;
             }
-
-            // Flexible Offset Enhancement
-            applyFlexibleOffsetGeneration(offsetEntry);
 
             offsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
             offsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
@@ -1321,7 +1416,7 @@ public class ScrubberProcess {
             offsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
         else {
-            StringBuffer sb = new StringBuffer("a "); // This is to help identifiy problems since this error appears in many places
+            StringBuffer sb = new StringBuffer("Unit of work offset ");
             sb.append(scrubbedEntry.getUniversityFiscalYear());
             sb.append("-");
             sb.append(scrubbedEntry.getChartOfAccountsCode());
@@ -1331,7 +1426,7 @@ public class ScrubberProcess {
             sb.append(scrubbedEntry.getFinancialBalanceTypeCode());
 
             putTransactionError(offsetEntry,kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), sb.toString(), Message.TYPE_FATAL);
-            return;
+            return false;
         }
 
         offsetEntry.setFinancialObjectTypeCode(offsetEntry.getFinancialObject().getFinancialObjectTypeCode());
@@ -1355,107 +1450,18 @@ public class ScrubberProcess {
         offsetEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         offsetEntry.setTransactionDate(runDate);
 
+        try {
+            flexibleOffsetAccountService.updateOffset(offsetEntry);
+        }
+        catch (InvalidFlexibleOffsetException e) {
+            LOG.debug("generateOffset() Offset Flexible Offset Error: " + e.getMessage());
+            putTransactionError(offsetEntry,e.getMessage(), "", Message.TYPE_FATAL);
+            return false;
+        }
+
         createOutputEntry(offsetEntry, validGroup);
         scrubberReport.incrementOffsetEntryGenerated();
-    }
-
-    /**
-     * This method determines if the flexible offsets need to be generated against the given transaction entry. If any, replace the
-     * chart and account with the offset chart of accounts code and offset account number from the offset table (FP_ODST_ACC_T).
-     * Then, pass the control to the module of the ordinary offset generation.
-     * 
-     * This code was not in the original COBOL. It is a Kuali enhancement
-     * 
-     * @param originEntry the transaction entry being processed
-     */
-    private void applyFlexibleOffsetGeneration(OriginEntry originEntry) {
-        String keyOfErrorMessage = "";
-
-        Integer fiscalYear = originEntry.getUniversityFiscalYear();
-        String chartOfAccountsCode = originEntry.getChartOfAccountsCode();
-        String accountNumber = originEntry.getAccountNumber();
-
-        String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
-        String documentTypeCode = originEntry.getFinancialDocumentTypeCode();
-
-        // do nothing if the global flexible offset indicator is off
-        if (!flexibleOffsetAccountService.getEnabled()) {
-            return;
-        }
-
-        // do nothing if scrubber offset indicator is turned off in the document type table
-        DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
-        if (!documentType.isTransactionScrubberOffsetGenerationIndicator()) {
-            return;
-        }
-
-        // look up the offset definition table for the offset object code
-        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(fiscalYear, chartOfAccountsCode, documentTypeCode, balanceTypeCode);
-        if (offsetDefinition == null) {
-            StringBuffer errorValues = new StringBuffer("b ");
-            errorValues.append(fiscalYear);
-            errorValues.append("-");
-            errorValues.append(chartOfAccountsCode);
-            errorValues.append("-");
-            errorValues.append(documentTypeCode);
-            errorValues.append("-");
-            errorValues.append(balanceTypeCode);
-
-            keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND);
-            addTransactionError(keyOfErrorMessage, errorValues.toString(), Message.TYPE_FATAL);
-            return;
-        }
-
-        // get the offset object code from the offset definition record searched above
-        String offsetObjectCode = offsetDefinition.getFinancialObjectCode();
-        if (offsetObjectCode == null) {
-            keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND);
-            addTransactionError(keyOfErrorMessage, "", Message.TYPE_FATAL);
-            return;
-        }
-
-        // do nothing if there is no the offset account with the given chart of accounts code,
-        // account number and offset object code in the offset table.
-        OffsetAccount offsetAccount = flexibleOffsetAccountService.getByPrimaryIdIfEnabled(chartOfAccountsCode, accountNumber, offsetObjectCode);
-        if (offsetAccount == null) {
-            StringBuffer errorValues = new StringBuffer();
-            errorValues.append("chart of account code = " + chartOfAccountsCode + "; ");
-            errorValues.append("account number = " + accountNumber + "; ");
-            errorValues.append("offset object code = " + offsetObjectCode + "; ");
-
-            keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_ACCOUNT_NOT_FOUND);
-            addTransactionError(keyOfErrorMessage, errorValues.toString(), Message.TYPE_FATAL);
-            return;
-        }
-        String offserAccountNumber = offsetAccount.getFinancialOffsetAccountNumber();
-        String offsetChartOfAccountsCode = offsetAccount.getFinancialOffsetChartOfAccountCode();
-
-        // validate if there is a record with the offset chart and offset object code in the object code table
-        if (!chartOfAccountsCode.equals(offsetChartOfAccountsCode)) {
-            ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, offsetChartOfAccountsCode, offsetObjectCode);
-            if (objectCode == null) {
-                StringBuffer errorValues = new StringBuffer();
-                errorValues.append("chart of account code = " + chartOfAccountsCode + "; ");
-                errorValues.append("object code = " + offsetObjectCode + "; ");
-
-                keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND);
-                addTransactionError(keyOfErrorMessage, errorValues.toString(), Message.TYPE_FATAL);
-                return;
-            }
-        }
-
-        // replace the chart and account of the given transaction with those of the offset account obtained above
-        originEntry.setAccountNumber(offserAccountNumber);
-        originEntry.setChartOfAccountsCode(offsetChartOfAccountsCode);
-
-        // blank out the sub account and sub object since the account has been replaced
-        originEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
-        originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-
-        // indicate that the entry is a flexible offset with the meaningful description
-        originEntry.setTransactionLedgerEntryDescription(offsetDescription);
-
-        return;
+        return true;
     }
 
     /**

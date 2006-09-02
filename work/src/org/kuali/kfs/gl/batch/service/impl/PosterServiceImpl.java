@@ -47,6 +47,8 @@ import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.gl.GLConstants;
+import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.ExpenditureTransaction;
@@ -63,13 +65,15 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.service.impl.ScrubberProcess.TransactionError;
+import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.38 2006-09-01 15:11:15 bgao Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.39 2006-09-02 00:36:28 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -78,7 +82,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     public static final String UPDATE_CODE = "U";
     public static final String DELETE_CODE = "D";
     public static final String SELECT_CODE = "S";
-    
+
     public static final KualiDecimal warningMaxDifference = new KualiDecimal("0.05");
     public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -96,6 +100,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private ObjectCodeService objectCodeService;
     private ReportService reportService;
     private KualiConfigurationService kualiConfigurationService;
+    private FlexibleOffsetAccountService flexibleOffsetAccountService;
 
     /**
      * 
@@ -535,6 +540,14 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             e.setTransactionLedgerEntryDescription(getOffsetDescription(pct, et.getAccountObjectDirectCostAmount().abs(), et.getChartOfAccountsCode(), et.getAccountNumber()));
         }
 
+        try {
+            flexibleOffsetAccountService.updateOffset(e);
+        }
+        catch (InvalidFlexibleOffsetException ex) {
+            // TODO This should be a report thing, not an exception
+            throw new IllegalArgumentException(ex.getMessage());
+        }
+
         originEntryService.createEntry(e, group);
     }
 
@@ -668,5 +681,5 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-    }
+}
 }

@@ -24,6 +24,7 @@ package org.kuali.module.financial.service;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.gl.bo.OriginEntry;
 
 /**
  * This interface defines methods that a FlexibleOffsetAccount Service must provide.
@@ -50,6 +51,19 @@ public interface FlexibleOffsetAccountService {
      * @return whether the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
      */
     public boolean getEnabled();
+
+    /**
+     * This method will apply the flexible offset account if necessary.  It will only change the chart, account, 
+     * sub account and sub object on the transaction.  If the flexible offset isn't enabled or valid for this
+     * transaction, it will be unchanged.
+     * 
+     * It throws a FlexibleOffset
+     * @param transaction
+     * @return true if transaction was changed, false if not
+     */
+    public boolean updateOffset(OriginEntry transaction);
+
+    // The methods below are completely unrelated to flexible offset and shouldn't be in the interface.  They expose the implementation to the outside world.
 
     /**
      * Sets the configuration service that this service will use. This method is in the interface for tests to use mock objects.

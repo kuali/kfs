@@ -91,7 +91,15 @@ public class GLConstants {
         static final public String COLLECTOR_FILE_PARSER = "glCollectorFileParser";
     }
 
+    public static final String GL_ACCOUNT_BALANCE_SERVICE_GROUP = "GL.ACCOUNT_BALANCE_SERVICE";
     public static final String GL_SCRUBBER_GROUP = "GL.SCRUBBER";
+
+    public static class GlAccountBalanceGroupParameters {
+        static final public String EXPENSE_OBJECT_TYPE_CODES = "EXPENSE_OBJECT_TYPE_CODES";
+        static final public String EXPENSE_TRANSFER_OBJECT_TYPE_CODES = "EXPENSE_TRANSFER_OBJECT_TYPE_CODES";
+        static final public String INCOME_OBJECT_TYPE_CODES = "INCOME_OBJECT_TYPE_CODES";
+        static final public String INCOME_TRANSFER_OBJECT_TYPE_CODES = "INCOME_TRANSFER_OBJECT_TYPE_CODES";        
+    }
 
     public static class GlScrubberGroupParameters {
         static final public String CAPITALIZATION_IND = "CAPITALIZATION.IND";

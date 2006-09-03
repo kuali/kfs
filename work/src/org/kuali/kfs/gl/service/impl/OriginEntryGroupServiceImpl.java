@@ -40,7 +40,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.24 2006-08-23 18:06:33 schoo Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.25 2006-09-03 23:24:50 jsissom Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -207,7 +207,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public Collection getIcrGroupsToPost() {
         LOG.debug("getIcrGroupsToPost() started");
 
-        return originEntryGroupDao.getPosterGroups(OriginEntrySource.ICR_POSTER_VALID);
+        return originEntryGroupDao.getPosterGroups(OriginEntrySource.ICR_TRANSACTIONS);
     }
 
     /**

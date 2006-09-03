@@ -23,7 +23,12 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.core.authorization.MaintenanceDocumentAuthorizer;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.service.DocumentAuthorizationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
@@ -49,7 +54,7 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
         
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
-        copyICRFromAccount();
+        copyICRFromAccount( document );
 
         return true;
     }
@@ -74,24 +79,35 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
         //copyAccount.refresh();
     }
     
-    private void copyICRFromAccount() {
-        // only need to do this of the account sub type is EX
-        A21SubAccount a21SubAccount = newSubAccount.getA21SubAccount();
-        Account account = newSubAccount.getAccount();
-        if ( a21SubAccount.getSubAccountTypeCode().equals( SubAccountRule.CG_A21_TYPE_ICR ) ) {
-            if ( account == null || StringUtils.isBlank( account.getAccountNumber() ) ) {
-                account = getAccountService().getByPrimaryId( newSubAccount.getChartOfAccountsCode(), newSubAccount.getAccountNumber() );
-                if ( ObjectUtils.isNotNull(account) ) {
-                    if ( StringUtils.isBlank( a21SubAccount.getIndirectCostRecoveryAccountNumber() ) ) {
-                        a21SubAccount.setIndirectCostRecoveryAccountNumber( account.getIndirectCostRecoveryAcctNbr() );
-                        a21SubAccount.setIndirectCostRecoveryChartOfAccountsCode( account.getIndirectCostRcvyFinCoaCode() );
-                    }
-                    if ( StringUtils.isBlank( a21SubAccount.getFinancialIcrSeriesIdentifier() ) ) {
-                        a21SubAccount.setFinancialIcrSeriesIdentifier( account.getFinancialIcrSeriesIdentifier() );
-                        a21SubAccount.setOffCampusCode( account.isAccountOffCampusIndicator() );
-                    }
-                    if ( StringUtils.isBlank( a21SubAccount.getIndirectCostRecoveryTypeCode() ) ) {
-                        a21SubAccount.setIndirectCostRecoveryTypeCode( account.getAcctIndirectCostRcvyTypeCd() );
+    private void copyICRFromAccount( MaintenanceDocument document ) {
+        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        
+        // get the correct documentAuthorizer for this document
+        MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) getDocumentAuthorizationService().getDocumentAuthorizer(document);
+
+        // get a new instance of MaintenanceDocumentAuthorizations for this context
+        MaintenanceDocumentAuthorizations auths = documentAuthorizer.getFieldAuthorizations(document, user);
+        
+        // don't need to copy if the user does not have the authority to edit the fields
+        if ( !auths.getAuthFieldAuthorization( "a21SubAccount.financialIcrSeriesIdentifier" ).isReadOnly() ) {            
+            // only need to do this of the account sub type is EX
+            A21SubAccount a21SubAccount = newSubAccount.getA21SubAccount();
+            Account account = newSubAccount.getAccount();
+            if ( a21SubAccount.getSubAccountTypeCode().equals( SubAccountRule.CG_A21_TYPE_ICR ) ) {
+                if ( account == null || StringUtils.isBlank( account.getAccountNumber() ) ) {
+                    account = getAccountService().getByPrimaryId( newSubAccount.getChartOfAccountsCode(), newSubAccount.getAccountNumber() );
+                    if ( ObjectUtils.isNotNull(account) ) {
+                        if ( StringUtils.isBlank( a21SubAccount.getIndirectCostRecoveryAccountNumber() ) ) {
+                            a21SubAccount.setIndirectCostRecoveryAccountNumber( account.getIndirectCostRecoveryAcctNbr() );
+                            a21SubAccount.setIndirectCostRecoveryChartOfAccountsCode( account.getIndirectCostRcvyFinCoaCode() );
+                        }
+                        if ( StringUtils.isBlank( a21SubAccount.getFinancialIcrSeriesIdentifier() ) ) {
+                            a21SubAccount.setFinancialIcrSeriesIdentifier( account.getFinancialIcrSeriesIdentifier() );
+                            a21SubAccount.setOffCampusCode( account.isAccountOffCampusIndicator() );
+                        }
+                        if ( StringUtils.isBlank( a21SubAccount.getIndirectCostRecoveryTypeCode() ) ) {
+                            a21SubAccount.setIndirectCostRecoveryTypeCode( account.getAcctIndirectCostRcvyTypeCd() );
+                        }
                     }
                 }
             }

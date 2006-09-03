@@ -27,6 +27,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -37,6 +38,7 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
 
     private KualiConfigurationService configService;
     private AccountService accountService;
+    private DocumentAuthorizationService documentAuthorizationService;
 
     public MaintenancePreRulesBase() {
         // Pseudo-inject some services.
@@ -47,6 +49,7 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         // SpringServiceLocator, and configure the bean defs for spring.
         setAccountService(SpringServiceLocator.getAccountService());
         setConfigService(SpringServiceLocator.getKualiConfigurationService());
+        setDocumentAuthorizationService( SpringServiceLocator.getDocumentAuthorizationService() );
     }
 
     public void setAccountService(AccountService accountService) {
@@ -130,5 +133,23 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         return configService;
     }
 
+
+    /**
+     * Gets the documentAuthorizationService attribute.
+     * 
+     * @return Returns the documentAuthorizationService.
+     */
+    protected final DocumentAuthorizationService getDocumentAuthorizationService() {
+        return documentAuthorizationService;
+    }
+
+    /**
+     * Sets the documentAuthorizationService attribute value.
+     * 
+     * @param documentAuthorizationService The documentAuthorizationService to set.
+     */
+    public final void setDocumentAuthorizationService(DocumentAuthorizationService documentAuthorizationService) {
+        this.documentAuthorizationService = documentAuthorizationService;
+    }
 
 }

@@ -25,6 +25,9 @@ package org.kuali.workflow;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,9 +36,13 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
+import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.UrlFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -237,4 +244,48 @@ public class KualiWorkflowUtils {
         return new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString();
     }
     
+    /**
+     * This method is for use by WorkflowLookupableImpl and WorkflowAttribute implementations to derive the fieldHelpUrl for use
+     * on edu.iu.uis.eden.lookupable.Fields.
+     * 
+     * @param field The kuali field that we need to derive a help url for. @ return Returns the help url for the field.
+     */
+    public static String getHelpUrl(org.kuali.core.web.uidraw.Field field) {
+        Properties params = new Properties();
+        params.put(Constants.DISPATCH_REQUEST_PARAMETER, "getAttributeHelpText");
+        params.put(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, field.getBusinessObjectClassName());
+        params.put(PropertyConstants.ATTRIBUTE_NAME, field.getPropertyName());
+        return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.APPLICATION_BASE_URL_KEY) + "/help.do", params);
+    }
+    
+    /** 
+     * This is for use by xml WorkflowAttribute implementations.  It overrides the label and help url of the test fields on
+     * the edu.iu.uis.eden.lookupable.Rows obtained from the workflow parent class with the appropriate values from the data
+     * dictionary.
+     * 
+     * @param workflowRows A list of edu.iu.uis.eden.lookupable.Row objects provided by the workflow superclass, based
+     * on the XML attribute definition.
+     * @param businessObjectClass The BusinessObject Class extracted from the meta data specified in the XML attribute definition,
+     * which is used in querying the data dictionary for the field definition.
+     */
+    public static List setKualiFieldValues(List workflowRows, String businessObjectClassName) {
+        Iterator workflowRowsItr = workflowRows.iterator();
+        while (workflowRowsItr.hasNext()) {
+            edu.iu.uis.eden.lookupable.Row row = (edu.iu.uis.eden.lookupable.Row) workflowRowsItr.next();
+            Iterator fieldItr = row.getFields().iterator();
+            while (fieldItr.hasNext()) {
+                edu.iu.uis.eden.lookupable.Field field = row.getField(0);
+                if (edu.iu.uis.eden.lookupable.Field.TEXT.equals(field.getFieldType())) {
+                    try {
+                        org.kuali.core.web.uidraw.Field kualiField = FieldUtils.getPropertyField(Class.forName(businessObjectClassName), field.getPropertyName(), false);
+                        field.setFieldLabel(kualiField.getFieldLabel());
+                        field.setFieldHelpUrl(KualiWorkflowUtils.getHelpUrl(kualiField));
+                    } catch (ClassNotFoundException cnfe) {
+                        throw new RuntimeException("Unable to load BusinessObject class: " + businessObjectClassName, cnfe);
+                    }
+                }
+            }
+        }
+        return workflowRows;
+    }
 }

@@ -46,6 +46,7 @@
                 <lookupField attributeName="financialObjectCode" />
                 <lookupField attributeName="financialSubObjectCode" />
                 <lookupField attributeName="financialSubObjectCodeName" />
+                <lookupField attributeName="financialSubObjectActiveIndicator" />
             </lookupFields>
 
             <resultFields>

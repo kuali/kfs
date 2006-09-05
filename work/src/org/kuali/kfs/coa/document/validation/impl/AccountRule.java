@@ -244,7 +244,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      *         Supervisors
      * 
      */
-    protected boolean isNonSystemSupervisorReopeningAClosedAccount(MaintenanceDocument document, KualiUser user) {
+    protected boolean isNonSystemSupervisorEditingAClosedAccount(MaintenanceDocument document, KualiUser user) {
 
         boolean result = false;
 
@@ -255,12 +255,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
 
             // do the test
-            if (oldAccount.isAccountClosedIndicator()) {
-                if (!newAccount.isAccountClosedIndicator()) {
-                    if (!user.isSupervisorUser()) {
-                        result = true;
-                    }
-                }
+            if (oldAccount.isAccountClosedIndicator() && !user.isSupervisorUser()) {
+                result = true;
             }
         }
         return result;
@@ -331,9 +327,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         // we need to get the old maintanable doc here
-        if (isNonSystemSupervisorReopeningAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getKualiUser())) {
+        if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getKualiUser())) {
             success &= false;
-            putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_REOPEN);
+            putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
 
         // when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status

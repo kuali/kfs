@@ -192,13 +192,6 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             }
         }
 
-        if ( "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode".equals(attributeName) && 
-                businessObject instanceof AccountBalance ) {
-            for (Iterator iter = parameters.keySet().iterator(); iter.hasNext();) {
-                String key = (String) iter.next();
-                LOG.debug("getInquiryUrl() " + key + " = " + parameters.getProperty(key));                
-            }
-        }
         return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 

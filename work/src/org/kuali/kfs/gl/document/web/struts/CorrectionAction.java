@@ -54,6 +54,7 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.lookup.keyvalues.CorrectionGroupComparator;
 import org.kuali.core.lookup.keyvalues.OEGDateComparator;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.LookupService;
@@ -70,6 +71,8 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
+import org.kuali.module.gl.dao.OriginEntryDao;
+import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -80,7 +83,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.43 2006-09-05 15:30:31 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.44 2006-09-05 20:04:27 schoo Exp $
  * 
  */
 
@@ -1390,51 +1393,68 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         LookupService lookupService = (LookupService) SpringServiceLocator.getBeanFactory().getBean("lookupService");
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
-        List correctionGroups = document.getCorrectionChangeGroup();
+        List<CorrectionChangeGroup> correctionGroups = document.getCorrectionChangeGroup();
         Map fieldValues = new HashMap();
         Map resultMap = new HashMap();
         CorrectionChangeGroup correctionGroup;
-        // Collection searchResults = null;
-        OriginEntryGroup newOriginEntryGroup = null;
-
+        //create an OriginEntryGroup
+        java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
+        // create a docu with all indicators as false(N)
+        OriginEntryGroup copiedOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", false, false, false);
+       
+        OriginEntryGroupDao originEntryGroupDao = (OriginEntryGroupDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupDao");
+        OriginEntryDao originEntryDao = (OriginEntryDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryDao");
+        
+        //copy a group
+        OriginEntryGroup originalOEG = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(groupId[0]));
+        originEntryGroupDao.copyGroup(originalOEG, copiedOriginEntryGroup);
+        
+        /*Map testHashMap = new HashMap();
+        testHashMap.put("entryGroupId", copiedOriginEntryGroup.getId());
+        Collection test = originEntryDao.getMatchingEntriesByCollection(testHashMap);
+        */
+        
+        
+        //sorting correctionGroup
+        CorrectionGroupComparator ccgComparator = new CorrectionGroupComparator();
+        Collections.sort(correctionGroups, ccgComparator);
+        
+        
+        
+        
         Collection<OriginEntry> finalResult = new ArrayList();
-
+        
+        Collection matchedCriteria = new ArrayList();
+        
         Map changedEntryMap = new HashMap();
         Collection returnCollection;
 
         // search using Groups and Fields
         for (int i = 0; i < groupId.length; i += 1) {
 
-
-            Iterator groupIter = correctionGroups.iterator();
-
-            while (groupIter.hasNext()) {
-                correctionGroup = (CorrectionChangeGroup) groupIter.next();
-
+            for (CorrectionChangeGroup ccg : correctionGroups) {
+                
                 // Set a Map with fields
-                fieldValues = createSearchMap(correctionGroup);
+                fieldValues = createSearchMap(ccg);
 
-                fieldValues.put("entryGroupId", groupId[i]);
+                fieldValues.put("entryGroupId", copiedOriginEntryGroup.getId().toString());
 
                 // searchResults is collection of OriginEntry
                 // Collection<OriginEntry> searchResults = (Collection)
                 // lookupService.findCollectionBySearchUnbounded(OriginEntry.class, fieldValues);
-                Collection searchResults = (Collection) lookupService.findCollectionBySearchUnbounded(OriginEntry.class, fieldValues);
+                Collection<OriginEntry> searchResults = (Collection) lookupService.findCollectionBySearchUnbounded(OriginEntry.class, fieldValues);
                 if (searchResults.size() > 0) {
 
-                    Iterator oeIter = searchResults.iterator();
-                    while (oeIter.hasNext()) {
-                        OriginEntry oe = (OriginEntry) oeIter.next();
-                        // for(OriginEntry oe: searchResults){
-
+                    for (OriginEntry oe: searchResults) {
+                        
                         OriginEntry replacedOriginEntry = new OriginEntry();
 
                         try {
-                            replacedOriginEntry = replaceOriginEntryValues(oe, correctionGroup);
+                            replacedOriginEntry = replaceOriginEntryValues(oe, ccg);
                         }
                         catch (Exception e) {
                         }
-
+                        originEntryService.save(replacedOriginEntry);
                         changedEntryMap.put(oe.getEntryId(), oe);
                     }
 
@@ -1443,7 +1463,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
                 fieldValues = new HashMap();
             }
 
-            // build result collection
+          /*  // build result collection
             if (errorCorrectionForm.getMatchCriteriaOnly() == false) {
                 resultMap.put("entryGroupId", groupId[i]);
                 Collection<OriginEntry> tempResultList = originEntryService.getMatchingEntriesByCollection(resultMap);
@@ -1455,20 +1475,24 @@ public class CorrectionAction extends KualiDocumentActionBase {
                     }
 
                 }
-            }
+            }*/
         }
 
 
         if (errorCorrectionForm.getMatchCriteriaOnly() == false) {
-
-            finalResult.addAll(changedEntryMap.values());
-            returnCollection = finalResult;
+            resultMap.put("entryGroupId", copiedOriginEntryGroup.getId().toString());
+            returnCollection = originEntryService.getMatchingEntriesByCollection(resultMap);
+            
 
         }
         else {
             returnCollection = changedEntryMap.values();
         }
         
+        Collection deleteGroups = new ArrayList();
+        deleteGroups.add(copiedOriginEntryGroup);
+        originEntryDao.deleteGroups(deleteGroups);
+        originEntryGroupDao.deleteGroups(deleteGroups);
         CorrectionActionHelper.sortForDisplay(document.getCorrectionChangeGroup());
 
 

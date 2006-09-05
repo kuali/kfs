@@ -82,7 +82,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
         // If the encumbrance update code is space or N, or the object type code is FB
         // we don't need to post an encumbrance
-        if ((t.getTransactionEncumbranceUpdateCode() == null) || " ".equals(t.getTransactionEncumbranceUpdateCode()) || Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode()) || "FB".equals(t.getFinancialObjectTypeCode())) {
+        if ((t.getTransactionEncumbranceUpdateCode() == null) || " ".equals(t.getTransactionEncumbranceUpdateCode()) || Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode()) || t.getOption().getFinObjectTypeFundBalanceCd().equals(t.getFinancialObjectTypeCode())) {
             LOG.debug("post() not posting non-encumbrance transaction");
             return "";
         }

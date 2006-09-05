@@ -52,6 +52,8 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.springframework.beans.factory.BeanFactory;
 
+import sun.security.krb5.internal.rcache.ba;
+
 public class OrganizationReversionProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionProcess.class);
 
@@ -145,12 +147,12 @@ public class OrganizationReversionProcess {
                         OrganizationReversionCategory cat = iter.next();
                         OrganizationReversionCategoryLogic logic = categories.get(cat.getOrganizationReversionCategoryCode());
                         if (logic.containsObjectCode(bal.getFinancialObject())) {
-                            if ("AC".equals(bal.getBalanceTypeCode())) {
+                            if (bal.getOption().getActualFinancialBalanceTypeCd().equals(bal.getBalanceTypeCode())) {
                                 // Actual
                                 unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
                                 unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                             }
-                            else if ("EX".equals(bal.getBalanceTypeCode()) || "CE".equals(bal.getBalanceTypeCode()) || "IE".equals(bal.getBalanceTypeCode())) {
+                            else if (bal.getOption().getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || bal.getOption().getCostShareEncumbranceBalanceTypeCode().equals(bal.getBalanceTypeCode()) || bal.getOption().getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
                                 // Encumbrance
                                 KualiDecimal amount = bal.getBeginningBalanceLineAmount().add(bal.getAccountLineAnnualBalanceAmount());
                                 if (amount.isPositive()) {
@@ -207,7 +209,7 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNbr);
         entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("NB");
+        entry.setFinancialBalanceTypeCode(entry.getOption().getNominalFinancialBalanceTypeCode());
 
         persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {

@@ -693,6 +693,9 @@
                 <ref bean="glPostBalance" />
             </list>
         </property>
+        <property name="flexibleOffsetAccountService">
+        	<ref bean="flexibleOffsetAccountService"/>
+        </property>
         <property name="reportService">
             <ref bean="glReportService" />
         </property>

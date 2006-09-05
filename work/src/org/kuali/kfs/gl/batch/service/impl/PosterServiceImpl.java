@@ -73,7 +73,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.39 2006-09-02 00:36:28 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.40 2006-09-05 19:59:13 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -614,6 +614,15 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         }
     }
 
+    public void init() {
+        LOG.debug("init() started");
+
+        // If we are in test mode
+        if (beanFactory.containsBean("testDateTimeService")) {
+            dateTimeService = (DateTimeService) beanFactory.getBean("testDateTimeService");
+        }
+    }
+
     public void setVerifyTransaction(VerifyTransaction vt) {
         verifyTransaction = vt;
     }
@@ -666,20 +675,11 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         beanFactory = bf;
     }
 
-    public void init() {
-        LOG.debug("init() started");
-
-        // If we are in test mode
-        if (beanFactory.containsBean("testDateTimeService")) {
-            dateTimeService = (DateTimeService) beanFactory.getBean("testDateTimeService");
-        }
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-}
+    }
+
+    public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
+        this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+    }
 }

@@ -48,11 +48,16 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.23 2006-07-11 17:16:31 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.24 2006-09-05 23:12:22 bnelson Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 
+    private static final String ENTRY_GROUP_ID =  "entryGroupId";
+    private static final String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
+    private static final String FINANCIAL_DOCUMENT_TYPE_CODE =  "financialDocumentTypeCode";
+    private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE =  "financialSystemOriginationCode";
+    
     private OriginEntryDao originEntryDao;
     private OriginEntryGroupService originEntryGroupService;
 
@@ -130,10 +135,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         LOG.debug("getEntriesByGroup() started");
 
         Map criteria = new HashMap();
-        criteria.put("entryGroupId", originEntryGroup.getId());
-        criteria.put("financialDocumentNumber", documentNumber);
-        criteria.put("financialDocumentTypeCode", documentTypeCode);
-        criteria.put("financialSystemOriginationCode", originCode);
+        criteria.put(ENTRY_GROUP_ID, originEntryGroup.getId());
+        criteria.put(FINANCIAL_DOCUMENT_NUMBER, documentNumber);
+        criteria.put(FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
+        criteria.put(FINANCIAL_SYSTEM_ORIGINATION_CODE, originCode);
 
         return originEntryDao.getMatchingEntries(criteria);
     }

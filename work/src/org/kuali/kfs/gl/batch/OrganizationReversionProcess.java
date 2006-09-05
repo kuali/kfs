@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -54,6 +55,9 @@ import org.springframework.beans.factory.BeanFactory;
 public class OrganizationReversionProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionProcess.class);
 
+    private static final String FINANCIAL_OBJECT = "financialObject";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    
     // Services
     private OrganizationReversionService organizationReversionService;
     private KualiConfigurationService kualiConfigurationService;
@@ -153,7 +157,7 @@ public class OrganizationReversionProcess {
                                     unitOfWork.addEncumbranceAmount(cat.getOrganizationReversionCategoryCode(), amount);
                                 }
                             }
-                            else if ("CB".equals(bal.getBalanceTypeCode())) {
+                            else if (Constants.BALANCE_TYPE_CURRENT_BUDGET.equals(bal.getBalanceTypeCode())) {
                                 // Budget
                                 if (!"0110".equals(bal.getObjectCode())) {
                                     unitOfWork.addBudgetAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
@@ -186,7 +190,7 @@ public class OrganizationReversionProcess {
     private OriginEntry getEntry() {
         OriginEntry entry = new OriginEntry();
         entry.setUniversityFiscalYear(paramUniversityFiscalYear);
-        entry.setUniversityFiscalPeriodCode("13");
+        entry.setUniversityFiscalPeriodCode(Constants.MONTH13);
         entry.setFinancialDocumentTypeCode("ACLO");
         entry.setFinancialSystemOriginationCode("MF");
         entry.setTransactionLedgerEntrySequenceNumber(1);
@@ -205,13 +209,13 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode("NB");
 
-        persistenceService.retrieveReferenceObject(entry, "financialObject");
+        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 3426
         }
 
         entry.setFinancialDocumentNumber("AC" + entry.getAccountNumber());
-        entry.setTransactionLedgerEntryDescription("CASH REVERTED TO " + organizationReversion.getCashReversionAccountNumber());
+        entry.setTransactionLedgerEntryDescription(KeyConstants.OrganizationReversionProcess.CASH_REVERTED_TO + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
             entry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
@@ -238,13 +242,13 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode("NB");
 
-        persistenceService.retrieveReferenceObject(entry, "financialObject");
+        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 3522
         }
 
         entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
-        entry.setTransactionLedgerEntryDescription("FUND BALANCE REVERTED TO " + organizationReversion.getCashReversionAccountNumber());
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_TO) + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash().abs());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
             entry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
@@ -270,13 +274,13 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode("NB");
 
-        persistenceService.retrieveReferenceObject(entry, "financialObject");
+        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 3624
         }
 
         entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
-        entry.setTransactionLedgerEntryDescription("CASH REVERTED FROM " + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.CASH_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
             entry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
@@ -303,13 +307,13 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode("NB");
 
-        persistenceService.retrieveReferenceObject(entry, "financialObject");
+        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 3722
         }
 
         entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
-        entry.setTransactionLedgerEntryDescription("FUND BALANCE REVERTED FROM " + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
             entry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
@@ -352,16 +356,16 @@ public class OrganizationReversionProcess {
                 }
                 entry.setFinancialObjectCode(paramBegBudgetCashObjectCode);
                 entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-                entry.setFinancialBalanceTypeCode("CB");
+                entry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_CURRENT_BUDGET);
 
-                persistenceService.retrieveReferenceObject(entry, "financialObject");
+                persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
                 if (entry.getFinancialObject() == null) {
                     // TODO Error! Line 3224
                 }
 
-                entry.setUniversityFiscalPeriodCode("01");
+                entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
                 entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
-                entry.setTransactionLedgerEntryDescription("FUNDS CARRIED FORWARD FROM " + paramUniversityFiscalYear);
+                entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
                 entry.setTransactionLedgerEntryAmount(commonAmount);
 
                 // 3259 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
@@ -381,16 +385,16 @@ public class OrganizationReversionProcess {
 
                 entry.setFinancialObjectCode(commonObject);
                 entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-                entry.setFinancialBalanceTypeCode("CB");
+                entry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_CURRENT_BUDGET);
 
-                persistenceService.retrieveReferenceObject(entry, "financialObject");
+                persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
                 if (entry.getFinancialObject() == null) {
                     // TODO Error! Line 3304
                 }
 
-                entry.setUniversityFiscalPeriodCode("01");
+                entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
                 entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
-                entry.setTransactionLedgerEntryDescription("FUNDS CARRIED FORWARD FROM " + paramUniversityFiscalYear);
+                entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
                 entry.setTransactionLedgerEntryAmount(commonAmount);
 
                 // 3343 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
@@ -419,21 +423,21 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNbr);
         entry.setFinancialObjectCode(paramBegBudgetCashObjectCode);
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("CB");
+        entry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_CURRENT_BUDGET);
 
-        persistenceService.retrieveReferenceObject(entry, "financialObject");
+        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 2960
         }
 
         ObjectCode objectCode = entry.getFinancialObject();
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        entry.setUniversityFiscalPeriodCode("01");
+        entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
         entry.setFinancialDocumentTypeCode("ACLO");
         entry.setFinancialSystemOriginationCode("MF");
         entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
         entry.setTransactionLedgerEntrySequenceNumber(1);
-        entry.setTransactionLedgerEntryDescription("FUNDS CARRIED FORWARD FROM " + paramUniversityFiscalYear);
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
         entry.setTransactionDate(paramTransactionDate);
         entry.setProjectCode(Constants.DASHES_PROJECT_CODE);
@@ -453,7 +457,7 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNbr);
         entry.setFinancialObjectCode(paramUnallocObjectCode);
 
-        persistenceService.retrieveReferenceObject(entry, "financialObject");
+        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 3040
         }
@@ -461,10 +465,10 @@ public class OrganizationReversionProcess {
         objectCode = entry.getFinancialObject();
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode("CB");
-        entry.setUniversityFiscalPeriodCode("01");
+        entry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_CURRENT_BUDGET);
+        entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
         entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
-        entry.setTransactionLedgerEntryDescription("FUNDS CARRIED FORWARD FROM " + paramUniversityFiscalYear);
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
 
         // 3079 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
@@ -486,7 +490,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode("RE");
 
-        persistenceService.retrieveReferenceObject(entry, "financialObject");
+        persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {
             // TODO Error! Line 2807
         }
@@ -494,11 +498,11 @@ public class OrganizationReversionProcess {
         ObjectCode objectCode = entry.getFinancialObject();
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
 
-        entry.setUniversityFiscalPeriodCode("13");
+        entry.setUniversityFiscalPeriodCode(Constants.MONTH13);
 
         entry.setFinancialDocumentNumber("AC" + entry.getAccountNumber());
 
-        entry.setTransactionLedgerEntryDescription("FUNDS REVERTED TO " + organizationReversion.getBudgetReversionAccountNumber());
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO) + organizationReversion.getBudgetReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion().negated());
 
         // 2841 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
@@ -518,9 +522,9 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode("RE");
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        entry.setUniversityFiscalPeriodCode("13");
+        entry.setUniversityFiscalPeriodCode(Constants.MONTH13);
         entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
-        entry.setTransactionLedgerEntryDescription("FUNDS REVERTED FROM " + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
+        entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion());
 
         // 2899 MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
@@ -570,11 +574,11 @@ public class OrganizationReversionProcess {
         }
 
         // Accounts with the type of S3 have all rules always set to A
-        if ("S3".equals(bal.getAccount().getAccountTypeCode())) {
+        if (Constants.ACCOUNT_TYPE_S3.equals(bal.getAccount().getAccountTypeCode())) {
             List details = organizationReversion.getOrganizationReversionDetail();
             for (Iterator iter = details.iterator(); iter.hasNext();) {
                 OrganizationReversionDetail element = (OrganizationReversionDetail) iter.next();
-                element.setOrganizationReversionCode("A");
+                element.setOrganizationReversionCode(Constants.EMPLOYEE_ACTIVE_STATUS);
             }
         }
 
@@ -588,7 +592,7 @@ public class OrganizationReversionProcess {
             OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
             String ruleCode = detail.getOrganizationReversionCode();
 
-            if ("R1".equals(ruleCode) || "N1".equals(ruleCode) || "C1".equals(ruleCode)) {
+            if (Constants.RULE_CODE_R1.equals(ruleCode) || Constants.RULE_CODE_N1.equals(ruleCode) || Constants.RULE_CODE_C1.equals(ruleCode)) {
                 if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
                     if (amount.getAvailable().compareTo(amount.getEncumbrance()) > 0) {
                         unitOfWork.addTotalCarryForward(amount.getEncumbrance());
@@ -605,14 +609,14 @@ public class OrganizationReversionProcess {
                 }
             }
 
-            if ("A".equals(ruleCode)) {
+            if (Constants.EMPLOYEE_ACTIVE_STATUS.equals(ruleCode)) {
                 unitOfWork.addTotalCarryForward(amount.getCarryForward());
                 amount.addCarryForward(amount.getAvailable());
                 unitOfWork.addTotalReversion(amount.getAvailable().negated());
                 amount.setAvailable(KualiDecimal.ZERO);
             }
 
-            if ("C1".equals(ruleCode) || "C2".equals(ruleCode)) {
+            if (Constants.RULE_CODE_C1.equals(ruleCode) || Constants.RULE_CODE_C2.equals(ruleCode)) {
                 if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) {
                     unitOfWork.addTotalCarryForward(amount.getAvailable());
                     amount.addCarryForward(amount.getAvailable());
@@ -621,7 +625,7 @@ public class OrganizationReversionProcess {
                 }
             }
 
-            if ("N1".equals(ruleCode) || "N2".equals(ruleCode)) {
+            if (Constants.RULE_CODE_N1.equals(ruleCode) || Constants.RULE_CODE_N2.equals(ruleCode)) {
                 if (amount.getAvailable().compareTo(KualiDecimal.ZERO) < 0) {
                     unitOfWork.addTotalCarryForward(amount.getAvailable());
                     amount.addCarryForward(amount.getAvailable());
@@ -634,11 +638,11 @@ public class OrganizationReversionProcess {
 
     private void setParameters() {
         // Get job parameters
-        String strTransactionDate = kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "TRANSACTION_DT");
-        paramUnallocObjectCode = kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "UNALLOC_OBJECT_CD");
-        paramBegBudgetCashObjectCode = kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "BEG_BUD_CASH_OBJECT_CD");
-        paramFundBalanceObjectCode = kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "FUND_BAL_OBJECT_CD");
-        String strUniversityFiscalYear = kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "UNIV_FISCAL_YR");
+        String strTransactionDate = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, Constants.TRANSACTION_DT);
+        paramUnallocObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, Constants.UNALLOC_OBJECT_CD);
+        paramBegBudgetCashObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, Constants.BEG_BUD_CASH_OBJECT_CD);
+        paramFundBalanceObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, Constants.FUND_BAL_OBJECT_CD);
+        String strUniversityFiscalYear = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, Constants.UNIV_FISCAL_YR);
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

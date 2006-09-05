@@ -36,6 +36,9 @@ public class LedgerEntryHolder {
     private Map ledgerEntries;
     private Map subtotals;
     private LedgerEntry grandTotal;
+    
+    private static final String GRAND_TOTAL = "Grand Total";
+    private static final String SUB_TOTAL = "Subtotal";
 
     /**
      * Constructs a LedgerEntryHolder.java.
@@ -43,7 +46,7 @@ public class LedgerEntryHolder {
     public LedgerEntryHolder() {
         ledgerEntries = new HashMap();
         subtotals = new HashMap();
-        grandTotal = new LedgerEntry(null, null, null, "Grand Total");
+        grandTotal = new LedgerEntry(null, null, null, GRAND_TOTAL);
     }
 
     /**
@@ -87,7 +90,7 @@ public class LedgerEntryHolder {
 
         LedgerEntry ledgerEntry = null;
         if (!subtotals.containsKey(groupingKey)) {
-            ledgerEntry = new LedgerEntry(null, "", newLedgerEntry.getBalanceType(), "Subtotal");
+            ledgerEntry = new LedgerEntry(null, "", newLedgerEntry.getBalanceType(), SUB_TOTAL);
             subtotals.put(groupingKey, ledgerEntry);
         }
         else {

@@ -49,10 +49,12 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.32 2006-08-29 20:02:35 schoo Exp $
+ * @version $Id: OriginEntry.java,v 1.33 2006-09-05 23:12:23 bnelson Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
+    
+    private static final String DATE_FORMAT =   "yyyy-MM-dd";
 
     private Integer entryId;
     private Integer entryGroupId;
@@ -220,7 +222,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         return null;
       } else {
           
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         sdf.setLenient(beLenientWithDates);
         
         try {
@@ -236,7 +238,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       if ( date == null ) {
         return "          ";
       } else {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         return sdf.format(date);
       }
     }

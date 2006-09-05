@@ -57,6 +57,8 @@ import org.springframework.orm.ojb.OjbOperationException;
 public class OJBUtility {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OJBUtility.class);
     private static BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+    
+    public static final String LOOKUP_DAO = "lookupDao";
 
     /**
      * This method builds a map of business object with its property names and values
@@ -148,7 +150,7 @@ public class OJBUtility {
      * @return the size of a result set from the given search criteria
      */
     public static Long getResultSizeFromMap(Map fieldValues, Object businessObject){
-        LookupDao lookupDao = (LookupDao)beanFactory.getBean("lookupDao"); 
+        LookupDao lookupDao = (LookupDao)beanFactory.getBean(LOOKUP_DAO); 
         return lookupDao.findCountByMap(businessObject, fieldValues);
     }
        
@@ -158,8 +160,8 @@ public class OJBUtility {
      */
     public static Integer getResultLimit(){
         // get the result limit number from configuration
-        KualiConfigurationService kualiConfigurationService = (KualiConfigurationService)beanFactory.getBean("kualiConfigurationService");
-        String limitConfig = kualiConfigurationService.getApplicationParameterValue("SYSTEM","lookup.results.limit");
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        String limitConfig = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM,Constants.LOOKUP_RESULTS_LIMIT_URL_KEY);
         
         Integer limit = Integer.MAX_VALUE;
         if (limitConfig != null) {
@@ -172,7 +174,7 @@ public class OJBUtility {
      * This method build OJB criteria from the given property value and name
      */
     public static boolean createCriteria(Object businessObject, String propertyValue, String propertyName, Criteria criteria) {
-        LookupDao lookupDao = (LookupDao)beanFactory.getBean("lookupDao");       
+        LookupDao lookupDao = (LookupDao)beanFactory.getBean(LOOKUP_DAO);       
         return lookupDao.createCriteria(businessObject, propertyValue, propertyName, criteria);
     }
 }

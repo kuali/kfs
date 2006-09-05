@@ -25,6 +25,7 @@ package org.kuali.module.gl.service.impl;
 import java.sql.Date;
 import java.util.Iterator;
 
+import org.kuali.Constants;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -58,7 +59,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     public void deleteCopiedPendingLedgerEntries() {
         LOG.debug("deleteCopiedPendingLedgerEntries() started");
 
-        generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode("X");
+        generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(Constants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM);
     }
 
     /**
@@ -117,7 +118,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      * @param pendingEntry the given pending entry
      */
     private void updatePendingEntryAfterCopy(GeneralLedgerPendingEntry pendingEntry) {
-        pendingEntry.setFinancialDocumentApprovedCode("X");
+        pendingEntry.setFinancialDocumentApprovedCode(Constants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM);
         pendingEntry.setTransactionDate(new Date(dateTimeService.getCurrentDate().getTime()));
         generalLedgerPendingEntryService.save(pendingEntry);
     }

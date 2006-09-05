@@ -30,11 +30,19 @@ import org.kuali.core.bo.BusinessObjectBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryGroup.java,v 1.4 2006-08-20 04:21:48 jsissom Exp $
+ * @version $Id: OriginEntryGroup.java,v 1.5 2006-09-05 23:12:23 bnelson Exp $
  * 
  */
 
 public class OriginEntryGroup extends BusinessObjectBase {
+    
+    private static final String VALID_STRING =  "Valid/";
+    private static final String INVALID_STRING = "Invalid/";
+    private static final String PROCESSED_STRING = " Will Be Processed/";
+    private static final String NOT_PROCESSED_STRING = "Will Not Process/";
+    private static final String SCRUB_STRING = "To Scrub";
+    private static final String NO_SCRUB_STRING = "Not to Scrub";
+    
     private Integer id;
     private Date date;
     private String sourceCode;
@@ -72,9 +80,9 @@ public class OriginEntryGroup extends BusinessObjectBase {
         sb.append(" ");
         sb.append(sdf.format(this.getDate()));
         sb.append(" ");
-        sb.append(valid ? "Valid/" : "Invalid/");
-        sb.append(process ? " Will Be Processed/" : "Will Not Process/");
-        sb.append(scrub ? "To Scrub" : "Not to Scrub");
+        sb.append(valid ? VALID_STRING : INVALID_STRING);
+        sb.append(process ? PROCESSED_STRING : NOT_PROCESSED_STRING);
+        sb.append(scrub ? SCRUB_STRING : NO_SCRUB_STRING);
         return sb.toString();
     }
 

@@ -41,12 +41,19 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.13 2006-08-11 17:11:54 schoo Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.14 2006-09-05 23:12:23 bnelson Exp $
  * TODO Oracle Specific code here
  */
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupDaoOjb.class);
 
+    private static final String DATE =  "date";
+    private static final String ID = "id";
+    private static final String SOURCE_CODE = "sourceCode";
+    private static final String PROCESS = "process";
+    private static final String VALID = "valid";
+    private static final String SCRUB = "scrub";
+    
     public OriginEntryGroupDaoOjb() {
         super();
     }
@@ -78,7 +85,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         LOG.debug("getOlderGroups() started");
 
         Criteria criteria = new Criteria();
-        criteria.addLessOrEqualThan("date", day);
+        criteria.addLessOrEqualThan(DATE, day);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
     }
@@ -96,7 +103,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
             ids.add(element.getId());
         }
         Criteria criteria = new Criteria();
-        criteria.addIn("id",ids);
+        criteria.addIn(ID,ids);
 
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
         getPersistenceBrokerTemplate().clearCache();
@@ -127,9 +134,9 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         LOG.debug("getPosterGroups() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("sourceCode", groupSourceCode);
-        criteria.addEqualTo("process", Boolean.TRUE);
-        criteria.addEqualTo("valid", Boolean.TRUE);
+        criteria.addEqualTo(SOURCE_CODE, groupSourceCode);
+        criteria.addEqualTo(PROCESS, Boolean.TRUE);
+        criteria.addEqualTo(VALID, Boolean.TRUE);
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
@@ -143,11 +150,11 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         LOG.debug("getGroupsToBackup() started");
 
         Criteria criteria = new Criteria();
-        criteria.addLessOrEqualThan("date", groupDate);
-        criteria.addEqualTo("sourceCode", OriginEntrySource.BACKUP);
-        criteria.addEqualTo("scrub", Boolean.TRUE);
-        criteria.addEqualTo("process", Boolean.TRUE);
-        criteria.addEqualTo("valid", Boolean.TRUE);
+        criteria.addLessOrEqualThan(DATE, groupDate);
+        criteria.addEqualTo(SOURCE_CODE, OriginEntrySource.BACKUP);
+        criteria.addEqualTo(SCRUB, Boolean.TRUE);
+        criteria.addEqualTo(PROCESS, Boolean.TRUE);
+        criteria.addEqualTo(VALID, Boolean.TRUE);
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
@@ -161,10 +168,10 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         LOG.debug("getScrubberGroups() started");
 
         Criteria criteria = new Criteria();
-        criteria.addLessOrEqualThan("date", groupDate);
-        criteria.addEqualTo("scrub", Boolean.TRUE);
-        criteria.addEqualTo("process", Boolean.TRUE);
-        criteria.addEqualTo("valid", Boolean.TRUE);
+        criteria.addLessOrEqualThan(DATE, groupDate);
+        criteria.addEqualTo(SCRUB, Boolean.TRUE);
+        criteria.addEqualTo(PROCESS, Boolean.TRUE);
+        criteria.addEqualTo(VALID, Boolean.TRUE);
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
@@ -228,7 +235,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         LOG.debug("getOlderGroups() started");
 
         Criteria criteria = new Criteria();
-        criteria.addGreaterOrEqualThan("date", day);
+        criteria.addGreaterOrEqualThan(DATE, day);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
     }

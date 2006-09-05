@@ -80,7 +80,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.42 2006-08-30 18:57:56 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.43 2006-09-05 15:30:31 schoo Exp $
  * 
  */
 
@@ -1576,10 +1576,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         }
         else {
-            // To get all entries
-            String[] groupId = (String[]) session.getAttribute("groupId");
-            showAllEntries(groupId, errorCorrectionForm, request);
-
             // create an OriginEntryGroup
             java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
             // create a docu with all indicators as false(N)
@@ -1594,6 +1590,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
             String[] groupIdList = { newOriginEntryGroup.getId().toString() };
             //showAllEntries(groupIdList, errorCorrectionForm, request);
             session.setAttribute("newGroupId", newOriginEntryGroup.getId().toString());
+            
+            showAllEntries(groupIdList, errorCorrectionForm, request);
         }
 
 

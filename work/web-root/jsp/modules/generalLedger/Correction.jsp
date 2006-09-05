@@ -27,12 +27,12 @@
              <tr> 
              
              <td width="20%" align="left" valign="middle" > Total Debits/Blanks: </td> 
-             <td align="left" valign="middle" > <fmt:formatNumber value="${KualiForm.document.correctionDebitTotalAmount}" groupingUsed="true"/></td>
+             <td align="left" valign="middle" > <fmt:formatNumber value="${KualiForm.document.correctionDebitTotalAmount}" groupingUsed="true" minFractionDigits="2"/></td>
 			 </tr>
 			 <tr>
 			 
 			 <td width="20%" align="left" valign="middle" > Total Credits: </td> 
-             <td align="left" valign="middle" > <fmt:formatNumber value="${KualiForm.document.correctionCreditTotalAmount}" groupingUsed="true"/></td>
+             <td align="left" valign="middle" > <fmt:formatNumber value="${KualiForm.document.correctionCreditTotalAmount}" groupingUsed="true" minFractionDigits="2"/></td>
 			 
 			 </tr>
 			 <tr>

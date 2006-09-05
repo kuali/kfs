@@ -45,6 +45,9 @@ import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.module.gl.bo.AccountBalance;
+import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
+import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 
@@ -54,6 +57,7 @@ import org.kuali.module.gl.web.Constant;
  * @author Bin Gao from Michigan State University
  */
 public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLInquirableImpl.class);
 
     /**
      * Helper method to build an inquiry url for a result field.
@@ -90,7 +94,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
             if(!"financialObject.financialObjectType.financialReportingSortCode".equals(attributeName)) {
-                inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClass(businessObject, attributeName);
+                inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClassGl(businessObject, attributeName);
             } else {
                 return "";
             }
@@ -177,6 +181,24 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             }
         }
 
+        // Hack to make this work.  I don't know why it doesn't pick up the whole primary key for these.  The last big change to KualiInquirableImpl 
+        // broke all of this
+        if ( businessObject instanceof AccountBalance ) {
+            AccountBalance ab = (AccountBalance)businessObject;
+            if ( "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode".equals(attributeName) ) {
+                parameters.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, ab.getChartOfAccountsCode());
+            } else if ( "financialObject.financialObjectLevel.financialObjectLevelCode".equals(attributeName) ) {
+                parameters.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, ab.getChartOfAccountsCode());
+            }
+        }
+
+        if ( "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode".equals(attributeName) && 
+                businessObject instanceof AccountBalance ) {
+            for (Iterator iter = parameters.keySet().iterator(); iter.hasNext();) {
+                String key = (String) iter.next();
+                LOG.debug("getInquiryUrl() " + key + " = " + parameters.getProperty(key));                
+            }
+        }
         return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 

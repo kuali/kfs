@@ -44,7 +44,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: EncumbranceDaoOjb.java,v 1.11 2006-08-11 14:29:07 bgao Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.12 2006-09-05 13:39:16 larevans Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -60,16 +60,16 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
         LOG.debug("getEncumbranceByTransaction() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo("universityFiscalYear", t.getUniversityFiscalYear());
-        crit.addEqualTo("chartOfAccountsCode", t.getChartOfAccountsCode());
-        crit.addEqualTo("accountNumber", t.getAccountNumber());
-        crit.addEqualTo("subAccountNumber", t.getSubAccountNumber());
-        crit.addEqualTo("objectCode", t.getFinancialObjectCode());
-        crit.addEqualTo("subObjectCode", t.getFinancialSubObjectCode());
-        crit.addEqualTo("balanceTypeCode", t.getFinancialBalanceTypeCode());
-        crit.addEqualTo("documentTypeCode", t.getFinancialDocumentTypeCode());
-        crit.addEqualTo("originCode", t.getFinancialSystemOriginationCode());
-        crit.addEqualTo("documentNumber", t.getFinancialDocumentNumber());
+        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
+        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS, t.getChartOfAccountsCode());
+        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
+        crit.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
+        crit.addEqualTo(PropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
+        crit.addEqualTo(PropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
+        crit.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
+        crit.addEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
+        crit.addEqualTo(PropertyConstants.ORIGIN_CODE, t.getFinancialSystemOriginationCode());
+        crit.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, t.getFinancialDocumentNumber());
 
         QueryByCriteria qbc = QueryFactory.newQuery(Encumbrance.class, crit);
         return (Encumbrance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -81,15 +81,15 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
     public Iterator getEncumbrancesToClose(Integer fiscalYear) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("universityFiscalYear", fiscalYear);
+        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
         QueryByCriteria query = new QueryByCriteria(Encumbrance.class, criteria);
-        query.addOrderByAscending("chartOfAccountsCode");
-        query.addOrderByAscending("accountNumber");
-        query.addOrderByAscending("subAccountNumber");
-        query.addOrderByAscending("objectCode");
-        query.addOrderByAscending("subObjectCode");
-        query.addOrderByAscending("balanceTypeCode");
+        query.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(PropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(PropertyConstants.OBJECT_CODE);
+        query.addOrderByAscending(PropertyConstants.SUB_OBJECT_CODE);
+        query.addOrderByAscending(PropertyConstants.BALANCE_TYPE_CODE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
@@ -110,8 +110,8 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addLessThan("universityFiscalYear", new Integer(year));
+        criteria.addEqualTo(PropertyConstants.CHART, chartOfAccountsCode);
+        criteria.addLessThan(PropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Encumbrance.class, criteria));
 

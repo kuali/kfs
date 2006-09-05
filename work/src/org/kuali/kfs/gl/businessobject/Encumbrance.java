@@ -25,6 +25,7 @@ package org.kuali.module.gl.bo;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.bo.user.Options;
@@ -98,18 +99,18 @@ public class Encumbrance extends BusinessObjectBase {
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("universityFiscalYear", getUniversityFiscalYear());
-        map.put("chartOfAccountsCode", getChartOfAccountsCode());
-        map.put("accountNumber", getAccountNumber());
-        map.put("subAccountNumber", getSubAccountNumber());
-        map.put("objectCode", getObjectCode());
-        map.put("subObjectCode", getSubObjectCode());
-        map.put("balanceTypeCode", getBalanceTypeCode());
-        map.put("documentTypeCode", getDocumentTypeCode());
-        map.put("originCode", getOriginCode());
-        map.put("documentNumber", getDocumentNumber());
-        map.put("accountLineEncumbranceAmount", getAccountLineEncumbranceAmount());
-        map.put("accountLineEncumbranceClosedAmount", getAccountLineEncumbranceClosedAmount());
+        map.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
+        map.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        map.put(PropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+        map.put(PropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+        map.put(PropertyConstants.OBJECT_CODE, getObjectCode());
+        map.put(PropertyConstants.SUB_OBJECT_CODE, getSubObjectCode());
+        map.put(PropertyConstants.BALANCE_TYPE_CODE, getBalanceTypeCode());
+        map.put(PropertyConstants.DOCUMENT_TYPE_CODE, getDocumentTypeCode());
+        map.put(PropertyConstants.ORIGIN_CODE, getOriginCode());
+        map.put(PropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
+        map.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT, getAccountLineEncumbranceAmount());
+        map.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT, getAccountLineEncumbranceClosedAmount());
         return map;
     }
 

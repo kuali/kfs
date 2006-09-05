@@ -809,8 +809,6 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             retval = new StackRuntimeRule(new KualiParameterRule(param.getRuleGroupName() + ":" + param.getRuleName(), param.getRuleText(), param.getRuleOperatorCode(), param.isFinancialSystemParameterActiveIndicator()));
         }
 
-        LOG.info("Returning " + retval);
-        
         return retval;
     }
 }

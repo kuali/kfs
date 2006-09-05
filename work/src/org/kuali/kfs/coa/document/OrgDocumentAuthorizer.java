@@ -22,11 +22,18 @@
  */
 package org.kuali.module.chart.document;
 
+import org.apache.log4j.Logger;
+import org.kuali.Constants;
 import org.kuali.core.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentAuthorizerBase;
-import org.kuali.module.chart.bo.Org;
+import org.kuali.core.exceptions.ApplicationParameterException;
+import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * Org/Organization specific authorization rules.
@@ -35,6 +42,8 @@ import org.kuali.module.chart.bo.Org;
  */
 public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
+    private static final Logger LOG = Logger.getLogger(OrgDocumentAuthorizer.class);
+    
     /**
      * Constructs a OrgDocumentAuthorizer.java.
      */
@@ -61,13 +70,27 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
             return auths;
         }
 
-        // get the chartCode for the Org being touched
-        Org org = (Org) document.getNewMaintainableObject().getBusinessObject();
-        String chartCode = org.getChartOfAccountsCode();
+        // get the group name that we need here - ORG
+        KualiConfigurationService configService;
+        configService = SpringServiceLocator.getKualiConfigurationService();
+        KualiGroup group = null;
+        try {
+            String groupName = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
+    
+            // create a new KualiGroup instance with that name
+            KualiGroupService groupService = SpringServiceLocator.getKualiGroupService();
+            try {
+                group = groupService.getByGroupName(groupName);
+            } catch (GroupNotFoundException ex ) {
+                LOG.error("The group by name '" + groupName + "' was not " + "found in the KualiGroupService.  This is a configuration error, and " + "authorization/business-rules cannot be processed without this.", ex );
+            }
+        } catch ( ApplicationParameterException ex ) {
+            LOG.error( "unable to load application parameter for org plant workgroup", ex );
+        }
 
-        // if the user is NOT the chart manager for this Org's chart, then
-        // do not allow them to modify the 4 plant account fields
-        if (!user.isManagerForChart(chartCode)) {
+        // if the user is NOT a member of the special group, then mark all the
+        // ICR & CS fields read-only.
+        if (group == null || !user.isMember(group)) {
             auths.addReadonlyAuthField("organizationPlantChartCode");
             auths.addReadonlyAuthField("organizationPlantAccountNumber");
             auths.addReadonlyAuthField("campusPlantChartCode");

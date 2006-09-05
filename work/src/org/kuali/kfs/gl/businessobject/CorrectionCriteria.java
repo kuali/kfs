@@ -41,8 +41,6 @@ public class CorrectionCriteria extends BusinessObjectBase implements Comparable
     private Integer correctionEndPosition;
     private String correctionOperatorCode;
     private String correctionFieldValue;
-
-    private String operator;
     private String correctionFieldName;
 
     private CorrectionChangeGroup correctionChangeGroup;
@@ -290,13 +288,5 @@ public class CorrectionCriteria extends BusinessObjectBase implements Comparable
         }
         return m;
     }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
+    
 }

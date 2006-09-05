@@ -83,7 +83,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.44 2006-09-05 20:04:27 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.45 2006-09-05 21:37:41 schoo Exp $
  * 
  */
 
@@ -755,7 +755,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         Iterator fieldIter = correctionGroup.getCorrectionCriteria().iterator();
         while (fieldIter.hasNext()) {
             correctionSearchCriterion = (CorrectionCriteria) fieldIter.next();
-            String operator = correctionSearchCriterion.getOperator();
+            String operator = correctionSearchCriterion.getCorrectionOperatorCode();
             String searchValue = correctionSearchCriterion.getCorrectionFieldValue();
             
             // correctionFieldName should be changed to Java BO 

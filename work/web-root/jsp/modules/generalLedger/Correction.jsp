@@ -514,7 +514,7 @@
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]">
                                     <c:forEach var="operator" items="${KualiForm.searchOperators}">
                                         <option value="<c:out value="${operator.key }" />"<c:if 
-                                            test="${operator.key eq criterion.operator}">selected="true"</c:if>><c:out 
+                                            test="${operator.key eq criterion.correctionOperatorCode}">selected="true"</c:if>><c:out 
                                             value="${ operator.value}" /></option>
                                     </c:forEach>
                                 </select>
@@ -688,7 +688,7 @@
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]">
                                     <c:forEach var="operator" items="${KualiForm.searchOperators}">
                                         <option value="<c:out value="${operator.key }" />"<c:if 
-                                            test="${operator.key eq criterion.operator}">selected="true"</c:if>><c:out 
+                                            test="${operator.key eq criterion.correctionOperatorCode}">selected="true"</c:if>><c:out 
                                             value="${ operator.value}" /></option>
                                     </c:forEach>
                                 </select>
@@ -981,7 +981,7 @@
                                     <option value="" selected>Select Search Criteria</option> 
             	                        <c:forEach var="fieldName" items="${KualiForm.fieldNames}">
                 	                        <option value="<c:out value="${fieldName.value}" />"<c:if 
-                    	                        test="${fieldName.value eq criterion.correctionFieldName}"> selected="true"</c:if>>
+                    	                        test="${fieldName.value eq criterion.correctionFieldName}"> selected="true" </c:if> disabled="true">
                         	                    <c:out value="${fieldName.value}" /> 
                             	            </option>
                                 	    </c:forEach>
@@ -994,8 +994,8 @@
                                     value="${criterion.correctionCriteriaLineNumber}" />][operator]">
                                     <c:forEach var="operator" items="${KualiForm.searchOperators}">
                                         <option value="<c:out value="${operator.key }" />"<c:if 
-                                            test="${operator.key eq criterion.operator}">selected="true"</c:if>><c:out 
-                                            value="${ operator.value}" /></option>
+                                            test="${operator.key eq criterion.correctionOperatorCode}">selected="true" </c:if> disabled="true"><c:out 
+                                            value="${operator.value}" /></option>
                                     </c:forEach>
                                 </select>
                                 <label for="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][<c:out 
@@ -1014,15 +1014,15 @@
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-name]">Field</label> 
                             <select id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][field-name]"
                                   name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][field-name]">
-                                <option value="" selected="selected">Select Search Criteria</option>
+                                <option value="" selected="selected" >Select Search Criteria</option>
                                 <c:forEach var="fieldName" items="${ KualiForm.fieldNames}"><option value="<c:out 
-                                    value="${fieldName.value}" />"><c:out value="${fieldName.value}" /></option></c:forEach> 
+                                    value="${fieldName.value}" />" disabled="true" ><c:out value="${fieldName.value}" /></option></c:forEach> 
                             </select>
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][operator]">Operator</label> 
                             <select id="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][search-criteria][operator]"
                                   name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][search-criteria][operator]">
                                 <c:forEach var="operator" items="${ KualiForm.searchOperators}">
-                                <option value="<c:out value="${operator.key}" />" <c:if test="${operator.key =='eq'}">selected="true"</c:if>><c:out value="${operator.value}" />  </option> 
+                                <option value="<c:out value="${operator.key}" />" <c:if test="${operator.key =='eq'}">selected="true"</c:if> disabled="true" ><c:out value="${operator.value}" />  </option> 
 
                                 </c:forEach>
                             </select>
@@ -1044,7 +1044,7 @@
                                         value="${specification.correctionChangeLineNumber}" />][field-name]">
                                     <c:forEach var="fieldName" items="${ KualiForm.fieldNames}">
                                         <option value="<c:out value="${fieldName.value}" />"<c:if 
-                                            test="${fieldName.value eq specification.correctionFieldName}"> selected="true"</c:if>>
+                                            test="${fieldName.value eq specification.correctionFieldName}"> selected="true"</c:if> disabled="true">
                                             <c:out value="${fieldName.value}" />
                                         </option> 
                                     </c:forEach>
@@ -1067,7 +1067,7 @@
                                 name="correction-groups[<c:out value="${ group.correctionChangeGroupLineNumber}" />][replacement-specifications][field-name]">
                                 <option value="" selected="selected">Specify Modification</option>
                                 <c:forEach var="fieldName" items="${ KualiForm.fieldNames}"><option value="<c:out 
-                                    value="${fieldName.value}" />"><c:out value="${fieldName.value}" /></option></c:forEach> 
+                                    value="${fieldName.value}" />" disabled="true"><c:out value="${fieldName.value}" /></option></c:forEach> 
                             </select>
                             <label for="correction-groups[<c:out value="${group.correctionChangeGroupLineNumber}" />][replacement-specifications][replacement-value]">Replacement 
                                 Value</label>

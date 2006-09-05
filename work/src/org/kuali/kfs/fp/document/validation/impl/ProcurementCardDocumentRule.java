@@ -96,8 +96,13 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
         if (accountingLine instanceof ProcurementCardTargetAccountingLine) {
             LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
-
-            fixErrorPath(transactionalDocument, accountingLine);
+            
+            // Somewhat of an ugly hack... the goal is to have fixErrorPath run for cases where it's _not_ a new accounting line.
+            // If it is a new accounting line, all is well. But if it isn't then this might be a case where approve is called
+            // and we need to run validation with proper errorPath for that.
+            if(accountingLine.getSequenceNumber() != null) {
+                fixErrorPath(transactionalDocument, accountingLine);
+            }
             
             LOG.debug("beginning object code validation ");
             allow = validateObjectCode(transactionalDocument, accountingLine);
@@ -320,38 +325,35 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
      * interface. This is different from kuali accounting lines because instead PCDO has accounting lines insides of
      * transactions. Hence the error path is slighly different. 
      * 
-     * @param transactionalDocument
-     * @param accountingLine
+     * @param transactionalDocument has to be a ProcurementCardDocument; could do the casting outside of this method, but it'd make the callers a bit more messy
+     * @param accountingLine has to be a ProcurementCardTargetAccountingLine; could do the casting outside of this method, but it'd make the callers a bit more messy
      */
     private void fixErrorPath(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        // retrieve the transactionLine (and index for errorPath) that the accountingLine is home to
+        ProcurementCardTargetAccountingLine targetAccountingLine = (ProcurementCardTargetAccountingLine) accountingLine;
+        int transactionLineIndex = targetAccountingLine.getFinancialDocumentTransactionLineNumber() - 1; // index = line - 1
         List transactionEntries = ((ProcurementCardDocument) transactionalDocument).getTransactionEntries();
-        ProcurementCardTargetAccountingLine pcTargetAccountingLine = (ProcurementCardTargetAccountingLine) accountingLine;
+        ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(transactionLineIndex);
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
         String errorPath = PropertyConstants.DOCUMENT;
         
-        // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunatly I found
-        // that number doesn't always translate well into an index to getTransactionEntries().get(i), so I added the outer loop.
-        boolean done = false;
-        int i = 0;
-        for (Iterator iterTransactionEntries = transactionEntries.iterator(); !done && iterTransactionEntries.hasNext(); i++) {
-            ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iterTransactionEntries.next();
+        // Loop over the accounting lines and find the accountingLine (argument to method). Keeping a counter so we can
+        // build the errorPath in the end.
+        int accountingLineCounter = 0;
+        for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); iterTargetAccountingLines.hasNext(); accountingLineCounter++) {
+            ProcurementCardTargetAccountingLine loopTargetAccountingLine = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
             
-            // Loop over the transactionEntry to find the accountingLine's location. Keep a counter handy.
-            int j = 0;
-            for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); !done && iterTargetAccountingLines.hasNext(); j++) {
-                ProcurementCardTargetAccountingLine targetAccountingLines = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
-                
-                if(targetAccountingLines.getSequenceNumber().equals(pcTargetAccountingLine.getSequenceNumber())) {
-                    // Found the item, capture error path, and set boolean (break isn't enough for 2 loops).
-                    errorPath = errorPath + "." + PropertyConstants.TRANSACTION_ENTRIES + "[" + i + "]." + PropertyConstants.TARGET_ACCOUNTING_LINES + "[" + j + "]";
-                    done = true;
-                }
+            if(loopTargetAccountingLine.getSequenceNumber().equals(targetAccountingLine.getSequenceNumber())) {
+                // Found the item, capture error path and break. We're done.
+                errorPath = errorPath + "." + PropertyConstants.TRANSACTION_ENTRIES + "[" + transactionLineIndex + "]." + PropertyConstants.TARGET_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
+                break;
             }
         }
         
-        // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only choice because
-        // KualiRuleService.applyRules will miss to remove the previous transaction added error path (only this method knows how it is called).
+        // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only
+        // choice because KualiRuleService.applyRules will miss to remove the previous transaction added error path
+        // (only this method knows how it is called).
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.clearErrorPath();
         errorMap.addToErrorPath(errorPath);
     }

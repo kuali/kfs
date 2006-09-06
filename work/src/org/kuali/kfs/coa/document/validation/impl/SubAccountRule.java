@@ -269,6 +269,24 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
                 // compare them, exit if this isnt a CG subaccount
                 if (!thisFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
+                    
+                    // KULCOA-1116 - Check if CG CS and CG ICR are empty, if not throw an error
+                    if(checkCgCostSharingIsEmpty() == false){
+                        putFieldError("a21SubAccount.costShareChartOfAccountCode", KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_CS_INVALID);                                                
+                    }
+                    
+                    if(checkCgIcrIsEmpty() == false){
+                        putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_ICR_INVALID);
+                    }
+                    
+                    // KULCOA-1116 - Check if sub account type code is blank, if not throw an error
+                    if (ObjectUtils.isNull(newSubAccount.getA21SubAccount()) == false) {
+                        
+                        if ( StringUtils.isEmpty( newSubAccount.getA21SubAccount().getSubAccountTypeCode()) == false ){
+                            putFieldError("a21SubAccount.subAccountTypeCode", KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_SUB_ACCT_TYPE_CODE_INVALID);
+                        }
+                    }                    
+                    
                     return success;
                 }
             }

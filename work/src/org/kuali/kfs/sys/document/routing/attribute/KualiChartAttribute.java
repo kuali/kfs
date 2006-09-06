@@ -32,6 +32,8 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.Constants;
+import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -95,7 +97,8 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         rows = new ArrayList();
 
         List fields = new ArrayList();
-        fields.add(new Field("Chart", "", Field.TEXT, true, CHART_REVIEW_FIN_COA_CD_KEY, "", null, null));
+        org.kuali.core.web.uidraw.Field kualiChartField = FieldUtils.getPropertyField(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, false);
+        fields.add(new Field(kualiChartField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiChartField), Field.TEXT, true, CHART_REVIEW_FIN_COA_CD_KEY, kualiChartField.getPropertyValue(), kualiChartField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Chart.class), FIN_COA_CD_KEY));
         rows.add(new Row(fields));
 
     }

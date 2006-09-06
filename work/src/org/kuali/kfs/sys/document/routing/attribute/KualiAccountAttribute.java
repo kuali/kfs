@@ -38,9 +38,11 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UuId;
+import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Node;
@@ -247,11 +249,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         List rows = new ArrayList();
 
         List fields = new ArrayList();
-        fields.add(new Field("Chart", "", Field.TEXT, false, FIN_COA_CD_KEY, "", null, null));
+        org.kuali.core.web.uidraw.Field kualiChartField = FieldUtils.getPropertyField(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, false);
+        fields.add(new Field(kualiChartField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiChartField), Field.TEXT, true, FIN_COA_CD_KEY, kualiChartField.getPropertyValue(), kualiChartField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Chart.class), FIN_COA_CD_KEY));
         rows.add(new Row(fields));
 
         fields = new ArrayList();
-        fields.add(new Field("Account", "", Field.TEXT, false, ACCOUNT_NBR_KEY, "", null, null, "accountNbr"));
+        org.kuali.core.web.uidraw.Field kualiAccountField = FieldUtils.getPropertyField(Account.class, Constants.ACCOUNT_NUMBER_PROPERTY_NAME, false);
+        fields.add(new Field(kualiAccountField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiAccountField), Field.TEXT, false, ACCOUNT_NBR_KEY, "", null, null, "accountNbr"));
         rows.add(new Row(fields));
 
         fields = new ArrayList();

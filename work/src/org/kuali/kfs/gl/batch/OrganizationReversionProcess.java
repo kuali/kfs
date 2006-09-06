@@ -52,8 +52,6 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.springframework.beans.factory.BeanFactory;
 
-import sun.security.krb5.internal.rcache.ba;
-
 public class OrganizationReversionProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionProcess.class);
 

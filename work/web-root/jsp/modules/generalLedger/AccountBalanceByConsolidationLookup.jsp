@@ -80,29 +80,17 @@
 				export="true" pagesize="100" offset="${offset}"
 				requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
-					<c:if
-						test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-						<display:column class="infocell" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">
-							<a href="<c:out value="${column.propertyURL}"/>" target="blank">
-							<c:out value="${column.propertyValue}" /> </a>
-						</display:column>
-					</c:if>
-
-					<c:if
-						test="${(column.propertyURL==\"\" || param['d-16544-e'] != null)}">
-						<c:if
-							test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
-							<display:column class="numbercell" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${column.sortable}">
+					<display:column class="${(column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
+						title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">
+						<c:choose>
+							<c:when test="${column.propertyURL != \"\" && param['d-16544-e'] == null}">
+								<a href="<c:out value="${column.propertyURL}"/>" target="blank"><c:out value="${column.propertyValue}" /></a>
+							</c:when>
+							<c:otherwise>
 								<c:out value="${column.propertyValue}" />
-							</display:column>
-						</c:if>
-						<c:if
-							test="${column.formatter.implementationClass != 'org.kuali.core.web.format.CurrencyFormatter'}">
-							<display:column class="infocell" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${column.sortable}">
-								<c:out value="${column.propertyValue}" />
-							</display:column>
-						</c:if>
-					</c:if>
+							</c:otherwise>
+						</c:choose>
+					</display:column>
 				</c:forEach>
 			</display:table>
 

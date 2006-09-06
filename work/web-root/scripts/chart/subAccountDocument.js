@@ -1,7 +1,7 @@
-function updateICR( acctNbr, callbackFunction ) {
-	var chartCode = getElementValue( "document.newMaintainableObject.chartOfAccountsCode" );
-	if ( acctNbr.trim() != "" && chartCode != "" ) {
-		loadKualiObjectWithCallback( callbackFunction, "accountICR", chartCode, acctNbr.toUpperCase().trim() );
+function updateICR( acctField, callbackFunction ) {
+	var chartCode = getElementValue( findElPrefix( acctField.name ) + ".chartOfAccountsCode" );
+	if ( acctField.value.trim() != "" && chartCode != "" ) {
+		loadKualiObjectWithCallback( callbackFunction, "accountICR", chartCode, acctField.value.toUpperCase().trim(), "", "", "", "" );
 	}
 }
 

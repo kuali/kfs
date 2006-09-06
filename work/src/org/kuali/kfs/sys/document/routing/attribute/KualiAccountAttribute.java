@@ -255,12 +255,15 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
         fields = new ArrayList();
         org.kuali.core.web.uidraw.Field kualiAccountField = FieldUtils.getPropertyField(Account.class, Constants.ACCOUNT_NUMBER_PROPERTY_NAME, false);
-        fields.add(new Field(kualiAccountField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiAccountField), Field.TEXT, false, ACCOUNT_NBR_KEY, "", null, null, "accountNbr"));
+        fields.add(new Field(kualiAccountField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiAccountField), Field.TEXT, false, ACCOUNT_NBR_KEY, kualiAccountField.getPropertyValue(), kualiAccountField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Account.class), "accountNbr"));
         rows.add(new Row(fields));
 
+        //TODO: hook TotalDollarAmount into the DD attribute for DocumentHeader.financialDocumentTotalAmount once 
+        //      the DD has this attribute defined, like Chart and Account above
         fields = new ArrayList();
         fields.add(new Field("Total Dollar Amount", "", Field.TEXT, false, FDOC_TOTAL_DOLLAR_AMOUNT_KEY, "", null, null));
         rows.add(new Row(fields));
+        
         return rows;
     }
 

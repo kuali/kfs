@@ -18,6 +18,7 @@ import javax.xml.xpath.XPathConstants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
+import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -109,6 +110,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         routingDataRows.add(getOrgRow());
         routingDataRows.add(getOverrideCodeRow());
 
+        //TODO: hook TotalDollarAmount into the DD attribute for DocumentHeader.financialDocumentTotalAmount once 
+        //      the DD has this attribute defined, like Chart and Org above
         fields = new ArrayList();
         fields.add(new Field("Total Amount", "", Field.TEXT, true, TOTAL_AMOUNT_KEY, "", null, null, TOTAL_AMOUNT_KEY));
         routingDataRows.add(new Row(fields));
@@ -131,8 +134,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     }
 
     private edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
+        org.kuali.core.web.uidraw.Field kualiOverrideCodeField;
+        kualiOverrideCodeField = FieldUtils.getPropertyField(SourceAccountingLine.class, "overrideCode", false);
         List orgFields = new ArrayList();
-        orgFields.add(new Field("Override Code", "", Field.TEXT, true, OVERRIDE_CD_KEY, "", null, null, OVERRIDE_CD_KEY));
+        orgFields.add(new Field(kualiOverrideCodeField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOverrideCodeField), Field.TEXT, true, OVERRIDE_CD_KEY, kualiOverrideCodeField.getPropertyValue(), kualiOverrideCodeField.getFieldValidValues(), null, OVERRIDE_CD_KEY));
         return new Row(orgFields);
     }
 

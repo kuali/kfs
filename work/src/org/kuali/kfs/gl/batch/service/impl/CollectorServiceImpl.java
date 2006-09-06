@@ -88,7 +88,7 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
         MailMessage message = new MailMessage();
         
         message.setFromAddress(kualiConfigurationService.getApplicationParameterValue("Kuali.GeneralLedger.Collector", "Kuali.GeneralLedger.EmailAddress.DoNotReply"));
-        message.setSubject("Collector Input Summary");
+        message.setSubject(kualiConfigurationService.getApplicationParameterValue("Kuali.GeneralLedger.Collector", "SubjectLine"));
         
         String body = createMessageBody(collectorFileHandler);
 

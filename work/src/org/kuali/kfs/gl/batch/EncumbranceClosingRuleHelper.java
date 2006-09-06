@@ -23,6 +23,8 @@
 package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.kuali.Constants;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -47,13 +49,10 @@ public class EncumbranceClosingRuleHelper {
 
     static private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceClosingRuleHelper.class);
 
-    static private String[] EXPENSE_OBJECT_CODE_TYPES = new String[] { "EE", "EX", "ES", "TE" };
-
-    static private String[] EXTERNAL_INTERNAL_AND_PRE_ENCUMBRANCE_BALANCE_TYPE_CODES = new String[] { "IE", "EX", "PE" };
-
     private A21SubAccountService a21SubAccountService;
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
+    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * Field accessor for A21SubAccountService.
@@ -99,26 +98,26 @@ public class EncumbranceClosingRuleHelper {
         }
 
         // internal encumbrance or labor distribution
-        if ("IE".equals(encumbrance.getBalanceTypeCode()) && "LD".equals(encumbrance.getOriginCode())) {
+        if (Constants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode()) && Constants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
             return false;
 
         }
 
-        if ("CE".equals(encumbrance.getBalanceTypeCode())) {
+        if (Constants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
 
             return false;
 
         }
 
         // closed encumbrances aren't carried forward
-        if (ObjectHelper.isOneOf(encumbrance.getBalanceTypeCode(), new String[] { "EX", "IE" })) {
+        if (ObjectHelper.isOneOf(encumbrance.getBalanceTypeCode(), new String[] { Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, Constants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE })) {
 
             return isEncumbranceClosed(encumbrance);
 
         }
 
         // pre-encumbrances
-        if ("PE".equals(encumbrance.getBalanceTypeCode())) {
+        if (Constants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
 
             PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 
@@ -134,7 +133,7 @@ public class EncumbranceClosingRuleHelper {
             // the sub fund group must exist for the prior year account and the
             // encumbrance must not be closed.
             SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId(priorYearAccount.getSubFundGroupCode());
-            if (null != subFundGroup && "CG".equals(subFundGroup.getSubFundGroupCode())) {
+            if (null != subFundGroup && Constants.CONTRACTS_AND_GRANTS.equals(subFundGroup.getSubFundGroupCode())) {
 
                 return isEncumbranceClosed(encumbrance);
 
@@ -203,7 +202,7 @@ public class EncumbranceClosingRuleHelper {
         
         if (null != subFundGroup) {
 
-            if (!"CG".equals(subFundGroup.getFundGroupCode())) {
+            if (!Constants.CONTRACTS_AND_GRANTS.equals(subFundGroup.getFundGroupCode())) {
 
                 return false;
 
@@ -218,14 +217,18 @@ public class EncumbranceClosingRuleHelper {
         
         // I think this is redundant to the statement a few lines above here.
         // In any case, the sub fund group must not be contracts and grants.
-        if (!"CG".equals(subFundGroup.getFundGroupCode())) {
+        if (!Constants.CONTRACTS_AND_GRANTS.equals(subFundGroup.getFundGroupCode())) {
 
             return false;
 
         }
-
+        
+        String[] expenseObjectCodeTypes = 
+            kualiConfigurationService.getApplicationParameterValues("SYSTEM", "ExpenseObjectTypeCodes");
+        String[] encumbranceBalanceTypeCodes = 
+            kualiConfigurationService.getApplicationParameterValues("Kuali.GeneralLedger.EncumbranceClosing", "ExternalInternalAndPreEncumbranceBalanceTypeCodes");
         // the object type code must be an expense and the encumbrance balance type code must correspond to an internal, external or pre-encumbrance
-        if (!(ArrayUtils.contains(EXPENSE_OBJECT_CODE_TYPES, objectTypeCode) && ArrayUtils.contains(EXTERNAL_INTERNAL_AND_PRE_ENCUMBRANCE_BALANCE_TYPE_CODES, encumbrance.getBalanceTypeCode()))) {
+        if (!(ArrayUtils.contains(expenseObjectCodeTypes, objectTypeCode) && ArrayUtils.contains(encumbranceBalanceTypeCodes, encumbrance.getBalanceTypeCode()))) {
 
             return false;
 
@@ -243,9 +246,14 @@ public class EncumbranceClosingRuleHelper {
             }
 
             // everything is valid, return true if the a21 sub account is a cost share sub-account
-            return "CS".equals(a21SubAccount.getSubAccountTypeCode());
+            return Constants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode());
 
         }
 
     }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
 }

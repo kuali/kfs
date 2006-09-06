@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReasonCode">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Appointment Funding Reason Code Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="appointmentFundingReasonCode" />
+                <field attributeName="appointmentFundingReasonDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Appointment Funding Reason Code Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReasonCode">Create New</a>]]></menubar>
+
+            <instructions>Look up a Budget Construction Appointment Funding Reason Code</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="appointmentFundingReasonCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="appointmentFundingReasonCode" required="false" />
+                <lookupField attributeName="appointmentFundingReasonDescription" required="false" />
+                <lookupField attributeName="rowActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="appointmentFundingReasonCode" />
+                <field attributeName="appointmentFundingReasonDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="appointmentFundingReasonCode" forceUppercase="true">
+                <label>Appointment Funding Reason Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>appointmentFundingReasonCode</summary>
+                <description>appointmentFundingReasonCode description...</description>
+			</attribute>
+
+            <attribute name="appointmentFundingReasonDescription" forceUppercase="true">
+                <label>Appointment Funding Reason Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>appointmentFundingReasonDescription</summary>
+                <description>appointmentFundingReasonDescription description...</description>
+			</attribute>
+
+            <attribute name="rowActiveIndicator" forceUppercase="true">
+                <label>Row Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>rowActiveIndicator</summary>
+                <description>rowActiveIndicator description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderItemCapitalAsset">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Purchase Order Item Capital Asset Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="purchaseOrderItemIdentifier" />
+                <field attributeName="purchaseOrderItemCapitalAssetIdentifier" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Purchase Order Item Capital Asset Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderItemCapitalAsset">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Purchase Order Item Capital Asset</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="purchaseOrderItemIdentifier" required="false" />
+                <lookupField attributeName="purchaseOrderItemCapitalAssetIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="purchaseOrderItemIdentifier" />
+                <field attributeName="purchaseOrderItemCapitalAssetIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderItemIdentifier" forceUppercase="true">
+                <label>Purchase Order Item Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>purchaseOrderItemIdentifier</summary>
+                <description>purchaseOrderItemIdentifier description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderItemCapitalAssetIdentifier" forceUppercase="true">
+                <label>Purchase Order Item Capital Asset Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>purchaseOrderItemCapitalAssetIdentifier</summary>
+                <description>purchaseOrderItemCapitalAssetIdentifier description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

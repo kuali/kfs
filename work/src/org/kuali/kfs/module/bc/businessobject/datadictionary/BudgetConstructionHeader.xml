@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionHeader">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Header Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="accountNumber" />
+                <field attributeName="budgetLockUserIdentifier" />
+                <field attributeName="budgetTransactionLockUserIdentifier" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="organizationLevelChartOfAccountsCode" />
+                <field attributeName="organizationLevelCode" />
+                <field attributeName="organizationLevelOrganizationCode" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="universityFiscalYear" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Header Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionHeader">Create New</a>]]></menubar>
+
+            <instructions>Look up a Budget Construction Header</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="accountNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="budgetLockUserIdentifier" required="false" />
+                <lookupField attributeName="budgetTransactionLockUserIdentifier" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="financialDocumentNumber" required="false" />
+                <lookupField attributeName="organizationLevelChartOfAccountsCode" required="false" />
+                <lookupField attributeName="organizationLevelCode" required="false" />
+                <lookupField attributeName="organizationLevelOrganizationCode" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountNumber" />
+                <field attributeName="budgetLockUserIdentifier" />
+                <field attributeName="budgetTransactionLockUserIdentifier" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="organizationLevelChartOfAccountsCode" />
+                <field attributeName="organizationLevelCode" />
+                <field attributeName="organizationLevelOrganizationCode" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="budgetLockUserIdentifier" forceUppercase="true">
+                <label>Budget Lock User Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>budgetLockUserIdentifier</summary>
+                <description>budgetLockUserIdentifier description...</description>
+			</attribute>
+
+            <attribute name="budgetTransactionLockUserIdentifier" forceUppercase="true">
+                <label>Budget Transaction Lock User Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>budgetTransactionLockUserIdentifier</summary>
+                <description>budgetTransactionLockUserIdentifier description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentNumber" forceUppercase="true">
+                <label>Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>financialDocumentNumber</summary>
+                <description>financialDocumentNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationLevelChartOfAccountsCode" forceUppercase="true">
+                <label>Organization Level Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>organizationLevelChartOfAccountsCode</summary>
+                <description>organizationLevelChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="organizationLevelCode" forceUppercase="true">
+                <label>Organization Level Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>organizationLevelCode</summary>
+                <description>organizationLevelCode description...</description>
+			</attribute>
+
+            <attribute name="organizationLevelOrganizationCode" forceUppercase="true">
+                <label>Organization Level Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationLevelOrganizationCode</summary>
+                <description>organizationLevelOrganizationCode description...</description>
+			</attribute>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subAccountNumber</summary>
+                <description>subAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

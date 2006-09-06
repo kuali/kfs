@@ -1,0 +1,1093 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceHeaderInformation">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Electronic Invoice Header Information Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+                <field attributeName="epicPurchaseOrderDeliveryCampusCode" />
+                <field attributeName="epicPurchaseOrderIdentifier" />
+                <field attributeName="invoiceAddressName" />
+                <field attributeName="invoiceCustomerNumber" />
+                <field attributeName="invoiceFileDate" />
+                <field attributeName="invoiceFileDeploymentModeValue" />
+                <field attributeName="invoiceFileDiscountInLineIndicator" />
+                <field attributeName="invoiceFileHeaderTypeIndicator" />
+                <field attributeName="invoiceFileInformationOnlyIndicator" />
+                <field attributeName="invoiceFileName" />
+                <field attributeName="invoiceFileNumber" />
+                <field attributeName="invoiceFileOperationIdentifier" />
+                <field attributeName="invoiceFilePurposeIdentifier" />
+                <field attributeName="invoiceFileShippingInLineIndicator" />
+                <field attributeName="invoiceFileSpecialHandlingInLineIndicator" />
+                <field attributeName="invoiceFileTaxInLineIndicator" />
+                <field attributeName="invoiceHeaderInformationIdentifier" />
+                <field attributeName="invoiceItemDiscountAmount" />
+                <field attributeName="invoiceItemDiscountCurrencyCode" />
+                <field attributeName="invoiceItemGrossAmount" />
+                <field attributeName="invoiceItemGrossCurrencyCode" />
+                <field attributeName="invoiceItemNetAmount" />
+                <field attributeName="invoiceItemNetCurrencyCode" />
+                <field attributeName="invoiceItemShippingAmount" />
+                <field attributeName="invoiceItemShippingCurrencyCode" />
+                <field attributeName="invoiceItemShippingDescription" />
+                <field attributeName="invoiceItemSpecialHandlingAmount" />
+                <field attributeName="invoiceItemSpecialHandlingCurrencyCode" />
+                <field attributeName="invoiceItemSubTotalAmount" />
+                <field attributeName="invoiceItemSubTotalCurrencyCode" />
+                <field attributeName="invoiceItemTaxAmount" />
+                <field attributeName="invoiceItemTaxCurrencyCode" />
+                <field attributeName="invoiceItemTaxDescription" />
+                <field attributeName="invoiceOrderMasterAgreementInformationDate" />
+                <field attributeName="invoiceOrderMasterAgreementInformationIdentifier" />
+                <field attributeName="invoiceOrderMasterAgreementReferenceDate" />
+                <field attributeName="invoiceOrderMasterAgreementReferenceIdentifier" />
+                <field attributeName="invoiceOrderPurchaseOrderDate" />
+                <field attributeName="invoiceOrderPurchaseOrderIdentifier" />
+                <field attributeName="invoiceOrderReferenceDocumentReferencePayloadIdentifier" />
+                <field attributeName="invoiceOrderReferenceDocumentReferenceText" />
+                <field attributeName="invoiceOrderReferenceOrderIdentifier" />
+                <field attributeName="invoiceOrderSupplierOrderInformationIdentifier" />
+                <field attributeName="invoiceProcessDate" />
+                <field attributeName="invoicePurchaseOrderNumber" />
+                <field attributeName="invoiceRejectExtractDate" />
+                <field attributeName="invoiceShipDate" />
+                <field attributeName="invoiceShipToCityName" />
+                <field attributeName="invoiceShipToCountryCode" />
+                <field attributeName="invoiceShipToLine1Address" />
+                <field attributeName="invoiceShipToLine2Address" />
+                <field attributeName="invoiceShipToLine3Address" />
+                <field attributeName="invoiceShipToPostalCode" />
+                <field attributeName="invoiceShipToStateCode" />
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorDunsNumber" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Electronic Invoice Header Information Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ElectronicInvoiceHeaderInformation">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Electronic Invoice Header Information</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" required="false" />
+                <lookupField attributeName="epicPurchaseOrderDeliveryCampusCode" required="false" />
+                <lookupField attributeName="epicPurchaseOrderIdentifier" required="false" />
+                <lookupField attributeName="invoiceAddressName" required="false" />
+                <lookupField attributeName="invoiceCustomerNumber" required="false" />
+                <lookupField attributeName="invoiceFileDate" required="false" />
+                <lookupField attributeName="invoiceFileDeploymentModeValue" required="false" />
+                <lookupField attributeName="invoiceFileDiscountInLineIndicator" required="false" />
+                <lookupField attributeName="invoiceFileHeaderTypeIndicator" required="false" />
+                <lookupField attributeName="invoiceFileInformationOnlyIndicator" required="false" />
+                <lookupField attributeName="invoiceFileName" required="false" />
+                <lookupField attributeName="invoiceFileNumber" required="false" />
+                <lookupField attributeName="invoiceFileOperationIdentifier" required="false" />
+                <lookupField attributeName="invoiceFilePurposeIdentifier" required="false" />
+                <lookupField attributeName="invoiceFileShippingInLineIndicator" required="false" />
+                <lookupField attributeName="invoiceFileSpecialHandlingInLineIndicator" required="false" />
+                <lookupField attributeName="invoiceFileTaxInLineIndicator" required="false" />
+                <lookupField attributeName="invoiceHeaderInformationIdentifier" required="false" />
+                <lookupField attributeName="invoiceItemDiscountAmount" required="false" />
+                <lookupField attributeName="invoiceItemDiscountCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemGrossAmount" required="false" />
+                <lookupField attributeName="invoiceItemGrossCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemNetAmount" required="false" />
+                <lookupField attributeName="invoiceItemNetCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemShippingAmount" required="false" />
+                <lookupField attributeName="invoiceItemShippingCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemShippingDescription" required="false" />
+                <lookupField attributeName="invoiceItemSpecialHandlingAmount" required="false" />
+                <lookupField attributeName="invoiceItemSpecialHandlingCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemSubTotalAmount" required="false" />
+                <lookupField attributeName="invoiceItemSubTotalCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemTaxAmount" required="false" />
+                <lookupField attributeName="invoiceItemTaxCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemTaxDescription" required="false" />
+                <lookupField attributeName="invoiceOrderMasterAgreementInformationDate" required="false" />
+                <lookupField attributeName="invoiceOrderMasterAgreementInformationIdentifier" required="false" />
+                <lookupField attributeName="invoiceOrderMasterAgreementReferenceDate" required="false" />
+                <lookupField attributeName="invoiceOrderMasterAgreementReferenceIdentifier" required="false" />
+                <lookupField attributeName="invoiceOrderPurchaseOrderDate" required="false" />
+                <lookupField attributeName="invoiceOrderPurchaseOrderIdentifier" required="false" />
+                <lookupField attributeName="invoiceOrderReferenceDocumentReferencePayloadIdentifier" required="false" />
+                <lookupField attributeName="invoiceOrderReferenceDocumentReferenceText" required="false" />
+                <lookupField attributeName="invoiceOrderReferenceOrderIdentifier" required="false" />
+                <lookupField attributeName="invoiceOrderSupplierOrderInformationIdentifier" required="false" />
+                <lookupField attributeName="invoiceProcessDate" required="false" />
+                <lookupField attributeName="invoicePurchaseOrderNumber" required="false" />
+                <lookupField attributeName="invoiceRejectExtractDate" required="false" />
+                <lookupField attributeName="invoiceShipDate" required="false" />
+                <lookupField attributeName="invoiceShipToCityName" required="false" />
+                <lookupField attributeName="invoiceShipToCountryCode" required="false" />
+                <lookupField attributeName="invoiceShipToLine1Address" required="false" />
+                <lookupField attributeName="invoiceShipToLine2Address" required="false" />
+                <lookupField attributeName="invoiceShipToLine3Address" required="false" />
+                <lookupField attributeName="invoiceShipToPostalCode" required="false" />
+                <lookupField attributeName="invoiceShipToStateCode" required="false" />
+                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" />
+                <lookupField attributeName="vendorDunsNumber" required="false" />
+                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+                <field attributeName="epicPurchaseOrderDeliveryCampusCode" />
+                <field attributeName="epicPurchaseOrderIdentifier" />
+                <field attributeName="invoiceAddressName" />
+                <field attributeName="invoiceCustomerNumber" />
+                <field attributeName="invoiceFileDate" />
+                <field attributeName="invoiceFileDeploymentModeValue" />
+                <field attributeName="invoiceFileDiscountInLineIndicator" />
+                <field attributeName="invoiceFileHeaderTypeIndicator" />
+                <field attributeName="invoiceFileInformationOnlyIndicator" />
+                <field attributeName="invoiceFileName" />
+                <field attributeName="invoiceFileNumber" />
+                <field attributeName="invoiceFileOperationIdentifier" />
+                <field attributeName="invoiceFilePurposeIdentifier" />
+                <field attributeName="invoiceFileShippingInLineIndicator" />
+                <field attributeName="invoiceFileSpecialHandlingInLineIndicator" />
+                <field attributeName="invoiceFileTaxInLineIndicator" />
+                <field attributeName="invoiceHeaderInformationIdentifier" />
+                <field attributeName="invoiceItemDiscountAmount" />
+                <field attributeName="invoiceItemDiscountCurrencyCode" />
+                <field attributeName="invoiceItemGrossAmount" />
+                <field attributeName="invoiceItemGrossCurrencyCode" />
+                <field attributeName="invoiceItemNetAmount" />
+                <field attributeName="invoiceItemNetCurrencyCode" />
+                <field attributeName="invoiceItemShippingAmount" />
+                <field attributeName="invoiceItemShippingCurrencyCode" />
+                <field attributeName="invoiceItemShippingDescription" />
+                <field attributeName="invoiceItemSpecialHandlingAmount" />
+                <field attributeName="invoiceItemSpecialHandlingCurrencyCode" />
+                <field attributeName="invoiceItemSubTotalAmount" />
+                <field attributeName="invoiceItemSubTotalCurrencyCode" />
+                <field attributeName="invoiceItemTaxAmount" />
+                <field attributeName="invoiceItemTaxCurrencyCode" />
+                <field attributeName="invoiceItemTaxDescription" />
+                <field attributeName="invoiceOrderMasterAgreementInformationDate" />
+                <field attributeName="invoiceOrderMasterAgreementInformationIdentifier" />
+                <field attributeName="invoiceOrderMasterAgreementReferenceDate" />
+                <field attributeName="invoiceOrderMasterAgreementReferenceIdentifier" />
+                <field attributeName="invoiceOrderPurchaseOrderDate" />
+                <field attributeName="invoiceOrderPurchaseOrderIdentifier" />
+                <field attributeName="invoiceOrderReferenceDocumentReferencePayloadIdentifier" />
+                <field attributeName="invoiceOrderReferenceDocumentReferenceText" />
+                <field attributeName="invoiceOrderReferenceOrderIdentifier" />
+                <field attributeName="invoiceOrderSupplierOrderInformationIdentifier" />
+                <field attributeName="invoiceProcessDate" />
+                <field attributeName="invoicePurchaseOrderNumber" />
+                <field attributeName="invoiceRejectExtractDate" />
+                <field attributeName="invoiceShipDate" />
+                <field attributeName="invoiceShipToCityName" />
+                <field attributeName="invoiceShipToCountryCode" />
+                <field attributeName="invoiceShipToLine1Address" />
+                <field attributeName="invoiceShipToLine2Address" />
+                <field attributeName="invoiceShipToLine3Address" />
+                <field attributeName="invoiceShipToPostalCode" />
+                <field attributeName="invoiceShipToStateCode" />
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorDunsNumber" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountsPayableElectronicInvoiceLoadSummaryIdentifier" forceUppercase="true">
+                <label>Accounts Payable Electronic Invoice Load Summary Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>accountsPayableElectronicInvoiceLoadSummaryIdentifier</summary>
+                <description>accountsPayableElectronicInvoiceLoadSummaryIdentifier description...</description>
+			</attribute>
+
+            <attribute name="epicPurchaseOrderDeliveryCampusCode" forceUppercase="true">
+                <label>Epic Purchase Order Delivery Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>epicPurchaseOrderDeliveryCampusCode</summary>
+                <description>epicPurchaseOrderDeliveryCampusCode description...</description>
+			</attribute>
+
+            <attribute name="epicPurchaseOrderIdentifier" forceUppercase="true">
+                <label>Epic Purchase Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>epicPurchaseOrderIdentifier</summary>
+                <description>epicPurchaseOrderIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceAddressName" forceUppercase="true">
+                <label>Invoice Address Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceAddressName</summary>
+                <description>invoiceAddressName description...</description>
+			</attribute>
+
+            <attribute name="invoiceCustomerNumber" forceUppercase="true">
+                <label>Invoice Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>invoiceCustomerNumber</summary>
+                <description>invoiceCustomerNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileDate" forceUppercase="true">
+                <label>Invoice File Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceFileDate</summary>
+                <description>invoiceFileDate description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileDeploymentModeValue" forceUppercase="true">
+                <label>Invoice File Deployment Mode Value</label>
+                <shortLabel>Value</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>invoiceFileDeploymentModeValue</summary>
+                <description>invoiceFileDeploymentModeValue description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileDiscountInLineIndicator" forceUppercase="true">
+                <label>Invoice File Discount In Line Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>invoiceFileDiscountInLineIndicator</summary>
+                <description>invoiceFileDiscountInLineIndicator description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileHeaderTypeIndicator" forceUppercase="true">
+                <label>Invoice File Header Type Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>invoiceFileHeaderTypeIndicator</summary>
+                <description>invoiceFileHeaderTypeIndicator description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileInformationOnlyIndicator" forceUppercase="true">
+                <label>Invoice File Information Only Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>invoiceFileInformationOnlyIndicator</summary>
+                <description>invoiceFileInformationOnlyIndicator description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileName" forceUppercase="true">
+                <label>Invoice File Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceFileName</summary>
+                <description>invoiceFileName description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileNumber" forceUppercase="true">
+                <label>Invoice File Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceFileNumber</summary>
+                <description>invoiceFileNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileOperationIdentifier" forceUppercase="true">
+                <label>Invoice File Operation Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>invoiceFileOperationIdentifier</summary>
+                <description>invoiceFileOperationIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceFilePurposeIdentifier" forceUppercase="true">
+                <label>Invoice File Purpose Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>invoiceFilePurposeIdentifier</summary>
+                <description>invoiceFilePurposeIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileShippingInLineIndicator" forceUppercase="true">
+                <label>Invoice File Shipping In Line Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>invoiceFileShippingInLineIndicator</summary>
+                <description>invoiceFileShippingInLineIndicator description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileSpecialHandlingInLineIndicator" forceUppercase="true">
+                <label>Invoice File Special Handling In Line Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>invoiceFileSpecialHandlingInLineIndicator</summary>
+                <description>invoiceFileSpecialHandlingInLineIndicator description...</description>
+			</attribute>
+
+            <attribute name="invoiceFileTaxInLineIndicator" forceUppercase="true">
+                <label>Invoice File Tax In Line Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>invoiceFileTaxInLineIndicator</summary>
+                <description>invoiceFileTaxInLineIndicator description...</description>
+			</attribute>
+
+            <attribute name="invoiceHeaderInformationIdentifier" forceUppercase="true">
+                <label>Invoice Header Information Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>invoiceHeaderInformationIdentifier</summary>
+                <description>invoiceHeaderInformationIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemDiscountAmount" forceUppercase="true">
+                <label>Invoice Item Discount Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemDiscountAmount</summary>
+                <description>invoiceItemDiscountAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemDiscountCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Discount Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemDiscountCurrencyCode</summary>
+                <description>invoiceItemDiscountCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemGrossAmount" forceUppercase="true">
+                <label>Invoice Item Gross Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemGrossAmount</summary>
+                <description>invoiceItemGrossAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemGrossCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Gross Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemGrossCurrencyCode</summary>
+                <description>invoiceItemGrossCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemNetAmount" forceUppercase="true">
+                <label>Invoice Item Net Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemNetAmount</summary>
+                <description>invoiceItemNetAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemNetCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Net Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemNetCurrencyCode</summary>
+                <description>invoiceItemNetCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemShippingAmount" forceUppercase="true">
+                <label>Invoice Item Shipping Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemShippingAmount</summary>
+                <description>invoiceItemShippingAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemShippingCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Shipping Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemShippingCurrencyCode</summary>
+                <description>invoiceItemShippingCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemShippingDescription" forceUppercase="true">
+                <label>Invoice Item Shipping Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>300</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>invoiceItemShippingDescription</summary>
+                <description>invoiceItemShippingDescription description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSpecialHandlingAmount" forceUppercase="true">
+                <label>Invoice Item Special Handling Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemSpecialHandlingAmount</summary>
+                <description>invoiceItemSpecialHandlingAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSpecialHandlingCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Special Handling Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemSpecialHandlingCurrencyCode</summary>
+                <description>invoiceItemSpecialHandlingCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSubTotalAmount" forceUppercase="true">
+                <label>Invoice Item Sub Total Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemSubTotalAmount</summary>
+                <description>invoiceItemSubTotalAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSubTotalCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Sub Total Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemSubTotalCurrencyCode</summary>
+                <description>invoiceItemSubTotalCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemTaxAmount" forceUppercase="true">
+                <label>Invoice Item Tax Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemTaxAmount</summary>
+                <description>invoiceItemTaxAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemTaxCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Tax Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemTaxCurrencyCode</summary>
+                <description>invoiceItemTaxCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemTaxDescription" forceUppercase="true">
+                <label>Invoice Item Tax Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>300</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>invoiceItemTaxDescription</summary>
+                <description>invoiceItemTaxDescription description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderMasterAgreementInformationDate" forceUppercase="true">
+                <label>Invoice Order Master Agreement Information Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderMasterAgreementInformationDate</summary>
+                <description>invoiceOrderMasterAgreementInformationDate description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderMasterAgreementInformationIdentifier" forceUppercase="true">
+                <label>Invoice Order Master Agreement Information Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderMasterAgreementInformationIdentifier</summary>
+                <description>invoiceOrderMasterAgreementInformationIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderMasterAgreementReferenceDate" forceUppercase="true">
+                <label>Invoice Order Master Agreement Reference Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderMasterAgreementReferenceDate</summary>
+                <description>invoiceOrderMasterAgreementReferenceDate description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderMasterAgreementReferenceIdentifier" forceUppercase="true">
+                <label>Invoice Order Master Agreement Reference Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderMasterAgreementReferenceIdentifier</summary>
+                <description>invoiceOrderMasterAgreementReferenceIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderPurchaseOrderDate" forceUppercase="true">
+                <label>Invoice Order Purchase Order Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderPurchaseOrderDate</summary>
+                <description>invoiceOrderPurchaseOrderDate description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderPurchaseOrderIdentifier" forceUppercase="true">
+                <label>Invoice Order Purchase Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderPurchaseOrderIdentifier</summary>
+                <description>invoiceOrderPurchaseOrderIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderReferenceDocumentReferencePayloadIdentifier" forceUppercase="true">
+                <label>Invoice Order Reference Document Reference Payload Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderReferenceDocumentReferencePayloadIdentifier</summary>
+                <description>invoiceOrderReferenceDocumentReferencePayloadIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderReferenceDocumentReferenceText" forceUppercase="true">
+                <label>Invoice Order Reference Document Reference Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderReferenceDocumentReferenceText</summary>
+                <description>invoiceOrderReferenceDocumentReferenceText description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderReferenceOrderIdentifier" forceUppercase="true">
+                <label>Invoice Order Reference Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderReferenceOrderIdentifier</summary>
+                <description>invoiceOrderReferenceOrderIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceOrderSupplierOrderInformationIdentifier" forceUppercase="true">
+                <label>Invoice Order Supplier Order Information Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceOrderSupplierOrderInformationIdentifier</summary>
+                <description>invoiceOrderSupplierOrderInformationIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceProcessDate" forceUppercase="true">
+                <label>Invoice Process Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>invoiceProcessDate</summary>
+                <description>invoiceProcessDate description...</description>
+			</attribute>
+
+            <attribute name="invoicePurchaseOrderNumber" forceUppercase="true">
+                <label>Invoice Purchase Order Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoicePurchaseOrderNumber</summary>
+                <description>invoicePurchaseOrderNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceRejectExtractDate" forceUppercase="true">
+                <label>Invoice Reject Extract Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>invoiceRejectExtractDate</summary>
+                <description>invoiceRejectExtractDate description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipDate" forceUppercase="true">
+                <label>Invoice Ship Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>invoiceShipDate</summary>
+                <description>invoiceShipDate description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipToCityName" forceUppercase="true">
+                <label>Invoice Ship To City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceShipToCityName</summary>
+                <description>invoiceShipToCityName description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipToCountryCode" forceUppercase="true">
+                <label>Invoice Ship To Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceShipToCountryCode</summary>
+                <description>invoiceShipToCountryCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipToLine1Address" forceUppercase="true">
+                <label>Invoice Ship To Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceShipToLine1Address</summary>
+                <description>invoiceShipToLine1Address description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipToLine2Address" forceUppercase="true">
+                <label>Invoice Ship To Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceShipToLine2Address</summary>
+                <description>invoiceShipToLine2Address description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipToLine3Address" forceUppercase="true">
+                <label>Invoice Ship To Line3 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceShipToLine3Address</summary>
+                <description>invoiceShipToLine3Address description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipToPostalCode" forceUppercase="true">
+                <label>Invoice Ship To Postal Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceShipToPostalCode</summary>
+                <description>invoiceShipToPostalCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceShipToStateCode" forceUppercase="true">
+                <label>Invoice Ship To State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>invoiceShipToStateCode</summary>
+                <description>invoiceShipToStateCode description...</description>
+			</attribute>
+
+            <attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
+                <label>Vendor Detail Assigned Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>vendorDetailAssignedIdentifier</summary>
+                <description>vendorDetailAssignedIdentifier description...</description>
+			</attribute>
+
+            <attribute name="vendorDunsNumber" forceUppercase="true">
+                <label>Vendor Duns Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>vendorDunsNumber</summary>
+                <description>vendorDunsNumber description...</description>
+			</attribute>
+
+            <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
+                <label>Vendor Header Generated Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>vendorHeaderGeneratedIdentifier</summary>
+                <description>vendorHeaderGeneratedIdentifier description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

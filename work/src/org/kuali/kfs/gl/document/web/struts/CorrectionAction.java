@@ -83,7 +83,7 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.46 2006-09-06 06:50:04 abyrne Exp $
+ * @version $Id: CorrectionAction.java,v 1.47 2006-09-06 23:26:03 tdurkin Exp $
  * 
  */
 

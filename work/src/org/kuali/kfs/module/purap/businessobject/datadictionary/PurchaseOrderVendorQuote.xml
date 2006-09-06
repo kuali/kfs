@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderVendorQuote">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Purchase Order Vendor Quote Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="purchaseOrderIdentifier" />
+                <field attributeName="purchaseOrderQuoteAwardDate" />
+                <field attributeName="purchaseOrderQuotePriceExpirationDate" />
+                <field attributeName="purchaseOrderQuoteRankNumber" />
+                <field attributeName="purchaseOrderQuoteStatusCode" />
+                <field attributeName="purchaseOrderQuoteTransactionDate" />
+                <field attributeName="purchaseOrderQuoteTransactionTypeCode" />
+                <field attributeName="purchaseOrderVendorQuoteIdentifier" />
+                <field attributeName="vendorAttentionName" />
+                <field attributeName="vendorCityName" />
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorEmailAddress" />
+                <field attributeName="vendorFaxNumber" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+                <field attributeName="vendorLine1Address" />
+                <field attributeName="vendorLine2Address" />
+                <field attributeName="vendorName" />
+                <field attributeName="vendorPhoneNumber" />
+                <field attributeName="vendorPostalCode" />
+                <field attributeName="vendorStateCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Purchase Order Vendor Quote Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderVendorQuote">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Purchase Order Vendor Quote</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="purchaseOrderIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteAwardDate" required="false" />
+                <lookupField attributeName="purchaseOrderQuotePriceExpirationDate" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteRankNumber" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteStatusCode" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteTransactionDate" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteTransactionTypeCode" required="false" />
+                <lookupField attributeName="purchaseOrderVendorQuoteIdentifier" required="false" />
+                <lookupField attributeName="vendorAttentionName" required="false" />
+                <lookupField attributeName="vendorCityName" required="false" />
+                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" />
+                <lookupField attributeName="vendorEmailAddress" required="false" />
+                <lookupField attributeName="vendorFaxNumber" required="false" />
+                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />
+                <lookupField attributeName="vendorLine1Address" required="false" />
+                <lookupField attributeName="vendorLine2Address" required="false" />
+                <lookupField attributeName="vendorName" required="false" />
+                <lookupField attributeName="vendorPhoneNumber" required="false" />
+                <lookupField attributeName="vendorPostalCode" required="false" />
+                <lookupField attributeName="vendorStateCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="purchaseOrderIdentifier" />
+                <field attributeName="purchaseOrderQuoteAwardDate" />
+                <field attributeName="purchaseOrderQuotePriceExpirationDate" />
+                <field attributeName="purchaseOrderQuoteRankNumber" />
+                <field attributeName="purchaseOrderQuoteStatusCode" />
+                <field attributeName="purchaseOrderQuoteTransactionDate" />
+                <field attributeName="purchaseOrderQuoteTransactionTypeCode" />
+                <field attributeName="purchaseOrderVendorQuoteIdentifier" />
+                <field attributeName="vendorAttentionName" />
+                <field attributeName="vendorCityName" />
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorEmailAddress" />
+                <field attributeName="vendorFaxNumber" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+                <field attributeName="vendorLine1Address" />
+                <field attributeName="vendorLine2Address" />
+                <field attributeName="vendorName" />
+                <field attributeName="vendorPhoneNumber" />
+                <field attributeName="vendorPostalCode" />
+                <field attributeName="vendorStateCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
+                <label>Purchase Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderIdentifier</summary>
+                <description>purchaseOrderIdentifier description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteAwardDate" forceUppercase="true">
+                <label>Purchase Order Quote Award Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderQuoteAwardDate</summary>
+                <description>purchaseOrderQuoteAwardDate description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuotePriceExpirationDate" forceUppercase="true">
+                <label>Purchase Order Quote Price Expiration Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderQuotePriceExpirationDate</summary>
+                <description>purchaseOrderQuotePriceExpirationDate description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteRankNumber" forceUppercase="true">
+                <label>Purchase Order Quote Rank Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>purchaseOrderQuoteRankNumber</summary>
+                <description>purchaseOrderQuoteRankNumber description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteStatusCode" forceUppercase="true">
+                <label>Purchase Order Quote Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>purchaseOrderQuoteStatusCode</summary>
+                <description>purchaseOrderQuoteStatusCode description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteTransactionDate" forceUppercase="true">
+                <label>Purchase Order Quote Transaction Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderQuoteTransactionDate</summary>
+                <description>purchaseOrderQuoteTransactionDate description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteTransactionTypeCode" forceUppercase="true">
+                <label>Purchase Order Quote Transaction Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>purchaseOrderQuoteTransactionTypeCode</summary>
+                <description>purchaseOrderQuoteTransactionTypeCode description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderVendorQuoteIdentifier" forceUppercase="true">
+                <label>Purchase Order Vendor Quote Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderVendorQuoteIdentifier</summary>
+                <description>purchaseOrderVendorQuoteIdentifier description...</description>
+			</attribute>
+
+            <attribute name="vendorAttentionName" forceUppercase="true">
+                <label>Vendor Attention Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorAttentionName</summary>
+                <description>vendorAttentionName description...</description>
+			</attribute>
+
+            <attribute name="vendorCityName" forceUppercase="true">
+                <label>Vendor City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorCityName</summary>
+                <description>vendorCityName description...</description>
+			</attribute>
+
+            <attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
+                <label>Vendor Detail Assigned Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>vendorDetailAssignedIdentifier</summary>
+                <description>vendorDetailAssignedIdentifier description...</description>
+			</attribute>
+
+            <attribute name="vendorEmailAddress" forceUppercase="true">
+                <label>Vendor Email Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>vendorEmailAddress</summary>
+                <description>vendorEmailAddress description...</description>
+			</attribute>
+
+            <attribute name="vendorFaxNumber" forceUppercase="true">
+                <label>Vendor Fax Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorFaxNumber</summary>
+                <description>vendorFaxNumber description...</description>
+			</attribute>
+
+            <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
+                <label>Vendor Header Generated Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>vendorHeaderGeneratedIdentifier</summary>
+                <description>vendorHeaderGeneratedIdentifier description...</description>
+			</attribute>
+
+            <attribute name="vendorLine1Address" forceUppercase="true">
+                <label>Vendor Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorLine1Address</summary>
+                <description>vendorLine1Address description...</description>
+			</attribute>
+
+            <attribute name="vendorLine2Address" forceUppercase="true">
+                <label>Vendor Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorLine2Address</summary>
+                <description>vendorLine2Address description...</description>
+			</attribute>
+
+            <attribute name="vendorName" forceUppercase="true">
+                <label>Vendor Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorName</summary>
+                <description>vendorName description...</description>
+			</attribute>
+
+            <attribute name="vendorPhoneNumber" forceUppercase="true">
+                <label>Vendor Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorPhoneNumber</summary>
+                <description>vendorPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="vendorPostalCode" forceUppercase="true">
+                <label>Vendor Postal Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>vendorPostalCode</summary>
+                <description>vendorPostalCode description...</description>
+			</attribute>
+
+            <attribute name="vendorStateCode" forceUppercase="true">
+                <label>Vendor State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>vendorStateCode</summary>
+                <description>vendorStateCode description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

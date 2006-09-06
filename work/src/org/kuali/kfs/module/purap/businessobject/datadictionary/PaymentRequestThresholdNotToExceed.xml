@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestThresholdNotToExceed">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Payment Request Threshold Not To Exceed Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="accountsPayableThresholdNotToExceedAmount" />
+                <field attributeName="chartOfAccountsCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Payment Request Threshold Not To Exceed Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PaymentRequestThresholdNotToExceed">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Payment Request Threshold Not To Exceed</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="accountsPayableThresholdNotToExceedAmount" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountsPayableThresholdNotToExceedAmount" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountsPayableThresholdNotToExceedAmount" />
+                <field attributeName="chartOfAccountsCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountsPayableThresholdNotToExceedAmount" forceUppercase="true">
+                <label>Accounts Payable Threshold Not To Exceed Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>accountsPayableThresholdNotToExceedAmount</summary>
+                <description>accountsPayableThresholdNotToExceedAmount description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

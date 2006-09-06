@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.Budget">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="documentHeaderId" />
+                <!-- field attributeName="budgetAgency.agencyName" / -->
+            </inquiryFields>
+        </inquiry>
+
+        <attributes>
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Document Header ID</label>
+                <shortLabel>Doc Header ID</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Doc Header ID</summary>
+                <description>Doc Header ID</description>
+            </attribute>
+
+            <attribute name="budgetStatusCode" forceUppercase="true">
+                <label>Budget Status Code</label>
+                <shortLabel>Budget Status Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Budget Status Code</summary>
+                <description>Budget Status Code</description>
+            </attribute>
+
+            <attribute name="budgetParentTrackNumber" forceUppercase="true">
+                <label>Parent Budget Number</label>
+                <shortLabel>parent number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Budget Tracking Number</summary>
+                <description>Budget Tracking Number</description>
+            </attribute>
+
+            <attribute name="budgetName" forceUppercase="true">
+                <label>Budget Name</label>
+                <shortLabel>Budget Name</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Budget Name</summary>
+                <description>Budget Name</description>
+            </attribute>
+
+            <attribute name="universityCostShareIndicator" forceUppercase="true">
+                <label>Institution Cost Share</label>
+                <shortLabel>Univ C.S.</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>University Cost Share</summary>
+                <description>Indicates whether the current budget has university cost share</description>
+            </attribute>
+
+            <attribute name="budgetThirdPartyCostShareIndicator" forceUppercase="true">
+                <label>3rd-party Cost Share</label>
+                <shortLabel>3rd Party C.S.</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Third Party Cost Share</summary>
+                <description>Indicates whether the current budget has third party cost share</description>
+            </attribute>
+
+            <attribute name="electronicResearchAdministrationGrantNumber" forceUppercase="true">
+                <label>Grant Number</label>
+                <shortLabel>Grant Number</shortLabel>
+
+                <maxLength>27</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Grant Number</summary>
+                <description>Grant Number</description>
+            </attribute>
+
+            <attribute name="budgetProgramAnnouncementNumber" forceUppercase="true">
+                <label>Program Announcement Number</label>
+                <shortLabel>Pgm Anncmnt Nbr</shortLabel>
+
+                <maxLength>110</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Agency Program Announcement Number</summary>
+                <description>The program announcement number published by the agency in the RFP</description>
+            </attribute>
+
+            <attribute name="budgetProgramAnnouncementName" forceUppercase="true">
+                <label>Program Announcement Name</label>
+                <shortLabel>Pgm Anncmnt Nm</shortLabel>
+
+                <maxLength>110</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Agency Program Announcement Name</summary>
+                <description>The program announcement name published by the agency in the RFP</description>
+            </attribute>
+
+            <attribute name="budgetTypeCodeText" forceUppercase="true">
+                <label>Budget Type Code</label>
+                <shortLabel>Budget Type Code</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Budget Type Code</summary>
+                <description>Budget Type Code</description>
+            </attribute>
+
+            <attribute name="budgetPersonnelInflationRate" forceUppercase="true">
+                <label>Personnel Inflation Rate</label>
+                <shortLabel>Personnel Infl Rt</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>Personnel Inflation Rate</summary>
+                <description>The inflation rate used to calculate future period personnel expenses.</description>
+            </attribute>
+
+            <attribute name="budgetNonpersonnelInflationRate" forceUppercase="true">
+                <label>Nonpersonnel Inflation Rate</label>
+                <shortLabel>Nonpersonnel Infl Rt</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>Nonpersonnel Inflation Rate</summary>
+                <description>Nonpersonnel Inflation Rate</description>
+            </attribute>
+
+            <attribute name="budgetFringeRateDescription" forceUppercase="true">
+                <label>Fringe Rate Description</label>
+                <shortLabel>Fringe Rate</shortLabel>
+
+                <maxLength>250</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="50" />
+                </control>
+
+                <summary>Fringe Rate Description</summary>
+                <description>Fringe Rate Description</description>
+            </attribute>
+
+            <attribute name="routeSheetTrackNumber" forceUppercase="true">
+                <label>Route Sheet Tracking Number</label>
+                <shortLabel>RS Tracking Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>Route Sheet Tracking Number</summary>
+                <description>Route Sheet Tracking Number</description>
+            </attribute>
+
+            <attribute name="agencyModularIndicator" forceUppercase="true">
+                <label>Agency Modular Indicator</label>
+                <shortLabel>Modular</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Agency Modular Indicator</summary>
+                <description>Agency Modular Indicator</description>
+            </attribute>
+
+            <attributeReference name="budgetAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
+                <label>Budget Agency</label>
+                <shortLabel>Agency</shortLabel>
+                <summary>Budget Agency</summary>
+                <description>Budget Agency</description>
+            </attributeReference>
+
+            <attributeReference name="federalPassThroughAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
+                <label>Federal Pass Through</label>
+                <shortLabel>Fed PT Agency</shortLabel>
+                <required>false</required>
+                <summary>Federal Pass Through Agency ...</summary>
+                <description>Federal Pass Through Agency ...</description>
+            </attributeReference>
+
+            <attributeReference name="budgetProjectDirectorSystemId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Project Director</label>
+                <shortLabel>Project Director</shortLabel>
+
+                <summary>Project Director ...</summary>
+                <description>Project Director ...</description>
+            </attributeReference>
+
+        </attributes>
+
+        <collections>
+            <collection name="tasks">
+                <label>Tasks</label>
+                <shortLabel>Tasks</shortLabel>
+                <summary>Budget Tasks</summary>
+                <description>Tasks that occur as part of the budget</description>
+            </collection>
+
+            <collection name="periods">
+                <label>Periods</label>
+                <shortLabel>Period</shortLabel>
+                <summary>Budget Periods</summary>
+                <description>Periods that occur during of the budget</description>
+            </collection>
+        </collections>
+
+        <objectLabel>General Parameters</objectLabel>
+        <objectDescription>Help description for budget parameters - general.</objectDescription>
+
+		<objectHelp securityGroupName="KraAdminGroup" parameterName="budgetParametersGeneralHelp" />
+		
+    </businessObject>
+</dictionaryEntry>
+

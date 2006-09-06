@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.RequisitionStatus</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiRequisitionStatusMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMRS</documentTypeCode>
+
+        <label>Requisition Status Maintenance Document</label>
+        <shortLabel>Requisition Status Maint Doc</shortLabel>
+
+        <summary>Requisition Status Maintenance Document</summary>
+        <description>Document used to create or update Requisition Status objects</description>
+
+        <lockingKeys>
+            <field attributeName="requisitionStatusCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Requisition Status">
+                <maintainableItems>
+                    <maintainableField name="requisitionStatusCode" required="true" />
+                    <maintainableField name="requisitionStatusDescription" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

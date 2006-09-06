@@ -23,6 +23,7 @@
 package org.kuali.module.kra.web.struts.form;
 
 import org.kuali.core.util.KualiInteger;
+import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**

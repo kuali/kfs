@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Organization Reports Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="reportsToOrganizationCode" />
+                <field attributeName="responsibilityCenterCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Organization Reports Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionOrganizationReports">Create New</a>]]></menubar>
+
+            <instructions>Look up Budget Construction Organization Reports</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="organizationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="reportsToChartOfAccountsCode" required="false" />
+                <lookupField attributeName="reportsToOrganizationCode" required="false" />
+                <lookupField attributeName="responsibilityCenterCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="reportsToOrganizationCode" />
+                <field attributeName="responsibilityCenterCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="reportsToChartOfAccountsCode" forceUppercase="true">
+                <label>Reports To Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>reportsToChartOfAccountsCode</summary>
+                <description>reportsToChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="reportsToOrganizationCode" forceUppercase="true">
+                <label>Reports To Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>reportsToOrganizationCode</summary>
+                <description>reportsToOrganizationCode description...</description>
+			</attribute>
+
+            <attribute name="responsibilityCenterCode" forceUppercase="true">
+                <label>Responsibility Center Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>responsibilityCenterCode</summary>
+                <description>responsibilityCenterCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetModular">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Modular Budget Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="documentHeaderId" />
+                <!-- field attributeName="budgetAgency.agencyName" / -->
+            </inquiryFields>
+        </inquiry>
+
+        <attributes>
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Document Header ID</label>
+                <shortLabel>Doc Header ID</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Doc Header ID</summary>
+                <description>Doc Header ID</description>
+            </attribute>
+
+            <attribute name="budgetModularPersonnelDescription" forceUppercase="true">
+                <label>Explanation - Personnel</label>
+                <shortLabel>Modular Personnel</shortLabel>
+
+                <maxLength>50000</maxLength>
+
+                <control>
+                    <textarea rows="5" cols="60" />
+                </control>
+
+                <summary>Modular Budget Personnel Description</summary>
+                <description>Modular Budget Personnel Description</description>
+            </attribute>
+
+            <attribute name="budgetModularConsortiumDescription" forceUppercase="true">
+                <label>Explanation - Consortium</label>
+                <shortLabel>Modular Consortium</shortLabel>
+
+                <maxLength>50000</maxLength>
+
+                <control>
+                    <textarea rows="5" cols="60" />
+                </control>
+
+                <summary>Modular Budget Consortium Description</summary>
+                <description>Modular Budget Consortium Description</description>
+            </attribute>
+
+            <attribute name="budgetModularVariableAdjustmentDescription" forceUppercase="true">
+                <label>Explanation - Variable Adjustment</label>
+                <shortLabel>Modular Variable Adjustment</shortLabel>
+
+                <maxLength>50000</maxLength>
+
+                <control>
+                    <textarea rows="5" cols="60" />
+                </control>
+
+                <summary>Modular Budget Variable Adjustment Description</summary>
+                <description>Modular Budget Variable Adjustment Description</description>
+            </attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

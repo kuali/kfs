@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <researchDocument>
+        <documentClass>org.kuali.module.kra.budget.document.BudgetDocument</documentClass>
+        <businessRulesClass>org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiBudgetDocument</documentTypeName>
+        <documentTypeCode>KBD</documentTypeCode>
+        <label>Budget</label>
+        <shortLabel>Budget</shortLabel>
+        <summary>Budget document</summary>
+        <description>Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice</description>
+        <allowsCopy>true</allowsCopy>
+        <allowsNoteDelete>true</allowsNoteDelete>
+        <!--  attachmentTypesValuesFinderClass>org.kuali.module.kra.budget.lookup.keyvalues.BudgetBaseCodeValuesFinder</attachmentTypesValuesFinderClass -->
+    </researchDocument>
+</dictionaryEntry>

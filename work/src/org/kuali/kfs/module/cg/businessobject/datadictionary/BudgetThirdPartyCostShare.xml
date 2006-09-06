@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Third Party Cost Share</title>
+
+            <inquiryFields>
+                <field attributeName="budgetCostShareSequenceNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <attributes>
+
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Budget Number</label>
+                <shortLabel>Budget Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>Budget Number...</summary>
+                <description>Budget Number...</description>
+            </attribute>
+
+            <attribute name="budgetCostShareSequenceNumber" forceUppercase="true">
+                <label>Sequence Number</label>
+                <shortLabel>Sequence Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Sequence Number</summary>
+                <description>Sequence Number</description>
+            </attribute>
+
+            <attribute name="budgetCostShareDescription" forceUppercase="true">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Description</summary>
+                <description>Description</description>
+            </attribute>
+
+            <attribute name="budgetCostShareSourceName" forceUppercase="true">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>Description</summary>
+                <description>Description</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="-1" />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+        </attributes>
+
+        <objectLabel>Budget Third Party Cost Share</objectLabel>
+        <objectDescription>Budget Third Party Cost Share is the third party cost share for your Budget.</objectDescription>
+        
+        <objectHelp securityGroupName="KraAdminGroup" parameterName="budgetThirdPartyCostShareHelp" />
+
+    </businessObject>
+</dictionaryEntry>
+

@@ -24,16 +24,17 @@
     <reference-descriptor name="reportsToAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="reportsToAgencyNumber" />
     </reference-descriptor>
-    <reference-descriptor name="agencyExtension" class-ref="org.kuali.module.kra.bo.AgencyExtension" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="agencyExtension" class-ref="org.kuali.module.kra.budget.bo.AgencyExtension" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.AgencyType" table="CG_AGENCY_TYP_T">
     <field-descriptor name="code" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="name" column="CG_AGENCY_TYP_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="name" column="CG_AGENCY_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProjectDirector" table="CG_PRJDR_T">
@@ -88,6 +89,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="letterOfCreditFundGroupDescription" column="LTRCR_FNDGRP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.GrantDescription" table="CG_GRANT_DESC_T">
@@ -208,23 +210,26 @@
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalAwardType" table="CG_PRPSL_AWD_TYP_T">
     <field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalAwardTypeDescription" column="PRPSL_AWD_TYP_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="proposalAwardTypeDescription" column="PRPSL_AWD_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalPurpose" table="CG_PRPSL_PURPOSE_T">
     <field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalPurposeDescription" column="PRPSL_PURPOSE_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="proposalPurposeDescription" column="PRPSL_PURPOSE_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalStatus" table="CG_PRPSL_STAT_T">
     <field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalStatusDescription" column="CGPRPSL_STAT_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="proposalStatusDescription" column="CGPRPSL_STAT_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalSubcontractor" table="CG_PRPSL_SUBCN_T">
@@ -408,6 +413,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="awardStatusDescription" column="CGAWD_STAT_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.AwardProjectDirector" table="CG_AWD_PRJDR_T">
@@ -509,61 +515,36 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch01Move" table="CG_BUILD_AGYPRJDR_SRCH01_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="agencyAwardNumber" column="CG_AGENCY_AWD_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="flag" column="FLAG" jdbc-type="INTEGER" />
+    <field-descriptor name="flag" column="FLAG" jdbc-type="DECIMAL" />
     <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <collection-descriptor name="awardProjectDirector" element-class-ref="org.kuali.module.cg.bo.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardAccount" element-class-ref="org.kuali.module.cg.bo.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="accountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardSubcontractor" element-class-ref="org.kuali.module.cg.bo.AwardSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="awardSubcontractorAmendmentNumber" sort="ASC" />
-        <orderby name="awardSubcontractorNumber" sort="ASC" />
-        <orderby name="subcontractorNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardOrganization" element-class-ref="org.kuali.module.cg.bo.AwardOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="organizationCode" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardDiary" element-class-ref="org.kuali.module.cg.bo.AwardDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="awardDiaryEntryDate" sort="DSC" />
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch02Move" table="CG_BUILD_AGYPRJDR_SRCH02_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="agencyExtension" class-ref="org.kuali.module.kra.bo.AgencyExtension" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="agencyExtension" class-ref="org.kuali.module.kra.budget.bo.AgencyExtension" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch03Move" table="CG_BUILD_AGYPRJDR_SRCH03_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch04Move" table="CG_BUILD_AGYPRJDR_SRCH04_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -580,7 +561,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch05Move" table="CG_BUILD_AGYPRJDR_SRCH05_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -615,42 +596,17 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildAwardSearch01Move" table="CG_BUILD_AWD_SRCH01_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <collection-descriptor name="awardProjectDirector" element-class-ref="org.kuali.module.cg.bo.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardAccount" element-class-ref="org.kuali.module.cg.bo.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="accountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardSubcontractor" element-class-ref="org.kuali.module.cg.bo.AwardSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="awardSubcontractorAmendmentNumber" sort="ASC" />
-        <orderby name="awardSubcontractorNumber" sort="ASC" />
-        <orderby name="subcontractorNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardOrganization" element-class-ref="org.kuali.module.cg.bo.AwardOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="organizationCode" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardDiary" element-class-ref="org.kuali.module.cg.bo.AwardDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="awardDiaryEntryDate" sort="DSC" />
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildAwardSearch02Move" table="CG_BUILD_AWD_SRCH02_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -673,64 +629,20 @@
     <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="federalPassThroughAgencyNumber" />
     </reference-descriptor>
-    <collection-descriptor name="awardProjectDirector" element-class-ref="org.kuali.module.cg.bo.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardAccount" element-class-ref="org.kuali.module.cg.bo.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="accountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardSubcontractor" element-class-ref="org.kuali.module.cg.bo.AwardSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="awardSubcontractorAmendmentNumber" sort="ASC" />
-        <orderby name="awardSubcontractorNumber" sort="ASC" />
-        <orderby name="subcontractorNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardOrganization" element-class-ref="org.kuali.module.cg.bo.AwardOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="organizationCode" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardDiary" element-class-ref="org.kuali.module.cg.bo.AwardDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="awardDiaryEntryDate" sort="DSC" />
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildProposalSearch01Move" table="CG_BUILD_PRPSL_SRCH01_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <reference-descriptor name="researchType" class-ref="org.kuali.module.cg.bo.ResearchType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <collection-descriptor name="proposalSubcontractor" element-class-ref="org.kuali.module.cg.bo.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="proposalSubcontractorNumber" sort="ASC" />
-        <orderby name="subcontractorNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalOrganization" element-class-ref="org.kuali.module.cg.bo.ProposalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="organizationCode" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalProjectDirector" element-class-ref="org.kuali.module.cg.bo.ProposalProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalDiary" element-class-ref="org.kuali.module.cg.bo.ProposalDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="proposalDiaryEntryDate" sort="DSC" />
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.BuildProposalSearch02Move" table="CG_BUILD_PRPSL_SRCH02_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="BIGINT" primarykey="true" index="true" />
+    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -756,23 +668,4 @@
     <reference-descriptor name="proposalPurpose" class-ref="org.kuali.module.cg.bo.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalPurposeCode" />
     </reference-descriptor>
-    <collection-descriptor name="proposalSubcontractor" element-class-ref="org.kuali.module.cg.bo.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="proposalSubcontractorNumber" sort="ASC" />
-        <orderby name="subcontractorNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalOrganization" element-class-ref="org.kuali.module.cg.bo.ProposalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="organizationCode" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalProjectDirector" element-class-ref="org.kuali.module.cg.bo.ProposalProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalDiary" element-class-ref="org.kuali.module.cg.bo.ProposalDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="proposalDiaryEntryDate" sort="DSC" />
-        <orderby name="personUniversalIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
 </class-descriptor>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.AutoApproveExclude</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiAutoApproveExclusionMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMAA</documentTypeCode>
+
+        <label>Auto Approve Exclude Maintenance Document</label>
+        <shortLabel>Auto Approve Exclude Maint Doc</shortLabel>
+
+        <summary>Auto Approve Exclude Maintenance Document</summary>
+        <description>Document used to create or update Auto Approve Exclude objects</description>
+
+        <lockingKeys>
+            <field attributeName="accountNumber" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Auto Approve Exclude">
+                <maintainableItems>
+                    <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                    <maintainableField name="versionNumber" required="true"/>
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

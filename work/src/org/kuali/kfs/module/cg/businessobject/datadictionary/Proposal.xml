@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.Proposal">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Proposal Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="agencyNumber" />
+                <field attributeName="cfdaNumber" />
+                <field attributeName="federalPassThroughAgencyNumber" />
+                <field attributeName="grantNumber" />
+                <field attributeName="oldProposalNumber" />
+                <field attributeName="proposalAwardTypeCode" />
+                <field attributeName="proposalBeginningDate" />
+                <field attributeName="proposalClosingDate" />
+                <field attributeName="proposalDirectCostAmount" />
+                <field attributeName="proposalDueDate" />
+                <field attributeName="proposalEndingDate" />
+                <field attributeName="proposalFederalPassThroughIndicator" />
+                <field attributeName="proposalFellowName" />
+                <field attributeName="proposalIndirectCostAmount" />
+                <field attributeName="proposalLastUpdateDate" />
+                <field attributeName="proposalNumber" />
+                <field attributeName="proposalProjectTitle" />
+                <field attributeName="proposalPurposeCode" />
+                <field attributeName="proposalRejectedDate" />
+                <field attributeName="proposalStatusCode" />
+                <field attributeName="proposalSubmissionDate" />
+                <field attributeName="proposalTotalAmount" />
+                <field attributeName="proposalTotalProjectAmount" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Proposal Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Proposal">Create New</a>]]></menubar>
+
+            <instructions>Look up a Proposal</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="proposalNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="agencyNumber" required="false" />
+                <lookupField attributeName="cfdaNumber" required="false" />
+                <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
+                <lookupField attributeName="grantNumber" required="false" />
+                <lookupField attributeName="oldProposalNumber" required="false" />
+                <lookupField attributeName="proposalAwardTypeCode" required="false" />
+                <lookupField attributeName="proposalBeginningDate" required="false" />
+                <lookupField attributeName="proposalClosingDate" required="false" />
+                <lookupField attributeName="proposalDirectCostAmount" required="false" />
+                <lookupField attributeName="proposalDueDate" required="false" />
+                <lookupField attributeName="proposalEndingDate" required="false" />
+                <lookupField attributeName="proposalFederalPassThroughIndicator" required="false" />
+                <lookupField attributeName="proposalFellowName" required="false" />
+                <lookupField attributeName="proposalIndirectCostAmount" required="false" />
+                <lookupField attributeName="proposalLastUpdateDate" required="false" />
+                <lookupField attributeName="proposalNumber" required="false" />
+                <lookupField attributeName="proposalProjectTitle" required="false" />
+                <lookupField attributeName="proposalPurposeCode" required="false" />
+                <lookupField attributeName="proposalRejectedDate" required="false" />
+                <lookupField attributeName="proposalStatusCode" required="false" />
+                <lookupField attributeName="proposalSubmissionDate" required="false" />
+                <lookupField attributeName="proposalTotalAmount" required="false" />
+                <lookupField attributeName="proposalTotalProjectAmount" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="agencyNumber" />
+                <field attributeName="cfdaNumber" />
+                <field attributeName="federalPassThroughAgencyNumber" />
+                <field attributeName="grantNumber" />
+                <field attributeName="oldProposalNumber" />
+                <field attributeName="proposalAwardTypeCode" />
+                <field attributeName="proposalBeginningDate" />
+                <field attributeName="proposalClosingDate" />
+                <field attributeName="proposalDirectCostAmount" />
+                <field attributeName="proposalDueDate" />
+                <field attributeName="proposalEndingDate" />
+                <field attributeName="proposalFederalPassThroughIndicator" />
+                <field attributeName="proposalFellowName" />
+                <field attributeName="proposalIndirectCostAmount" />
+                <field attributeName="proposalLastUpdateDate" />
+                <field attributeName="proposalNumber" />
+                <field attributeName="proposalProjectTitle" />
+                <field attributeName="proposalPurposeCode" />
+                <field attributeName="proposalRejectedDate" />
+                <field attributeName="proposalStatusCode" />
+                <field attributeName="proposalSubmissionDate" />
+                <field attributeName="proposalTotalAmount" />
+                <field attributeName="proposalTotalProjectAmount" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="agencyNumber" forceUppercase="true">
+                <label>Agency Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>agencyNumber</summary>
+                <description>agencyNumber description...</description>
+			</attribute>
+
+            <attribute name="cfdaNumber" forceUppercase="true">
+                <label>Cfda Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>cfdaNumber</summary>
+                <description>cfdaNumber description...</description>
+			</attribute>
+
+            <attribute name="federalPassThroughAgencyNumber" forceUppercase="true">
+                <label>Federal Pass Through Agency Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>federalPassThroughAgencyNumber</summary>
+                <description>federalPassThroughAgencyNumber description...</description>
+			</attribute>
+
+            <attribute name="grantNumber" forceUppercase="true">
+                <label>Grant Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>27</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="29" />
+                </control>
+
+                <summary>grantNumber</summary>
+                <description>grantNumber description...</description>
+			</attribute>
+
+            <attribute name="oldProposalNumber" forceUppercase="true">
+                <label>Old Proposal Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>oldProposalNumber</summary>
+                <description>oldProposalNumber description...</description>
+			</attribute>
+
+            <attribute name="proposalAwardTypeCode" forceUppercase="true">
+                <label>Proposal Award Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>proposalAwardTypeCode</summary>
+                <description>proposalAwardTypeCode description...</description>
+			</attribute>
+
+            <attribute name="proposalBeginningDate" forceUppercase="true">
+                <label>Proposal Beginning Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalBeginningDate</summary>
+                <description>proposalBeginningDate description...</description>
+			</attribute>
+
+            <attribute name="proposalClosingDate" forceUppercase="true">
+                <label>Proposal Closing Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalClosingDate</summary>
+                <description>proposalClosingDate description...</description>
+			</attribute>
+
+            <attribute name="proposalDirectCostAmount" forceUppercase="true">
+                <label>Proposal Direct Cost Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>proposalDirectCostAmount</summary>
+                <description>proposalDirectCostAmount description...</description>
+			</attribute>
+
+            <attribute name="proposalDueDate" forceUppercase="true">
+                <label>Proposal Due Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalDueDate</summary>
+                <description>proposalDueDate description...</description>
+			</attribute>
+
+            <attribute name="proposalEndingDate" forceUppercase="true">
+                <label>Proposal Ending Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalEndingDate</summary>
+                <description>proposalEndingDate description...</description>
+			</attribute>
+
+            <attribute name="proposalFederalPassThroughIndicator" forceUppercase="true">
+                <label>Proposal Federal Pass Through Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalFederalPassThroughIndicator</summary>
+                <description>proposalFederalPassThroughIndicator description...</description>
+			</attribute>
+
+            <attribute name="proposalFellowName" forceUppercase="true">
+                <label>Proposal Fellow Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>proposalFellowName</summary>
+                <description>proposalFellowName description...</description>
+			</attribute>
+
+            <attribute name="proposalIndirectCostAmount" forceUppercase="true">
+                <label>Proposal Indirect Cost Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>proposalIndirectCostAmount</summary>
+                <description>proposalIndirectCostAmount description...</description>
+			</attribute>
+
+            <attribute name="proposalLastUpdateDate" forceUppercase="true">
+                <label>Proposal Last Update Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalLastUpdateDate</summary>
+                <description>proposalLastUpdateDate description...</description>
+			</attribute>
+
+            <attribute name="proposalNumber" forceUppercase="true">
+                <label>Proposal Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>proposalNumber</summary>
+                <description>proposalNumber description...</description>
+			</attribute>
+
+            <attribute name="proposalProjectTitle" forceUppercase="true">
+                <label>Proposal Project Title</label>
+                <shortLabel>Title</shortLabel>
+
+                <maxLength>250</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>proposalProjectTitle</summary>
+                <description>proposalProjectTitle description...</description>
+			</attribute>
+
+            <attribute name="proposalPurposeCode" forceUppercase="true">
+                <label>Proposal Purpose Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>proposalPurposeCode</summary>
+                <description>proposalPurposeCode description...</description>
+			</attribute>
+
+            <attribute name="proposalRejectedDate" forceUppercase="true">
+                <label>Proposal Rejected Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalRejectedDate</summary>
+                <description>proposalRejectedDate description...</description>
+			</attribute>
+
+            <attribute name="proposalStatusCode" forceUppercase="true">
+                <label>Proposal Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalStatusCode</summary>
+                <description>proposalStatusCode description...</description>
+			</attribute>
+
+            <attribute name="proposalSubmissionDate" forceUppercase="true">
+                <label>Proposal Submission Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalSubmissionDate</summary>
+                <description>proposalSubmissionDate description...</description>
+			</attribute>
+
+            <attribute name="proposalTotalAmount" forceUppercase="true">
+                <label>Proposal Total Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>proposalTotalAmount</summary>
+                <description>proposalTotalAmount description...</description>
+			</attribute>
+
+            <attribute name="proposalTotalProjectAmount" forceUppercase="true">
+                <label>Proposal Total Project Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>proposalTotalProjectAmount</summary>
+                <description>proposalTotalProjectAmount description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

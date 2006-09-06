@@ -6,7 +6,8 @@ package org.kuali.module.kra.service;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.bo.BudgetFringeRate;
+import org.kuali.module.kra.budget.bo.BudgetFringeRate;
+import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.kuali.test.KualiTestBaseWithSession;
 
 /**

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetNonpersonnel">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <attributes>
+            <attribute name="budgetNonpersonnelCategoryCode" forceUppercase="true">
+                <label>Category Code</label>
+                <maxLength>2</maxLength>
+                <required>true</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>Category Code</summary>
+                <description>Category Code</description>
+            </attribute>
+            <attribute name="budgetNonpersonnelSubCategoryCode" forceUppercase="true">
+                <label>Sub Category Code</label>
+                <maxLength>3</maxLength>
+                <required>true</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>Sub Category Code</summary>
+                <description>Sub Category Code</description>
+            </attribute>
+
+
+            <attribute name="budgetNonpersonnelSequenceNumber" forceUppercase="true">
+                <label>Sequence Number</label>
+                <shortLabel>Sequence Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Sequence Number</summary>
+                <description>Sequence Number</description>
+            </attribute>
+
+            <attribute name="budgetNonpersonnelDescription" forceUppercase="true">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>false</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Description</summary>
+                <description>Description</description>
+            </attribute>
+
+            <attribute name="agencyRequestAmount" forceUppercase="true">
+                <label>Requested Amount</label>
+                <shortLabel>Requested Amount</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Agency Requested Amount</summary>
+                <description>Agency Requested Amount</description>
+            </attribute>
+
+            <attribute name="budgetThirdPartyCostShareAmount" forceUppercase="true">
+                <label>Third Party Cost Share Amount</label>
+                <shortLabel>Third Party Cost Share Amount</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Third Party Cost Share Amount</summary>
+                <description>Third Party Cost Share Amount</description>
+            </attribute>
+
+            <attribute name="budgetUniversityCostShareAmount" forceUppercase="true">
+                <label>University Cost Share Amount</label>
+                <shortLabel>University Cost Share Amount</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>University Cost Share Amount</summary>
+                <description>University Cost Share Amount</description>
+            </attribute>
+
+            <attribute name="budgetOriginSequenceNumber" forceUppercase="true">
+                <label>Origin Sequence Number</label>
+                <shortLabel>Origin Sequence Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Origin Sequence Number</summary>
+                <description>Origin Sequence Number</description>
+            </attribute>
+
+            <attribute name="agencyCopyIndicator" forceUppercase="true">
+                <label>Copy Indicator</label>
+                <shortLabel>Copy Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Copy Indicator</summary>
+                <description>Copy Indicator</description>
+            </attribute>
+
+            <attribute name="budgetUniversityCostShareCopyIndicator" forceUppercase="true">
+                <label>University Cost Share Copy Indicator</label>
+                <shortLabel>University Cost Share Copy Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>University Cost Share Copy Indicator</summary>
+                <description>University Cost Share Copy Indicator</description>
+            </attribute>
+
+            <attribute name="budgetThirdPartyCostShareCopyIndicator" forceUppercase="true">
+                <label>Third Party Cost Share Copy Indicator</label>
+                <shortLabel>Third Party Cost Share Copy Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Third Party Cost Share Copy Indicator</summary>
+                <description>Third PartyCost Share Copy Indicator</description>
+            </attribute>
+
+            <attribute name="budgetOriginAgencyAmount" forceUppercase="true">
+                <label>Origin Agency Amount</label>
+                <shortLabel>Origin Agency Amount</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Origin Agency Amount</summary>
+                <description>Origin Agency Amount</description>
+            </attribute>
+
+            <attribute name="budgetOriginUniversityCostShareAmount" forceUppercase="true">
+                <label>Origin University Cost Share Amount</label>
+                <shortLabel>Origin University Cost Share Amount</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Origin University Cost Share Amount</summary>
+                <description>Origin University Cost Share Amount</description>
+            </attribute>
+
+            <attribute name="budgetOriginThirdPartyCostShareAmount" forceUppercase="true">
+                <label>Origin Third Party Cost Share Amount</label>
+                <shortLabel>Origin Third Party Cost Share Amount</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Origin Third Party Cost Share Amount</summary>
+                <description>Origin Third Party Cost Share Amount</description>
+            </attribute>
+
+            <attributeReference name="nonpersonnelObjectCode" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelObjectCode" sourceAttributeName="budgetNonpersonnelObjectCode">
+                <label>Nonpersonnel Object Code</label>
+                <shortLabel>Nonpersonnel Object Code</shortLabel>
+                <summary>Nonpersonnel Object Code ...</summary>
+                <description>Nonpersonnel Object Code ...</description>
+            </attributeReference>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>
+

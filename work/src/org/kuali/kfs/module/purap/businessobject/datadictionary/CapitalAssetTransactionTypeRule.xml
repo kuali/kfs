@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.CapitalAssetTransactionTypeRule">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Capital Asset Transaction Type Rule Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="capitalAssetRelationshipLimitNumber" />
+                <field attributeName="capitalAssetTransactionTypeCode" />
+                <field attributeName="financialObjectSubTypeCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Capital Asset Transaction Type Rule Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CapitalAssetTransactionTypeRule">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Capital Asset Transaction Type Rule</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetRelationshipLimitNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetRelationshipLimitNumber" required="false" />
+                <lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
+                <lookupField attributeName="financialObjectSubTypeCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetRelationshipLimitNumber" />
+                <field attributeName="capitalAssetTransactionTypeCode" />
+                <field attributeName="financialObjectSubTypeCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetRelationshipLimitNumber" forceUppercase="true">
+                <label>Capital Asset Relationship Limit Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>capitalAssetRelationshipLimitNumber</summary>
+                <description>capitalAssetRelationshipLimitNumber description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetTransactionTypeCode" forceUppercase="true">
+                <label>Capital Asset Transaction Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>capitalAssetTransactionTypeCode</summary>
+                <description>capitalAssetTransactionTypeCode description...</description>
+			</attribute>
+
+            <attribute name="financialObjectSubTypeCode" forceUppercase="true">
+                <label>Financial Object Sub Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialObjectSubTypeCode</summary>
+                <description>financialObjectSubTypeCode description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

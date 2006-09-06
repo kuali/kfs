@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.NonpersonnelCategory">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Nonpersonnel Category Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="active" />
+                <field attributeName="sortNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Nonpersonnel Category Lookup</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.NonpersonnelCategory">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup a Nonpersonnel Category</instructions>
+
+            <defaultSort attributeName="code" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="name" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+
+        <titleAttribute>code</titleAttribute>
+
+        <attributes>
+            <attribute name="code" forceUppercase="true">
+                <label>Nonpersonnel Category Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <validationPattern>
+                    <alpha exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Nonpersonnel Category Code</summary>
+                <description>Nonpersonnel Category Code</description>
+            </attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attribute name="name">
+                <label>Nonpersonnel Category Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>Nonpersonnel Category Name</summary>
+                <description>The name of the Nonpersonnel Category.</description>
+            </attribute>
+
+            <attribute name="sortNumber">
+                <label>Nonpersonnel Category Sort Number</label>
+                <shortLabel>Sort Number</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Nonpersonnel Category Sort Number</summary>
+                <description>The order in which Nonpersonnel Categories will be displayed within the application.</description>
+            </attribute>
+
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

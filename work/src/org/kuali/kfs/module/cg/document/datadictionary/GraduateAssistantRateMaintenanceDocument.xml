@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.kra.budget.bo.GraduateAssistantRate</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KRA_PRE_AWARD_ADMIN</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiGraduateAssistantRateMaintenanceDocument</documentTypeName>
+        <documentTypeCode>GAR</documentTypeCode>
+
+        <label>Graduate Assistant Rate Maintenance Document</label>
+        <shortLabel>GraduateAssistantRateMainDoc</shortLabel>
+
+        <summary>Graduate Assistant Rate maintenance document</summary>
+        <description>Document used to create or update Graduate Assistant Rate objects</description>
+
+        <lockingKeys>
+            <field attributeName="campusCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Graduate Assistant Rate">
+                <maintainableItems>
+                    <maintainableField name="campusCode" required="true" />
+                    <maintainableField name="campusMaximumPeriod1Rate" required="true" />
+                    <maintainableField name="campusMaximumPeriod2Rate" required="true" />
+                    <maintainableField name="campusMaximumPeriod3Rate" required="false" />
+                    <maintainableField name="campusMaximumPeriod4Rate" required="false" />
+                    <maintainableField name="campusMaximumPeriod5Rate" required="false" />
+                    <maintainableField name="campusMaximumPeriod6Rate" required="false" />
+                    <maintainableField name="active" required="false" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.Carrier</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiCarrierMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMCA</documentTypeCode>
+
+        <label>Carrier Maintenance Document</label>
+        <shortLabel>Carrier Maint Doc</shortLabel>
+
+        <summary>Carrier Maintenance Document</summary>
+        <description>Document used to create or update Carrier objects</description>
+
+        <lockingKeys>
+            <field attributeName="carrierCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Carrier">
+                <maintainableItems>
+                    <maintainableField name="carrierCode" required="true" />
+                    <maintainableField name="carrierDescription" required="true"/>
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" >
+                       	<defaultValue>true</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="versionNumber" required="true"/>
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

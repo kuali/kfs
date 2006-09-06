@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
+import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**

@@ -39,7 +39,7 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: AccountBalanceServiceImpl.java,v 1.18 2006-09-06 06:49:57 abyrne Exp $
+ * @version $Id: AccountBalanceServiceImpl.java,v 1.19 2006-09-06 23:29:12 tdurkin Exp $
  */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);

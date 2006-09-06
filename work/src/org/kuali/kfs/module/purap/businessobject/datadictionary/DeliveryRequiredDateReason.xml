@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.DeliveryRequiredDateReason">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Delivery Required Date Reason Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="deliveryRequiredDateReasonCode" />
+                <field attributeName="deliveryRequiredDateReasonDescription" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Delivery Required Date Reason Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.DeliveryRequiredDateReason">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Delivery Required Date Reason</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="deliveryRequiredDateReasonDescription" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="deliveryRequiredDateReasonCode" required="false" />
+                <lookupField attributeName="deliveryRequiredDateReasonDescription" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="deliveryRequiredDateReasonCode" />
+                <field attributeName="deliveryRequiredDateReasonDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+             </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="deliveryRequiredDateReasonCode" forceUppercase="true">
+                <label>Delivery Required Date Reason Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>deliveryRequiredDateReasonCode</summary>
+                <description>deliveryRequiredDateReasonCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryRequiredDateReasonDescription" >
+                <label>Delivery Required Date Reason Description</label>
+                <shortLabel>Delivery Required Date Reason Description</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>deliveryRequiredDateReasonDescription</summary>
+                <description>deliveryRequiredDateReasonDescription description...</description>
+			</attribute>
+
+           <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

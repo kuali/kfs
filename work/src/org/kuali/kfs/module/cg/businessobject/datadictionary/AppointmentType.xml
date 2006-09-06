@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.AppointmentType">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Appointment Type</title>
+
+            <inquiryFields>
+                <field attributeName="appointmentTypeCode" />
+                <field attributeName="appointmentTypeDescription" />
+                <field attributeName="appointmentTypeAbbrieviation" />
+                <field attributeName="fringeRateAmount" />
+                <field attributeName="costShareFringeRateAmount" />
+                <field attributeName="relatedAppointmentTypeCode" />
+                <field attributeName="fiscalYear" />
+                <field attributeName="lastUpdate" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Appointment Type</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.AppointmentType">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup an Appointment Type</instructions>
+
+            <defaultSort attributeName="appointmentTypeCode" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="appointmentTypeCode" required="false" />
+                <lookupField attributeName="appointmentTypeAbbrieviation" required="false" />
+                <lookupField attributeName="fiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="appointmentTypeCode" />
+                <field attributeName="appointmentTypeDescription" />
+                <field attributeName="appointmentTypeAbbrieviation" />
+                <field attributeName="fringeRateAmount" />
+                <field attributeName="costShareFringeRateAmount" />
+                <field attributeName="relatedAppointmentTypeCode" />
+                <field attributeName="fiscalYear" />
+                <field attributeName="lastUpdate" />
+            </resultFields>
+        </lookup>
+        
+        <titleAttribute>appointmentTypeCode</titleAttribute>
+
+        <attributes>
+
+            <attribute name="appointmentTypeCode" forceUppercase="true">
+                <label>Appointment Type Code</label>
+                <shortLabel>Appointment Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric exactLength="2" />
+                </validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Appointment Type Code</summary>
+                <description>The type of appointment for a given user.</description>
+            </attribute>
+
+            <attribute name="appointmentTypeDescription" forceUppercase="false">
+                <label>Appointment Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Appointment Type Description</summary>
+                <description>Appointment Type Description...</description>
+            </attribute>
+
+            <attribute name="appointmentTypeAbbrieviation" forceUppercase="false">
+                <label>Appointment Type Abbreviation</label>
+                <shortLabel>Abrv</shortLabel>
+
+                <maxLength>25</maxLength>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>Appointment Type Abbrieviation</summary>
+                <description>Appointment Type Abbrieviation...</description>
+            </attribute>
+
+            <attribute name="fiscalYear" forceUppercase="false">
+                <label>Fiscal Year</label>
+                <shortLabel>Fscl Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <year />
+                </validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Fiscal Year</summary>
+                <description>Fiscal Year</description>
+            </attribute>
+
+            <attribute name="fringeRateAmount" forceUppercase="false">
+                <label>Fringe Rate</label>
+                <shortLabel>Fringe Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Fringe Rate</summary>
+                <description>Fringe Rate</description>
+            </attribute>
+
+            <attribute name="costShareFringeRateAmount" forceUppercase="false">
+                <label>Cost Share Fringe Rate</label>
+                <shortLabel>Cost Share</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Cost Share Fringe Rate</summary>
+                <description>Cost Share Fringe Rate</description>
+            </attribute>
+
+            <attribute name="lastUpdate" forceUppercase="false">
+                <label>Last Update</label>
+                <shortLabel>Last Update</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <date />
+                </validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>lastUpdate summary...</summary>
+                <description>lastUpdate description...</description>
+            </attribute>
+            
+            <attributeReference name="relatedAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.AppointmentType" sourceAttributeName="appointmentTypeCode">
+                <label>Related AppointmentType Code</label>
+                <shortLabel>Related Appt Type</shortLabel>
+                <summary>The Appointment Type Code of a related Appointment Type, used for creating entries for dual appointment types.  For example, an Academic 12- Month appointment could be combined with an Hourly appointment.</summary>
+            </attributeReference>
+
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>GUID</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="36" />
+                </control>
+
+                <summary>objectId summary...</summary>
+                <description>objectId description...</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="-1" />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>
+

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.AwardStatus">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Award Status Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="awardStatusCode" />
+                <field attributeName="awardStatusDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Award Status Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AwardStatus">Create New</a>]]></menubar>
+
+            <instructions>Look up an Award Status</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="awardStatusCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="awardStatusCode" required="false" />
+                <lookupField attributeName="awardStatusDescription" required="false" />
+                <lookupField attributeName="rowActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="awardStatusCode" />
+                <field attributeName="awardStatusDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="awardStatusCode" forceUppercase="true">
+                <label>Award Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>awardStatusCode</summary>
+                <description>awardStatusCode description...</description>
+			</attribute>
+
+            <attribute name="awardStatusDescription" forceUppercase="true">
+                <label>Award Status Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>15</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="17" />
+                </control>
+
+                <summary>awardStatusDescription</summary>
+                <description>awardStatusDescription description...</description>
+			</attribute>
+
+            <attribute name="rowActiveIndicator" forceUppercase="false">
+                <label>Active Indicator</label>
+                <shortLabel>Active Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Active Indicator</summary>
+                <description>Contracts And Grants Award Status Active Indicator</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

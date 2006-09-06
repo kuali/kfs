@@ -43,7 +43,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
-
+    //TODO: change this class to extend MaintenanceRuleTestBase, or get rid of this class
     protected DictionaryValidationService dictionaryValidationService;
 
     protected void setUp() throws Exception {

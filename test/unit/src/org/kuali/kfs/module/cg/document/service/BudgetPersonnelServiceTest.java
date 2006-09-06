@@ -27,8 +27,9 @@ import java.text.SimpleDateFormat;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.bo.BudgetPeriod;
-import org.kuali.module.kra.bo.BudgetUser;
+import org.kuali.module.kra.budget.bo.BudgetPeriod;
+import org.kuali.module.kra.budget.bo.BudgetUser;
+import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**

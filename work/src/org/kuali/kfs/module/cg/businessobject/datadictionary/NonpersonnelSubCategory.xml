@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Nonpersonnel Sub Category</title>
+
+            <inquiryFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="nonpersonnelMtdcExcludedIndicator" />
+                <field attributeName="nonpersonnelModularExcludedIndicator" />
+                <field attributeName="active" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Nonpersonnel Sub Category Lookup</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.NonpersonnelSubCategory">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup a Nonpersonnel Sub Category</instructions>
+
+            <defaultSort attributeName="code" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="name" required="false" />
+                <lookupField attributeName="nonpersonnelMtdcExcludedIndicator" required="false" />
+                <lookupField attributeName="nonpersonnelModularExcludedIndicator" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="nonpersonnelMtdcExcludedIndicator" />
+                <field attributeName="nonpersonnelModularExcludedIndicator" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>code</titleAttribute>
+
+        <attributes>
+            <attribute name="code" forceUppercase="true">
+                <label>Nonpersonnel Sub Category Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+
+                <validationPattern>
+                    <anyCharacter exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Nonpersonnel Sub Category Code</summary>
+                <description>Nonpersonnel Sub Category Code</description>
+            </attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attribute name="nonpersonnelMtdcExcludedIndicator" forceUppercase="false">
+                <label>MTDC Excluded Indicator</label>
+                <shortLabel>mtdc excluded</shortLabel>
+
+
+                <maxLength>1</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Excluded Indicator indicates whether an Nonpersonnel Sub Category is excluded from Indirect Cost Calculations.</summary>
+                <description>This attribute is used to describe whether the associated Nonpersonnel Sub Category is excluded from Indirect Cost Calculations.</description>
+            </attribute>
+
+            <attribute name="nonpersonnelModularExcludedIndicator" forceUppercase="false">
+                <label>Modular Excluded Indicator</label>
+                <shortLabel>Modular excluded</shortLabel>
+
+
+                <maxLength>1</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Excluded Indicator indicates whether an Nonpersonnel Sub Category is excluded from Direct Cost on Modular Budgets.</summary>
+                <description>This attribute is used to describe whether the associated Nonpersonnel Sub Category is excluded from Direct Cost on Modular Budgets.</description>
+            </attribute>
+
+
+            <attribute name="name" forceUppercase="false">
+                <label>Nonpersonnel Sub Category Name</label>
+                <shortLabel>Name</shortLabel>
+
+
+                <maxLength>40</maxLength>
+
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>Nonpersonnel Sub Category Name</summary>
+                <description>The name of the Nonpersonnel Sub Category.</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

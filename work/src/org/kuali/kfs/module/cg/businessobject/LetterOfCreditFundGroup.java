@@ -36,7 +36,8 @@ public class LetterOfCreditFundGroup extends BusinessObjectBase {
 
     private String letterOfCreditFundGroupCode;
     private String letterOfCreditFundGroupDescription;
-
+    private boolean rowActiveIndicator;
+    
     /**
      * Default constructor.
      */
@@ -85,7 +86,22 @@ public class LetterOfCreditFundGroup extends BusinessObjectBase {
         this.letterOfCreditFundGroupDescription = letterOfCreditFundGroupDescription;
     }
 
+    /**
+     * Gets the rowActiveIndicator attribute. 
+     * @return Returns the rowActiveIndicator.
+     */
+    public boolean isRowActiveIndicator() {
+        return rowActiveIndicator;
+    }
 
+    /**
+     * Sets the rowActiveIndicator attribute value.
+     * @param rowActiveIndicator The rowActiveIndicator to set.
+     */
+    public void setRowActiveIndicator(boolean rowActiveIndicator) {
+        this.rowActiveIndicator = rowActiveIndicator;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

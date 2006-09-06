@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.BillingAddress">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Billing Address Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="billingCampusCode" />
+                <field attributeName="billingName" />
+                <field attributeName="billingLine1Address" />
+                <field attributeName="billingLine2Address" />
+                <field attributeName="billingCityName" />
+                <field attributeName="billingStateCode" />
+                <field attributeName="billingPostalCode" />
+                <field attributeName="billingCountryCode" />
+                <field attributeName="billingPhoneNumber" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Billing Address Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.BillingAddress">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Billing Address</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="billingCampusCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="billingCampusCode" required="false" />
+                <lookupField attributeName="billingName" required="false" />
+                <lookupField attributeName="billingLine1Address" required="false" />
+                <lookupField attributeName="billingLine2Address" required="false" />
+                <lookupField attributeName="billingCityName" required="false" />
+                <lookupField attributeName="billingStateCode" required="false" />
+                <lookupField attributeName="billingPostalCode" required="false" />
+                <lookupField attributeName="billingCountryCode" required="false" />
+                <lookupField attributeName="billingPhoneNumber" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="billingCampusCode" />
+                <field attributeName="billingName" />
+                <field attributeName="billingLine1Address" />
+                <field attributeName="billingLine2Address" />
+                <field attributeName="billingCityName" />
+                <field attributeName="billingStateCode" />
+                <field attributeName="billingPostalCode" />
+                <field attributeName="billingCountryCode" />
+                <field attributeName="billingPhoneNumber" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="billingCampusCode" forceUppercase="true">
+                <label>Billing Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>billingCampusCode</summary>
+                <description>billingCampusCode description...</description>
+			</attribute>
+
+            <attribute name="billingCityName">
+                <label>Billing City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>billingCityName</summary>
+                <description>billingCityName description...</description>
+			</attribute>
+
+            <attribute name="billingCountryCode" forceUppercase="true">
+                <label>Billing Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>billingCountryCode</summary>
+                <description>billingCountryCode description...</description>
+			</attribute>
+
+            <attribute name="billingLine1Address">
+                <label>Billing Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>billingLine1Address</summary>
+                <description>billingLine1Address description...</description>
+			</attribute>
+
+            <attribute name="billingLine2Address">
+                <label>Billing Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>billingLine2Address</summary>
+                <description>billingLine2Address description...</description>
+			</attribute>
+
+            <attribute name="billingName">
+                <label>Billing Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>billingName</summary>
+                <description>billingName description...</description>
+			</attribute>
+
+            <attribute name="billingPhoneNumber">
+                <label>Billing Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>billingPhoneNumber</summary>
+                <description>billingPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="billingPostalCode">
+                <label>Billing Postal Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>billingPostalCode</summary>
+                <description>billingPostalCode description...</description>
+			</attribute>
+
+            <attribute name="billingStateCode" forceUppercase="true">
+                <label>Billing State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>billingStateCode</summary>
+                <description>billingStateCode description...</description>
+			</attribute>
+
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.GraduateAssistantRate">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Graduate Assistant Rate Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="campusCode" />
+                <field attributeName="active" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Graduate Assistant Rate Lookup</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.GraduateAssistantRate">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup a Graduate Assistant Rate</instructions>
+
+            <defaultSort attributeName="campusCode" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="campusCode" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="campusCode" />
+                <field attributeName="campusMaximumPeriod1Rate" />
+                <field attributeName="campusMaximumPeriod2Rate" />
+                <field attributeName="campusMaximumPeriod3Rate" />
+                <field attributeName="campusMaximumPeriod4Rate" />
+                <field attributeName="campusMaximumPeriod5Rate" />
+                <field attributeName="campusMaximumPeriod6Rate" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="campusCode" forceUppercase="true">
+                <label>Campus Code</label>
+                <shortLabel>Campus Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Campus Code...</summary>
+                <description>Campus Code...</description>
+            </attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attribute name="campusMaximumPeriod1Rate">
+                <label>Period 1 Remission Rate</label>
+                <shortLabel>Period 1 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 1 Remission Rate</summary>
+                <description>Period 1 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod2Rate">
+                <label>Period 2 Remission Rate</label>
+                <shortLabel>Period 2 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 2 Remission Rate</summary>
+                <description>Period 2 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod3Rate">
+                <label>Period 3 Remission Rate</label>
+                <shortLabel>Period 3 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 3 Remission Rate</summary>
+                <description>Period 3 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod4Rate">
+                <label>Period 4 Remission Rate</label>
+                <shortLabel>Period 4 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 4 Remission Rate</summary>
+                <description>Period 4 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod5Rate">
+                <label>Period 5 Remission Rate</label>
+                <shortLabel>Period 5 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 5 Remission Rate</summary>
+                <description>Period 5 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod6Rate">
+                <label>Period 6 Remission Rate</label>
+                <shortLabel>Period 6 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 6 Remission Rate</summary>
+                <description>Period 6 Remission Rate...</description>
+            </attribute>
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+
+        <objectLabel>Budget Grad Assistant Fringe Rates</objectLabel>
+        <objectDescription>words</objectDescription>
+        
+        <objectHelp securityGroupName="KraAdminGroup" parameterName="budgetRatesHelp" />
+
+    </businessObject>
+</dictionaryEntry>
+

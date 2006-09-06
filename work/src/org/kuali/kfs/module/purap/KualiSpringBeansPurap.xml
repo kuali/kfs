@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+    <bean id="vendorService" class="org.kuali.module.purap.service.impl.VendorServiceImpl">
+        <property name="vendorDao">
+            <ref bean="vendorDao" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
+    <bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+
+    <bean id="vendorLookupable" class="org.kuali.module.purap.lookup.VendorLookupableImpl" singleton="false">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+    </bean>
+    
+    <bean id="vendorMaintainable" class="org.kuali.module.purap.maintenance.VendorMaintainableImpl" singleton="false">
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+    </bean>
+    
+</beans>

@@ -27,10 +27,11 @@ import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.bo.BudgetUniversityCostShare;
-import org.kuali.module.kra.bo.BudgetUser;
-import org.kuali.module.kra.bo.UniversityCostSharePersonnel;
+import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
+import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetUser;
+import org.kuali.module.kra.budget.bo.UniversityCostSharePersonnel;
+import org.kuali.module.kra.budget.service.BudgetCostShareService;
 import org.kuali.test.KualiTestBaseWithSession;
 
 /**

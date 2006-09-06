@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetIndirectCost">
+        <customAttributeEnabled>true</customAttributeEnabled>
+        <attributes>
+
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Document Header Id</label>
+                <shortLabel>Document Header Id</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>Document Header Id</summary>
+                <description>Document Header Id</description>
+            </attribute>
+
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>GUID</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>objectId summary...</summary>
+                <description>objectId description...</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+
+            <attribute name="budgetBaseCode">
+                <label>Budget Base Code</label>
+                <maxLength>2</maxLength>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.kra.budget.lookup.keyvalues.BudgetBaseCodeValuesFinder" />
+                </control>
+                <summary>Budget Base Code</summary>
+                <description>Budget Base Code</description>
+            </attribute>
+
+            <attribute name="budgetIndirectCostCostShareIndicator">
+                <label>Indirect Cost Share Indicator</label>
+                <maxLength>2</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>Indirect Cost Share Indicator</summary>
+                <description>Indirect Cost Share Indicator</description>
+            </attribute>
+
+            <attribute name="budgetUnrecoveredIndirectCostIndicator">
+                <label>Unrecovered Indirect Cost Indicator</label>
+                <maxLength>3</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>Unrecovered Indirect Cost Indicator</summary>
+                <description>Unrecovered Indirect Cost Indicator</description>
+            </attribute>
+
+            <attribute name="budgetIndirectCostJustificationText">
+                <label>Indirect Cost Justification</label>
+                <maxLength>255</maxLength>
+                <control>
+                    <text size="30" />
+                </control>
+                <summary>Indirect Cost Justification</summary>
+                <description>Indirect Cost Justification</description>
+            </attribute>
+
+            <attribute name="budgetManualMtdcIndicator">
+                <label>Manual MTDC Indicator</label>
+                <maxLength>3</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>Manual MTDC Indicator</summary>
+                <description>Manual MTDC Indicator</description>
+            </attribute>
+
+            <attribute name="budgetManualRateIndicator">
+                <label>Manual Rate Indicator</label>
+                <maxLength>5</maxLength>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.kra.budget.lookup.keyvalues.BudgetManualRateIndicatorValuesFinder" />
+                </control>
+                <summary>Manual Rate Indicator</summary>
+                <description>Manual Rate Indicator</description>
+            </attribute>
+
+            <attribute name="budgetPurposeCode">
+                <label>Purpose Code</label>
+                <maxLength>2</maxLength>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.kra.budget.lookup.keyvalues.BudgetPurposeCodeValuesFinder" />
+                </control>
+
+                <summary>Purpose Code</summary>
+                <description>Purpose Code</description>
+            </attribute>
+
+        </attributes>
+
+        <collections>
+
+            <collection name="budgetTaskPeriodIndirectCostItems">
+                <label>Task Period Indirect Cost</label>
+                <shortLabel>Task Period Indirect Cost</shortLabel>
+                <summary>Task Period Indirect Cost</summary>
+                <description>Indirect cost for a certain task over a certain period.</description>
+            </collection>
+
+        </collections>
+
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.PurchaseOrderQuoteList</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+	
+        <documentTypeName>KualiQuoteListsMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMQT</documentTypeCode>
+
+        <label>Quote List Maintenance Document</label>
+        <shortLabel>Quote List Maint Doc</shortLabel>
+
+        <summary>Quote List Maintenance Document</summary>
+        <description>Document used to create or update Quote List objects</description>
+
+        <lockingKeys>
+            <field attributeName="purchaseOrderQuoteListIdentifier" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Quote List">
+                <maintainableItems>
+                    <maintainableField name="purchaseOrderQuoteListIdentifier" required="true" />
+                    <maintainableField name="purchaseOrderQuoteListName" required="true" />
+                    <maintainableField name="contractManagerCode" required="true" />
+                    <maintainableField name="versionNumber" required="true"/>
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

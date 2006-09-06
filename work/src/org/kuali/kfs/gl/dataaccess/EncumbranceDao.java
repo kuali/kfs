@@ -30,7 +30,7 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDao.java,v 1.9 2006-09-06 06:50:21 abyrne Exp $
+ * @version $Id: EncumbranceDao.java,v 1.10 2006-09-06 23:29:05 tdurkin Exp $
  */
 public interface EncumbranceDao {
     public Encumbrance getEncumbranceByTransaction(Transaction t);

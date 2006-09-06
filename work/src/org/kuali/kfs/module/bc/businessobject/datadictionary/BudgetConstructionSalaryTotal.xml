@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionSalaryTotal">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Salary Total Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="appointmentRequestedAmount" />
+                <field attributeName="appointmentRequestedFteQuantity" />
+                <field attributeName="csfAmount" />
+                <field attributeName="initialRequestedAmount" />
+                <field attributeName="initialRequestedFteQuantity" />
+                <field attributeName="organizationChartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="personUniversalIdentifier" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Salary Total Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionSalaryTotal">Create New</a>]]></menubar>
+
+            <instructions>Look up a Budget Construction Salary Total</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="organizationChartOfAccountsCode" />
+                    <sortAttribute attributeName="organizationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="appointmentRequestedAmount" required="false" />
+                <lookupField attributeName="appointmentRequestedFteQuantity" required="false" />
+                <lookupField attributeName="csfAmount" required="false" />
+                <lookupField attributeName="initialRequestedAmount" required="false" />
+                <lookupField attributeName="initialRequestedFteQuantity" required="false" />
+                <lookupField attributeName="organizationChartOfAccountsCode" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="personUniversalIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="appointmentRequestedAmount" />
+                <field attributeName="appointmentRequestedFteQuantity" />
+                <field attributeName="csfAmount" />
+                <field attributeName="initialRequestedAmount" />
+                <field attributeName="initialRequestedFteQuantity" />
+                <field attributeName="organizationChartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="personUniversalIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="appointmentRequestedAmount" forceUppercase="true">
+                <label>Appointment Requested Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>appointmentRequestedAmount</summary>
+                <description>appointmentRequestedAmount description...</description>
+			</attribute>
+
+            <attribute name="appointmentRequestedFteQuantity" forceUppercase="true">
+                <label>Appointment Requested Fte Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>appointmentRequestedFteQuantity</summary>
+                <description>appointmentRequestedFteQuantity description...</description>
+			</attribute>
+
+            <attribute name="csfAmount" forceUppercase="true">
+                <label>Csf Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>csfAmount</summary>
+                <description>csfAmount description...</description>
+			</attribute>
+
+            <attribute name="initialRequestedAmount" forceUppercase="true">
+                <label>Initial Requested Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>initialRequestedAmount</summary>
+                <description>initialRequestedAmount description...</description>
+			</attribute>
+
+            <attribute name="initialRequestedFteQuantity" forceUppercase="true">
+                <label>Initial Requested Fte Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>initialRequestedFteQuantity</summary>
+                <description>initialRequestedFteQuantity description...</description>
+			</attribute>
+
+            <attribute name="organizationChartOfAccountsCode" forceUppercase="true">
+                <label>Organization Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>organizationChartOfAccountsCode</summary>
+                <description>organizationChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="personUniversalIdentifier" forceUppercase="true">
+                <label>Person Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

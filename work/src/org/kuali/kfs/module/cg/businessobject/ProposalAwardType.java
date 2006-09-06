@@ -36,7 +36,8 @@ public class ProposalAwardType extends BusinessObjectBase {
 
     private String proposalAwardTypeCode;
     private String proposalAwardTypeDescription;
-
+    private boolean rowActiveIndicator;
+    
     /**
      * Default constructor.
      */
@@ -85,6 +86,21 @@ public class ProposalAwardType extends BusinessObjectBase {
         this.proposalAwardTypeDescription = proposalAwardTypeDescription;
     }
 
+    /**
+     * Gets the rowActiveIndicator attribute. 
+     * @return Returns the rowActiveIndicator.
+     */
+    public boolean isRowActiveIndicator() {
+        return rowActiveIndicator;
+    }
+
+    /**
+     * Sets the rowActiveIndicator attribute value.
+     * @param rowActiveIndicator The rowActiveIndicator to set.
+     */
+    public void setRowActiveIndicator(boolean rowActiveIndicator) {
+        this.rowActiveIndicator = rowActiveIndicator;
+    }    
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

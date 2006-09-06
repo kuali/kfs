@@ -24,7 +24,8 @@ package org.kuali.module.kra.web.struts.form;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.module.kra.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**

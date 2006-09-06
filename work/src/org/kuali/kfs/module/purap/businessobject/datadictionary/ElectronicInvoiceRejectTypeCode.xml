@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceRejectTypeCode">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Electronic Invoice Reject Type Code Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="invoiceRejectReasonTypeCode" />
+                <field attributeName="invoiceRejectReasonTypeDescription" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Electronic Invoice Reject Type Code Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ElectronicInvoiceRejectTypeCode">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Electronic Invoice Reject Type Code</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                <lookupField attributeName="invoiceRejectReasonTypeCode" required="false" />
+                <lookupField attributeName="invoiceRejectReasonTypeDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="invoiceRejectReasonTypeCode" />
+                <field attributeName="invoiceRejectReasonTypeDescription" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
+                <label>Data Object Maintenance Code Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
+                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
+			</attribute>
+
+            <attribute name="invoiceRejectReasonTypeCode" forceUppercase="true">
+                <label>Invoice Reject Reason Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>invoiceRejectReasonTypeCode</summary>
+                <description>invoiceRejectReasonTypeCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceRejectReasonTypeDescription" forceUppercase="true">
+                <label>Invoice Reject Reason Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>60</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="62" />
+                </control>
+
+                <summary>invoiceRejectReasonTypeDescription</summary>
+                <description>invoiceRejectReasonTypeDescription description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.VendorStipulation">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Vendor Stipulation Inquiry</title>
+
+            <inquiryFields>
+            	<field attributeName="vendorStipulationIdentifier" />
+            	<field attributeName="vendorStipulationName" />
+            	<field attributeName="vendorStipulationDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />        
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Vendor Stipulation Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.VendorStipulation">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Vendor Stipulation</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorStipulationName" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="vendorStipulationIdentifier" required="false"/>
+            	<lookupField attributeName="vendorStipulationName" required="false" />
+            	<lookupField attributeName="vendorStipulationDescription" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />      
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="vendorStipulationIdentifier" />
+            	<field attributeName="vendorStipulationName" />          	
+            	<field attributeName="vendorStipulationDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />        
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="vendorStipulationIdentifier" forceUppercase="true">
+                <label>Vendor Stipulation Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>vendorStipulationIdentifier</summary>
+                <description>vendorStipulationIdentifier description...</description>
+			</attribute>
+			
+			<attribute name="vendorStipulationName">
+                <label>Vendor Stipulation Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>vendorStipulationName</summary>
+                <description>vendorStipulationName description...</description>
+			</attribute>
+			
+            <attribute name="vendorStipulationDescription">
+                <label>Vendor Stipulation Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>4000</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>vendorStipulationDescription</summary>
+                <description>vendorStipulationDescription description...</description>
+			</attribute>
+			
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>         
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

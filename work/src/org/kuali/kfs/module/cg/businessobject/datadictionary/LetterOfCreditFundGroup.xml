@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.LetterOfCreditFundGroup">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Letter Of Credit Fund Group Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="letterOfCreditFundGroupCode" />
+                <field attributeName="letterOfCreditFundGroupDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Letter Of Credit Fund Group Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.LetterOfCreditFundGroup">Create New</a>]]></menubar>
+
+            <instructions>Look up a Letter Of Credit Fund Group</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="letterOfCreditFundGroupCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="letterOfCreditFundGroupCode" required="false" />
+                <lookupField attributeName="letterOfCreditFundGroupDescription" required="false" />
+                <lookupField attributeName="rowActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="letterOfCreditFundGroupCode" />
+                <field attributeName="letterOfCreditFundGroupDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="letterOfCreditFundGroupCode" forceUppercase="true">
+                <label>Letter Of Credit Fund Group Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>letterOfCreditFundGroupCode</summary>
+                <description>letterOfCreditFundGroupCode description...</description>
+			</attribute>
+
+            <attribute name="letterOfCreditFundGroupDescription" forceUppercase="true">
+                <label>Letter Of Credit Fund Group Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>letterOfCreditFundGroupDescription</summary>
+                <description>letterOfCreditFundGroupDescription description...</description>
+			</attribute>
+
+            <attribute name="rowActiveIndicator" forceUppercase="false">
+                <label>Active Indicator</label>
+                <shortLabel>Active Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Active Indicator</summary>
+                <description>Contracts And Grants Letter of Credit Fund Group Active Indicator</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

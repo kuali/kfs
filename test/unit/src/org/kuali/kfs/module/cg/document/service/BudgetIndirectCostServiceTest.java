@@ -26,13 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.bo.Budget;
-import org.kuali.module.kra.bo.BudgetIndirectCost;
-import org.kuali.module.kra.bo.BudgetPeriod;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
-import org.kuali.module.kra.bo.BudgetTask;
-import org.kuali.module.kra.bo.BudgetTaskPeriodIndirectCost;
-import org.kuali.module.kra.document.BudgetDocument;
+import org.kuali.module.kra.budget.bo.Budget;
+import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
+import org.kuali.module.kra.budget.bo.BudgetPeriod;
+import org.kuali.module.kra.budget.bo.BudgetTask;
+import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
+import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 public class BudgetIndirectCostServiceTest extends KualiTestBaseWithSpring {

@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.30 2006-09-06 06:50:17 abyrne Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.31 2006-09-06 23:29:10 tdurkin Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.NonpersonnelObjectCode">
+        <customAttributeEnabled>true</customAttributeEnabled>
+        <inquiry>
+            <title>Object Code Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="active" />
+                <field attributeName="budgetNonpersonnelObjectCode" />
+                <field attributeName="nonpersonnelCategory" />
+                <field attributeName="nonpersonnelSubCategory" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Nonpersonnel Object Code Lookup</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.NonpersonnelObjectCode">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup a Nonpersonnel Object Code</instructions>
+
+            <defaultSort attributeName="nonpersonnelCategory.name" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="nonpersonnelCategory.name" required="false" />
+                <lookupField attributeName="nonpersonnelSubCategory.name" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+                <lookupField attributeName="budgetNonpersonnelObjectCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="nonpersonnelCategory.name" />
+                <field attributeName="nonpersonnelSubCategory.name" />
+                <field attributeName="active" />
+                <field attributeName="budgetNonpersonnelObjectCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attributeReference name="budgetNonpersonnelCategoryCode" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelCategory" sourceAttributeName="code" />
+
+            <attributeReference name="nonpersonnelCategory.name" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelCategory" sourceAttributeName="name" />
+
+            <attributeReference name="budgetNonpersonnelSubCategoryCode" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory" sourceAttributeName="code" />
+
+            <attributeReference name="nonpersonnelSubCategory.name" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory" sourceAttributeName="name" />
+
+            <attribute name="budgetNonpersonnelObjectCode" forceUppercase="false">
+                <label>Object Code Name</label>
+                <shortLabel>ObjCodeName</shortLabel>
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Object Code Name</summary>
+                <description>The name assigned to this object code.</description>
+            </attribute>
+
+            <attribute name="active" forceUppercase="false">
+                <label>Active</label>
+                <shortLabel>Ac.</shortLabel>
+                <maxLength>1</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Active Indicator</summary>
+                <description>Indicates if code is active or inactive.</description>
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

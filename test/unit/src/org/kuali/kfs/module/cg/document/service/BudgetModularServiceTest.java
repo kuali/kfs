@@ -29,15 +29,17 @@ import java.util.List;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
-import org.kuali.module.kra.bo.AgencyExtension;
-import org.kuali.module.kra.bo.Budget;
-import org.kuali.module.kra.bo.BudgetModular;
-import org.kuali.module.kra.bo.BudgetModularPeriod;
-import org.kuali.module.kra.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
-import org.kuali.module.kra.bo.BudgetPeriod;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
-import org.kuali.module.kra.bo.UserAppointmentTaskPeriod;
+import org.kuali.module.kra.budget.bo.AgencyExtension;
+import org.kuali.module.kra.budget.bo.Budget;
+import org.kuali.module.kra.budget.bo.BudgetModular;
+import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
+import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.budget.bo.BudgetPeriod;
+import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
+import org.kuali.module.kra.budget.service.BudgetModularService;
+import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.test.KualiTestBaseWithSession;
 
 /**

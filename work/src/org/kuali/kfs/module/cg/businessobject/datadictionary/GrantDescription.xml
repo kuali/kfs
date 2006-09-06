@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.GrantDescription">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Grant Description Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="grantDescription" />
+                <field attributeName="grantDescriptionActiveCode" />
+                <field attributeName="grantDescriptionCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Grant Description Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.GrantDescription">Create New</a>]]></menubar>
+
+            <instructions>Look up a Grant Description</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="grantDescriptionCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="grantDescription" required="false" />
+                <lookupField attributeName="grantDescriptionActiveCode" required="false" />
+                <lookupField attributeName="grantDescriptionCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="grantDescription" />
+                <field attributeName="grantDescriptionActiveCode" />
+                <field attributeName="grantDescriptionCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="grantDescription" forceUppercase="true">
+                <label>Grant Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>grantDescription</summary>
+                <description>grantDescription description...</description>
+			</attribute>
+
+            <attribute name="grantDescriptionActiveCode" forceUppercase="true">
+                <label>Grant Description Active Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>grantDescriptionActiveCode</summary>
+                <description>grantDescriptionActiveCode description...</description>
+			</attribute>
+
+            <attribute name="grantDescriptionCode" forceUppercase="true">
+                <label>Grant Description Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>grantDescriptionCode</summary>
+                <description>grantDescriptionCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

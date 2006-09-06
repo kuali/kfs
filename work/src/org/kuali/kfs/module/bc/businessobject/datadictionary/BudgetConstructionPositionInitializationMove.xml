@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionPositionInitializationMove">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Position Initialization Move Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="budgetedPosition" />
+                <field attributeName="confidentialPosition" />
+                <field attributeName="iuDefaultObjectCode" />
+                <field attributeName="iuNormalWorkMonths" />
+                <field attributeName="iuPayMonths" />
+                <field attributeName="iuPositionType" />
+                <field attributeName="jobCode" />
+                <field attributeName="jobCodeDescription" />
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="positionDepartmentIdentifier" />
+                <field attributeName="positionDescription" />
+                <field attributeName="positionEffectiveDate" />
+                <field attributeName="positionEffectiveStatus" />
+                <field attributeName="positionFullTimeEquivalency" />
+                <field attributeName="positionGradeDefault" />
+                <field attributeName="positionNumber" />
+                <field attributeName="positionRegularTemporary" />
+                <field attributeName="positionSalaryPlanDefault" />
+                <field attributeName="positionStandardHoursDefault" />
+                <field attributeName="positionStatus" />
+                <field attributeName="positionUnionCode" />
+                <field attributeName="responsibilityCenterCode" />
+                <field attributeName="setidDepartment" />
+                <field attributeName="setidJobCode" />
+                <field attributeName="setidSalary" />
+                <field attributeName="universityFiscalYear" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Position Initialization Move Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionPositionInitializationMove">Create New</a>]]></menubar>
+
+            <instructions>Look up a Budget Construction Position Initialization Move</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="personUniversalIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="budgetedPosition" required="false" />
+                <lookupField attributeName="confidentialPosition" required="false" />
+                <lookupField attributeName="iuDefaultObjectCode" required="false" />
+                <lookupField attributeName="iuNormalWorkMonths" required="false" />
+                <lookupField attributeName="iuPayMonths" required="false" />
+                <lookupField attributeName="iuPositionType" required="false" />
+                <lookupField attributeName="jobCode" required="false" />
+                <lookupField attributeName="jobCodeDescription" required="false" />
+                <lookupField attributeName="personUniversalIdentifier" required="false" />
+                <lookupField attributeName="positionDepartmentIdentifier" required="false" />
+                <lookupField attributeName="positionDescription" required="false" />
+                <lookupField attributeName="positionEffectiveDate" required="false" />
+                <lookupField attributeName="positionEffectiveStatus" required="false" />
+                <lookupField attributeName="positionFullTimeEquivalency" required="false" />
+                <lookupField attributeName="positionGradeDefault" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="positionRegularTemporary" required="false" />
+                <lookupField attributeName="positionSalaryPlanDefault" required="false" />
+                <lookupField attributeName="positionStandardHoursDefault" required="false" />
+                <lookupField attributeName="positionStatus" required="false" />
+                <lookupField attributeName="positionUnionCode" required="false" />
+                <lookupField attributeName="responsibilityCenterCode" required="false" />
+                <lookupField attributeName="setidDepartment" required="false" />
+                <lookupField attributeName="setidJobCode" required="false" />
+                <lookupField attributeName="setidSalary" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="budgetedPosition" />
+                <field attributeName="confidentialPosition" />
+                <field attributeName="iuDefaultObjectCode" />
+                <field attributeName="iuNormalWorkMonths" />
+                <field attributeName="iuPayMonths" />
+                <field attributeName="iuPositionType" />
+                <field attributeName="jobCode" />
+                <field attributeName="jobCodeDescription" />
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="positionDepartmentIdentifier" />
+                <field attributeName="positionDescription" />
+                <field attributeName="positionEffectiveDate" />
+                <field attributeName="positionEffectiveStatus" />
+                <field attributeName="positionFullTimeEquivalency" />
+                <field attributeName="positionGradeDefault" />
+                <field attributeName="positionNumber" />
+                <field attributeName="positionRegularTemporary" />
+                <field attributeName="positionSalaryPlanDefault" />
+                <field attributeName="positionStandardHoursDefault" />
+                <field attributeName="positionStatus" />
+                <field attributeName="positionUnionCode" />
+                <field attributeName="responsibilityCenterCode" />
+                <field attributeName="setidDepartment" />
+                <field attributeName="setidJobCode" />
+                <field attributeName="setidSalary" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="budgetedPosition" forceUppercase="true">
+                <label>Budgeted Position</label>
+                <shortLabel>Position</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>budgetedPosition</summary>
+                <description>budgetedPosition description...</description>
+			</attribute>
+
+            <attribute name="confidentialPosition" forceUppercase="true">
+                <label>Confidential Position</label>
+                <shortLabel>Position</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>confidentialPosition</summary>
+                <description>confidentialPosition description...</description>
+			</attribute>
+
+            <attribute name="iuDefaultObjectCode" forceUppercase="true">
+                <label>Iu Default Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>iuDefaultObjectCode</summary>
+                <description>iuDefaultObjectCode description...</description>
+			</attribute>
+
+            <attribute name="iuNormalWorkMonths" forceUppercase="true">
+                <label>Iu Normal Work Months</label>
+                <shortLabel>Months</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>iuNormalWorkMonths</summary>
+                <description>iuNormalWorkMonths description...</description>
+			</attribute>
+
+            <attribute name="iuPayMonths" forceUppercase="true">
+                <label>Iu Pay Months</label>
+                <shortLabel>Months</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>iuPayMonths</summary>
+                <description>iuPayMonths description...</description>
+			</attribute>
+
+            <attribute name="iuPositionType" forceUppercase="true">
+                <label>Iu Position Type</label>
+                <shortLabel>Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>iuPositionType</summary>
+                <description>iuPositionType description...</description>
+			</attribute>
+
+            <attribute name="jobCode" forceUppercase="true">
+                <label>Job Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>jobCode</summary>
+                <description>jobCode description...</description>
+			</attribute>
+
+            <attribute name="jobCodeDescription" forceUppercase="true">
+                <label>Job Code Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>jobCodeDescription</summary>
+                <description>jobCodeDescription description...</description>
+			</attribute>
+
+            <attribute name="personUniversalIdentifier" forceUppercase="true">
+                <label>Person Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
+			</attribute>
+
+            <attribute name="positionDepartmentIdentifier" forceUppercase="true">
+                <label>Position Department Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>positionDepartmentIdentifier</summary>
+                <description>positionDepartmentIdentifier description...</description>
+			</attribute>
+
+            <attribute name="positionDescription" forceUppercase="true">
+                <label>Position Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>positionDescription</summary>
+                <description>positionDescription description...</description>
+			</attribute>
+
+            <attribute name="positionEffectiveDate" forceUppercase="true">
+                <label>Position Effective Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>positionEffectiveDate</summary>
+                <description>positionEffectiveDate description...</description>
+			</attribute>
+
+            <attribute name="positionEffectiveStatus" forceUppercase="true">
+                <label>Position Effective Status</label>
+                <shortLabel>Status</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>positionEffectiveStatus</summary>
+                <description>positionEffectiveStatus description...</description>
+			</attribute>
+
+            <attribute name="positionFullTimeEquivalency" forceUppercase="true">
+                <label>Position Full Time Equivalency</label>
+                <shortLabel>Equivalency</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>positionFullTimeEquivalency</summary>
+                <description>positionFullTimeEquivalency description...</description>
+			</attribute>
+
+            <attribute name="positionGradeDefault" forceUppercase="true">
+                <label>Position Grade Default</label>
+                <shortLabel>Default</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>positionGradeDefault</summary>
+                <description>positionGradeDefault description...</description>
+			</attribute>
+
+            <attribute name="positionNumber" forceUppercase="true">
+                <label>Position Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>positionNumber</summary>
+                <description>positionNumber description...</description>
+			</attribute>
+
+            <attribute name="positionRegularTemporary" forceUppercase="true">
+                <label>Position Regular Temporary</label>
+                <shortLabel>Temporary</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>positionRegularTemporary</summary>
+                <description>positionRegularTemporary description...</description>
+			</attribute>
+
+            <attribute name="positionSalaryPlanDefault" forceUppercase="true">
+                <label>Position Salary Plan Default</label>
+                <shortLabel>Default</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>positionSalaryPlanDefault</summary>
+                <description>positionSalaryPlanDefault description...</description>
+			</attribute>
+
+            <attribute name="positionStandardHoursDefault" forceUppercase="true">
+                <label>Position Standard Hours Default</label>
+                <shortLabel>Default</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>positionStandardHoursDefault</summary>
+                <description>positionStandardHoursDefault description...</description>
+			</attribute>
+
+            <attribute name="positionStatus" forceUppercase="true">
+                <label>Position Status</label>
+                <shortLabel>Status</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>positionStatus</summary>
+                <description>positionStatus description...</description>
+			</attribute>
+
+            <attribute name="positionUnionCode" forceUppercase="true">
+                <label>Position Union Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>positionUnionCode</summary>
+                <description>positionUnionCode description...</description>
+			</attribute>
+
+            <attribute name="responsibilityCenterCode" forceUppercase="true">
+                <label>Responsibility Center Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>responsibilityCenterCode</summary>
+                <description>responsibilityCenterCode description...</description>
+			</attribute>
+
+            <attribute name="setidDepartment" forceUppercase="true">
+                <label>Setid Department</label>
+                <shortLabel>Department</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>setidDepartment</summary>
+                <description>setidDepartment description...</description>
+			</attribute>
+
+            <attribute name="setidJobCode" forceUppercase="true">
+                <label>Setid Job Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>setidJobCode</summary>
+                <description>setidJobCode description...</description>
+			</attribute>
+
+            <attribute name="setidSalary" forceUppercase="true">
+                <label>Setid Salary</label>
+                <shortLabel>Salary</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>setidSalary</summary>
+                <description>setidSalary description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

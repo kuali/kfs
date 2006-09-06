@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceLoadSummary">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Electronic Invoice Load Summary Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+                <field attributeName="fileProcessDate" />
+                <field attributeName="invoiceLoadFailAmount" />
+                <field attributeName="invoiceLoadFailCount" />
+                <field attributeName="invoiceLoadSuccessAmount" />
+                <field attributeName="invoiceLoadSuccessCount" />
+                <field attributeName="vendorDunsNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Electronic Invoice Load Summary Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ElectronicInvoiceLoadSummary">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Electronic Invoice Load Summary</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" required="false" />
+                <lookupField attributeName="fileProcessDate" required="false" />
+                <lookupField attributeName="invoiceLoadFailAmount" required="false" />
+                <lookupField attributeName="invoiceLoadFailCount" required="false" />
+                <lookupField attributeName="invoiceLoadSuccessAmount" required="false" />
+                <lookupField attributeName="invoiceLoadSuccessCount" required="false" />
+                <lookupField attributeName="vendorDunsNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
+                <field attributeName="fileProcessDate" />
+                <field attributeName="invoiceLoadFailAmount" />
+                <field attributeName="invoiceLoadFailCount" />
+                <field attributeName="invoiceLoadSuccessAmount" />
+                <field attributeName="invoiceLoadSuccessCount" />
+                <field attributeName="vendorDunsNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountsPayableElectronicInvoiceLoadSummaryIdentifier" forceUppercase="true">
+                <label>Accounts Payable Electronic Invoice Load Summary Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>accountsPayableElectronicInvoiceLoadSummaryIdentifier</summary>
+                <description>accountsPayableElectronicInvoiceLoadSummaryIdentifier description...</description>
+			</attribute>
+
+            <attribute name="fileProcessDate" forceUppercase="true">
+                <label>File Process Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>fileProcessDate</summary>
+                <description>fileProcessDate description...</description>
+			</attribute>
+
+            <attribute name="invoiceLoadFailAmount" forceUppercase="true">
+                <label>Invoice Load Fail Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>invoiceLoadFailAmount</summary>
+                <description>invoiceLoadFailAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceLoadFailCount" forceUppercase="true">
+                <label>Invoice Load Fail Count</label>
+                <shortLabel>Count</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>invoiceLoadFailCount</summary>
+                <description>invoiceLoadFailCount description...</description>
+			</attribute>
+
+            <attribute name="invoiceLoadSuccessAmount" forceUppercase="true">
+                <label>Invoice Load Success Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>invoiceLoadSuccessAmount</summary>
+                <description>invoiceLoadSuccessAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceLoadSuccessCount" forceUppercase="true">
+                <label>Invoice Load Success Count</label>
+                <shortLabel>Count</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>invoiceLoadSuccessCount</summary>
+                <description>invoiceLoadSuccessCount description...</description>
+			</attribute>
+
+            <attribute name="vendorDunsNumber" forceUppercase="true">
+                <label>Vendor Duns Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>vendorDunsNumber</summary>
+                <description>vendorDunsNumber description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

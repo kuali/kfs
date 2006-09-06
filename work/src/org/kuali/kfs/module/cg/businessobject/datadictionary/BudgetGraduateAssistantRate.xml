@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <attributes>
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Budget Number</label>
+                <shortLabel>Budget Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>Budget Number...</summary>
+                <description>Budget Number...</description>
+            </attribute>
+
+
+            <attribute name="campusCode" forceUppercase="false">
+                <label>Campus Code</label>
+                <shortLabel>Campus Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Campus Code</summary>
+                <description>Campus Code...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod1Rate" forceUppercase="false">
+                <label>Period 1 Remission Rate</label>
+                <shortLabel>Period 1 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 1 Remission Rate</summary>
+                <description>Period 1 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod2Rate" forceUppercase="false">
+                <label>Period 2 Remission Rate</label>
+                <shortLabel>Period 2 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 2 Remission Rate</summary>
+                <description>Period 2 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod3Rate" forceUppercase="false">
+                <label>Period 3 Remission Rate</label>
+                <shortLabel>Period 3 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 3 Remission Rate</summary>
+                <description>Period 3 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod4Rate" forceUppercase="false">
+                <label>Period 4 Remission Rate</label>
+                <shortLabel>Period 4 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 4 Remission Rate</summary>
+                <description>Period 4 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod5Rate" forceUppercase="false">
+                <label>Period 5 Remission Rate</label>
+                <shortLabel>Period 5 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 5 Remission Rate</summary>
+                <description>Period 5 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="campusMaximumPeriod6Rate" forceUppercase="false">
+                <label>Period 6 Remission Rate</label>
+                <shortLabel>Period 6 Remission Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Period 6 Remission Rate</summary>
+                <description>Period 6 Remission Rate...</description>
+            </attribute>
+
+            <attribute name="lastUpdateTimestamp" forceUppercase="false">
+                <label>Budget Last Update Timestamp</label>
+                <shortLabel>Last Update</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <date />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Budget Last Update Timestamp</summary>
+                <description>Budget Last Update Timestamp...</description>
+            </attribute>
+
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>GUID</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="36" />
+                </control>
+
+                <summary>objectId summary...</summary>
+                <description>objectId description...</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="-1" />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+        </attributes>
+        
+    </businessObject>
+</dictionaryEntry>
+

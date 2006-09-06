@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetFringeRate">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Fringe Rate</title>
+
+            <inquiryFields>
+                <field attributeName="documentHeaderId" />
+                <field attributeName="universityAppointmentTypeCode" />
+                <field attributeName="contractsAndGrantsFringeRateAmount" />
+                <field attributeName="universityCostShareFringeRateAmount" />
+                <field attributeName="budgetLastUpdateTimestamp" />
+                <field attributeName="objectId" />
+                <field attributeName="versionNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Fringe Rate</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.BudgetFringeRate">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup a Budget Fringe Rate</instructions>
+
+            <defaultSort attributeName="documentHeaderId" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="universityAppointmentTypeCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="documentHeaderId" />
+                <field attributeName="universityAppointmentTypeCode" />
+                <field attributeName="contractsAndGrantsFringeRateAmount" />
+                <field attributeName="universityCostShareFringeRateAmount" />
+                <field attributeName="budgetLastUpdateTimestamp" />
+                <field attributeName="objectId" />
+                <field attributeName="versionNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Budget Number</label>
+                <shortLabel>Budget Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>Budget Number...</summary>
+                <description>Budget Number...</description>
+            </attribute>
+
+            <attribute name="universityAppointmentTypeCode" forceUppercase="false">
+                <label>Appointment Type Code</label>
+                <shortLabel>Appointment Type Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Appointment Type Code</summary>
+                <description>Appointment Type Code...</description>
+            </attribute>
+
+            <attribute name="contractsAndGrantsFringeRateAmount" forceUppercase="false">
+                <label>Contract and Grants Fringe Rate Amount</label>
+                <shortLabel>CG Fringe Rate</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Cost Share Fringe Rate Amount</summary>
+                <description>Cost Share Fringe Rate Amount...</description>
+            </attribute>
+
+            <attribute name="universityCostShareFringeRateAmount" forceUppercase="false">
+                <label>Cost Share Fringe Rate Amount</label>
+                <shortLabel>Cost Share</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Cost Share Fringe Rate Amount</summary>
+                <description>Cost Share Fringe Rate Amount...</description>
+            </attribute>
+
+            <attribute name="budgetLastUpdateTimestamp" forceUppercase="false">
+                <label>Budget Last Update Timestamp</label>
+                <shortLabel>Last Update</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <date />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Budget Last Update Timestamp</summary>
+                <description>Budget Last Update Timestamp...</description>
+            </attribute>
+
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>GUID</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="36" />
+                </control>
+
+                <summary>objectId summary...</summary>
+                <description>objectId description...</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="-1" />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+
+        </attributes>
+
+        <objectLabel>Budget Fringe Rates</objectLabel>
+        <objectDescription>Fringe rates for the Budget.</objectDescription>
+        
+        <objectHelp securityGroupName="KraAdminGroup" parameterName="budgetRatesHelp" />
+
+    </businessObject>
+</dictionaryEntry>

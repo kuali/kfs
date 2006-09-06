@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestItem">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Payment Request Item Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="capitalAssetTransactionTypeCode" />
+                <field attributeName="itemAssignedToTradeInIndicator" />
+                <field attributeName="itemAuxiliaryPartIdentifier" />
+                <field attributeName="itemCapitalAssetNoteText" />
+                <field attributeName="itemCatalogNumber" />
+                <field attributeName="itemDescription" />
+                <field attributeName="itemExtendedPrice" />
+                <field attributeName="itemInvoicedQuantity" />
+                <field attributeName="itemLineNumber" />
+                <field attributeName="itemTypeCode" />
+                <field attributeName="itemUnitOfMeasureCode" />
+                <field attributeName="itemUnitPrice" />
+                <field attributeName="paymentRequestIdentifier" />
+                <field attributeName="paymentRequestItemIdentifier" />
+                <field attributeName="purchaseOrderCommodityCode" />
+                <field attributeName="purchaseOrderItemUnitPrice" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Payment Request Item Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PaymentRequestItem">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Payment Request Item</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetTransactionTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
+                <lookupField attributeName="itemAssignedToTradeInIndicator" required="false" />
+                <lookupField attributeName="itemAuxiliaryPartIdentifier" required="false" />
+                <lookupField attributeName="itemCapitalAssetNoteText" required="false" />
+                <lookupField attributeName="itemCatalogNumber" required="false" />
+                <lookupField attributeName="itemDescription" required="false" />
+                <lookupField attributeName="itemExtendedPrice" required="false" />
+                <lookupField attributeName="itemInvoicedQuantity" required="false" />
+                <lookupField attributeName="itemLineNumber" required="false" />
+                <lookupField attributeName="itemTypeCode" required="false" />
+                <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
+                <lookupField attributeName="itemUnitPrice" required="false" />
+                <lookupField attributeName="paymentRequestIdentifier" required="false" />
+                <lookupField attributeName="paymentRequestItemIdentifier" required="false" />
+                <lookupField attributeName="purchaseOrderCommodityCode" required="false" />
+                <lookupField attributeName="purchaseOrderItemUnitPrice" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetTransactionTypeCode" />
+                <field attributeName="itemAssignedToTradeInIndicator" />
+                <field attributeName="itemAuxiliaryPartIdentifier" />
+                <field attributeName="itemCapitalAssetNoteText" />
+                <field attributeName="itemCatalogNumber" />
+                <field attributeName="itemDescription" />
+                <field attributeName="itemExtendedPrice" />
+                <field attributeName="itemInvoicedQuantity" />
+                <field attributeName="itemLineNumber" />
+                <field attributeName="itemTypeCode" />
+                <field attributeName="itemUnitOfMeasureCode" />
+                <field attributeName="itemUnitPrice" />
+                <field attributeName="paymentRequestIdentifier" />
+                <field attributeName="paymentRequestItemIdentifier" />
+                <field attributeName="purchaseOrderCommodityCode" />
+                <field attributeName="purchaseOrderItemUnitPrice" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetTransactionTypeCode" forceUppercase="true">
+                <label>Capital Asset Transaction Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>capitalAssetTransactionTypeCode</summary>
+                <description>capitalAssetTransactionTypeCode description...</description>
+			</attribute>
+
+            <attribute name="itemAssignedToTradeInIndicator" forceUppercase="true">
+                <label>Item Assigned To Trade In Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>itemAssignedToTradeInIndicator</summary>
+                <description>itemAssignedToTradeInIndicator description...</description>
+			</attribute>
+
+            <attribute name="itemAuxiliaryPartIdentifier" forceUppercase="true">
+                <label>Item Auxiliary Part Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>300</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>itemAuxiliaryPartIdentifier</summary>
+                <description>itemAuxiliaryPartIdentifier description...</description>
+			</attribute>
+
+            <attribute name="itemCapitalAssetNoteText" forceUppercase="true">
+                <label>Item Capital Asset Note Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>800</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>itemCapitalAssetNoteText</summary>
+                <description>itemCapitalAssetNoteText description...</description>
+			</attribute>
+
+            <attribute name="itemCatalogNumber" forceUppercase="true">
+                <label>Item Catalog Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>itemCatalogNumber</summary>
+                <description>itemCatalogNumber description...</description>
+			</attribute>
+
+            <attribute name="itemDescription" forceUppercase="true">
+                <label>Item Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>500</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>itemDescription</summary>
+                <description>itemDescription description...</description>
+			</attribute>
+
+            <attribute name="itemExtendedPrice" forceUppercase="true">
+                <label>Item Extended Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>itemExtendedPrice</summary>
+                <description>itemExtendedPrice description...</description>
+			</attribute>
+
+            <attribute name="itemInvoicedQuantity" forceUppercase="true">
+                <label>Item Invoiced Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemInvoicedQuantity</summary>
+                <description>itemInvoicedQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemLineNumber" forceUppercase="true">
+                <label>Item Line Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>itemLineNumber</summary>
+                <description>itemLineNumber description...</description>
+			</attribute>
+
+            <attribute name="itemTypeCode" forceUppercase="true">
+                <label>Item Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>itemTypeCode</summary>
+                <description>itemTypeCode description...</description>
+			</attribute>
+
+            <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
+                <label>Item Unit Of Measure Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>itemUnitOfMeasureCode</summary>
+                <description>itemUnitOfMeasureCode description...</description>
+			</attribute>
+
+            <attribute name="itemUnitPrice" forceUppercase="true">
+                <label>Item Unit Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>itemUnitPrice</summary>
+                <description>itemUnitPrice description...</description>
+			</attribute>
+
+            <attribute name="paymentRequestIdentifier" forceUppercase="true">
+                <label>Payment Request Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>paymentRequestIdentifier</summary>
+                <description>paymentRequestIdentifier description...</description>
+			</attribute>
+
+            <attribute name="paymentRequestItemIdentifier" forceUppercase="true">
+                <label>Payment Request Item Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>paymentRequestItemIdentifier</summary>
+                <description>paymentRequestItemIdentifier description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderCommodityCode" forceUppercase="true">
+                <label>Purchase Order Commodity Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>purchaseOrderCommodityCode</summary>
+                <description>purchaseOrderCommodityCode description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderItemUnitPrice" forceUppercase="true">
+                <label>Purchase Order Item Unit Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>purchaseOrderItemUnitPrice</summary>
+                <description>purchaseOrderItemUnitPrice description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionDuration">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Duration Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="appointmentDurationCode" />
+                <field attributeName="appointmentDurationDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Duration Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionDuration">Create New</a>]]></menubar>
+
+            <instructions>Look up a Budget Construction Duration</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="appointmentDurationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="appointmentDurationCode" required="false" />
+                <lookupField attributeName="appointmentDurationDescription" required="false" />
+                <lookupField attributeName="rowActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="appointmentDurationCode" />
+                <field attributeName="appointmentDurationDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="appointmentDurationCode" forceUppercase="true">
+                <label>Appointment Duration Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>appointmentDurationCode</summary>
+                <description>appointmentDurationCode description...</description>
+			</attribute>
+
+            <attribute name="appointmentDurationDescription" forceUppercase="true">
+                <label>Appointment Duration Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>appointmentDurationDescription</summary>
+                <description>appointmentDurationDescription description...</description>
+			</attribute>
+
+            <attribute name="rowActiveIndicator" forceUppercase="true">
+                <label>Row Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>rowActiveIndicator</summary>
+                <description>rowActiveIndicator description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Award Subcontractor Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="awardSubcontractorAmendmentNumber" />
+                <field attributeName="awardSubcontractorNumber" />
+                <field attributeName="proposalNumber" />
+                <field attributeName="subcontractorAmount" />
+                <field attributeName="subcontractorAuditHistoryText" />
+                <field attributeName="subcontractorContactFirstName" />
+                <field attributeName="subcontractorContactLastName" />
+                <field attributeName="subcontractorNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Award Subcontractor Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AwardSubcontractor">Create New</a>]]></menubar>
+
+            <instructions>Look up an Award Subcontractor</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="awardSubcontractorAmendmentNumber" />
+                    <sortAttribute attributeName="awardSubcontractorNumber" />
+                    <sortAttribute attributeName="subcontractorNumber" />
+                    <sortAttribute attributeName="proposalNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="awardSubcontractorAmendmentNumber" required="false" />
+                <lookupField attributeName="awardSubcontractorNumber" required="false" />
+                <lookupField attributeName="proposalNumber" required="false" />
+                <lookupField attributeName="subcontractorAmount" required="false" />
+                <lookupField attributeName="subcontractorAuditHistoryText" required="false" />
+                <lookupField attributeName="subcontractorContactFirstName" required="false" />
+                <lookupField attributeName="subcontractorContactLastName" required="false" />
+                <lookupField attributeName="subcontractorNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="awardSubcontractorAmendmentNumber" />
+                <field attributeName="awardSubcontractorNumber" />
+                <field attributeName="proposalNumber" />
+                <field attributeName="subcontractorAmount" />
+                <field attributeName="subcontractorAuditHistoryText" />
+                <field attributeName="subcontractorContactFirstName" />
+                <field attributeName="subcontractorContactLastName" />
+                <field attributeName="subcontractorNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="awardSubcontractorAmendmentNumber" forceUppercase="true">
+                <label>Award Subcontractor Amendment Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>awardSubcontractorAmendmentNumber</summary>
+                <description>awardSubcontractorAmendmentNumber description...</description>
+			</attribute>
+
+            <attribute name="awardSubcontractorNumber" forceUppercase="true">
+                <label>Award Subcontractor Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>awardSubcontractorNumber</summary>
+                <description>awardSubcontractorNumber description...</description>
+			</attribute>
+
+            <attribute name="proposalNumber" forceUppercase="true">
+                <label>Proposal Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>proposalNumber</summary>
+                <description>proposalNumber description...</description>
+			</attribute>
+
+            <attribute name="subcontractorAmount" forceUppercase="true">
+                <label>Subcontractor Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>subcontractorAmount</summary>
+                <description>subcontractorAmount description...</description>
+			</attribute>
+
+            <attribute name="subcontractorAuditHistoryText" forceUppercase="true">
+                <label>Subcontractor Audit History Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>2000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>subcontractorAuditHistoryText</summary>
+                <description>subcontractorAuditHistoryText description...</description>
+			</attribute>
+
+            <attribute name="subcontractorContactFirstName" forceUppercase="true">
+                <label>Subcontractor Contact First Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>15</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="17" />
+                </control>
+
+                <summary>subcontractorContactFirstName</summary>
+                <description>subcontractorContactFirstName description...</description>
+			</attribute>
+
+            <attribute name="subcontractorContactLastName" forceUppercase="true">
+                <label>Subcontractor Contact Last Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>subcontractorContactLastName</summary>
+                <description>subcontractorContactLastName description...</description>
+			</attribute>
+
+            <attribute name="subcontractorNumber" forceUppercase="true">
+                <label>Subcontractor Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subcontractorNumber</summary>
+                <description>subcontractorNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

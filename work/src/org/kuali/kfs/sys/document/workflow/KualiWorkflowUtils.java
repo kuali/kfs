@@ -84,6 +84,7 @@ public class KualiWorkflowUtils {
     public static final String FIS_USER_DOC_TYPE = "KualiUserMaintenanceDocument";
     public static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
     public static final String PROJECT_CODE_DOC_TYPE = "KualiProjectCodeMaintenanceDocument";
+     public static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
     public static final String SIMPLE_MAINTENANCE_DOC_TYPE = "KualiSimpleMaintenanceDocument";
 
     public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();

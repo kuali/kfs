@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.RecurringPaymentType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiRecurringPaymentTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMRP</documentTypeCode>
+
+        <label>Recurring Payment Type Maintenance Document</label>
+        <shortLabel>Recurring Payment Type Maint Doc</shortLabel>
+
+        <summary>Recurring Payment Type Maintenance Document</summary>
+        <description>Document used to create or update Recurring Payment Type objects</description>
+
+        <lockingKeys>
+            <field attributeName="recurringPaymentTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Recurring Payment Type">
+                <maintainableItems>
+                    <maintainableField name="recurringPaymentTypeCode" required="true" />
+                    <maintainableField name="recurringPaymentTypeDescription" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

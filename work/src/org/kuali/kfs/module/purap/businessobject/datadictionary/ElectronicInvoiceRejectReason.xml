@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceRejectReason">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Electronic Invoice Reject Reason Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="invoiceHeaderInformationIdentifier" />
+                <field attributeName="invoiceRejectReasonDescription" />
+                <field attributeName="invoiceRejectReasonIdentifier" />
+                <field attributeName="invoiceRejectReasonTypeCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Electronic Invoice Reject Reason Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ElectronicInvoiceRejectReason">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Electronic Invoice Reject Reason</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="invoiceHeaderInformationIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="invoiceHeaderInformationIdentifier" required="false" />
+                <lookupField attributeName="invoiceRejectReasonDescription" required="false" />
+                <lookupField attributeName="invoiceRejectReasonIdentifier" required="false" />
+                <lookupField attributeName="invoiceRejectReasonTypeCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="invoiceHeaderInformationIdentifier" />
+                <field attributeName="invoiceRejectReasonDescription" />
+                <field attributeName="invoiceRejectReasonIdentifier" />
+                <field attributeName="invoiceRejectReasonTypeCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="invoiceHeaderInformationIdentifier" forceUppercase="true">
+                <label>Invoice Header Information Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>invoiceHeaderInformationIdentifier</summary>
+                <description>invoiceHeaderInformationIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceRejectReasonDescription" forceUppercase="true">
+                <label>Invoice Reject Reason Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>400</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>invoiceRejectReasonDescription</summary>
+                <description>invoiceRejectReasonDescription description...</description>
+			</attribute>
+
+            <attribute name="invoiceRejectReasonIdentifier" forceUppercase="true">
+                <label>Invoice Reject Reason Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>invoiceRejectReasonIdentifier</summary>
+                <description>invoiceRejectReasonIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceRejectReasonTypeCode" forceUppercase="true">
+                <label>Invoice Reject Reason Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>invoiceRejectReasonTypeCode</summary>
+                <description>invoiceRejectReasonTypeCode description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

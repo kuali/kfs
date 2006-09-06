@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetBaseCode">
+        <customAttributeEnabled>true</customAttributeEnabled>
+        <inquiry>
+            <title>Budget Base Code Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="budgetBaseCode" />
+                <field attributeName="budgetBaseDescription" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Base Code Lookup</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.BudgetBaseCode">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup a Budget Base Code</instructions>
+
+            <defaultSort attributeName="budgetBaseCode" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="budgetBaseCode" required="false" />
+                <lookupField attributeName="budgetBaseDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="budgetBaseCode" />
+                <field attributeName="budgetBaseDescription" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attribute name="budgetBaseCode" forceUppercase="false">
+                <label>Budget Base Code</label>
+                <shortLabel>baseCode</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="false" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Budget Base Code Name</summary>
+                <description>The code assigned to this base.</description>
+            </attribute>
+
+            <attribute name="budgetBaseDescription" forceUppercase="false">
+                <label>Budget Base Description</label>
+                <shortLabel>baseDesc</shortLabel>
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Budget Base Code Description</summary>
+                <description>The description assigned to this base code.</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

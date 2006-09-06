@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ElectronicInvoiceItem">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Electronic Invoice Item Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="invoiceCatalogNumber" />
+                <field attributeName="invoiceHeaderInformationIdentifier" />
+                <field attributeName="invoiceItemDiscountAmount" />
+                <field attributeName="invoiceItemDiscountCurrencyCode" />
+                <field attributeName="invoiceItemGrossAmount" />
+                <field attributeName="invoiceItemGrossCurrencyCode" />
+                <field attributeName="invoiceItemIdentifier" />
+                <field attributeName="invoiceItemLineNumber" />
+                <field attributeName="invoiceItemNetAmount" />
+                <field attributeName="invoiceItemNetCurrencyCode" />
+                <field attributeName="invoiceItemQuantity" />
+                <field attributeName="invoiceItemShippingAmount" />
+                <field attributeName="invoiceItemShippingCurrencyCode" />
+                <field attributeName="invoiceItemShippingDescription" />
+                <field attributeName="invoiceItemSpecialHandlingAmount" />
+                <field attributeName="invoiceItemSpecialHandlingCurrencyCode" />
+                <field attributeName="invoiceItemSubTotalAmount" />
+                <field attributeName="invoiceItemSubTotalCurrencyCode" />
+                <field attributeName="invoiceItemTaxAmount" />
+                <field attributeName="invoiceItemTaxCurrencyCode" />
+                <field attributeName="invoiceItemTaxDescription" />
+                <field attributeName="invoiceItemUnitOfMeasureCode" />
+                <field attributeName="invoiceItemUnitPrice" />
+                <field attributeName="invoiceItemUnitPriceCurrencyCode" />
+                <field attributeName="invoiceReferenceItemCountryCode" />
+                <field attributeName="invoiceReferenceItemCountryName" />
+                <field attributeName="invoiceReferenceItemDescription" />
+                <field attributeName="invoiceReferenceItemLineNumber" />
+                <field attributeName="invoiceReferenceItemManufacturerName" />
+                <field attributeName="invoiceReferenceItemManufacturerPartIdentifier" />
+                <field attributeName="invoiceReferenceItemSerialNumber" />
+                <field attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
+                <field attributeName="invoiceReferenceItemSupplierPartIdentifier" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Electronic Invoice Item Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ElectronicInvoiceItem">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Electronic Invoice Item</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="invoiceCatalogNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="invoiceCatalogNumber" required="false" />
+                <lookupField attributeName="invoiceHeaderInformationIdentifier" required="false" />
+                <lookupField attributeName="invoiceItemDiscountAmount" required="false" />
+                <lookupField attributeName="invoiceItemDiscountCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemGrossAmount" required="false" />
+                <lookupField attributeName="invoiceItemGrossCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemIdentifier" required="false" />
+                <lookupField attributeName="invoiceItemLineNumber" required="false" />
+                <lookupField attributeName="invoiceItemNetAmount" required="false" />
+                <lookupField attributeName="invoiceItemNetCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemQuantity" required="false" />
+                <lookupField attributeName="invoiceItemShippingAmount" required="false" />
+                <lookupField attributeName="invoiceItemShippingCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemShippingDescription" required="false" />
+                <lookupField attributeName="invoiceItemSpecialHandlingAmount" required="false" />
+                <lookupField attributeName="invoiceItemSpecialHandlingCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemSubTotalAmount" required="false" />
+                <lookupField attributeName="invoiceItemSubTotalCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemTaxAmount" required="false" />
+                <lookupField attributeName="invoiceItemTaxCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceItemTaxDescription" required="false" />
+                <lookupField attributeName="invoiceItemUnitOfMeasureCode" required="false" />
+                <lookupField attributeName="invoiceItemUnitPrice" required="false" />
+                <lookupField attributeName="invoiceItemUnitPriceCurrencyCode" required="false" />
+                <lookupField attributeName="invoiceReferenceItemCountryCode" required="false" />
+                <lookupField attributeName="invoiceReferenceItemCountryName" required="false" />
+                <lookupField attributeName="invoiceReferenceItemDescription" required="false" />
+                <lookupField attributeName="invoiceReferenceItemLineNumber" required="false" />
+                <lookupField attributeName="invoiceReferenceItemManufacturerName" required="false" />
+                <lookupField attributeName="invoiceReferenceItemManufacturerPartIdentifier" required="false" />
+                <lookupField attributeName="invoiceReferenceItemSerialNumber" required="false" />
+                <lookupField attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" required="false" />
+                <lookupField attributeName="invoiceReferenceItemSupplierPartIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="invoiceCatalogNumber" />
+                <field attributeName="invoiceHeaderInformationIdentifier" />
+                <field attributeName="invoiceItemDiscountAmount" />
+                <field attributeName="invoiceItemDiscountCurrencyCode" />
+                <field attributeName="invoiceItemGrossAmount" />
+                <field attributeName="invoiceItemGrossCurrencyCode" />
+                <field attributeName="invoiceItemIdentifier" />
+                <field attributeName="invoiceItemLineNumber" />
+                <field attributeName="invoiceItemNetAmount" />
+                <field attributeName="invoiceItemNetCurrencyCode" />
+                <field attributeName="invoiceItemQuantity" />
+                <field attributeName="invoiceItemShippingAmount" />
+                <field attributeName="invoiceItemShippingCurrencyCode" />
+                <field attributeName="invoiceItemShippingDescription" />
+                <field attributeName="invoiceItemSpecialHandlingAmount" />
+                <field attributeName="invoiceItemSpecialHandlingCurrencyCode" />
+                <field attributeName="invoiceItemSubTotalAmount" />
+                <field attributeName="invoiceItemSubTotalCurrencyCode" />
+                <field attributeName="invoiceItemTaxAmount" />
+                <field attributeName="invoiceItemTaxCurrencyCode" />
+                <field attributeName="invoiceItemTaxDescription" />
+                <field attributeName="invoiceItemUnitOfMeasureCode" />
+                <field attributeName="invoiceItemUnitPrice" />
+                <field attributeName="invoiceItemUnitPriceCurrencyCode" />
+                <field attributeName="invoiceReferenceItemCountryCode" />
+                <field attributeName="invoiceReferenceItemCountryName" />
+                <field attributeName="invoiceReferenceItemDescription" />
+                <field attributeName="invoiceReferenceItemLineNumber" />
+                <field attributeName="invoiceReferenceItemManufacturerName" />
+                <field attributeName="invoiceReferenceItemManufacturerPartIdentifier" />
+                <field attributeName="invoiceReferenceItemSerialNumber" />
+                <field attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
+                <field attributeName="invoiceReferenceItemSupplierPartIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="invoiceCatalogNumber" forceUppercase="true">
+                <label>Invoice Catalog Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>invoiceCatalogNumber</summary>
+                <description>invoiceCatalogNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceHeaderInformationIdentifier" forceUppercase="true">
+                <label>Invoice Header Information Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>invoiceHeaderInformationIdentifier</summary>
+                <description>invoiceHeaderInformationIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemDiscountAmount" forceUppercase="true">
+                <label>Invoice Item Discount Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemDiscountAmount</summary>
+                <description>invoiceItemDiscountAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemDiscountCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Discount Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemDiscountCurrencyCode</summary>
+                <description>invoiceItemDiscountCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemGrossAmount" forceUppercase="true">
+                <label>Invoice Item Gross Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemGrossAmount</summary>
+                <description>invoiceItemGrossAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemGrossCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Gross Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemGrossCurrencyCode</summary>
+                <description>invoiceItemGrossCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemIdentifier" forceUppercase="true">
+                <label>Invoice Item Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>invoiceItemIdentifier</summary>
+                <description>invoiceItemIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemLineNumber" forceUppercase="true">
+                <label>Invoice Item Line Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>invoiceItemLineNumber</summary>
+                <description>invoiceItemLineNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemNetAmount" forceUppercase="true">
+                <label>Invoice Item Net Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemNetAmount</summary>
+                <description>invoiceItemNetAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemNetCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Net Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemNetCurrencyCode</summary>
+                <description>invoiceItemNetCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemQuantity" forceUppercase="true">
+                <label>Invoice Item Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>invoiceItemQuantity</summary>
+                <description>invoiceItemQuantity description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemShippingAmount" forceUppercase="true">
+                <label>Invoice Item Shipping Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemShippingAmount</summary>
+                <description>invoiceItemShippingAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemShippingCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Shipping Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemShippingCurrencyCode</summary>
+                <description>invoiceItemShippingCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemShippingDescription" forceUppercase="true">
+                <label>Invoice Item Shipping Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>300</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>invoiceItemShippingDescription</summary>
+                <description>invoiceItemShippingDescription description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSpecialHandlingAmount" forceUppercase="true">
+                <label>Invoice Item Special Handling Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemSpecialHandlingAmount</summary>
+                <description>invoiceItemSpecialHandlingAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSpecialHandlingCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Special Handling Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemSpecialHandlingCurrencyCode</summary>
+                <description>invoiceItemSpecialHandlingCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSubTotalAmount" forceUppercase="true">
+                <label>Invoice Item Sub Total Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemSubTotalAmount</summary>
+                <description>invoiceItemSubTotalAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemSubTotalCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Sub Total Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemSubTotalCurrencyCode</summary>
+                <description>invoiceItemSubTotalCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemTaxAmount" forceUppercase="true">
+                <label>Invoice Item Tax Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemTaxAmount</summary>
+                <description>invoiceItemTaxAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemTaxCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Tax Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemTaxCurrencyCode</summary>
+                <description>invoiceItemTaxCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemTaxDescription" forceUppercase="true">
+                <label>Invoice Item Tax Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>300</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>invoiceItemTaxDescription</summary>
+                <description>invoiceItemTaxDescription description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemUnitOfMeasureCode" forceUppercase="true">
+                <label>Invoice Item Unit Of Measure Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>invoiceItemUnitOfMeasureCode</summary>
+                <description>invoiceItemUnitOfMeasureCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemUnitPrice" forceUppercase="true">
+                <label>Invoice Item Unit Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemUnitPrice</summary>
+                <description>invoiceItemUnitPrice description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemUnitPriceCurrencyCode" forceUppercase="true">
+                <label>Invoice Item Unit Price Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>invoiceItemUnitPriceCurrencyCode</summary>
+                <description>invoiceItemUnitPriceCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemCountryCode" forceUppercase="true">
+                <label>Invoice Reference Item Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>invoiceReferenceItemCountryCode</summary>
+                <description>invoiceReferenceItemCountryCode description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemCountryName" forceUppercase="true">
+                <label>Invoice Reference Item Country Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceReferenceItemCountryName</summary>
+                <description>invoiceReferenceItemCountryName description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemDescription" forceUppercase="true">
+                <label>Invoice Reference Item Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>400</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>invoiceReferenceItemDescription</summary>
+                <description>invoiceReferenceItemDescription description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemLineNumber" forceUppercase="true">
+                <label>Invoice Reference Item Line Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>invoiceReferenceItemLineNumber</summary>
+                <description>invoiceReferenceItemLineNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemManufacturerName" forceUppercase="true">
+                <label>Invoice Reference Item Manufacturer Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceReferenceItemManufacturerName</summary>
+                <description>invoiceReferenceItemManufacturerName description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemManufacturerPartIdentifier" forceUppercase="true">
+                <label>Invoice Reference Item Manufacturer Part Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceReferenceItemManufacturerPartIdentifier</summary>
+                <description>invoiceReferenceItemManufacturerPartIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemSerialNumber" forceUppercase="true">
+                <label>Invoice Reference Item Serial Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceReferenceItemSerialNumber</summary>
+                <description>invoiceReferenceItemSerialNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" forceUppercase="true">
+                <label>Invoice Reference Item Supplier Part Auxiliary Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceReferenceItemSupplierPartAuxiliaryIdentifier</summary>
+                <description>invoiceReferenceItemSupplierPartAuxiliaryIdentifier description...</description>
+			</attribute>
+
+            <attribute name="invoiceReferenceItemSupplierPartIdentifier" forceUppercase="true">
+                <label>Invoice Reference Item Supplier Part Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>invoiceReferenceItemSupplierPartIdentifier</summary>
+                <description>invoiceReferenceItemSupplierPartIdentifier description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

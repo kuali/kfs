@@ -36,7 +36,8 @@ public class AwardStatus extends BusinessObjectBase {
 
     private String awardStatusCode;
     private String awardStatusDescription;
-
+    private boolean rowActiveIndicator;
+   
     /**
      * Default constructor.
      */
@@ -85,6 +86,21 @@ public class AwardStatus extends BusinessObjectBase {
         this.awardStatusDescription = awardStatusDescription;
     }
 
+    /**
+     * Gets the rowActiveIndicator attribute. 
+     * @return Returns the rowActiveIndicator.
+     */
+    public boolean isRowActiveIndicator() {
+        return rowActiveIndicator;
+    }
+
+    /**
+     * Sets the rowActiveIndicator attribute value.
+     * @param rowActiveIndicator The rowActiveIndicator to set.
+     */
+    public void setRowActiveIndicator(boolean rowActiveIndicator) {
+        this.rowActiveIndicator = rowActiveIndicator;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -94,4 +110,5 @@ public class AwardStatus extends BusinessObjectBase {
         m.put("awardStatusCode", this.awardStatusCode);
         return m;
     }
+
 }

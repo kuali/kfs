@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.UserAppointmentTask">
+        <customAttributeEnabled>false</customAttributeEnabled>
+        <attributes>
+            <attributeReference name="documentHeaderId" sourceClassName="org.kuali.module.kra.budget.bo.Budget" sourceAttributeName="documentHeaderId" />
+
+            <attributeReference name="budgetUserSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="budgetUserSequenceNumber" />
+
+            <attributeReference name="budgetTaskSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetTask" sourceAttributeName="budgetTaskSequenceNumber" />
+
+            <attributeReference name="universityAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="appointmentTypeCode">
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+        </attributes>
+    </businessObject>
+
+</dictionaryEntry>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.PurchaseOrderContractLanguage</businessObjectClass>
+        <maintainableClass>org.kuali.module.purap.maintenance.PurchaseOrderContractLanguageMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.purap.rules.PurchaseOrderContractLanguageRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiPoContractLanguageMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMCL</documentTypeCode>
+
+        <label>Purchase Order Contract Language Maintenance Document</label>
+        <shortLabel>PO Contract Language Maint Doc</shortLabel>
+
+        <summary>Purchase Order Contract Language Maintenance Document</summary>
+        <description>Document used to create or update Purchase Order Contract Language objects</description>
+
+        <lockingKeys>
+            <field attributeName="purchaseOrderContractLanguageIdentifier" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit PO Contract Language">
+                <maintainableItems>
+                    <maintainableField name="versionNumber"/>
+                    <maintainableField name="purchaseOrderContractLanguageIdentifier"/>
+                	<maintainableField name="campusCode" required="true"/>
+                	<maintainableField name="purchaseOrderContractLanguageDescription" required="true"/>
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                    <maintainableField name="contractLanguageCreateDate" readOnly="true"/>
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

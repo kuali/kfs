@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionSubFundPick">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Sub Fund Pick Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="reportFlag" />
+                <field attributeName="subFundGroupCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Sub Fund Pick Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionSubFundPick">Create New</a>]]></menubar>
+
+            <instructions>Look up a Budget Construction Sub Fund Pick</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="subFundGroupCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="personUniversalIdentifier" required="false" />
+                <lookupField attributeName="reportFlag" required="false" />
+                <lookupField attributeName="subFundGroupCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="reportFlag" />
+                <field attributeName="subFundGroupCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="personUniversalIdentifier" forceUppercase="true">
+                <label>Person Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
+			</attribute>
+
+            <attribute name="reportFlag" forceUppercase="true">
+                <label>Report Flag</label>
+                <shortLabel>Flag</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>reportFlag</summary>
+                <description>reportFlag description...</description>
+			</attribute>
+
+            <attribute name="subFundGroupCode" forceUppercase="true">
+                <label>Sub Fund Group Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>subFundGroupCode</summary>
+                <description>subFundGroupCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

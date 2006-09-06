@@ -29,7 +29,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.kra.bo.AgencyExtension;
+import org.kuali.module.kra.budget.bo.AgencyExtension;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

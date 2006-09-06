@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.kra.budget.bo.AppointmentType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KRA_PRE_AWARD_ADMIN</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiAppointmentTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>APPT</documentTypeCode>
+
+        <label>Appointment Type Maintenance Document</label>
+        <shortLabel>Appointment Type</shortLabel>
+
+        <summary>Appointment Type maintenance document</summary>
+        <description>Document used to create or update AppointmentType objects</description>
+
+        <lockingKeys>
+            <field attributeName="appointmentTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Appointment Type">
+                <maintainableItems>
+                    <maintainableField name="appointmentTypeCode" />
+                    <maintainableField name="appointmentTypeDescription" />
+                    <maintainableField name="appointmentTypeAbbrieviation" />
+                    <maintainableField name="fringeRateAmount" />
+                    <maintainableField name="costShareFringeRateAmount" />
+                    <maintainableField name="fiscalYear" />
+                    <maintainableField name="relatedAppointmentTypeCode" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.BudgetConstructionPositionSelect">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Construction Position Select Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="emplid" />
+                <field attributeName="grade" />
+                <field attributeName="iuPositionType" />
+                <field attributeName="personName" />
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="positionDepartmentIdentifier" />
+                <field attributeName="positionDescription" />
+                <field attributeName="positionNumber" />
+                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="setidSalary" />
+                <field attributeName="universityFiscalYear" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Construction Position Select Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionPositionSelect">Create New</a>]]></menubar>
+
+            <instructions>Look up a Budget Construction Position Select</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="positionNumber" />
+                    <sortAttribute attributeName="universityFiscalYear" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="grade" required="false" />
+                <lookupField attributeName="iuPositionType" required="false" />
+                <lookupField attributeName="personName" required="false" />
+                <lookupField attributeName="personUniversalIdentifier" required="false" />
+                <lookupField attributeName="positionDepartmentIdentifier" required="false" />
+                <lookupField attributeName="positionDescription" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="salaryAdministrationPlan" required="false" />
+                <lookupField attributeName="setidSalary" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="emplid" />
+                <field attributeName="grade" />
+                <field attributeName="iuPositionType" />
+                <field attributeName="personName" />
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="positionDepartmentIdentifier" />
+                <field attributeName="positionDescription" />
+                <field attributeName="positionNumber" />
+                <field attributeName="salaryAdministrationPlan" />
+                <field attributeName="setidSalary" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="emplid" forceUppercase="true">
+                <label>Emplid</label>
+                <shortLabel>Emplid</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>emplid</summary>
+                <description>emplid description...</description>
+			</attribute>
+
+            <attribute name="grade" forceUppercase="true">
+                <label>Grade</label>
+                <shortLabel>Grade</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>grade</summary>
+                <description>grade description...</description>
+			</attribute>
+
+            <attribute name="iuPositionType" forceUppercase="true">
+                <label>Iu Position Type</label>
+                <shortLabel>Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>iuPositionType</summary>
+                <description>iuPositionType description...</description>
+			</attribute>
+
+            <attribute name="personName" forceUppercase="true">
+                <label>Person Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>personName</summary>
+                <description>personName description...</description>
+			</attribute>
+
+            <attribute name="personUniversalIdentifier" forceUppercase="true">
+                <label>Person Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
+			</attribute>
+
+            <attribute name="positionDepartmentIdentifier" forceUppercase="true">
+                <label>Position Department Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>positionDepartmentIdentifier</summary>
+                <description>positionDepartmentIdentifier description...</description>
+			</attribute>
+
+            <attribute name="positionDescription" forceUppercase="true">
+                <label>Position Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>positionDescription</summary>
+                <description>positionDescription description...</description>
+			</attribute>
+
+            <attribute name="positionNumber" forceUppercase="true">
+                <label>Position Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>positionNumber</summary>
+                <description>positionNumber description...</description>
+			</attribute>
+
+            <attribute name="salaryAdministrationPlan" forceUppercase="true">
+                <label>Salary Administration Plan</label>
+                <shortLabel>Plan</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>salaryAdministrationPlan</summary>
+                <description>salaryAdministrationPlan description...</description>
+			</attribute>
+
+            <attribute name="setidSalary" forceUppercase="true">
+                <label>Setid Salary</label>
+                <shortLabel>Salary</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>setidSalary</summary>
+                <description>setidSalary description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

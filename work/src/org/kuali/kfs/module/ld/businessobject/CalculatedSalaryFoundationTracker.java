@@ -25,6 +25,7 @@
 
 package org.kuali.module.labor.bo;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -54,8 +55,8 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     private Timestamp csfCreateTimestamp;
     private String csfDeleteCode;
     private KualiDecimal csfAmount;
-    private Integer csfFullTimeEmploymentQuantity;
-    private Integer csfTimePercent;
+    private BigDecimal csfFullTimeEmploymentQuantity;
+    private BigDecimal csfTimePercent;
     private String csfFundingStatusCode;
     private Integer employeeRecord;
     private String earnCode;
@@ -314,7 +315,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
      * @return - Returns the csfFullTimeEmploymentQuantity
      * 
      */
-    public Integer getCsfFullTimeEmploymentQuantity() {
+    public BigDecimal getCsfFullTimeEmploymentQuantity() {
         return csfFullTimeEmploymentQuantity;
     }
 
@@ -324,7 +325,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
      * @param - csfFullTimeEmploymentQuantity The csfFullTimeEmploymentQuantity to set.
      * 
      */
-    public void setCsfFullTimeEmploymentQuantity(Integer csfFullTimeEmploymentQuantity) {
+    public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {
         this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
     }
 
@@ -335,7 +336,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
      * @return - Returns the csfTimePercent
      * 
      */
-    public Integer getCsfTimePercent() {
+    public BigDecimal getCsfTimePercent() {
         return csfTimePercent;
     }
 
@@ -345,7 +346,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
      * @param - csfTimePercent The csfTimePercent to set.
      * 
      */
-    public void setCsfTimePercent(Integer csfTimePercent) {
+    public void setCsfTimePercent(BigDecimal csfTimePercent) {
         this.csfTimePercent = csfTimePercent;
     }
 

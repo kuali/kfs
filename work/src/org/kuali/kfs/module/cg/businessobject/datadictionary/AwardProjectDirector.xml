@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.AwardProjectDirector">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Award Project Director Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="awardPrimaryProjectDirectorIndicator" />
+                <field attributeName="awardProjectDirectorNote1Text" />
+                <field attributeName="awardProjectDirectorNote2Text" />
+                <field attributeName="awardProjectDirectorNote3Text" />
+                <field attributeName="awardProjectDirectorProjectTitle" />
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="proposalNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Award Project Director Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AwardProjectDirector">Create New</a>]]></menubar>
+
+            <instructions>Look up an Award Project Director</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="proposalNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="awardPrimaryProjectDirectorIndicator" required="false" />
+                <lookupField attributeName="awardProjectDirectorNote1Text" required="false" />
+                <lookupField attributeName="awardProjectDirectorNote2Text" required="false" />
+                <lookupField attributeName="awardProjectDirectorNote3Text" required="false" />
+                <lookupField attributeName="awardProjectDirectorProjectTitle" required="false" />
+                <lookupField attributeName="personUniversalIdentifier" required="false" />
+                <lookupField attributeName="proposalNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="awardPrimaryProjectDirectorIndicator" />
+                <field attributeName="awardProjectDirectorNote1Text" />
+                <field attributeName="awardProjectDirectorNote2Text" />
+                <field attributeName="awardProjectDirectorNote3Text" />
+                <field attributeName="awardProjectDirectorProjectTitle" />
+                <field attributeName="personUniversalIdentifier" />
+                <field attributeName="proposalNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="awardPrimaryProjectDirectorIndicator" forceUppercase="true">
+                <label>Award Primary Project Director Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>awardPrimaryProjectDirectorIndicator</summary>
+                <description>awardPrimaryProjectDirectorIndicator description...</description>
+			</attribute>
+
+            <attribute name="awardProjectDirectorNote1Text" forceUppercase="true">
+                <label>Award Project Director Note1 Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>awardProjectDirectorNote1Text</summary>
+                <description>awardProjectDirectorNote1Text description...</description>
+			</attribute>
+
+            <attribute name="awardProjectDirectorNote2Text" forceUppercase="true">
+                <label>Award Project Director Note2 Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>awardProjectDirectorNote2Text</summary>
+                <description>awardProjectDirectorNote2Text description...</description>
+			</attribute>
+
+            <attribute name="awardProjectDirectorNote3Text" forceUppercase="true">
+                <label>Award Project Director Note3 Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>awardProjectDirectorNote3Text</summary>
+                <description>awardProjectDirectorNote3Text description...</description>
+			</attribute>
+
+            <attribute name="awardProjectDirectorProjectTitle" forceUppercase="true">
+                <label>Award Project Director Project Title</label>
+                <shortLabel>Title</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>awardProjectDirectorProjectTitle</summary>
+                <description>awardProjectDirectorProjectTitle description...</description>
+			</attribute>
+
+            <attribute name="personUniversalIdentifier" forceUppercase="true">
+                <label>Person Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
+			</attribute>
+
+            <attribute name="proposalNumber" forceUppercase="true">
+                <label>Proposal Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>proposalNumber</summary>
+                <description>proposalNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

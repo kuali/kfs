@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.CapitalAssetTransactionType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiCapitalAssetsTransactionTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMTT</documentTypeCode>
+
+        <label>Capital Asset Transaction Type Maintenance Document</label>
+        <shortLabel>Capital Asset Transaction Type Maint Doc</shortLabel>
+
+        <summary>Capital Asset Transaction Type Maintenance Document</summary>
+        <description>Document used to create or update Capital Asset Transaction Type objects</description>
+
+        <lockingKeys>
+            <field attributeName="capitalAssetTransactionTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Capital Asset Transaction Type">
+                <maintainableItems>
+                    <maintainableField name="capitalAssetTransactionTypeCode" required="true" />
+                	<maintainableField name="capitalAssetTransactionTypeDescription" required="true" />
+                	<maintainableField name="capitalAssetTransactionTypeServiceIndicator" required="true" />
+                	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

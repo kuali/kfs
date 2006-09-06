@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetTask">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Budget Task</title>
+
+            <inquiryFields>
+                <field attributeName="documentHeaderId" />
+                <field attributeName="budgetTaskSequenceNumber" />
+                <field attributeName="budgetTaskName" />
+                <field attributeName="objectId" />
+                <field attributeName="versionNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Task</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.BudgetTask">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup an Budget Task</instructions>
+
+            <defaultSort attributeName="documentHeaderId" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="documentHeaderId" required="false" />
+                <lookupField attributeName="budgetTaskSequenceNumber" required="false" />
+                <lookupField attributeName="budgetTaskName" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="documentHeaderId" />
+                <field attributeName="budgetTaskSequenceNumber" />
+                <field attributeName="budgetTaskName" />
+                <field attributeName="budgetTaskOnCampus" />
+                <field attributeName="objectId" />
+                <field attributeName="versionNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Budget Number</label>
+                <shortLabel>Budget Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>Budget Number...</summary>
+                <description>Budget Number...</description>
+            </attribute>
+
+            <attribute name="budgetTaskSequenceNumber" forceUppercase="false">
+                <label>Sequence Number</label>
+                <shortLabel>Sequence Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Sequence Number</summary>
+                <description>Sequence Number...</description>
+            </attribute>
+
+            <attribute name="budgetTaskOnCampus" forceUppercase="false">
+                <label>Budget Task On Campus?</label>
+                <shortLabel>Budget Task On Campus?</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Budget Task On Campus?</summary>
+                <description>Budget Task On Campus?</description>
+                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+            </attribute>
+
+
+            <attribute name="budgetTaskName" forceUppercase="false">
+                <label>Budget Task Name</label>
+                <shortLabel>Task Name</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>Budget Task Name</summary>
+                <description>Budget Task Name...</description>
+            </attribute>
+
+
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>GUID</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="36" />
+                </control>
+
+                <summary>objectId summary...</summary>
+                <description>objectId description...</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="-1" />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+
+        </attributes>
+
+        <objectLabel>Budget Tasks</objectLabel>
+        <objectDescription>Budget Tasks are the tasks for your Budget.</objectDescription>
+        
+        <objectHelp securityGroupName="KraAdminGroup" parameterName="budgetTaskHelp" />
+
+    </businessObject>
+</dictionaryEntry>

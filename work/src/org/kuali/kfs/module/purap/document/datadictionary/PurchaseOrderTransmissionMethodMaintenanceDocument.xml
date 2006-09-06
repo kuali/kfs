@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiPoTransmissionMethodMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMTM</documentTypeCode>
+
+        <label>Purchase Order Transmission Method Maintenance Document</label>
+        <shortLabel>PO Transmission Method Maint Doc</shortLabel>
+
+        <summary>Purchase Order Transmission Method Maintenance Document</summary>
+        <description>Document used to create or update Purchase Order Transmission Method objects</description>
+
+        <lockingKeys>
+            <field attributeName="purchaseOrderTransmissionMethodCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit PO Transmission Method">
+                <maintainableItems>
+                    <maintainableField name="purchaseOrderTransmissionMethodCode" required="true" />
+                    <maintainableField name="purchaseOrderTransmissionMethodDescription" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                    <maintainableField name="versionNumber" required="true"/>
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

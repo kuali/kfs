@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost">
+        <customAttributeEnabled>customAttributeEnabled</customAttributeEnabled>
+        <attributes>
+
+            <attribute name="documentHeaderId" forceUppercase="true">
+                <label>Document Header Id</label>
+                <shortLabel>Document Header Id</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>Document Header Id</summary>
+                <description>Document Header Id</description>
+            </attribute>
+
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>GUID</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>objectId summary...</summary>
+                <description>objectId description...</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+
+            <attribute name="budgetManualIndirectCostRate">
+                <label>Manual Indirect Cost Rate</label>
+                <maxLength>6</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="6" />
+                </control>
+                <summary>Manual Indirect Cost Rate</summary>
+                <description>Manual Indirect Cost Rate</description>
+            </attribute>
+
+            <attribute name="budgetTaskSequenceNumber" forceUppercase="false">
+                <label>Budget Task Sequence Number</label>
+                <shortLabel>Budget Task Sequence Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>Budget Task Sequence Number</summary>
+                <description>Budget Task Sequence Number</description>
+            </attribute>
+
+            <attribute name="budgetPeriodSequenceNumber" forceUppercase="false">
+                <label>Budget Period Sequence Number</label>
+                <shortLabel>Budget Period Sequence Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>Budget Period Sequence Number</summary>
+                <description>Budget Period Sequence Number</description>
+            </attribute>
+
+            <attribute name="budgetManualMtdcAmount">
+                <label>Manual MTDC Amount</label>
+                <maxLength>9</maxLength>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>Manual MTDC Amount</summary>
+                <description>Manual MTDC Amount</description>
+            </attribute>
+
+            <attribute name="budgetPurposeCode">
+                <label>Purpose Code</label>
+                <maxLength>255</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>Purpose Code</summary>
+                <description>Purpose Code</description>
+            </attribute>
+
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

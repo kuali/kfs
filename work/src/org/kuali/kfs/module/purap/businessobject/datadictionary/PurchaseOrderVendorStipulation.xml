@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Purchase Order Vendor Stipulation Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="purchaseOrderIdentifier" />
+                <field attributeName="purchaseOrderVendorStipulationIdentifier" />
+                <field attributeName="vendorStipulationAuthorEmployeeIdentifier" />
+                <field attributeName="vendorStipulationCreateDate" />
+                <field attributeName="vendorStipulationDescription" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Purchase Order Vendor Stipulation Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderVendorStipulation">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Purchase Order Vendor Stipulation</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="purchaseOrderIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
+                <lookupField attributeName="purchaseOrderVendorStipulationIdentifier" required="false" />
+                <lookupField attributeName="vendorStipulationAuthorEmployeeIdentifier" required="false" />
+                <lookupField attributeName="vendorStipulationCreateDate" required="false" />
+                <lookupField attributeName="vendorStipulationDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="purchaseOrderIdentifier" />
+                <field attributeName="purchaseOrderVendorStipulationIdentifier" />
+                <field attributeName="vendorStipulationAuthorEmployeeIdentifier" />
+                <field attributeName="vendorStipulationCreateDate" />
+                <field attributeName="vendorStipulationDescription" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
+                <label>Purchase Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderIdentifier</summary>
+                <description>purchaseOrderIdentifier description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderVendorStipulationIdentifier" forceUppercase="true">
+                <label>Purchase Order Vendor Stipulation Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>purchaseOrderVendorStipulationIdentifier</summary>
+                <description>purchaseOrderVendorStipulationIdentifier description...</description>
+			</attribute>
+
+            <attribute name="vendorStipulationAuthorEmployeeIdentifier" forceUppercase="true">
+                <label>Vendor Stipulation Author Employee Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>vendorStipulationAuthorEmployeeIdentifier</summary>
+                <description>vendorStipulationAuthorEmployeeIdentifier description...</description>
+			</attribute>
+
+            <attribute name="vendorStipulationCreateDate" forceUppercase="true">
+                <label>Vendor Stipulation Create Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>vendorStipulationCreateDate</summary>
+                <description>vendorStipulationCreateDate description...</description>
+			</attribute>
+
+            <attribute name="vendorStipulationDescription" forceUppercase="true">
+                <label>Vendor Stipulation Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>4000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>vendorStipulationDescription</summary>
+                <description>vendorStipulationDescription description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

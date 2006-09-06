@@ -40,7 +40,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
  * have already been made.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: PreEncumbranceDocument.java,v 1.7 2006-09-06 06:50:20 abyrne Exp $
+ * @version $Id: PreEncumbranceDocument.java,v 1.8 2006-09-06 23:29:15 tdurkin Exp $
  */
 public class PreEncumbranceDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreEncumbranceDocument.class);

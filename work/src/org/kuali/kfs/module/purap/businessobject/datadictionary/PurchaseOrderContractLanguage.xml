@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderContractLanguage">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Purchase Order Contract Language Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="campusCode" />
+                <field attributeName="purchaseOrderContractLanguageDescription" />
+                <field attributeName="contractLanguageCreateDate" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Purchase Order Contract Language Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderContractLanguage">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Purchase Order Contract Language</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="campusCode" />
+                    <sortAttribute attributeName="contractLanguageCreateDate"/>
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="campusCode" required="false" noLookup="true"/>
+                <lookupField attributeName="purchaseOrderContractLanguageDescription" required="false" />
+                <lookupField attributeName="contractLanguageCreateDate" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="campusCode" />
+                <field attributeName="purchaseOrderContractLanguageDescription" />
+                <field attributeName="contractLanguageCreateDate" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="purchaseOrderContractLanguageIdentifier" forceUppercase="true">
+                <label>Purchase Order Contract Language Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <hidden/>
+                </control>
+
+                <summary>purchaseOrderContractLanguageIdentifier</summary>
+                <description>purchaseOrderContractLanguageIdentifier description...</description>
+			</attribute>
+			
+			<attributeReference name="campusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="campusCode" >
+                <label>Purchasing Office Campus Code</label>
+                <shortLabel>Code</shortLabel>
+			</attributeReference>
+
+            <attribute name="purchaseOrderContractLanguageDescription">
+                <label>Purchase Order Contract Language Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>2000</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>purchaseOrderContractLanguageDescription</summary>
+                <description>purchaseOrderContractLanguageDescription description...</description>
+			</attribute>
+
+            <attributeReference name="contractLanguageCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Contract Language Create Date</label>
+                <shortLabel>Create Date</shortLabel>
+                <summary>Contract Language Create Date</summary>
+                <description>The create date of the Contract Language</description>
+            </attributeReference>
+
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

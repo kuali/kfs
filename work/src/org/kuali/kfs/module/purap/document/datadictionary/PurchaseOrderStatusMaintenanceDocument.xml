@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.PurchaseOrderStatus</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiPoStatusMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMPS</documentTypeCode>
+
+        <label>Purchase Order Status Maintenance Document</label>
+        <shortLabel>Purchase Order Status Maint Doc</shortLabel>
+
+        <summary>Purchase Order Status Maintenance Document</summary>
+        <description>Document used to create or update Purchase Order Status objects</description>
+
+        <lockingKeys>
+            <field attributeName="purchaseOrderStatusCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Purchase Order Status">
+                <maintainableItems>
+                    <maintainableField name="purchaseOrderStatusCode" required="true" />
+                	<maintainableField name="purchaseOrderStatusDescription" required="true" />
+                	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

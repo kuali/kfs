@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.kra.budget.bo.IndirectCostLookup</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KRA_PRE_AWARD_ADMIN</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiIndirectCostLookupMaintenanceDocument</documentTypeName>
+        <documentTypeCode>IDCL</documentTypeCode>
+
+        <label>Indirect Cost Lookup Maintenance Document</label>
+        <shortLabel>IndirectCostLookupMainDoc</shortLabel>
+
+        <summary>Indirect Cost Lookup maintenance document</summary>
+        <description>Document used to create or update Indirect Cost Lookup objects</description>
+
+        <lockingKeys>
+            <field attributeName="budgetOnCampusIndicator" />
+            <field attributeName="budgetPurposeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Indirect Cost Lookup">
+                <maintainableItems>
+                    <maintainableField name="budgetOnCampusIndicator" />
+                    <maintainableField name="budgetPurposeCode" required="true" />
+                    <maintainableField name="budgetIndirectCostRate" required="false" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

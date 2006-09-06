@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.purap.bo.VendorStipulation</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiVendorStipulationMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PMSI</documentTypeCode>
+
+        <label>Vendor Stipulation Maintenance Document</label>
+        <shortLabel>Vendor Stipulation Maint Doc</shortLabel>
+
+        <summary>Vendor Stipulation Maintenance Document</summary>
+        <description>Document used to create or update Vendor Stipulation objects</description>
+
+        <lockingKeys>
+            <field attributeName="vendorStipulationIdentifier" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Vendor Stipulation">
+                <maintainableItems>
+                    <maintainableField name="vendorStipulationIdentifier" readOnly="true" />
+                    <maintainableField name="vendorStipulationName" required="true" />
+                    <maintainableField name="vendorStipulationDescription" required="false" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                    <maintainableField name="versionNumber" required="true" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

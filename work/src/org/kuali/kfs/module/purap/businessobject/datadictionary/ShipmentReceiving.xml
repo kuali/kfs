@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ShipmentReceiving">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Shipment Receiving Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="carrierCode" />
+                <field attributeName="deliveryBuildingCode" />
+                <field attributeName="deliveryBuildingLine1Address" />
+                <field attributeName="deliveryBuildingLine2Address" />
+                <field attributeName="deliveryBuildingName" />
+                <field attributeName="deliveryBuildingRoomNumber" />
+                <field attributeName="deliveryCampusCode" />
+                <field attributeName="deliveryCityName" />
+                <field attributeName="deliveryCountryCode" />
+                <field attributeName="deliveryInstructionText" />
+                <field attributeName="deliveryPostalCode" />
+                <field attributeName="deliveryRequiredDate" />
+                <field attributeName="deliveryStateCode" />
+                <field attributeName="deliveryToEmailAddress" />
+                <field attributeName="deliveryToName" />
+                <field attributeName="deliveryToPhoneNumber" />
+                <field attributeName="purchaseOrderGeneralDescription" />
+                <field attributeName="purchaseOrderIdentifier" />
+                <field attributeName="shipmentReceivedDate" />
+                <field attributeName="shipmentReceivingIdentifier" />
+                <field attributeName="shipmentReceivingNoteText" />
+                <field attributeName="shipmentTrackingNumber" />
+                <field attributeName="vendorCityName" />
+                <field attributeName="vendorCountryCode" />
+                <field attributeName="vendorLine1Address" />
+                <field attributeName="vendorLine2Address" />
+                <field attributeName="vendorName" />
+                <field attributeName="vendorPostalCode" />
+                <field attributeName="vendorShippingPaymentTermsCode" />
+                <field attributeName="vendorStateCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Shipment Receiving Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ShipmentReceiving">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Shipment Receiving</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="carrierCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="carrierCode" required="false" />
+                <lookupField attributeName="deliveryBuildingCode" required="false" />
+                <lookupField attributeName="deliveryBuildingLine1Address" required="false" />
+                <lookupField attributeName="deliveryBuildingLine2Address" required="false" />
+                <lookupField attributeName="deliveryBuildingName" required="false" />
+                <lookupField attributeName="deliveryBuildingRoomNumber" required="false" />
+                <lookupField attributeName="deliveryCampusCode" required="false" />
+                <lookupField attributeName="deliveryCityName" required="false" />
+                <lookupField attributeName="deliveryCountryCode" required="false" />
+                <lookupField attributeName="deliveryInstructionText" required="false" />
+                <lookupField attributeName="deliveryPostalCode" required="false" />
+                <lookupField attributeName="deliveryRequiredDate" required="false" />
+                <lookupField attributeName="deliveryStateCode" required="false" />
+                <lookupField attributeName="deliveryToEmailAddress" required="false" />
+                <lookupField attributeName="deliveryToName" required="false" />
+                <lookupField attributeName="deliveryToPhoneNumber" required="false" />
+                <lookupField attributeName="purchaseOrderGeneralDescription" required="false" />
+                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
+                <lookupField attributeName="shipmentReceivedDate" required="false" />
+                <lookupField attributeName="shipmentReceivingIdentifier" required="false" />
+                <lookupField attributeName="shipmentReceivingNoteText" required="false" />
+                <lookupField attributeName="shipmentTrackingNumber" required="false" />
+                <lookupField attributeName="vendorCityName" required="false" />
+                <lookupField attributeName="vendorCountryCode" required="false" />
+                <lookupField attributeName="vendorLine1Address" required="false" />
+                <lookupField attributeName="vendorLine2Address" required="false" />
+                <lookupField attributeName="vendorName" required="false" />
+                <lookupField attributeName="vendorPostalCode" required="false" />
+                <lookupField attributeName="vendorShippingPaymentTermsCode" required="false" />
+                <lookupField attributeName="vendorStateCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="carrierCode" />
+                <field attributeName="deliveryBuildingCode" />
+                <field attributeName="deliveryBuildingLine1Address" />
+                <field attributeName="deliveryBuildingLine2Address" />
+                <field attributeName="deliveryBuildingName" />
+                <field attributeName="deliveryBuildingRoomNumber" />
+                <field attributeName="deliveryCampusCode" />
+                <field attributeName="deliveryCityName" />
+                <field attributeName="deliveryCountryCode" />
+                <field attributeName="deliveryInstructionText" />
+                <field attributeName="deliveryPostalCode" />
+                <field attributeName="deliveryRequiredDate" />
+                <field attributeName="deliveryStateCode" />
+                <field attributeName="deliveryToEmailAddress" />
+                <field attributeName="deliveryToName" />
+                <field attributeName="deliveryToPhoneNumber" />
+                <field attributeName="purchaseOrderGeneralDescription" />
+                <field attributeName="purchaseOrderIdentifier" />
+                <field attributeName="shipmentReceivedDate" />
+                <field attributeName="shipmentReceivingIdentifier" />
+                <field attributeName="shipmentReceivingNoteText" />
+                <field attributeName="shipmentTrackingNumber" />
+                <field attributeName="vendorCityName" />
+                <field attributeName="vendorCountryCode" />
+                <field attributeName="vendorLine1Address" />
+                <field attributeName="vendorLine2Address" />
+                <field attributeName="vendorName" />
+                <field attributeName="vendorPostalCode" />
+                <field attributeName="vendorShippingPaymentTermsCode" />
+                <field attributeName="vendorStateCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="carrierCode" forceUppercase="true">
+                <label>Carrier Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>carrierCode</summary>
+                <description>carrierCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryBuildingCode" forceUppercase="true">
+                <label>Delivery Building Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>deliveryBuildingCode</summary>
+                <description>deliveryBuildingCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryBuildingLine1Address" forceUppercase="true">
+                <label>Delivery Building Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>deliveryBuildingLine1Address</summary>
+                <description>deliveryBuildingLine1Address description...</description>
+			</attribute>
+
+            <attribute name="deliveryBuildingLine2Address" forceUppercase="true">
+                <label>Delivery Building Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>deliveryBuildingLine2Address</summary>
+                <description>deliveryBuildingLine2Address description...</description>
+			</attribute>
+
+            <attribute name="deliveryBuildingName" forceUppercase="true">
+                <label>Delivery Building Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>deliveryBuildingName</summary>
+                <description>deliveryBuildingName description...</description>
+			</attribute>
+
+            <attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
+                <label>Delivery Building Room Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>deliveryBuildingRoomNumber</summary>
+                <description>deliveryBuildingRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="deliveryCampusCode" forceUppercase="true">
+                <label>Delivery Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>deliveryCampusCode</summary>
+                <description>deliveryCampusCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryCityName" forceUppercase="true">
+                <label>Delivery City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>deliveryCityName</summary>
+                <description>deliveryCityName description...</description>
+			</attribute>
+
+            <attribute name="deliveryCountryCode" forceUppercase="true">
+                <label>Delivery Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>deliveryCountryCode</summary>
+                <description>deliveryCountryCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryInstructionText" forceUppercase="true">
+                <label>Delivery Instruction Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>deliveryInstructionText</summary>
+                <description>deliveryInstructionText description...</description>
+			</attribute>
+
+            <attribute name="deliveryPostalCode" forceUppercase="true">
+                <label>Delivery Postal Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>deliveryPostalCode</summary>
+                <description>deliveryPostalCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryRequiredDate" forceUppercase="true">
+                <label>Delivery Required Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>deliveryRequiredDate</summary>
+                <description>deliveryRequiredDate description...</description>
+			</attribute>
+
+            <attribute name="deliveryStateCode" forceUppercase="true">
+                <label>Delivery State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>deliveryStateCode</summary>
+                <description>deliveryStateCode description...</description>
+			</attribute>
+
+            <attribute name="deliveryToEmailAddress" forceUppercase="true">
+                <label>Delivery To Email Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>deliveryToEmailAddress</summary>
+                <description>deliveryToEmailAddress description...</description>
+			</attribute>
+
+            <attribute name="deliveryToName" forceUppercase="true">
+                <label>Delivery To Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>deliveryToName</summary>
+                <description>deliveryToName description...</description>
+			</attribute>
+
+            <attribute name="deliveryToPhoneNumber" forceUppercase="true">
+                <label>Delivery To Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>deliveryToPhoneNumber</summary>
+                <description>deliveryToPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderGeneralDescription" forceUppercase="true">
+                <label>Purchase Order General Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>purchaseOrderGeneralDescription</summary>
+                <description>purchaseOrderGeneralDescription description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
+                <label>Purchase Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderIdentifier</summary>
+                <description>purchaseOrderIdentifier description...</description>
+			</attribute>
+
+            <attribute name="shipmentReceivedDate" forceUppercase="true">
+                <label>Shipment Received Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>shipmentReceivedDate</summary>
+                <description>shipmentReceivedDate description...</description>
+			</attribute>
+
+            <attribute name="shipmentReceivingIdentifier" forceUppercase="true">
+                <label>Shipment Receiving Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>shipmentReceivingIdentifier</summary>
+                <description>shipmentReceivingIdentifier description...</description>
+			</attribute>
+
+            <attribute name="shipmentReceivingNoteText" forceUppercase="true">
+                <label>Shipment Receiving Note Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>shipmentReceivingNoteText</summary>
+                <description>shipmentReceivingNoteText description...</description>
+			</attribute>
+
+            <attribute name="shipmentTrackingNumber" forceUppercase="true">
+                <label>Shipment Tracking Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>shipmentTrackingNumber</summary>
+                <description>shipmentTrackingNumber description...</description>
+			</attribute>
+
+            <attribute name="vendorCityName" forceUppercase="true">
+                <label>Vendor City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorCityName</summary>
+                <description>vendorCityName description...</description>
+			</attribute>
+
+            <attribute name="vendorCountryCode" forceUppercase="true">
+                <label>Vendor Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>vendorCountryCode</summary>
+                <description>vendorCountryCode description...</description>
+			</attribute>
+
+            <attribute name="vendorLine1Address" forceUppercase="true">
+                <label>Vendor Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorLine1Address</summary>
+                <description>vendorLine1Address description...</description>
+			</attribute>
+
+            <attribute name="vendorLine2Address" forceUppercase="true">
+                <label>Vendor Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorLine2Address</summary>
+                <description>vendorLine2Address description...</description>
+			</attribute>
+
+            <attribute name="vendorName" forceUppercase="true">
+                <label>Vendor Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorName</summary>
+                <description>vendorName description...</description>
+			</attribute>
+
+            <attribute name="vendorPostalCode" forceUppercase="true">
+                <label>Vendor Postal Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>vendorPostalCode</summary>
+                <description>vendorPostalCode description...</description>
+			</attribute>
+
+            <attribute name="vendorShippingPaymentTermsCode" forceUppercase="true">
+                <label>Vendor Shipping Payment Terms Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>vendorShippingPaymentTermsCode</summary>
+                <description>vendorShippingPaymentTermsCode description...</description>
+			</attribute>
+
+            <attribute name="vendorStateCode" forceUppercase="true">
+                <label>Vendor State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>vendorStateCode</summary>
+                <description>vendorStateCode description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

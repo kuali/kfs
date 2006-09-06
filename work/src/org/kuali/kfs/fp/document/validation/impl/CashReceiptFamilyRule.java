@@ -28,7 +28,6 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.KeyConstants.CashReceipt;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
@@ -36,12 +35,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
-import org.kuali.module.financial.document.CreditCardReceiptDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**

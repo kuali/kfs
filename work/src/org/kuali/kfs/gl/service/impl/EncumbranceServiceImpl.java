@@ -28,7 +28,6 @@ import java.util.Map;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.service.EncumbranceService;
-import org.kuali.module.gl.util.OJBUtility;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)

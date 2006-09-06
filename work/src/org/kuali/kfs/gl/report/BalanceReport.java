@@ -30,15 +30,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.Constants;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.GlSummary;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.util.TransactionListingReport.PageHelper;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
 import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;

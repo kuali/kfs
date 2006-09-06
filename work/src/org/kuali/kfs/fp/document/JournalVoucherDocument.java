@@ -22,15 +22,16 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.Constants.EMPTY_STRING;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.PropertyConstants.BALANCE_TYPE;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import static org.kuali.Constants.EMPTY_STRING;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.PropertyConstants.BALANCE_TYPE;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.bo.SourceAccountingLine;

@@ -22,21 +22,21 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.Constants.EMPTY_STRING;
+import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import static org.kuali.Constants.EMPTY_STRING;
-import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.NumberUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AuxiliaryVoucherAccountingLineParser;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;

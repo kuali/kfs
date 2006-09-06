@@ -31,7 +31,6 @@ import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
-import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...

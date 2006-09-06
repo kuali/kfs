@@ -23,10 +23,6 @@
 
 package org.kuali.module.financial.bo;
 
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
 import static org.kuali.PropertyConstants.AMOUNT;
 import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
@@ -42,6 +38,11 @@ import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
+
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
 

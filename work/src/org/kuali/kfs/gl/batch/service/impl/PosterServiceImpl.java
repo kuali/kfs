@@ -46,9 +46,9 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.ExpenditureTransaction;
@@ -65,15 +65,13 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.service.impl.ScrubberProcess.TransactionError;
-import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.40 2006-09-05 19:59:13 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.41 2006-09-06 06:32:39 abyrne Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);

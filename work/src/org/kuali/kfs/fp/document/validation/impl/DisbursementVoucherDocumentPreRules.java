@@ -23,22 +23,16 @@
 package org.kuali.module.financial.rules;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;

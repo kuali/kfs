@@ -22,16 +22,16 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
@@ -44,8 +44,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
-import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;

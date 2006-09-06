@@ -32,7 +32,6 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.module.gl.bo.AccountBalanceByConsolidation;
 import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.web.Constant;
 

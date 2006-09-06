@@ -25,7 +25,6 @@ package org.kuali.module.gl.batch;
 import org.kuali.core.batch.Step;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
 
 public class ClearOldOriginEntryStep implements Step {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearOldOriginEntryStep.class);

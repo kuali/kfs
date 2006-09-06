@@ -24,11 +24,9 @@ package org.kuali.module.chart.rules;
 
 import java.util.List;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 

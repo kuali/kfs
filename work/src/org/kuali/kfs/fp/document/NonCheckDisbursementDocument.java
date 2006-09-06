@@ -23,6 +23,7 @@
 package org.kuali.module.financial.document;
 
 import static org.kuali.Constants.EMPTY_STRING;
+
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.module.financial.bo.NonCheckDisbursementDocumentAccountingLineParser;

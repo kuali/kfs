@@ -22,8 +22,6 @@
  */
 package org.kuali.module.gl.bo;
 
-import java.math.BigDecimal;
-
 import org.kuali.core.util.KualiDecimal;
 
 public class GlSummary {

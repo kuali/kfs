@@ -42,8 +42,8 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCons;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
-import org.kuali.module.chart.service.ObjectLevelService;
 import org.kuali.module.chart.service.ObjectConsService;
+import org.kuali.module.chart.service.ObjectLevelService;
 
 /**
  * 

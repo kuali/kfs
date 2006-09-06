@@ -25,11 +25,9 @@ package org.kuali.module.financial.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.uidraw.KeyLabelPair;
-
 import org.kuali.Constants;
+import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.web.uidraw.KeyLabelPair;
 
 /**
  * <code>{@link KeyValuesBase}</code> class that handles <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> types.

@@ -27,8 +27,6 @@ import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConsta
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 
-import java.util.Collections;
-
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;

@@ -22,18 +22,11 @@
  */
 package org.kuali.module.gl.web.inquirable;
 
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 
 /**

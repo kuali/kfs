@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 

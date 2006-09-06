@@ -22,7 +22,6 @@
  */
 package org.kuali.module.kra.service;
 
-import org.kuali.core.util.OjbCollectionAware;
 import org.kuali.module.kra.document.ResearchDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;

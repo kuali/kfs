@@ -28,8 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.module.chart.bo.AccountChangeDetail;
-import org.kuali.module.chart.bo.AccountChangeDocument;
-import org.kuali.module.chart.bo.DelegateChangeContainer;
 
 /**
  * This class contains common Business Rule functionality for Global Documents.

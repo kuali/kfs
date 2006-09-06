@@ -22,7 +22,6 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;

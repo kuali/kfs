@@ -23,6 +23,7 @@
 package org.kuali.module.financial.rules;
 
 import junit.framework.AssertionFailedError;
+
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;

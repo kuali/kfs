@@ -35,7 +35,6 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.dao.CheckDao;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**

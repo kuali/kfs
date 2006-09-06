@@ -23,8 +23,6 @@
 
 package org.kuali.module.financial.bo;
 
-import java.util.Map;
-
 import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
 import static org.kuali.PropertyConstants.AMOUNT;
 import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
@@ -33,6 +31,9 @@ import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
 import static org.kuali.PropertyConstants.OVERRIDE_CODE;
 import static org.kuali.PropertyConstants.PROJECT_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
+
+import java.util.Map;
+
 import org.kuali.core.bo.AccountingLineParserBase;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;

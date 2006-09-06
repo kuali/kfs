@@ -22,7 +22,6 @@
  */
 package org.kuali.module.gl.service;
 
-import java.io.InputStream;
 
 public interface CollectorService {
     /**

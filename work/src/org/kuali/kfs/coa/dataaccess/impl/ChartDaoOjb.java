@@ -33,10 +33,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
-import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.

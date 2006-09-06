@@ -22,7 +22,6 @@
  */
 package org.kuali.module.financial.document;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

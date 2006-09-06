@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.core.util.AssertionUtils.assertThat;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -29,14 +31,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
-import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
-import static org.kuali.core.util.AssertionUtils.assertThat;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;

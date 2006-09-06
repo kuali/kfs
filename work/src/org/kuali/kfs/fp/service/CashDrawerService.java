@@ -22,7 +22,6 @@
  */
 package org.kuali.module.financial.service;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.CashDrawer;
 
 

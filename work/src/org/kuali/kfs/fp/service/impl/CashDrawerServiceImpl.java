@@ -23,16 +23,12 @@
 package org.kuali.module.financial.service.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashDrawerService;
 
 

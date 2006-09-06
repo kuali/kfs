@@ -30,7 +30,6 @@ import java.util.Set;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 
 public class ObjectCodeDescriptionFormatter extends CodeDescriptionFormatterBase {

@@ -37,10 +37,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
-import org.kuali.module.financial.document.CreditCardReceiptDocument;
 import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
 import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
-import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
 
 /**
  * This is the action class for the Advance Deposit document.

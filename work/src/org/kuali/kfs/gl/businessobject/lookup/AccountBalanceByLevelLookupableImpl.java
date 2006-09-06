@@ -37,7 +37,6 @@ import org.kuali.module.gl.bo.DummyBusinessObject;
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByLevelInquirableImpl;
 
 public class AccountBalanceByLevelLookupableImpl extends KualiLookupableImpl {

@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URL;
@@ -47,7 +49,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.exceptions.NoTransactionsException;
 import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
 
 /**
  * Implementation of ProcurementCardDocumentService

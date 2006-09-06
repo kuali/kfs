@@ -22,19 +22,9 @@
  */
 package org.kuali.module.gl.web.inquirable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.LookupService;
-import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
-import org.kuali.module.gl.web.Constant;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the GL entry screen. It is entended the

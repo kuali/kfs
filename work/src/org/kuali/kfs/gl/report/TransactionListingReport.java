@@ -25,20 +25,13 @@ package org.kuali.module.gl.util;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.impl.scrubber.Message;
-import org.kuali.module.gl.util.TransactionReport.PageHelper;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

@@ -34,7 +34,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants.DepositConstants;
 import org.kuali.core.document.FinancialDocumentBase;
-import org.kuali.core.service.impl.DocumentServiceImpl;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.CashDrawer;

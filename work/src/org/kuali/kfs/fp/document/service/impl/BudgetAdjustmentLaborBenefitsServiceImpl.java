@@ -22,8 +22,6 @@
  */
 package org.kuali.module.financial.service.impl;
 
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.service.BusinessObjectService;

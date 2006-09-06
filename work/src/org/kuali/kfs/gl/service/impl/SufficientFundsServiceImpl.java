@@ -40,7 +40,6 @@ import org.kuali.module.financial.document.YearEndDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.kuali.module.gl.dao.SufficientFundsDao;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;

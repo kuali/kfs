@@ -24,7 +24,6 @@ package org.kuali.module.gl.dao;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntry;
@@ -32,7 +31,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.15 2006-08-20 04:21:59 jsissom Exp $
+ * @version $Id: OriginEntryDao.java,v 1.16 2006-09-06 06:32:44 abyrne Exp $
  */
 public interface OriginEntryDao {
     public static final int SORT_DOCUMENT = 1;

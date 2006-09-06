@@ -32,10 +32,10 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalanceByObject;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.GLConstants;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the account balace by object screen. It is entended

@@ -35,7 +35,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
@@ -44,7 +43,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: EncumbranceDaoOjb.java,v 1.12 2006-09-05 13:39:16 larevans Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.13 2006-09-06 06:32:44 abyrne Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);

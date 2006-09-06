@@ -28,7 +28,6 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.module.chart.bo.Account;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)

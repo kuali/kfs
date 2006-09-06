@@ -31,7 +31,6 @@ import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
-import org.kuali.module.financial.bo.PaymentReasonCode;
 
 /**
  * The values are the same as the disbursementVoucherDocumentationLocationCode in the

@@ -22,7 +22,6 @@
  */
 package org.kuali.module.gl.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -32,22 +31,13 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.WrapDynaClass;
-import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.impl.LookupServiceImpl;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.TypeUtils;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.ojb.OjbOperationException;
 
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.

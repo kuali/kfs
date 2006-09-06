@@ -22,10 +22,7 @@
  */
 package org.kuali.module.financial.util;
 
-import java.util.Map;
 import java.util.Set;
-
-import org.kuali.core.bo.BusinessObject;
 
 public interface CodeDescriptionFormatter {
     /**

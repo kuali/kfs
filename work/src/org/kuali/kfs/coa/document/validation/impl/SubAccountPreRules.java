@@ -27,7 +27,6 @@ import org.kuali.core.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.A21SubAccount;

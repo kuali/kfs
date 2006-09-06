@@ -23,7 +23,6 @@
 package org.kuali.module.financial.document;
 
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;

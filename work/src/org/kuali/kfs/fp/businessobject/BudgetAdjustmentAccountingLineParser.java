@@ -24,8 +24,12 @@
 package org.kuali.module.financial.bo;
 
 import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.PropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT;
 import static org.kuali.PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT;
+import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.PropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT;
+import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_10_LINE_AMOUNT;
+import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_11_LINE_AMOUNT;
+import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_12_LINE_AMOUNT;
 import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_1_LINE_AMOUNT;
 import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_2_LINE_AMOUNT;
 import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_3_LINE_AMOUNT;
@@ -35,11 +39,6 @@ import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_6_LINE_AMOUNT
 import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_7_LINE_AMOUNT;
 import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_8_LINE_AMOUNT;
 import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_9_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_10_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_11_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_12_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.BUDGET_YEAR;
-import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
 import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;

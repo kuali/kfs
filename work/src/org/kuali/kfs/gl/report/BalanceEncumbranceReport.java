@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.module.gl.bo.GlSummary;
-import org.kuali.module.gl.util.BalanceReport.PageHelper;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

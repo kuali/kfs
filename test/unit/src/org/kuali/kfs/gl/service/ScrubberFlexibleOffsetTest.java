@@ -22,30 +22,12 @@
  */
 package org.kuali.module.gl.service;
 
-import java.sql.Date;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.FinancialSystemParameter;
-import org.kuali.core.document.DocumentType;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.MockService;
 
 /**
  * Test Flexible Offset in the scrubber

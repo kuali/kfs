@@ -34,7 +34,6 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.AddAccountingLineEvent;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.Timer;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;

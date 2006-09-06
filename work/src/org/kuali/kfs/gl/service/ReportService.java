@@ -22,7 +22,6 @@
  */
 package org.kuali.module.gl.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -35,10 +34,6 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
-import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.LedgerReport;
-import org.kuali.module.gl.util.Summary;
-import org.kuali.module.gl.util.TransactionReport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>

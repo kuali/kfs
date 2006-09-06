@@ -3,7 +3,6 @@ package org.kuali.module.gl.service;
 import java.util.List;
 
 import org.kuali.core.document.FinancialDocument;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.SufficientFundsItem;

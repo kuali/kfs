@@ -65,7 +65,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private static final String ORG_REVIEW_ATTRIBUTE = "KUALI_ORG_REVIEW_ATTRIBUTE";
 
     private static Map ORGS = new HashMap();
-    
+
     private static final String DOCUMENT_CHART_ORG_VALUES_KEY = "organizations";
 
     private String finCoaCd;
@@ -110,8 +110,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         routingDataRows.add(getOrgRow());
         routingDataRows.add(getOverrideCodeRow());
 
-        //TODO: hook TotalDollarAmount into the DD attribute for DocumentHeader.financialDocumentTotalAmount once 
-        //      the DD has this attribute defined, like Chart and Org above
+        // TODO: hook TotalDollarAmount into the DD attribute for DocumentHeader.financialDocumentTotalAmount once
+        // the DD has this attribute defined, like Chart and Org above
         fields = new ArrayList();
         fields.add(new Field("Total Amount", "", Field.TEXT, true, TOTAL_AMOUNT_KEY, "", null, null, TOTAL_AMOUNT_KEY));
         routingDataRows.add(new Row(fields));
@@ -258,7 +258,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             Float ruleFromAmount = null;
             Float ruleToAmount = null;
             if (!StringUtils.isBlank(fromAmount)) {
-                ruleFromAmount = new Float(fromAmount); 
+                ruleFromAmount = new Float(fromAmount);
                 if (ruleFromAmount.floatValue() > documentAmount.floatValue()) {
                     return false;
                 }
@@ -322,8 +322,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private Set populateFromDocContent(DocumentType docType, DocumentContent docContent, RouteContext routeContext) {
         Set chartOrgValues = null;
         if (routeContext.getParameters().containsKey(DOCUMENT_CHART_ORG_VALUES_KEY)) {
-            chartOrgValues = (Set)routeContext.getParameters().get(DOCUMENT_CHART_ORG_VALUES_KEY);
-        } else {
+            chartOrgValues = (Set) routeContext.getParameters().get(DOCUMENT_CHART_ORG_VALUES_KEY);
+        }
+        else {
             chartOrgValues = new HashSet();
             NodeList nodes = null;
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
@@ -357,7 +358,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     String xpathExp = null;
                     if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("kualiUser").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                    } else {
+                    }
+                    else {
                         if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
                             xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                         }

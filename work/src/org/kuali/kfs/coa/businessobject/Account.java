@@ -133,8 +133,8 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private Program program;
-    
-    //Several kinds of Dummy Attributes for dividing sections on Inquiry page
+
+    // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
     private String accountResponsibilitySection;
     private String contractsAndGrantsSectionBlank;
@@ -148,7 +148,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
 
     private AccountGuideline accountGuideline;
     private AccountDescription accountDescription;
-    
+
     private List subAccounts;
 
     /**
@@ -165,22 +165,23 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     public boolean isInCg() {
         // IF C&G is a sub fund group, use this line
         // return isInCgSubFundGroup();
-        
+
         // IF C&G is a fund group, use this line
         return isInCgFundGroup();
     }
 
     private boolean isInCgFundGroup() {
-        if ( getSubFundGroup() != null) {
-            return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroup().getFundGroupCode());        
-        } else {
+        if (getSubFundGroup() != null) {
+            return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroup().getFundGroupCode());
+        }
+        else {
             // If sub fund group is missing
             return false;
         }
     }
 
     private boolean isInCgSubFundGroup() {
-        return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroupCode());        
+        return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroupCode());
     }
 
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
@@ -192,17 +193,16 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     }
 
     /**
-     * This method gathers all SubAccounts related to this account if the account
-     * is marked as closed to deactivate
+     * This method gathers all SubAccounts related to this account if the account is marked as closed to deactivate
      */
     public List<BusinessObject> generateDeactivationsToPersist() {
         BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
 
-        //  retreive all the existing sub accounts for this
+        // retreive all the existing sub accounts for this
         List<SubAccount> bosToDeactivate = new ArrayList();
-        Map<String,Object> fieldValues;
+        Map<String, Object> fieldValues;
         Collection existingSubAccounts;
-        if(this.isAccountClosedIndicator() == true) {
+        if (this.isAccountClosedIndicator() == true) {
             fieldValues = new HashMap();
             fieldValues.put("chartOfAccountsCode", this.getChartOfAccountsCode());
             fieldValues.put("accountNumber", this.getAccountNumber());
@@ -210,9 +210,9 @@ public class Account extends BusinessObjectBase implements AccountIntf {
             existingSubAccounts = boService.findMatching(SubAccount.class, fieldValues);
             bosToDeactivate.addAll(existingSubAccounts);
         }
-        
-        
-        //  mark all the sub accounts as inactive
+
+
+        // mark all the sub accounts as inactive
         for (SubAccount subAccount : bosToDeactivate) {
             subAccount.setSubAccountActiveIndicator(false);
         }
@@ -443,12 +443,10 @@ public class Account extends BusinessObjectBase implements AccountIntf {
      * 
      * This method determines whether the account is expired or not.
      * 
-     * Note that if Expiration Date is the same as today, then this 
-     * will return false.  It will only return true if the account 
+     * Note that if Expiration Date is the same as today, then this will return false. It will only return true if the account
      * expiration date is one day earlier than today or earlier.
      * 
-     * Note that this logic ignores all time components when doing the 
-     * comparison.  It only does the before/after comparison based on 
+     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
      * date values, not time-values.
      * 
      * @return - true or false based on the logic outlined above
@@ -456,51 +454,49 @@ public class Account extends BusinessObjectBase implements AccountIntf {
      */
     public boolean isExpired() {
         LOG.debug("entering isExpired()");
-        //	dont even bother trying to test if the accountExpirationDate is null
+        // dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {
             return false;
         }
-        
+
         return this.isExpired(SpringServiceLocator.getDateTimeService().getCurrentCalendar());
     }
-    
+
     /**
      * 
      * This method determines whether the account is expired or not.
      * 
-     * Note that if Expiration Date is the same date as testDate, then this 
-     * will return false.  It will only return true if the account 
-     * expiration date is one day earlier than testDate or earlier.
+     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
+     * account expiration date is one day earlier than testDate or earlier.
      * 
-     * Note that this logic ignores all time components when doing the 
-     * comparison.  It only does the before/after comparison based on 
+     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
      * date values, not time-values.
      * 
-     * @param testDate - Calendar instance with the date to test the Account's Expiration Date against.  
-     *                   This is most commonly set to today's date.
+     * @param testDate - Calendar instance with the date to test the Account's Expiration Date against. This is most commonly set to
+     *        today's date.
      * @return - true or false based on the logic outlined above
      * 
      */
-     public boolean isExpired(Calendar testDate) {
-         if (LOG.isDebugEnabled()) {
-             LOG.debug("entering isExpired("+testDate+")");
-         }
+    public boolean isExpired(Calendar testDate) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("entering isExpired(" + testDate + ")");
+        }
 
-        //	dont even bother trying to test if the accountExpirationDate is null
+        // dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {
             return false;
         }
-        
-        //	remove any time-components from the testDate
+
+        // remove any time-components from the testDate
         testDate = DateUtils.truncate(testDate, Calendar.DAY_OF_MONTH);
-        
-        //	get a calendar reference to the Account Expiration 
+
+        // get a calendar reference to the Account Expiration
         // date, and remove any time components
         Calendar acctDate = Calendar.getInstance();
         acctDate.setTime(this.accountExpirationDate);
         acctDate = DateUtils.truncate(acctDate, Calendar.DAY_OF_MONTH);
-        
-        //	if the Account Expiration Date is before the testDate
+
+        // if the Account Expiration Date is before the testDate
         if (acctDate.before(testDate)) {
             return true;
         }
@@ -508,36 +504,34 @@ public class Account extends BusinessObjectBase implements AccountIntf {
             return false;
         }
     }
-    
-     /**
-      * 
-      * This method determines whether the account is expired or not.
-      * 
-      * Note that if Expiration Date is the same date as testDate, then this 
-      * will return false.  It will only return true if the account 
-      * expiration date is one day earlier than testDate or earlier.
-      * 
-      * Note that this logic ignores all time components when doing the 
-      * comparison.  It only does the before/after comparison based on 
-      * date values, not time-values.
-      * 
-      * @param testDate - java.util.Date instance with the date to test the Account's Expiration Date against.  
-      *                   This is most commonly set to today's date.
-      * @return - true or false based on the logic outlined above
-      * 
-      */
+
+    /**
+     * 
+     * This method determines whether the account is expired or not.
+     * 
+     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
+     * account expiration date is one day earlier than testDate or earlier.
+     * 
+     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
+     * date values, not time-values.
+     * 
+     * @param testDate - java.util.Date instance with the date to test the Account's Expiration Date against. This is most commonly
+     *        set to today's date.
+     * @return - true or false based on the logic outlined above
+     * 
+     */
     public boolean isExpired(Date testDate) {
 
-        //	dont even bother trying to test if the accountExpirationDate is null
+        // dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {
             return false;
         }
-        
+
         Calendar acctDate = Calendar.getInstance();
         acctDate.setTime(testDate);
         return isExpired(acctDate);
     }
-    
+
     /**
      * Gets the awardPeriodEndYear attribute.
      * 
@@ -747,7 +741,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     public boolean isPendingAcctSufficientFundsIndicator() {
         return pendingAcctSufficientFundsIndicator;
     }
-    
+
     /**
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
@@ -1240,7 +1234,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     public void setProgram(Program program) {
         this.program = program;
     }
-    
+
     /**
      * @return Returns the accountGuideline.
      */
@@ -1259,21 +1253,23 @@ public class Account extends BusinessObjectBase implements AccountIntf {
 
 
     /**
-     * Gets the accountDescription attribute. 
+     * Gets the accountDescription attribute.
+     * 
      * @return Returns the accountDescription.
      */
     public AccountDescription getAccountDescription() {
         return accountDescription;
     }
-    
+
     /**
      * Sets the accountDescription attribute value.
+     * 
      * @param accountDescription The accountDescription to set.
      */
     public void setAccountDescription(AccountDescription accountDescription) {
         this.accountDescription = accountDescription;
     }
-    
+
     /**
      * @return Returns the subAccounts.
      */
@@ -1601,47 +1597,53 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     }
 
     /**
-     * Gets the postalZipCode attribute. 
+     * Gets the postalZipCode attribute.
+     * 
      * @return Returns the postalZipCode.
      */
     public PostalZipCode getPostalZipCode() {
         return postalZipCode;
     }
-    
+
     /**
      * Sets the postalZipCode attribute value.
+     * 
      * @param postalZipCode The postalZipCode to set.
      */
     public void setPostalZipCode(PostalZipCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
-    
+
     /**
-     * Gets the budgetRecordingLevel attribute. 
+     * Gets the budgetRecordingLevel attribute.
+     * 
      * @return Returns the budgetRecordingLevel.
      */
     public BudgetRecordingLevelCode getBudgetRecordingLevel() {
         return budgetRecordingLevel;
     }
-    
+
     /**
      * Sets the budgetRecordingLevel attribute value.
+     * 
      * @param budgetRecordingLevel The budgetRecordingLevel to set.
      */
     public void setBudgetRecordingLevel(BudgetRecordingLevelCode budgetRecordingLevel) {
         this.budgetRecordingLevel = budgetRecordingLevel;
     }
-    
+
     /**
-     * Gets the sufficientFundsCode attribute. 
+     * Gets the sufficientFundsCode attribute.
+     * 
      * @return Returns the sufficientFundsCode.
      */
     public SufficientFundsCode getSufficientFundsCode() {
         return sufficientFundsCode;
     }
-    
+
     /**
      * Sets the sufficientFundsCode attribute value.
+     * 
      * @param sufficientFundsCode The sufficientFundsCode to set.
      */
     public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
@@ -1660,8 +1662,8 @@ public class Account extends BusinessObjectBase implements AccountIntf {
      */
     public void setProgramCode(String programCode) {
         this.programCode = programCode;
-    }    
-    
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -1722,90 +1724,115 @@ public class Account extends BusinessObjectBase implements AccountIntf {
         String key = getChartOfAccountsCode() + ":" + getAccountNumber();
         return key;
     }
+
     /**
-     * Gets the dummy attribute. 
+     * Gets the dummy attribute.
+     * 
      * @return Returns the dummy.
      */
-   
+
     /**
-     * Gets the accountResponsibilitySection attribute. 
+     * Gets the accountResponsibilitySection attribute.
+     * 
      * @return Returns the accountResponsibilitySection.
      */
     public String getAccountResponsibilitySection() {
         return accountResponsibilitySection;
     }
+
     /**
      * Sets the accountResponsibilitySection attribute value.
+     * 
      * @param accountResponsibilitySection The accountResponsibilitySection to set.
      */
     public void setAccountResponsibilitySection(String accountResponsibilitySection) {
         this.accountResponsibilitySection = accountResponsibilitySection;
     }
+
     /**
-     * Gets the contractsAndGrantsSection attribute. 
+     * Gets the contractsAndGrantsSection attribute.
+     * 
      * @return Returns the contractsAndGrantsSection.
      */
     public String getContractsAndGrantsSection() {
         return contractsAndGrantsSection;
     }
+
     /**
      * Sets the contractsAndGrantsSection attribute value.
+     * 
      * @param contractsAndGrantsSection The contractsAndGrantsSection to set.
      */
     public void setContractsAndGrantsSection(String contractsAndGrantsSection) {
         this.contractsAndGrantsSection = contractsAndGrantsSection;
     }
+
     /**
-     * Gets the accountDescriptionSection attribute. 
+     * Gets the accountDescriptionSection attribute.
+     * 
      * @return Returns the accountDescriptionSection.
      */
     public String getAccountDescriptionSection() {
         return accountDescriptionSection;
     }
+
     /**
      * Sets the accountDescriptionSection attribute value.
+     * 
      * @param accountDescriptionSection The accountDescriptionSection to set.
      */
     public void setAccountDescriptionSection(String accountDescriptionSection) {
         this.accountDescriptionSection = accountDescriptionSection;
     }
+
     /**
-     * Gets the guidelinesAndPurposeSection attribute. 
+     * Gets the guidelinesAndPurposeSection attribute.
+     * 
      * @return Returns the guidelinesAndPurposeSection.
      */
     public String getGuidelinesAndPurposeSection() {
         return guidelinesAndPurposeSection;
     }
+
     /**
      * Sets the guidelinesAndPurposeSection attribute value.
+     * 
      * @param guidelinesAndPurposeSection The guidelinesAndPurposeSection to set.
      */
     public void setGuidelinesAndPurposeSection(String guidelinesAndPurposeSection) {
         this.guidelinesAndPurposeSection = guidelinesAndPurposeSection;
     }
+
     /**
-     * Gets the accountResponsibilitySectionBlank attribute. 
+     * Gets the accountResponsibilitySectionBlank attribute.
+     * 
      * @return Returns the accountResponsibilitySectionBlank.
      */
     public String getAccountResponsibilitySectionBlank() {
         return accountResponsibilitySectionBlank;
     }
+
     /**
-     * Gets the contractsAndGrantsSectionBlank attribute. 
+     * Gets the contractsAndGrantsSectionBlank attribute.
+     * 
      * @return Returns the contractsAndGrantsSectionBlank.
      */
     public String getContractsAndGrantsSectionBlank() {
         return contractsAndGrantsSectionBlank;
     }
+
     /**
-     * Gets the accountDescriptionSectionBlank attribute. 
+     * Gets the accountDescriptionSectionBlank attribute.
+     * 
      * @return Returns the accountDescriptionSectionBlank.
      */
     public String getAccountDescriptionSectionBlank() {
         return accountDescriptionSectionBlank;
     }
+
     /**
-     * Gets the guidelinesAndPurposeSectionBlank attribute. 
+     * Gets the guidelinesAndPurposeSectionBlank attribute.
+     * 
      * @return Returns the guidelinesAndPurposeSectionBlank.
      */
     public String getGuidelinesAndPurposeSectionBlank() {
@@ -1813,7 +1840,8 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     }
 
     /**
-     * Gets the endowmentIncomeChartOfAccounts attribute. 
+     * Gets the endowmentIncomeChartOfAccounts attribute.
+     * 
      * @return Returns the endowmentIncomeChartOfAccounts.
      */
     public Chart getEndowmentIncomeChartOfAccounts() {
@@ -1822,6 +1850,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
 
     /**
      * Sets the endowmentIncomeChartOfAccounts attribute value.
+     * 
      * @param endowmentIncomeChartOfAccounts The endowmentIncomeChartOfAccounts to set.
      */
     public void setEndowmentIncomeChartOfAccounts(Chart endowmentIncomeChartOfAccounts) {
@@ -1835,26 +1864,23 @@ public class Account extends BusinessObjectBase implements AccountIntf {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
             BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
-            Account originalAcct = (Account)boService.retrieve( this );
-            
-            if ( originalAcct != null ) { 
-                if ( !originalAcct.getSufficientFundsCode().equals( getSufficientFundsCode() )
-                        || originalAcct.isExtrnlFinEncumSufficntFndIndicator() != isExtrnlFinEncumSufficntFndIndicator() 
-                        || originalAcct.isIntrnlFinEncumSufficntFndIndicator() != isIntrnlFinEncumSufficntFndIndicator()
-                        || originalAcct.isPendingAcctSufficientFundsIndicator() != isPendingAcctSufficientFundsIndicator()
-                        || originalAcct.isFinPreencumSufficientFundIndicator() != isFinPreencumSufficientFundIndicator() ) {
+            Account originalAcct = (Account) boService.retrieve(this);
+
+            if (originalAcct != null) {
+                if (!originalAcct.getSufficientFundsCode().equals(getSufficientFundsCode()) || originalAcct.isExtrnlFinEncumSufficntFndIndicator() != isExtrnlFinEncumSufficntFndIndicator() || originalAcct.isIntrnlFinEncumSufficntFndIndicator() != isIntrnlFinEncumSufficntFndIndicator() || originalAcct.isPendingAcctSufficientFundsIndicator() != isPendingAcctSufficientFundsIndicator() || originalAcct.isFinPreencumSufficientFundIndicator() != isFinPreencumSufficientFundIndicator()) {
                     SufficientFundRebuild sfr = new SufficientFundRebuild();
-                    sfr.setAccountFinancialObjectTypeCode( SufficientFundRebuild.REBUILD_ACCOUNT );
-                    sfr.setChartOfAccountsCode( getChartOfAccountsCode() );
-                    sfr.setAccountNumberFinancialObjectCode( getAccountNumber() );
-                    if ( boService.retrieve( sfr ) == null ) {
-                        persistenceBroker.store( sfr );
+                    sfr.setAccountFinancialObjectTypeCode(SufficientFundRebuild.REBUILD_ACCOUNT);
+                    sfr.setChartOfAccountsCode(getChartOfAccountsCode());
+                    sfr.setAccountNumberFinancialObjectCode(getAccountNumber());
+                    if (boService.retrieve(sfr) == null) {
+                        persistenceBroker.store(sfr);
                     }
                 }
             }
-        } catch ( Exception ex ) {
-            LOG.error( "Problem updating sufficient funds rebuild table: ", ex );            
+        }
+        catch (Exception ex) {
+            LOG.error("Problem updating sufficient funds rebuild table: ", ex);
         }
     }
-    
+
 }

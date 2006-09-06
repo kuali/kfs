@@ -29,13 +29,13 @@ package org.kuali.module.financial.rules;
  */
 public class BudgetAdjustmentDocumentRuleConstants {
     public static final String BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.BudgetAdjustmentDocument";
-   
+
     public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
     public static final String RESTRICTED_OBJECT_CODES = "RestrictedObjectCodes";
-    
+
     public static final String GENERATE_TOF_GLPE_ENTRIES_PARM_NM = "GenerateTransferGLPEIndicator";
     public static final String TRANSFER_OBJECT_CODE_PARM_NM = "TransferObjectCode";
-    
+
     public static final String MONTH_1_PERIOD_CODE = "01";
     public static final String MONTH_2_PERIOD_CODE = "02";
     public static final String MONTH_3_PERIOD_CODE = "03";
@@ -47,5 +47,5 @@ public class BudgetAdjustmentDocumentRuleConstants {
     public static final String MONTH_9_PERIOD_CODE = "09";
     public static final String MONTH_10_PERIOD_CODE = "10";
     public static final String MONTH_11_PERIOD_CODE = "11";
-    public static final String MONTH_12_PERIOD_CODE = "12";    
+    public static final String MONTH_12_PERIOD_CODE = "12";
 }

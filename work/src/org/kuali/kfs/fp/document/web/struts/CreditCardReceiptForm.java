@@ -68,10 +68,10 @@ public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
     public void setNewCreditCardReceipt(CreditCardDetail newCreditCardReceipt) {
         this.newCreditCardReceipt = newCreditCardReceipt;
     }
-    
+
     /**
-     * Overrides the parent to call super.populate and then tells each line to check the associated data dictionary
-     * and modify the values entered to follow all the attributes set for the values of the accounting line.
+     * Overrides the parent to call super.populate and then tells each line to check the associated data dictionary and modify the
+     * values entered to follow all the attributes set for the values of the accounting line.
      * 
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -82,11 +82,11 @@ public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
         //
         // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
         SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(getNewCreditCardReceipt());
-        
+
         List<CreditCardDetail> creditCardReceipts = getCreditCardReceiptDocument().getCreditCardReceipts();
         for (CreditCardDetail detail : creditCardReceipts) {
             SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(detail);
-       }
+        }
 
     }
 }

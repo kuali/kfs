@@ -65,7 +65,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private AccountService accountService;
     private OriginationCodeService originationCodeService;
     private DateTimeService dateTimeService;
-    
+
     public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     private static String[] debitOrCredit = new String[] { Constants.GL_DEBIT_CODE, Constants.GL_CREDIT_CODE };
@@ -83,25 +83,25 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         UniversityDate today = null;
 
-        if ( entry.getUniversityFiscalYear() == null ) {
+        if (entry.getUniversityFiscalYear() == null) {
             today = dateTimeService.getCurrentUniversityDate();
             entry.setUniversityFiscalYear(today.getUniversityFiscalYear());
         }
 
-        if ( entry.getUniversityFiscalPeriodCode() == null ) {
-            if ( today == null ) {
-                today = dateTimeService.getCurrentUniversityDate();                
+        if (entry.getUniversityFiscalPeriodCode() == null) {
+            if (today == null) {
+                today = dateTimeService.getCurrentUniversityDate();
             }
             entry.setUniversityFiscalPeriodCode(today.getUniversityFiscalAccountingPeriod());
         }
 
-        if ( (entry.getSubAccountNumber() == null) || ( ! StringUtils.hasText(entry.getSubAccountNumber())) ) {
+        if ((entry.getSubAccountNumber() == null) || (!StringUtils.hasText(entry.getSubAccountNumber()))) {
             entry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         }
-        if ( (entry.getFinancialSubObjectCode() == null) || (! StringUtils.hasText(entry.getFinancialSubObjectCode())) ) {
+        if ((entry.getFinancialSubObjectCode() == null) || (!StringUtils.hasText(entry.getFinancialSubObjectCode()))) {
             entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
-        if ( (entry.getProjectCode() == null) || (! StringUtils.hasText(entry.getProjectCode())) ) {
+        if ((entry.getProjectCode() == null) || (!StringUtils.hasText(entry.getProjectCode()))) {
             entry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         }
     }
@@ -258,7 +258,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
 
-        if ( kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE).equals(originEntry.getFinancialDocumentTypeCode()) ) {
+        if (kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE).equals(originEntry.getFinancialDocumentTypeCode())) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             workingEntry.setAccount(originEntry.getAccount());
             return null;
@@ -266,7 +266,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Account account = originEntry.getAccount();
 
-        if ((account.getAccountExpirationDate() == null) && ! account.isAccountClosedIndicator()) {
+        if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
             // account is neither closed nor expired
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             workingEntry.setAccount(originEntry.getAccount());
@@ -278,7 +278,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + account.getChartOfAccountsCode() + "-" + account.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
 
-        if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(originEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(originEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && ! account.isAccountClosedIndicator()) {
+        if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(originEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(originEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             workingEntry.setAccount(originEntry.getAccount());
             return null;
@@ -371,7 +371,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     private void adjustAccountIfContractsAndGrants(Account account) {
-        if (account.isInCg() && ( ! account.isAccountClosedIndicator())) {
+        if (account.isInCg() && (!account.isAccountClosedIndicator())) {
             Calendar tempCal = Calendar.getInstance();
             tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
             tempCal.add(Calendar.MONTH, 3); // TODO: make this configurable
@@ -589,7 +589,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateObjectCode(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateObjectCode() started");
 
-        if ( ! StringUtils.hasText(originEntry.getFinancialObjectCode()) ) {
+        if (!StringUtils.hasText(originEntry.getFinancialObjectCode())) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_EMPTY), Message.TYPE_FATAL);
         }
 
@@ -613,7 +613,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateObjectType(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateObjectType() started");
 
-        if ( ! StringUtils.hasText(originEntry.getFinancialObjectTypeCode()) ) {
+        if (!StringUtils.hasText(originEntry.getFinancialObjectTypeCode())) {
             // If not specified, use the object type from the object code
             workingEntry.setFinancialObjectTypeCode(workingEntry.getFinancialObject().getFinancialObjectTypeCode());
             workingEntry.setObjectType(workingEntry.getFinancialObject().getFinancialObjectType());
@@ -680,7 +680,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     else {
                         // it's a VALID non-budget transaction
                         if (!originEntry.isCredit() && !originEntry.isDebit()) { // entries requiring an offset must be either a
-                                                                                    // debit or a credit
+                            // debit or a credit
                             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DC_INDICATOR_MUST_BE_D_OR_C) + " (" + originEntry.getTransactionDebitCreditCode() + ")", Message.TYPE_FATAL);
                         }
                         else {
@@ -709,12 +709,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
         else {
-            // balance type IS empty.  We can't set it if the year isn't set
-            if ( workingEntry.getOption() != null ) {
+            // balance type IS empty. We can't set it if the year isn't set
+            if (workingEntry.getOption() != null) {
                 workingEntry.setFinancialBalanceTypeCode(workingEntry.getOption().getActualFinancialBalanceTypeCd());
                 workingEntry.setBalanceType(workingEntry.getOption().getActualFinancialBalanceType());
-            } else {
-                return new Message("Unable to set balance type code when year is unknown: " + workingEntry.getUniversityFiscalYear(),Message.TYPE_FATAL);
+            }
+            else {
+                return new Message("Unable to set balance type code when year is unknown: " + workingEntry.getUniversityFiscalYear(), Message.TYPE_FATAL);
             }
         }
         return null;
@@ -890,6 +891,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
-    
+
+
 }

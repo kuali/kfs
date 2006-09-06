@@ -76,6 +76,6 @@ public class EntryInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     @Override
-    protected void addMoreParameters(Properties parameter, String attributeName) {        
+    protected void addMoreParameters(Properties parameter, String attributeName) {
     }
 }

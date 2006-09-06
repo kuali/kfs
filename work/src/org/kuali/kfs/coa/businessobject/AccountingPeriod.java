@@ -212,7 +212,7 @@ public class AccountingPeriod extends BusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", ""+this.universityFiscalYear);
+        m.put("universityFiscalYear", "" + this.universityFiscalYear);
         m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
         return m;
     }

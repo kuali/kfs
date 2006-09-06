@@ -31,9 +31,10 @@ public interface CodeDescriptionFormatter {
      * Example: Codes A, B, C may be formatted to "A, descA; B, descB; and C; descC"
      * 
      * @param values
-     * @param startConjunction a conjunction or phrase to be used for the beginning of the series (e.g. "either", "neither", "any 3 of" etc.)
+     * @param startConjunction a conjunction or phrase to be used for the beginning of the series (e.g. "either", "neither", "any 3
+     *        of" etc.)
      * @param endConjunction a conjunction to be used for the beginning of the series (e.g. "and", "or", "and/or")
      * @return
      */
-    public String getFormattedStringWithDescriptions( Set values, String startConjunction, String endConjunction );
+    public String getFormattedStringWithDescriptions(Set values, String startConjunction, String endConjunction);
 }

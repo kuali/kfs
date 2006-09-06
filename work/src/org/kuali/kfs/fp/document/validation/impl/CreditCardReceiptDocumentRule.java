@@ -110,7 +110,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
 
-        if ( isValid ) {
+        if (isValid) {
             isValid &= validateAccountingLineTotal((CashReceiptFamilyBase) document);
             isValid &= !CreditCardReceiptDocumentRuleUtil.areCashTotalsInvalid((CreditCardReceiptDocument) document);
         }

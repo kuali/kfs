@@ -195,7 +195,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         if (financialDocumentStatusCode.equals(CashReceipt.VERIFIED)) {
             financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }
-        else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(CashReceipt.FINAL) ) {
+        else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(CashReceipt.FINAL)) {
             CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(crd.getFinancialDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();

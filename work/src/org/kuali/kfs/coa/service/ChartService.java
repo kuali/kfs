@@ -41,7 +41,7 @@ public interface ChartService {
      * @return
      */
     public Chart getByPrimaryId(String chartOfAccountsCode);
-    
+
     public Chart getUniversityChart();
 
     /**
@@ -57,7 +57,7 @@ public interface ChartService {
      * 
      * @return
      */
-    public Map<String,String> getReportsToHierarchy();
+    public Map<String, String> getReportsToHierarchy();
 
     /**
      * 

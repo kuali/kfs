@@ -43,7 +43,7 @@ public class GlSummary {
     private KualiDecimal month12;
     private KualiDecimal month13;
 
-    public GlSummary() {        
+    public GlSummary() {
         beginningBalance = KualiDecimal.ZERO;
         cgBeginningBalance = KualiDecimal.ZERO;
         annualBalance = KualiDecimal.ZERO;
@@ -63,24 +63,24 @@ public class GlSummary {
     }
 
     public GlSummary(Object[] data) {
-        fundGroup = (String)data[0];
+        fundGroup = (String) data[0];
 
-        setAnnualBalance( (KualiDecimal)data[1] );
-        setBeginningBalance( (KualiDecimal)data[2] );
-        setCgBeginningBalance( (KualiDecimal)data[3] );
-        setMonth1( (KualiDecimal)data[4] );
-        setMonth2( (KualiDecimal)data[5] );
-        setMonth3( (KualiDecimal)data[6] );
-        setMonth4( (KualiDecimal)data[7] );
-        setMonth5( (KualiDecimal)data[8] );
-        setMonth6( (KualiDecimal)data[9] );
-        setMonth7( (KualiDecimal)data[10] );
-        setMonth8( (KualiDecimal)data[11] );
-        setMonth9( (KualiDecimal)data[12] );
-        setMonth10( (KualiDecimal)data[13] );
-        setMonth11( (KualiDecimal)data[14] );
-        setMonth12( (KualiDecimal)data[15] );
-        setMonth13( (KualiDecimal)data[16] );
+        setAnnualBalance((KualiDecimal) data[1]);
+        setBeginningBalance((KualiDecimal) data[2]);
+        setCgBeginningBalance((KualiDecimal) data[3]);
+        setMonth1((KualiDecimal) data[4]);
+        setMonth2((KualiDecimal) data[5]);
+        setMonth3((KualiDecimal) data[6]);
+        setMonth4((KualiDecimal) data[7]);
+        setMonth5((KualiDecimal) data[8]);
+        setMonth6((KualiDecimal) data[9]);
+        setMonth7((KualiDecimal) data[10]);
+        setMonth8((KualiDecimal) data[11]);
+        setMonth9((KualiDecimal) data[12]);
+        setMonth10((KualiDecimal) data[13]);
+        setMonth11((KualiDecimal) data[14]);
+        setMonth12((KualiDecimal) data[15]);
+        setMonth13((KualiDecimal) data[16]);
     }
 
     public void add(GlSummary sum) {
@@ -132,99 +132,130 @@ public class GlSummary {
     public KualiDecimal getAnnualBalance() {
         return annualBalance;
     }
+
     public void setAnnualBalance(KualiDecimal annualBalance) {
         this.annualBalance = annualBalance;
     }
+
     public KualiDecimal getBeginningBalance() {
         return beginningBalance;
     }
+
     public void setBeginningBalance(KualiDecimal beginningBalance) {
         this.beginningBalance = beginningBalance;
     }
+
     public String getFundGroup() {
         return fundGroup;
     }
+
     public void setFundGroup(String fundGroup) {
         this.fundGroup = fundGroup;
     }
+
     public KualiDecimal getMonth1() {
         return month1;
     }
+
     public void setMonth1(KualiDecimal month1) {
         this.month1 = month1;
     }
+
     public KualiDecimal getMonth10() {
         return month10;
     }
+
     public void setMonth10(KualiDecimal month10) {
         this.month10 = month10;
     }
+
     public KualiDecimal getMonth11() {
         return month11;
     }
+
     public void setMonth11(KualiDecimal month11) {
         this.month11 = month11;
     }
+
     public KualiDecimal getMonth12() {
         return month12;
     }
+
     public void setMonth12(KualiDecimal month12) {
         this.month12 = month12;
     }
+
     public KualiDecimal getMonth13() {
         return month13;
     }
+
     public void setMonth13(KualiDecimal month13) {
         this.month13 = month13;
     }
+
     public KualiDecimal getMonth2() {
         return month2;
     }
+
     public void setMonth2(KualiDecimal month2) {
         this.month2 = month2;
     }
+
     public KualiDecimal getMonth3() {
         return month3;
     }
+
     public void setMonth3(KualiDecimal month3) {
         this.month3 = month3;
     }
+
     public KualiDecimal getMonth4() {
         return month4;
     }
+
     public void setMonth4(KualiDecimal month4) {
         this.month4 = month4;
     }
+
     public KualiDecimal getMonth5() {
         return month5;
     }
+
     public void setMonth5(KualiDecimal month5) {
         this.month5 = month5;
     }
+
     public KualiDecimal getMonth6() {
         return month6;
     }
+
     public void setMonth6(KualiDecimal month6) {
         this.month6 = month6;
     }
+
     public KualiDecimal getMonth7() {
         return month7;
     }
+
     public void setMonth7(KualiDecimal month7) {
         this.month7 = month7;
     }
+
     public KualiDecimal getMonth8() {
         return month8;
     }
+
     public void setMonth8(KualiDecimal month8) {
         this.month8 = month8;
     }
+
     public KualiDecimal getMonth9() {
         return month9;
     }
+
     public void setMonth9(KualiDecimal month9) {
         this.month9 = month9;
     }
 
-    
+
 }

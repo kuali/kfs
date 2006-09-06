@@ -37,9 +37,8 @@ import org.kuali.module.gl.util.FatalErrorException;
 import org.kuali.module.gl.util.ObjectHelper;
 
 /**
- * A helper class which contains the more complicated logic involved in the year
- * end encumbrance closing process. This logic is likely going to need to be
- * modular which is why it's in its own class.
+ * A helper class which contains the more complicated logic involved in the year end encumbrance closing process. This logic is
+ * likely going to need to be modular which is why it's in its own class.
  * 
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
@@ -82,8 +81,7 @@ public class EncumbranceClosingRuleHelper {
     }
 
     /**
-     * Determine whether or not an encumbrance should be carried forward from
-     * one fiscal year to the next.
+     * Determine whether or not an encumbrance should be carried forward from one fiscal year to the next.
      * 
      * @param encumbrance
      * @return true if the encumbrance should be rolled forward from the closing fiscal year to the opening fiscal year.
@@ -129,7 +127,7 @@ public class EncumbranceClosingRuleHelper {
                 return false;
 
             }
-            
+
             // the sub fund group must exist for the prior year account and the
             // encumbrance must not be closed.
             SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId(priorYearAccount.getSubFundGroupCode());
@@ -154,9 +152,8 @@ public class EncumbranceClosingRuleHelper {
      * Determine whether or not the encumbrance has been fully relieved.
      * 
      * @param encumbrance
-     * @return true if the amount closed on the encumbrance is NOT equal to the
-     * amount of the encumbrance itself, e.g. if the encumbrance has not yet
-     * been paid off.
+     * @return true if the amount closed on the encumbrance is NOT equal to the amount of the encumbrance itself, e.g. if the
+     *         encumbrance has not yet been paid off.
      */
     private boolean isEncumbranceClosed(Encumbrance encumbrance) {
 
@@ -165,7 +162,7 @@ public class EncumbranceClosingRuleHelper {
             return false;
 
         }
-        
+
         return true;
 
     }
@@ -184,7 +181,7 @@ public class EncumbranceClosingRuleHelper {
 
         PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 
-        // the sub fund group for the prior year account must exist. 
+        // the sub fund group for the prior year account must exist.
         String subFundGroupCode = null;
         if (null != priorYearAccount) {
 
@@ -192,14 +189,14 @@ public class EncumbranceClosingRuleHelper {
 
         }
         else {
-            
+
             // this message was carried over from the cobol.
             throw new FatalErrorException("ERROR ACCESSING PRIOR YR ACCT TABLE FOR " + encumbrance.getAccountNumber());
-            
+
         }
-        
+
         SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId(subFundGroupCode);
-        
+
         if (null != subFundGroup) {
 
             if (!Constants.CONTRACTS_AND_GRANTS.equals(subFundGroup.getFundGroupCode())) {
@@ -214,7 +211,7 @@ public class EncumbranceClosingRuleHelper {
             throw new FatalErrorException("ERROR ACCESSING SUB FUND GROUP TABLE FOR " + subFundGroupCode);
 
         }
-        
+
         // I think this is redundant to the statement a few lines above here.
         // In any case, the sub fund group must not be contracts and grants.
         if (!Constants.CONTRACTS_AND_GRANTS.equals(subFundGroup.getFundGroupCode())) {
@@ -222,12 +219,11 @@ public class EncumbranceClosingRuleHelper {
             return false;
 
         }
-        
-        String[] expenseObjectCodeTypes = 
-            kualiConfigurationService.getApplicationParameterValues("SYSTEM", "ExpenseObjectTypeCodes");
-        String[] encumbranceBalanceTypeCodes = 
-            kualiConfigurationService.getApplicationParameterValues("Kuali.GeneralLedger.EncumbranceClosing", "ExternalInternalAndPreEncumbranceBalanceTypeCodes");
-        // the object type code must be an expense and the encumbrance balance type code must correspond to an internal, external or pre-encumbrance
+
+        String[] expenseObjectCodeTypes = kualiConfigurationService.getApplicationParameterValues("SYSTEM", "ExpenseObjectTypeCodes");
+        String[] encumbranceBalanceTypeCodes = kualiConfigurationService.getApplicationParameterValues("Kuali.GeneralLedger.EncumbranceClosing", "ExternalInternalAndPreEncumbranceBalanceTypeCodes");
+        // the object type code must be an expense and the encumbrance balance type code must correspond to an internal, external or
+        // pre-encumbrance
         if (!(ArrayUtils.contains(expenseObjectCodeTypes, objectTypeCode) && ArrayUtils.contains(encumbranceBalanceTypeCodes, encumbrance.getBalanceTypeCode()))) {
 
             return false;
@@ -255,5 +251,5 @@ public class EncumbranceClosingRuleHelper {
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-    
+
 }

@@ -45,10 +45,9 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This method checks whether the set of Account Change Detail records on this document 
-     * all are under the same Chart of Accounts.  It will set the appropriate field error if 
-     * it did fail, and return the result.
-     *  
+     * This method checks whether the set of Account Change Detail records on this document all are under the same Chart of
+     * Accounts. It will set the appropriate field error if it did fail, and return the result.
+     * 
      * @param accountChangeDocument
      * @return True if the test passed with no errors, False if any errors occurred.
      * 
@@ -61,31 +60,30 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
         return result.success;
     }
-    
+
     /**
      * 
-     * This method checks whether the set of Account Change Detail records on this document 
-     * all are under the same Chart of Accounts.  It will return a failed CheckOnlyOneChartResult 
-     * if so.
+     * This method checks whether the set of Account Change Detail records on this document all are under the same Chart of
+     * Accounts. It will return a failed CheckOnlyOneChartResult if so.
      * 
-     * Note that this method doesnt actually set any errors, it just returns whether or not 
-     * the test succeeded, and where it failed if it failed.
+     * Note that this method doesnt actually set any errors, it just returns whether or not the test succeeded, and where it failed
+     * if it failed.
      * 
      * @param accountChangeDocument The popualted accountChangeDocument to test.
-     * @return A populated CheckOnlyOneChartResult object.  This will contain whether the test 
-     *         succeeded or failed, and if failed, what lines the failures occurred on.
-     *         
+     * @return A populated CheckOnlyOneChartResult object. This will contain whether the test succeeded or failed, and if failed,
+     *         what lines the failures occurred on.
+     * 
      */
     protected CheckOnlyOneChartResult checkOnlyOneChart(List<AccountChangeDetail> accountChangeDetails) {
-        //  if there is not enough information to do the test, then exit happily with no failure
+        // if there is not enough information to do the test, then exit happily with no failure
         if (accountChangeDetails == null) {
             return new CheckOnlyOneChartResult(true);
         }
         if (accountChangeDetails.isEmpty()) {
             return new CheckOnlyOneChartResult(true);
         }
-        
-        //  test to see if there is more than one chart listed, ignores blank chartcodes
+
+        // test to see if there is more than one chart listed, ignores blank chartcodes
         int compareLineNumber = 0;
         int firstChartLineNumber = 0;
         String firstChart = "";
@@ -110,17 +108,16 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This class is used internally to represent the result of the 
-     * CheckOnlyOneChart method.
+     * This class is used internally to represent the result of the CheckOnlyOneChart method.
      * 
      * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
      */
     protected class CheckOnlyOneChartResult {
-        
+
         public int firstLineNumber;
         public int failedLineNumber;
         public boolean success;
-        
+
         /**
          * 
          * Constructs a AccountChangeRule.java.
@@ -130,20 +127,22 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
             failedLineNumber = -1;
             success = true;
         }
-        
+
         /**
          * 
          * Constructs a AccountChangeRule.java.
+         * 
          * @param success
          */
         public CheckOnlyOneChartResult(boolean success) {
             this();
             this.success = success;
         }
-        
+
         /**
          * 
          * Constructs a AccountChangeRule.java.
+         * 
          * @param success
          * @param firstLineNumber
          * @param failedLineNumber
@@ -155,41 +154,39 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
 
     }
-    
+
     /**
      * 
-     * This method tests whether the line being added has a different Chart of Accounts Code from any 
-     * of the existing lines.  It will set an Error and return false if this is the case.
+     * This method tests whether the line being added has a different Chart of Accounts Code from any of the existing lines. It will
+     * set an Error and return false if this is the case.
      * 
      * @param newAccountLine
      * @param accountChangeDocument
-     * @return True if the line being added has the exact same chart as all the existing lines, False 
-     * if not.
+     * @return True if the line being added has the exact same chart as all the existing lines, False if not.
      * 
      */
     protected boolean checkOnlyOneChartAddLineErrorWrapper(AccountChangeDetail newAccountLine, List<AccountChangeDetail> accountChangeDetails) {
         boolean success = checkOnlyOneChartAddLine(newAccountLine, accountChangeDetails);
         if (!success) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
-            //TODO: KULCOA-1091 Need to add this error to the add line, but this doesnt work right, as the 
-            //      error message comes out at the bottom, and the field doesnt get highlighted.
-            //putFieldError("newAccountChangeDetail.chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
+            // TODO: KULCOA-1091 Need to add this error to the add line, but this doesnt work right, as the
+            // error message comes out at the bottom, and the field doesnt get highlighted.
+            // putFieldError("newAccountChangeDetail.chartOfAccountsCode",
+            // KeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
         }
         return success;
     }
-    
+
     /**
      * 
-     * This method tests whether a new line can be added, based on the rule that says 
-     * all the accounts being used must belong to the same chart.  If the line being added 
-     * differs from any existing line's Chart code, it will return false.
+     * This method tests whether a new line can be added, based on the rule that says all the accounts being used must belong to the
+     * same chart. If the line being added differs from any existing line's Chart code, it will return false.
      * 
      * Note that this document does not actually set any errors, it just reports success or failure.
      * 
      * @param newAccountLine
      * @param accountChangeDocument
-     * @return True if no errors are found, False if the line being added has a different Chart 
-     * code than any of the existing lines.
+     * @return True if no errors are found, False if the line being added has a different Chart code than any of the existing lines.
      * 
      */
     protected boolean checkOnlyOneChartAddLine(AccountChangeDetail newAccountLine, List<AccountChangeDetail> accountChangeDetails) {
@@ -212,5 +209,5 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
-    
+
 }

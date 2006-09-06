@@ -37,7 +37,7 @@ public class EncumbranceForwardStep implements Step {
         super();
     }
 
-    /** 
+    /**
      * @see org.kuali.core.batch.Step#getName()
      */
     public String getName() {

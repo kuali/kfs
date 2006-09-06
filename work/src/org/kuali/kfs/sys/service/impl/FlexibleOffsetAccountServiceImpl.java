@@ -84,58 +84,58 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
     public boolean updateOffset(OriginEntry originEntry) {
         LOG.debug("setBusinessObjectService() started");
 
-        if ( ! getEnabled() ) {
+        if (!getEnabled()) {
             return false;
         }
-      String keyOfErrorMessage = "";
+        String keyOfErrorMessage = "";
 
-      Integer fiscalYear = originEntry.getUniversityFiscalYear();
-      String chartOfAccountsCode = originEntry.getChartOfAccountsCode();
-      String accountNumber = originEntry.getAccountNumber();
-        
-      String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
-      String documentTypeCode = originEntry.getFinancialDocumentTypeCode();
+        Integer fiscalYear = originEntry.getUniversityFiscalYear();
+        String chartOfAccountsCode = originEntry.getChartOfAccountsCode();
+        String accountNumber = originEntry.getAccountNumber();
 
-      // do nothing if there is no the offset account with the given chart of accounts code,
-      // account number and offset object code in the offset table.
-      OffsetAccount flexibleOffsetAccount = getByPrimaryIdIfEnabled(chartOfAccountsCode, accountNumber, originEntry.getFinancialObjectCode());
-      if (flexibleOffsetAccount == null) {
-          return false;
-      }
+        String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
+        String documentTypeCode = originEntry.getFinancialDocumentTypeCode();
 
-      String offsetAccountNumber = flexibleOffsetAccount.getFinancialOffsetAccountNumber();
-      String offsetChartOfAccountsCode = flexibleOffsetAccount.getFinancialOffsetChartOfAccountCode();
+        // do nothing if there is no the offset account with the given chart of accounts code,
+        // account number and offset object code in the offset table.
+        OffsetAccount flexibleOffsetAccount = getByPrimaryIdIfEnabled(chartOfAccountsCode, accountNumber, originEntry.getFinancialObjectCode());
+        if (flexibleOffsetAccount == null) {
+            return false;
+        }
 
-      Account offsetAccount = accountService.getByPrimaryId(offsetChartOfAccountsCode, offsetAccountNumber);
-      if ( offsetAccount == null ) {
-          throw new InvalidFlexibleOffsetException("Invalid Flexible Offset Account " + offsetChartOfAccountsCode + "-" + offsetAccountNumber);
-      }
+        String offsetAccountNumber = flexibleOffsetAccount.getFinancialOffsetAccountNumber();
+        String offsetChartOfAccountsCode = flexibleOffsetAccount.getFinancialOffsetChartOfAccountCode();
 
-      // Can't be closed and can't be expired
-      if ( offsetAccount.isAccountClosedIndicator() ) {
-          throw new InvalidFlexibleOffsetException("Closed Flexible Offset Account " + offsetChartOfAccountsCode + "-" + offsetAccountNumber);
-      }
-      if ( (offsetAccount.getAccountExpirationDate() != null) && isExpired(offsetAccount, dateTimeService.getCurrentCalendar()) ) {
-          throw new InvalidFlexibleOffsetException("Expired Flexible Offset Account " + offsetChartOfAccountsCode + "-" + offsetAccountNumber);          
-      }
+        Account offsetAccount = accountService.getByPrimaryId(offsetChartOfAccountsCode, offsetAccountNumber);
+        if (offsetAccount == null) {
+            throw new InvalidFlexibleOffsetException("Invalid Flexible Offset Account " + offsetChartOfAccountsCode + "-" + offsetAccountNumber);
+        }
 
-      // If the chart changes, make sure the object code is still valid
-      if ( ! chartOfAccountsCode.equals(offsetChartOfAccountsCode)) {
-          ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, offsetChartOfAccountsCode, originEntry.getFinancialObjectCode());
-          if (objectCode == null) {
-              throw new InvalidFlexibleOffsetException("Invalid Object Code for flexible offset " + fiscalYear + "-" + offsetChartOfAccountsCode + "-" + originEntry.getFinancialObjectCode());
-          }
-      }
+        // Can't be closed and can't be expired
+        if (offsetAccount.isAccountClosedIndicator()) {
+            throw new InvalidFlexibleOffsetException("Closed Flexible Offset Account " + offsetChartOfAccountsCode + "-" + offsetAccountNumber);
+        }
+        if ((offsetAccount.getAccountExpirationDate() != null) && isExpired(offsetAccount, dateTimeService.getCurrentCalendar())) {
+            throw new InvalidFlexibleOffsetException("Expired Flexible Offset Account " + offsetChartOfAccountsCode + "-" + offsetAccountNumber);
+        }
 
-      // replace the chart and account of the given transaction with those of the offset account obtained above
-      originEntry.setAccount(offsetAccount);
-      originEntry.setAccountNumber(offsetAccountNumber);
-      originEntry.setChartOfAccountsCode(offsetChartOfAccountsCode);
-        
-      // blank out the sub account and sub object since the account has been replaced
-      originEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
-      originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-      return true;
+        // If the chart changes, make sure the object code is still valid
+        if (!chartOfAccountsCode.equals(offsetChartOfAccountsCode)) {
+            ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, offsetChartOfAccountsCode, originEntry.getFinancialObjectCode());
+            if (objectCode == null) {
+                throw new InvalidFlexibleOffsetException("Invalid Object Code for flexible offset " + fiscalYear + "-" + offsetChartOfAccountsCode + "-" + originEntry.getFinancialObjectCode());
+            }
+        }
+
+        // replace the chart and account of the given transaction with those of the offset account obtained above
+        originEntry.setAccount(offsetAccount);
+        originEntry.setAccountNumber(offsetAccountNumber);
+        originEntry.setChartOfAccountsCode(offsetChartOfAccountsCode);
+
+        // blank out the sub account and sub object since the account has been replaced
+        originEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+        originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        return true;
     }
 
     private boolean isExpired(Account account, Calendar runCalendar) {

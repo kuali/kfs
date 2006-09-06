@@ -25,9 +25,8 @@ package org.kuali.module.financial.web.struts.form;
 import org.kuali.module.financial.document.YearEndGeneralErrorCorrectionDocument;
 
 /**
- * Struts form for <code>{@link YearEndGeneralErrorCorrectionDocument}</code>.  This class is 
- * mostly empty because it inherits everything it needs from its parent non-year end version.  
- * This is necessary to adhere to the transactional document framework.
+ * Struts form for <code>{@link YearEndGeneralErrorCorrectionDocument}</code>. This class is mostly empty because it inherits
+ * everything it needs from its parent non-year end version. This is necessary to adhere to the transactional document framework.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */

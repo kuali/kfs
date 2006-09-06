@@ -24,7 +24,7 @@ package org.kuali.module.financial.rules;
 
 /**
  * This class...
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBillingDocumentRuleConstants {

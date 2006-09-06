@@ -68,10 +68,10 @@ public class AdvanceDepositForm extends KualiTransactionalDocumentFormBase {
     public void setNewAdvanceDeposit(AdvanceDepositDetail newAdvanceDeposit) {
         this.newAdvanceDeposit = newAdvanceDeposit;
     }
-    
+
     /**
-     * Overrides the parent to call super.populate and then tells each line to check the associated data dictionary
-     * and modify the values entered to follow all the attributes set for the values of the accounting line.
+     * Overrides the parent to call super.populate and then tells each line to check the associated data dictionary and modify the
+     * values entered to follow all the attributes set for the values of the accounting line.
      * 
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -82,10 +82,10 @@ public class AdvanceDepositForm extends KualiTransactionalDocumentFormBase {
         //
         // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
         SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(getNewAdvanceDeposit());
-        
+
         List<AdvanceDepositDetail> advancedDeposits = getAdvanceDepositDocument().getAdvanceDeposits();
         for (AdvanceDepositDetail detail : advancedDeposits) {
             SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(detail);
-       }
+        }
     }
 }

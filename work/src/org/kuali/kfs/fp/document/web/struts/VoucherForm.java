@@ -103,9 +103,9 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
         super.populate(request);
 
         // populate the drop downs
-        if(Constants.RETURN_METHOD_TO_CALL.equals(getMethodToCall())){
-            String selectedPeriod =(StringUtils.defaultString( request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE))+StringUtils.defaultString(request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_YEAR)));
-            if(StringUtils.isNotBlank(selectedPeriod )){
+        if (Constants.RETURN_METHOD_TO_CALL.equals(getMethodToCall())) {
+            String selectedPeriod = (StringUtils.defaultString(request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE)) + StringUtils.defaultString(request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_YEAR)));
+            if (StringUtils.isNotBlank(selectedPeriod)) {
                 setSelectedAccountingPeriod(selectedPeriod);
             }
         }

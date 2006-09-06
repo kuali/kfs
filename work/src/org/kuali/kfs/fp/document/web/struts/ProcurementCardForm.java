@@ -85,7 +85,7 @@ public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
 
         setDocTypeName(discoverDocumentTypeName());
     }
-    
+
     /**
      * Constructs a ProcurmentCardForm instance and sets up the appropriately casted document. Also, the newSourceLine needs to be
      * the extended ProcurementCardSourceAccountingLine, for the additional trans line nbr.

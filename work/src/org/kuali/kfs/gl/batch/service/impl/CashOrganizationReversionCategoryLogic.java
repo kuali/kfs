@@ -30,7 +30,7 @@ public class CashOrganizationReversionCategoryLogic implements OrganizationRever
 
     static final public String NAME = "Cash";
     static final public String CODE = "CASH";
-    
+
     public boolean containsObjectCode(ObjectCode oc) {
         LOG.debug("containsObjectCode() started");
 

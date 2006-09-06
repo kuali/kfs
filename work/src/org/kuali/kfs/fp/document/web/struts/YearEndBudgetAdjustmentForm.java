@@ -25,8 +25,8 @@ package org.kuali.module.financial.web.struts.form;
 import org.kuali.module.financial.document.YearEndBudgetAdjustmentDocument;
 
 /**
- * form for <code>YearEndBudgetAdjustmentDocument</code> the only functional difference between the YearEnd version
- * and the non-yearEnd version of a document is the glpe's generation.
+ * form for <code>YearEndBudgetAdjustmentDocument</code> the only functional difference between the YearEnd version and the
+ * non-yearEnd version of a document is the glpe's generation.
  * 
  * @see org.kuali.module.financial.web.struts.form.BudgetAdjustmentForm
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)

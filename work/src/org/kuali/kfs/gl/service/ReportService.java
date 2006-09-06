@@ -67,7 +67,7 @@ public interface ReportService {
      * @param - scrubberReport Summary information
      * @param - scrubberReportErrors Map of transactions with errors or warnings
      */
-    public void generateBatchScrubberStatisticsReport(Date runDate, ScrubberReportData scrubberReport, Map<Transaction,List<Message>> scrubberReportErrors);
+    public void generateBatchScrubberStatisticsReport(Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors);
 
     /**
      * Scrubber Statistics report for online reports
@@ -76,9 +76,9 @@ public interface ReportService {
      * @param - scrubberReport Summary information
      * @param - scrubberReportErrors Map of transactions with errors or warnings
      */
-    public void generateOnlineScrubberStatisticsReport(Integer groupId,Date runDate, ScrubberReportData scrubberReport, Map<Transaction,List<Message>> scrubberReportErrors);
+    public void generateOnlineScrubberStatisticsReport(Integer groupId, Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors);
 
-    /** 
+    /**
      * Scrubber Demerger Statistics report
      * 
      * @param - runDate Run date of the report
@@ -100,7 +100,7 @@ public interface ReportService {
      * @param - runDate Run date of the report
      * @param errorGroup Group with error transactions
      */
-    public void generateScrubberRemovedTransactions(Date runDate,OriginEntryGroup errorGroup);
+    public void generateScrubberRemovedTransactions(Date runDate, OriginEntryGroup errorGroup);
 
     /**
      * GL Summary report
@@ -109,7 +109,7 @@ public interface ReportService {
      * @param yearOffset
      * @param balanceTypeCodes
      */
-    public void generateGlSummary(Date runDate,Options year,String reportType);
+    public void generateGlSummary(Date runDate, Options year, String reportType);
 
     /**
      * GL Encumbrance Summary report
@@ -118,7 +118,7 @@ public interface ReportService {
      * @param yearOffset
      * @param balanceTypeCodes
      */
-    public void generateGlEncumbranceSummary(Date runDate,Options year,String reportType);
+    public void generateGlEncumbranceSummary(Date runDate, Options year, String reportType);
 
     /**
      * Poster Statistics report
@@ -128,7 +128,7 @@ public interface ReportService {
      * @param reportErrors
      * @param mode
      */
-    public void generatePosterStatisticsReport(Date runDate, Map<String,Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction,List<Message>> reportErrors, int mode);
+    public void generatePosterStatisticsReport(Date runDate, Map<String, Integer> reportSummary, List<PostTransaction> transactionPosters, Map<Transaction, List<Message>> reportErrors, int mode);
 
     /**
      * Poster ICR Statistics report
@@ -140,7 +140,7 @@ public interface ReportService {
      * @param reportExpendTranKept
      * @param reportOriginEntryGenerated
      */
-    public void generatePosterIcrStatisticsReport(Date runDate, Map<Transaction,List<Message>> reportErrors, int reportExpendTranRetrieved,int reportExpendTranDeleted,int reportExpendTranKept,int reportOriginEntryGenerated);
+    public void generatePosterIcrStatisticsReport(Date runDate, Map<Transaction, List<Message>> reportErrors, int reportExpendTranRetrieved, int reportExpendTranDeleted, int reportExpendTranKept, int reportOriginEntryGenerated);
 
     /**
      * ICR Encumbrance Statistics report
@@ -149,7 +149,7 @@ public interface ReportService {
      * @param totalOfIcrEncumbrances
      * @param totalOfEntriesGenerated
      */
-    public void generateIcrEncumbranceStatisticsReport(Date runDate,int totalOfIcrEncumbrances,int totalOfEntriesGenerated);
+    public void generateIcrEncumbranceStatisticsReport(Date runDate, int totalOfIcrEncumbrances, int totalOfEntriesGenerated);
 
     /**
      * Main Poster Input Transaction Report
@@ -185,7 +185,7 @@ public interface ReportService {
 
     /**
      * Encumbrance Closing Report
-     *
+     * 
      * @param reportSummary
      * @param runDate
      */

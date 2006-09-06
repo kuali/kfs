@@ -49,6 +49,6 @@ public class OffsetDefinitionDaoOjb extends PersistenceBrokerDaoSupport implemen
         criteria.addEqualTo("financialDocumentTypeCode", financialDocumentTypeCode);
         criteria.addEqualTo("financialBalanceTypeCode", financialBalanceTypeCode);
 
-        return (OffsetDefinition)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(OffsetDefinition.class, criteria));
+        return (OffsetDefinition) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(OffsetDefinition.class, criteria));
     }
 }

@@ -76,7 +76,7 @@ public class CorrectionChangeGroupDaoOjb extends PersistenceBrokerDaoSupport imp
         Class clazz = CorrectionChangeGroup.class;
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
 
-        CorrectionChangeGroup group = (CorrectionChangeGroup)getPersistenceBrokerTemplate().getObjectByQuery(query);
+        CorrectionChangeGroup group = (CorrectionChangeGroup) getPersistenceBrokerTemplate().getObjectByQuery(query);
         return group;
     }
 

@@ -24,7 +24,7 @@ package org.kuali.module.financial.rules;
 
 /**
  * Holds constants for <code>{@link org.kuali.module.financial.document.ProcurementCardDocument}</code> business rules.
-
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardDocumentRuleConstants {
@@ -39,7 +39,7 @@ public class ProcurementCardDocumentRuleConstants {
     public static String DISPUTE_URL_PARM_NM = "DISPUTE_URL";
     public static String AUTO_APPROVE_DOCUMENTS_IND = "AUTO_APPROVE_DOCUMENTS_IND";
     public static String AUTO_APPROVE_NUMBER_OF_DAYS = "AUTO_APPROVE_NUMBER_OF_DAYS";
-    
+
     public static String MCC_OBJECT_CODE_GROUP_NM = "PCMccObjectCodeRestrictions";
     public static String MCC_OBJECT_SUB_TYPE_GROUP_NM = "PCMccObjectSubTypeRestrictions";
     public static String GLOBAL_FIELD_RESTRICTIONS_GROUP_NM = "PCGlobalFieldRestrictions";

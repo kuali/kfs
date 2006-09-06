@@ -100,14 +100,13 @@ public class FederalFundedCodeServiceTest extends KualiTestBaseWithFixtures {
      * 
      * public void testSave() { ffc = null; FederalFundedCode result = null; try { String newName = null; // get the existing value
      * 
-     * ffc = (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1);
-     *  // cache the old value, create a new value, and modify the object result = (FederalFundedCode)ObjectUtils.deepCopy(ffc) ;
-     * newName = ffc.getName() + ":"+timestamp; result.setName(newName);
-     *  // attempt to save the modified object kualiCodeService.save(result);
-     *  // open the object byCode() and confirm that the changes were saved result = (FederalFundedCode)
-     * kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1); assertEquals("Changes to the
-     * document were not persisted to the database.", newName, ffc.getName()); } finally { if (ffc != null) {
-     * kualiCodeService.save(ffc);
+     * ffc = (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1); //
+     * cache the old value, create a new value, and modify the object result = (FederalFundedCode)ObjectUtils.deepCopy(ffc) ;
+     * newName = ffc.getName() + ":"+timestamp; result.setName(newName); // attempt to save the modified object
+     * kualiCodeService.save(result); // open the object byCode() and confirm that the changes were saved result =
+     * (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1);
+     * assertEquals("Changes to the document were not persisted to the database.", newName, ffc.getName()); } finally { if (ffc !=
+     * null) { kualiCodeService.save(ffc);
      * 
      * result = (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1);
      * assertEquals("Changes to the document were not persisted to the database.", ffc.getName(), result.getName()); } } }

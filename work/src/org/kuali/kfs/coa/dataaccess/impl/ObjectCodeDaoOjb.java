@@ -57,7 +57,7 @@ public class ObjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements Obj
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
 
-        return (ObjectCode)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
+        return (ObjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
     }
 
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {

@@ -30,8 +30,9 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 
 /**
- * <code>{@link KeyValuesBase}</code> class that handles <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> types.
- *
+ * <code>{@link KeyValuesBase}</code> class that handles
+ * <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> types.
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
@@ -40,10 +41,10 @@ public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-		List retval = new ArrayList();
-		retval.add(new KeyLabelPair(Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE, Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME));
+        List retval = new ArrayList();
+        retval.add(new KeyLabelPair(Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE, Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME));
         retval.add(new KeyLabelPair(Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE, Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE_NAME));
-		retval.add(new KeyLabelPair(Constants.AuxiliaryVoucher.RECODE_DOC_TYPE, Constants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME));
-		return retval;
+        retval.add(new KeyLabelPair(Constants.AuxiliaryVoucher.RECODE_DOC_TYPE, Constants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME));
+        return retval;
     }
 }

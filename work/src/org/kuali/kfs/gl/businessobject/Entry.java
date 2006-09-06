@@ -107,7 +107,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     public Entry(Transaction t, java.util.Date postDate) {
         super();
         this.dummyBusinessObject = new DummyBusinessObject();
-        
+
         setUniversityFiscalYear(t.getUniversityFiscalYear());
         setChartOfAccountsCode(t.getChartOfAccountsCode());
         setAccountNumber(t.getAccountNumber());
@@ -805,7 +805,8 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     /**
-     * Gets the referenceDocumentType attribute. 
+     * Gets the referenceDocumentType attribute.
+     * 
      * @return Returns the referenceDocumentType.
      */
     public DocumentType getReferenceDocumentType() {
@@ -814,6 +815,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
 
     /**
      * Sets the referenceDocumentType attribute value.
+     * 
      * @param referenceDocumentType The referenceDocumentType to set.
      */
     public void setReferenceDocumentType(DocumentType referenceDocumentType) {

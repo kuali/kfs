@@ -53,7 +53,7 @@ public interface OriginEntryService {
     public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
-     * Return all entries for a group sorted by account number for the error 
+     * Return all entries for a group sorted by account number for the error
      * 
      * @param oeg
      * @return
@@ -127,13 +127,13 @@ public interface OriginEntryService {
      * @param groupIdList the origin entry groups
      * @return a set of summarized information of the entries within the specified group
      */
-    
+
     public void flatFile(String filename, Integer groupId, BufferedOutputStream bw);
-    
+
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
-    
+
     public Collection getMatchingEntriesByCollection(Map searchCriteria);
-    
+
     public OriginEntry getExactMatchingEntry(Integer entryId);
-    
+
 }

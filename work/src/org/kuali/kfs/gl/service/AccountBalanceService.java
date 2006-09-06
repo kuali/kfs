@@ -45,7 +45,7 @@ public interface AccountBalanceService {
      * @return the summary records of account balance entries
      */
     public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues);
-    
+
     /**
      * This method gets the number of the available account balances according to input fields and values
      * 
@@ -54,7 +54,7 @@ public interface AccountBalanceService {
      * @return the number of the available account balances
      */
     public Integer getAvailableAccountBalanceCount(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * This method finds the available account balances according to input fields and values
      * 
@@ -81,7 +81,7 @@ public interface AccountBalanceService {
 
     /**
      * Save an account balance
-     *
+     * 
      * @param ab
      */
     public void save(AccountBalance ab);

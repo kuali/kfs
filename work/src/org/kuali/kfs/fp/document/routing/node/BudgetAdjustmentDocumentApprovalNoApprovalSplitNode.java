@@ -45,8 +45,8 @@ import edu.iu.uis.eden.routetemplate.RouteContext;
  * standard financial routing is performed.
  * 
  * The conditions for auto-approval are: 1) Single account used on document 2) Initiator is fiscal officer or primary delegate for
- * the account 3) Only current adjustments are being made 4) The fund group for the account is not contract and grants
- * 5) current income/expense decrease amount must equal increase amount
+ * the account 3) Only current adjustments are being made 4) The fund group for the account is not contract and grants 5) current
+ * income/expense decrease amount must equal increase amount
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -61,7 +61,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
 
         List accountingLines = budgetDocument.getSourceAccountingLines();
         accountingLines.addAll(budgetDocument.getTargetAccountingLines());
-      
+
         /* only one account can be present on document and only current adjustments allowed */
         String chart = "";
         String accountNumber = "";
@@ -73,7 +73,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
                     break;
                 }
             }
-            
+
             if (line.getBaseBudgetAdjustmentAmount().isNonZero()) {
                 autoApprovalAllowed = false;
                 break;
@@ -81,7 +81,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
             chart = line.getChartOfAccountsCode();
             accountNumber = line.getAccountNumber();
         }
-        
+
         // check remaining conditions
         if (autoApprovalAllowed) {
             // initiator should be fiscal officer or primary delegate for account
@@ -95,19 +95,18 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
                     break;
                 }
             }
-            
+
             if (userAccount == null) {
                 autoApprovalAllowed = false;
             }
             else {
                 // fund group should not be CG
-                if ( userAccount.isInCg() ) {
+                if (userAccount.isInCg()) {
                     autoApprovalAllowed = false;
                 }
-                
+
                 // current income/expense decrease amount must equal increase amount
-                if (!budgetDocument.getSourceCurrentBudgetIncomeTotal().equals(budgetDocument.getTargetCurrentBudgetIncomeTotal()) ||
-                        !budgetDocument.getSourceCurrentBudgetExpenseTotal().equals(budgetDocument.getTargetCurrentBudgetExpenseTotal())) {
+                if (!budgetDocument.getSourceCurrentBudgetIncomeTotal().equals(budgetDocument.getTargetCurrentBudgetIncomeTotal()) || !budgetDocument.getSourceCurrentBudgetExpenseTotal().equals(budgetDocument.getTargetCurrentBudgetExpenseTotal())) {
                     autoApprovalAllowed = false;
                 }
             }
@@ -120,7 +119,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
         else {
             branchNames.add("ApprovalBranch");
         }
-        
+
         return new SplitResult(branchNames);
     }
 }

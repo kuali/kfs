@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiInteger;
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public interface BudgetAdjustmentAccountingLine extends AccountingLine{
+public interface BudgetAdjustmentAccountingLine extends AccountingLine {
 
     public abstract KualiDecimal getMonthlyLinesTotal();
 
@@ -252,6 +252,6 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine{
      * 
      */
     public abstract void setFringeBenefitIndicator(boolean fringeBenefitIndicator);
-    
-    
+
+
 }

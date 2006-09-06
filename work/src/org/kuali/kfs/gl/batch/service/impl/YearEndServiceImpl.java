@@ -1014,9 +1014,7 @@ public class YearEndServiceImpl implements YearEndService {
         // 812 004950 OR 'EE' OR 'CH' OR 'IC' OR 'IN')
 
         String actualFinancial = balance.getOption().getActualFinancialBalanceTypeCd();
-        if (actualFinancial.equals(balance.getBalanceTypeCode()) 
-                && ObjectHelper.isOneOf(balance.getObjectTypeCode(), 
-                        kualiConfigurationService.getApplicationParameterValues(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE))) {
+        if (actualFinancial.equals(balance.getBalanceTypeCode()) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE))) {
 
             // 813 004960 NEXT SENTENCE
 

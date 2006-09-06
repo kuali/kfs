@@ -60,20 +60,20 @@ import org.kuali.module.gl.web.struts.form.BalanceInquiryForm;
 
 public class BalanceInquiryAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryAction.class);
-    
+
     private static final String TOTALS_TABLE_KEY = "totalsTable";
-    
+
     private KualiConfigurationService kualiConfigurationService;
     private String[] totalTitles;
-    
+
     public BalanceInquiryAction() {
         super();
         kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
     }
-    
+
     private void setTotalTitles() {
         totalTitles = new String[7];
-        
+
         totalTitles[0] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME);
         totalTitles[1] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS);
         totalTitles[2] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME_TOTAL);
@@ -81,17 +81,17 @@ public class BalanceInquiryAction extends KualiAction {
         totalTitles[4] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS);
         totalTitles[5] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE_TOTAL);
         totalTitles[6] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.TOTAL);
-        
+
     }
-    
+
     private String[] getTotalTitles() {
-        if(null == totalTitles) {
+        if (null == totalTitles) {
             setTotalTitles();
         }
-        
+
         return totalTitles;
     }
-    
+
     /**
      * Entry point to lookups, forwards to jsp for search render.
      */
@@ -111,74 +111,75 @@ public class BalanceInquiryAction extends KualiAction {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
-        
+
         Collection displayList = new ArrayList();
         Collection resultTable = new ArrayList();
-        
+
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
-        
+
         try {
             displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
-            
+
             Object[] resultTableAsArray = resultTable.toArray();
-            
+
             CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
-            
+
             request.setAttribute(Constants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
-            
+
             String lookupableName = kualiLookupable.getClass().getName().substring(kualiLookupable.getClass().getName().lastIndexOf('.') + 1);
-            
-            if(lookupableName.startsWith("AccountBalanceByConsolidation")) {
-                
-                
+
+            if (lookupableName.startsWith("AccountBalanceByConsolidation")) {
+
+
                 Collection totalsTable = new ArrayList();
-                
+
                 int listIndex = 0;
                 int arrayIndex = 0;
                 int listSize = incompleteDisplayList.size();
-                
-                for(; listIndex < listSize; ) {
-                    
+
+                for (; listIndex < listSize;) {
+
                     AccountBalance balance = (AccountBalance) incompleteDisplayList.get(listIndex);
-                    
+
                     boolean ok = ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
-                    if(ok) {
-                        
-                        if(totalSize > 7) {
+                    if (ok) {
+
+                        if (totalSize > 7) {
                             totalsTable.add(resultTableAsArray[arrayIndex]);
                         }
                         resultTable.remove(resultTableAsArray[arrayIndex]);
-                        
+
                         incompleteDisplayList.remove(balance);
                         // account for the removal of the balance which resizes the list
                         listIndex--;
                         listSize--;
-                        
+
                     }
-                    
+
                     listIndex++;
                     arrayIndex++;
-                    
+
                 }
-                
+
                 request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, resultTable);
-                
+
                 request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
                 GlobalVariables.getUserSession().addObject(TOTALS_TABLE_KEY, totalsTable);
-                
-            } else {
-                
-                request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, resultTable);
-                
+
             }
-            
+            else {
+
+                request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, resultTable);
+
+            }
+
             if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
             }
-            
+
             request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
-            
+
         }
         catch (NumberFormatException e) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.UNIVERSITY_FISCAL_YEAR, KeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
@@ -277,28 +278,28 @@ public class BalanceInquiryAction extends KualiAction {
                 }
             }
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
         request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
         request.setAttribute(Constants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(Constants.REQUEST_SEARCH_RESULTS_SIZE));
-        
+
         String boClassName = ((BalanceInquiryForm) form).getBusinessObjectClassName();
         String lookupableName = boClassName.substring(boClassName.lastIndexOf('.') + 1);
-        
-        if(lookupableName.startsWith("AccountBalanceByConsolidation")) {
+
+        if (lookupableName.startsWith("AccountBalanceByConsolidation")) {
             Object totalsTable = GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
             request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public void setKualiConfigurationService(KualiConfigurationService kcs) {
         kualiConfigurationService = kcs;
     }
-    
+
 }

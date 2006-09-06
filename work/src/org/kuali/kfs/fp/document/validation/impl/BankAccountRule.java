@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.financial.bo.BankAccount;
 
 /**
- * This is the rules class that is used for the default implementation of the Bank Account maintenance document. 
+ * This is the rules class that is used for the default implementation of the Bank Account maintenance document.
  * 
  * @author Kuali Financial Transaction Processing team (kualidev@oncourse.iu.edu)
  */
@@ -199,8 +199,8 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method has been taken out of service to be replaced by the
-     * defaultExistenceChecks happening through the BankAccountMaintenanceDocument.xml
+     * This method has been taken out of service to be replaced by the defaultExistenceChecks happening through the
+     * BankAccountMaintenanceDocument.xml
      * 
      * @param document
      * @return

@@ -46,12 +46,13 @@ public class ObjectTypeCodeDescriptionFormatter extends CodeDescriptionFormatter
     protected Map<String, BusinessObject> getValuesToBusinessObjectsMap(Set values) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(Constants.GENERIC_CODE_PROPERTY_NAME, values);
-        
+
         Map<String, BusinessObject> results = new HashMap<String, BusinessObject>();
         Collection<ObjectType> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(ObjectType.class, criteria, "versionNumber", true);
-        // by sorting on ver #, we can guarantee that the most recent value will remain in the map (assuming the iterator returns BOs in order)
-        for ( ObjectType ot : coll ) {
-            results.put( ot.getCode(), ot );
+        // by sorting on ver #, we can guarantee that the most recent value will remain in the map (assuming the iterator returns
+        // BOs in order)
+        for (ObjectType ot : coll) {
+            results.put(ot.getCode(), ot);
         }
         return null;
     }

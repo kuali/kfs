@@ -44,7 +44,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntryTestBase.java,v 1.26 2006-09-02 21:48:38 jsissom Exp $
+ * @version $Id: OriginEntryTestBase.java,v 1.27 2006-09-06 06:50:25 abyrne Exp $
  */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
@@ -167,12 +167,12 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
         Collection c = originEntryDao.testingGetAllEntries();
 
         // This is for debugging purposes - change to true for output
-        if ( true ) {
+        if (true) {
             for (Iterator iter = groups.iterator(); iter.hasNext();) {
                 Map element = (Map) iter.next();
                 System.err.println("G:" + element.get("ORIGIN_ENTRY_GRP_ID") + " " + element.get("ORIGIN_ENTRY_GRP_SRC_CD"));
             }
-        
+
             for (Iterator iter = c.iterator(); iter.hasNext();) {
                 OriginEntry element = (OriginEntry) iter.next();
                 System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());

@@ -78,18 +78,18 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
     }
 
     public void testSearchableAccountAttributeXPathTest() throws IOException, InvalidXmlException, XPathExpressionException {
-        
+
         final String xpathQuery = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/accountNumber') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/accountNumber')";
-        
+
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER, "KualiTransferOfFundsDocument");
 
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         NodeList sourceLineNodes = (NodeList) xpath.evaluate(xpathQuery, docContent.getDocument(), XPathConstants.NODESET);
-        
+
         for (int i = 0; i < sourceLineNodes.getLength(); i++) {
             Node node = sourceLineNodes.item(i);
             System.err.println("[" + i + "] (" + node.getNodeType() + ") " + node.getNodeName() + " = " + node.getTextContent());
         }
     }
-    
+
 }

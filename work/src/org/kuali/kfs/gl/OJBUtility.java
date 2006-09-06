@@ -47,7 +47,7 @@ import org.springframework.beans.factory.BeanFactory;
 public class OJBUtility {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OJBUtility.class);
     private static BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-    
+
     public static final String LOOKUP_DAO = "lookupDao";
 
     /**
@@ -100,63 +100,67 @@ public class OJBUtility {
         }
         return criteria;
     }
-    
+
     /**
      * limit the size of the result set from the given query operation
+     * 
      * @param query the given query operation
      */
-    public static void limitResultSize(Query query){
+    public static void limitResultSize(Query query) {
         int startingIndex = 1;
         int endingIndex = getResultLimit().intValue();
-        
+
         query.setStartAtIndex(startingIndex);
         query.setEndAtIndex(endingIndex);
     }
-    
+
     /**
      * This method calculates the actual size of given selection results
+     * 
      * @param result the given selection results
      * @param recordCount the possible number of the given results
      * @param fieldValues the input field map
      * @param businessObject the given business object
      * @return the actual size of given selection results
      */
-    public static Long getResultActualSize(Collection result, Integer recordCount, Map fieldValues, Object businessObject){
+    public static Long getResultActualSize(Collection result, Integer recordCount, Map fieldValues, Object businessObject) {
         int resultSize = result.size();
-        Integer limit = getResultLimit();       
+        Integer limit = getResultLimit();
         Long resultActualSize = new Long(resultSize);
-        
+
         if (recordCount > limit) {
             long actualCount = recordCount.longValue() + resultSize - limit.longValue();
             resultActualSize = new Long(actualCount);
         }
         return resultActualSize;
     }
-    
+
     /**
      * This method gets the size of a result set from the given search criteria
+     * 
      * @param fieldValues the input field map
      * @param businessObject the given business object
      * @return the size of a result set from the given search criteria
      */
-    public static Long getResultSizeFromMap(Map fieldValues, Object businessObject){
-        LookupDao lookupDao = (LookupDao)beanFactory.getBean(LOOKUP_DAO); 
+    public static Long getResultSizeFromMap(Map fieldValues, Object businessObject) {
+        LookupDao lookupDao = (LookupDao) beanFactory.getBean(LOOKUP_DAO);
         return lookupDao.findCountByMap(businessObject, fieldValues);
     }
-       
+
     /**
      * This method gets the limit of the selection results
+     * 
      * @return the limit of the selection results
      */
-    public static Integer getResultLimit(){
+    public static Integer getResultLimit() {
         // get the result limit number from configuration
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String limitConfig = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM,Constants.LOOKUP_RESULTS_LIMIT_URL_KEY);
-        
+        String limitConfig = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.LOOKUP_RESULTS_LIMIT_URL_KEY);
+
         Integer limit = Integer.MAX_VALUE;
         if (limitConfig != null) {
             limit = Integer.valueOf(limitConfig);
-        }        
+        }
         return limit;
     }
 
@@ -164,7 +168,7 @@ public class OJBUtility {
      * This method build OJB criteria from the given property value and name
      */
     public static boolean createCriteria(Object businessObject, String propertyValue, String propertyName, Criteria criteria) {
-        LookupDao lookupDao = (LookupDao)beanFactory.getBean(LOOKUP_DAO);       
+        LookupDao lookupDao = (LookupDao) beanFactory.getBean(LOOKUP_DAO);
         return lookupDao.createCriteria(businessObject, propertyValue, propertyName, criteria);
     }
 }

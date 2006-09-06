@@ -271,7 +271,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      */
     public void setDisbVchrCheckTotalAmount(KualiDecimal disbVchrCheckTotalAmount) {
         if (disbVchrCheckTotalAmount != null) {
-          this.disbVchrCheckTotalAmount = disbVchrCheckTotalAmount;
+            this.disbVchrCheckTotalAmount = disbVchrCheckTotalAmount;
         }
     }
 

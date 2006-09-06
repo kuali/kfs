@@ -27,15 +27,15 @@ import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.engine.node.RouteNode;
 
 public class ResearchChartOrgRoutingNode {
-    
-        private static final String DYNAMIC_RSP_PROCESS_NAME = "DynamicRSP";
-        
-        protected RouteNode getChartOrgNode(String chart, String org, DocumentType documentType) {
-            // we're at RSP if chart=org
-            if (chart.equals(org)) {
-                return documentType.getNamedProcess(DYNAMIC_RSP_PROCESS_NAME).getInitialRouteNode();
-            }
-            return documentType.getNamedProcess("ChartOrg").getInitialRouteNode();
-            //return super.getChartOrgNode(chart, org, documentType);
+
+    private static final String DYNAMIC_RSP_PROCESS_NAME = "DynamicRSP";
+
+    protected RouteNode getChartOrgNode(String chart, String org, DocumentType documentType) {
+        // we're at RSP if chart=org
+        if (chart.equals(org)) {
+            return documentType.getNamedProcess(DYNAMIC_RSP_PROCESS_NAME).getInitialRouteNode();
         }
+        return documentType.getNamedProcess("ChartOrg").getInitialRouteNode();
+        // return super.getChartOrgNode(chart, org, documentType);
+    }
 }

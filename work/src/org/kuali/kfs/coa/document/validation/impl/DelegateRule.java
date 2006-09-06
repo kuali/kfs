@@ -164,7 +164,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         newActive = newDelegate.isAccountDelegateActiveIndicator();
 
         // start date must be greater than or equal to today if active
-        if ( (ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate()))&& newActive ) {
+        if ((ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate())) && newActive) {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
             if (newDelegate.getAccountDelegateStartDate().before(today)) {
@@ -204,10 +204,10 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        
+
         // the account that has been chosen cannot be closed
         Account account = newDelegate.getAccount();
-        if(ObjectUtils.isNotNull(account)) {
+        if (ObjectUtils.isNotNull(account)) {
             if (account.isAccountClosedIndicator()) {
                 putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED);
                 success &= false;
@@ -239,15 +239,15 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         if (!newActive) {
             return success;
         }
-    
+
         // exit if document group corresponding to document type = "EX"
         documentType = newDelegate.getDocumentType();
-        if(ObjectUtils.isNotNull(documentType)) {
+        if (ObjectUtils.isNotNull(documentType)) {
             if ((documentType.getFinancialDocumentGroupCode()).equals("EX")) {
                 return success;
             }
         }
-        
+
         // if its a new document, we are only interested if they have chosen this one
         // to be a primary route
         if (document.isNew()) {
@@ -329,20 +329,20 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
                 blockingDocumentExists = false;
                 for (Iterator iter = primaryRoutes.iterator(); iter.hasNext();) {
                     Delegate delegate = (Delegate) iter.next();
-                 
+
                     // don't consider as blocking if document group corresponding to document type = "EX"
                     documentType = delegate.getDocumentType();
-                    if(ObjectUtils.isNotNull(documentType)) {
+                    if (ObjectUtils.isNotNull(documentType)) {
                         if (!(documentType.getFinancialDocumentGroupCode()).equals("EX")) {
                             blockingDocumentExists = true;
                             blockingDocType = delegate.getFinancialDocumentTypeCode();
                         }
-                    }                   
+                    }
                 }
 
                 // add the error if blocking document found
-                
-                if (blockingDocumentExists == true){
+
+                if (blockingDocumentExists == true) {
                     putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_NEW_ALL, blockingDocType);
                     success &= false;
                     return success; // we're done, no sense in continuing

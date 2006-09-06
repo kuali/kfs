@@ -28,9 +28,12 @@ import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.document.CorrectionDocument;
 
 public interface CorrectionDocumentService {
-    
-    public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber (Integer docId, int i);
+
+    public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(Integer docId, int i);
+
     public List findByDocumentHeaderIdAndCorrectionGroupNumber(Integer docId, int i);
+
     public List findByDocumentNumberAndCorrectionGroupNumber(Integer docId, int i);
+
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId);
 }

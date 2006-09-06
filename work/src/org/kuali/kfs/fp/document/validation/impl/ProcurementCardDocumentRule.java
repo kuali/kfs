@@ -67,16 +67,17 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
-    
+
     /**
-     * Inserts proper errorPath, otherwise functions just like super. 
+     * Inserts proper errorPath, otherwise functions just like super.
      * 
-     * @see org.kuali.core.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.core.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean processUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
         fixErrorPath(transactionalDocument, accountingLine);
-        
+
         return super.processUpdateAccountingLineBusinessRules(transactionalDocument, accountingLine, updatedAccountingLine);
     }
 
@@ -92,14 +93,14 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
         if (accountingLine instanceof ProcurementCardTargetAccountingLine) {
             LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
-            
+
             // Somewhat of an ugly hack... the goal is to have fixErrorPath run for cases where it's _not_ a new accounting line.
             // If it is a new accounting line, all is well. But if it isn't then this might be a case where approve is called
             // and we need to run validation with proper errorPath for that.
-            if(accountingLine.getSequenceNumber() != null) {
+            if (accountingLine.getSequenceNumber() != null) {
                 fixErrorPath(transactionalDocument, accountingLine);
             }
-            
+
             LOG.debug("beginning object code validation ");
             allow = validateObjectCode(transactionalDocument, accountingLine);
 
@@ -111,11 +112,12 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
         return allow;
     }
-    
+
     /**
      * Only target lines can be changed, so we need to only validate them
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
@@ -125,15 +127,17 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
     /**
      * Only target lines can be changed, so we need to only validate them
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         return processCustomAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
     }
-    
+
     /**
      * Checks object codes restrictions, including restrictions in parameters table.
+     * 
      * @param transactionalDocument
      * @param accountingLine
      * @return boolean
@@ -194,6 +198,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Checks account number restrictions, including restrictions in parameters table.
+     * 
      * @param transactionalDocument
      * @param accountingLine
      * @return boolean
@@ -224,8 +229,8 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Overrides TransactionalDocumentRuleBase.isDocumentBalanceValid and changes the default debit/credit comparision to checking
-     * the target total against the total balance. If they don't balance, and error message is produced that is more appropriate
-     * for PCDO.
+     * the target total against the total balance. If they don't balance, and error message is produced that is more appropriate for
+     * PCDO.
      * 
      * @param transactionalDocument
      * @return boolean True if the document is balanced, false otherwise.
@@ -233,10 +238,10 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
     @Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
-        
+
         KualiDecimal targetTotal = pcDocument.getTargetTotal();
         KualiDecimal sourceTotal = pcDocument.getSourceTotal();
-        
+
         boolean isValid = targetTotal.compareTo(sourceTotal) == 0;
 
         if (!isValid) {
@@ -245,11 +250,12 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
         return isValid;
     }
-    
+
     /**
      * On procurement card, positive source amounts are credits, negative source amounts are debits
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         // disallow error correction
@@ -283,8 +289,8 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * For transactions that are credits back from the bank, accounting lines can be negative. It still checks that an amount is
-     * not zero.
+     * For transactions that are credits back from the bank, accounting lines can be negative. It still checks that an amount is not
+     * zero.
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -300,7 +306,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
             LOG.info("failing isAmountValid - zero check");
             return false;
         }
-        
+
         return true;
     }
 
@@ -315,14 +321,16 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
     protected void buildTotalChangeErrorMessage(String propertyName, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
         return;
     }
-    
+
     /**
-     * Fix the GlobalVariables.getErrorMap errorPath for how PCDO needs them in order to properly display errors on the
-     * interface. This is different from kuali accounting lines because instead PCDO has accounting lines insides of
-     * transactions. Hence the error path is slighly different. 
+     * Fix the GlobalVariables.getErrorMap errorPath for how PCDO needs them in order to properly display errors on the interface.
+     * This is different from kuali accounting lines because instead PCDO has accounting lines insides of transactions. Hence the
+     * error path is slighly different.
      * 
-     * @param transactionalDocument has to be a ProcurementCardDocument; could do the casting outside of this method, but it'd make the callers a bit more messy
-     * @param accountingLine has to be a ProcurementCardTargetAccountingLine; could do the casting outside of this method, but it'd make the callers a bit more messy
+     * @param transactionalDocument has to be a ProcurementCardDocument; could do the casting outside of this method, but it'd make
+     *        the callers a bit more messy
+     * @param accountingLine has to be a ProcurementCardTargetAccountingLine; could do the casting outside of this method, but it'd
+     *        make the callers a bit more messy
      */
     private void fixErrorPath(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         // retrieve the transactionLine (and index for errorPath) that the accountingLine is home to
@@ -330,22 +338,22 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         int transactionLineIndex = targetAccountingLine.getFinancialDocumentTransactionLineNumber() - 1; // index = line - 1
         List transactionEntries = ((ProcurementCardDocument) transactionalDocument).getTransactionEntries();
         ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) transactionEntries.get(transactionLineIndex);
-        
+
         String errorPath = PropertyConstants.DOCUMENT;
-        
+
         // Loop over the accounting lines and find the accountingLine (argument to method). Keeping a counter so we can
         // build the errorPath in the end.
         int accountingLineCounter = 0;
         for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); iterTargetAccountingLines.hasNext(); accountingLineCounter++) {
             ProcurementCardTargetAccountingLine loopTargetAccountingLine = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
-            
-            if(loopTargetAccountingLine.getSequenceNumber().equals(targetAccountingLine.getSequenceNumber())) {
+
+            if (loopTargetAccountingLine.getSequenceNumber().equals(targetAccountingLine.getSequenceNumber())) {
                 // Found the item, capture error path and break. We're done.
                 errorPath = errorPath + "." + PropertyConstants.TRANSACTION_ENTRIES + "[" + transactionLineIndex + "]." + PropertyConstants.TARGET_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
                 break;
             }
         }
-        
+
         // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only
         // choice because KualiRuleService.applyRules will miss to remove the previous transaction added error path
         // (only this method knows how it is called).

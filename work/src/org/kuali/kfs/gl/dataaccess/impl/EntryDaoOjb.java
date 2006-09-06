@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
  */
 public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryDaoOjb.class);
-    
+
     private final static String UNIVERISITY_FISCAL_YEAR = "universityFiscalYear";
     private final static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     private final static String ACCOUNT_NUMBER = "accountNumber";
@@ -55,7 +55,7 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
     private final static String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
     private final static String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
     private final static String MAX_CONSTANT = "max(financialDocumentNumber)";
-    
+
 
     public EntryDaoOjb() {
         super();

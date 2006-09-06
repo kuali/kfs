@@ -71,7 +71,7 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_income_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -83,7 +83,7 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_income_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
@@ -96,7 +96,7 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_income_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
-        
+
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -108,7 +108,7 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_expense_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -120,7 +120,7 @@ public class CashReceiptDocumentRuleTest extends KualiTestBaseWithSession {
     public void testIsDebit_expense_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), CashReceiptDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        
+
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }

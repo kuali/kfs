@@ -52,6 +52,6 @@ public class SubAccountDaoOjb extends PersistenceBrokerDaoSupport implements Sub
         criteria.addEqualTo("accountNumber", accountNumber);
         criteria.addEqualTo("subAccountNumber", subAccountNumber);
 
-        return (SubAccount)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubAccount.class, criteria));
+        return (SubAccount) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubAccount.class, criteria));
     }
 }

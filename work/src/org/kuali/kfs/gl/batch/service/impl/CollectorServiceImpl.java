@@ -53,7 +53,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 public class CollectorServiceImpl implements CollectorService, BeanFactoryAware {
     private static Logger LOG = Logger.getLogger(CollectorServiceImpl.class);
-    
+
     private InterDepartmentalBillingService interDepartmentalBillingService;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
@@ -63,13 +63,14 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
     private BeanFactory beanFactory;
 
     public void loadCollectorFile(String fileName) {
-        CollectorFileParser collectorFileParser = (CollectorFileParser)beanFactory.getBean(GLConstants.LookupableBeanKeys.COLLECTOR_FILE_PARSER);
+        CollectorFileParser collectorFileParser = (CollectorFileParser) beanFactory.getBean(GLConstants.LookupableBeanKeys.COLLECTOR_FILE_PARSER);
         doHardEditParse(collectorFileParser, fileName);
         List errors = collectorFileParser.getFileHandler().getErrorMessages();
         if (errors.isEmpty())
             doCollectorFileParse(collectorFileParser, fileName);
         sendEmail(collectorFileParser.getFileHandler());
-     }
+    }
+
     private void doHardEditParse(CollectorFileParser collectorFileParser, String fileName) {
         HardEditHandler hardEditHandler = new HardEditHandler();
         hardEditHandler.clear();
@@ -77,32 +78,37 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
         try {
             InputStream inputStream1 = new FileInputStream(fileName);
             collectorFileParser.parse(inputStream1);
-        }catch(FileReadException fre) {
-            //Do something here.
-        }catch(FileNotFoundException fnfe) {
-            //Do something here.
+        }
+        catch (FileReadException fre) {
+            // Do something here.
+        }
+        catch (FileNotFoundException fnfe) {
+            // Do something here.
         }
     }
+
     private void sendEmail(CollectorFileHandler collectorFileHandler) {
         LOG.debug("sendNoteEmails() starting");
         MailMessage message = new MailMessage();
-        
+
         message.setFromAddress(kualiConfigurationService.getApplicationParameterValue("Kuali.GeneralLedger.Collector", "Kuali.GeneralLedger.EmailAddress.DoNotReply"));
         message.setSubject(kualiConfigurationService.getApplicationParameterValue("Kuali.GeneralLedger.Collector", "SubjectLine"));
-        
+
         String body = createMessageBody(collectorFileHandler);
 
         message.setMessage(body);
-        
+
         String email = collectorFileHandler.getHeader().getWorkgroupName();
         message.addToAddress(email);
 
         try {
             mailService.sendMessage(message);
-        } catch (InvalidAddressException e) {
+        }
+        catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
-   }
+    }
+
     private String createMessageBody(CollectorFileHandler collectorFileHandler) {
         StringBuffer body = new StringBuffer();
         XmlHeader header = collectorFileHandler.getHeader();
@@ -122,54 +128,66 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
         List errorMessages = collectorFileHandler.getErrorMessages();
         if (errorMessages.isEmpty()) {
             body.append("----- NO ERRORS TO REPORT -----\nFiles have been added to the system.");
-        } else {
+        }
+        else {
             Iterator iter = errorMessages.iterator();
             while (iter.hasNext()) {
-                String currentMessage = (String)iter.next();
+                String currentMessage = (String) iter.next();
                 body.append(currentMessage + "\n");
             }
             body.append("\n----- THE RECORDS WERE NOT SAVED TO THE DATABASE -----");
         }
         return body.toString();
     }
+
     private CollectorFileHandlerImpl doCollectorFileParse(CollectorFileParser collectorFileParser, String fileName) {
-        CollectorFileHandlerImpl collectorFileHandler = new CollectorFileHandlerImpl
-                (originEntryService, interDepartmentalBillingService, originEntryGroupService, dateTimeService);
+        CollectorFileHandlerImpl collectorFileHandler = new CollectorFileHandlerImpl(originEntryService, interDepartmentalBillingService, originEntryGroupService, dateTimeService);
         collectorFileParser.setFileHandler(collectorFileHandler);
         try {
             InputStream inputStream2 = new FileInputStream(fileName);
             collectorFileParser.parse(inputStream2);
             return collectorFileHandler;
-        }catch(FileReadException fre) {
+        }
+        catch (FileReadException fre) {
             return null;
-        }catch(FileNotFoundException fnfe) {
+        }
+        catch (FileNotFoundException fnfe) {
             return null;
         }
     }
+
     public void setInterDepartmentalBillingService(InterDepartmentalBillingService interDepartmentalBillingService) {
         this.interDepartmentalBillingService = interDepartmentalBillingService;
     }
+
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
     }
+
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }
+
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
     public String getStagingDirectory() {
         return kualiConfigurationService.getPropertyString(Constants.GL_COLLECTOR_STAGING_DIRECTORY);
     }
+
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
     }
+
     public static void setLOG(Logger log) {
         LOG = log;
     }
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }

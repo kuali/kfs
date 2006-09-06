@@ -48,9 +48,9 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * This class prints out a transaction listing report.  This is different from a transaction report in that this
- * lists all the transactions and a total amount.  The transaction report shows the primary key from transactions
- * and a list of messages for each one.
+ * This class prints out a transaction listing report. This is different from a transaction report in that this lists all the
+ * transactions and a total amount. The transaction report shows the primary key from transactions and a list of messages for each
+ * one.
  * 
  */
 public class TransactionListingReport {
@@ -161,12 +161,12 @@ public class TransactionListingReport {
             DecimalFormat nf = new DecimalFormat();
             nf.applyPattern("###,###,###,##0.00");
 
-            if ( transactions != null ) {
-                while ( transactions.hasNext() ) {
-                    Transaction tran = (Transaction)transactions.next();
+            if (transactions != null) {
+                while (transactions.hasNext()) {
+                    Transaction tran = (Transaction) transactions.next();
 
                     String fundGroup = "  ";
-                    if ( (tran.getAccount() != null) && (tran.getAccount().getSubFundGroup() != null) ) {
+                    if ((tran.getAccount() != null) && (tran.getAccount().getSubFundGroup() != null)) {
                         fundGroup = tran.getAccount().getSubFundGroup().getFundGroupCode();
                     }
 
@@ -191,19 +191,21 @@ public class TransactionListingReport {
 
                     DecimalFormat decimalFormat = new DecimalFormat();
 
-                    if ( Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode()) ) {
+                    if (Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
                         debitTotal = debitTotal.add(tran.getTransactionLedgerEntryAmount());
-                    } else {
+                    }
+                    else {
                         cell = new PdfPCell(new Phrase(nf.format(0), textFont));
                     }
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     transactionList.addCell(cell);
 
-                    if ( ! Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode()) ) {
+                    if (!Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
                         creditTotal = creditTotal.add(tran.getTransactionLedgerEntryAmount());
-                    } else {
+                    }
+                    else {
                         cell = new PdfPCell(new Phrase(nf.format(0), textFont));
                     }
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT);

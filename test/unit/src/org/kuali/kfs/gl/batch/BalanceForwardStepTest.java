@@ -90,9 +90,8 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
     /**
      * Test the encumbrance forwarding process in one fell swoop.
      * 
-     * @throws Exception
-     *  ## WARNING: DO NOT run this test or rename this method. WARNING ## ## WARNING: This one test takes just under 3
-     * hours to run WARNING ## ## WARNING: over the vpn. WARNING ##
+     * @throws Exception ## WARNING: DO NOT run this test or rename this method. WARNING ## ## WARNING: This one test takes just
+     *         under 3 hours to run WARNING ## ## WARNING: over the vpn. WARNING ##
      */
     public void testAll() throws Exception {
 

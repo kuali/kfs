@@ -50,8 +50,8 @@ public class EncumbranceClosingOriginEntryFactory {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceClosingOriginEntryFactory.class);
 
     /**
-     * Create a pair of cost share entries, one explicit and one offset to carry
-     * forward an encumbrance after validating the encumbrance.
+     * Create a pair of cost share entries, one explicit and one offset to carry forward an encumbrance after validating the
+     * encumbrance.
      * 
      * @param encumbrance
      * @param debitCreditCode
@@ -116,7 +116,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         OriginEntry offset = new OriginEntry("ACLO", "MF");
         offset.setTransactionLedgerEntryDescription("GENERATED OFFSET");
-        
+
         // Lookup the offset definition for the explicit entry we just created.
         // SpringServiceLocator is used because this method is static.
         OffsetDefinitionService offsetDefinitionService = SpringServiceLocator.getOffsetDefinitionService();
@@ -180,10 +180,9 @@ public class EncumbranceClosingOriginEntryFactory {
         return pair;
 
     }
-    
+
     /**
-     * Create a pair of OriginEntries, one explicit and one offset to carry
-     * forward an encumbrance.
+     * Create a pair of OriginEntries, one explicit and one offset to carry forward an encumbrance.
      * 
      * @param encumbrance
      * @param closingFiscalYear

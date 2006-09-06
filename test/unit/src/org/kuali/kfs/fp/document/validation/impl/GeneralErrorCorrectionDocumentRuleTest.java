@@ -699,16 +699,16 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
         testAddAccountingLine(doc, false);
     }
 
-//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isExpense_postive_lineAmount() {
-//        SourceAccountingLine line = (SourceAccountingLine) getSufficientFundsCheckingSourceExpense().createLine();
-//        line.setAmount(new KualiDecimal("3.0"));
-//
-//        GeneralErrorCorrectionDocumentRule rule = new GeneralErrorCorrectionDocumentRule();
-//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
-//
-//        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
-//        assertTrue(line.getAmount().equals(item.getAmount()));
-//    }
+    // public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isExpense_postive_lineAmount() {
+    // SourceAccountingLine line = (SourceAccountingLine) getSufficientFundsCheckingSourceExpense().createLine();
+    // line.setAmount(new KualiDecimal("3.0"));
+    //
+    // GeneralErrorCorrectionDocumentRule rule = new GeneralErrorCorrectionDocumentRule();
+    // SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
+    //
+    // assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
+    // assertTrue(line.getAmount().equals(item.getAmount()));
+    // }
 
     /**
      * tests true is returned for a positive income

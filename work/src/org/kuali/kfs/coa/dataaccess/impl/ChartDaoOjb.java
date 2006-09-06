@@ -60,11 +60,11 @@ public class ChartDaoOjb extends PersistenceBrokerDaoSupport implements ChartDao
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
-    
+
     public Chart getUniversityChart() {
         Criteria criteria = new Criteria();
         criteria.addEqualToField("FIN_COA_CD", "RPTS_TO_FIN_COA_CD");
-        return (Chart)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria)).iterator().next();
+        return (Chart) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria)).iterator().next();
     }
 
 
@@ -72,7 +72,7 @@ public class ChartDaoOjb extends PersistenceBrokerDaoSupport implements ChartDao
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
 
-        return (Chart)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Chart.class, criteria));
+        return (Chart) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Chart.class, criteria));
     }
 
     /**

@@ -90,10 +90,10 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
         userDefinedAttributeMap.put(PropertyConstants.MONTH11_AMOUNT, Constants.MONTH11);
         userDefinedAttributeMap.put(PropertyConstants.MONTH12_AMOUNT, Constants.MONTH12);
         userDefinedAttributeMap.put(PropertyConstants.MONTH13_AMOUNT, Constants.MONTH13);
-        
+
         userDefinedAttributeMap.put(PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, Constants.BEGINNING_BALANCE);
         userDefinedAttributeMap.put(PropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, Constants.CG_BEGINNING_BALANCE);
-        
+
         return userDefinedAttributeMap;
     }
 

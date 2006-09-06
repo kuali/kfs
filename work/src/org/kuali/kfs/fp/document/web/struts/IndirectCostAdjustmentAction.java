@@ -36,10 +36,12 @@ import org.kuali.core.web.uidraw.AccountingLineDecorator;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class IndirectCostAdjustmentAction extends KualiTransactionalDocumentActionBase {
-/**
- * added target line baseline creation for lines created by source add
- * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertAccountingLine(boolean, org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, org.kuali.core.bo.AccountingLine)
- */
+    /**
+     * added target line baseline creation for lines created by source add
+     * 
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertAccountingLine(boolean,
+     *      org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, org.kuali.core.bo.AccountingLine)
+     */
     @Override
     protected void insertAccountingLine(boolean isSource, KualiTransactionalDocumentFormBase transactionalDocumentForm, AccountingLine line) {
         super.insertAccountingLine(isSource, transactionalDocumentForm, line);

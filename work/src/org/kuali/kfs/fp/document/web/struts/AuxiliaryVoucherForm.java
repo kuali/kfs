@@ -38,16 +38,18 @@ import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
-    private String originalVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;  // keep this in sync with the default value set in the document business object
-    
+    private String originalVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE; // keep this in sync with the default
+                                                                                            // value set in the document business
+                                                                                            // object
+
     public AuxiliaryVoucherForm() {
         super();
         setDocument(new AuxiliaryVoucherDocument());
     }
-    
+
     /**
      * Overrides the parent to call super.populate and then to call the two methods that are specific to loading the two select
-     * lists on the page.  In addition, this also makes sure that the credit and debit amounts are filled in for situations where 
+     * lists on the page. In addition, this also makes sure that the credit and debit amounts are filled in for situations where
      * validation errors occur and the page reposts.
      * 
      * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
@@ -67,34 +69,31 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
     /**
      * @param serviceBillingDocument The serviceBillingDocument to set.
-     */ 
+     */
     public void setAuxiliaryVoucherDocument(AuxiliaryVoucherDocument auxiliaryVoucherDocument) {
         setDocument(auxiliaryVoucherDocument);
-    }    
+    }
 
-	/**
-	 * Handles special case display rules for displaying Reversal Date at UI layer
-	 */
-	public void populateReversalDateForRendering() {
+    /**
+     * Handles special case display rules for displaying Reversal Date at UI layer
+     */
+    public void populateReversalDateForRendering() {
         java.sql.Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
 
-		if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) &&
-			(getAuxiliaryVoucherDocument().getReversalDate() == null || 
-			 getAuxiliaryVoucherDocument().getReversalDate().before(today))) {
-			getAuxiliaryVoucherDocument().setReversalDate(today);
-		}
-		else if (getAuxiliaryVoucherDocument().getTypeCode().equals(ADJUSTMENT_DOC_TYPE)) {
-			getAuxiliaryVoucherDocument().setReversalDate(null);
-		}
-		else if (getAuxiliaryVoucherDocument().getTypeCode().equals(RECODE_DOC_TYPE)) {
-			getAuxiliaryVoucherDocument()
-				.setReversalDate(new java.sql.Date(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate().getTime()));
-		}
-	}
-	
+        if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) && (getAuxiliaryVoucherDocument().getReversalDate() == null || getAuxiliaryVoucherDocument().getReversalDate().before(today))) {
+            getAuxiliaryVoucherDocument().setReversalDate(today);
+        }
+        else if (getAuxiliaryVoucherDocument().getTypeCode().equals(ADJUSTMENT_DOC_TYPE)) {
+            getAuxiliaryVoucherDocument().setReversalDate(null);
+        }
+        else if (getAuxiliaryVoucherDocument().getTypeCode().equals(RECODE_DOC_TYPE)) {
+            getAuxiliaryVoucherDocument().setReversalDate(new java.sql.Date(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate().getTime()));
+        }
+    }
+
     /**
      * This method returns the reversal date in the format MMM d, yyyy.
-     *
+     * 
      * @return String
      */
     public String getFormattedReversalDate() {
@@ -114,27 +113,29 @@ public class AuxiliaryVoucherForm extends VoucherForm {
     public void setOriginalVoucherType(String originalVoucherType) {
         this.originalVoucherType = originalVoucherType;
     }
-    
+
     /**
-     * Returns a formatted auxiliary voucher type: <Voucher Type Name> (<Voucher Type Code>) 
+     * Returns a formatted auxiliary voucher type: <Voucher Type Name> (<Voucher Type Code>)
      * 
      * @return
      */
     public String getFormattedAuxiliaryVoucherType() {
         String voucherTypeCode = getAuxiliaryVoucherDocument().getTypeCode();
         String formattedVoucherType = new String();
-        
-        if(Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE.equals(voucherTypeCode)) {
+
+        if (Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE.equals(voucherTypeCode)) {
             formattedVoucherType = Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE_NAME;
-        } else if(Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE.equals(voucherTypeCode)) {
+        }
+        else if (Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE.equals(voucherTypeCode)) {
             formattedVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME;
-        } else if(Constants.AuxiliaryVoucher.RECODE_DOC_TYPE.equals(voucherTypeCode)) {
+        }
+        else if (Constants.AuxiliaryVoucher.RECODE_DOC_TYPE.equals(voucherTypeCode)) {
             formattedVoucherType = Constants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME;
-        } else {
+        }
+        else {
             throw new IllegalStateException("Invalid auxiliary voucher type code: " + voucherTypeCode);
         }
-        
+
         return formattedVoucherType + " (" + voucherTypeCode + ")";
     }
 }
-

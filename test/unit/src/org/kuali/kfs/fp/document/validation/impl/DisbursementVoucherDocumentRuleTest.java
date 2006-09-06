@@ -54,48 +54,49 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
         changeCurrentUser("lraab");
     }
 
-//    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
-//        boolean failedAsExpected = false;
-//        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
-//        try {
-//            TargetAccountingLine line = new TargetAccountingLine();
-//
-//            rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
-//        }
-//        catch (IllegalArgumentException e) {
-//            failedAsExpected = true;
-//        }
-//        assertTrue(failedAsExpected);
-//    }
-//
-//    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_null() {
-//        boolean failedAsExpected = false;
-//        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, null);
-//
-//        assertNull(item);
-//    }
-//
-//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation() throws Exception {
-//        SourceAccountingLine line = (SourceAccountingLine) ((AccountingLineParameter) getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE_1).createObject()).createLine();
-//
-//        DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
-//
-//        assertNotNull(item);
-//        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
-//        assertEquals(line.getAccountNumber(), item.getAccountNumber());
-//        assertEquals(line.getAccount().getAccountSufficientFundsCode(), item.getAccountSufficientFundsCode());
-//        assertTrue(line.getAmount().equals(item.getAmount()));
-//        assertEquals(line.getChartOfAccountsCode(), item.getChartOfAccountsCode());
-//        assertNotNull(item.getSufficientFundsObjectCode());
-//        assertEquals(line.getFinancialObjectCode(), item.getFinancialObjectCode());
-//        assertEquals(line.getObjectCode().getFinancialObjectLevelCode(), item.getFinancialObjectLevelCode());
-//        assertEquals(line.getPostingYear(), item.getFiscalYear());
-//        assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
-//    }
+    // public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
+    // boolean failedAsExpected = false;
+    // DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
+    // try {
+    // TargetAccountingLine line = new TargetAccountingLine();
+    //
+    // rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
+    // }
+    // catch (IllegalArgumentException e) {
+    // failedAsExpected = true;
+    // }
+    // assertTrue(failedAsExpected);
+    // }
+    //
+    // public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_null() {
+    // boolean failedAsExpected = false;
+    // DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, null);
+    //
+    // assertNull(item);
+    // }
+    //
+    // public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation() throws Exception {
+    // SourceAccountingLine line = (SourceAccountingLine) ((AccountingLineParameter) getFixtureEntryFromCollection(COLLECTION_NAME,
+    // SOURCE_LINE_1).createObject()).createLine();
+    //
+    // DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
+    //
+    // assertNotNull(item);
+    // assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
+    // assertEquals(line.getAccountNumber(), item.getAccountNumber());
+    // assertEquals(line.getAccount().getAccountSufficientFundsCode(), item.getAccountSufficientFundsCode());
+    // assertTrue(line.getAmount().equals(item.getAmount()));
+    // assertEquals(line.getChartOfAccountsCode(), item.getChartOfAccountsCode());
+    // assertNotNull(item.getSufficientFundsObjectCode());
+    // assertEquals(line.getFinancialObjectCode(), item.getFinancialObjectCode());
+    // assertEquals(line.getObjectCode().getFinancialObjectLevelCode(), item.getFinancialObjectLevelCode());
+    // assertEquals(line.getPostingYear(), item.getFiscalYear());
+    // assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
+    // }
 
     /**
      * test that an <code>IllegalStateException</code> gets thrown for an error correction document
@@ -117,7 +118,7 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
     public void testIsDebit_income_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -153,7 +154,7 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
     public void testIsDebit_expense_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -189,7 +190,7 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
     public void testIsDebit_asset_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -225,7 +226,7 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
     public void testIsDebit_liability_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), DisbursementVoucherDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 

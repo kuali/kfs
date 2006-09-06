@@ -33,8 +33,8 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 
 /**
- * The values are the same as the disbursementVoucherDocumentationLocationCode in the
- * DisbursementVoucherDocumentationLocation class.
+ * The values are the same as the disbursementVoucherDocumentationLocationCode in the DisbursementVoucherDocumentationLocation
+ * class.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -50,9 +50,10 @@ public class DocumentationLocationCodeDescriptionFormatter extends CodeDescripti
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(Constants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME, values);
         Collection<DisbursementVoucherDocumentationLocation> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(DisbursementVoucherDocumentationLocation.class, criteria, "versionNumber", true);
-        // by sorting on ver #, we can guarantee that the most recent value will remain in the map (assuming the iterator returns BOs in order)
-        for ( DisbursementVoucherDocumentationLocation dvdl : coll ) {
-            map.put( dvdl.getDisbursementVoucherDocumentationLocationCode(), dvdl );
+        // by sorting on ver #, we can guarantee that the most recent value will remain in the map (assuming the iterator returns
+        // BOs in order)
+        for (DisbursementVoucherDocumentationLocation dvdl : coll) {
+            map.put(dvdl.getDisbursementVoucherDocumentationLocationCode(), dvdl);
         }
         return map;
     }

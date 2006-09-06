@@ -37,5 +37,5 @@ public class YearEndTransferOfFundsForm extends TransferOfFundsForm {
         super();
         setDocument(new YearEndTransferOfFundsDocument());
     }
-//  empty do not change. see above.
+    // empty do not change. see above.
 }

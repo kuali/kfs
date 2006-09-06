@@ -207,7 +207,8 @@ public class ObjectCons extends BusinessObjectBase {
     }
 
     /**
-     * Gets the financialEliminationsObject attribute. 
+     * Gets the financialEliminationsObject attribute.
+     * 
      * @return Returns the financialEliminationsObject.
      */
     public ObjectCodeCurrent getFinancialEliminationsObject() {
@@ -216,6 +217,7 @@ public class ObjectCons extends BusinessObjectBase {
 
     /**
      * Sets the financialEliminationsObject attribute value.
+     * 
      * @param financialEliminationsObject The financialEliminationsObject to set.
      * @deprecated
      */

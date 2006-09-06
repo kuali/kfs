@@ -39,7 +39,7 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: AccountBalanceServiceImpl.java,v 1.17 2006-09-02 22:12:43 jsissom Exp $
+ * @version $Id: AccountBalanceServiceImpl.java,v 1.18 2006-09-06 06:49:57 abyrne Exp $
  */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
@@ -76,7 +76,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         String[] expenseObjectTypes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_ACCOUNT_BALANCE_SERVICE_GROUP, GLConstants.GlAccountBalanceGroupParameters.EXPENSE_OBJECT_TYPE_CODES);
         String[] expenseTransferObjectTypes = kualiConfigurationService.getApplicationParameterValues(GLConstants.GL_ACCOUNT_BALANCE_SERVICE_GROUP, GLConstants.GlAccountBalanceGroupParameters.EXPENSE_TRANSFER_OBJECT_TYPE_CODES);
 
-        // Consolidate all object types into one array (yes I could have used lists, but it was just as many lines of code than this)
+        // Consolidate all object types into one array (yes I could have used lists, but it was just as many lines of code than
+        // this)
         String[] allObjectTypes = new String[incomeObjectTypes.length + incomeTransferObjectTypes.length + expenseObjectTypes.length + expenseTransferObjectTypes.length];
         int count = 0;
         for (int i = 0; i < incomeObjectTypes.length; i++) {
@@ -91,7 +92,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         for (int i = 0; i < expenseTransferObjectTypes.length; i++) {
             allObjectTypes[count++] = expenseTransferObjectTypes[i];
         }
-        
+
         // Put the total lines at the beginning of the list
         List results = new ArrayList();
         AccountBalance income = new AccountBalance(kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME));
@@ -126,12 +127,12 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
-                    addBalanceToTotals(bbc,incomeTotal,expenseTotal);
+                    addBalanceToTotals(bbc, incomeTotal, expenseTotal);
                     results.add(bbc);
                 }
             }
             else {
-                addBalanceToTotals(bbc,incomeTotal,expenseTotal);
+                addBalanceToTotals(bbc, incomeTotal, expenseTotal);
                 results.add(bbc);
             }
         }
@@ -318,7 +319,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         accountBalanceDao.purgeYearByChart(chartOfAccountsCode, year);
     }
 
-    /** 
+    /**
      * @see org.kuali.module.gl.service.AccountBalanceService#getAvailableAccountBalanceCount(java.util.Map, boolean)
      */
     public Integer getAvailableAccountBalanceCount(Map fieldValues, boolean isConsolidated) {

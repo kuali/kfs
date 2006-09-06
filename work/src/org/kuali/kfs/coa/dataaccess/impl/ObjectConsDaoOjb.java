@@ -41,7 +41,7 @@ public class ObjectConsDaoOjb extends PersistenceBrokerDaoSupport implements Obj
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("finConsolidationObjectCode", objectConsCode);
 
-        return (ObjectCons)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCons.class, criteria));
+        return (ObjectCons) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCons.class, criteria));
     }
 
 }

@@ -60,7 +60,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     private String organizationCountryCode;
     private String organizationLine1Address;
     private String organizationLine2Address;
-    
+
     private Chart chartOfAccounts;
     private Account organizationDefaultAccount;
     private Org organization;
@@ -72,7 +72,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
     private Country organizationCountry;
-    
+
     /**
      * Default constructor.
      */
@@ -522,7 +522,8 @@ public class PriorYearOrganization extends BusinessObjectBase {
     }
 
     /**
-     * Gets the organizationCountryCode attribute. 
+     * Gets the organizationCountryCode attribute.
+     * 
      * @return Returns the organizationCountryCode.
      */
     public String getOrganizationCountryCode() {
@@ -531,6 +532,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
 
     /**
      * Sets the organizationCountryCode attribute value.
+     * 
      * @param organizationCountryCode The organizationCountryCode to set.
      */
     public void setOrganizationCountryCode(String organizationCountryCode) {
@@ -538,7 +540,8 @@ public class PriorYearOrganization extends BusinessObjectBase {
     }
 
     /**
-     * Gets the organizationLine1Address attribute. 
+     * Gets the organizationLine1Address attribute.
+     * 
      * @return Returns the organizationLine1Address.
      */
     public String getOrganizationLine1Address() {
@@ -547,6 +550,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
 
     /**
      * Sets the organizationLine1Address attribute value.
+     * 
      * @param organizationLine1Address The organizationLine1Address to set.
      */
     public void setOrganizationLine1Address(String organizationLine1Address) {
@@ -554,7 +558,8 @@ public class PriorYearOrganization extends BusinessObjectBase {
     }
 
     /**
-     * Gets the organizationLine2Address attribute. 
+     * Gets the organizationLine2Address attribute.
+     * 
      * @return Returns the organizationLine2Address.
      */
     public String getOrganizationLine2Address() {
@@ -563,12 +568,13 @@ public class PriorYearOrganization extends BusinessObjectBase {
 
     /**
      * Sets the organizationLine2Address attribute value.
+     * 
      * @param organizationLine2Address The organizationLine2Address to set.
      */
     public void setOrganizationLine2Address(String organizationLine2Address) {
         this.organizationLine2Address = organizationLine2Address;
     }
-    
+
     /**
      * Gets the chartOfAccounts attribute.
      * 
@@ -770,7 +776,8 @@ public class PriorYearOrganization extends BusinessObjectBase {
     }
 
     /**
-     * Gets the organizationCountry attribute. 
+     * Gets the organizationCountry attribute.
+     * 
      * @return Returns the organizationCountry.
      */
     public Country getOrganizationCountry() {
@@ -779,13 +786,14 @@ public class PriorYearOrganization extends BusinessObjectBase {
 
     /**
      * Sets the organizationCountry attribute value.
+     * 
      * @param organizationCountry The organizationCountry to set.
      * @deprecated
      */
     public void setOrganizationCountry(Country organizationCountry) {
         this.organizationCountry = organizationCountry;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

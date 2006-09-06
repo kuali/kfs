@@ -671,7 +671,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
             errors.putErrorWithoutFullErrorPath(Constants.DV_CHECK_TRAVEL_TOTAL_ERROR, KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
-        
+
         /* make sure mileage fields have not changed since the mileage amount calculation */
         if (personalVehicleSectionComplete) {
             KualiDecimal currentCalcAmt = document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt();
@@ -681,16 +681,16 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
                     errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
                 }
-                
+
                 // determine if the rule is flagged off in the parm setting
                 boolean performTravelMileageLimitInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, NONEMPLOYEE_TRAVEL_ACTUAL_MILEAGE_LIMIT_PARM_NM);
-                if(performTravelMileageLimitInd) {
+                if (performTravelMileageLimitInd) {
                     // if actual amount is greater than calculated amount
-                    if(currentCalcAmt.subtract(currentActualAmt).isNegative()) {
+                    if (currentCalcAmt.subtract(currentActualAmt).isNegative()) {
                         errors.putError(PropertyConstants.DV_PERSONAL_CAR_AMOUNT, KeyConstants.ERROR_DV_ACTUAL_MILEAGE_TOO_HIGH);
                     }
                 }
-            }            
+            }
         }
 
         errors.removeFromErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
@@ -822,15 +822,15 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         errors.removeFromErrorPath(PropertyConstants.DV_PRE_CONFERENCE_DETAIL);
     }
 
-    
+
     /**
      * Validates whether there is a error based on payment reason rules, and adds an error message if it does not exist
      * 
-     * Note: This method is pretty much a copy of 
-     * org.kuali.core.rule.DocumentRuleBase.executeApplicationParameterRestriction(String, String, String, String, String),
-     * except that a different error message is used.  I'd like to be able to call the original method, and just replace 
-     * the error value, but it's not possible to do so because ErrorMap does not support replacing only one of the errors
-     * with a given errorKey (aka targetKey), i.e. it's an all or nothing operation.
+     * Note: This method is pretty much a copy of
+     * org.kuali.core.rule.DocumentRuleBase.executeApplicationParameterRestriction(String, String, String, String, String), except
+     * that a different error message is used. I'd like to be able to call the original method, and just replace the error value,
+     * but it's not possible to do so because ErrorMap does not support replacing only one of the errors with a given errorKey (aka
+     * targetKey), i.e. it's an all or nothing operation.
      * 
      * @param parameterGroupName
      * @param parameterName
@@ -839,15 +839,14 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @param errorParameter
      * @return
      */
-    private boolean executePaymentReasonRestriction(String parameterGroupName, String parameterName, String restrictedFieldValue, String errorField, String errorParameter, String paymentReasonCode,
-            CodeDescriptionFormatter restrictedFieldDescFormatter ) {
+    private boolean executePaymentReasonRestriction(String parameterGroupName, String parameterName, String restrictedFieldValue, String errorField, String errorParameter, String paymentReasonCode, CodeDescriptionFormatter restrictedFieldDescFormatter) {
         boolean rulePassed = true;
         if (SpringServiceLocator.getKualiConfigurationService().hasApplicationParameterRule(parameterGroupName, parameterName)) {
             KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(parameterGroupName, parameterName);
             if (rule.failsRule(restrictedFieldValue)) {
                 String errorMsgKey = null;
                 String endConjunction = null;
-                if ( rule.isAllowedRule() ) {
+                if (rule.isAllowedRule()) {
                     errorMsgKey = KeyConstants.ERROR_PAYMENT_REASON_ALLOWED_RESTRICTION;
                     endConjunction = "or";
                 }
@@ -855,25 +854,24 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                     errorMsgKey = KeyConstants.ERROR_PAYMENT_REASON_DENIED_RESTRICTION;
                     endConjunction = "and";
                 }
-                
+
                 Map<String, String> paymentReasonParams = new HashMap<String, String>();
                 paymentReasonParams.put("code", paymentReasonCode);
                 // TODO: should we not ignore active flag?
                 Collection<PaymentReasonCode> paymentReasons = SpringServiceLocator.getKeyValuesService().findMatching(PaymentReasonCode.class, paymentReasonParams);
-                
+
                 String prName = "(Description unavailable)";
-                
+
                 // find max version #
                 Long prMaxVer = null;
-                for ( PaymentReasonCode currPrc : paymentReasons ) {
-                    if ( prMaxVer == null || prMaxVer.compareTo(currPrc.getVersionNumber()) < 0 ) {
+                for (PaymentReasonCode currPrc : paymentReasons) {
+                    if (prMaxVer == null || prMaxVer.compareTo(currPrc.getVersionNumber()) < 0) {
                         prName = currPrc.getName();
                         prMaxVer = currPrc.getVersionNumber();
                     }
                 }
-                
-                GlobalVariables.getErrorMap().putError(errorField, errorMsgKey, 
-                        new String[] { errorParameter, restrictedFieldValue, parameterName, parameterGroupName, rule.getPrettyParameterValueString(), "Payment reason", paymentReasonCode, prName, restrictedFieldDescFormatter.getFormattedStringWithDescriptions(rule.getParameterValueSet(), null, endConjunction) });
+
+                GlobalVariables.getErrorMap().putError(errorField, errorMsgKey, new String[] { errorParameter, restrictedFieldValue, parameterName, parameterGroupName, rule.getPrettyParameterValueString(), "Payment reason", paymentReasonCode, prName, restrictedFieldDescFormatter.getFormattedStringWithDescriptions(rule.getParameterValueSet(), null, endConjunction) });
                 rulePassed = false;
             }
         }
@@ -882,7 +880,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
         return rulePassed;
     }
-    
+
     /**
      * Validates the selected documentation location field.
      * 
@@ -1042,7 +1040,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             if (isActiveEmployeeSSN(dvPayee.getTaxIdNumber()) || true) {
                 // determine if the rule is flagged off in the parm setting
                 boolean performPrepaidEmployeeInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
-                
+
                 if (performPrepaidEmployeeInd) {
                     /* active payee employees cannot be paid for prepaid travel */
                     String[] travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
@@ -1055,7 +1053,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             else if (isEmployeeSSN(dvPayee.getTaxIdNumber())) {
                 // check parm setting for paid outside payroll check
                 boolean performPaidOutsidePayrollInd = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(DV_DOCUMENT_PARAMETERS_GROUP_NM, PERFORM_PREPAID_EMPL_PARM_NM);
-                
+
                 if (performPaidOutsidePayrollInd) {
                     /* If payee is type payee and employee, payee record must be flagged as paid outside of payroll */
                     if (!dvPayee.isPayeeEmployeeCode()) {

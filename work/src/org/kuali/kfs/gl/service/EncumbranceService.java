@@ -49,7 +49,7 @@ public interface EncumbranceService {
      * @param included indicate if all encumbrances with the given document type are included in the results or not
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included);
-    
+
     /**
      * This method finds the open encumbrances according to input fields and values
      * 
@@ -57,7 +57,7 @@ public interface EncumbranceService {
      * @return a collection of open encumbrances
      */
     public Iterator findOpenEncumbrance(Map fieldValues);
-    
+
     /**
      * This method gets the number of the open encumbrances according to input fields and values
      * 

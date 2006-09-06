@@ -36,9 +36,8 @@ public interface ScrubberService {
     public void scrubEntries();
 
     /**
-     * This process will call the scrubber in a read only mode.  It will scrub
-     * a single group, won't create any output in origin entry.  It will create
-     * a the scrubber report
+     * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
+     * entry. It will create a the scrubber report
      */
     public void scrubGroupReportOnly(OriginEntryGroup group);
 }

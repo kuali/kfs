@@ -30,57 +30,60 @@ import org.kuali.core.bo.BusinessObject;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFormatter {
 
     public static final String DEFAULT_DESCRIPTION = "(description unavailable)";
-    
+
     /**
-     * The output string will probably be larger than the default StringBuffer size of 10, so lets avoid 1 memory allocation and copy 
+     * The output string will probably be larger than the default StringBuffer size of 10, so lets avoid 1 memory allocation and
+     * copy
      */
     public static final int INIT_BUFFER_SIZE = 20;
-    
+
     /**
-     * @see org.kuali.module.financial.util.CodeDescriptionFormatter#getFormattedStringWithDescriptions(java.util.Set, java.lang.String, java.lang.String)
+     * @see org.kuali.module.financial.util.CodeDescriptionFormatter#getFormattedStringWithDescriptions(java.util.Set,
+     *      java.lang.String, java.lang.String)
      */
     public String getFormattedStringWithDescriptions(Set values, String startConjunction, String endConjunction) {
         Map<String, BusinessObject> valueToBOMap = getValuesToBusinessObjectsMap(values);
         StringBuffer buf = new StringBuffer();
-        
+
         Iterator valuesIter = values.iterator();
-        
-        if ( valuesIter.hasNext() ) {
-            if ( startConjunction != null && !"".equals( startConjunction ) ) {
-                buf.append( startConjunction ).append( " " );
+
+        if (valuesIter.hasNext()) {
+            if (startConjunction != null && !"".equals(startConjunction)) {
+                buf.append(startConjunction).append(" ");
             }
             String currValue = (String) valuesIter.next();
-            buf.append( currValue ).append( ", " );
-            
-            BusinessObject bo = valueToBOMap.get( currValue );
-            buf.append( bo == null ? getDefaultDescription() : getDescriptionOfBO( bo ) );
+            buf.append(currValue).append(", ");
+
+            BusinessObject bo = valueToBOMap.get(currValue);
+            buf.append(bo == null ? getDefaultDescription() : getDescriptionOfBO(bo));
         }
         else {
-            buf.append( "(none)" );
+            buf.append("(none)");
         }
-        
-        while ( valuesIter.hasNext() ) {
-            buf.append( "; " );
-            
+
+        while (valuesIter.hasNext()) {
+            buf.append("; ");
+
             String currValue = (String) valuesIter.next();
-            if ( !valuesIter.hasNext() ) {
+            if (!valuesIter.hasNext()) {
                 // no more values after this, it's time to put the end conjunction
-                buf.append( endConjunction ).append( " " );
+                buf.append(endConjunction).append(" ");
             }
-            
-            buf.append( currValue ).append( ", " );
-            
-            BusinessObject bo = valueToBOMap.get( currValue );
-            buf.append( bo == null ? getDefaultDescription() : getDescriptionOfBO( bo ) );
+
+            buf.append(currValue).append(", ");
+
+            BusinessObject bo = valueToBOMap.get(currValue);
+            buf.append(bo == null ? getDefaultDescription() : getDescriptionOfBO(bo));
         }
         return buf.toString();
     }
-    
+
     /**
      * Returns a Map such that the values in the values set will map to the appropriate BO
      * 
@@ -88,22 +91,23 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
      * 
      * Use this method sparingly, as it will likely cause an access to the DB
      * 
-     * It may be desirable to use the values to limit the breadth of the search, and it is up
-     * to the implementation to decide whether to use it to do so.
+     * It may be desirable to use the values to limit the breadth of the search, and it is up to the implementation to decide
+     * whether to use it to do so.
      * 
      * @param values a set of values to limit the retrieval from (optional feature), may be null
      * 
      * @return a map from value string to BO
      */
-    protected abstract Map<String, BusinessObject> getValuesToBusinessObjectsMap( Set values );
-    
+    protected abstract Map<String, BusinessObject> getValuesToBusinessObjectsMap(Set values);
+
     /**
      * Returns the description of a BO
+     * 
      * @param bo
      * @return
      */
-    protected abstract String getDescriptionOfBO( BusinessObject bo );
-    
+    protected abstract String getDescriptionOfBO(BusinessObject bo);
+
     protected String getDefaultDescription() {
         return DEFAULT_DESCRIPTION;
     }

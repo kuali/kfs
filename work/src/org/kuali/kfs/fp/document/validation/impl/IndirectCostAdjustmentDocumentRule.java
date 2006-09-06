@@ -58,8 +58,8 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
 
     /**
      * same logic as
-     * <code>IsDebitUtils#isDebitConsideringType(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)</code>
-     * but has the following accounting line restrictions: for grant lines(source):
+     * <code>IsDebitUtils#isDebitConsideringType(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)</code> but
+     * has the following accounting line restrictions: for grant lines(source):
      * <ol>
      * <li>only allow expense object type codes
      * </ol>
@@ -183,7 +183,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      */
 
     protected boolean processCommonCustomAccountingLineBusinessRules(AccountingLine accountingLine) {
-    //refresh line since this document calls the custom rules first. KULEDOCS-1406
+        // refresh line since this document calls the custom rules first. KULEDOCS-1406
         accountingLine.refresh();
         boolean isValid = isChartOfAccountsAllowed(accountingLine);
         if (isValid) {

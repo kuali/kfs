@@ -75,8 +75,8 @@ public class AuxiliaryVoucherAction extends VoucherAction {
     }
 
     /**
-     * This action method is responsible for clearing the GLPEs for an AV after the voucher type changes, since a voucher type change makes any 
-     * previously generated GLPEs inaccurate.
+     * This action method is responsible for clearing the GLPEs for an AV after the voucher type changes, since a voucher type
+     * change makes any previously generated GLPEs inaccurate.
      * 
      * @param mapping
      * @param form
@@ -92,7 +92,7 @@ public class AuxiliaryVoucherAction extends VoucherAction {
 
         // clear the glpes now
         avDoc.getGeneralLedgerPendingEntries().clear();
-        
+
         // make sure to set the original type to the new one now
         avForm.setOriginalVoucherType(avDoc.getTypeCode());
 

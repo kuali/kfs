@@ -72,18 +72,18 @@ public class BalanceInquiryForm extends LookupForm {
         try {
             Lookupable localLookupable = null;
             Lookupable localPendingEntryLookupable = null;
-            
+
             if (StringUtils.isBlank(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
-                
+
                 // get the business object class for the lookup
                 String localBusinessObjectClassName = request.getParameter(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
                 setBusinessObjectClassName(localBusinessObjectClassName);
-                
+
                 if (StringUtils.isBlank(localBusinessObjectClassName)) {
                     LOG.error("Business object class not passed to lookup.");
                     throw new RuntimeException("Business object class not passed to lookup.");
                 }
-                
+
                 // call data dictionary service to get lookup impl for bo class
                 String lookupImplID = SpringServiceLocator.getBusinessObjectDictionaryService().getLookupableID(Class.forName(localBusinessObjectClassName));
                 if (lookupImplID == null) {
@@ -93,14 +93,14 @@ public class BalanceInquiryForm extends LookupForm {
                 setLookupableImplServiceName(lookupImplID);
             }
             localLookupable = SpringServiceLocator.getLookupable(getLookupableImplServiceName());
-            
+
             if (localLookupable == null) {
                 LOG.error("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
                 throw new RuntimeException("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
             }
 
             // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
-            if(Entry.class.getName().equals(getBusinessObjectClassName())) {
+            if (Entry.class.getName().equals(getBusinessObjectClassName())) {
                 localPendingEntryLookupable = SpringServiceLocator.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
             }
 
@@ -122,13 +122,13 @@ public class BalanceInquiryForm extends LookupForm {
             if (request.getParameter(Constants.CONVERSION_FIELDS_PARAMETER) != null) {
                 setConversionFields(request.getParameter(Constants.CONVERSION_FIELDS_PARAMETER));
             }
-            
+
             // init lookupable with bo class
             localLookupable.setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));
-            if(null != localPendingEntryLookupable) {
+            if (null != localPendingEntryLookupable) {
                 localPendingEntryLookupable.setBusinessObjectClass(GeneralLedgerPendingEntry.class);
             }
-            
+
             Map fieldValues = new HashMap();
             Map formFields = getFields();
             Class boClass = Class.forName(getBusinessObjectClassName());
@@ -148,9 +148,9 @@ public class BalanceInquiryForm extends LookupForm {
                         field.setPropertyValue(request.getParameter(field.getPropertyName()));
                     }
 
-                    //  force uppercase if necessary
+                    // force uppercase if necessary
                     field.setPropertyValue(LookupUtils.forceUppercase(boClass, field.getPropertyName(), field.getPropertyValue()));
-                    
+
                     fieldValues.put(field.getPropertyName(), field.getPropertyValue());
                 }
             }
@@ -194,7 +194,7 @@ public class BalanceInquiryForm extends LookupForm {
             }
             setFieldConversions(fieldConversionMap);
             localLookupable.setFieldConversions(fieldConversionMap);
-            if(null != localPendingEntryLookupable) {
+            if (null != localPendingEntryLookupable) {
                 localPendingEntryLookupable.setFieldConversions(fieldConversionMap);
             }
             setLookupable(localLookupable);
@@ -337,7 +337,7 @@ public class BalanceInquiryForm extends LookupForm {
     public void setHideReturnLink(boolean hideReturnLink) {
         this.hideReturnLink = hideReturnLink;
     }
-    
+
 
     /**
      * @param pendingEntryLookupable
@@ -345,8 +345,8 @@ public class BalanceInquiryForm extends LookupForm {
     public void setPendingEntryLookupable(Lookupable pendingEntryLookupable) {
         this.pendingEntryLookupable = pendingEntryLookupable;
     }
-    
-    
+
+
     /**
      * @return Returns the pendingEntryLookupable.
      */

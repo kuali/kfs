@@ -41,7 +41,7 @@ public class ObjectLevelDaoOjb extends PersistenceBrokerDaoSupport implements Ob
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("financialObjectLevelCode", objectLevelCode);
 
-        return (ObjLevel)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjLevel.class, criteria));
+        return (ObjLevel) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjLevel.class, criteria));
     }
 
 }

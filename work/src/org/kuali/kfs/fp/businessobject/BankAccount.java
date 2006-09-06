@@ -257,7 +257,8 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the cashOffsetSubAccountNumber attribute. 
+     * Gets the cashOffsetSubAccountNumber attribute.
+     * 
      * @return Returns the cashOffsetSubAccountNumber.
      */
     public String getCashOffsetSubAccountNumber() {
@@ -266,6 +267,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the cashOffsetSubAccountNumber attribute value.
+     * 
      * @param cashOffsetSubAccountNumber The cashOffsetSubAccountNumber to set.
      */
     public void setCashOffsetSubAccountNumber(String cashOffsetSubAccountNumber) {
@@ -273,7 +275,8 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the cashOffsetSubAccount attribute. 
+     * Gets the cashOffsetSubAccount attribute.
+     * 
      * @return Returns the cashOffsetSubAccount.
      */
     public SubAccount getCashOffsetSubAccount() {
@@ -282,6 +285,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the cashOffsetSubAccount attribute value.
+     * 
      * @param cashOffsetSubAccount The cashOffsetSubAccount to set.
      * @deprecated
      */
@@ -290,7 +294,8 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the cashOffsetSubObject attribute. 
+     * Gets the cashOffsetSubObject attribute.
+     * 
      * @return Returns the cashOffsetSubObject.
      */
     public SubObjCd getCashOffsetSubObject() {
@@ -299,6 +304,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the cashOffsetSubObject attribute value.
+     * 
      * @param cashOffsetSubObject The cashOffsetSubObject to set.
      * @deprecated
      */

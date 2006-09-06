@@ -62,12 +62,12 @@ public class TransactionReportGenerator {
      */
     public void generateSummaryReport(List reportSummary, Date reportingDate, String title, String reportNamePrefix, String destinationDirectory) {
         LOG.debug("generateSummaryReport() started");
-        
-        if(reportSummary != null){
+
+        if (reportSummary != null) {
             this.generatePDFReport(this.buildSummaryTable(reportSummary), reportingDate, title, reportNamePrefix, destinationDirectory);
         }
     }
-    
+
     /**
      * This method generates report based on the given error information
      * 
@@ -79,11 +79,11 @@ public class TransactionReportGenerator {
      */
     public void generateErrorReport(Map reportErrors, Date reportingDate, String title, String reportNamePrefix, String destinationDirectory) {
         LOG.debug("generateErrorReport() started");
-        
-        if(reportErrors != null){
+
+        if (reportErrors != null) {
             this.generatePDFReport(this.buildErrorTable(reportErrors), reportingDate, title, reportNamePrefix, destinationDirectory);
         }
-    }    
+    }
 
     // generate the PDF report with the given information
     private void generatePDFReport(PdfPTable pdfContents, Date reportingDate, String title, String reportNamePrefix, String destinationDirectory) {
@@ -114,14 +114,14 @@ public class TransactionReportGenerator {
             this.closeDocument(document);
         }
     }
-    
+
     // construct the summary table
     private PdfPTable buildSummaryTable(List reportSummary) {
 
         float[] cellWidths = { 80, 20 };
         PdfPTable summaryTable = new PdfPTable(cellWidths);
         summaryTable.setWidthPercentage(40);
-        
+
         PdfPCell cell = new PdfPCell(new Phrase("S T A T I S T I C S", headerFont));
         cell.setColspan(2);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -138,11 +138,11 @@ public class TransactionReportGenerator {
 
     // add a row with the given ledger entry into PDF table
     private void addRow(PdfPTable summaryTable, Summary summary, Font textFont) {
-        
+
         PdfPCell cell = new PdfPCell(new Phrase(summary.getDescription(), textFont));
         cell.setBorder(Rectangle.NO_BORDER);
         summaryTable.addCell(cell);
-    
+
         if ("".equals(summary.getDescription())) {
             cell = new PdfPCell(new Phrase("", textFont));
             cell.setBorder(Rectangle.NO_BORDER);
@@ -169,7 +169,7 @@ public class TransactionReportGenerator {
         cell.setColspan(14);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         errorTable.addCell(cell);
-        
+
         if (reportErrors != null && reportErrors.size() > 0) {
             this.addHeader(errorTable, headerFont);
             for (Iterator errorIter = reportErrors.keySet().iterator(); errorIter.hasNext();) {
@@ -177,10 +177,10 @@ public class TransactionReportGenerator {
                 this.addRow(errorTable, reportErrors, transaction, textFont);
             }
         }
-        else{
+        else {
             cell = new PdfPCell(new Phrase("No errors occurred!", headerFont));
             cell.setColspan(14);
-            errorTable.addCell(cell);            
+            errorTable.addCell(cell);
         }
         return errorTable;
     }

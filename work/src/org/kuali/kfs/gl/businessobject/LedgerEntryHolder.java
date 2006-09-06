@@ -36,7 +36,7 @@ public class LedgerEntryHolder {
     private Map ledgerEntries;
     private Map subtotals;
     private LedgerEntry grandTotal;
-    
+
     private static final String GRAND_TOTAL = "Grand Total";
     private static final String SUB_TOTAL = "Subtotal";
 

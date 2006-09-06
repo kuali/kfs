@@ -54,9 +54,9 @@ public class BalanceServiceTest extends KualiTestBaseWithSpring {
         account.setChartOfAccountsCode(CHART);
         // jkeller: added Chart object since now used by the BalanceServiceImpl class.
         Chart chart = new Chart();
-        chart.setFundBalanceObjectCode( "9899" );
-        chart.setChartOfAccountsCode( CHART );
-        account.setChartOfAccounts( chart );
+        chart.setFundBalanceObjectCode("9899");
+        chart.setChartOfAccountsCode(CHART);
+        account.setChartOfAccounts(chart);
     }
 
 

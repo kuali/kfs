@@ -35,7 +35,7 @@ public interface OriginEntryGroupDao {
      * @param fromGroup
      * @param toGroup
      */
-    public void copyGroup(OriginEntryGroup fromGroup,OriginEntryGroup toGroup);
+    public void copyGroup(OriginEntryGroup fromGroup, OriginEntryGroup toGroup);
 
     /**
      * Get all the groups that are older than a date
@@ -92,13 +92,12 @@ public interface OriginEntryGroupDao {
     public void save(OriginEntryGroup group);
 
     /**
-     * The the group for the ID passed.  The EXACT one, not one that is close, it
-     * must be EXACTLY EXACT.
+     * The the group for the ID passed. The EXACT one, not one that is close, it must be EXACTLY EXACT.
      * 
      * @param id
      * @return
      */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id);
-    
+
     public Collection<OriginEntryGroup> getRecentGroups(Date day);
 }

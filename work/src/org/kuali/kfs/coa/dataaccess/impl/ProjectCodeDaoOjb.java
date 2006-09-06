@@ -48,7 +48,7 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements Pr
         Criteria criteria = new Criteria();
         criteria.addEqualTo("code", projectCode);
 
-        return (ProjectCode)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
+        return (ProjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
     }
 
     /**
@@ -62,7 +62,7 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements Pr
         Criteria criteria = new Criteria();
         criteria.addEqualTo("name", name);
 
-        return (ProjectCode)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
+        return (ProjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
     }
 
     /**

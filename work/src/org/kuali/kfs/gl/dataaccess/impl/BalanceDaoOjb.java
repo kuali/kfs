@@ -49,7 +49,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.43 2006-09-06 06:32:44 abyrne Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.44 2006-09-06 06:50:17 abyrne Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -89,10 +89,10 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer year) {
         LOG.debug("findBalancesForFiscalYear() started");
-        
+
         Criteria c = new Criteria();
         c.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        
+
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         query.addOrderByAscending(PropertyConstants.ACCOUNT_NUMBER);
@@ -101,7 +101,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         query.addOrderByAscending(PropertyConstants.SUB_OBJECT_CODE);
         query.addOrderByAscending(PropertyConstants.BALANCE_TYPE_CODE);
         query.addOrderByAscending(PropertyConstants.OBJECT_TYPE_CODE);
-        
+
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
@@ -219,10 +219,10 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         LOG.debug("findCashBalance() started");
 
         Query query = this.getCashBalanceQuery(fieldValues, isConsolidated);
-        OJBUtility.limitResultSize(query);       
+        OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.module.gl.dao.BalanceDao#getCashBalanceRecordCount(java.util.Map, boolean)
      */
@@ -309,11 +309,11 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             attributeList.remove(PropertyConstants.OBJECT_TYPE_CODE);
             groupByList.remove(PropertyConstants.OBJECT_TYPE_CODE);
         }
-        
+
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
-        
+
         // set the selection attributes
         String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
@@ -349,7 +349,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
             query.addGroupBy(groupBy);
         }
-        
+
         return query;
     }
 
@@ -360,7 +360,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
         // set the selection attributes
         query.setAttributes(new String[] { "count(*)" });
-        
+
         List groupByList = buildGroupByList();
         groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
         groupByList.remove(PropertyConstants.SUB_OBJECT_CODE);
@@ -384,7 +384,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
         // handle encumbrance balance type
         String propertyName = PropertyConstants.BALANCE_TYPE_CODE;
-        if(fieldValues.containsKey(propertyName)){    
+        if (fieldValues.containsKey(propertyName)) {
             String propertyValue = (String) fieldValues.get(propertyName);
             if (Constants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 fieldValues.remove(PropertyConstants.BALANCE_TYPE_CODE);
@@ -396,11 +396,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         return criteria;
     }
 
-    private List<String> getEncumbranceBalanceTypeCodeList() {         
-        String[] balanceTypesAsArray = 
-            kualiConfigurationService.getApplicationParameterValues(
-                    "Kuali.GeneralLedger.AvailableBalanceInquiry", 
-                    "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
+    private List<String> getEncumbranceBalanceTypeCodeList() {
+        String[] balanceTypesAsArray = kualiConfigurationService.getApplicationParameterValues("Kuali.GeneralLedger.AvailableBalanceInquiry", "GeneralLedger.BalanceInquiry.AvailableBalances.EncumbranceDrillDownBalanceTypes");
         return Arrays.asList(balanceTypesAsArray);
     }
 
@@ -550,12 +547,12 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         // the cache and return them. Clearing the cache forces OJB to go to the database again.
         getPersistenceBrokerTemplate().clearCache();
     }
-    
+
     /**
      * @param kualiConfigurationService
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-    
+
 }

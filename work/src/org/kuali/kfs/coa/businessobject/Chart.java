@@ -591,7 +591,8 @@ public class Chart extends BusinessObjectBase {
     }
 
     /**
-     * Gets the fundBalanceObject attribute. 
+     * Gets the fundBalanceObject attribute.
+     * 
      * @return Returns the fundBalanceObject.
      */
     public ObjectCode getFundBalanceObject() {
@@ -600,6 +601,7 @@ public class Chart extends BusinessObjectBase {
 
     /**
      * Sets the fundBalanceObject attribute value.
+     * 
      * @param fundBalanceObject The fundBalanceObject to set.
      * @deprecated
      */
@@ -608,7 +610,8 @@ public class Chart extends BusinessObjectBase {
     }
 
     /**
-     * Gets the fundBalanceObjectCode attribute. 
+     * Gets the fundBalanceObjectCode attribute.
+     * 
      * @return Returns the fundBalanceObjectCode.
      */
     public String getFundBalanceObjectCode() {
@@ -617,18 +620,20 @@ public class Chart extends BusinessObjectBase {
 
     /**
      * Sets the fundBalanceObjectCode attribute value.
+     * 
      * @param fundBalanceObjectCode The fundBalanceObjectCode to set.
      */
     public void setFundBalanceObjectCode(String fundBalanceObjectCode) {
         this.fundBalanceObjectCode = fundBalanceObjectCode;
     }
 
-    
+
     /**
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */
     public String getCodeAndDescription() {
         String theString = getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
-        return theString ;    }    
-    
+        return theString;
+    }
+
 }

@@ -61,7 +61,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     private Date transactionCycleStartDate;
     private Date transactionCycleEndDate;
     private KualiDecimal transactionTotalAmount;
-    
+
     private ProcurementCardVendor procurementCardVendor;
 
     private List sourceAccountingLines;
@@ -545,7 +545,8 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     }
 
     /**
-     * Gets the transactionTotalAmount attribute. 
+     * Gets the transactionTotalAmount attribute.
+     * 
      * @return Returns the transactionTotalAmount.
      */
     public KualiDecimal getTransactionTotalAmount() {
@@ -554,6 +555,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
 
     /**
      * Sets the transactionTotalAmount attribute value.
+     * 
      * @param transactionTotalAmount The transactionTotalAmount to set.
      */
     public void setTransactionTotalAmount(KualiDecimal transactionTotalAmount) {

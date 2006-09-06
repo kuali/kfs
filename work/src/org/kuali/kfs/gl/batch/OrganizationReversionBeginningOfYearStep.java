@@ -25,7 +25,7 @@ package org.kuali.module.gl.batch;
 import org.kuali.core.batch.Step;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
 
-public class OrganizationReversionBeginningOfYearStep  implements Step {
+public class OrganizationReversionBeginningOfYearStep implements Step {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionEndOfYearStep.class);
 
     private OrganizationReversionProcessService organizationReversionProcessService;

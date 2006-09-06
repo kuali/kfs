@@ -131,7 +131,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
             isValid &= AdvanceDepositDocumentRuleUtil.validateAdvanceDeposit(advanceDepositDocument.getAdvanceDepositDetail(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
-        
+
         // don't bother checking the total if some deposits are broken
         if (isValid && advanceDepositDocument.getTotalAdvanceDepositAmount().isZero()) {
             isValid = false;

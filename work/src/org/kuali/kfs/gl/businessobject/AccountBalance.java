@@ -72,7 +72,7 @@ public class AccountBalance extends BusinessObjectBase {
     static final public String TYPE_CONSOLIDATION = "Consolidation";
     static final public String TYPE_LEVEL = "Level";
     static final public String TYPE_OBJECT = "Object";
-    
+
     public AccountBalance() {
         super();
         this.dummyBusinessObject = new DummyBusinessObject();
@@ -109,7 +109,7 @@ public class AccountBalance extends BusinessObjectBase {
 
         financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
         financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinConsolidationObjectCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_OBJECT_CODE));
-        
+
         if (TYPE_CONSOLIDATION.equals(type)) {
             financialObject.getFinancialObjectType().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.REPORT_SORT_CODE));
             financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode((String) data.get(GLConstants.ColumnNames.CONSOLIDATION_REPORT_SORT_CODE));
@@ -141,7 +141,7 @@ public class AccountBalance extends BusinessObjectBase {
     public AccountBalance(String title) {
         this();
         this.title = title;
-        //financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode(title);
+        // financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode(title);
         currentBudgetLineBalanceAmount = KualiDecimal.ZERO;
         accountLineActualsBalanceAmount = KualiDecimal.ZERO;
         accountLineEncumbranceBalanceAmount = KualiDecimal.ZERO;
@@ -181,7 +181,7 @@ public class AccountBalance extends BusinessObjectBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        
+
         LinkedHashMap map = new LinkedHashMap();
         map.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
         map.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
@@ -195,7 +195,7 @@ public class AccountBalance extends BusinessObjectBase {
     public String getTitle() {
         return title;
     }
-    
+
     public A21SubAccount getA21SubAccount() {
         return a21SubAccount;
     }
@@ -365,7 +365,8 @@ public class AccountBalance extends BusinessObjectBase {
     }
 
     /**
-     * Gets the subAccount attribute. 
+     * Gets the subAccount attribute.
+     * 
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -374,6 +375,7 @@ public class AccountBalance extends BusinessObjectBase {
 
     /**
      * Sets the subAccount attribute value.
+     * 
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
@@ -382,6 +384,7 @@ public class AccountBalance extends BusinessObjectBase {
 
     /**
      * Gets the subObject
+     * 
      * @return
      */
     public SubObjCd getFinancialSubObject() {
@@ -390,10 +393,11 @@ public class AccountBalance extends BusinessObjectBase {
 
     /**
      * Sets the subObject.
+     * 
      * @param financialSubObject
      */
     public void setFinancialSubObject(SubObjCd financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
-    
+
 }

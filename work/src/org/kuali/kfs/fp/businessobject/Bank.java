@@ -132,7 +132,8 @@ public class Bank extends BusinessObjectBase {
     }
 
     /**
-     * Gets the bankRoutingNumber attribute. 
+     * Gets the bankRoutingNumber attribute.
+     * 
      * @return Returns the bankRoutingNumber.
      */
     public String getBankRoutingNumber() {
@@ -141,12 +142,13 @@ public class Bank extends BusinessObjectBase {
 
     /**
      * Sets the bankRoutingNumber attribute value.
+     * 
      * @param bankRoutingNumber The bankRoutingNumber to set.
      */
     public void setBankRoutingNumber(String bankRoutingNumber) {
         this.bankRoutingNumber = bankRoutingNumber;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -157,5 +159,5 @@ public class Bank extends BusinessObjectBase {
 
         return m;
     }
-    
+
 }

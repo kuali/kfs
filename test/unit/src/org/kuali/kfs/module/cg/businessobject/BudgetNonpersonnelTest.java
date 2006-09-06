@@ -62,7 +62,7 @@ public class BudgetNonpersonnelTest extends KualiTestBaseWithSpring {
             budgetNonpersonnel.setBudgetTaskSequenceNumber(new Integer(0));
 
             budgetNonpersonnel.setSubcontractorNumber(subcontractorNumber[i]);
-            
+
             budgetNonpersonnel.setBudgetNonpersonnelCategoryCode(nonpersonnelCategories[i]);
             budgetNonpersonnel.setBudgetNonpersonnelSubCategoryCode(subCategories[i]);
             budgetNonpersonnel.setNonpersonnelObjectCode(new NonpersonnelObjectCode(nonpersonnelCategories[i], subCategories[i]));

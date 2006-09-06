@@ -848,7 +848,8 @@ public class OrganizationExtension extends BusinessObjectBase {
     }
 
     /**
-     * Gets the hrmsIuOccupationalUnitAllowedFlag attribute. 
+     * Gets the hrmsIuOccupationalUnitAllowedFlag attribute.
+     * 
      * @return Returns the hrmsIuOccupationalUnitAllowedFlag.
      */
     public final boolean isHrmsIuOccupationalUnitAllowedFlag() {
@@ -857,6 +858,7 @@ public class OrganizationExtension extends BusinessObjectBase {
 
     /**
      * Sets the hrmsIuOccupationalUnitAllowedFlag attribute value.
+     * 
      * @param hrmsIuOccupationalUnitAllowedFlag The hrmsIuOccupationalUnitAllowedFlag to set.
      */
     public final void setHrmsIuOccupationalUnitAllowedFlag(boolean hrmsIuOccupationalUnitAllowedFlag) {
@@ -864,7 +866,8 @@ public class OrganizationExtension extends BusinessObjectBase {
     }
 
     /**
-     * Gets the hrmsIuPositionAllowedFlag attribute. 
+     * Gets the hrmsIuPositionAllowedFlag attribute.
+     * 
      * @return Returns the hrmsIuPositionAllowedFlag.
      */
     public final boolean isHrmsIuPositionAllowedFlag() {
@@ -873,6 +876,7 @@ public class OrganizationExtension extends BusinessObjectBase {
 
     /**
      * Sets the hrmsIuPositionAllowedFlag attribute value.
+     * 
      * @param hrmsIuPositionAllowedFlag The hrmsIuPositionAllowedFlag to set.
      */
     public final void setHrmsIuPositionAllowedFlag(boolean hrmsIuPositionAllowedFlag) {
@@ -880,7 +884,8 @@ public class OrganizationExtension extends BusinessObjectBase {
     }
 
     /**
-     * Gets the hrmsIuTenureAllowedFlag attribute. 
+     * Gets the hrmsIuTenureAllowedFlag attribute.
+     * 
      * @return Returns the hrmsIuTenureAllowedFlag.
      */
     public final boolean isHrmsIuTenureAllowedFlag() {
@@ -889,6 +894,7 @@ public class OrganizationExtension extends BusinessObjectBase {
 
     /**
      * Sets the hrmsIuTenureAllowedFlag attribute value.
+     * 
      * @param hrmsIuTenureAllowedFlag The hrmsIuTenureAllowedFlag to set.
      */
     public final void setHrmsIuTenureAllowedFlag(boolean hrmsIuTenureAllowedFlag) {
@@ -896,7 +902,8 @@ public class OrganizationExtension extends BusinessObjectBase {
     }
 
     /**
-     * Gets the hrmsIuTitleAllowedFlag attribute. 
+     * Gets the hrmsIuTitleAllowedFlag attribute.
+     * 
      * @return Returns the hrmsIuTitleAllowedFlag.
      */
     public final boolean isHrmsIuTitleAllowedFlag() {
@@ -905,6 +912,7 @@ public class OrganizationExtension extends BusinessObjectBase {
 
     /**
      * Sets the hrmsIuTitleAllowedFlag attribute value.
+     * 
      * @param hrmsIuTitleAllowedFlag The hrmsIuTitleAllowedFlag to set.
      */
     public final void setHrmsIuTitleAllowedFlag(boolean hrmsIuTitleAllowedFlag) {

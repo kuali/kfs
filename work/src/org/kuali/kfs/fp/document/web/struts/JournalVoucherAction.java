@@ -88,7 +88,7 @@ public class JournalVoucherAction extends VoucherAction {
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
 
         populateBalanceTypeOneDocument(journalVoucherForm);
-        
+
         // now check to see if the balance type was changed and if so, we want to
         // set the method to call so that the appropriate action can be invoked
         // had to do it this way b/c the changing of the drop down causes the page to re-submit
@@ -110,8 +110,8 @@ public class JournalVoucherAction extends VoucherAction {
     }
 
     /**
-     * Overrides the parent to first prompt the user appropriately to make sure that they want to submit and out of balance document, then 
-     * calls super's route method.
+     * Overrides the parent to first prompt the user appropriately to make sure that they want to submit and out of balance
+     * document, then calls super's route method.
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -144,7 +144,9 @@ public class JournalVoucherAction extends VoucherAction {
         String selectedBalanceTypeCode = journalVoucherForm.getSelectedBalanceType().getCode();
         BalanceTyp selectedBalanceType = getPopulatedBalanceTypeInstance(selectedBalanceTypeCode);
         journalVoucherForm.getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
-        journalVoucherForm.getJournalVoucherDocument().setBalanceType(selectedBalanceType);  // set the fully populated balance type object into the form's selected balance type
+        journalVoucherForm.getJournalVoucherDocument().setBalanceType(selectedBalanceType); // set the fully populated balance type
+                                                                                            // object into the form's selected
+                                                                                            // balance type
         journalVoucherForm.setSelectedBalanceType(selectedBalanceType);
     }
 
@@ -185,7 +187,7 @@ public class JournalVoucherAction extends VoucherAction {
      */
     public ActionForward changeBalanceType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
-        
+
         // figure out which way the balance type is changing
         determineBalanceTypeChangeModes(journalVoucherForm);
 
@@ -453,7 +455,7 @@ public class JournalVoucherAction extends VoucherAction {
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
-    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException{
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) kualiDocumentFormBase;
 

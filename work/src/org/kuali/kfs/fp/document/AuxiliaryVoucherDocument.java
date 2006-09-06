@@ -43,10 +43,9 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItem;
 
 /**
- * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This 
- * is a transactional document that will eventually post transactions to the G/L.  It 
- * integrates with workflow and also contains two groupings of accounting lines: 
- * Expense and target.  Expense is the expense and target is the income lines. 
+ * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This is a transactional document that will
+ * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
+ * and target. Expense is the expense and target is the income lines.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -55,7 +54,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
 
     private String typeCode = ADJUSTMENT_DOC_TYPE;
     private java.sql.Date reversalDate;
-    
+
     /**
      * Initializes the array lists and some basic info.
      */
@@ -77,40 +76,40 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
 
     /**
      * Read Accessor for Reversal Date
-     *
+     * 
      * @return java.sql.Date
      */
     public java.sql.Date getReversalDate() {
         return reversalDate;
     }
-    
+
     /**
      * Write Accessor for Reversal Date
-     *
+     * 
      * @param reversalDate
      */
     public void setReversalDate(java.sql.Date reversalDate) {
         this.reversalDate = reversalDate;
     }
-    
+
     /**
      * Read Accessor for Auxiliary Voucher Type
-     *
+     * 
      * @return String
      */
     public String getTypeCode() {
         return typeCode;
     }
-    
+
     /**
      * Write Accessor for Auxiliary Voucher Type
-     *
+     * 
      * @param typeCode
      */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
-    
+
     /**
      * A helper to test whether this document is an adjustment type AV.
      * 
@@ -119,7 +118,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public boolean isAdjustmentType() {
         return ADJUSTMENT_DOC_TYPE.equals(typeCode);
     }
-    
+
     /**
      * A helper to test whether this document is an recode type AV.
      * 
@@ -128,7 +127,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public boolean isRecodeType() {
         return RECODE_DOC_TYPE.equals(typeCode);
     }
-    
+
     /**
      * A helper to test whether this document is an accrual type AV.
      * 
@@ -139,9 +138,8 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     }
 
     /**
-     * This method calculates the debit total for a JV document keying off of the 
-     * debit/debit code, only summing the accounting lines with a debitDebitCode 
-     * that matched the debit constant, and returns the results.
+     * This method calculates the debit total for a JV document keying off of the debit/debit code, only summing the accounting
+     * lines with a debitDebitCode that matched the debit constant, and returns the results.
      * 
      * @return KualiDecimal
      */
@@ -151,18 +149,17 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
+            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                 debitTotal = debitTotal.add(al.getAmount());
             }
         }
         return debitTotal;
     }
-    
+
     /**
-     * This method calculates the credit total for a JV document keying off of the 
-     * debit/credit code, only summing the accounting lines with a debitCreditCode 
-     * that matched the debit constant, and returns the results.
-     *
+     * This method calculates the credit total for a JV document keying off of the debit/credit code, only summing the accounting
+     * lines with a debitCreditCode that matched the debit constant, and returns the results.
+     * 
      * @return KualiDecimal
      */
     public KualiDecimal getCreditTotal() {
@@ -171,51 +168,53 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
+            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
                 creditTotal = creditTotal.add(al.getAmount());
             }
         }
         return creditTotal;
     }
-    
+
     /**
      * This method calculates the difference between the credit and debit total.
      * 
      * @return KualiDecimal
      */
-    public KualiDecimal getTotal() {        
+    public KualiDecimal getTotal() {
         KualiDecimal total = new KualiDecimal(0);
-        
+
         total = getCreditTotal().subtract(getDebitTotal());
 
         return total;
     }
-    
+
     /**
-     * Overrides to call super and then change the reversal date if the type is accrual and the date is greater than the set reversal date.
+     * Overrides to call super and then change the reversal date if the type is accrual and the date is greater than the set
+     * reversal date.
      */
     @Override
     public void handleRouteStatusChange() {
         LOG.debug("In handleRouteStatusChange() for AV documents");
         super.handleRouteStatusChange();
 
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) { // only do this stuff if the document has been processed and approved
+        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) { // only do this stuff if the document has been
+                                                                                    // processed and approved
             // update the reversal data accoringdingly
             updateReversalDate();
         }
     }
 
     /**
-     * This method handles updating the reversal data on the document in addition to all of the GLPEs, but only for 
-     * the accrual and recode types.
+     * This method handles updating the reversal data on the document in addition to all of the GLPEs, but only for the accrual and
+     * recode types.
      */
     private void updateReversalDate() {
         if (isAccrualType() || isRecodeType()) {
             java.sql.Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
-            if(getReversalDate().before(today)) {
+            if (getReversalDate().before(today)) {
                 // set the reversal date on the document
                 setReversalDate(today);
-                
+
                 // set the reversal date on each GLPE for the document too
                 List<GeneralLedgerPendingEntry> glpes = getGeneralLedgerPendingEntries();
                 for (GeneralLedgerPendingEntry entry : glpes) {
@@ -242,10 +241,10 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     public AccountingLineParser getAccountingLineParser() {
         return new AuxiliaryVoucherAccountingLineParser();
     }
-    
+
     /**
-     * Checks for a reason why this document should not be copied or error corrected. This is overriden
-     * to remove posting year check per KULEDOCS-1543.
+     * Checks for a reason why this document should not be copied or error corrected. This is overriden to remove posting year check
+     * per KULEDOCS-1543.
      * 
      * @param actionGerund describes the action, "copying" or "error-correction"
      * @param ddAllows whether the DataDictionary allows this kind of copying for this document

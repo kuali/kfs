@@ -69,7 +69,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
 
         return keys;
     }
-    
+
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
      */
@@ -125,22 +125,22 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         Class c = null;
-        /*if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) {
-            c = AccountBalanceByConsolidation.class;
-        }
-        else*/ if(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE.equals(attributeName)) {
+        /*
+         * if("financialObject.financialObjectLevel.financialConsolidationObjectCode".equals(attributeName)) { c =
+         * AccountBalanceByConsolidation.class; } else
+         */if (GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE.equals(attributeName)) {
             c = AccountBalance.class;
         }
-        else if(PropertyConstants.OBJECT_CODE.equals(attributeName)) {
+        else if (PropertyConstants.OBJECT_CODE.equals(attributeName)) {
             c = AccountBalanceByObject.class;
         }
         else {
             c = AccountBalanceByLevel.class;
         }
-        
+
         return c;
     }
-    
+
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */

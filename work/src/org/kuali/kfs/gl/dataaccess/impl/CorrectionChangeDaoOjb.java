@@ -61,7 +61,7 @@ public class CorrectionChangeDaoOjb extends PersistenceBrokerDaoSupport implemen
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
 
         List specifications = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        
+
         return specifications;
     }
 

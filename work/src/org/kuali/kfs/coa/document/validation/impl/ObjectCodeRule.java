@@ -56,7 +56,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     DateTimeService dateTimeService;
     ObjectLevelService objectLevelService;
     ObjectCodeService objectCodeService;
-    ObjectConsService  objectConsService;
+    ObjectConsService objectConsService;
 
     final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIllegalValues";
     final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES = "ObjectCodeValidBudgetAggregationCodes";
@@ -152,7 +152,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String reportsToChartCode = objectCode.getReportsToChartOfAccountsCode();
         String calculatedReportsToChartCode;
         String reportsToObjectCode = objectCode.getReportsToFinancialObjectCode();
-        
+
         // We must calculate a reportsToChartCode here to duplicate the logic
         // that takes place in the preRule.
         // The reason is that when we do a SAVE, the pre-rules are not
@@ -208,7 +208,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         }
 
         if (!this.objectLevelTableDoesNotHave(chartCode, objCode)) {
-            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR, "Object Code" );
+            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR, "Object Code");
             result = false;
         }
 

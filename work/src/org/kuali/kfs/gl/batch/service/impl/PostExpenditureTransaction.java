@@ -87,8 +87,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
 
         // Is the ICR indicator set and the ICR Series identifier set?
         // Is the period code a non-balance period? If so, continue, if not, we aren't posting this transaction
-        if ( objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && 
-                (!Constants.PERIOD_CODE_ANNUAL_BALNCE.equals(universityFiscalPeriodCode)) && (!Constants.PERIOD_CODE_BEGINNING_BALNCE.equals(universityFiscalPeriodCode)) && (!Constants.PERIOD_CODE_CG_BEGINNING_BALNCE.equals(universityFiscalPeriodCode)) ) {
+        if (objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && (!Constants.PERIOD_CODE_ANNUAL_BALNCE.equals(universityFiscalPeriodCode)) && (!Constants.PERIOD_CODE_BEGINNING_BALNCE.equals(universityFiscalPeriodCode)) && (!Constants.PERIOD_CODE_CG_BEGINNING_BALNCE.equals(universityFiscalPeriodCode))) {
             // Continue on the posting process
 
             // Check the sub account type code. A21 subaccounts with the type of CS don't get posted
@@ -113,7 +112,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
             }
             else {
                 // If the ICR type code is empty or 10, don't post
-                if ( (! StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || Constants.MONTH10.equals(account.getAcctIndirectCostRcvyTypeCd()) ) {
+                if ((!StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || Constants.MONTH10.equals(account.getAcctIndirectCostRcvyTypeCd())) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR type is null or 10 - not posted");
                     return false;

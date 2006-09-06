@@ -72,7 +72,7 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
                 // update baselines in form
                 ((KualiTransactionalDocumentFormBase) form).setBaselineSourceAccountingLines(budgetDocument.getSourceAccountingLines());
                 ((KualiTransactionalDocumentFormBase) form).setBaselineTargetAccountingLines(budgetDocument.getTargetAccountingLines());
-                
+
                 // return to document after lines are generated
                 super.event.setActionForwardName(Constants.MAPPING_BASIC);
                 return false;

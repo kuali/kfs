@@ -45,19 +45,19 @@ import org.kuali.module.gl.service.ScrubberService;
 public class CorrectionDocument extends DocumentBase {
 
     // private String financialDocumentNumber;
-    
+
     private String correctionTypeCode; // Smanual, Scriteria, Fmanual, Fcriteria
     private boolean correctionSelectionCode; // Matched criteria
     private boolean correctionFileDeleteCode; // Delete Output
-    private Integer correctionRowCount;  
+    private Integer correctionRowCount;
     private KualiDecimal correctionDebitTotalAmount;
     private KualiDecimal correctionCreditTotalAmount;
-    private String correctionInputFileName; //Should be integer?
-    private String correctionOutputFileName; //Should be integer?
+    private String correctionInputFileName; // Should be integer?
+    private String correctionOutputFileName; // Should be integer?
     private String correctionScriptText;
     private Long correctionInputGroupId;
     private Long correctionOutputGroupId;
-    
+
     // private DocumentHeader financialDocument;
 
     /**
@@ -110,7 +110,6 @@ public class CorrectionDocument extends DocumentBase {
     // public void setFinancialDocumentNumber(String financialDocumentNumber) {
     // this.financialDocumentNumber = financialDocumentNumber;
     // }
-
     /**
      * Gets the correctionTypeCode attribute.
      * 
@@ -454,7 +453,8 @@ public class CorrectionDocument extends DocumentBase {
     }
 
     /**
-     * Gets the correctionInputGroupId attribute. 
+     * Gets the correctionInputGroupId attribute.
+     * 
      * @return Returns the correctionInputGroupId.
      */
     public Long getCorrectionInputGroupId() {
@@ -463,6 +463,7 @@ public class CorrectionDocument extends DocumentBase {
 
     /**
      * Sets the correctionInputGroupId attribute value.
+     * 
      * @param correctionInputGroupId The correctionInputGroupId to set.
      */
     public void setCorrectionInputGroupId(Long correctionInputGroupId) {
@@ -470,7 +471,8 @@ public class CorrectionDocument extends DocumentBase {
     }
 
     /**
-     * Gets the correctionOutputGroupId attribute. 
+     * Gets the correctionOutputGroupId attribute.
+     * 
      * @return Returns the correctionOutputGroupId.
      */
     public Long getCorrectionOutputGroupId() {
@@ -479,12 +481,13 @@ public class CorrectionDocument extends DocumentBase {
 
     /**
      * Sets the correctionOutputGroupId attribute value.
+     * 
      * @param correctionOutputGroupId The correctionOutputGroupId to set.
      */
     public void setCorrectionOutputGroupId(Long correctionOutputGroupId) {
         this.correctionOutputGroupId = correctionOutputGroupId;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -501,20 +504,19 @@ public class CorrectionDocument extends DocumentBase {
             CorrectionDocumentService correctionDocumentService = (CorrectionDocumentService) SpringServiceLocator.getBeanFactory().getBean("glCorrectionDocumentService");
             CorrectionDocument oldDoc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
             String groupId = oldDoc.getCorrectionOutputFileName();
-            
+
             OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
             OriginEntryGroup approvedGLCP = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(groupId));
             approvedGLCP.setScrub(true);
             originEntryGroupService.save(approvedGLCP);
-            ScrubberService scrubberService = (ScrubberService) SpringServiceLocator.getBeanFactory().getBean("glScrubberService"); 
+            ScrubberService scrubberService = (ScrubberService) SpringServiceLocator.getBeanFactory().getBean("glScrubberService");
             scrubberService.scrubGroupReportOnly(approvedGLCP);
-            
 
-            
+
         }
-        
-        
+
+
     }
 
-   
+
 }

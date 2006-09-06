@@ -35,7 +35,7 @@ public interface TransferOfFundsDocumentRuleConstants extends TransactionalDocum
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
     public static final String TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE = "TransferOfFundsIncomeObjectTypeCode";
     public static final String TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE = "TransferOfFundsExpenseObjectTypeCode";
-    
+
     // doc type constant
     public static final String TRANSFER_OF_FUNDS_DOC_TYPE_CODE = "TF";
     public static final String YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE = "YETF";

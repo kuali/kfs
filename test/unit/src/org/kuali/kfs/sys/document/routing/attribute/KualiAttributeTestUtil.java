@@ -37,8 +37,7 @@ import edu.iu.uis.eden.routeheader.StandardDocumentContent;
 import edu.iu.uis.eden.routetemplate.RouteContext;
 
 /**
- * This class contains various utility methods for doing tests on 
- * workflow attributes.
+ * This class contains various utility methods for doing tests on workflow attributes.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -48,14 +47,14 @@ public class KualiAttributeTestUtil {
 
     public static final String TOF_FEMP_SUBCODE_ONELINER = "TransferOfFunds_FEMPSubcode_OneLiner.xml";
     public static final String PAYEE_MAINTENANCE_NEWDOC = "PayeeMaintenanceDocument_CreateNew.xml";
-    
+
     /**
      * 
-     * This method loads a document XML from a file in this directory, and loads it into a 
-     * DocumentContent class, which is then returned.
+     * This method loads a document XML from a file in this directory, and loads it into a DocumentContent class, which is then
+     * returned.
      * 
      * @param fileName - file name (no path) of a file in the same directory as the test
-     * @return Returns a DocumentContent instance (StandardDocumentContent) populated with the XML loaded from the file 
+     * @return Returns a DocumentContent instance (StandardDocumentContent) populated with the XML loaded from the file
      * @throws IOException
      * @throws InvalidXmlException
      */

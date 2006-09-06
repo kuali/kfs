@@ -244,9 +244,8 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * This method will build a string representation of a qualified role a
-     * qualified role is the role, with the corresponding string values that
-     * further qualify the role to apply for a given object.
+     * This method will build a string representation of a qualified role a qualified role is the role, with the corresponding
+     * string values that further qualify the role to apply for a given object.
      * 
      * @param roleName
      * @param chart
@@ -257,8 +256,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.RoleAttribute#getQualifiedRoleNames(java.lang.String,
-     *      java.lang.String)
+     * @see edu.iu.uis.eden.routetemplate.RoleAttribute#getQualifiedRoleNames(java.lang.String, java.lang.String)
      */
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         Set qualifiedRoleNames = new HashSet();
@@ -273,14 +271,17 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('/documentContent/attributeContent/report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
                     chartXPath = "wf:xstreamsafe('/documentContent/attributeContent/report/chart')";
-                } else { // this is the typical path during normal workflow
+                }
+                else { // this is the typical path during normal workflow
                     // operation
                     chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
                 }
                 chart = xpath.evaluate(chartXPath, docContent.getDocument());
-            } catch (XPathExpressionException e) {
+            }
+            catch (XPathExpressionException e) {
                 throw new RuntimeException("Error evaluating xpath expression to locate chart.", e);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new RuntimeException("An unexpected error occurred while trying to locate the Chart.", e);
             }
 
@@ -288,15 +289,13 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart));
             }
             /*
-             * Document doc = null; doc =
-             * XmlHelper.buildJDocument(docContent.getDocument()); List
-             * chartElements = XmlHelper.findElements(doc.getRootElement(),
-             * CHART_ATTRIBUTE); for (Iterator iter = chartElements.iterator();
+             * Document doc = null; doc = XmlHelper.buildJDocument(docContent.getDocument()); List chartElements =
+             * XmlHelper.findElements(doc.getRootElement(), CHART_ATTRIBUTE); for (Iterator iter = chartElements.iterator();
              * iter.hasNext();) { Element chartElement = (Element)iter.next();
-             * qualifiedRoleNames.add(getQualifiedRoleString(roleName,
-             * chartElement.getChild(FIN_COA_CD_KEY).getText())); }
+             * qualifiedRoleNames.add(getQualifiedRoleString(roleName, chartElement.getChild(FIN_COA_CD_KEY).getText())); }
              */
-        } else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
+        }
+        else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             qualifiedRoleNames.add(UNIVERSITY_CHART_MANAGER_ROLE_KEY);
         }
         return new ArrayList(qualifiedRoleNames);
@@ -321,7 +320,8 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         Chart chart = null;
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             members.add(new AuthenticationUserId(getChart(getUnqualifiedChartFromString(qualifiedRole)).getFinCoaManagerUniversal().getPersonUserIdentifier()));
-        } else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
+        }
+        else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             members.add(new AuthenticationUserId(SpringServiceLocator.getChartService().getUniversityChart().getFinCoaManagerUniversal().getPersonUserIdentifier()));
         }
         return new ResolvedQualifiedRole(roleName, members);

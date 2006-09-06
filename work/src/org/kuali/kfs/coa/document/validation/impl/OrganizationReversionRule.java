@@ -69,38 +69,37 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
         newOrgReversion = (OrganizationReversion) document.getNewMaintainableObject().getBusinessObject();
 
         // add check to validate document recursively to get to the collection attributes
-        success &= validateDetailBusinessObjects( newOrgReversion );
+        success &= validateDetailBusinessObjects(newOrgReversion);
 
         return success;
     }
 
     /**
      * 
-     * Tests each option attached to the main business object and validates its
-     * properties.
+     * Tests each option attached to the main business object and validates its properties.
      * 
      * @param extendedAttribute
      * @return
      */
-    private boolean validateDetailBusinessObjects( OrganizationReversion orgReversion ) {
-        GlobalVariables.getErrorMap().addToErrorPath( "document.newMaintainableObject" );
+    private boolean validateDetailBusinessObjects(OrganizationReversion orgReversion) {
+        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
         List<OrganizationReversionDetail> details = orgReversion.getOrganizationReversionDetail();
         int index = 0;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
-        for ( OrganizationReversionDetail dtl : details ) {
-            String errorPath = "organizationReversionDetail["+index+"]";
-            GlobalVariables.getErrorMap().addToErrorPath( errorPath );
-            getDictionaryValidationService().validateBusinessObject( dtl );
-            GlobalVariables.getErrorMap().removeFromErrorPath( errorPath );
+        for (OrganizationReversionDetail dtl : details) {
+            String errorPath = "organizationReversionDetail[" + index + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            getDictionaryValidationService().validateBusinessObject(dtl);
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             index++;
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath( "document.newMaintainableObject" );
-        return GlobalVariables.getErrorMap().getErrorCount() > originalErrorCount;        
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
+        return GlobalVariables.getErrorMap().getErrorCount() > originalErrorCount;
     }
-    
+
     /*
-     * TODO: Upgrade this to use the new AddLineRule/AddLineEvent system
-     * which will allow us to process each attribute as it is added
+     * TODO: Upgrade this to use the new AddLineRule/AddLineEvent system which will allow us to process each attribute as it is
+     * added
      */
 
 }

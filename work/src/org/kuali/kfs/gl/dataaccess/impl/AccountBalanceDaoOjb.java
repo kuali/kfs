@@ -47,8 +47,7 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
- * TODO Oracle Specific Code in this class
+ * @author jsissom TODO Oracle Specific Code in this class
  * 
  */
 public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements AccountBalanceDao, OracleSpecific {
@@ -100,25 +99,17 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
 
-        String[] attributes = new String[] {
-            PropertyConstants.UNIVERSITY_FISCAL_YEAR,PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER,
-            PropertyConstants.OBJECT_CODE, OBJ_TYP_CD,
-            "sum(currentBudgetLineBalanceAmount)","sum(accountLineActualsBalanceAmount)","sum(accountLineEncumbranceBalanceAmount)"
-        };
+        String[] attributes = new String[] { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE, OBJ_TYP_CD, "sum(currentBudgetLineBalanceAmount)", "sum(accountLineActualsBalanceAmount)", "sum(accountLineEncumbranceBalanceAmount)" };
 
-        String[] groupBy = new String[] {
-                PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE,
-                OBJ_TYP_CD
-        };
-        
+        String[] groupBy = new String[] { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE, OBJ_TYP_CD };
+
         query.setAttributes(attributes);
         query.addGroupBy(groupBy);
         OJBUtility.limitResultSize(query);
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.module.gl.dao.AccountBalanceDao#getConsolidatedAccountBalanceRecordCount(java.util.Map)
      */
@@ -128,18 +119,14 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
 
-        query.setAttributes(new String[] {"count(*)"});
+        query.setAttributes(new String[] { "count(*)" });
 
-        String[] groupBy = new String[] {
-                PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE,
-                OBJ_TYP_CD
-        };
+        String[] groupBy = new String[] { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE, OBJ_TYP_CD };
         query.addGroupBy(groupBy);
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.module.gl.dao.AccountBalanceDao#findAvailableAccountBalance(java.util.Map)
      */
@@ -149,23 +136,24 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountBalance());
         QueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
         OJBUtility.limitResultSize(query);
-        
+
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
     /**
      * 
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByConsolidationByObjectTypes(java.lang.String[], java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
+     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByConsolidationByObjectTypes(java.lang.String[],
+     *      java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes,Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated,int pendingEntriesCode) {
+    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByConsolidationByObjectTypes() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
             Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
-            AccountBalanceConsolidation abc = new AccountBalanceConsolidation(this,optionsService,dateTimeService,c);
+            AccountBalanceConsolidation abc = new AccountBalanceConsolidation(this, optionsService, dateTimeService, c);
 
-            return abc.findAccountBalanceByConsolidationObjectTypes(objectTypes,universityFiscalYear,chartOfAccountsCode,accountNumber,isExcludeCostShare,isConsolidated,pendingEntriesCode);
+            return abc.findAccountBalanceByConsolidationObjectTypes(objectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isExcludeCostShare, isConsolidated, pendingEntriesCode);
         }
         catch (Exception e) {
             LOG.error("findAccountBalanceByConsolidation() " + e.getMessage(), e);
@@ -175,17 +163,18 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
 
     /**
      * 
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
+     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated,int pendingEntriesCode) {
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByLevel() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
             Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
-            AccountBalanceLevel abl = new AccountBalanceLevel(this,optionsService,dateTimeService,c);
+            AccountBalanceLevel abl = new AccountBalanceLevel(this, optionsService, dateTimeService, c);
 
-            return abl.findAccountBalanceByLevel(universityFiscalYear,chartOfAccountsCode,accountNumber,financialConsolidationObjectCode,isCostShareExcluded,isConsolidated,pendingEntriesCode);
+            return abl.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntriesCode);
         }
         catch (Exception e) {
             LOG.error("findAccountBalanceByLevel() " + e.getMessage(), e);
@@ -195,17 +184,18 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
 
     /**
      * 
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
+     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated,int pendingEntriesCode) {
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByObject() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
             Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
-            AccountBalanceObject abo = new AccountBalanceObject(this,optionsService,dateTimeService,c);
+            AccountBalanceObject abo = new AccountBalanceObject(this, optionsService, dateTimeService, c);
 
-            return abo.findAccountBalanceByObject(universityFiscalYear,chartOfAccountsCode,accountNumber,financialObjectLevelCode,financialReportingSortCode,isCostShareExcluded,isConsolidated,pendingEntriesCode);
+            return abo.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntriesCode);
         }
         catch (Exception e) {
             LOG.error("findAccountBalanceByObject() " + e.getMessage(), e);
@@ -239,8 +229,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      * 
      */
     void deleteCostSharePendingEntries() {
-        sqlCommand("DELETE gl_pending_entry_mt WHERE ROWID IN (SELECT g.ROWID FROM gl_pending_entry_mt g,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = g.fin_coa_cd " +
-                "AND a.account_nbr = g.account_nbr AND a.sub_acct_nbr = g.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND g.person_unvl_id = USERENV('SESSIONID'))");        
+        sqlCommand("DELETE gl_pending_entry_mt WHERE ROWID IN (SELECT g.ROWID FROM gl_pending_entry_mt g,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = g.fin_coa_cd " + "AND a.account_nbr = g.account_nbr AND a.sub_acct_nbr = g.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND g.person_unvl_id = USERENV('SESSIONID'))");
     }
 
     /**
@@ -252,8 +241,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      */
     int countPendingEntries() {
         List results = sqlSelect("select count(*) as COUNT from gl_pending_entry_mt WHERE person_unvl_id = USERENV('SESSIONID')");
-        Map row0 = (Map)results.get(0);
-        BigDecimal count = (BigDecimal)row0.get("COUNT");
+        Map row0 = (Map) results.get(0);
+        BigDecimal count = (BigDecimal) row0.get("COUNT");
         return count.intValue();
     }
 
@@ -267,7 +256,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
     void cleanUpPendingEntries(Integer universityFiscalYear) {
         // Clean up the data
         sqlCommand("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = " + universityFiscalYear + " where PERSON_UNVL_ID = USERENV('SESSIONID')");
-        sqlCommand("update gl_pending_entry_mt set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");        
+        sqlCommand("update gl_pending_entry_mt set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");
     }
 
     /**
@@ -310,7 +299,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      * This method is package protected for a reason
      * 
      * @param sql Sql to run
-     * @return List of rows returned.  Each item is a Map where the key is the field name, value is the field value
+     * @return List of rows returned. Each item is a Map where the key is the field name, value is the field value
      */
     List sqlSelect(String sql) {
         LOG.debug("sqlSelect() started");

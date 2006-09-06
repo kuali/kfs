@@ -80,7 +80,8 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * This method checks that there is a value in a disencumbrance line's reference number field. This cannot be done by the
-     * DataDictionary validation because not all documents require it.  It does not validate the existence of the referenced document.
+     * DataDictionary validation because not all documents require it. It does not validate the existence of the referenced
+     * document.
      * 
      * @param accountingLine
      * 
@@ -215,8 +216,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
     /**
      * limits only to expense object type codes
      * 
-     * @see IsDebitUtils#isDebitConsideringSection(TransactionalDocumentRuleBase, TransactionalDocument,
-     *      AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)

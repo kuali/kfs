@@ -56,7 +56,7 @@ public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBas
             CreditCardReceiptDocument ccrDoc = ccrForm.getCreditCardReceiptDocument();
 
             ccrDoc.setTotalCreditCardAmount(ccrDoc.calculateCreditCardReceiptTotal()); // recalc b/c changes to the amounts could
-                                                                                        // have happened
+            // have happened
         }
 
         // proceed as usual

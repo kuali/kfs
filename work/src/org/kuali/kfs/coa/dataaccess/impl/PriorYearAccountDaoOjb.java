@@ -44,7 +44,7 @@ public class PriorYearAccountDaoOjb extends PersistenceBrokerDaoSupport implemen
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
 
-        return (PriorYearAccount)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PriorYearAccount.class, criteria));
+        return (PriorYearAccount) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(PriorYearAccount.class, criteria));
     }
 
 }

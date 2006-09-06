@@ -33,46 +33,46 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 public class OrganizationRoutingModelTest extends KualiTestBaseWithSpring {
-    
+
     OrganizationRoutingModel model = new OrganizationRoutingModel();
-    
-    private final static String MODEL_NAME="junit-test";
-    
+
+    private final static String MODEL_NAME = "junit-test";
+
     BusinessObjectService boService;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         boService = SpringServiceLocator.getBusinessObjectService();
     }
-    
+
     public void testSaveModel() {
         model.setOrganizationRoutingModelName(MODEL_NAME);
         model.setChartOfAccountsCode("BL");
         model.setOrganizationCode("AMUS");
         model.setAccountDelegateUniversalId("12345");
         model.setFinancialDocumentTypeCode("xx");
-        
+
         boService.save(model);
         assertTrue(loadModel(MODEL_NAME));
     }
 
     public boolean loadModel(String name) {
-        
+
         Map fieldValues = new HashMap();
         Collection<OrganizationRoutingModel> foundModel;
-        fieldValues.put("ORG_RTNG_MDL_NM",name);
-        
-        foundModel=boService.findMatching(model.getClass(),fieldValues);
-        
+        fieldValues.put("ORG_RTNG_MDL_NM", name);
+
+        foundModel = boService.findMatching(model.getClass(), fieldValues);
+
         List<DelegateChangeDocument> delegateChanges = new ArrayList();
-        
+
         for (OrganizationRoutingModel model : foundModel) {
             delegateChanges.add(new DelegateChangeDocument(model));
         }
-        
-        return foundModel!=null && foundModel.size()>0;
-        
+
+        return foundModel != null && foundModel.size() > 0;
+
     }
-    
+
 
 }

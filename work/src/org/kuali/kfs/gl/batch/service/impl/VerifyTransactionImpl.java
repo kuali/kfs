@@ -129,6 +129,7 @@ public class VerifyTransactionImpl implements VerifyTransaction {
 
     /**
      * Sets the kualiConfigurationService attribute value.
+     * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

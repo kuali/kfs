@@ -32,7 +32,7 @@ public interface EntryService {
      * @param year
      */
     public void purgeYearByChart(String chart, int year);
-    
+
     /**
      * This method gets the number of GL entries according to input fields and values
      * 

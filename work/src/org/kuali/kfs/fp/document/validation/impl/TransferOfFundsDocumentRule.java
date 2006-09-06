@@ -89,8 +89,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * <li> target lines have the oposite debit/credit codes as the source lines
      * </ol>
      * 
-     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
-     *      AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -99,7 +98,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
         // only allow income or expense
         if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
-    }
+        }
         boolean isDebit = false;
         if (accountingLine.isSourceAccountingLine()) {
             isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);

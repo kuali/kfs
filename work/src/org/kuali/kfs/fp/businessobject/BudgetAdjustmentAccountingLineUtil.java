@@ -92,25 +92,26 @@ public class BudgetAdjustmentAccountingLineUtil {
      * @param fromLine the line to take the values to use in writing to the toLine
      */
     public static void copyFrom(BudgetAdjustmentAccountingLine toLine, AccountingLine other) {
-       if(BudgetAdjustmentAccountingLine.class.isAssignableFrom(other.getClass())){
-           BudgetAdjustmentAccountingLine fromLine=(BudgetAdjustmentAccountingLine)other;
-        if (toLine != fromLine) {
-            toLine.setCurrentBudgetAdjustmentAmount(fromLine.getCurrentBudgetAdjustmentAmount());
-            toLine.setBaseBudgetAdjustmentAmount(fromLine.getBaseBudgetAdjustmentAmount());
-            toLine.setFinancialDocumentMonth1LineAmount(fromLine.getFinancialDocumentMonth1LineAmount());
-            toLine.setFinancialDocumentMonth2LineAmount(fromLine.getFinancialDocumentMonth2LineAmount());
-            toLine.setFinancialDocumentMonth3LineAmount(fromLine.getFinancialDocumentMonth3LineAmount());
-            toLine.setFinancialDocumentMonth4LineAmount(fromLine.getFinancialDocumentMonth4LineAmount());
-            toLine.setFinancialDocumentMonth5LineAmount(fromLine.getFinancialDocumentMonth5LineAmount());
-            toLine.setFinancialDocumentMonth6LineAmount(fromLine.getFinancialDocumentMonth6LineAmount());
-            toLine.setFinancialDocumentMonth7LineAmount(fromLine.getFinancialDocumentMonth7LineAmount());
-            toLine.setFinancialDocumentMonth8LineAmount(fromLine.getFinancialDocumentMonth8LineAmount());
-            toLine.setFinancialDocumentMonth9LineAmount(fromLine.getFinancialDocumentMonth9LineAmount());
-            toLine.setFinancialDocumentMonth10LineAmount(fromLine.getFinancialDocumentMonth10LineAmount());
-            toLine.setFinancialDocumentMonth11LineAmount(fromLine.getFinancialDocumentMonth11LineAmount());
-            toLine.setFinancialDocumentMonth12LineAmount(fromLine.getFinancialDocumentMonth12LineAmount());
-            toLine.setFringeBenefitIndicator(fromLine.isFringeBenefitIndicator());
-        }}
+        if (BudgetAdjustmentAccountingLine.class.isAssignableFrom(other.getClass())) {
+            BudgetAdjustmentAccountingLine fromLine = (BudgetAdjustmentAccountingLine) other;
+            if (toLine != fromLine) {
+                toLine.setCurrentBudgetAdjustmentAmount(fromLine.getCurrentBudgetAdjustmentAmount());
+                toLine.setBaseBudgetAdjustmentAmount(fromLine.getBaseBudgetAdjustmentAmount());
+                toLine.setFinancialDocumentMonth1LineAmount(fromLine.getFinancialDocumentMonth1LineAmount());
+                toLine.setFinancialDocumentMonth2LineAmount(fromLine.getFinancialDocumentMonth2LineAmount());
+                toLine.setFinancialDocumentMonth3LineAmount(fromLine.getFinancialDocumentMonth3LineAmount());
+                toLine.setFinancialDocumentMonth4LineAmount(fromLine.getFinancialDocumentMonth4LineAmount());
+                toLine.setFinancialDocumentMonth5LineAmount(fromLine.getFinancialDocumentMonth5LineAmount());
+                toLine.setFinancialDocumentMonth6LineAmount(fromLine.getFinancialDocumentMonth6LineAmount());
+                toLine.setFinancialDocumentMonth7LineAmount(fromLine.getFinancialDocumentMonth7LineAmount());
+                toLine.setFinancialDocumentMonth8LineAmount(fromLine.getFinancialDocumentMonth8LineAmount());
+                toLine.setFinancialDocumentMonth9LineAmount(fromLine.getFinancialDocumentMonth9LineAmount());
+                toLine.setFinancialDocumentMonth10LineAmount(fromLine.getFinancialDocumentMonth10LineAmount());
+                toLine.setFinancialDocumentMonth11LineAmount(fromLine.getFinancialDocumentMonth11LineAmount());
+                toLine.setFinancialDocumentMonth12LineAmount(fromLine.getFinancialDocumentMonth12LineAmount());
+                toLine.setFringeBenefitIndicator(fromLine.isFringeBenefitIndicator());
+            }
+        }
     }
 
     /**

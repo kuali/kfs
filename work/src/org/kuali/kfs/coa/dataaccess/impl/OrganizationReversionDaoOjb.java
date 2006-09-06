@@ -50,7 +50,7 @@ public class OrganizationReversionDaoOjb extends PersistenceBrokerDaoSupport imp
         criteria.addEqualTo("chartOfAccountsCode", financialChartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
 
-        return (OrganizationReversion)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class, criteria));
+        return (OrganizationReversion) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class, criteria));
     }
 
     public List<OrganizationReversionCategory> getCategories() {
@@ -60,6 +60,6 @@ public class OrganizationReversionDaoOjb extends PersistenceBrokerDaoSupport imp
         QueryByCriteria q = QueryFactory.newQuery(OrganizationReversionCategory.class, criteria);
         q.addOrderByAscending("organizationReversionSortCode");
 
-        return (List)getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 }

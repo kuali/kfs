@@ -93,8 +93,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
-     *      AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -114,7 +113,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         return true;
     }
-    
+
     /**
      * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
@@ -130,10 +129,10 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
         explicitEntry.setReferenceFinancialSystemOriginationCode(null);
         explicitEntry.setReferenceFinancialDocumentTypeCode(null);
     }
-    
+
     /**
      * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
-     * using information from the <code>{@link AccountingLine}</code>.  Format is "01-12345: blah blah blah".
+     * using information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
      * 
      * @param line
      * @param transactionalDocument
@@ -141,22 +140,23 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
      */
     private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(TransactionalDocument transactionalDocument, AccountingLine line) {
         String description = "";
-        if(StringUtils.isBlank(line.getReferenceNumber())) {
+        if (StringUtils.isBlank(line.getReferenceNumber())) {
             throw new IllegalStateException("Reference Document Number is required and should be validated before this point.");
         }
-        
+
         description = Constants.ORIGIN_CODE_KUALI + line.getReferenceNumber();
-        
-        if(StringUtils.isNotBlank(line.getFinancialDocumentLineDescription())) {
+
+        if (StringUtils.isNotBlank(line.getFinancialDocumentLineDescription())) {
             description += ": " + line.getFinancialDocumentLineDescription();
-        } else {
+        }
+        else {
             description += ": " + transactionalDocument.getDocumentHeader().getFinancialDocumentDescription();
         }
-        
-        if(description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {
+
+        if (description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {
             description = description.substring(0, GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH - 3) + "...";
         }
-            
+
         return description;
     }
 

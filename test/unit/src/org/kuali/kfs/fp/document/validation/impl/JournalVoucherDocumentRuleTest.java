@@ -922,126 +922,129 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
     /**
      * 
      */
-//    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
-//        boolean failedAsExpected = false;
-//        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-//        try {
-//            TargetAccountingLine line = (TargetAccountingLine) getTargetLineParameter1().createLine();
-//
-//            rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
-//        }
-//        catch (IllegalArgumentException e) {
-//            failedAsExpected = true;
-//        }
-//        assertTrue(failedAsExpected);
-//    }
-//
-//    /**
-//     * 
-//     */
-//    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_null() {
-//        boolean failedAsExpected = false;
-//        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, null);
-//
-//        assertNull(item);
-//    }
-//
-//    /**
-//     * @throws Exception
-//     */
-//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_notAllowed() throws Exception {
-//        JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
-//        document.setBalanceTypeCode("BB");
-//        SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
-//
-//        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
-//
-//        assertNull(item);
-//    }
-
+    // public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
+    // boolean failedAsExpected = false;
+    // JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+    // try {
+    // TargetAccountingLine line = (TargetAccountingLine) getTargetLineParameter1().createLine();
+    //
+    // rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
+    // }
+    // catch (IllegalArgumentException e) {
+    // failedAsExpected = true;
+    // }
+    // assertTrue(failedAsExpected);
+    // }
+    //
+    // /**
+    // *
+    // */
+    // public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_null() {
+    // boolean failedAsExpected = false;
+    // JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, null);
+    //
+    // assertNull(item);
+    // }
+    //
+    // /**
+    // * @throws Exception
+    // */
+    // public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_notAllowed() throws Exception {
+    // JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
+    // document.setBalanceTypeCode("BB");
+    // SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
+    //
+    // JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
+    //
+    // assertNull(item);
+    // }
     /**
      * @throws Exception
      */
-//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_not_CashInBankCode() throws Exception {
-//        JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
-//        document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
-//
-//        SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
-//        line.setFinancialObjectCode("0");
-//        line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_CASH_AT_ACCOUNT);
-//
-//        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
-//
-//        assertNull(item);
-//    }
-
+    // public void
+    // testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_not_CashInBankCode()
+    // throws Exception {
+    // JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
+    // document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
+    //
+    // SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
+    // line.setFinancialObjectCode("0");
+    // line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_CASH_AT_ACCOUNT);
+    //
+    // JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
+    //
+    // assertNull(item);
+    // }
     /**
      * @throws Exception
      */
-//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_cashInBank() throws Exception {
-//        JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
-//        document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
-//
-//        SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
-//        line.setFinancialObjectCode(line.getChart().getFinancialCashObjectCode());
-//        line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_CASH_AT_ACCOUNT);
-//        // used arbitrary value to ensure what goes in is what goes out. if the 'standard' C/D values were used there is now way of
-//        // knowing if the code changed it.
-//        String debitCreditCode = "M";
-//        line.setDebitCreditCode(debitCreditCode);
-//
-//        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
-//
-//        assertNotNull(item);
-//        assertEquals(debitCreditCode, item.getDebitCreditCode());
-//    }
-
+    // public void
+    // testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_cashInBank()
+    // throws Exception {
+    // JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
+    // document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
+    //
+    // SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
+    // line.setFinancialObjectCode(line.getChart().getFinancialCashObjectCode());
+    // line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_CASH_AT_ACCOUNT);
+    // // used arbitrary value to ensure what goes in is what goes out. if the 'standard' C/D values were used there is now way of
+    // // knowing if the code changed it.
+    // String debitCreditCode = "M";
+    // line.setDebitCreditCode(debitCreditCode);
+    //
+    // JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
+    //
+    // assertNotNull(item);
+    // assertEquals(debitCreditCode, item.getDebitCreditCode());
+    // }
     /**
      * @throws Exception
      */
-//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_D() throws Exception {
-//        JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
-//        document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
-//
-//        SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
-//        line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_ACCOUNT);
-//        line.setDebitCreditCode(GL_DEBIT_CODE);
-//
-//        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
-//
-//        assertNotNull(item);
-//        assertEquals(GL_CREDIT_CODE, item.getDebitCreditCode());
-//    }
-
+    // public void
+    // testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_D()
+    // throws Exception {
+    // JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
+    // document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
+    //
+    // SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
+    // line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_ACCOUNT);
+    // line.setDebitCreditCode(GL_DEBIT_CODE);
+    //
+    // JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
+    //
+    // assertNotNull(item);
+    // assertEquals(GL_CREDIT_CODE, item.getDebitCreditCode());
+    // }
     /**
      * @throws Exception
      */
-//    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_C() throws Exception {
-//        JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
-//        document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
-//
-//        SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
-//        line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_ACCOUNT);
-//        line.setDebitCreditCode(GL_CREDIT_CODE);
-//
-//        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
-//
-//        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
-//
-//        assertNotNull(item);
-//        assertEquals(GL_DEBIT_CODE, item.getDebitCreditCode());
-//    }
-
+    // public void
+    // testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_C()
+    // throws Exception {
+    // JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
+    // document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
+    //
+    // SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
+    // line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_ACCOUNT);
+    // line.setDebitCreditCode(GL_CREDIT_CODE);
+    //
+    // JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+    //
+    // SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(document, line);
+    //
+    // assertNotNull(item);
+    // assertEquals(GL_DEBIT_CODE, item.getDebitCreditCode());
+    // }
     /**
      * @throws Exception
      */

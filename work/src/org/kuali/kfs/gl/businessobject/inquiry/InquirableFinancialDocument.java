@@ -30,9 +30,8 @@ import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * This class provides a placeholder that can connect General Ledger business object with
- * financial document in the presentation tier. The typical method is to generate url for
- * the inquirable financial document.
+ * This class provides a placeholder that can connect General Ledger business object with financial document in the presentation
+ * tier. The typical method is to generate url for the inquirable financial document.
  * 
  * @author Bin Gao
  */
@@ -43,23 +42,23 @@ public class InquirableFinancialDocument {
     /**
      * get the url of inquirable financial document for the given transaction
      * 
-     * @param transaction the business object that implements Transaction interface 
-     * @return the url of inquirable financial document for the given transaction if the
-     * document is inquirable; otherwise, return empty string
+     * @param transaction the business object that implements Transaction interface
+     * @return the url of inquirable financial document for the given transaction if the document is inquirable; otherwise, return
+     *         empty string
      */
     public String getInquirableDocumentUrl(Transaction transaction) {
-        if(transaction == null){
+        if (transaction == null) {
             return Constants.EMPTY_STRING;
         }
-        
-        String docNumber   = transaction.getFinancialDocumentNumber();
+
+        String docNumber = transaction.getFinancialDocumentNumber();
         String originationCode = transaction.getFinancialSystemOriginationCode();
 
-        return getUrl(originationCode,docNumber);
+        return getUrl(originationCode, docNumber);
     }
- 
-    private String getUrl(String originCode,String docNumber) {
-        if ( Constants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber) ) {
+
+    private String getUrl(String originCode, String docNumber) {
+        if (Constants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber)) {
             return kualiConfigurationService.getPropertyString("workflow.base.url") + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
         }
         return Constants.EMPTY_STRING;
@@ -68,18 +67,18 @@ public class InquirableFinancialDocument {
     /**
      * get the url of inquirable financial document for the given encumbrance
      * 
-     * @param encumbrance the encumrbance record 
-     * @return the url of inquirable financial document for the given encumbrance if the
-     * document is inquirable; otherwise, return empty string
+     * @param encumbrance the encumrbance record
+     * @return the url of inquirable financial document for the given encumbrance if the document is inquirable; otherwise, return
+     *         empty string
      */
     public String getInquirableDocumentUrl(Encumbrance encumbrance) {
-        if(encumbrance == null){
+        if (encumbrance == null) {
             return Constants.EMPTY_STRING;
         }
-        
-        String docNumber   = encumbrance.getDocumentNumber();
+
+        String docNumber = encumbrance.getDocumentNumber();
         String originationCode = encumbrance.getOriginCode();
 
-        return getUrl(originationCode,docNumber);
+        return getUrl(originationCode, docNumber);
     }
 }

@@ -35,6 +35,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * This class...
+ * 
  * @author Bin Gao
  */
 public abstract class AbstractPdfReportGenerator {
@@ -66,27 +67,27 @@ public abstract class AbstractPdfReportGenerator {
             this.closeDocument(document);
         }
     }
-    
+
     public abstract Element getReportContents();
-    
-    protected String generateReportFileName(String reportNamePrefix, String destinationDirectory, Date reportingDate){        
+
+    protected String generateReportFileName(String reportNamePrefix, String destinationDirectory, Date reportingDate) {
         String reportFilename = destinationDirectory + "/" + reportNamePrefix + "_";
         SimpleDateFormat dateFormat = new SimpleDateFormat(REPORT_FILE_DATE_FORMAT);
         reportFilename = reportFilename + dateFormat.format(reportingDate);
         reportFilename = reportFilename + PDF_FILE_EXTENSION;
-        
+
         return reportFilename;
     }
-    
-    protected Document getDocument(){
+
+    protected Document getDocument() {
         return new Document(PageSize.A4.rotate());
     }
-    
-    protected Font getHeaderFont(){
+
+    protected Font getHeaderFont() {
         return FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
     }
-    
-    protected Font getTextFont(){
+
+    protected Font getTextFont() {
         return FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
     }
 

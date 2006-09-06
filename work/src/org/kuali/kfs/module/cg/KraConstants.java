@@ -44,11 +44,11 @@ public class KraConstants extends JstlConstants {
 
     public static final String INSTITUTION_COST_SHARE_CODE = "I";
     public static final String THIRD_PARTY_COST_SHARE_CODE = "T";
-    
+
     public static final String PERMISSION_MOD_CODE = "M";
     public static final String PERMISSION_READ_CODE = "R";
 
     public static final String DATABASE_TRUE_VALUE = "Y";
-    
+
     public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
 }

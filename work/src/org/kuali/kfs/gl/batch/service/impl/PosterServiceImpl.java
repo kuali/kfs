@@ -71,7 +71,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.41 2006-09-06 06:32:39 abyrne Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.42 2006-09-06 06:49:58 abyrne Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -188,7 +188,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         }
 
         int ecount = 0;
-        if ( (mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR) ) {
+        if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR)) {
             LOG.debug("postEntries() Processing groups");
             for (Iterator iter = groups.iterator(); iter.hasNext();) {
                 OriginEntryGroup group = (OriginEntryGroup) iter.next();
@@ -198,7 +198,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                     Transaction tran = (Transaction) entries.next();
 
                     postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
-                    LOG.info("postEntries() Posted Entry "+ (++ecount));
+                    LOG.info("postEntries() Posted Entry " + (++ecount));
                 }
 
                 // Mark this group so we don't process it again next time the poster runs
@@ -214,7 +214,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
                 postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
 
-                LOG.info("postEntries() Posted Entry "+ (++ecount));
+                LOG.info("postEntries() Posted Entry " + (++ecount));
             }
         }
 
@@ -385,20 +385,21 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                         generatedTransactionAmount = distributionAmount;
                     }
                     else {
-                        if ( automatedEntriesCount != count ) {
-                            generatedTransactionAmount = getPercentage(transactionAmount,icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
+                        if (automatedEntriesCount != count) {
+                            generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct().bigDecimalValue());
                             distributedAmount = distributedAmount.add(generatedTransactionAmount);
-                        } else {
+                        }
+                        else {
                             // Distribute the remaining amount on the last one
                             generatedTransactionAmount = distributionAmount.subtract(distributedAmount);
                         }
 
-//                            if (difference.compareTo(KualiDecimal.ZERO) != 0) {
-//                                if (difference.abs().compareTo(warningMaxDifference) >= 0) {
-//                                    // TODO Rounding warning
-//                                }
-//                                distributedAmount.add(difference);
-//                            }
+                        // if (difference.compareTo(KualiDecimal.ZERO) != 0) {
+                        // if (difference.abs().compareTo(warningMaxDifference) >= 0) {
+                        // // TODO Rounding warning
+                        // }
+                        // distributedAmount.add(difference);
+                        // }
 
                     }
 
@@ -486,14 +487,16 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         }
         e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
 
-        if ( generatedTransactionAmount.isNegative() ) {
-            if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
+        if (generatedTransactionAmount.isNegative()) {
+            if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
                 e.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
-            } else {
+            }
+            else {
                 e.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
             e.setTransactionLedgerEntryAmount(generatedTransactionAmount.negated());
-        } else {
+        }
+        else {
             e.setTransactionLedgerEntryAmount(generatedTransactionAmount);
         }
 
@@ -523,11 +526,12 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
 
         ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrEntry.getUniversityFiscalYear(), e.getChartOfAccountsCode(), icrEntry.getOffsetBalanceSheetObjectCodeNumber());
-        if ( balSheetObjectCode == null ) {
-            List warnings = new ArrayList(); 
+        if (balSheetObjectCode == null) {
+            List warnings = new ArrayList();
             warnings.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrEntry.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" + icrEntry.getOffsetBalanceSheetObjectCodeNumber());
-            reportErrors.put(e,warnings);
-        } else {
+            reportErrors.put(e, warnings);
+        }
+        else {
             e.setFinancialObjectTypeCode(balSheetObjectCode.getFinancialObjectTypeCode());
         }
 
@@ -554,8 +558,8 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static DecimalFormat DFAMT = new DecimalFormat("##########.00");
     private static BigDecimal BDONEHUNDRED = new BigDecimal("100");
 
-    private KualiDecimal getPercentage(KualiDecimal amount,BigDecimal percent) {
-        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED,2,BigDecimal.ROUND_DOWN);
+    private KualiDecimal getPercentage(KualiDecimal amount, BigDecimal percent) {
+        BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED, 2, BigDecimal.ROUND_DOWN);
         return new KualiDecimal(result);
     }
 
@@ -563,7 +567,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         BigDecimal newRate = rate.multiply(PosterServiceImpl.BDONEHUNDRED);
 
         StringBuffer desc = new StringBuffer("CHG ");
-        if ( newRate.doubleValue() < 10 ) {
+        if (newRate.doubleValue() < 10) {
             desc.append(" ");
         }
         desc.append(DFPCT.format(newRate));
@@ -573,7 +577,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         desc.append(type);
         desc.append(")  ");
         String amt = DFAMT.format(amount);
-        while ( amt.length() < 13 ) {
+        while (amt.length() < 13) {
             amt = " " + amt;
         }
         desc.append(amt);
@@ -584,19 +588,19 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         BigDecimal newRate = rate.multiply(PosterServiceImpl.BDONEHUNDRED);
 
         StringBuffer desc = new StringBuffer("RCV ");
-        if ( newRate.doubleValue() < 10 ) {
+        if (newRate.doubleValue() < 10) {
             desc.append(" ");
         }
         desc.append(DFPCT.format(newRate));
         desc.append("% ON ");
         String amt = DFAMT.format(amount);
-        while ( amt.length() < 13 ) {
+        while (amt.length() < 13) {
             amt = " " + amt;
         }
         desc.append(amt);
         desc.append(" FRM ");
-//        desc.append(chartOfAccountsCode);
-//        desc.append("-");
+        // desc.append(chartOfAccountsCode);
+        // desc.append("-");
         desc.append(accountNumber);
         return desc.toString();
     }

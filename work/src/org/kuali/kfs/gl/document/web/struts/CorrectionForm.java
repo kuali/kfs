@@ -51,18 +51,18 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String chooseSystem;
     private String editMethod;
     protected FormFile sourceFile;
-    
+
     private String[] groupIdList;
-    private boolean processInBatch; 
+    private boolean processInBatch;
     private boolean matchCriteriaOnly;
     private String editableFlag;
     private String manualEditFlag;
     private String deleteFileFlag;
-    
-    
+
+
     private String originEntryGroupDeletedMessage;
     private Integer editingEntryId;
-    
+
     /**
      * This is a Map of operators that can be used in searches from the GL Error Correction Document. Each value in this Map
      * corresponds to a case in CorrectionActionHelper.isMatch(Object, CorrectionSearchCriterion).
@@ -87,93 +87,93 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
         for (int i = 0; i < fields.length; i++) {
             if (!"serialVersionUID".equals(fields[i].getName()) && validMethods.contains(fields[i].getName()) && !"entryGroupId".equals(fields[i].getName()) && !"entryId".equals(fields[i].getName())) {
-                //fieldNames.add(fields[i].getName());
-                                
-                if(fields[i].getName().equals("universityFiscalYear")){
+                // fieldNames.add(fields[i].getName());
+
+                if (fields[i].getName().equals("universityFiscalYear")) {
                     fieldNames.put(1, "Fiscal Year");
                 }
-                if(fields[i].getName().equals("budgetYear")){
+                if (fields[i].getName().equals("budgetYear")) {
                     fieldNames.put(2, "Budget Year");
                 }
-                if(fields[i].getName().equals("chartOfAccountsCode")){
+                if (fields[i].getName().equals("chartOfAccountsCode")) {
                     fieldNames.put(3, "Chart Code");
                 }
-                if(fields[i].getName().equals("accountNumber")){
+                if (fields[i].getName().equals("accountNumber")) {
                     fieldNames.put(4, "Account Number");
                 }
-                if(fields[i].getName().equals("subAccountNumber")){
+                if (fields[i].getName().equals("subAccountNumber")) {
                     fieldNames.put(5, "Sub Account Number");
                 }
-                if(fields[i].getName().equals("financialObjectCode")){
+                if (fields[i].getName().equals("financialObjectCode")) {
                     fieldNames.put(6, "Object Code");
                 }
-                if(fields[i].getName().equals("financialSubObjectCode")){
+                if (fields[i].getName().equals("financialSubObjectCode")) {
                     fieldNames.put(7, "Sub Object Code");
                 }
-                if(fields[i].getName().equals("financialBalanceTypeCode")){
+                if (fields[i].getName().equals("financialBalanceTypeCode")) {
                     fieldNames.put(8, "Balance Type");
                 }
-                if(fields[i].getName().equals("financialObjectTypeCode")){
+                if (fields[i].getName().equals("financialObjectTypeCode")) {
                     fieldNames.put(9, "Object Type");
                 }
-                if(fields[i].getName().equals("universityFiscalPeriodCode")){
+                if (fields[i].getName().equals("universityFiscalPeriodCode")) {
                     fieldNames.put(10, "Fiscal Period");
                 }
-                if(fields[i].getName().equals("financialDocumentTypeCode")){
+                if (fields[i].getName().equals("financialDocumentTypeCode")) {
                     fieldNames.put(11, "Document Type");
                 }
-                if(fields[i].getName().equals("financialSystemOriginationCode")){
+                if (fields[i].getName().equals("financialSystemOriginationCode")) {
                     fieldNames.put(12, "Origin Code");
                 }
-                if(fields[i].getName().equals("financialDocumentNumber")){
+                if (fields[i].getName().equals("financialDocumentNumber")) {
                     fieldNames.put(13, "Document Number");
                 }
-                if(fields[i].getName().equals("transactionLedgerEntrySequenceNumber")){
+                if (fields[i].getName().equals("transactionLedgerEntrySequenceNumber")) {
                     fieldNames.put(14, "Sequence Number");
                 }
-                if(fields[i].getName().equals("transactionLedgerEntryDescription")){
+                if (fields[i].getName().equals("transactionLedgerEntryDescription")) {
                     fieldNames.put(15, "Description");
                 }
-                if(fields[i].getName().equals("transactionLedgerEntryAmount")){
+                if (fields[i].getName().equals("transactionLedgerEntryAmount")) {
                     fieldNames.put(16, "Amount");
                 }
-                if(fields[i].getName().equals("transactionDebitCreditCode")){
+                if (fields[i].getName().equals("transactionDebitCreditCode")) {
                     fieldNames.put(17, "Debit Credit Indicator");
                 }
-                if(fields[i].getName().equals("transactionDate")){
+                if (fields[i].getName().equals("transactionDate")) {
                     fieldNames.put(18, "Transaction Date");
                 }
-                if(fields[i].getName().equals("organizationDocumentNumber")){
+                if (fields[i].getName().equals("organizationDocumentNumber")) {
                     fieldNames.put(19, "Org Doc Number");
                 }
-                if(fields[i].getName().equals("projectCode")){
+                if (fields[i].getName().equals("projectCode")) {
                     fieldNames.put(20, "Project Code");
                 }
-                if(fields[i].getName().equals("organizationReferenceId")){
+                if (fields[i].getName().equals("organizationReferenceId")) {
                     fieldNames.put(21, "Org Ref ID");
                 }
-                if(fields[i].getName().equals("referenceFinancialDocumentTypeCode")){
+                if (fields[i].getName().equals("referenceFinancialDocumentTypeCode")) {
                     fieldNames.put(22, "Ref Doc Type");
                 }
-                if(fields[i].getName().equals("referenceFinancialSystemOriginationCode")){
+                if (fields[i].getName().equals("referenceFinancialSystemOriginationCode")) {
                     fieldNames.put(23, "Ref Origin Code");
                 }
-                if(fields[i].getName().equals("referenceFinancialDocumentNumber")){
+                if (fields[i].getName().equals("referenceFinancialDocumentNumber")) {
                     fieldNames.put(24, "Ref Doc Number");
                 }
-                if(fields[i].getName().equals("financialDocumentReversalDate")){
+                if (fields[i].getName().equals("financialDocumentReversalDate")) {
                     fieldNames.put(25, "Reversal Date");
                 }
-                if(fields[i].getName().equals("transactionEncumbranceUpdateCode")){
+                if (fields[i].getName().equals("transactionEncumbranceUpdateCode")) {
                     fieldNames.put(26, "Enc Update Code");
                 }
-                
+
             }
         }
 
-        //fieldNames.add("financialDocumentNumber");
-        
-        
+        // fieldNames.add("financialDocumentNumber");
+
+
         searchOperators.put("eq", "Equals");
         searchOperators.put("ne", "Not equal to");
         searchOperators.put("gt", "Greater than");
@@ -181,9 +181,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
         searchOperators.put("sw", "Starts with");
         searchOperators.put("ew", "Ends with");
         searchOperators.put("ct", "Contains");
-        
-        
-       
+
+
     }
 
     /**
@@ -193,7 +192,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private Collection allEntries;
     private OriginEntry eachEntryForManualEdit;
     private OriginEntry newEntryForManualEdit;
-    
 
 
     /**
@@ -214,10 +212,10 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new TransactionalDocumentActionFlags());
-        
+
     }
 
-  
+
     /**
      * Bogus method for Apache PropertyUtils compliance.
      * 
@@ -345,7 +343,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public void setDeleteFileFlag(String deleteFileFlag) {
         this.deleteFileFlag = deleteFileFlag;
     }
-    
+
     public String getOriginEntryGroupDeletedMessage() {
         return originEntryGroupDeletedMessage;
     }
@@ -384,8 +382,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public void setEditingEntryId(Integer editingEntryId) {
         this.editingEntryId = editingEntryId;
     }
-
-    
 
 
 }

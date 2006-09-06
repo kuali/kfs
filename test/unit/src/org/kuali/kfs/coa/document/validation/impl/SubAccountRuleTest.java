@@ -338,16 +338,14 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * Incomplete TODO: Write tests for this method to accompany the testCheckCgRules
      */
     /*
-     * public void testCheckCgCostSharingRules() {
-     *  }
+     * public void testCheckCgCostSharingRules() { }
      */
 
     /**
      * Incomplete TODO: Write tests for this method to accompany the testCheckCgRules
      */
     /*
-     * public void testCheckCgIcrRules() {
-     *  }
+     * public void testCheckCgIcrRules() { }
      */
 
 }

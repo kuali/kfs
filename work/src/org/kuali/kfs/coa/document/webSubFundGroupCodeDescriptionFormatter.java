@@ -43,12 +43,12 @@ public class SubFundGroupCodeDescriptionFormatter extends CodeDescriptionFormatt
     protected Map<String, BusinessObject> getValuesToBusinessObjectsMap(Set values) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(Constants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, values);
-        
+
         Map<String, BusinessObject> map = new HashMap<String, BusinessObject>();
-        
+
         Collection<SubFundGroup> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(SubFundGroup.class, criteria, "versionNumber", true);
-        for ( SubFundGroup sfg : coll ) {
-            map.put( sfg.getSubFundGroupCode(), sfg );
+        for (SubFundGroup sfg : coll) {
+            map.put(sfg.getSubFundGroupCode(), sfg);
         }
         return map;
     }

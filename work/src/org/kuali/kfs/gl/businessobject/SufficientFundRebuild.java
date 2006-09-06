@@ -36,8 +36,8 @@ import org.kuali.module.chart.bo.Chart;
 public class SufficientFundRebuild extends BusinessObjectBase {
 
     public static final String REBUILD_ACCOUNT = "A";
-    public static final String REBUILD_OBJECT  = "O";
-    
+    public static final String REBUILD_OBJECT = "O";
+
     private String chartOfAccountsCode;
     private String accountFinancialObjectTypeCode;
     private String accountNumberFinancialObjectCode;

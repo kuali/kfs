@@ -109,11 +109,13 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Performs additional Journal Voucher specific checks every time an accounting line is updated.
-     * @param transactionalDocument 
-     * @param originalAccountingLine 
-     * @param updatedAccountingLine 
+     * 
+     * @param transactionalDocument
+     * @param originalAccountingLine
+     * @param updatedAccountingLine
      * @return boolean
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -247,7 +249,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             // check for negative or zero amounts
             if (amount.isZero()) { // if 0
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
                 return false;
@@ -268,7 +270,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             // Check for zero amounts
             if (amount.isZero()) { // amount == 0
                 GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
-               return false;
+                return false;
             }
             else if (amount.isNegative()) {
                 if (!accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET) && !accountingLine.getBalanceTypeCode().equals(BALANCE_TYPE_BUDGET_STATISTICS)) {
@@ -441,8 +443,8 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         String debitCreditCode = accountingLine.getDebitCreditCode();
-        
-        boolean isDebit = StringUtils.isBlank(debitCreditCode)||IsDebitUtils.isDebitCode(debitCreditCode);
+
+        boolean isDebit = StringUtils.isBlank(debitCreditCode) || IsDebitUtils.isDebitCode(debitCreditCode);
 
         return isDebit;
     }
@@ -452,65 +454,73 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
-//    @Override
-//    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-//        SufficientFundsItem item = null;
-//        String balanceTypeCode = ((JournalVoucherDocument) transactionalDocument).getBalanceTypeCode();
-//        // fp_dvj:lp_create_ple.10-1...11-1
-//        if (StringUtils.equals(BALANCE_TYPE_ACTUAL, balanceTypeCode) || StringUtils.equals(BALANCE_TYPE_CURRENT_BUDGET, balanceTypeCode)) {
-//
-//            String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
-//            String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
-//
-//
-//            // fi_djv:lp_proc_jrnl_ln.37-1
-//            String debitCreditCode = null;
-//
-//            // fi_djv:lp_proc_jrnl_ln.39-2...51-2
-//            if (StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT) && StringUtils.equals(financialObjectCode, sourceAccountingLine.getChart().getFinancialCashObjectCode())) {
-//                // use debit credit code
-//                debitCreditCode = sourceAccountingLine.getDebitCreditCode();
-//            }
-//            else if (!StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT)) {
-//                // fi_djv:lp+proc_jrnl_ln.39-2...43-2
-//                if (StringUtils.equals(sourceAccountingLine.getDebitCreditCode(), GL_DEBIT_CODE)) {
-//                    debitCreditCode = GL_CREDIT_CODE;
-//                }
-//                else {
-//                    debitCreditCode = GL_DEBIT_CODE;
-//                }
-//            }
-//            if (StringUtils.isNotBlank(debitCreditCode)) {
-//
-//                String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
-//                String accountNumber = sourceAccountingLine.getAccountNumber();
-//                String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
-//                Integer fiscalYear = sourceAccountingLine.getPostingYear();
-//                KualiDecimal lineAmount = sourceAccountingLine.getAmount();
-//                String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
-//                String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(),accountSufficientFundsCode);
-//
-//                item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
-//            }
-//        }
-//
-//        return item;
-//    }
-//
-//    /**
-//     * 
-//     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
-//     *      org.kuali.core.bo.TargetAccountingLine)
-//     */
-//    @Override
-//    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
-//        if (targetAccountingLine != null) {
-//
-//            throw new IllegalArgumentException("JV document doesn't have target accounting lines. This method should have never been entered");
-//        }
-//        return null;
-//    }
-
+    // @Override
+    // protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument
+    // transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+    // SufficientFundsItem item = null;
+    // String balanceTypeCode = ((JournalVoucherDocument) transactionalDocument).getBalanceTypeCode();
+    // // fp_dvj:lp_create_ple.10-1...11-1
+    // if (StringUtils.equals(BALANCE_TYPE_ACTUAL, balanceTypeCode) || StringUtils.equals(BALANCE_TYPE_CURRENT_BUDGET,
+    // balanceTypeCode)) {
+    //
+    // String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
+    // String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
+    //
+    //
+    // // fi_djv:lp_proc_jrnl_ln.37-1
+    // String debitCreditCode = null;
+    //
+    // // fi_djv:lp_proc_jrnl_ln.39-2...51-2
+    // if (StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT) && StringUtils.equals(financialObjectCode,
+    // sourceAccountingLine.getChart().getFinancialCashObjectCode())) {
+    // // use debit credit code
+    // debitCreditCode = sourceAccountingLine.getDebitCreditCode();
+    // }
+    // else if (!StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT)) {
+    // // fi_djv:lp+proc_jrnl_ln.39-2...43-2
+    // if (StringUtils.equals(sourceAccountingLine.getDebitCreditCode(), GL_DEBIT_CODE)) {
+    // debitCreditCode = GL_CREDIT_CODE;
+    // }
+    // else {
+    // debitCreditCode = GL_DEBIT_CODE;
+    // }
+    // }
+    // if (StringUtils.isNotBlank(debitCreditCode)) {
+    //
+    // String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
+    // String accountNumber = sourceAccountingLine.getAccountNumber();
+    // String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
+    // Integer fiscalYear = sourceAccountingLine.getPostingYear();
+    // KualiDecimal lineAmount = sourceAccountingLine.getAmount();
+    // String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
+    // String sufficientFundsObjectCode =
+    // SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(sourceAccountingLine.getObjectCode(),accountSufficientFundsCode);
+    //
+    // item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode,
+    // sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear,
+    // financialObjectTypeCode);
+    // }
+    // }
+    //
+    // return item;
+    // }
+    //
+    // /**
+    // *
+    // * @see
+    // org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+    // * org.kuali.core.bo.TargetAccountingLine)
+    // */
+    // @Override
+    // protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument
+    // transactionalDocument, TargetAccountingLine targetAccountingLine) {
+    // if (targetAccountingLine != null) {
+    //
+    // throw new IllegalArgumentException("JV document doesn't have target accounting lines. This method should have never been
+    // entered");
+    // }
+    // return null;
+    // }
     /**
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)

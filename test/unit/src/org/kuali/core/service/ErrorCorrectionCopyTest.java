@@ -70,8 +70,7 @@ public class ErrorCorrectionCopyTest extends KualiTestBase {
      * 
      * assertEquals(copySourceDocId, copyDestDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
      * assertNull(copyDestDoc.getDocumentHeader().getCorrectedByDocumentId());
-     * assertNull(copyDestDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
-     *  }
+     * assertNull(copyDestDoc.getDocumentHeader().getFinancialDocumentInErrorNumber()); }
      */
     /*
      * public final void testLoadCorrectedDocument() throws Exception { Document erroneousDoc =

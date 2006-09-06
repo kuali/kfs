@@ -57,6 +57,6 @@ public class SubObjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements 
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
         criteria.addEqualTo("financialSubObjectCode", financialSubObjectCode);
 
-        return (SubObjCd)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubObjCd.class, criteria));
+        return (SubObjCd) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubObjCd.class, criteria));
     }
 }

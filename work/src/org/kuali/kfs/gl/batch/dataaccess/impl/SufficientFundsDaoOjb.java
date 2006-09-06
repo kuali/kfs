@@ -361,8 +361,9 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
             return (KualiDecimal) ((Object[]) iterator.next())[0];
-        } else {
+        }
+        else {
             return KualiDecimal.ZERO;
         }
-        }
     }
+}

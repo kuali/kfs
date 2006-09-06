@@ -62,7 +62,7 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
         }
         return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
-    
+
     /**
      * Uses Lookup Service to provide a basic search.
      * 
@@ -82,9 +82,10 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
         String consolidationOption = (String) fieldValues.get(GLConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
         boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
         int pendingEntryCode = AccountBalanceService.PENDING_NONE;
-        if (GLConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption) ) {
+        if (GLConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption)) {
             pendingEntryCode = AccountBalanceService.PENDING_APPROVED;
-        } else if (GLConstants.PendingEntryOptions.ALL.equals(pendingEntryOption) ) {
+        }
+        else if (GLConstants.PendingEntryOptions.ALL.equals(pendingEntryOption)) {
             pendingEntryCode = AccountBalanceService.PENDING_ALL;
         }
         boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);

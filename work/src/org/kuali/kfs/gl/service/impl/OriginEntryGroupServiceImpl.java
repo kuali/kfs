@@ -40,7 +40,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.25 2006-09-03 23:24:50 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.26 2006-09-06 06:49:58 abyrne Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -78,9 +78,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         OriginEntryGroup backupGroup = this.createGroup(today, OriginEntrySource.BACKUP, true, true, true);
 
         for (Iterator iter = groups.iterator(); iter.hasNext();) {
-            OriginEntryGroup group = (OriginEntryGroup)iter.next();
+            OriginEntryGroup group = (OriginEntryGroup) iter.next();
 
-            originEntryGroupDao.copyGroup(group,backupGroup);
+            originEntryGroupDao.copyGroup(group, backupGroup);
 
             group.setProcess(false);
             group.setScrub(false);
@@ -100,7 +100,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         Collection groups = originEntryGroupDao.getOlderGroups(new java.sql.Date(today.getTime().getTime()));
 
-        if ( groups.size() > 0 ) {
+        if (groups.size() > 0) {
             originEntryDao.deleteGroups(groups);
             originEntryGroupDao.deleteGroups(groups);
         }
@@ -152,15 +152,15 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         // Get the row counts for each group
         Iterator i = originEntryDao.getGroupCounts();
-        while ( i.hasNext() ) {
-            Object[] rowCount = (Object[])i.next();
-            int id = ((BigDecimal)rowCount[0]).intValue();
-            int count = ((BigDecimal)rowCount[1]).intValue();
+        while (i.hasNext()) {
+            Object[] rowCount = (Object[]) i.next();
+            int id = ((BigDecimal) rowCount[0]).intValue();
+            int count = ((BigDecimal) rowCount[1]).intValue();
 
             // Find the correct group to add the count
             for (Iterator iter = c.iterator(); iter.hasNext();) {
-                OriginEntryGroup group = (OriginEntryGroup)iter.next();
-                if ( group.getId().intValue() == id ) {
+                OriginEntryGroup group = (OriginEntryGroup) iter.next();
+                if (group.getId().intValue() == id) {
                     group.setRows(new Integer(count));
                 }
             }
@@ -172,7 +172,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
         return c;
     }
-    
+
 
     /**
      * Create a new OriginEntryGroup and persist it to the database.
@@ -254,28 +254,30 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }
-    
-    public OriginEntryGroup getExactMatchingEntryGroup(Integer id){
+
+    public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
         OriginEntryGroup oeg = null;
-        try {oeg = originEntryGroupDao.getExactMatchingEntryGroup(id);}
-        catch (Exception e){
-            
+        try {
+            oeg = originEntryGroupDao.getExactMatchingEntryGroup(id);
+        }
+        catch (Exception e) {
+
         }
         return oeg;
-        
+
     }
-    
+
     /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getRecentGroupsByDays(int)
      */
     public Collection getRecentGroupsByDays(int days) {
-        
+
         Calendar today = dateTimeService.getCurrentCalendar();
         today.add(Calendar.DAY_OF_MONTH, 0 - days);
 
         Collection groups = originEntryGroupDao.getRecentGroups(new java.sql.Date(today.getTime().getTime()));
-        
+
         return groups;
     }
 }

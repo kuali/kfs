@@ -850,7 +850,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_income_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -862,8 +862,8 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_income_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        
-       assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
     /**
@@ -886,7 +886,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_expense_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -922,7 +922,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_asset_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-      
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -958,7 +958,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_liability_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
-        
+
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -1006,7 +1006,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_errorCorrection_income_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        
+
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
 
     }
@@ -1043,7 +1043,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_errorCorrection_expense_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        
+
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -1079,7 +1079,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_errorCorrection_asset_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        
+
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
@@ -1115,7 +1115,7 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
     public void testIsDebit_errorCorrection_liability_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
-        
+
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 

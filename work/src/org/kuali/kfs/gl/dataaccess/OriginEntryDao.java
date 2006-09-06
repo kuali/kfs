@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.16 2006-09-06 06:32:44 abyrne Exp $
+ * @version $Id: OriginEntryDao.java,v 1.17 2006-09-06 06:50:21 abyrne Exp $
  */
 public interface OriginEntryDao {
     public static final int SORT_DOCUMENT = 1;
@@ -65,7 +65,7 @@ public interface OriginEntryDao {
      * @param oeg Group
      * @return Iterator of entries in the specified group
      */
-    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg,int sort);
+    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg, int sort);
 
     /**
      * Get bad balance entries
@@ -99,9 +99,7 @@ public interface OriginEntryDao {
     public void deleteMatchingEntries(Map searchCriteria);
 
     /**
-     * Delete all the groups in the list.  This will delete
-     * the entries.  The OriginEntryGroupDao has a method
-     * to delete the groups
+     * Delete all the groups in the list. This will delete the entries. The OriginEntryGroupDao has a method to delete the groups
      * 
      * @param groups Groups to be deleted
      */

@@ -162,11 +162,11 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         }
         catch (RuntimeException e) {
             String errorMessage = e.getMessage();
-            
-            if(StringUtils.isBlank(errorMessage)) {
+
+            if (StringUtils.isBlank(errorMessage)) {
                 errorMessage = "The per diem amount could not be calculated.  Please ensure all required per diem fields are filled in before attempting to calculate the per diem amount.";
             }
-            
+
             LOG.error("Error in calculating travel per diem: " + errorMessage);
             GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, errorMessage);
         }
@@ -201,7 +201,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
+
     /**
      * Calculates the travel mileage amount.
      * 
@@ -263,7 +263,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
+
     /**
      * Adds a new employee travel expense line.
      * 
@@ -285,16 +285,16 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
 
         // Ensure all fields are filled in before attempting to add a new expense line
-        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
+        if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_CODE, KeyConstants.ERROR_DV_EXPENSE_CODE);
         }
-        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
+        if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME, KeyConstants.ERROR_DV_EXPENSE_COMPANY_NAME);
         }
-        if(ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
+        if (ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KeyConstants.ERROR_DV_EXPENSE_AMOUNT);
         }
-        
+
         GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
@@ -326,13 +326,13 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
 
         // Ensure all fields are filled in before attempting to add a new expense line
-        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
+        if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_CODE, KeyConstants.ERROR_DV_PREPAID_EXPENSE_CODE);
         }
-        if(StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
+        if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_COMPANY_NAME, KeyConstants.ERROR_DV_PREPAID_EXPENSE_COMPANY_NAME);
         }
-        if(ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
+        if (ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KeyConstants.ERROR_DV_PREPAID_EXPENSE_AMOUNT);
         }
         GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_PREPAID_EXPENSE_LINE);

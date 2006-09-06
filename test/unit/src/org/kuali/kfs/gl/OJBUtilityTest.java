@@ -40,7 +40,7 @@ import org.kuali.test.KualiTestBaseWithSpringOnly;
 public class OJBUtilityTest extends KualiTestBaseWithSpringOnly {
 
     // test cases for buildPropertyMap method
-    public void testBuildPropertyMap() throws Exception{
+    public void testBuildPropertyMap() throws Exception {
         DummyBusinessObject dummyBusinessObject = new DummyBusinessObject();
 
         dummyBusinessObject.setAmountViewOption(Constant.ACCUMULATE);
@@ -51,7 +51,7 @@ public class OJBUtilityTest extends KualiTestBaseWithSpringOnly {
     }
 
     // test cases for buildCriteriaFromMap method
-    public void testBuildCriteriaFromMap() throws Exception{
+    public void testBuildCriteriaFromMap() throws Exception {
         AccountBalance accountBalance = new AccountBalance();
 
         Map propertyMap1 = new HashMap();
@@ -77,17 +77,17 @@ public class OJBUtilityTest extends KualiTestBaseWithSpringOnly {
         assertTrue(criteria2Value.indexOf("objectCode") < 0);
         assertTrue(criteria2Value.indexOf("subObjectCode") < 0);
     }
-    
-    public void testGetResultSizeFromMap() throws Exception{
+
+    public void testGetResultSizeFromMap() throws Exception {
         Map propertyMap = new HashMap();
         propertyMap.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
-        
-        Long resultSize = OJBUtility.getResultSizeFromMap(propertyMap, new AccountBalance());      
-        assertTrue("Should be greater than 0 if there are account balance records", resultSize.intValue() > 0);       
+
+        Long resultSize = OJBUtility.getResultSizeFromMap(propertyMap, new AccountBalance());
+        assertTrue("Should be greater than 0 if there are account balance records", resultSize.intValue() > 0);
     }
-    
-    public void testGetResultLimit(){
-        Integer limit = OJBUtility.getResultLimit();      
-        assertTrue("Should be greater than 0", limit.intValue() == 200);        
+
+    public void testGetResultLimit() {
+        Integer limit = OJBUtility.getResultLimit();
+        assertTrue("Should be greater than 0", limit.intValue() == 200);
     }
 }

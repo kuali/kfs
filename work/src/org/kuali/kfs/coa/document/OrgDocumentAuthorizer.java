@@ -43,7 +43,7 @@ import org.kuali.core.util.SpringServiceLocator;
 public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     private static final Logger LOG = Logger.getLogger(OrgDocumentAuthorizer.class);
-    
+
     /**
      * Constructs a OrgDocumentAuthorizer.java.
      */
@@ -76,16 +76,18 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
         KualiGroup group = null;
         try {
             String groupName = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
-    
+
             // create a new KualiGroup instance with that name
             KualiGroupService groupService = SpringServiceLocator.getKualiGroupService();
             try {
                 group = groupService.getByGroupName(groupName);
-            } catch (GroupNotFoundException ex ) {
-                LOG.error("The group by name '" + groupName + "' was not " + "found in the KualiGroupService.  This is a configuration error, and " + "authorization/business-rules cannot be processed without this.", ex );
             }
-        } catch ( ApplicationParameterException ex ) {
-            LOG.error( "unable to load application parameter for org plant workgroup", ex );
+            catch (GroupNotFoundException ex) {
+                LOG.error("The group by name '" + groupName + "' was not " + "found in the KualiGroupService.  This is a configuration error, and " + "authorization/business-rules cannot be processed without this.", ex);
+            }
+        }
+        catch (ApplicationParameterException ex) {
+            LOG.error("unable to load application parameter for org plant workgroup", ex);
         }
 
         // if the user is NOT a member of the special group, then mark all the

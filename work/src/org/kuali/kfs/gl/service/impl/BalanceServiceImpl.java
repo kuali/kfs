@@ -71,14 +71,14 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @see org.kuali.module.gl.service.BalanceService#getGlSummary(int, java.util.List)
      */
-    public List getGlSummary(int universityFiscalYear,List<String> balanceTypeCodes) {
+    public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
         LOG.debug("getGlSummary() started");
 
         List sum = new ArrayList();
 
         Iterator i = balanceDao.getGlSummary(universityFiscalYear, balanceTypeCodes);
-        while ( i.hasNext() ) {
-            Object[] data = (Object[])i.next();
+        while (i.hasNext()) {
+            Object[] data = (Object[]) i.next();
             sum.add(new GlSummary(data));
         }
         return sum;
@@ -122,7 +122,7 @@ public class BalanceServiceImpl implements BalanceService {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
         ArrayList fundBalanceObjectCodes = new ArrayList();
-        fundBalanceObjectCodes.add( account.getChartOfAccounts().getFundBalanceObjectCode() );
+        fundBalanceObjectCodes.add(account.getChartOfAccounts().getFundBalanceObjectCode());
         Iterator balances = balanceDao.findBalances(account, fiscalYear, null, fundBalanceObjectCodes, wrap(getAssetLiabilityFundBalanceBalanceTypeCodes()), wrap(getActualBalanceCodes()));
 
         KualiDecimal begin;
@@ -201,9 +201,9 @@ public class BalanceServiceImpl implements BalanceService {
     protected KualiDecimal incomeBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        
+
         ArrayList fundBalanceObjectCodes = new ArrayList();
-        fundBalanceObjectCodes.add( account.getChartOfAccounts().getFundBalanceObjectCode() );
+        fundBalanceObjectCodes.add(account.getChartOfAccounts().getFundBalanceObjectCode());
         Iterator balances = balanceDao.findBalances(account, fiscalYear, fundBalanceObjectCodes, null, wrap(getIncomeObjectTypeCodes()), wrap(getActualBalanceCodes()));
 
         return sumBalances(balances);
@@ -301,21 +301,21 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findCashBalance() started");
-        
+
         return balanceDao.findCashBalance(fieldValues, isConsolidated);
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.BalanceService#getCashBalanceRecordCount(java.util.Map, boolean)
      */
     public Integer getCashBalanceRecordCount(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getCashBalanceRecordCount() started");
-        
+
         Integer recordCount = new Integer(0);
-        if(!isConsolidated){
+        if (!isConsolidated) {
             recordCount = balanceDao.getDetailedCashBalanceRecordCount(fieldValues);
         }
-        else{
+        else {
             Iterator recordCountIterator = balanceDao.getConsolidatedCashBalanceRecordCount(fieldValues);
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
@@ -328,21 +328,21 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findBalance() started");
-        
+
         return balanceDao.findBalance(fieldValues, isConsolidated);
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.BalanceService#getBalanceRecordCount(java.util.Map, boolean)
      */
     public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getBalanceRecordCount() started");
-        
+
         Integer recordCount = null;
-        if(!isConsolidated){
+        if (!isConsolidated) {
             recordCount = OJBUtility.getResultSizeFromMap(fieldValues, new Balance()).intValue();
         }
-        else{
+        else {
             Iterator recordCountIterator = balanceDao.getConsolidatedBalanceRecordCount(fieldValues);
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
@@ -361,10 +361,9 @@ public class BalanceServiceImpl implements BalanceService {
 
         balanceDao.purgeYearByChart(chart, year);
     }
-    
+
     /**
-     * Private method to load the values from the system options
-     * service and store them locally for later use.
+     * Private method to load the values from the system options service and store them locally for later use.
      * 
      * @author jkeller
      */
@@ -373,65 +372,61 @@ public class BalanceServiceImpl implements BalanceService {
         Options options = optionsService.getCurrentYearOptions();
         // String[] actualBalanceCodes = new String[] { "AC" };
         actualBalanceCodes = new String[] { options.getActualFinancialBalanceTypeCd() }; // AC
-        //String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };
-        incomeObjectTypeCodes = new String[] { 
-            options.getFinObjTypeIncomeNotCashCd(), // IC
-            options.getFinObjectTypeIncomecashCode(), // IN
-            options.getFinObjTypeCshNotIncomeCd(), // CH
-            options.getFinancialObjectTypeTransferIncomeCode() // TI
+        // String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };
+        incomeObjectTypeCodes = new String[] { options.getFinObjTypeIncomeNotCashCd(), // IC
+                options.getFinObjectTypeIncomecashCode(), // IN
+                options.getFinObjTypeCshNotIncomeCd(), // CH
+                options.getFinancialObjectTypeTransferIncomeCode() // TI
         };
         // String[] expenseObjectTypeCodes = new String[] { "EE", "ES", "EX", "TE" };
-        expenseObjectTypeCodes = new String[] { 
-                options.getFinObjTypeExpendNotExpCode(), // EE?
+        expenseObjectTypeCodes = new String[] { options.getFinObjTypeExpendNotExpCode(), // EE?
                 options.getFinObjTypeExpenditureexpCd(), // ES
                 options.getFinObjTypeExpNotExpendCode(), // EX?
                 options.getFinancialObjectTypeTransferExpenseCode() // TE
-            };
+        };
         // String[] assetLiabilityFundBalanceBalanceTypeCodes = new String[] { "AS", "LI", "FB" };
-        assetLiabilityFundBalanceObjectTypeCodes = new String[] { 
-                options.getFinancialObjectTypeAssetsCd(), // AS
+        assetLiabilityFundBalanceObjectTypeCodes = new String[] { options.getFinancialObjectTypeAssetsCd(), // AS
                 options.getFinObjectTypeLiabilitiesCode(), // LI
                 options.getFinObjectTypeFundBalanceCd() // FB
-            };
+        };
         // String[] encumbranceBaseBudgetBalanceTypeCodes = new String[] { "EX", "IE", "PE", "BB" };
-        encumbranceBaseBudgetBalanceTypeCodes = new String[] { 
-                options.getExtrnlEncumFinBalanceTypCd(), // EX
+        encumbranceBaseBudgetBalanceTypeCodes = new String[] { options.getExtrnlEncumFinBalanceTypCd(), // EX
                 options.getIntrnlEncumFinBalanceTypCd(), // IE
                 options.getPreencumbranceFinBalTypeCd(), // PE
                 options.getBaseBudgetFinancialBalanceTypeCode() // BB
-            };
+        };
     }
-    
+
     private String[] getActualBalanceCodes() {
-        if ( actualBalanceCodes == null ) {
+        if (actualBalanceCodes == null) {
             loadConstantsFromOptions();
         }
         return actualBalanceCodes;
     }
 
     private String[] getIncomeObjectTypeCodes() {
-        if ( incomeObjectTypeCodes == null ) {
+        if (incomeObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
         return incomeObjectTypeCodes;
     }
 
     private String[] getExpenseObjectTypeCodes() {
-        if ( expenseObjectTypeCodes == null ) {
+        if (expenseObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
         return expenseObjectTypeCodes;
     }
 
     private String[] getAssetLiabilityFundBalanceBalanceTypeCodes() {
-        if ( assetLiabilityFundBalanceObjectTypeCodes == null ) {
+        if (assetLiabilityFundBalanceObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
         return assetLiabilityFundBalanceObjectTypeCodes;
     }
 
     private String[] getEncumbranceBaseBudgetBalanceTypeCodes() {
-        if ( encumbranceBaseBudgetBalanceTypeCodes == null ) {
+        if (encumbranceBaseBudgetBalanceTypeCodes == null) {
             loadConstantsFromOptions();
         }
         return encumbranceBaseBudgetBalanceTypeCodes;

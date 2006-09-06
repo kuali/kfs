@@ -41,12 +41,12 @@ public interface OrganizationService {
      * @return An Org instance.
      */
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode);
-    
+
     /**
-    * Method is used by KualiOrgReviewAttribute to enable
-    * caching of orgs for routing.
-    * @see org.kuali.module.chart.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
-    */
+     * Method is used by KualiOrgReviewAttribute to enable caching of orgs for routing.
+     * 
+     * @see org.kuali.module.chart.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
+     */
     public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode);
 
     /**

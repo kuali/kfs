@@ -170,7 +170,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
         return sourceAccountingLines;
     }
-    
+
     /**
      * Override to get target accounting lines out of transactions
      * 

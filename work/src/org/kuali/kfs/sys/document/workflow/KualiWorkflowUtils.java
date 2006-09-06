@@ -85,12 +85,12 @@ public class KualiWorkflowUtils {
     public static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
     public static final String PROJECT_CODE_DOC_TYPE = "KualiProjectCodeMaintenanceDocument";
     public static final String SIMPLE_MAINTENANCE_DOC_TYPE = "KualiSimpleMaintenanceDocument";
-    
+
     public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
     static {
         SOURCE_LINE_ONLY_DOCUMENT_TYPES.add(DISBURSEMENT_VOCHER_DOC_TYPE);
     }
-    
+
     public static final Set TARGET_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
     static {
         TARGET_LINE_ONLY_DOCUMENT_TYPES.add(INTERNAL_BILLING_DOC_TYPE);
@@ -100,11 +100,11 @@ public class KualiWorkflowUtils {
     public static boolean isSourceLineOnly(String documentTypeName) {
         return SOURCE_LINE_ONLY_DOCUMENT_TYPES.contains(documentTypeName);
     }
-    
+
     public static boolean isTargetLineOnly(String documentTypeName) {
         return TARGET_LINE_ONLY_DOCUMENT_TYPES.contains(documentTypeName);
     }
-    
+
     public static final boolean isMaintenanceDocument(DocumentType documentType) {
         LOG.info("started isMaintenanceDocument: " + documentType.getName());
         boolean isMaintenanceDocument = false;
@@ -112,7 +112,8 @@ public class KualiWorkflowUtils {
         while ((currentDocumentType != null) && !isMaintenanceDocument) {
             if (MAINTENANCE_DOC_TYPE.equals(currentDocumentType.getName())) {
                 isMaintenanceDocument = true;
-            } else {
+            }
+            else {
                 currentDocumentType = currentDocumentType.getParentDocType();
             }
         }
@@ -206,11 +207,11 @@ public class KualiWorkflowUtils {
         }
         return targetAccountingLineClassName;
     }
-    
+
     /**
      * 
-     * This method will do a simple XPath.evaluate, while wrapping your xpathExpression with the 
-     * xstreamSafe function.  It assumes a String result, and will return such.
+     * This method will do a simple XPath.evaluate, while wrapping your xpathExpression with the xstreamSafe function. It assumes a
+     * String result, and will return such.
      * 
      * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
      * 
@@ -220,7 +221,7 @@ public class KualiWorkflowUtils {
      * @return The string value of the xpath.evaluate().
      */
     public static final String xstreamSafeEval(XPath xpath, String xpathExpression, Object item) {
-        String xstreamSafeXPath = new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString(); 
+        String xstreamSafeXPath = new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString();
         String evalResult = "";
         try {
             evalResult = xpath.evaluate(xstreamSafeXPath, item);
@@ -230,11 +231,11 @@ public class KualiWorkflowUtils {
         }
         return evalResult;
     }
-    
+
     /**
      * 
-     * This method wraps the passed-in XPath expression in XStream Safe wrappers, so that 
-     * XStream generated reference links will be handled correctly.
+     * This method wraps the passed-in XPath expression in XStream Safe wrappers, so that XStream generated reference links will be
+     * handled correctly.
      * 
      * @param xpathExpression The XPath Expression you wish to use.
      * @return Your XPath Expression wrapped in the XStreamSafe wrapper.
@@ -243,10 +244,10 @@ public class KualiWorkflowUtils {
     public static final String xstreamSafeXPath(String xpathExpression) {
         return new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString();
     }
-    
+
     /**
-     * This method is for use by WorkflowLookupableImpl and WorkflowAttribute implementations to derive the fieldHelpUrl for use
-     * on edu.iu.uis.eden.lookupable.Fields.
+     * This method is for use by WorkflowLookupableImpl and WorkflowAttribute implementations to derive the fieldHelpUrl for use on
+     * edu.iu.uis.eden.lookupable.Fields.
      * 
      * @param field The kuali field that we need to derive a help url for. @ return Returns the help url for the field.
      */
@@ -257,16 +258,15 @@ public class KualiWorkflowUtils {
         params.put(PropertyConstants.ATTRIBUTE_NAME, field.getPropertyName());
         return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.APPLICATION_BASE_URL_KEY) + "/help.do", params);
     }
-    
-    /** 
-     * This is for use by xml WorkflowAttribute implementations.  It overrides the label and help url of the test fields on
-     * the edu.iu.uis.eden.lookupable.Rows obtained from the workflow parent class with the appropriate values from the data
-     * dictionary.
+
+    /**
+     * This is for use by xml WorkflowAttribute implementations. It overrides the label and help url of the test fields on the
+     * edu.iu.uis.eden.lookupable.Rows obtained from the workflow parent class with the appropriate values from the data dictionary.
      * 
-     * @param workflowRows A list of edu.iu.uis.eden.lookupable.Row objects provided by the workflow superclass, based
-     * on the XML attribute definition.
+     * @param workflowRows A list of edu.iu.uis.eden.lookupable.Row objects provided by the workflow superclass, based on the XML
+     *        attribute definition.
      * @param businessObjectClass The BusinessObject Class extracted from the meta data specified in the XML attribute definition,
-     * which is used in querying the data dictionary for the field definition.
+     *        which is used in querying the data dictionary for the field definition.
      */
     public static List setKualiFieldValues(List workflowRows, String businessObjectClassName) {
         Iterator workflowRowsItr = workflowRows.iterator();
@@ -280,7 +280,8 @@ public class KualiWorkflowUtils {
                         org.kuali.core.web.uidraw.Field kualiField = FieldUtils.getPropertyField(Class.forName(businessObjectClassName), field.getPropertyName(), false);
                         field.setFieldLabel(kualiField.getFieldLabel());
                         field.setFieldHelpUrl(KualiWorkflowUtils.getHelpUrl(kualiField));
-                    } catch (ClassNotFoundException cnfe) {
+                    }
+                    catch (ClassNotFoundException cnfe) {
                         throw new RuntimeException("Unable to load BusinessObject class: " + businessObjectClassName, cnfe);
                     }
                 }

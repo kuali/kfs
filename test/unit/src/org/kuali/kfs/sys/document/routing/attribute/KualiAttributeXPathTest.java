@@ -36,6 +36,7 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class KualiAttributeXPathTest extends KualiTestBaseWithFixtures {
@@ -46,41 +47,41 @@ public class KualiAttributeXPathTest extends KualiTestBaseWithFixtures {
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_XSTREAMSAFE = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account/subFundGroupCode') or wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account/subFundGroupCode')";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE_XSTREAMSAFE = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account/subFundGroupCode')";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET_XSTREAMSAFE = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account/subFundGroupCode')";
-    
+
     public void setUp() throws Exception {
         super.setUp();
     }
-    
+
     public void testKualiSubFundGroupAttribute_TransferOfFunds1() throws IOException, InvalidXmlException, XPathExpressionException {
-        
+
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile("TransferOfFunds_FEMPSubcode_OneLIner.xml", "KualiTransferOfFundsDocument");
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
 
         String xpathResult;
-        
-        //  make sure the OR statement works
+
+        // make sure the OR statement works
         xpathResult = (String) xpath.evaluate(KUALI_SUBFUND_GROUP_ATTRIBUTE, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("true", xpathResult);
-        
-        //  make sure the source FEMP exists
+
+        // make sure the source FEMP exists
         xpathResult = (String) xpath.evaluate(KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("FEMP", xpathResult);
-        
-        //  make sure the target FEMP exists
+
+        // make sure the target FEMP exists
         xpathResult = (String) xpath.evaluate(KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("FEMP", xpathResult);
-        
-        //  make sure the OR statement works with xstreamsafe
+
+        // make sure the OR statement works with xstreamsafe
         xpathResult = (String) xpath.evaluate(KUALI_SUBFUND_GROUP_ATTRIBUTE_XSTREAMSAFE, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("true", xpathResult);
-        
-        //  make sure the source FEMP exists with xstreamsafe
+
+        // make sure the source FEMP exists with xstreamsafe
         xpathResult = (String) xpath.evaluate(KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE_XSTREAMSAFE, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("FEMP", xpathResult);
-        
-        //  make sure the target FEMP exists with xstreamsafe
+
+        // make sure the target FEMP exists with xstreamsafe
         xpathResult = (String) xpath.evaluate(KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET_XSTREAMSAFE, docContent.getDocument(), XPathConstants.STRING);
         assertEquals("FEMP", xpathResult);
-        
+
     }
 }

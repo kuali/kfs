@@ -57,7 +57,7 @@ public class OrganizationReversionProcess {
 
     private static final String FINANCIAL_OBJECT = "financialObject";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
-    
+
     // Services
     private OrganizationReversionService organizationReversionService;
     private KualiConfigurationService kualiConfigurationService;
@@ -88,7 +88,7 @@ public class OrganizationReversionProcess {
 
     private boolean endOfYear;
 
-    public OrganizationReversionProcess(boolean endOfYear,OrganizationReversionService ors, KualiConfigurationService kcs, BeanFactory bf, BalanceService bs, OrganizationReversionSelection orgrs, OriginEntryGroupService oegs, OriginEntryService oes, PersistenceService ps, DateTimeService dts, OrganizationReversionCategoryLogic corc,PriorYearAccountService pyas) {
+    public OrganizationReversionProcess(boolean endOfYear, OrganizationReversionService ors, KualiConfigurationService kcs, BeanFactory bf, BalanceService bs, OrganizationReversionSelection orgrs, OriginEntryGroupService oegs, OriginEntryService oes, PersistenceService ps, DateTimeService dts, OrganizationReversionCategoryLogic corc, PriorYearAccountService pyas) {
 
         this.endOfYear = endOfYear;
         balanceService = bs;
@@ -538,10 +538,11 @@ public class OrganizationReversionProcess {
     }
 
     private void calculateTotals(Balance bal) {
-        if ( (account == null) || (! bal.getChartOfAccountsCode().equals(account.getChartOfAccountsCode())) || (! bal.getAccountNumber().equals(account.getAccountNumber())) ) {
-            if ( endOfYear ) {
+        if ((account == null) || (!bal.getChartOfAccountsCode().equals(account.getChartOfAccountsCode())) || (!bal.getAccountNumber().equals(account.getAccountNumber()))) {
+            if (endOfYear) {
                 account = bal.getAccount();
-            } else {
+            }
+            else {
                 account = priorYearAccountService.getByPrimaryKey(bal.getChartOfAccountsCode(), bal.getAccountNumber());
             }
         }

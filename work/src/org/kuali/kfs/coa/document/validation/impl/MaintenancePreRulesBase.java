@@ -49,7 +49,7 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         // SpringServiceLocator, and configure the bean defs for spring.
         setAccountService(SpringServiceLocator.getAccountService());
         setConfigService(SpringServiceLocator.getKualiConfigurationService());
-        setDocumentAuthorizationService( SpringServiceLocator.getDocumentAuthorizationService() );
+        setDocumentAuthorizationService(SpringServiceLocator.getDocumentAuthorizationService());
     }
 
     public void setAccountService(AccountService accountService) {

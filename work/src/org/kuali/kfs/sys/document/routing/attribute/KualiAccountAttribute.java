@@ -98,7 +98,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
-    
+
     private String finCoaCd;
 
     private String accountNbr;
@@ -166,8 +166,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * method to validate the routing data, need to determine if this should
-     * actually be implemented to throw errors or anything like that.
+     * method to validate the routing data, need to determine if this should actually be implemented to throw errors or anything
+     * like that.
      * 
      * @param paramMap
      * @return
@@ -185,7 +185,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         }
         return errors;
     }
-    
+
     private void validateAccount(List errors) {
         if (StringUtils.isBlank(this.finCoaCd) || StringUtils.isBlank(this.accountNbr)) {
             errors.add(new WorkflowServiceErrorImpl("Account is required.", "routetemplate.accountattribute.account.required"));
@@ -196,9 +196,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * method to validate the rule data, which matches the routing data in this
-     * attributes case therefore, we should just be able to call into the other
-     * implementation validateRoutingData
+     * method to validate the rule data, which matches the routing data in this attributes case therefore, we should just be able to
+     * call into the other implementation validateRoutingData
      * 
      * @param paramMap
      * @return
@@ -208,8 +207,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * method to actually construct the docContent that will be appended to this
-     * documents contents
+     * method to actually construct the docContent that will be appended to this documents contents
      * 
      * @return
      */
@@ -225,9 +223,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * return true since this is a rule attribute, and if there are no routing
-     * records returned, then there was no valid mapping in the docContent for a
-     * given role.
+     * return true since this is a rule attribute, and if there are no routing records returned, then there was no valid mapping in
+     * the docContent for a given role.
      * 
      * @param docContent
      * @param ruleExtensions
@@ -238,10 +235,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * This method is used by the workflow report to allow the user to fill in
-     * some arbitrary values for the routable contents of an example document,
-     * and then to run the report to generate a virtual route log of who the
-     * document would route to, etc.
+     * This method is used by the workflow report to allow the user to fill in some arbitrary values for the routable contents of an
+     * example document, and then to run the report to generate a virtual route log of who the document would route to, etc.
      * 
      * @return
      */
@@ -258,12 +253,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         fields.add(new Field(kualiAccountField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiAccountField), Field.TEXT, false, ACCOUNT_NBR_KEY, kualiAccountField.getPropertyValue(), kualiAccountField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Account.class), "accountNbr"));
         rows.add(new Row(fields));
 
-        //TODO: hook TotalDollarAmount into the DD attribute for DocumentHeader.financialDocumentTotalAmount once 
-        //      the DD has this attribute defined, like Chart and Account above
+        // TODO: hook TotalDollarAmount into the DD attribute for DocumentHeader.financialDocumentTotalAmount once
+        // the DD has this attribute defined, like Chart and Account above
         fields = new ArrayList();
         fields.add(new Field("Total Dollar Amount", "", Field.TEXT, false, FDOC_TOTAL_DOLLAR_AMOUNT_KEY, "", null, null));
         rows.add(new Row(fields));
-        
+
         return rows;
     }
 
@@ -367,8 +362,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * Encodes the qualified role names for Fiscal Officer and Account
-     * Supervisor routing.
+     * Encodes the qualified role names for Fiscal Officer and Account Supervisor routing.
      */
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         String newMaintPrefix = KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX;
@@ -388,7 +382,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     role.accountNumber = accountNumber;
                     role.totalDollarAmount = totalDollarAmount;
                     fiscalOfficers.add(role);
-                } else if (KualiWorkflowUtils.ACCOUNT_DOC_TYPE.equals(docTypeName)) {
+                }
+                else if (KualiWorkflowUtils.ACCOUNT_DOC_TYPE.equals(docTypeName)) {
                     // 1) If this is a new account, it routes to the fiscal
                     // officer specified on the new account
                     // 2) If this is an account edit and the fiscal officer
@@ -402,7 +397,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     // Route on all unique fiscal officers on the document.
                     // Dont route to the same person twice.
                     //
-                    String newFiscalOfficerId = KualiWorkflowUtils.xstreamSafeEval(xpath, newMaintPrefix + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument()); 
+                    String newFiscalOfficerId = KualiWorkflowUtils.xstreamSafeEval(xpath, newMaintPrefix + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());
                     String oldFiscalOfficerId = KualiWorkflowUtils.xstreamSafeEval(xpath, oldMaintPrefix + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());
                     String foChartCode = KualiWorkflowUtils.xstreamSafeEval(xpath, newMaintPrefix + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, docContent.getDocument());
                     String foAccountNumber = KualiWorkflowUtils.xstreamSafeEval(xpath, newMaintPrefix + Constants.ACCOUNT_NUMBER_PROPERTY_NAME, docContent.getDocument());
@@ -417,11 +412,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     if (fiscalOfficers.isEmpty()) {
                         throw new RuntimeException("No Fiscal Officers were found in this Account Maintenance Document. Routing cannot continue without Fiscal Officers.");
                     }
-                } else if (KualiWorkflowUtils.SUB_ACCOUNT_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.SUB_OBJECT_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.ACCOUNT_DEL_DOC_TYPE.equals(docTypeName)) {
+                }
+                else if (KualiWorkflowUtils.SUB_ACCOUNT_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.SUB_OBJECT_DOC_TYPE.equals(docTypeName) || KualiWorkflowUtils.ACCOUNT_DEL_DOC_TYPE.equals(docTypeName)) {
                     String foChartCode = KualiWorkflowUtils.xstreamSafeEval(xpath, newMaintPrefix + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, docContent.getDocument());
                     String foAccountNumber = KualiWorkflowUtils.xstreamSafeEval(xpath, newMaintPrefix + Constants.ACCOUNT_NUMBER_PROPERTY_NAME, docContent.getDocument());
                     fiscalOfficers.add(new FiscalOfficerRole(roleName, foChartCode, foAccountNumber));
-                } else {
+                }
+                else {
                     if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
                         NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
                         String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
@@ -437,7 +434,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                     FiscalOfficerRole role = (FiscalOfficerRole) iterator.next();
                     qualifiedRoleNames.add(getQualifiedRoleString(role));
                 }
-            } else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
+            }
+            else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
                 // only route to account supervisor on
                 // KualiAccountMaintenanceDocument
                 if (docTypeName.equals(KualiWorkflowUtils.ACCOUNT_DOC_TYPE)) {
@@ -448,10 +446,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 }
             }
             return qualifiedRoleNames;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
     private static String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
         KualiDecimal sum = new KualiDecimal(0);
         for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
@@ -475,8 +475,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * Resolves the qualified roles for Fiscal Officers, their delegates, and
-     * account supervisors.
+     * Resolves the qualified roles for Fiscal Officers, their delegates, and account supervisors.
      */
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
         try {
@@ -490,27 +489,32 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 if (fiscalOfficerId != null) {
                     members.add(fiscalOfficerId);
                 }
-            } else if (FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName)) {
+            }
+            else if (FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
                 UserId primaryDelegate = getPrimaryDelegation(role, kualiDocumentType);
                 if (primaryDelegate != null) {
                     members.add(primaryDelegate);
                 }
-            } else if (FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
+            }
+            else if (FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
                 members.addAll(getSecondaryDelegations(role, kualiDocumentType));
-            } else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
+            }
+            else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
                 String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);
                 annotation = "Routing to Account Supervisor";
                 String supervisorNetworkId = SpringServiceLocator.getKualiUserService().getUniversalUser(new UuId(accountSupervisorId)).getPersonUserIdentifier();
                 if (!StringUtils.isEmpty(supervisorNetworkId)) {
                     members.add(new AuthenticationUserId(supervisorNetworkId));
-                } else {
+                }
+                else {
                     LOG.info("No active account supervisor found.");
                 }
             }
             return new ResolvedQualifiedRole(roleName, members, annotation);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException("KualiAccountAttribute encountered exception while attempting to resolve qualified role", e);
         }
     }
@@ -553,12 +557,10 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * Returns a the UserId of the primary delegation on the given
-     * FiscalOfficerRole. If the given role doesn't have an account number or
-     * there is no primary delegate, returns null.
+     * Returns a the UserId of the primary delegation on the given FiscalOfficerRole. If the given role doesn't have an account
+     * number or there is no primary delegate, returns null.
      * 
-     * @throws RuntimeException if there is more than one primary delegation on
-     *             the given account
+     * @throws RuntimeException if there is more than one primary delegation on the given account
      */
     private static UserId getPrimaryDelegation(FiscalOfficerRole role, String fisDocumentType) throws Exception {
         UserId primaryDelegateId = null;
@@ -576,9 +578,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * Returns a list of UserIds for all secondary delegations on the given
-     * FiscalOfficerRole. If the given role doesn't have an account number or
-     * there are no delegations, returns an empty list.
+     * Returns a list of UserIds for all secondary delegations on the given FiscalOfficerRole. If the given role doesn't have an
+     * account number or there are no delegations, returns an empty list.
      */
     private static List getSecondaryDelegations(FiscalOfficerRole role, String fisDocumentType) throws Exception {
         List members = new ArrayList();
@@ -596,9 +597,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * A helper class which defines a Fiscal Officer role. Implements an
-     * equals() and hashCode() method so that it can be used in a Set to prevent
-     * the generation of needless duplicate requests.
+     * A helper class which defines a Fiscal Officer role. Implements an equals() and hashCode() method so that it can be used in a
+     * Set to prevent the generation of needless duplicate requests.
      * 
      * @author ewestfal
      */
@@ -624,13 +624,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             this.chart = chart;
             this.accountNumber = accountNumber;
         }
-        
+
         public FiscalOfficerRole(String roleName, String chart, String accountNumber) {
             this.roleName = roleName;
             this.chart = chart;
             this.accountNumber = accountNumber;
         }
-        
+
         public boolean equals(Object object) {
             if (object instanceof FiscalOfficerRole) {
                 FiscalOfficerRole role = (FiscalOfficerRole) object;

@@ -140,14 +140,14 @@ public class IsDebitTestUtils {
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in sourceMap for: " + transactionalDocument.getClass() + ";" + lineClass);
             }
-            line = transactionalDocument.getAccountingLineParser().parseSourceAccountingLine(transactionalDocument,unparsedLine);
+            line = transactionalDocument.getAccountingLineParser().parseSourceAccountingLine(transactionalDocument, unparsedLine);
         }
         else if (TargetAccountingLine.class.isAssignableFrom(lineClass)) {
             unparsedLine = targetLines.get(transactionalDocument.getClass());
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in targetMap for: " + transactionalDocument.getClass() + ";" + lineClass);
             }
-            line = transactionalDocument.getAccountingLineParser().parseTargetAccountingLine(transactionalDocument,unparsedLine);
+            line = transactionalDocument.getAccountingLineParser().parseTargetAccountingLine(transactionalDocument, unparsedLine);
         }
         else {
             throw new IllegalArgumentException("invalid accounting line type (" + lineClass + ")");
@@ -164,7 +164,7 @@ public class IsDebitTestUtils {
      * @param amount
      * @return AccountingLine
      */
-    public static AccountingLine getExpenseLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount)  {
+    public static AccountingLine getExpenseLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) {
         return getAccountingLine(transactionalDocument, lineClass, amount, BaChartObjectCodes.EXPENSE);
     }
 
@@ -174,7 +174,7 @@ public class IsDebitTestUtils {
      * @param amount
      * @return AccountingLine
      */
-    public static AccountingLine getAssetLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount)  {
+    public static AccountingLine getAssetLine(TransactionalDocument transactionalDocument, Class<? extends AccountingLine> lineClass, KualiDecimal amount) {
         return getAccountingLine(transactionalDocument, lineClass, amount, BaChartObjectCodes.ASSET);
     }
 
@@ -198,16 +198,16 @@ public class IsDebitTestUtils {
         return getAccountingLine(transactionalDocument, lineClass, amount, BaChartObjectCodes.LIABILITY);
     }
 
-/**
- * 
- * @param documentTypeService
- * @param dataDicitionaryService
- * @param transactionalDocument
- * @param accountingLine
- * @return
- * @throws InstantiationException
- * @throws IllegalAccessException
- */
+    /**
+     * 
+     * @param documentTypeService
+     * @param dataDicitionaryService
+     * @param transactionalDocument
+     * @param accountingLine
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public static boolean isDebit(DocumentTypeService documentTypeService, DataDictionaryService dataDicitionaryService, TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws InstantiationException, IllegalAccessException {
         String documentTypeName = documentTypeService.getDocumentTypeNameByClass(transactionalDocument.getClass());
         AccountingLineRule rule = (AccountingLineRule) dataDicitionaryService.getDataDictionary().getBusinessRulesClass(documentTypeName).newInstance();

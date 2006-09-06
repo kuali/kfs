@@ -55,7 +55,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
     private ObjectCode objectCode;
     private Chart chart;
     private Account account;
-    
+
     public static final String BLANKS = "                 ";
     public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

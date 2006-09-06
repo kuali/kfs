@@ -104,7 +104,7 @@ public class BalanceReport {
      * @param fiscalYearName
      * @param balanceTypeCodes
      */
-    public void generateReport(Date runDate,List<GlSummary> glBalances,String fiscalYearName,List<String> balanceTypeCodes,String fileprefix,String destinationDirectory) {
+    public void generateReport(Date runDate, List<GlSummary> glBalances, String fiscalYearName, List<String> balanceTypeCodes, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
 
         Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
@@ -121,10 +121,10 @@ public class BalanceReport {
         int total = balanceTypeCodes.size();
         int count = 0;
         for (Iterator iter = balanceTypeCodes.iterator(); iter.hasNext();) {
-            String element = (String)iter.next();
+            String element = (String) iter.next();
             count++;
             helper.type = helper.type + element;
-            if ( count < total ) {
+            if (count < total) {
                 helper.type = helper.type + "/";
             }
         }
@@ -197,63 +197,63 @@ public class BalanceReport {
 
             GlSummary totals = new GlSummary();
             for (Iterator iter = glBalances.iterator(); iter.hasNext();) {
-                GlSummary gls = (GlSummary)iter.next();
+                GlSummary gls = (GlSummary) iter.next();
                 totals.add(gls);
 
                 cell = new PdfPCell(new Phrase(gls.getFundGroup(), textFont));
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( (gls.getBeginningBalance().add(gls.getCgBeginningBalance())).doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format((gls.getBeginningBalance().add(gls.getCgBeginningBalance())).doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getAnnualBalance().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getAnnualBalance().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth1().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth1().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth2().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth2().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth3().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth3().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth4().doubleValue() ), textFont));
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                balances.addCell(cell);
-
-                cell = new PdfPCell(new Phrase("", textFont));
-                balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth5().doubleValue() ), textFont));
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth6().doubleValue() ), textFont));
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth7().doubleValue() ), textFont));
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth8().doubleValue() ), textFont));
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth9().doubleValue() ), textFont));
-                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth10().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth4().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
 
                 cell = new PdfPCell(new Phrase("", textFont));
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth11().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth5().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth12().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth6().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getMonth13().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth7().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( gls.getYearBalance().doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth8().doubleValue()), textFont));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                balances.addCell(cell);
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth9().doubleValue()), textFont));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                balances.addCell(cell);
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth10().doubleValue()), textFont));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                balances.addCell(cell);
+
+                cell = new PdfPCell(new Phrase("", textFont));
+                balances.addCell(cell);
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth11().doubleValue()), textFont));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                balances.addCell(cell);
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth12().doubleValue()), textFont));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                balances.addCell(cell);
+                cell = new PdfPCell(new Phrase(nf.format(gls.getMonth13().doubleValue()), textFont));
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                balances.addCell(cell);
+                cell = new PdfPCell(new Phrase(nf.format(gls.getYearBalance().doubleValue()), textFont));
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                 balances.addCell(cell);
                 cell = new PdfPCell(new Phrase("", textFont));
@@ -269,58 +269,58 @@ public class BalanceReport {
             // Now add the total line
             cell = new PdfPCell(new Phrase("Total", textFont));
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( (totals.getBeginningBalance().add(totals.getCgBeginningBalance())).doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format((totals.getBeginningBalance().add(totals.getCgBeginningBalance())).doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getAnnualBalance().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getAnnualBalance().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth1().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth1().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth2().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth2().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth3().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth3().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth4().doubleValue() ), textFont));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            balances.addCell(cell);
-
-            cell = new PdfPCell(new Phrase("", textFont));
-            balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth5().doubleValue() ), textFont));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth6().doubleValue() ), textFont));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth7().doubleValue() ), textFont));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth8().doubleValue() ), textFont));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth9().doubleValue() ), textFont));
-            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-            balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth10().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth4().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
 
             cell = new PdfPCell(new Phrase("", textFont));
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth11().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth5().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth12().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth6().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getMonth13().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth7().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( totals.getYearBalance().doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth8().doubleValue()), textFont));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            balances.addCell(cell);
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth9().doubleValue()), textFont));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            balances.addCell(cell);
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth10().doubleValue()), textFont));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            balances.addCell(cell);
+
+            cell = new PdfPCell(new Phrase("", textFont));
+            balances.addCell(cell);
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth11().doubleValue()), textFont));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            balances.addCell(cell);
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth12().doubleValue()), textFont));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            balances.addCell(cell);
+            cell = new PdfPCell(new Phrase(nf.format(totals.getMonth13().doubleValue()), textFont));
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+            balances.addCell(cell);
+            cell = new PdfPCell(new Phrase(nf.format(totals.getYearBalance().doubleValue()), textFont));
             cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             balances.addCell(cell);
             cell = new PdfPCell(new Phrase("", textFont));

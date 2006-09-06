@@ -41,38 +41,32 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.14 2006-09-05 23:12:23 bnelson Exp $
- * TODO Oracle Specific code here
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.15 2006-09-06 06:50:17 abyrne Exp $ TODO Oracle Specific code here
  */
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupDaoOjb.class);
 
-    private static final String DATE =  "date";
+    private static final String DATE = "date";
     private static final String ID = "id";
     private static final String SOURCE_CODE = "sourceCode";
     private static final String PROCESS = "process";
     private static final String VALID = "valid";
     private static final String SCRUB = "scrub";
-    
+
     public OriginEntryGroupDaoOjb() {
         super();
     }
 
     /**
      * 
-     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#copyGroup(org.kuali.module.gl.bo.OriginEntryGroup, org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#copyGroup(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    public void copyGroup(OriginEntryGroup fromGroup,OriginEntryGroup toGroup) {
+    public void copyGroup(OriginEntryGroup fromGroup, OriginEntryGroup toGroup) {
         LOG.debug("copyGroup() started");
 
-        String sql = "insert into GL_ORIGIN_ENTRY_T (ORIGIN_ENTRY_ID, OBJ_ID, VER_NBR, ORIGIN_ENTRY_GRP_ID, ACCOUNT_NBR,FDOC_NBR, FDOC_REF_NBR, FDOC_REF_TYP_CD, " +
-                "FDOC_REVERSAL_DT, FDOC_TYP_CD, FIN_BALANCE_TYP_CD, FIN_COA_CD,FIN_OBJ_TYP_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FS_ORIGIN_CD, FS_REF_ORIGIN_CD, " +
-                "ORG_DOC_NBR, ORG_REFERENCE_ID,PROJECT_CD, SUB_ACCT_NBR, TRANSACTION_DT, TRN_DEBIT_CRDT_CD, TRN_ENCUM_UPDT_CD, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_AMT," +
-                "TRN_LDGR_ENTR_DESC, UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, TRN_SCRBBR_OFST_GEN_IND, BDGT_YR) " +
-                "select gl_origin_entry_t_seq.nextval, sys_guid(), 1, " + toGroup.getId() + ", ACCOUNT_NBR, FDOC_NBR, FDOC_REF_NBR, FDOC_REF_TYP_CD, FDOC_REVERSAL_DT, " + 
-                "FDOC_TYP_CD, FIN_BALANCE_TYP_CD, FIN_COA_CD, FIN_OBJ_TYP_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FS_ORIGIN_CD, FS_REF_ORIGIN_CD, ORG_DOC_NBR,ORG_REFERENCE_ID, " +
-                "PROJECT_CD, SUB_ACCT_NBR, TRANSACTION_DT, TRN_DEBIT_CRDT_CD, TRN_ENCUM_UPDT_CD, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_AMT,TRN_LDGR_ENTR_DESC, UNIV_FISCAL_PRD_CD, " +
-                "UNIV_FISCAL_YR, TRN_SCRBBR_OFST_GEN_IND, BDGT_YR from GL_ORIGIN_ENTRY_T where ORIGIN_ENTRY_GRP_ID = " + fromGroup.getId();
+        String sql = "insert into GL_ORIGIN_ENTRY_T (ORIGIN_ENTRY_ID, OBJ_ID, VER_NBR, ORIGIN_ENTRY_GRP_ID, ACCOUNT_NBR,FDOC_NBR, FDOC_REF_NBR, FDOC_REF_TYP_CD, " + "FDOC_REVERSAL_DT, FDOC_TYP_CD, FIN_BALANCE_TYP_CD, FIN_COA_CD,FIN_OBJ_TYP_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FS_ORIGIN_CD, FS_REF_ORIGIN_CD, " + "ORG_DOC_NBR, ORG_REFERENCE_ID,PROJECT_CD, SUB_ACCT_NBR, TRANSACTION_DT, TRN_DEBIT_CRDT_CD, TRN_ENCUM_UPDT_CD, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_AMT," + "TRN_LDGR_ENTR_DESC, UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, TRN_SCRBBR_OFST_GEN_IND, BDGT_YR) " + "select gl_origin_entry_t_seq.nextval, sys_guid(), 1, " + toGroup.getId() + ", ACCOUNT_NBR, FDOC_NBR, FDOC_REF_NBR, FDOC_REF_TYP_CD, FDOC_REVERSAL_DT, " + "FDOC_TYP_CD, FIN_BALANCE_TYP_CD, FIN_COA_CD, FIN_OBJ_TYP_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FS_ORIGIN_CD, FS_REF_ORIGIN_CD, ORG_DOC_NBR,ORG_REFERENCE_ID, "
+                + "PROJECT_CD, SUB_ACCT_NBR, TRANSACTION_DT, TRN_DEBIT_CRDT_CD, TRN_ENCUM_UPDT_CD, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_AMT,TRN_LDGR_ENTR_DESC, UNIV_FISCAL_PRD_CD, " + "UNIV_FISCAL_YR, TRN_SCRBBR_OFST_GEN_IND, BDGT_YR from GL_ORIGIN_ENTRY_T where ORIGIN_ENTRY_GRP_ID = " + fromGroup.getId();
 
         sqlCommand(sql);
     }
@@ -87,7 +81,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(DATE, day);
 
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class, criteria));
     }
 
     /**
@@ -99,13 +93,13 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 
         List ids = new ArrayList();
         for (Iterator iter = groups.iterator(); iter.hasNext();) {
-            OriginEntryGroup element = (OriginEntryGroup)iter.next();
+            OriginEntryGroup element = (OriginEntryGroup) iter.next();
             ids.add(element.getId());
         }
         Criteria criteria = new Criteria();
-        criteria.addIn(ID,ids);
+        criteria.addIn(ID, ids);
 
-        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
+        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(OriginEntryGroup.class, criteria));
         getPersistenceBrokerTemplate().clearCache();
     }
 
@@ -226,7 +220,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
             }
         }
     }
-    
+
     /**
      * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getRecentGroups(Date)
@@ -237,8 +231,8 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         Criteria criteria = new Criteria();
         criteria.addGreaterOrEqualThan(DATE, day);
 
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class,criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class, criteria));
     }
-    
-    
+
+
 }

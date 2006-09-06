@@ -179,7 +179,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase {
     public KualiDecimal getSumTotalAmount() {
         return this.totalAdvanceDepositAmount;
     }
-    
+
     /**
      * Overrides super to call super and then also add in the new list of advance deposits that have to be managed.
      * 

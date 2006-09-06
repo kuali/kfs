@@ -55,12 +55,12 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     }
 
     public OrganizationRoutingModel(DelegateChangeDocument delegateChangeDocument) {
-        accountDelegateUniversalId=delegateChangeDocument.getAccountDelegateUniversalId();
-        accountDelegatePrimaryRoutingIndicator=delegateChangeDocument.getAccountDelegatePrimaryRoutingIndicator();
-        approvalFromThisAmount=delegateChangeDocument.getApprovalFromThisAmount();
-        approvalToThisAmount=delegateChangeDocument.getApprovalToThisAmount();
-        accountDelegateStartDate=delegateChangeDocument.getAccountDelegateStartDate();
-        financialDocumentTypeCode=delegateChangeDocument.getFinancialDocumentTypeCode();
+        accountDelegateUniversalId = delegateChangeDocument.getAccountDelegateUniversalId();
+        accountDelegatePrimaryRoutingIndicator = delegateChangeDocument.getAccountDelegatePrimaryRoutingIndicator();
+        approvalFromThisAmount = delegateChangeDocument.getApprovalFromThisAmount();
+        approvalToThisAmount = delegateChangeDocument.getApprovalToThisAmount();
+        accountDelegateStartDate = delegateChangeDocument.getAccountDelegateStartDate();
+        financialDocumentTypeCode = delegateChangeDocument.getFinancialDocumentTypeCode();
     }
 
     /**

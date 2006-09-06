@@ -52,10 +52,11 @@ public class SubFundGroup extends BusinessObjectBase {
     private String fundGroupCode;
     private String fundGroupBudgetAdjustmentRestrictionLevelCode;
     private String accountRestrictedStatusCode;
-    
+
     private FundGroup fundGroup;
     private SubFundGroupType subFundGroupType;
-    private RestrictedStatus accountRestrictedStatus;    
+    private RestrictedStatus accountRestrictedStatus;
+
     /**
      * Gets the subFundGroupCode attribute.
      * 
@@ -206,7 +207,8 @@ public class SubFundGroup extends BusinessObjectBase {
     }
 
     /**
-     * Gets the fundGroupBudgetAdjustmentRestrictionLevelCode attribute. 
+     * Gets the fundGroupBudgetAdjustmentRestrictionLevelCode attribute.
+     * 
      * @return Returns the fundGroupBudgetAdjustmentRestrictionLevelCode.
      */
     public String getFundGroupBudgetAdjustmentRestrictionLevelCode() {
@@ -215,6 +217,7 @@ public class SubFundGroup extends BusinessObjectBase {
 
     /**
      * Sets the fundGroupBudgetAdjustmentRestrictionLevelCode attribute value.
+     * 
      * @param fundGroupBudgetAdjustmentRestrictionLevelCode The fundGroupBudgetAdjustmentRestrictionLevelCode to set.
      */
     public void setFundGroupBudgetAdjustmentRestrictionLevelCode(String fundGroupBudgetAdjustmentRestrictionLevelCode) {
@@ -222,7 +225,8 @@ public class SubFundGroup extends BusinessObjectBase {
     }
 
     /**
-     * Gets the accountRestrictedStatusCode attribute. 
+     * Gets the accountRestrictedStatusCode attribute.
+     * 
      * @return Returns the accountRestrictedStatusCode.
      */
     public String getAccountRestrictedStatusCode() {
@@ -231,6 +235,7 @@ public class SubFundGroup extends BusinessObjectBase {
 
     /**
      * Sets the accountRestrictedStatusCode attribute value.
+     * 
      * @param accountRestrictedStatusCode The accountRestrictedStatusCode to set.
      */
     public void setAccountRestrictedStatusCode(String accountRestrictedStatusCode) {
@@ -238,7 +243,8 @@ public class SubFundGroup extends BusinessObjectBase {
     }
 
     /**
-     * Gets the subFundGroupType attribute. 
+     * Gets the subFundGroupType attribute.
+     * 
      * @return Returns the subFundGroupType.
      */
     public SubFundGroupType getSubFundGroupType() {
@@ -247,6 +253,7 @@ public class SubFundGroup extends BusinessObjectBase {
 
     /**
      * Sets the subFundGroupType attribute value.
+     * 
      * @param subFundGroupType The subFundGroupType to set.
      * @deprecated
      */
@@ -254,10 +261,10 @@ public class SubFundGroup extends BusinessObjectBase {
         this.subFundGroupType = subFundGroupType;
     }
 
-    
-    
+
     /**
-     * Gets the accountRestrictedStatus attribute. 
+     * Gets the accountRestrictedStatus attribute.
+     * 
      * @return Returns the accountRestrictedStatus.
      */
     public RestrictedStatus getAccountRestrictedStatus() {
@@ -266,6 +273,7 @@ public class SubFundGroup extends BusinessObjectBase {
 
     /**
      * Sets the accountRestrictedStatus attribute value.
+     * 
      * @param accountRestrictedStatus The accountRestrictedStatus to set.
      */
     public void setAccountRestrictedStatus(RestrictedStatus accountRestrictedStatus) {
@@ -277,7 +285,8 @@ public class SubFundGroup extends BusinessObjectBase {
      */
     public String getCodeAndDescription() {
         String theString = getSubFundGroupCode() + " - " + getSubFundGroupDescription();
-        return theString ;    }
+        return theString;
+    }
 
 
     /**
@@ -290,6 +299,6 @@ public class SubFundGroup extends BusinessObjectBase {
 
 
         return m;
-    }    
-    
+    }
+
 }

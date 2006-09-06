@@ -33,7 +33,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntrySourceDaoOjb.java,v 1.3 2006-09-05 23:12:22 bnelson Exp $
+ * @version $Id: OriginEntrySourceDaoOjb.java,v 1.4 2006-09-06 06:50:17 abyrne Exp $
  * 
  */
 
@@ -53,7 +53,7 @@ public class OriginEntrySourceDaoOjb extends PersistenceBrokerDaoSupport impleme
     private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
     private static final String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
     private static final String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
-    
+
     public OriginEntrySourceDaoOjb() {
         super();
     }
@@ -65,7 +65,7 @@ public class OriginEntrySourceDaoOjb extends PersistenceBrokerDaoSupport impleme
      */
     public Collection findAll() {
         QueryByCriteria query = QueryFactory.newQuery(OriginEntrySource.class, (Criteria) null);// "SELECT * FROM
-                                                                                                // GL_ORIGIN_ENTRY_SRC_T");
+        // GL_ORIGIN_ENTRY_SRC_T");
         Collection thawed = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         // Collection frozen = Collections.unmodifiableCollection(thawed);
         return thawed;

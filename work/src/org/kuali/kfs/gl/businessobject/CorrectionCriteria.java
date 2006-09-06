@@ -288,5 +288,5 @@ public class CorrectionCriteria extends BusinessObjectBase implements Comparable
         }
         return m;
     }
-    
+
 }

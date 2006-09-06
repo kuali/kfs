@@ -30,19 +30,19 @@ import org.kuali.core.bo.BusinessObjectBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryGroup.java,v 1.5 2006-09-05 23:12:23 bnelson Exp $
+ * @version $Id: OriginEntryGroup.java,v 1.6 2006-09-06 06:50:05 abyrne Exp $
  * 
  */
 
 public class OriginEntryGroup extends BusinessObjectBase {
-    
-    private static final String VALID_STRING =  "Valid/";
+
+    private static final String VALID_STRING = "Valid/";
     private static final String INVALID_STRING = "Invalid/";
     private static final String PROCESSED_STRING = " Will Be Processed/";
     private static final String NOT_PROCESSED_STRING = "Will Not Process/";
     private static final String SCRUB_STRING = "To Scrub";
     private static final String NO_SCRUB_STRING = "Not to Scrub";
-    
+
     private Integer id;
     private Date date;
     private String sourceCode;

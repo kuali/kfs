@@ -36,12 +36,12 @@ public class ObjectCodeDescriptionFormatter extends CodeDescriptionFormatterBase
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
-    
+
     public ObjectCodeDescriptionFormatter(Integer universityFiscalYear, String chartOfAccountsCode) {
         this.universityFiscalYear = universityFiscalYear;
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
-    
+
     @Override
     protected String getDescriptionOfBO(BusinessObject bo) {
         return ((ObjectCode) bo).getFinancialObjectCodeName();
@@ -57,7 +57,7 @@ public class ObjectCodeDescriptionFormatter extends CodeDescriptionFormatterBase
 
         Map<String, BusinessObject> results = new HashMap<String, BusinessObject>();
         // TODO: worry about active flag?
-        for ( ObjectCode oc : coll ) {
+        for (ObjectCode oc : coll) {
             results.put(oc.getFinancialObjectCode(), oc);
         }
         return results;

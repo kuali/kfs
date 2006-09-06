@@ -45,7 +45,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         super.setUp();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
-    
+
     public void testLabelsAreInDataDictionary() {
         assertNotNull(AccountingLineRuleUtil.getChartLabel());
         assertNotNull(AccountingLineRuleUtil.getAccountLabel());

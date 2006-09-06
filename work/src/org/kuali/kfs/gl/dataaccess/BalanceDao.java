@@ -42,9 +42,9 @@ public interface BalanceDao {
      * 
      * @param universityFiscalYear
      * @param balanceTypeCodes
-     * @return iterator to Object[] 
+     * @return iterator to Object[]
      */
-    public Iterator getGlSummary(int universityFiscalYear,List<String> balanceTypeCodes);
+    public Iterator getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
 
     public Balance getBalanceByTransaction(Transaction t);
 
@@ -62,37 +62,37 @@ public interface BalanceDao {
      * @return the records of cash balance entries
      */
     public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * This method gets the size collection of cash balance entries or entry groups according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the size collection of cash balance entry groups
-     */    
+     */
     public Integer getDetailedCashBalanceRecordCount(Map fieldValues);
-    
+
     /**
-     * This method gets the size collection of cash balance entry groups according to input fields and values 
-     * if the entries are required to be consolidated
+     * This method gets the size collection of cash balance entry groups according to input fields and values if the entries are
+     * required to be consolidated
      * 
      * @param fieldValues the input fields and values
      * @return the size collection of cash balance entry groups
-     */    
+     */
     public Iterator getConsolidatedCashBalanceRecordCount(Map fieldValues);
-    
+
     /**
-     * This method finds the records of balance entries according to input fields and values 
+     * This method finds the records of balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the records of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated);   
-    
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+
     /**
-     * This method gets the size collection of balance entry groups according to input fields and values 
-     * if the entries are required to be consolidated
+     * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
+     * to be consolidated
      * 
      * @param fieldValues the input fields and values
      * @return the size collection of balance entry groups

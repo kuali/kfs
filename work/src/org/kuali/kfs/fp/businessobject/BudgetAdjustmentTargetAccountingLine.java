@@ -61,6 +61,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
         super.ojbConcreteClass = this.getClass().getName();
         BudgetAdjustmentAccountingLineUtil.init(this);
     }
+
     /**
      * 
      * @see org.kuali.core.bo.AccountingLineBase#getValuesMap()
@@ -81,7 +82,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
         super.copyFrom(other);
         BudgetAdjustmentAccountingLineUtil.copyFrom(this, other);
     }
-    
+
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
      */

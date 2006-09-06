@@ -44,7 +44,7 @@ public interface CashManagementService {
      */
     public CashManagementDocument createCashManagementDocument(String unitName, String docDescription, String annotation);
 
-    
+
     /**
      * Uses the given information to lock the appropriate CashDrawer, create a Deposit, and associate it with the given
      * CashManagementDocument and CashReceipts.

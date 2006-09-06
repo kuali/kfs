@@ -24,8 +24,8 @@ package org.kuali.module.financial.web.struts.action;
 
 
 /**
- * struts action class for <code>YearEndBudgetAdjustmentAction</code> the only functional difference between the
- * YearEnd version and the non-yearEnd version of a document is the glpe's generation.
+ * struts action class for <code>YearEndBudgetAdjustmentAction</code> the only functional difference between the YearEnd version
+ * and the non-yearEnd version of a document is the glpe's generation.
  * 
  * @see org.kuali.module.financial.web.struts.action.BudgetAdjustmentAction
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)

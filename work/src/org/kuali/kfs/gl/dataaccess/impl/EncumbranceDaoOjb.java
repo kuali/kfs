@@ -43,7 +43,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: EncumbranceDaoOjb.java,v 1.13 2006-09-06 06:32:44 abyrne Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.14 2006-09-06 06:50:17 abyrne Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -158,7 +158,7 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.module.gl.dao.EncumbranceDao#findOpenEncumbrance(java.util.Map)
      */
@@ -166,25 +166,25 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
         LOG.debug("findOpenEncumbrance() started");
 
         Query query = this.getOpenEncumbranceQuery(fieldValues);
-        OJBUtility.limitResultSize(query);        
+        OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.module.gl.dao.EncumbranceDao#getOpenEncumbranceRecordCount(java.util.Map)
      */
     public Integer getOpenEncumbranceRecordCount(Map fieldValues) {
         LOG.debug("getOpenEncumbranceRecordCount() started");
 
-        Query query = this.getOpenEncumbranceQuery(fieldValues);       
+        Query query = this.getOpenEncumbranceQuery(fieldValues);
         return getPersistenceBrokerTemplate().getCount(query);
     }
-    
-    //  build the query for encumbrance search
-    private Query getOpenEncumbranceQuery(Map fieldValues){
+
+    // build the query for encumbrance search
+    private Query getOpenEncumbranceQuery(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Encumbrance());
-        criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(Constants.ENCUMBRANCE_BALANCE_TYPE));        
-        return QueryFactory.newQuery(Encumbrance.class, criteria);       
+        criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(Constants.ENCUMBRANCE_BALANCE_TYPE));
+        return QueryFactory.newQuery(Encumbrance.class, criteria);
     }
 
     /**

@@ -104,7 +104,7 @@ public class BalanceEncumbranceReport {
      * @param fiscalYearName
      * @param balanceTypeCodes
      */
-    public void generateReport(Date runDate,List<GlSummary> glBalances,String fiscalYearName,List<String> balanceTypeCodes,String fileprefix,String destinationDirectory) {
+    public void generateReport(Date runDate, List<GlSummary> glBalances, String fiscalYearName, List<String> balanceTypeCodes, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
 
         Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
@@ -121,10 +121,10 @@ public class BalanceEncumbranceReport {
         int total = balanceTypeCodes.size();
         int count = 0;
         for (Iterator iter = balanceTypeCodes.iterator(); iter.hasNext();) {
-            String element = (String)iter.next();
+            String element = (String) iter.next();
             count++;
             helper.type = helper.type + element;
-            if ( count < total ) {
+            if (count < total) {
                 helper.type = helper.type + "/";
             }
         }
@@ -155,19 +155,19 @@ public class BalanceEncumbranceReport {
 
             GlSummary totals = new GlSummary();
             for (Iterator iter = glBalances.iterator(); iter.hasNext();) {
-                GlSummary gls = (GlSummary)iter.next();
+                GlSummary gls = (GlSummary) iter.next();
                 totals.add(gls);
 
                 cell = new PdfPCell(new Phrase(gls.getFundGroup(), textFont));
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format( (gls.getBeginningBalance().add(gls.getCgBeginningBalance())).doubleValue() ), textFont));
+                cell = new PdfPCell(new Phrase(nf.format((gls.getBeginningBalance().add(gls.getCgBeginningBalance())).doubleValue()), textFont));
                 balances.addCell(cell);
             }
 
             // Now add the total line
             cell = new PdfPCell(new Phrase("Total", textFont));
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format( (totals.getBeginningBalance().add(totals.getCgBeginningBalance())).doubleValue() ), textFont));
+            cell = new PdfPCell(new Phrase(nf.format((totals.getBeginningBalance().add(totals.getCgBeginningBalance())).doubleValue()), textFont));
             balances.addCell(cell);
 
             document.add(balances);

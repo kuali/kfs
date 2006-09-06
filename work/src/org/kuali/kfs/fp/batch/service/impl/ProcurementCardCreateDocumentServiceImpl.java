@@ -272,7 +272,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
             pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
             pcardDocument.getDocumentHeader().setFinancialDocumentDescription("SYSTEM Generated");
-            
+
             // Remove duplicate messages from errorText
             String messages[] = StringUtils.split(errorText, ".");
             for (int i = 0; i < messages.length; i++) {
@@ -283,7 +283,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             int documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(AttributeReferenceDummy.class.getName(), PropertyConstants.DOCUMENT_EXPLANATION);
             if (errorText.length() <= documentExplanationMaxLength) {
                 pcardDocument.setExplanation(errorText);
-            } else {
+            }
+            else {
                 String tuncatedMessage = " ... TRUNCATED.";
                 errorText = errorText.substring(0, documentExplanationMaxLength - tuncatedMessage.length()) + tuncatedMessage;
             }
@@ -657,7 +658,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * Gets the workflowDocumentService attribute. 
+     * Gets the workflowDocumentService attribute.
+     * 
      * @return Returns the workflowDocumentService.
      */
     public WorkflowDocumentService getWorkflowDocumentService() {
@@ -666,11 +668,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * Sets the workflowDocumentService attribute value.
+     * 
      * @param workflowDocumentService The workflowDocumentService to set.
      */
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
-    
-    
+
+
 }

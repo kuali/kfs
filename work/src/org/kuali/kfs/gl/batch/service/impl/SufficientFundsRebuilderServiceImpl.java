@@ -144,7 +144,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         for (Iterator iter = sufficientFundRebuildService.getAll().iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
 
-            if ( ( ! Constants.SF_TYPE_ACCOUNT.equals(sfrb.getAccountFinancialObjectTypeCode())) && ( ! Constants.SF_TYPE_OBJECT.equals(sfrb.getAccountFinancialObjectTypeCode())) ) {
+            if ((!Constants.SF_TYPE_ACCOUNT.equals(sfrb.getAccountFinancialObjectTypeCode())) && (!Constants.SF_TYPE_OBJECT.equals(sfrb.getAccountFinancialObjectTypeCode()))) {
                 ++sfrbRecordsReadCount;
                 transactionErrors = new ArrayList();
                 addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_SF_OBJECT_TYPE_CODE));
@@ -205,10 +205,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
-        if ( (sfrbAccount.getAccountSufficientFundsCode() != null) && ( Constants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) ||
-                Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) ||
-                Constants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) ||
-                Constants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()) ) ) {
+        if ((sfrbAccount.getAccountSufficientFundsCode() != null) && (Constants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()))) {
             ++sfrbRecordsDeletedCount;
             sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 
@@ -280,16 +277,11 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     }
 
     private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
-        if (options.getFinObjTypeExpenditureexpCd().equalsIgnoreCase(balance.getObjectTypeCode()) 
-                || balance.getOption().getFinancialObjectTypeTransferExpenseCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) 
-                || balance.getOption().getFinObjTypeExpNotExpendCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd())) {
+        if (options.getFinObjTypeExpenditureexpCd().equalsIgnoreCase(balance.getObjectTypeCode()) || balance.getOption().getFinancialObjectTypeTransferExpenseCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) || balance.getOption().getFinObjTypeExpNotExpendCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd())) {
             if (options.getActualFinancialBalanceTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode())) {
                 processObjtAcctActual(balance);
             }
-            else if (options.getExtrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) 
-                    || options.getIntrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) 
-                    || options.getPreencumbranceFinBalTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode()) 
-                    || options.getCostShareEncumbranceBalanceTypeCode().equalsIgnoreCase(balance.getBalanceTypeCode())) {
+            else if (options.getExtrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) || options.getIntrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) || options.getPreencumbranceFinBalTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode()) || options.getCostShareEncumbranceBalanceTypeCode().equalsIgnoreCase(balance.getBalanceTypeCode())) {
                 processObjtAcctEncmbrnc(balance);
             }
             else if (options.getBudgetCheckingBalanceTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode())) {
@@ -318,14 +310,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 processCashActual(sfrbAccount, balance);
             }
         }
-        else if (balance.getBalanceTypeCode().equalsIgnoreCase(options.getExtrnlEncumFinBalanceTypCd()) 
-                || balance.getBalanceTypeCode().equalsIgnoreCase(options.getIntrnlEncumFinBalanceTypCd()) 
-                || balance.getBalanceTypeCode().equalsIgnoreCase(options.getPreencumbranceFinBalTypeCd()) 
-                || options.getCostShareEncumbranceBalanceTypeCode().equalsIgnoreCase(balance.getBalanceTypeCode())) {
-            if (balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) 
-                    || balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpendNotExpCode()) 
-                    || options.getFinancialObjectTypeTransferExpenseCode().equalsIgnoreCase(balance.getObjectTypeCode()) 
-                    || options.getFinObjTypeExpNotExpendCode().equalsIgnoreCase(balance.getObjectTypeCode())) {
+        else if (balance.getBalanceTypeCode().equalsIgnoreCase(options.getExtrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equalsIgnoreCase(options.getIntrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equalsIgnoreCase(options.getPreencumbranceFinBalTypeCd()) || options.getCostShareEncumbranceBalanceTypeCode().equalsIgnoreCase(balance.getBalanceTypeCode())) {
+            if (balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) || balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpendNotExpCode()) || options.getFinancialObjectTypeTransferExpenseCode().equalsIgnoreCase(balance.getObjectTypeCode()) || options.getFinObjTypeExpNotExpendCode().equalsIgnoreCase(balance.getObjectTypeCode())) {
                 processCashEncumbrance(balance);
             }
         }

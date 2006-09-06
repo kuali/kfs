@@ -60,7 +60,6 @@ public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumen
     protected String getTransferDocumentType() {
         return YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE;
     }
-    
-    
+
 
 }

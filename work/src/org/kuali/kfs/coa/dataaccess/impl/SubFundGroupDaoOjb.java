@@ -44,7 +44,7 @@ public class SubFundGroupDaoOjb extends PersistenceBrokerDaoSupport implements S
         Criteria criteria = new Criteria();
         criteria.addEqualTo("subFundGroupCode", subFundGroupCode);
 
-        return (SubFundGroup)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
+        return (SubFundGroup) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
     }
 
     /*
@@ -57,11 +57,11 @@ public class SubFundGroupDaoOjb extends PersistenceBrokerDaoSupport implements S
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("accountNumber", accountNumber);
 
-        Account account = (Account)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Account.class, criteria));
+        Account account = (Account) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Account.class, criteria));
         criteria = new Criteria();
         criteria.addEqualTo("subFundGroupCode", account.getSubFundGroupCode());
 
-        return (SubFundGroup)getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
+        return (SubFundGroup) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
     }
 
 }

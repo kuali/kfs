@@ -25,23 +25,24 @@ package org.kuali.module.gl;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class GLConstants {
     public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";
-    
+
     public static class DummyBusinessObject {
         static final public String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
         static final public String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";
         static final public String CONSOLIDATION_OPTION = "dummyBusinessObject.consolidationOption";
         static final public String LINK_BUTTON_OPTION = "dummyBusinessObject.linkButtonOption";
     }
-    
+
     public static class PendingEntryOptions {
         static final public String APPROVED = "Approved";
         static final public String ALL = "All";
     }
-    
+
     public static class ColumnNames {
         static final public String SUB_ACCOUNT_NUMBER = "SUB_ACCT_NBR";
         static final public String CURRENT_BDLN_BALANCE_AMOUNT = "CURR_BDLN_BAL_AMT";
@@ -53,7 +54,7 @@ public class GLConstants {
         static final public String OBJECT_LEVEL_CODE = "FIN_OBJ_LVL_CD";
         static final public String OBJECT_LEVEL_CODE2 = "FIN_OBJ_LEVEL_CD";
         static final public String OBJECT_CODE = "FIN_OBJECT_CD";
-        
+
         static final public String UNIVERSITY_FISCAL_YEAR = "UNIV_FISCAL_YR";
         static final public String CHART_OF_ACCOUNTS_CODE = "FIN_COA_CD";
         static final public String ACCOUNT_NUMBER = "ACCOUNT_NBR";
@@ -64,14 +65,14 @@ public class GLConstants {
         static final public String OBJECT_TYPE_DEBIT_CREDIT_CODE = "FIN_OBJTYP_DBCR_CD";
         static final public String OFFSET_GENERATION_CODE = "FIN_OFFST_GNRTN_CD";
         static final public String TRANSACTION_LEDGER_ENTRY_AMOUNT = "TRN_LDGR_ENTR_AMT";
-        
-    	static final public String TRANSACTION_DT = "TRANSACTION_DT";
-    	static final public String FIN_OBJ_TYP_CODE = "FIN_OBJ_TYP_CODE";
-    	static final public String NET_EXP_OBJECT_CD = "NET_EXP_OBJECT_CD";
-    	static final public String NET_REV_OBJECT_CD = "NET_REV_OBJECT_CD";
-    	static final public String FUND_BAL_OBJ_TYP_CD = "FUND_BAL_OBJ_TYP_CD";
-    	static final public String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
-	    static final public String UNIV_DT = "UNIV_DT";
+
+        static final public String TRANSACTION_DT = "TRANSACTION_DT";
+        static final public String FIN_OBJ_TYP_CODE = "FIN_OBJ_TYP_CODE";
+        static final public String NET_EXP_OBJECT_CD = "NET_EXP_OBJECT_CD";
+        static final public String NET_REV_OBJECT_CD = "NET_REV_OBJECT_CD";
+        static final public String FUND_BAL_OBJ_TYP_CD = "FUND_BAL_OBJ_TYP_CD";
+        static final public String FUND_BAL_OBJECT_CD = "FUND_BAL_OBJECT_CD";
+        static final public String UNIV_DT = "UNIV_DT";
     }
 
     public static class BalanceInquiryDrillDowns {
@@ -92,7 +93,7 @@ public class GLConstants {
         static final public String EXPENSE_OBJECT_TYPE_CODES = "EXPENSE_OBJECT_TYPE_CODES";
         static final public String EXPENSE_TRANSFER_OBJECT_TYPE_CODES = "EXPENSE_TRANSFER_OBJECT_TYPE_CODES";
         static final public String INCOME_OBJECT_TYPE_CODES = "INCOME_OBJECT_TYPE_CODES";
-        static final public String INCOME_TRANSFER_OBJECT_TYPE_CODES = "INCOME_TRANSFER_OBJECT_TYPE_CODES";        
+        static final public String INCOME_TRANSFER_OBJECT_TYPE_CODES = "INCOME_TRANSFER_OBJECT_TYPE_CODES";
     }
 
     public static class GlScrubberGroupParameters {
@@ -137,7 +138,7 @@ public class GLConstants {
 
         static final public String PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES = "PLANT_FUND.CAMPUS_OBJECT_SUB_TYPE_CODES";
         static final public String PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES = "PLANT_FUND.ORG_OBJECT_SUB_TYPE_CODES";
-        
+
         static final public String PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES = "PLANT_INDEBTEDNESS.OBJ_SUB_TYPE_CODES";
         static final public String PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES = "PLANT_INDEBTEDNESS.SUB_FUND_GROUP_CODES";
     }

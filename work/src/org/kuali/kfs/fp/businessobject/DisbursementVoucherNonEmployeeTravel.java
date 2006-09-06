@@ -818,8 +818,8 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
 
     /**
      * Calculates the total travel amount.
-	 *
-	 * @return KualiDecimal
+     * 
+     * @return KualiDecimal
      */
     public KualiDecimal getTotalTravelAmount() {
         KualiDecimal travelAmount = new KualiDecimal(0);

@@ -8,7 +8,7 @@
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.chart.rules.SubAccountRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.chart.rules.SubAccountPreRules</preRulesCheckClass>
-
+		
         <documentAuthorizerClass>org.kuali.module.chart.document.SubAccountDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -20,6 +20,8 @@
 
         <documentTypeName>KualiSubAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>SACC</documentTypeCode>
+
+		<webScriptFile>chart/subAccountDocument.js</webScriptFile>
 
         <label>Sub-Account Maintenance Document</label>
         <shortLabel>SubAccountMainDoc</shortLabel>
@@ -45,7 +47,7 @@
             <maintainableSection title="Edit Sub-Account Code">
                 <maintainableItems>
                     <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="accountNumber" required="true" webUILeaveFieldFunction="updateICR" webUILeaveFieldCallbackFunction="updateICR_Callback" />
                     <maintainableField name="subAccountNumber" required="true" />
                     <maintainableField name="subAccountName" required="true" />
                     <maintainableField name="subAccountActiveIndicator" required="false">

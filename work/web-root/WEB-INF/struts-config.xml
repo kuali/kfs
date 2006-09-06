@@ -145,6 +145,7 @@
             <forward name="bank" path="/jsp/xmlhttp/bank.jsp" />
             <forward name="bankAccount" path="/jsp/xmlhttp/bankAccount.jsp" />
             <forward name="objectTypeCode" path="/jsp/xmlhttp/objectTypeCode.jsp" />
+            <forward name="accountICR" path="/jsp/xmlhttp/accountICR.jsp" />
         </action>
 
         <!--  Module Action Mappings -->

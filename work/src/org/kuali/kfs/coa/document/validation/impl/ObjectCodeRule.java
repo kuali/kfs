@@ -56,7 +56,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     DateTimeService dateTimeService;
     ObjectLevelService objectLevelService;
     ObjectCodeService objectCodeService;
-    ObjectConsService objectConsService;
+    ObjectConsService  objectConsService;
 
     final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIllegalValues";
     final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES = "ObjectCodeValidBudgetAggregationCodes";
@@ -152,7 +152,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String reportsToChartCode = objectCode.getReportsToChartOfAccountsCode();
         String calculatedReportsToChartCode;
         String reportsToObjectCode = objectCode.getReportsToFinancialObjectCode();
-
+        String nextYearObjectCode = objectCode.getNextYearFinancialObjectCode();
+        
         // We must calculate a reportsToChartCode here to duplicate the logic
         // that takes place in the preRule.
         // The reason is that when we do a SAVE, the pre-rules are not
@@ -208,8 +209,15 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         }
 
         if (!this.objectLevelTableDoesNotHave(chartCode, objCode)) {
-            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR, "Object Code");
+            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR, "Object Code" );
             result = false;
+        }
+        if (this.nextYearObjectCodeDoesNotExistThisYear(year, chartCode,  nextYearObjectCode)){
+            this.putFieldError("nextYearFinancialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Next Year Object Code");
+            result = false;
+        }
+        if (!this.isValidYear(year)){
+            this.putFieldError("universityFiscalYear", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Fiscal Year");
         }
 
         /*
@@ -288,6 +296,19 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
+    
+    public boolean nextYearObjectCodeDoesNotExistThisYear(Integer year, String chartCode, String objCode) {
+        try {
+            ObjectCode objectCode = objectCodeService.getByPrimaryId(year, chartCode, objCode);
+            if (objectCode != null) {
+                return false;
+            }
+        }
+        catch (PersistenceBrokerException e) {
+            // intentionally ignore the Exception
+        }
+        return true;
+    }
 
 
     /**
@@ -334,10 +355,12 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     /**
      * 
      */
-    public boolean isValidYear(Integer year) { // TODO this should come from DateTimeService?
-        if (year == null)
-            return false;
-        return year.intValue() == 2004 || year.intValue() == 2005;
+    public boolean isValidYear(Integer year) { 
+        int enteredYear = year.intValue();
+        int currentYear = dateTimeService.getCurrentFiscalYear().intValue();
+        if ((enteredYear-currentYear) == 0 || (enteredYear-currentYear) == 1)
+            return true;
+        return false;
     }
 
 

@@ -55,4 +55,10 @@ public class PurapPropertyConstants {
     public static final String CONTRACT_LANGUAGE_CREATE_DATE = "contractLanguageCreateDate";
 
     public static final String VENDOR_LEGACY_PAYEE_ID = "vendorLegacyPayeeIdentifier";
+    
+    // Vendor contracts
+    public static final String VENDOR_CONTRACT = "vendorContracts";
+    public static final String ORGANIZATION_APO_LIMIT = "organizationAutomaticPurchaseOrderLimit";
+    public static final String VENDOR_CONTRACT_BEGIN_DATE = "vendorContractBeginningDate";
+
 }

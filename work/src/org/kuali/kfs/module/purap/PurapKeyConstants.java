@@ -66,4 +66,8 @@ public class PurapKeyConstants {
     public static final String ERROR_FAX_NUMBER = "error.vendorMaint.vendorAddress.faxNumber";
     public static final String ERROR_ADDRESS_TYPE = "error.vendorMaint.vendorAddress.addressType";
     
+    // Vendor Maintenance Contract
+    public static final String ERROR_VENDOR_CONTRACT_NO_APO_LIMIT = "error.vendorContract.noApoLimit";
+    public static final String ERROR_VENDOR_CONTRACT_BEGIN_DATE_AFTER_END = "error.vendorContract.beginDateAfterEnd";
+
 }

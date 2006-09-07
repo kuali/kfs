@@ -85,6 +85,15 @@ public class RestrictedStatus extends BusinessObjectBase {
     }
 
     /**
+     * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
+     */
+    public String getCodeAndDescription() {
+        String theString = getAccountRestrictedStatusCode() + " - " + getAccountRestrictedStatusName();
+        return theString;
+    }
+
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

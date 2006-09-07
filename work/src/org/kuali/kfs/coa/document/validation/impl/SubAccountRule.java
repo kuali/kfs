@@ -314,12 +314,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         String cgA21TypeCode = newSubAccount.getA21SubAccount().getSubAccountTypeCode();
 
         // if this is a Cost Sharing SubAccount, run the Cost Sharing rules
-        if (cgA21TypeCode.trim().equalsIgnoreCase(CG_A21_TYPE_COST_SHARING.trim())) {
+        if ( CG_A21_TYPE_COST_SHARING.trim().equalsIgnoreCase(StringUtils.trim(cgA21TypeCode)) ) {
             success &= checkCgCostSharingRules();
         }
 
         // if this is an ICR subaccount, run the ICR rules
-        if (cgA21TypeCode.trim().equalsIgnoreCase(CG_A21_TYPE_ICR.trim())) {
+        if ( CG_A21_TYPE_ICR.trim().equals(StringUtils.trim(cgA21TypeCode)) ) {
             success &= checkCgIcrRules();
         }
 

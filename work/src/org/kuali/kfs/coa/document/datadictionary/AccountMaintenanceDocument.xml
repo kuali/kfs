@@ -52,6 +52,7 @@
             <!--  comment program out if not in use at your institution -->
             <reference attributeName="program" activeIndicatorAttributeName="programActiveIndicator" attributeToHighlightOnFail="programCode" />
             <reference attributeName="budgetRecordingLevel" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetRecordingLevelCode" />
+            <reference attributeName="acctIndirectCostRcvyType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" />
         </defaultExistenceChecks>
 
         <maintainableSections>

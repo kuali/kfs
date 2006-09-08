@@ -59,7 +59,9 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
         String documentID = routeContext.getDocument().getRouteHeaderId().toString();
         BudgetAdjustmentDocument budgetDocument = (BudgetAdjustmentDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentID);
 
-        List accountingLines = budgetDocument.getSourceAccountingLines();
+        // new list so that sourceAccountingLines isn't modified by addAll statement. Important for
+        // total calculations below.
+        List accountingLines = new ArrayList(budgetDocument.getSourceAccountingLines());
         accountingLines.addAll(budgetDocument.getTargetAccountingLines());
 
         /* only one account can be present on document and only current adjustments allowed */

@@ -253,5 +253,8 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
      */
     public abstract void setFringeBenefitIndicator(boolean fringeBenefitIndicator);
 
-
+    /**
+     * Clears financialDocumentMonth1LineAmounts through 1inancialDocumentMonth12LineAmounts.
+     */
+    public abstract void clearFinancialDocumentMonthLineAmounts();
 }

@@ -409,4 +409,21 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
         this.fringeBenefitIndicator = fringeBenefitIndicator;
     }
 
+    /**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#clearFinancialDocumentMonthLineAmounts()
+     */
+    public void clearFinancialDocumentMonthLineAmounts() {
+        financialDocumentMonth1LineAmount = new KualiDecimal(0);
+        financialDocumentMonth2LineAmount = new KualiDecimal(0);
+        financialDocumentMonth3LineAmount = new KualiDecimal(0);
+        financialDocumentMonth4LineAmount = new KualiDecimal(0);
+        financialDocumentMonth5LineAmount = new KualiDecimal(0);
+        financialDocumentMonth6LineAmount = new KualiDecimal(0);
+        financialDocumentMonth7LineAmount = new KualiDecimal(0);
+        financialDocumentMonth8LineAmount = new KualiDecimal(0);
+        financialDocumentMonth9LineAmount = new KualiDecimal(0);
+        financialDocumentMonth10LineAmount = new KualiDecimal(0);
+        financialDocumentMonth11LineAmount = new KualiDecimal(0);
+        financialDocumentMonth12LineAmount = new KualiDecimal(0);
+    }
 }

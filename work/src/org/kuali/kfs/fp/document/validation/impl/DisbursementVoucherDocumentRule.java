@@ -22,9 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +29,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
@@ -466,13 +465,18 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         /* if no documentation is selected, must be a note explaining why */
-        if (NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && (document.getDocumentHeader().getNotes() == null || document.getDocumentHeader().getNotes().size() == 0)) {
-            errors.putError(PropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE, KeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE);
+        if (NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && hasNoNotes(document)) {
+            errors.putError(PropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE, KeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING);
         }
 
         /* if special handling indicated, must be a note exlaining why */
-        if (document.isDisbVchrSpecialHandlingCode() && (document.getDocumentHeader().getNotes() == null || document.getDocumentHeader().getNotes().size() == 0)) {
-            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_SPECHAND_TAB_ERRORS, KeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE);
+        if (document.isDisbVchrSpecialHandlingCode() && hasNoNotes(document)) {
+            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_PAYMENT_TAB_ERRORS, KeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING);
+        }
+
+        /* if exception attached indicated, must be a note exlaining why */
+        if (document.isExceptionIndicator() && hasNoNotes(document)) {
+            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_PAYMENT_TAB_ERRORS, KeyConstants.ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING);
         }
 
         /* city, state & zip must be given for us */
@@ -492,6 +496,14 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         if (!document.getDvPayeeDetail().isEmployee() && StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeCountryCode())) {
             errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED, "Payee Country ");
         }
+    }
+
+    /**
+     * @param document
+     * @return whether the given document has no notes
+     */
+    private static boolean hasNoNotes(DisbursementVoucherDocument document) {
+        return (document.getDocumentHeader().getNotes() == null || document.getDocumentHeader().getNotes().size() == 0);
     }
 
     /**

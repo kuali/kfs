@@ -135,8 +135,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             try {
                 LOG.info("Routing PCDO document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + ".");
                 documentService.prepareWorkflowDocument(pcardDocument);
+            
                 // calling workflow service to bypass business rule checks
-                workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+              //  if (!pcardDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+                    workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+//                }
+//                else {
+//                    LOG.warn("Document " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " is already ENROUTE. Route status out of sync with FP_DOC_HEADER_T");
+//                }
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());

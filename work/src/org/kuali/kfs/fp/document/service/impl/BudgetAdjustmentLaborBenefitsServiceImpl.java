@@ -97,6 +97,9 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                     KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(benefitsCalculation.getPositionFringeBenefitPercent().toKualiDecimal());
                     benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
 
+                    // clear monthly lines per KULEDOCS-1606
+                    benefitLine.clearFinancialDocumentMonthLineAmounts();
+                    
                     // set flag on line so we know it was a generated benefit line and can clear it out later if needed
                     benefitLine.setFringeBenefitIndicator(true);
 

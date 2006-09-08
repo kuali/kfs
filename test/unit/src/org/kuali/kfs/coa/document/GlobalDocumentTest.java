@@ -53,7 +53,6 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     private static final String GLOBAL_DELEGATE_TYPENAME = "KualiDelegateChangeDocument";
     private static final String GLOBAL_ACCOUNT_TYPENAME = "KualiAccountChangeDocument";
 
-    private boolean rollback = false;
     private DocumentService docService;
 
     public GlobalDocumentTest() {
@@ -61,7 +60,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     }
 
     public void setUp() throws Exception {
-        setRollback(rollback);
+        super.rollback = false;
         super.setUp();
         docService = SpringServiceLocator.getDocumentService();
     }

@@ -60,23 +60,14 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
     @Override
     protected void setUp() throws Exception {
+        super.needsTestTransaction = false;
         super.setUp();
-
         documentService = SpringServiceLocator.getDocumentService();
         cashReceiptService = SpringServiceLocator.getCashReceiptService();
         cashManagementService = SpringServiceLocator.getCashManagementService();
         cashDrawerService = SpringServiceLocator.getCashDrawerService();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
-
-    /**
-     * @see org.kuali.test.KualiTestBaseWithSpring#needsTestTransaction()
-     */
-    @Override
-    protected boolean needsTestTransaction() {
-        return false;
-    }
-
 
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {
         boolean failedAsExpected = false;

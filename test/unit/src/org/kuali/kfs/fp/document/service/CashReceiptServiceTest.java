@@ -49,21 +49,12 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
     DocumentService docService;
 
     protected void setUp() throws Exception {
+        super.needsTestTransaction = false;
         super.setUp();
 
         crService = SpringServiceLocator.getCashReceiptService();
         docService = SpringServiceLocator.getDocumentService();
     }
-
-
-    /**
-     * @see org.kuali.test.KualiTestBaseWithSpring#needsTestTransaction()
-     */
-    @Override
-    protected boolean needsTestTransaction() {
-        return false;
-    }
-
 
     public final void testGetCampusCodeForCashReceiptVerificationUnit_blankVerificationUnit() {
         boolean failedAsExpected = false;

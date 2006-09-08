@@ -50,7 +50,7 @@
                     <maintainableField name="financialObjectCode" required="true" />
                     <maintainableField name="financialObjectCodeName" required="true" />
                     <maintainableField name="financialObjectCodeShortName" required="true" />
-                    <maintainableField name="reportsToChartOfAccountsCode" required="true" readOnly="true" />
+                    <maintainableField name="reportsToChartOfAccountsCode" required="true" />
                     <maintainableField name="reportsToFinancialObjectCode" required="true" />
                     <maintainableField name="financialObjectTypeCode" required="true" />
                     <maintainableField name="financialObjectLevelCode" required="true" />

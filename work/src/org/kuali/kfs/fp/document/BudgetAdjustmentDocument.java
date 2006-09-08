@@ -120,7 +120,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     public String getCurrencyFormattedSourceCurrentBudgetTotal() {
         return (String) new CurrencyFormatter().format(getSourceCurrentBudgetTotal());
     }
-
+    
     /**
      * Returns the total current budget income amount from the source lines.
      * 
@@ -172,7 +172,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
         return currentBudgetTotal;
     }
-
+    
     /**
      * This method retrieves the total current budget amount formatted as currency.
      * 
@@ -243,7 +243,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     public String getCurrencyFormattedSourceBaseBudgetTotal() {
         return (String) new CurrencyFormatter().format(getSourceBaseBudgetTotal());
     }
-
+    
     /**
      * Returns the total base budget income amount from the source lines.
      * 
@@ -304,7 +304,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     public String getCurrencyFormattedTargetBaseBudgetTotal() {
         return (String) new CurrencyFormatter().format(getTargetBaseBudgetTotal());
     }
-
+    
     /**
      * Returns the total base budget income amount from the target lines.
      * 
@@ -454,7 +454,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     protected String getNullOrReasonNotToErrorCorrect() {
         return null;
     }
-
+    
     /**
      * @see org.kuali.core.document.TransactionalDocumentBase#getSourceAccountingLinesSectionTitle()
      */
@@ -470,4 +470,25 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.BudgetAdjustmentDocumentConstants.TARGET_BA;
     }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
+     */
+    @Override
+    public void populateDocumentForRouting() {
+        super.populateDocumentForRouting();
+        
+        // set amount fields of line for routing to current amount field
+        for (Iterator iter = this.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            line.setAmount(line.getCurrentBudgetAdjustmentAmount());
+        }
+        
+        for (Iterator iter = this.getTargetAccountingLines().iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            line.setAmount(line.getCurrentBudgetAdjustmentAmount());
+        }
+    }
+    
+    
 }

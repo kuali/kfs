@@ -40,6 +40,7 @@
                 <field attributeName="campusPlantChartCode" />
                 <field attributeName="campusPlantAccountNumber" />
 
+<!-- 
 		        <field attributeName="editHrmsUnitSectionBlank" />
 		        <field attributeName="editHrmsUnitSection" />     
 		        <field attributeName="organizationExtension.hrmsCompany" />       
@@ -62,7 +63,7 @@
 		        <field attributeName="organizationExtension.fiscalApproverUniversal.personName" />
 		        
 		        <field attributeName="organizationExtension.hrmsLastUpdateDate" />
-		        
+-->	        
             </inquiryFields>
         </inquiry>
 

@@ -41,7 +41,6 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.31 2006-09-06 23:29:10 tdurkin Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -54,7 +53,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     private static final String ACCOUNT_NUMBER = "accountNumber";
     private static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
     private static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
-    private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginaitonCode";
+    private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
     private static final String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
     private static final String FINANCIAL_DOCUMENT_REVERSAL_DATE = "financialDocumentReversalDate";
     private static final String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";

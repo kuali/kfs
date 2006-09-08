@@ -100,8 +100,9 @@
 					</c:forEach>
 				</c:url>
 
-				<a href="<c:out value='${amountViewSwitch}'/>"> <input type="button"
-					name="amountViewSwitch" value="<c:out value='${amountViewLabel}'/>" /></a>
+				<a href="<c:out value='${amountViewSwitch}'/>"> 
+					<c:out value='${amountViewLabel}'/>
+				</a>
 			</c:if>
 			
 			<br />

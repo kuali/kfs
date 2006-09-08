@@ -60,7 +60,7 @@
 
                 <field attributeName="contractControlFinCoaCode" />
                 <field attributeName="contractControlAccountNumber" />
-                <field attributeName="acctIndirectCostRcvyTypeCd" />
+                <field attributeName="acctIndirectCostRcvyType.codeAndDescription" />
                 <field attributeName="financialIcrSeriesIdentifier" />
                 <field attributeName="indirectCostRcvyFinCoaCode" />
                 <field attributeName="indirectCostRecoveryAcctNbr" />
@@ -655,6 +655,19 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>The code for a particular Indirect Cost Recovery base. The "type" contains Object Codes that are excluded from indirect cost charges.</description>
+            </attributeReference>
+
+           <attributeReference name="acctIndirectCostRcvyType.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" sourceAttributeName="codeAndDescription">
+                <label>Account Indirect Cost Recovery Type Code</label>
+                <shortLabel>Account Indirect Cost Recovery Type Code</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Account Indirect Cost Recovery Type Code and Description</description>
             </attributeReference>
 
             <attributeReference name="acctCustomIndCstRcvyExclCd" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="oneDigitTextCode">

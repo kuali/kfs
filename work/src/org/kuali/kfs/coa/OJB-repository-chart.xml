@@ -116,6 +116,11 @@
         <foreignkey field-ref="incomeStreamAccountNumber" />
     </reference-descriptor>
 
+
+    <reference-descriptor name="acctIndirectCostRcvyType" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="acctIndirectCostRcvyTypeCd" />
+    </reference-descriptor>
+
     <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />

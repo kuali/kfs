@@ -48,6 +48,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
+import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 
@@ -126,6 +127,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     private Account contractControlAccount;
     private Account incomeStreamAccount;
     private Account indirectCostRecoveryAcct;
+    private ICRTypeCode acctIndirectCostRcvyType;
     private UniversalUser accountFiscalOfficerUser;
     private UniversalUser accountSupervisoryUser;
     private UniversalUser accountManagerUser;
@@ -1662,6 +1664,22 @@ public class Account extends BusinessObjectBase implements AccountIntf {
      */
     public void setProgramCode(String programCode) {
         this.programCode = programCode;
+    }
+    
+    /**
+     * Gets the acctIndirectCostRcvyType attribute. 
+     * @return Returns the acctIndirectCostRcvyType.
+     */
+    public ICRTypeCode getAcctIndirectCostRcvyType() {
+        return acctIndirectCostRcvyType;
+    }
+
+    /**
+     * Sets the acctIndirectCostRcvyType attribute value.
+     * @param acctIndirectCostRcvyType The acctIndirectCostRcvyType to set.
+     */
+    public void setAcctIndirectCostRcvyType(ICRTypeCode acctIndirectCostRcvyType) {
+        this.acctIndirectCostRcvyType = acctIndirectCostRcvyType;
     }
 
     /**

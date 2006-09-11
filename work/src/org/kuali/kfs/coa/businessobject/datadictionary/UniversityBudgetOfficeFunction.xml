@@ -16,7 +16,7 @@
         </inquiry>
 
         <lookup>
-            <title>UniversityBudgetOffice Function Lookup</title>
+            <title>University Budget Office Function Lookup</title>
 
             <menubar>
                 <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.UniversityBudgetOfficeFunction">Create New</a>]]>

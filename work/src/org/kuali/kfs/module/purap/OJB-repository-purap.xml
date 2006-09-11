@@ -307,17 +307,11 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorDefaultAddress" table="PUR_VNDR_DFLT_ADDR_T">
-	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="vendorAddressTypeCode" column="VNDR_ADDR_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="vendorCampusCode" column="VNDR_CMP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorAddressGeneratedIdentifier" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER"/>
-	<reference-descriptor name="vendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
-		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
-	</reference-descriptor>
+    <field-descriptor name="vendorAddressTypeCode" column="VNDR_ADDR_TYP_CD" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="vendorCampusCode" column="VNDR_CMP_CD" jdbc-type="VARCHAR" index="true"/>
 	<reference-descriptor name="vendorAddressType" class-ref="org.kuali.module.purap.bo.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorAddressTypeCode" />
 	</reference-descriptor>

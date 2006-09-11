@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -47,7 +48,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgRule.class);
 
     protected static final String APC_HRMS_ACTIVE_KEY = "Org.HrmsOrgActive";
-
+    protected static final String PLANT_WORKGROUP_PARM_NAME = "Org.PlantWorkgroup";
+    
     private OrganizationService orgService;
 
     private Org oldOrg;
@@ -179,29 +181,35 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        // exit without doing any tests if not a chart manager
-        if (!isChartManager) {
+        /* KULCOA-1132 - exit if the user is not a member of the
+           plant maintainer work group.  */
+        
+        //get user
+        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        
+        //if not authroized to edit plant fields, exit with true
+        if( isPlantAuthorized(user) == false ){
             return true;
         }
-
+        
         // require Org Plant ChartCode
         success &= checkEmptyBOField("organizationPlantChartCode", newOrg.getOrganizationPlantChartCode(), "Organization Plant Chart of Accounts Code");
-
+        
         // require Org Plant AccountNumber
         success &= checkEmptyBOField("organizationPlantAccountNumber", newOrg.getOrganizationPlantAccountNumber(), "Organization Plant Account Number");
-
+        
         // require Campus Plant ChartCode
         success &= checkEmptyBOField("campusPlantChartCode", newOrg.getCampusPlantChartCode(), "Campus Plant Chart of Accounts Code");
-
+        
         // require Org Plant ChartCode
         success &= checkEmptyBOField("campusPlantAccountNumber", newOrg.getCampusPlantAccountNumber(), "Campus Plant Account Number");
-
+        
         // validate Org Plant Account
         success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", "Organization Plant Account");
-
+        
         // validate Campus Plant Account
         success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
-
+        
         return success;
     }
 
@@ -551,6 +559,29 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     public void setOrgService(OrganizationService orgService) {
         this.orgService = orgService;
+    }
+
+    /**
+     * 
+     * This method tests whether the specified user is part of the group that grants authorization to the Plant fields.
+     * 
+     * @param user - the user to test
+     * @return - true if user is part of the group, false otherwise
+     * 
+     */
+    protected boolean isPlantAuthorized(KualiUser user) {
+
+        // attempt to get the group name that grants access to the Plant fields
+        String allowedPlantWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, PLANT_WORKGROUP_PARM_NAME);
+
+        if (user.isMember(new KualiGroup(allowedPlantWorkgroup))) {
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
+            return true;
+        }
+        else {
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is not a member of the group '" + allowedPlantWorkgroup + "', so they have no access to the Plant fields.");
+            return false;
+        }
     }
 
 }

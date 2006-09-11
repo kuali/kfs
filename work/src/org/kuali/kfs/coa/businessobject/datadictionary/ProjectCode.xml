@@ -24,7 +24,7 @@
             <title>Project Code Lookup</title>
 
             <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ProjectCode">Create New</a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ProjectCode"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
             </menubar>
 
             <instructions>Lookup a Project Code</instructions>

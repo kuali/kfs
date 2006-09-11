@@ -19,7 +19,7 @@
             <title>AICPA Function Lookup</title>
 
             <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AicpaFunction">Create New</a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AicpaFunction"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
             </menubar>
 
             <instructions>Lookup an AICPA Function</instructions>

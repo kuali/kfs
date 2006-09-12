@@ -8,6 +8,7 @@
         <businessObjectClass>org.kuali.module.chart.bo.OrganizationReversion</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.OrganizationReversionMaintainable</maintainableClass>
         <businessRulesClass>org.kuali.module.chart.rules.OrganizationReversionRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.chart.rules.OrganizationReversionPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -19,6 +20,9 @@
 
         <documentTypeName>KualiOrganizationReversionMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORGR</documentTypeCode>
+        
+        <webScriptFile>chart/orgReversionDocument.js</webScriptFile>
+        
         <label>Organization Reversion Maintenance Document</label>
         <shortLabel>OrganizationRefersionMaintenanceDocument</shortLabel>
         <summary>Organization Reversion Maintenance Document</summary>
@@ -72,7 +76,8 @@
                 <maintainableItems>
                     <maintainableCollection name="organizationReversionDetail" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail" includeAddLine="false">
                         <maintainableField name="organizationReversionCategoryCode" required="true" readOnly="true"/>
-                        <maintainableField name="organizationReversionObjectCode" required="true" />
+                        <maintainableField name="organizationReversionObjectCode" required="true" webUILeaveFieldFunction="updateObjectName" />
+                        <maintainableField name="organizationReversionObject.financialObjectCodeName" required="true" readOnly="true" />
                         <maintainableField name="organizationReversionCode" required="true" />
                         <maintainableField name="versionNumber" />
                     </maintainableCollection>

@@ -48,11 +48,20 @@
                 </control>
             </attributeReference>
 
-            <attributeReference name="organizationReversionObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-                <label>Organization Reversion Object Code</label>
-                <shortLabel>Object Code</shortLabel>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <required>true</required>
             </attributeReference>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+            </attributeReference>
+
+            <attributeReference name="organizationReversionObject.financialObjectCodeName" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCodeName">
+            </attributeReference>
+
+			<attributeReference name="organizationReversionObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+				<required>true</required>			
+			</attributeReference>
 
             <attribute name="organizationReversionCode">
                 <label>Org Reversion Code</label>

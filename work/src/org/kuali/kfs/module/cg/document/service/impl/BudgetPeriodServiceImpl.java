@@ -24,12 +24,16 @@
  */
 package org.kuali.module.kra.budget.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.PropertyConstants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.dao.BudgetPeriodDao;
 import org.kuali.module.kra.budget.service.BudgetPeriodService;
 
 /**
@@ -41,7 +45,7 @@ import org.kuali.module.kra.budget.service.BudgetPeriodService;
 public class BudgetPeriodServiceImpl implements BudgetPeriodService {
 
     private DateTimeService dateTimeService;
-    private BudgetPeriodDao budgetPeriodDao;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @return Returns the dateTimeService.
@@ -56,19 +60,9 @@ public class BudgetPeriodServiceImpl implements BudgetPeriodService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-
-    /**
-     * @return Returns the budgetPeriodDao.
-     */
-    public BudgetPeriodDao getBudgetPeriodDao() {
-        return budgetPeriodDao;
-    }
-
-    /**
-     * @param budgetPeriodDao The budgetPeriodDao to set.
-     */
-    public void setBudgetPeriodDao(BudgetPeriodDao budgetPeriodDao) {
-        this.budgetPeriodDao = budgetPeriodDao;
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     /*
@@ -77,11 +71,13 @@ public class BudgetPeriodServiceImpl implements BudgetPeriodService {
      * @see org.kuali.service.BudgetPeriodService#getBudgetPeriod(java.lang.Long, java.lang.Integer)
      */
     public BudgetPeriod getBudgetPeriod(String documentHeaderId, Integer budgetPeriodSequenceNumber) {
-        return budgetPeriodDao.getBudgetPeriod(documentHeaderId, budgetPeriodSequenceNumber);
+        return (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(documentHeaderId, budgetPeriodSequenceNumber));
     }
 
     public BudgetPeriod getFirstBudgetPeriod(String documentHeaderId) {
-        List budgetPeriodList = budgetPeriodDao.getBudgetPeriodList(documentHeaderId);
+        Map fieldValues = new HashMap();
+        fieldValues.put(PropertyConstants.DOCUMENT_HEADER_ID, documentHeaderId);
+        List budgetPeriodList = new ArrayList(businessObjectService.findMatchingOrderBy(BudgetPeriod.class, fieldValues, PropertyConstants.BUDGET_PERIOD_BEGIN_DATE, true));
         return (BudgetPeriod) budgetPeriodList.get(0);
     }
 

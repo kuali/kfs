@@ -23,16 +23,16 @@
 
 package org.kuali.module.kra.budget.service.impl;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.GraduateAssistantRate;
-import org.kuali.module.kra.budget.dao.BudgetGraduateAssistantRateDao;
-import org.kuali.module.kra.budget.dao.GraduateAssistantRateDao;
 import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
 
 /**
@@ -41,33 +41,15 @@ import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
  */
 public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAssistantRateService {
 
-    private GraduateAssistantRateDao graduateAssistantRateDao;
-    private BudgetGraduateAssistantRateDao budgetGraduateAssistantRateDao;
-
-
-    public GraduateAssistantRateDao getGraduateAssistantRateDao() {
-        return graduateAssistantRateDao;
-    }
-
-    public void setGraduateAssistantRateDao(GraduateAssistantRateDao graduateAssistantRateDao) {
-        this.graduateAssistantRateDao = graduateAssistantRateDao;
-    }
-
-    public BudgetGraduateAssistantRateDao getBudgetGraduateAssistantRateDao() {
-        return budgetGraduateAssistantRateDao;
-    }
-
-    public void setBudgetGraduateAssistantRateDao(BudgetGraduateAssistantRateDao budgetGraduateAssistantRateDao) {
-        this.budgetGraduateAssistantRateDao = budgetGraduateAssistantRateDao;
-    }
+    private BusinessObjectService businessObjectService;
 
     /*
      * (non-Javadoc)
      * 
      * @see org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService#getAllGraduateAssistantRates()
      */
-    public Collection getAllGraduateAssistantRates() {
-        return graduateAssistantRateDao.getAllGraduateAssistantRates();
+    public List getAllGraduateAssistantRates() {
+        return new ArrayList(businessObjectService.findAll(GraduateAssistantRate.class));
     }
 
     public boolean isValidGraduateAssistantRate(KualiDecimal fringeRate) {
@@ -85,5 +67,9 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
             BudgetGraduateAssistantRate budgetGraduateAssistantRate = new BudgetGraduateAssistantRate(budget.getDocumentHeaderId(), graduateAssistantRate.getCampusCode(), graduateAssistantRate.getCampusMaximumPeriod1Rate(), graduateAssistantRate.getCampusMaximumPeriod2Rate(), graduateAssistantRate.getCampusMaximumPeriod3Rate(), graduateAssistantRate.getCampusMaximumPeriod4Rate(), graduateAssistantRate.getCampusMaximumPeriod5Rate(), graduateAssistantRate.getCampusMaximumPeriod6Rate(), graduateAssistantRate);
             budget.getGraduateAssistantRates().add(budgetGraduateAssistantRate);
         }
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

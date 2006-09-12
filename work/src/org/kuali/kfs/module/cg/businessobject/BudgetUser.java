@@ -52,6 +52,12 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
         super();
         budgetPersonnelService = SpringServiceLocator.getBudgetPersonnelService();
     }
+    
+    public BudgetUser(String documentHeaderId, Integer budgetUserSequenceNumber) {
+        this();
+        this.documentHeaderId = documentHeaderId;
+        this.budgetUserSequenceNumber = budgetUserSequenceNumber;
+    }
 
     public BudgetUser(BudgetUser budgetUser) {
         this();

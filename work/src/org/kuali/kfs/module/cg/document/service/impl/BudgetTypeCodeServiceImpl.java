@@ -24,7 +24,8 @@ package org.kuali.module.kra.budget.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.module.kra.budget.dao.BudgetTypeCodeDao;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.module.kra.budget.bo.BudgetTypeCode;
 import org.kuali.module.kra.budget.service.BudgetTypeCodeService;
 
 /**
@@ -34,17 +35,13 @@ import org.kuali.module.kra.budget.service.BudgetTypeCodeService;
  */
 public class BudgetTypeCodeServiceImpl implements BudgetTypeCodeService {
 
-    private BudgetTypeCodeDao budgetTypeCodeDao;
+    private BusinessObjectService businessObjectService;
 
     public Collection getDefaultBudgetTypeCodes() {
-        return budgetTypeCodeDao.getAll();
+        return businessObjectService.findAll(BudgetTypeCode.class);
     }
 
-    public BudgetTypeCodeDao getBudgetTypeCodeDao() {
-        return budgetTypeCodeDao;
-    }
-
-    public void setBudgetTypeCodeDao(BudgetTypeCodeDao budgetTypeCodeDao) {
-        this.budgetTypeCodeDao = budgetTypeCodeDao;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

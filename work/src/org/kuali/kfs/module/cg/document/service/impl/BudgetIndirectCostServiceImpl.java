@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
@@ -43,20 +44,15 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.IndirectCostLookup;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.dao.BudgetPeriodDao;
-import org.kuali.module.kra.budget.dao.BudgetTaskDao;
-import org.kuali.module.kra.budget.dao.IndirectCostLookupDao;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
 import org.kuali.module.kra.budget.service.BudgetModularService;
 
 public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService {
 
-    private IndirectCostLookupDao indirectCostLookupDao;
-    private BudgetTaskDao budgetTaskDao;
-    private BudgetPeriodDao budgetPeriodDao;
     private BudgetModularService budgetModularService;
     private KualiConfigurationService kualiConfigurationService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * Generate our task/period list items based on idc data. Each task/period list item is basically a mapping between one task and
@@ -307,7 +303,9 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
             if (ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetDocument.getBudget().getBudgetIndirectCostLookups(), tempBicl)) {
                 rate = ((BudgetIndirectCostLookup)ObjectUtils.retrieveObjectWithIdentitcalKey(budgetDocument.getBudget().getBudgetIndirectCostLookups(), tempBicl)).getBudgetIndirectCostRate();
             } else {
-                rate = indirectCostLookupDao.getIndirectCostLookup(taskPeriod.getTask().isBudgetTaskOnCampus(), budgetDocument.getBudget().getIndirectCost().getBudgetPurposeCode()).getBudgetIndirectCostRate();
+                IndirectCostLookup idcLookup = (IndirectCostLookup) businessObjectService.retrieve(
+                        new IndirectCostLookup(taskPeriod.getTask().isBudgetTaskOnCampus(), budgetDocument.getBudget().getIndirectCost().getBudgetPurposeCode()));
+                rate = idcLookup.getBudgetIndirectCostRate();
                 tempBicl.setBudgetIndirectCostRate(rate);
                 budgetDocument.getBudget().getBudgetIndirectCostLookups().add(tempBicl);
             }
@@ -514,8 +512,10 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
             for (Iterator i = taskPeriodItems.iterator(); i.hasNext();) {
                 BudgetTaskPeriodIndirectCost taskPeriod = (BudgetTaskPeriodIndirectCost) i.next();
 
-                BudgetTask budgetTask = budgetTaskDao.getBudgetTask(taskPeriod.getDocumentHeaderId(), taskPeriod.getBudgetTaskSequenceNumber());
-                BudgetPeriod budgetPeriod = budgetPeriodDao.getBudgetPeriod(taskPeriod.getDocumentHeaderId(), taskPeriod.getBudgetPeriodSequenceNumber());
+                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(taskPeriod.getDocumentHeaderId(), taskPeriod.getBudgetTaskSequenceNumber()));
+                
+                BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(
+                        new BudgetPeriod(taskPeriod.getDocumentHeaderId(), taskPeriod.getBudgetPeriodSequenceNumber()));
 
                 if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetTasks, budgetTask) || !ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                     i.remove();
@@ -527,33 +527,12 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
     
 
     public void setupIndirectCostRates(Budget budget) {
+        List<IndirectCostLookup> indirectCostLookups = new ArrayList<IndirectCostLookup>(businessObjectService.findAll(IndirectCostLookup.class));
         List<BudgetIndirectCostLookup> budgetIndirectCostLookupList = new ArrayList();
-        for (IndirectCostLookup indirectCostLookup : indirectCostLookupDao.getAllIndirectCostLookup()) {
+        for (IndirectCostLookup indirectCostLookup : indirectCostLookups) {
             budgetIndirectCostLookupList.add(new BudgetIndirectCostLookup(budget, indirectCostLookup));
         }
         budget.setBudgetIndirectCostLookups(budgetIndirectCostLookupList);
-    }
-    
-    
-    /**
-     * @param indirectCostLookupDao The indirectCostLookupDao to set.
-     */
-    public void setIndirectCostLookupDao(IndirectCostLookupDao indirectCostLookupDao) {
-        this.indirectCostLookupDao = indirectCostLookupDao;
-    }
-
-    /**
-     * @param budgetPeriodDao The budgetPeriodDao to set.
-     */
-    public void setBudgetPeriodDao(BudgetPeriodDao budgetPeriodDao) {
-        this.budgetPeriodDao = budgetPeriodDao;
-    }
-
-    /**
-     * @param budgetTaskDao The budgetTaskDao to set.
-     */
-    public void setBudgetTaskDao(BudgetTaskDao budgetTaskDao) {
-        this.budgetTaskDao = budgetTaskDao;
     }
 
     /**
@@ -585,5 +564,8 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-    
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

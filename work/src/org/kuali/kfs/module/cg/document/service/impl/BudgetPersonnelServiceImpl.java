@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -48,9 +49,6 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.dao.AppointmentTypeDao;
-import org.kuali.module.kra.budget.dao.BudgetPeriodDao;
-import org.kuali.module.kra.budget.dao.BudgetTaskDao;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
@@ -68,18 +66,12 @@ import org.kuali.module.kra.budget.service.BudgetPersonnelService;
  */
 public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
-
-
-
-
     private static HashMap appointmentTypeMappings;
 
+    private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private BudgetFringeRateService budgetFringeRateService;
     private KualiConfigurationService kualiConfigurationService;
-    private BudgetTaskDao budgetTaskDao;
-    private BudgetPeriodDao budgetPeriodDao;
-    private AppointmentTypeDao appointmentTypeDao;
 
     /**
      * This method will create all the necessary task/period combinations for a given BudgetUser
@@ -467,7 +459,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         if (budgetUser.getAppointmentTypeCode() != null && !budgetUser.getAppointmentTypeCode().equals(budgetUser.getPreviousAppointmentTypeCode())) {
             // appointment type has changed
 
-            AppointmentType previousAppointmentType = appointmentTypeDao.getAppointmentType(budgetUser.getPreviousAppointmentTypeCode());
+            AppointmentType previousAppointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(budgetUser.getPreviousAppointmentTypeCode()));
             
             // Update the Fringes for this person to ensure that we're getting the most recent amounts
             BudgetFringeRate budgetFringeRate = budgetFringeRateService.getBudgetFringeRateForPerson(budgetUser);
@@ -517,7 +509,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             List<AppointmentType> appointmentTypes = new ArrayList();
             for (UserAppointmentTask userAppointmentTask : budgetUser.getUserAppointmentTasks()) {
                 if (!appointmentTypes.contains(userAppointmentTask.getUniversityAppointmentTypeCode())) {
-                    appointmentTypes.add(appointmentTypeDao.getAppointmentType(userAppointmentTask.getUniversityAppointmentTypeCode()));
+                    appointmentTypes.add((AppointmentType) businessObjectService.retrieve(new AppointmentType(userAppointmentTask.getUniversityAppointmentTypeCode())));
                 }
             }
             if (appointmentTypes.size() == 1) {
@@ -637,7 +629,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                 // loop through usreAppointmentTasks and check that the associated exists in the Task list
                 UserAppointmentTask userAppointmentTask = (UserAppointmentTask) userAppointmentTaskIter.next();
                 userAppointments.add(userAppointmentTask.getUniversityAppointmentTypeCode());
-                BudgetTask budgetTask = budgetTaskDao.getBudgetTask(userAppointmentTask.getDocumentHeaderId(), userAppointmentTask.getBudgetTaskSequenceNumber());
+                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(userAppointmentTask.getDocumentHeaderId(), userAppointmentTask.getBudgetTaskSequenceNumber()));
                 if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetTasks, budgetTask)) {
                     userAppointmentTaskIter.remove();
                 }
@@ -645,7 +637,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                     // loop through userAppointmentTaskPeriods and check each period.
                     for (Iterator userAppointmentTaskPeriodIter = userAppointmentTask.getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext();) {
                         UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
-                        BudgetPeriod budgetPeriod = budgetPeriodDao.getBudgetPeriod(userAppointmentTaskPeriod.getDocumentHeaderId(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber());
+                        BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(userAppointmentTaskPeriod.getDocumentHeaderId(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber()));
                         if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                             userAppointmentTaskPeriodIter.remove();
                         }
@@ -779,7 +771,10 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
     }
 
     public Date getAppointmentTypeEffectiveStartDate(AppointmentType appointmentType, Integer fiscalYear) {
-        AppointmentTypeEffectiveDate appointmentTypeEffectiveDate = appointmentTypeDao.getAppointmentTypeEffectiveDate(appointmentType, fiscalYear);
+        
+        AppointmentTypeEffectiveDate appointmentTypeEffectiveDate = (AppointmentTypeEffectiveDate) businessObjectService.retrieve(
+                new AppointmentTypeEffectiveDate(appointmentType.getAppointmentTypeCode(), fiscalYear));
+        
         if (appointmentTypeEffectiveDate != null) {
             return appointmentTypeEffectiveDate.getAppointmentTypeBeginDate();
         }
@@ -789,13 +784,20 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
     }
 
     public Date getAppointmentTypeEffectiveEndDate(AppointmentType appointmentType, Integer fiscalYear) {
-        AppointmentTypeEffectiveDate appointmentTypeEffectiveDate = appointmentTypeDao.getAppointmentTypeEffectiveDate(appointmentType, fiscalYear);
+        
+        AppointmentTypeEffectiveDate appointmentTypeEffectiveDate = (AppointmentTypeEffectiveDate) businessObjectService.retrieve(
+                new AppointmentTypeEffectiveDate(appointmentType.getAppointmentTypeCode(), fiscalYear));
+        
         if (appointmentTypeEffectiveDate != null) {
             return appointmentTypeEffectiveDate.getAppointmentTypeEndDate();
         }
         else {
             return dateTimeService.getLastDateOfFiscalYear(fiscalYear);
         }
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -813,32 +815,6 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    /**
-     * Sets the budgetPeriodDao attribute value.
-     * 
-     * @param budgetPeriodDao The budgetPeriodDao to set.
-     */
-    public void setBudgetPeriodDao(BudgetPeriodDao budgetPeriodDao) {
-        this.budgetPeriodDao = budgetPeriodDao;
-    }
-
-    /**
-     * Sets the budgetTaskDao attribute value.
-     * 
-     * @param budgetTaskDao The budgetTaskDao to set.
-     */
-    public void setBudgetTaskDao(BudgetTaskDao budgetTaskDao) {
-        this.budgetTaskDao = budgetTaskDao;
-    }
-
-    public AppointmentTypeDao getAppointmentTypeDao() {
-        return appointmentTypeDao;
-    }
-
-    public void setAppointmentTypeDao(AppointmentTypeDao appointmentTypeDao) {
-        this.appointmentTypeDao = appointmentTypeDao;
     }
 
     public class PeriodSalary {

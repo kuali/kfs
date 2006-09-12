@@ -46,6 +46,12 @@ public class IndirectCostLookup extends BusinessObjectBase {
     public IndirectCostLookup() {
 
     }
+    
+    public IndirectCostLookup(boolean budgetOnCampusIndicator, String budgetPurposeCode) {
+        this();
+        this.budgetOnCampusIndicator = budgetOnCampusIndicator;
+        this.budgetPurposeCode = budgetPurposeCode;
+    }
 
     /**
      * Gets the budgetOnCampusIndicator attribute.

@@ -27,14 +27,13 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.dao.AppointmentTypeDao;
-import org.kuali.module.kra.budget.dao.BudgetFringeRateDao;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 
 /**
@@ -43,16 +42,20 @@ import org.kuali.module.kra.budget.service.BudgetFringeRateService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
-    private AppointmentTypeDao appointmentTypeDao;
-    private BudgetFringeRateDao budgetFringeRateDao;
+    
     private KualiConfigurationService kualiConfigurationService;
+    private BusinessObjectService businessObjectService;
 
     public BudgetFringeRate getBudgetFringeRate(String documentHeaderId, String universityAppointmentTypeCode) {
-        BudgetFringeRate budgetFringeRate = budgetFringeRateDao.getBudgetFringeRate(documentHeaderId, universityAppointmentTypeCode);
+        
+        BudgetFringeRate budgetFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
+                new BudgetFringeRate(documentHeaderId, universityAppointmentTypeCode));
+        
         if (budgetFringeRate == null) {
-            AppointmentType appointmentType = appointmentTypeDao.getAppointmentType(universityAppointmentTypeCode);
+            AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(universityAppointmentTypeCode));
             budgetFringeRate = new BudgetFringeRate(documentHeaderId, appointmentType);
         }
+        
         return budgetFringeRate;
     }
 
@@ -60,12 +63,17 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
      * @param accountDao The accountDao to set.
      */
     public Collection getDefaultFringeRates() {
-        return appointmentTypeDao.getAll();
+        return businessObjectService.findAll(AppointmentType.class);
     }
 
     public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentHeaderId) {
-        AppointmentType appointmentType = appointmentTypeDao.getAppointmentType(kualiConfigurationService.getApplicationParameterValue("KraDevelopmentGroup", "defaultAppointmentType"));
-        BudgetFringeRate defaultFringeRate = budgetFringeRateDao.getBudgetFringeRate(documentHeaderId, appointmentType.getAppointmentTypeCode());
+        
+        AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(
+                new AppointmentType(kualiConfigurationService.getApplicationParameterValue("KraDevelopmentGroup", "defaultAppointmentType")));
+        
+        BudgetFringeRate defaultFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
+                new BudgetFringeRate(documentHeaderId, appointmentType.getAppointmentTypeCode()));
+        
         if (defaultFringeRate != null) {
             return defaultFringeRate;
         }
@@ -112,21 +120,11 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
         }
     }
 
-    /**
-     * @param budgetFringeRateDao The budgetFringeRateDao to set.
-     */
-    public void setBudgetFringeRateDao(BudgetFringeRateDao budgetFringeRateDao) {
-        this.budgetFringeRateDao = budgetFringeRateDao;
-    }
-
-    /**
-     * @param appointmentTypeDao The appointmentTypeDao to set.
-     */
-    public void setAppointmentTypeDao(AppointmentTypeDao appointmentTypeDao) {
-        this.appointmentTypeDao = appointmentTypeDao;
-    }
-
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

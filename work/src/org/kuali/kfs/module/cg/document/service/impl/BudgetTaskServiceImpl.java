@@ -26,11 +26,15 @@
 
 package org.kuali.module.kra.budget.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.PropertyConstants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.budget.bo.BudgetTask;
-import org.kuali.module.kra.budget.dao.BudgetTaskDao;
 import org.kuali.module.kra.budget.service.BudgetTaskService;
 
 /**
@@ -39,22 +43,7 @@ import org.kuali.module.kra.budget.service.BudgetTaskService;
  */
 public class BudgetTaskServiceImpl implements BudgetTaskService {
 
-    private BudgetTaskDao budgetTaskDao;
-
-
-    /**
-     * @return Returns the businessObjectService.
-     */
-    public BudgetTaskDao getBudgetTaskDao() {
-        return budgetTaskDao;
-    }
-
-    /**
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBudgetTaskDao(BudgetTaskDao budgetTaskDao) {
-        this.budgetTaskDao = budgetTaskDao;
-    }
+    private BusinessObjectService businessObjectService;
 
     /**
      * @return Returns the budgetTaskDao.
@@ -66,11 +55,14 @@ public class BudgetTaskServiceImpl implements BudgetTaskService {
      * @see org.kuali.service.BudgetPeriodService#getBudgetPeriod(java.lang.Long, java.lang.Integer)
      */
     public BudgetTask getBudgetTask(String documentHeaderId, Integer budgetTaskSequenceNumber) {
-        return budgetTaskDao.getBudgetTask(documentHeaderId, budgetTaskSequenceNumber);
+        return (BudgetTask) businessObjectService.retrieve(new BudgetTask(documentHeaderId, budgetTaskSequenceNumber));
     }
 
     public BudgetTask getFirstBudgetTask(String documentHeaderId) {
-        List budgetTasks = budgetTaskDao.getBudgetTaskList(documentHeaderId);
+        Map fieldValues = new HashMap();
+        fieldValues.put(PropertyConstants.DOCUMENT_HEADER_ID, documentHeaderId);
+        List budgetTasks = new ArrayList(businessObjectService.findMatchingOrderBy(BudgetTask.class, fieldValues, PropertyConstants.BUDGET_TASK_SEQUENCE_NUMBER, true));
+        
         // there should always be a budgetTask by the time we get to here, so we want an exception thrown if there's not
         return (BudgetTask) budgetTasks.get(0);
     }
@@ -89,5 +81,9 @@ public class BudgetTaskServiceImpl implements BudgetTaskService {
         }
 
         return taskIndexNumber;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

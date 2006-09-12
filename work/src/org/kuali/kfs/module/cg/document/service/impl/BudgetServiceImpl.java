@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
@@ -43,8 +44,6 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.dao.BudgetPeriodDao;
-import org.kuali.module.kra.budget.dao.BudgetTaskDao;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetCostShareService;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
@@ -68,11 +67,10 @@ public class BudgetServiceImpl implements BudgetService {
     private BudgetGraduateAssistantRateService budgetGraduateAssistantRateService;
     private BudgetPersonnelService budgetPersonnelService;
     private BudgetCostShareService budgetCostShareService;
-    private BudgetTaskDao budgetTaskDao;
-    private BudgetPeriodDao budgetPeriodDao;
     private DocumentService documentService;
     private BudgetModularService budgetModularService;
     private BudgetIndirectCostService budgetIndirectCostService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.module.kra.budget.service.BudgetService#initializeBudget(org.kuali.module.kra.budget.bo.Budget)
@@ -376,8 +374,10 @@ public class BudgetServiceImpl implements BudgetService {
         for (Iterator i = budgetNonpersonnelItems.iterator(); i.hasNext();) {
             BudgetNonpersonnel budgetNonpersonnel = (BudgetNonpersonnel) i.next();
 
-            BudgetTask budgetTask = budgetTaskDao.getBudgetTask(budgetNonpersonnel.getDocumentHeaderId(), budgetNonpersonnel.getBudgetTaskSequenceNumber());
-            BudgetPeriod budgetPeriod = budgetPeriodDao.getBudgetPeriod(budgetNonpersonnel.getDocumentHeaderId(), budgetNonpersonnel.getBudgetPeriodSequenceNumber());
+            BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(budgetNonpersonnel.getDocumentHeaderId(), budgetNonpersonnel.getBudgetTaskSequenceNumber()));
+            
+            BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(
+                    new BudgetPeriod(budgetNonpersonnel.getDocumentHeaderId(), budgetNonpersonnel.getBudgetPeriodSequenceNumber()));
 
             if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetTasks, budgetTask) || !ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                 i.remove();
@@ -410,7 +410,9 @@ public class BudgetServiceImpl implements BudgetService {
 
             for (Iterator i = modularPeriods.iterator(); i.hasNext();) {
                 BudgetModularPeriod currentModularPeriod = (BudgetModularPeriod) i.next();
-                BudgetPeriod budgetPeriod = budgetPeriodDao.getBudgetPeriod(currentModularPeriod.getDocumentHeaderId(), currentModularPeriod.getBudgetPeriodSequenceNumber());
+                
+                BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(
+                        new BudgetPeriod(currentModularPeriod.getDocumentHeaderId(), currentModularPeriod.getBudgetPeriodSequenceNumber()));
 
                 if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                     i.remove();
@@ -521,24 +523,6 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     /**
-     * Sets the budgetTaskDao attribute value.
-     * 
-     * @param The budgetTaskDao to set.
-     */
-    public void setBudgetTaskDao(BudgetTaskDao budgetTaskDao) {
-        this.budgetTaskDao = budgetTaskDao;
-    }
-
-    /**
-     * Sets the budgetTaskDao attribute value.
-     * 
-     * @param The budgetTaskDao to set.
-     */
-    public void setBudgetPeriodDao(BudgetPeriodDao budgetPeriodDao) {
-        this.budgetPeriodDao = budgetPeriodDao;
-    }
-
-    /**
      * Sets the budgetPersonnelService attribute value.
      * 
      * @param budgetPersonnelService The budgetPersonnelService to set.
@@ -579,5 +563,9 @@ public class BudgetServiceImpl implements BudgetService {
      */
     public void setBudgetIndirectCostService(BudgetIndirectCostService budgetIndirectCostService) {
         this.budgetIndirectCostService = budgetIndirectCostService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

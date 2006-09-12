@@ -55,6 +55,12 @@ public class BudgetFringeRate extends BusinessObjectBase {
         super();
         appointmentType = new AppointmentType();
     }
+    
+    public BudgetFringeRate(String documentHeaderId, String universityAppointmentTypeCode) {
+        this();
+        this.documentHeaderId = documentHeaderId;
+        this.universityAppointmentTypeCode = universityAppointmentTypeCode;
+    }
 
     public BudgetFringeRate(String documentHeaderId, String universityAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal universityCostShareFringeRateAmount, AppointmentType appointmentType) {
         this(documentHeaderId, universityAppointmentTypeCode, contractsAndGrantsFringeRateAmount, universityCostShareFringeRateAmount, appointmentType, null, null);

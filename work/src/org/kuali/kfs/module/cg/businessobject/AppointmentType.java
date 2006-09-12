@@ -60,6 +60,11 @@ public class AppointmentType extends BusinessObjectBase {
      */
     public AppointmentType() {
     }
+    
+    public AppointmentType(String appointmentTypeCode) {
+        this();
+        this.appointmentTypeCode = appointmentTypeCode;
+    }
 
 
     /**

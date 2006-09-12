@@ -46,6 +46,12 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
     public AppointmentTypeEffectiveDate() {
 
     }
+    
+    public AppointmentTypeEffectiveDate(String appointmentTypeCode, Integer universityFiscalYear) {
+        this();
+        this.appointmentTypeCode = appointmentTypeCode;
+        this.universityFiscalYear = universityFiscalYear;
+    }
 
     /**
      * Gets the appointmentTypeCode attribute.

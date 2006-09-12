@@ -52,6 +52,12 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
         super();
     }
     
+    public BudgetPeriod(String documentHeaderId, Integer budgetPeriodSequenceNumber) {
+        this();
+        this.documentHeaderId = documentHeaderId;
+        this.budgetPeriodSequenceNumber = budgetPeriodSequenceNumber;
+    }
+    
     public BudgetPeriod(BudgetPeriod template) {
         this();
         this.documentHeaderId = template.getDocumentHeaderId();

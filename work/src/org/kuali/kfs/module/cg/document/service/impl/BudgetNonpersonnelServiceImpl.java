@@ -22,15 +22,18 @@
  */
 package org.kuali.module.kra.budget.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.PropertyConstants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.impl.DocumentNoteServiceImpl;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
-import org.kuali.module.kra.budget.dao.BudgetNonpersonnelDao;
-import org.kuali.module.kra.budget.dao.NonpersonnelCategoryDao;
-import org.kuali.module.kra.budget.dao.NonpersonnelObjectCodesDao;
+import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
 import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 
 /**
@@ -43,10 +46,7 @@ public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService 
     // set up logging
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentNoteServiceImpl.class);
 
-    private BudgetNonpersonnelDao budgetNonpersonnelDao;
-    private NonpersonnelCategoryDao nonpersonnelCategoryDao;
-    private NonpersonnelObjectCodesDao nonpersonnelObjectCodesDao;
-
+    private BusinessObjectService businessObjectService;
  
     public void refreshNonpersonnelObjectCode(List nonpersonnelItems) {
         for (Iterator nonpersonnelItem = nonpersonnelItems.iterator(); nonpersonnelItem.hasNext();) {
@@ -75,39 +75,21 @@ public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService 
      * @throws Exception
      */
     public List getAllNonpersonnelCategories() {
-        List<NonpersonnelCategory> nonpersonnelCategories = nonpersonnelCategoryDao.findAllNonpersonnelCategories();
+        List<NonpersonnelCategory> nonpersonnelCategories = 
+            new ArrayList<NonpersonnelCategory>(businessObjectService.findMatchingOrderBy(NonpersonnelCategory.class, new HashMap(), PropertyConstants.SORT_NUMBER, true));
         
         for(NonpersonnelCategory nonpersonnelCategory : nonpersonnelCategories) {
-            nonpersonnelCategory.setNonpersonnelObjectCodes(nonpersonnelObjectCodesDao.findActiveNonpersonnelObjectCodes(nonpersonnelCategory.getCode()));
+            Map fieldValues = new HashMap();
+            fieldValues.put(PropertyConstants.BUDGET_NONPERSONNEL_CATEGORY_CODE, nonpersonnelCategory.getCode());
+            fieldValues.put(PropertyConstants.ACTIVE, true);
+            nonpersonnelCategory.setNonpersonnelObjectCodes(
+                    new ArrayList(businessObjectService.findMatchingOrderBy(NonpersonnelObjectCode.class, fieldValues, PropertyConstants.BUDGET_NONPERSONNEL_SUB_CATEGORY_CODE, true)));
         }
         
         return nonpersonnelCategories;
     }
 
-    // needed for Spring injection
-    /**
-     * Sets the data access object
-     * 
-     * @param d
-     */
-    public void setBudgetNonpersonnelDao(BudgetNonpersonnelDao d) {
-        this.budgetNonpersonnelDao = d;
-    }
-
-    /**
-     * Sets the nonpersonnelCategoryDao attribute value.
-     * 
-     * @param nonpersonnelCategoryDao The nonpersonnelCategoryDao to set.
-     */
-    public void setNonpersonnelCategoryDao(NonpersonnelCategoryDao nonpersonnelCategoryDao) {
-        this.nonpersonnelCategoryDao = nonpersonnelCategoryDao;
-    }
-
-    /**
-     * Sets the nonpersonnelObjectCodesDao attribute value.
-     * @param nonpersonnelObjectCodesDao The nonpersonnelObjectCodesDao to set.
-     */
-    public void setNonpersonnelObjectCodesDao(NonpersonnelObjectCodesDao nonpersonnelObjectCodesDao) {
-        this.nonpersonnelObjectCodesDao = nonpersonnelObjectCodesDao;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

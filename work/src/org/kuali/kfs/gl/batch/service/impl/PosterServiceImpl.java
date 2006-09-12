@@ -71,7 +71,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.43 2006-09-06 23:29:12 tdurkin Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.44 2006-09-12 23:58:59 bnelson Exp $
  */
 public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -158,7 +158,11 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                 validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_ERROR;
                 reversalTransactions = reversalDao.getByDate(runDate);
+                
                 // TODO Reversal Report
+                // Where to get the groups from?
+                // reportService.generatePosterReversalLedgerSummaryReport(runDate, groups);
+                
                 break;
             case PosterService.MODE_ICR:
                 validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;

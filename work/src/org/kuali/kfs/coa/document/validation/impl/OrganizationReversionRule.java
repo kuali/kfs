@@ -94,7 +94,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
             index++;
         }
         GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
-        return GlobalVariables.getErrorMap().getErrorCount() > originalErrorCount;
+        return GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
     }
 
     /*

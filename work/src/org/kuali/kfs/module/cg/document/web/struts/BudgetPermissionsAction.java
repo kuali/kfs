@@ -86,6 +86,7 @@ public class BudgetPermissionsAction extends BudgetAction {
             BudgetAdHocPermission newAdHocPermission = budgetForm.getNewAdHocPermission();
             UniversalUser user = SpringServiceLocator.getKualiUserService().getUniversalUser(new AuthenticationUserId(adHocRoutePerson.getId()));
             newAdHocPermission.setPersonUniversalIdentifier(user.getPersonUniversalIdentifier());
+            user.setPersonUserIdentifier(StringUtils.upperCase(user.getPersonUserIdentifier()));
             newAdHocPermission.setUser(user);
             newAdHocPermission.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
             newAdHocPermission.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));

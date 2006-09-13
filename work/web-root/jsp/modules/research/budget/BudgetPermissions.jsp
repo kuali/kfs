@@ -13,7 +13,7 @@
 
 	<%--  %><kra-b:budgetPermissions /> --%>
 	
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<%--  %><kul:documentOverview editingMode="${KualiForm.editingMode}" /> --%>
 	
 	<kra:kraAdHocRecipients editingMode="${KualiForm.editingMode}"/>
 	

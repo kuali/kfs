@@ -26,15 +26,19 @@ import java.sql.Date;
 
 import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
+import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.util.FatalErrorException;
 import org.kuali.module.gl.util.ObjectHelper;
 
@@ -45,6 +49,7 @@ import org.kuali.module.gl.util.ObjectHelper;
 public class BalanceForwardRuleHelper {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceForwardRuleHelper.class);
+    private FlexibleOffsetAccountService flexibleOffsetAccountService;
 
     /**
      * A container for the state of the balance forward process. The way state is handled is heavily dependent upon the way in which
@@ -144,6 +149,7 @@ public class BalanceForwardRuleHelper {
     public BalanceForwardRuleHelper() {
         super();
         state = new BalanceForwardProcessState();
+        flexibleOffsetAccountService = SpringServiceLocator.getFlexibleOffsetAccountService();
     }
 
     /**
@@ -369,8 +375,8 @@ public class BalanceForwardRuleHelper {
                     // 1075 006020 (CASFGR-SUB-FUND-GRP-CD = 'SDCI '
                     // 1076 006030 OR 'PFCMR ')
 
-                    // Contract and grants balances.
-                      if (priorYearAccount.isInCg() || ObjectHelper.isOneOf(subFundGroup.getSubFundGroupCode().trim(), new String[] { "SDCI", "PFCMR" })) {
+                    // Contract and grants balances.                    
+                    if (priorYearAccount.isInCg() || ObjectHelper.isOneOf(subFundGroup.getSubFundGroupCode().trim(), new String[] { "SDCI", "PFCMR" })) {
 
                         // 1077 006040 MOVE 'Y' TO WS-SELECT-ACTIVE-SW
 
@@ -752,7 +758,7 @@ public class BalanceForwardRuleHelper {
                         entry.setFinancialObjectTypeCode(balance.getObjectTypeCode());
 
                     }
-
+                                        
                     // 1247 007740 MOVE 'BB'
                     // 1248 007750 TO UNIV-FISCAL-PRD-CD.
 
@@ -1062,6 +1068,13 @@ public class BalanceForwardRuleHelper {
                     // 1349 008710 TO FIN-OBJ-TYP-CD OF GLEN-RECORD.
 
                     activeEntry.setFinancialObjectTypeCode(balance.getObjectTypeCode());
+                    
+                    try {
+                        flexibleOffsetAccountService.updateOffset(activeEntry);
+                    }
+                    catch (InvalidFlexibleOffsetException e) {
+                        LOG.debug("processBalance() Balance Forward Flexible Offset Error: " + e.getMessage());
+                    }
 
                     // 1350 008720 MOVE 'CB'
                     // 1351 008730 TO UNIV-FISCAL-PRD-CD OF GLEN-RECORD.

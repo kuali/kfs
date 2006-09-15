@@ -32,7 +32,6 @@ public class PurapPropertyConstants {
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
     
     public static final String VENDOR_NUMBER = "vendorNumber";
-    public static final String VENDOR_TAX_NUMBER = "vendorHeader.vendorTaxNumber";
     public static final String VENDOR_FAX_NUMBER = "vendorFaxNumber";
     public static final String VENDOR_ADDRESS = "vendorAddresses";
     public static final String VENDOR_SUPPLIER_DIVERSITIES = "vendorSupplierDiversities";
@@ -47,10 +46,18 @@ public class PurapPropertyConstants {
     public static final String VENDOR_NAME = "vendorName";
     public static final String VENDOR_FIRST_NAME = "vendorFirstName";
     public static final String VENDOR_LAST_NAME = "vendorLastName";
+    public static final String VENDOR_TAX_NUMBER = "vendorHeader.vendorTaxNumber";
     public static final String VENDOR_TAX_TYPE_CODE = "vendorHeader.vendorTaxTypeCode";
+    public static final String VENDOR_OWNERSHIP_CODE = "vendorHeader.vendorOwnershipCode";
+    public static final String VENDOR_OWNERSHIP_CATEGORY_CODE = "vendorHeader.vendorOwnershipCategoryCode";
+    public static final String VENDOR_FEDERAL_WITHOLDING_TAX_BEGINNING_DATE = "vendorHeader.vendorFederalWithholdingTaxBeginningDate";
+    public static final String VENDOR_FEDERAL_WITHOLDING_TAX_END_DATE = "vendorHeader.vendorFederalWithholdingTaxEndDate";
+    public static final String VENDOR_TYPE_CODE = "vendorHeader.vendorTypeCode";
+    public static final String VENDOR_W9_RECEIVED_INDICATOR = "vendorHeader.vendorW9ReceivedIndicator";
+    public static final String VENDOR_W8_BEN_RECEIVED_INDICATOR = "vendorHeader.vendorW8BenReceivedIndicator";
+    
     public static final String VENDOR_TAX_TYPE_CODE_WITHOUT_HEADER = "vendorTaxTypeCode";
     public static final String VENDOR_MIN_ORDER_AMOUNT = "vendorMinimumOrderAmount";
-    public static final String VENDOR_TYPE_CODE = "vendorHeader.vendorTypeCode";
     public static final String VENDOR_DETAIL_ASSIGNED_ID = "vendorDetailAssignedIdentifier";
     public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
  

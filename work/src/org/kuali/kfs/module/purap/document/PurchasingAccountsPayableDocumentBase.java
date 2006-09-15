@@ -35,4 +35,69 @@ import org.kuali.core.util.SpringServiceLocator;
 public abstract class PurchasingAccountsPayableDocumentBase extends TransactionalDocumentBase implements PurchasingAccountsPayableDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
 
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String vendorCustomerNumber;
+
+    /**
+     * Gets the vendorHeaderGeneratedIdentifier attribute.
+     * 
+     * @return - Returns the vendorHeaderGeneratedIdentifier
+     * 
+     */
+    public Integer getVendorHeaderGeneratedIdentifier() { 
+        return vendorHeaderGeneratedIdentifier;
+    }
+
+    /**
+     * Sets the vendorHeaderGeneratedIdentifier attribute.
+     * 
+     * @param - vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+     * 
+     */
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
+
+
+    /**
+     * Gets the vendorDetailAssignedIdentifier attribute.
+     * 
+     * @return - Returns the vendorDetailAssignedIdentifier
+     * 
+     */
+    public Integer getVendorDetailAssignedIdentifier() { 
+        return vendorDetailAssignedIdentifier;
+    }
+
+    /**
+     * Sets the vendorDetailAssignedIdentifier attribute.
+     * 
+     * @param - vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+     * 
+     */
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    /**
+     * Gets the vendorCustomerNumber attribute.
+     * 
+     * @return - Returns the vendorCustomerNumber
+     * 
+     */
+    public String getVendorCustomerNumber() { 
+        return vendorCustomerNumber;
+    }
+
+    /**
+     * Sets the vendorCustomerNumber attribute.
+     * 
+     * @param - vendorCustomerNumber The vendorCustomerNumber to set.
+     * 
+     */
+    public void setVendorCustomerNumber(String vendorCustomerNumber) {
+        this.vendorCustomerNumber = vendorCustomerNumber;
+    }
+
 }

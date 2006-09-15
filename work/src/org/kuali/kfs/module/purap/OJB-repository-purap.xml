@@ -108,7 +108,7 @@
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorSupplierDiversities" element-class-ref="org.kuali.module.purap.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="vendorSupplierDiversities" element-class-ref="org.kuali.module.purap.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </collection-descriptor>
 </class-descriptor>

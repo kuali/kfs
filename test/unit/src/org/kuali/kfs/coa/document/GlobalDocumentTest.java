@@ -60,20 +60,12 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     }
 
     public void setUp() throws Exception {
-        super.rollback = false;
         super.setUp();
         docService = SpringServiceLocator.getDocumentService();
     }
 
-    /**
-     * Overrides base transaction wrapping, to prevent transactions from happening.
-     * 
-     * @see org.kuali.test.KualiTestBaseWithSpring#needsTestTransaction()
-     */
-    protected boolean needsTestTransaction() {
+    public boolean doRollback() {
         return false;
-        // change this to false to turn off transactions entirely in the test
-        // return true;
     }
 
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {

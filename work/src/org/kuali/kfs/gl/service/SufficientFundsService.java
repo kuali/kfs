@@ -2,7 +2,7 @@ package org.kuali.module.gl.service;
 
 import java.util.List;
 
-import org.kuali.core.document.FinancialDocument;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.SufficientFundsItem;
@@ -21,7 +21,7 @@ public interface SufficientFundsService {
      * @param document document
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
      */
-    public List<SufficientFundsItem> checkSufficientFunds(FinancialDocument document);
+    public List<SufficientFundsItem> checkSufficientFunds(TransactionalDocument document);
 
     /**
      * This method checks for sufficient funds on a list of transactions

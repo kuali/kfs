@@ -499,7 +499,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
         /* check total cannot be negative */
         if (Constants.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
-            errors.putErrorWithoutFullErrorPath("document.disbVchrCheckTotalAmount", KeyConstants.ERROR_NEGATIVE_CHECK_TOTAL);
+            errors.putErrorWithoutFullErrorPath("document.disbVchrCheckTotalAmount", KeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
             return false;
         }
 

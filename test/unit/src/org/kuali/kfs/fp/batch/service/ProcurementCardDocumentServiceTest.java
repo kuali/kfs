@@ -41,11 +41,14 @@ public class ProcurementCardDocumentServiceTest extends KualiTestBaseWithFixture
     private static List documentsCreated;
 
     protected void setUp() throws Exception {
-        super.rollback = false;
         super.setUp();
         changeCurrentUser(PCDO_USER_NAME);
         procurementCardCreateDocumentService = SpringServiceLocator.getProcurementCardCreateDocumentService();
         procurementCardLoadTransactionsService = SpringServiceLocator.getProcurementCardLoadTransactionsService();
+    }
+
+    public boolean doRollback() {
+        return false;
     }
 
     /**

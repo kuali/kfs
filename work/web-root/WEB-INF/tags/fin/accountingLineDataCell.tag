@@ -86,6 +86,7 @@
 
 <%@ attribute name="rowSpan" required="false"
               description="row span for the data cell" %>
+<%@ attribute name="anchor" required="false" description="adds a named anchor inside the header cell" %>
               
            
 
@@ -109,6 +110,9 @@
 <%-- test to see if we are dealing with the extra JV fields here --%>
 <c:set var="specialRequiredField" value="${(field eq 'referenceOriginCode') || (field eq 'referenceNumber') || (field eq 'referenceTypeCode')}" />
 <td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}">
+    <c:if test="${not empty anchor}">
+    	<a name="${anchor}"></a>
+    </c:if>
 <span class="nowrap">
     <c:if test="${!empty labelFontWeight}">
         <span style="font-weight: ${labelFontWeight}">

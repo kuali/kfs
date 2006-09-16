@@ -41,23 +41,23 @@
                   }
                   document.write(
                     '<a id="${showLink}" href="#" onclick="${showImport}();return false;">' +
-                      '<img src="images/importlines.gif" alt="import file"' +
-                      '     width=71 height=11 border=0 align="middle" class="det-button">' +
+                      '<img src="images/tinybutton-importlines.gif" alt="import file"' +
+                      '     width=72 height=15 border=0 align="middle" class="det-button">' +
                     '<\/a>' +
                     '<div id="${uploadDiv}" style="display:none;" >' +
-                      '<a href="${formatUrl}" target="helpWindow">format<\/a>&nbsp;' +
+                      '<a href="html/help/AccountingLineImport.html" target="helpWindow"><img src="images/my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
                       '<html:file size="30" property="${file}" />' +
-                      '<html:image property="methodToCall.${uploadLines}" src="images/imp-add.gif"
+                      '<html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="insert ${sourceOrTarget} accounting lines" />' +
-                      '<html:image property="methodToCall.cancel" src="images/imp-cancel.gif"
+                      '<html:image property="methodToCall.cancel" src="images/tinybutton-cancelimport.gif"
                                     styleClass="tinybutton" alt="cancel insert" onclick="${hideImport}();return false;" />' +
                     '<\/div>');
                 //-->
             </SCRIPT>
             <NOSCRIPT>
-                Import lines <a href="${formatUrl}" target="helpWindow">format</a>&nbsp;
+                Import lines <a href="html/help/AccountingLineImport.html" target="helpWindow"><img src="images/my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
                 <html:file size="30" property="${file}" style="font:10px;height:16px;"/>
-                <html:image property="methodToCall.${uploadLines}" src="images/imp-add.gif"
+                <html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
                             alt="insert ${sourceOrTarget} accounting lines"/>
             </NOSCRIPT>
         </td>

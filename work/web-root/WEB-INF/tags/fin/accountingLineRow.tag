@@ -124,6 +124,7 @@
     readOnly="${readOnly&&(empty editableFields['chartOfAccountsCode'])}"
     displayHidden="${displayHidden}"
     accountingLineValuesMap="${accountingLineValuesMap}"
+    anchor="accounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}"
     />
 
 <fin:accountingLineDataCell

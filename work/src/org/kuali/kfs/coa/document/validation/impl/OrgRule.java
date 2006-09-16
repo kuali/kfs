@@ -583,5 +583,4 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             return false;
         }
     }
-
 }

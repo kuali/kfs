@@ -22,8 +22,11 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DELIMITER;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 /**
- * This class...
+ * Contains Credit Card Receipt rule related constants
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -33,4 +36,6 @@ public class CreditCardReceiptDocumentRuleConstants {
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
     public static final String CASH_OFFSET_BANK_ACCOUNT = "CashOffsetBankAccount";
+    
+    public static final String CREDIT_CARD_RECEIPT_PREFIX = DOCUMENT_ERROR_PREFIX + "creditCardReceipt" + DELIMITER;
 }

@@ -35,9 +35,13 @@ import org.kuali.module.gl.bo.Transaction;
 public interface ReversalDao {
     public void save(Reversal re);
 
+    public int getMaxSequenceNumber(Transaction t);
+
     public Reversal getByTransaction(Transaction t);
 
     public Iterator getByDate(Date before);
+
+    public Iterator getSummaryByDate(Date before);
 
     public void delete(Reversal re);
 }

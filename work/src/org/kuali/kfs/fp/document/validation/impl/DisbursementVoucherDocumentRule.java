@@ -281,6 +281,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         LOG.debug("validating document amounts");
         validateDocumentAmounts(dvDocument);
 
+        LOG.debug("validating accounting line counts");
+        validateAccountingLineCounts(dvDocument);          
+        
         LOG.debug("validating documentaton location");
         validateDocumentationLocation(dvDocument);
 
@@ -419,8 +422,6 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
 
-        // TODO: get sufficient funds object code
-
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);
         explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING);
@@ -481,7 +482,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* city, state & zip must be given for us */
         if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvPayeeDetail().getDisbVchrPayeeCountryCode())) {
-            if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeStateCode())) {
+            if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeCityName())) {
                 errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_CITY_NAME, KeyConstants.ERROR_DV_PAYEE_CITY_NAME);
             }
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeStateCode())) {
@@ -1109,6 +1110,19 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     }
 
     /**
+     * 
+     * This method...
+     * @param document
+     */
+    private void validateAccountingLineCounts(DisbursementVoucherDocument dvDocument) {
+        ErrorMap errors = GlobalVariables.getErrorMap();
+
+        if(dvDocument.getSourceAccountingLines().size()<1) {
+            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NO_ACCOUNTING_LINES);
+        }
+    }
+    
+    /**
      * Checks the amounts on the document for reconciliation.
      * 
      * @param document
@@ -1116,9 +1130,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     public void validateDocumentAmounts(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        /* check total cannot be negative */
-        if (Constants.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
-            errors.putError(PropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KeyConstants.ERROR_NEGATIVE_CHECK_TOTAL);
+        /* check total cannot be negative or zero */
+        if (!document.getDisbVchrCheckTotalAmount().isPositive()) {
+            errors.putError(PropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
         }
 
         /* total accounting lines cannot be negative */

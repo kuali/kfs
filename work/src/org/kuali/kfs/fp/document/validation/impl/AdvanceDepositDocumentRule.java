@@ -37,6 +37,7 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 /**
  * Business rules applicable to Advance Deposit documents.

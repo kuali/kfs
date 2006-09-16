@@ -40,7 +40,6 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.27 2006-09-06 23:29:12 tdurkin Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -53,6 +52,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         super();
     }
 
+    public Collection getGroupsFromSourceForDate(String sourceCode, Date date) {
+        LOG.debug("getGroupsFromSourceForDate() started");
+        
+        return originEntryGroupDao.getGroupsFromSourceForDate(sourceCode, date);
+    }
+    
     /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getBackupGroups(java.sql.Date)
@@ -168,7 +173,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         for (Iterator iter = c.iterator(); iter.hasNext();) {
             OriginEntryGroup element = (OriginEntryGroup) iter.next();
-            LOG.error("getAllOriginEntryGroup() " + element.getId() + " " + element.getRows());
         }
         return c;
     }

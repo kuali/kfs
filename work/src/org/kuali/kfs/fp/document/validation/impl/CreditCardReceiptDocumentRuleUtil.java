@@ -34,6 +34,9 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import static org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleConstants.CREDIT_CARD_RECEIPT_PREFIX;
+
 /**
  * Common Credit Card Receipt Document rule utilities.
  * 
@@ -109,7 +112,7 @@ public class CreditCardReceiptDocumentRuleUtil {
      */
     private static boolean isTotalInvalid(CreditCardReceiptDocument ccrDocument, KualiDecimal totalAmount, String documentEntryName, String propertyName) {
         boolean isInvalid = false;
-        String errorProperty = TransactionalDocumentRuleBase.DOCUMENT_ERROR_PREFIX + propertyName;
+        String errorProperty = CREDIT_CARD_RECEIPT_PREFIX + propertyName;
 
         // treating null totalAmount as if it were a zero
         DataDictionaryService dds = SpringServiceLocator.getDataDictionaryService();
@@ -123,7 +126,7 @@ public class CreditCardReceiptDocumentRuleUtil {
             int precount = GlobalVariables.getErrorMap().size();
 
             DictionaryValidationService dvs = SpringServiceLocator.getDictionaryValidationService();
-            dvs.validateDocumentAttribute(ccrDocument, propertyName, TransactionalDocumentRuleBase.DOCUMENT_ERROR_PREFIX);
+            dvs.validateDocumentAttribute(ccrDocument, propertyName, DOCUMENT_ERROR_PREFIX);
 
             // replace generic error message, if any, with something more readable
             GlobalVariables.getErrorMap().replaceError(errorProperty, KeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);

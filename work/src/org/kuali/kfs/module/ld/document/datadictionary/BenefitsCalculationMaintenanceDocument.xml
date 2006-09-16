@@ -32,6 +32,12 @@
 			<field attributeName="positionBenefitTypeCode" />	
 		</lockingKeys>         
 
+        <defaultExistenceChecks>
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />          
+            <reference attributeName="positionFringeBenefitObject" attributeToHighlightOnFail="positionFringeBenefitObjectCode" />          
+        </defaultExistenceChecks>
+
 	    <maintainableSections>
 	        <maintainableSection title="Edit Benefit Calculation">
 	        	<maintainableItems>

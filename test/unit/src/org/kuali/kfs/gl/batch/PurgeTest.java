@@ -47,6 +47,9 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
     public void testPurgeEntry() throws Exception {
         LOG.debug("testPurgeEntry() started");
 
+        // The data keeps changing, so this will make sure the test always succeeds
+        unitTestSqlDao.sqlCommand("delete from GL_ENTRY_T");
+
         // Shouldn't be deleted
         unitTestSqlDao.sqlCommand("insert into GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD," + "FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT," + "ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) " + "values (2002, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', '01', 'JV', '01', 'XXX', 1, sys_guid(), 0, 'YYY', 0, 'D', SYSDATE, " + "'XX', '----------', 'X', null,null,null,null,' ',sysdate,sysdate)");
 
@@ -61,21 +64,21 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
         // Run the purge
         assertTrue("Should return true", purgeStep.performStep());
 
-        // Check the results (should be 1 row for 2002 and a lot for 2004)
+        // Check the results (should be 1 row for 2002)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_entry_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_entry_t", 2, counts.size());
+        assertEquals("Wrong number of years found in gl_entry_t", 1, counts.size());
 
         Map count2002 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", 2002, getInt(count2002, "UNIV_FISCAL_YR"));
         assertEquals("Wrong count for year found", 1, getInt(count2002, "COUNT(*)"));
-
-        Map count2004 = (Map) counts.get(1);
-        assertEquals("Selected year is wrong", 2004, getInt(count2004, "UNIV_FISCAL_YR"));
     }
 
     // This will purge entries before 1999
     public void testPurgeBalance() throws Exception {
         LOG.debug("testPurgeBalance() started");
+
+        // The data keeps changing, so this will make sure the test always succeeds
+        unitTestSqlDao.sqlCommand("delete from GL_balance_T");
 
         // Should be deleted
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, OBJ_ID, " + "VER_NBR, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values (1998, 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX', sys_guid(), 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SYSDATE)");
@@ -91,16 +94,13 @@ public class PurgeTest extends KualiTestBaseWithSpringOnly {
         // Run the purge
         assertTrue("Should return true", purgeStep.performStep());
 
-        // Check the results (should be 1 row for 1999 and a lot for 2004)
+        // Check the results (should be 1 row for 1999)
         List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_balance_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_balance_t", 2, counts.size());
+        assertEquals("Wrong number of years found in gl_balance_t", 1, counts.size());
 
         Map count1999 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", 1999, getInt(count1999, "UNIV_FISCAL_YR"));
         assertEquals("Wrong count for year found", 1, getInt(count1999, "COUNT(*)"));
-
-        Map count2004 = (Map) counts.get(1);
-        assertEquals("Selected year is wrong", 2004, getInt(count2004, "UNIV_FISCAL_YR"));
     }
 
     // This will purge entries before 1999

@@ -44,6 +44,17 @@ abstract public class CashReceiptFamilyBase extends TransactionalDocumentBase {
     private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
     private Timestamp depositDate;
 
+    /***
+     * Documents in the CashReceiptFamily do not perform Sufficient Funds checking
+     * 
+     * @see org.kuali.core.document.TransactionalDocumentBase#documentPerformsSufficientFundsCheck()
+     */
+    
+    @Override
+    public boolean documentPerformsSufficientFundsCheck() {
+        return false;
+    }
+
     /**
      * Gets the campusLocationCode attribute.
      * 

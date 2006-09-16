@@ -51,7 +51,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
     private String workgroupName;
     private String referenceFinancialDocumentNumber;
 
-    private List deposits;
+    private List<Deposit> deposits;
 
 
     /**
@@ -59,7 +59,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
      */
     public CashManagementDocument() {
         super();
-        deposits = new ArrayList();
+        deposits = new ArrayList<Deposit>();
     }
 
 
@@ -125,7 +125,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
     /**
      * @return current List of Deposits
      */
-    public List getDeposits() {
+    public List<Deposit> getDeposits() {
         return deposits;
     }
 
@@ -134,7 +134,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
      * 
      * @param deposits
      */
-    public void setDeposits(List deposits) {
+    public void setDeposits(List<Deposit> deposits) {
         this.deposits = deposits;
     }
 

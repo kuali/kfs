@@ -31,11 +31,11 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.18 2006-09-06 23:29:05 tdurkin Exp $
  */
 public interface OriginEntryDao {
     public static final int SORT_DOCUMENT = 1;
     public static final int SORT_ACCOUNT = 2;
+    public static final int SORT_REPORT = 3;
 
     /**
      * Get the counts of rows of all the origin entry groups
@@ -55,9 +55,9 @@ public interface OriginEntryDao {
      * Return an iterator to all documents in a group
      * 
      * @param oeg Group
-     * @return Iterator of entries in the specified group
+     * @return Iterator of Object[] documents in the specified group
      */
-    public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
+    public Iterator getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
      * Return an iterator to all the entries in a group
@@ -116,18 +116,18 @@ public interface OriginEntryDao {
     public OriginEntry getExactMatchingEntry(Integer entryId);
 
     /**
-     * This method should only be used in unit tests. It loads all the gl_origin_entry_t rows in memory into a collection. This
-     * won't scale for production.
-     * 
-     * @return
-     */
-    public Collection testingGetAllEntries();
-
-    /**
      * get the summarized information of the entries that belong to the entry groups with the given group ids
      * 
      * @param groupIdList the ids of origin entry groups
      * @return a set of summarized information of the entries within the specified groups
      */
     public Iterator getSummaryByGroupId(Collection groupIdList);
+
+    /**
+     * This method should only be used in unit tests. It loads all the gl_origin_entry_t rows in memory into a collection. This
+     * won't scale for production.
+     * 
+     * @return
+     */
+    public Collection testingGetAllEntries();
 }

@@ -71,6 +71,10 @@
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
 	
+	<reference-descriptor name="financialObjectBenefitsType" class-ref="org.kuali.module.labor.bo.BenefitsType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialObjectBenefitsTypeCode" />
+	</reference-descriptor>
+	
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>

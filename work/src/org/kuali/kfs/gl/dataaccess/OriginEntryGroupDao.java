@@ -30,6 +30,13 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupDao {
     /**
+     * @param sourceCode
+     * @param date
+     * @return
+     */
+    public Collection<OriginEntryGroup> getGroupsFromSourceForDate(String sourceCode, Date date);
+    
+    /**
      * Copy all the entries from the from group to the to group
      * 
      * @param fromGroup

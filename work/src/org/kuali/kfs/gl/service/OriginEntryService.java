@@ -23,6 +23,7 @@
 package org.kuali.module.gl.service;
 
 import java.io.BufferedOutputStream;
+import java.util.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,6 +38,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
  * 
  */
 public interface OriginEntryService {
+
     /**
      * Delete entry
      * 
@@ -48,9 +50,9 @@ public interface OriginEntryService {
      * Return all documents in a group
      * 
      * @param oeg Group used to select documents
-     * @return Iterator to all documents
+     * @return Collection to all documents
      */
-    public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
+    public Collection<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted by account number for the error
@@ -59,6 +61,14 @@ public interface OriginEntryService {
      * @return
      */
     public Iterator<OriginEntry> getEntriesByGroupAccountOrder(OriginEntryGroup oeg);
+
+    /**
+     * Return all entries for a group sorted for display on the pending entry report.
+     * 
+     * @param oeg
+     * @return
+     */
+    public Iterator<OriginEntry> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for the groups where the balance type is empty

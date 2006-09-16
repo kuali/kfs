@@ -490,6 +490,15 @@
         <property name="nightlyOutService">
             <ref bean="glNightlyOutService" />
         </property>
+        <property name="reportService">
+        	<ref bean="glReportService"/>
+        </property>
+        <property name="originEntryGroupService">
+            <ref bean="glOriginEntryGroupService" />
+        </property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
     </bean>
 
     <bean id="glClearPendingStep" class="org.kuali.module.gl.batch.ClearPendingStep">
@@ -877,6 +886,12 @@
         </property>
     </bean>
 
+    <bean id="reversalService" class="org.kuali.module.gl.service.impl.ReversalServiceImpl">
+        <property name="reversalDao">
+            <ref bean="glReversalDao" />
+        </property>
+    </bean>
+
     <bean id="glOriginEntryGroupService" class="org.kuali.module.gl.service.impl.OriginEntryGroupServiceImpl">
         <property name="originEntryGroupDao">
             <ref bean="glOriginEntryGroupDao" />
@@ -983,6 +998,9 @@
         <property name="originEntryService">
             <ref bean="glOriginEntryService" />
         </property>
+        <property name="originEntryGroupService">
+            <ref bean="glOriginEntryGroupService" />
+        </property>
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
         </property>
@@ -992,8 +1010,14 @@
         <property name="optionsService">
         	<ref bean="optionsService"/>
         </property>
+        <property name="reversalService">
+        	<ref bean="reversalService"/>
+        </property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="persistenceService">
+            <ref bean="persistenceService" />
         </property>
     </bean>
 
@@ -1137,6 +1161,9 @@
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService"/>
 		</property>
+        <property name="sufficientFundRebuildService">
+          <ref bean="glSufficientFundRebuildService" />
+        </property>
     </bean>
 
     <bean id="glSufficientFundsDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb">

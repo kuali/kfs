@@ -40,6 +40,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 /**
  * Business rule(s) shared amongst to CashReceipt-related documents.
@@ -283,7 +284,7 @@ public class CashReceiptFamilyRule extends TransactionalDocumentRuleBase impleme
         boolean isValid = true;
 
         if (crdoc.getSourceTotal().isZero()) {
-            String errorProperty = TransactionalDocumentRuleBase.DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES;
+            String errorProperty = DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES;
 
             isValid = false;
             GlobalVariables.getErrorMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, "Accounting Line Total");

@@ -77,22 +77,15 @@ public class ServiceBillingDocumentRuleUtil {
             }
             return false;
         }
-        try {
-            // todo: isMember(String) instead of going through KualiGroupService?
-            KualiGroup group = SpringServiceLocator.getKualiGroupService().getByGroupName(control.getWorkgroupName());
-            if (user.isMember(group)) {
-                return true;
-            }
-            else {
-                if (action != null) {
-                    GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPersonUserIdentifier(), group.getGroupName());
-                }
-                return false;
-            }
+
+        if (user.isMember(new KualiGroup(control.getWorkgroupName()))) {
+            return true;
         }
-        catch (GroupNotFoundException e) {
-            TransactionalDocumentRuleBase.LOG.error("invalid workgroup in SB control for " + chartOfAccountsCode + accountNumber, e);
-            throw new RuntimeException(e);
+        else {
+            if (action != null) {
+                GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPersonUserIdentifier(), control.getWorkgroupName());
+            }
+            return false;
         }
     }
 

@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -149,8 +150,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      */
     public KualiOrgReviewAttribute(String finCoaCd, String orgCd) {
         this();
-        this.finCoaCd = finCoaCd;
-        this.orgCd = orgCd;
+        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", orgCd);
+        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", orgCd);
     }
 
     public List getRuleExtensionValues() {
@@ -175,11 +176,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();
         if (isRequired()) {
-            this.finCoaCd = (String) paramMap.get(FIN_COA_CD_KEY);
-            this.orgCd = (String) paramMap.get(ORG_CD_KEY);
+            this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
+            this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
             this.fromAmount = (String) paramMap.get(FROM_AMOUNT_KEY);
             this.toAmount = (String) paramMap.get(TO_AMOUNT_KEY);
-            this.overrideCd = (String) paramMap.get(OVERRIDE_CD_KEY);
+            this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
             validateOrg(errors);
             if (StringUtils.isNotBlank(toAmount) && !StringUtils.isNumeric(toAmount)) {
                 errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", "routetemplate.dollarrangeattribute.toamount.invalid"));
@@ -193,10 +194,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
-        this.finCoaCd = (String) paramMap.get(FIN_COA_CD_KEY);
-        this.orgCd = (String) paramMap.get(ORG_CD_KEY);
+        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
+        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
         this.totalDollarAmount = (String) paramMap.get(TOTAL_AMOUNT_KEY);
-        this.overrideCd = (String) paramMap.get(OVERRIDE_CD_KEY);
+        this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
         if (isRequired()) {
             validateOrg(errors);
             if (!StringUtils.isNumeric(this.totalDollarAmount)) {
@@ -210,8 +211,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         if (StringUtils.isBlank(this.finCoaCd) || StringUtils.isBlank(this.orgCd)) {
             errors.add(new WorkflowServiceErrorImpl("Chart/org is required.", "routetemplate.chartorgattribute.chartorg.required"));
         }
-        else if (SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(finCoaCd, orgCd) == null) {
-            errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
+        else {
+            Org org = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(finCoaCd, orgCd);
+            if (org == null) {
+                errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
+            }
         }
     }
 
@@ -233,11 +237,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
-        this.finCoaCd = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
-        this.orgCd = getRuleExtentionValue(ORG_CD_KEY, ruleExtensions);
+        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions));
+        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", getRuleExtentionValue(ORG_CD_KEY, ruleExtensions));
         this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
         this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
-        this.overrideCd = getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions);
+        this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions));
         DocumentType documentType = docContent.getRouteContext().getDocument().getDocumentType();
         Set chartOrgValues = populateFromDocContent(documentType, docContent, docContent.getRouteContext());
         boolean matchesOrg = false;
@@ -288,10 +292,23 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      */
     private void buildOrgReviewHierarchy(int counter, Set chartOrgSet, Org startOrg) {
         LOG.info("buildOrgReviewHierarchy iteration: " + counter);
-        if (startOrg.getReportsToChartOfAccountsCode().equals(startOrg.getChartOfAccountsCode()) && startOrg.getReportsToOrganizationCode().equals(startOrg.getOrganizationCode())) {
-            return;
+        //  this will cause NPEs, so we dont let it through
+        if (startOrg == null) { 
+            throw new IllegalArgumentException("Parameter value for startOrg passed in was null.");
+        }
+        
+        //  we're done if the reportsToOrg is the same as the Org, ie we're at the top of the Org hiearchy
+        if (startOrg.getChartOfAccountsCode().equalsIgnoreCase(startOrg.getReportsToChartOfAccountsCode())) {
+            if (startOrg.getOrganizationCode().equalsIgnoreCase(startOrg.getReportsToOrganizationCode())) {
+                return;
+            }
         }
         Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
+        if (reportsToOrg == null) {
+            throw new RuntimeException("Org " + startOrg.getChartOfAccountsCode() + "-" + startOrg.getOrganizationCode() + 
+                    " has a reportsToOrganization (" + startOrg.getReportsToChartOfAccountsCode() + "-" + startOrg.getReportsToOrganizationCode() + ") " + 
+                    " that does not exist in the system.");
+        }
         chartOrgSet.add(reportsToOrg);
         buildOrgReviewHierarchy(++counter, chartOrgSet, reportsToOrg);
     }

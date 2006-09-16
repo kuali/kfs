@@ -51,7 +51,7 @@
 							<a
 								href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
 							<img src="images/buttonsmall_cancel.gif" class="tinybutton"
-								border="0" /> </a>
+								border="0" alt="cancel"/> </a>
 						</c:if> <!-- Optional extra button --> <c:if
 							test="${not empty KualiForm.lookupable.extraButtonSource}">
 							<a

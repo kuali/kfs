@@ -24,6 +24,7 @@ package org.kuali.module.gl.service;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +37,24 @@ import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
+ * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
  * @version $Id$
  */
 
 public interface ReportService {
+    /**
+     * Generated during the nightly out step.
+     * 
+     * @param runDate
+     * @param groups
+     */
+    public void generateLedgerSummaryReport(Date runDate, Collection groups);
+    
+    /**
+     * Pending entry report.
+     */
+    public void generatePendingEntryReport();
+    
     /**
      * Sufficient Funds Summary Report
      * 
@@ -55,10 +69,17 @@ public interface ReportService {
      * Scrubber General Ledger Transaction Summary report
      * 
      * @param - runDate Run date of the report
-     * @param - groups Groups to summarize for the report
-     * @param - title Title of the report
+     * @param - group Group to summarize for the report
      */
-    public void generateScrubberLedgerSummaryReport(Date runDate, Collection groups, String title);
+    public void generateScrubberLedgerSummaryReportOnline(Date runDate, OriginEntryGroup group);
+
+    /**
+     * Scrubber General Ledger Transaction Summary report
+     * 
+     * @param - runDate Run date of the report
+     * @param - groups Groups to summarize for the report
+     */
+    public void generateScrubberLedgerSummaryReportBatch(Date runDate, Collection groups);
 
     /**
      * Scrubber Statistics report for batch reports
@@ -93,6 +114,14 @@ public interface ReportService {
      * @param - groups Groups to summarize for the report
      */
     public void generateScrubberBadBalanceTypeListingReport(Date runDate, Collection groups);
+
+    /**
+     * Scrubber Transaction Listing report
+     * 
+     * @param - runDate Run date of the report
+     * @param validGroup Group with transactions
+     */
+    public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup);
 
     /**
      * Scrubber Removed Transactions report
@@ -173,7 +202,7 @@ public interface ReportService {
      * @param runDate
      * @param groups
      */
-    public void generatePosterReversalLedgerSummaryReport(Date runDate, Collection groups);
+    public void generatePosterReversalLedgerSummaryReport(Date runDate, Iterator groups);
 
     /**
      * Balance Forward Year-End job Report
@@ -199,4 +228,21 @@ public interface ReportService {
      * @param runDate
      */
     public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate);
+    
+    /**
+     * Poster Reversal Transactions Listing
+     * 
+     * @param - runDate Run date of the report
+     * @param - group Group with valid transactions
+     */
+    public void generatePosterReversalTransactionsListing(Date runDate, OriginEntryGroup group);
+
+    /**
+     * Poster Error transaction listing
+     * 
+     * @param runDate Run date of the report
+     * @param group Group with error transactions
+     * @param posterMode Mode the poster is running
+     */
+    public void generatePosterErrorTransactionListing(Date runDate, OriginEntryGroup group, int posterMode);
 }

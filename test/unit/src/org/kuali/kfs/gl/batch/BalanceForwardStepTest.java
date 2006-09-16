@@ -66,25 +66,8 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
         super.setUp();
 
-        try {
-
-            DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            dateTimeService.currentDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", e);
-
-        }
-        catch (ParseException pe) {
-
-            LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
-
-        }
-
+        DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateTimeService.currentDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
     }
 
     /**

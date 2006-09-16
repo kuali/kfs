@@ -28,17 +28,14 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 public class BankRule extends MaintenanceDocumentRuleBase {
 
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        // TODO Auto-generated method stub
         return super.processCustomApproveDocumentBusinessRules(document);
     }
 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        // TODO Auto-generated method stub
         return super.processCustomRouteDocumentBusinessRules(document);
     }
 
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        // TODO Auto-generated method stub
         return super.processCustomSaveDocumentBusinessRules(document);
     }
 

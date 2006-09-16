@@ -91,13 +91,8 @@
 	          <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardHolder" 
                keyValues="financialDocumentNumber=${currentTransaction.financialDocumentNumber}" 
                render="true">
-	          <c:if test="${!empty KualiForm.editingMode['viewOnly']}">
-	            ****************
-	            <html:hidden write="false" property="document.procurementCardHolder.transactionCreditCardNumber"/>
-	          </c:if>
-	          <c:if test="${empty KualiForm.editingMode['viewOnly']}">
-	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber" readOnly="true"/>
-	          </c:if>
+	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
+	             readOnly="true" encryptValue="${!empty KualiForm.editingMode['viewOnly']}" displayMask="****************" />
 	          </kul:inquiry>
 	        </td>
 	      </tr>

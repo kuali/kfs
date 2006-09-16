@@ -174,6 +174,8 @@ public class ScrubberProcess {
     public void scrubEntries(OriginEntryGroup group) {
         LOG.debug("scrubEntries() started");
 
+        // We are in report only mode if we pass a group to this method.
+        // if not, we are in batch mode and we scrub the backup group
         reportOnlyMode = (group != null);
 
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
@@ -196,6 +198,8 @@ public class ScrubberProcess {
             validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
             errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
             expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
+        } else {
+            validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, false, false, false);            
         }
 
         // get the origin entry groups to be processed by Scrubber
@@ -210,8 +214,10 @@ public class ScrubberProcess {
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 
         // generate the reports based on the origin entries to be processed by scrubber
-        if (!reportOnlyMode) {
-            reportService.generateScrubberLedgerSummaryReport(runDate, groupsToScrub, "General Ledger Input Transactions");
+        if (reportOnlyMode) {
+            reportService.generateScrubberLedgerSummaryReportOnline(runDate, group);
+        } else {
+            reportService.generateScrubberLedgerSummaryReportBatch(runDate, groupsToScrub);
         }
 
         // Scrub all of the OriginEntryGroups waiting to be scrubbed as of runDate.
@@ -239,10 +245,16 @@ public class ScrubberProcess {
             reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
         }
 
-        // run the demerger and generate the demerger report
+        // run the demerger
         if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
+        }
 
+        // Run the reports
+        if ( reportOnlyMode ) {
+            // Run transaction list
+            reportService.generateScrubberTransactionsOnline(runDate, validGroup);
+        } else {
             // Run bad balance type report and removed transaction report
             reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
 
@@ -265,9 +277,11 @@ public class ScrubberProcess {
 
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
-        Iterator<OriginEntry> errorDocuments = originEntryService.getDocumentsByGroup(errorGroup);
-        while (errorDocuments.hasNext()) {
-            OriginEntry document = errorDocuments.next();
+        Collection<OriginEntry> errorDocuments = originEntryService.getDocumentsByGroup(errorGroup);
+        Iterator<OriginEntry> i = errorDocuments.iterator();
+        while (i.hasNext()) {
+            OriginEntry document = i.next();
+            
             demergerReport.incrementErrorTransactionsRead();
             demergerReport.incrementErrorTransactionsSaved();
 
@@ -277,16 +291,6 @@ public class ScrubberProcess {
 
             while (transactions.hasNext()) {
                 OriginEntry transaction = transactions.next();
-
-                // I have no clue why, but when we run this query, sometime we retrieve the exact same row multiple times.
-                // Since they are sorted by ID, we can eliminate the duplicates this way. There much be a better way to
-                // solve this, but this works for now.
-                if (lastId.intValue() == transaction.getEntryId().intValue()) {
-                    continue;
-                }
-                else {
-                    lastId = transaction.getEntryId();
-                }
 
                 String transactionType = getTransactionType(transaction);
 
@@ -322,10 +326,43 @@ public class ScrubberProcess {
             }
         }
 
+        // Read all the transactions in the error group and delete the generated ones
+        Iterator<OriginEntry> ie = originEntryService.getEntriesByGroup(errorGroup);
+        while (ie.hasNext()) {
+            OriginEntry transaction = ie.next();
+
+            String transactionType = getTransactionType(transaction);
+
+            if ("CE".equals(transactionType)) {
+                demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
+                originEntryService.delete(transaction);
+            }
+            else if ("O".equals(transactionType)) {
+                demergerReport.incrementOffsetTransactionsBypassed();
+                originEntryService.delete(transaction);
+            }
+            else if ("C".equals(transactionType)) {
+                demergerReport.incrementCapitalizationTransactionsBypassed();
+                originEntryService.delete(transaction);
+            }
+            else if ("L".equals(transactionType)) {
+                demergerReport.incrementLiabilityTransactionsBypassed();
+                originEntryService.delete(transaction);
+            }
+            else if ("T".equals(transactionType)) {
+                demergerReport.incrementTransferTransactionsBypassed();
+                originEntryService.delete(transaction);
+            }
+            else if ("CS".equals(transactionType)) {
+                demergerReport.incrementCostShareTransactionsBypassed();
+                originEntryService.delete(transaction);
+            }
+        }
+
         // Read all the transactions in the valid group and update the cost share transactions
-        Iterator<OriginEntry> validTransactions = originEntryService.getDocumentsByGroup(validGroup);
-        while (validTransactions.hasNext()) {
-            OriginEntry transaction = validTransactions.next();
+        Iterator<OriginEntry> it = originEntryService.getEntriesByGroup(validGroup);
+        while (it.hasNext()) {
+            OriginEntry transaction = it.next();
             demergerReport.incrementValidTransactionsSaved();
 
             String transactionType = getTransactionType(transaction);
@@ -448,10 +485,7 @@ public class ScrubberProcess {
                 // See if unit of work has changed
                 if (!unitOfWork.isSameUnitOfWork(scrubbedEntry)) {
                     // Generate offset for last unit of work
-                    if (!generateOffset(lastEntry)) {
-                        saveValidTransaction = false;
-                        saveErrorTransaction = true;
-                    }
+                    generateOffset(lastEntry);
 
                     unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
                 }
@@ -481,7 +515,11 @@ public class ScrubberProcess {
                 KualiParameterRule costShareEncDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
                 KualiParameterRule costShareFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
 
-                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isInCg() && Constants.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && (StringHelper.isEmpty(scrubbedEntry.getFinancialDocumentTypeCode()) || costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim()))) {
+                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
+                        costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && 
+                        scrubbedEntry.getAccount().isInCg() && Constants.COST_SHARE.equals(subAccountTypeCode) && 
+                        costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                        costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                     TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
                     if (te1 != null) {
                         List errors = new ArrayList();
@@ -493,7 +531,12 @@ public class ScrubberProcess {
                     }
                 }
 
-                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && scrubbedEntry.getOption().getActualFinancialBalanceType().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isInCg() && Constants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
+                        scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && 
+                        scrubbedEntry.getAccount().isInCg() && 
+                        Constants.COST_SHARE.equals(subAccountTypeCode) && 
+                        costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                        costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                     if (scrubbedEntry.isDebit()) {
                         scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
                     }
@@ -977,6 +1020,7 @@ public class ScrubberProcess {
                 flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
             }
             catch (InvalidFlexibleOffsetException e) {
+                LOG.error("processPlantIndebtedness() Flexible Offset Exception (1)",e);
                 LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
                 return e.getMessage();
             }
@@ -1031,6 +1075,7 @@ public class ScrubberProcess {
                 flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
             }
             catch (InvalidFlexibleOffsetException e) {
+                LOG.error("processPlantIndebtedness() Flexible Offset Exception (2)",e);
                 LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
                 return e.getMessage();
             }
@@ -1178,6 +1223,7 @@ public class ScrubberProcess {
         }
 
         costShareEncumbranceEntry.setFinancialBalanceTypeCode(scrubbedEntry.getOption().getCostShareEncumbranceBalanceTypeCode());
+        setCostShareObjectCode(costShareEncumbranceEntry, scrubbedEntry);
         costShareEncumbranceEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         costShareEncumbranceEntry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
 
@@ -1288,23 +1334,41 @@ public class ScrubberProcess {
 
         String originEntryObjectLevelCode = (null == originEntry.getFinancialObject() ? "" : originEntry.getFinancialObject().getFinancialObjectLevelCode());
 
-        FinancialSystemParameter param = parameters.get(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_PREFIX + originEntryObjectLevelCode);
-        if (param == null) {
-            param = getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT);
-        }
-
-        String originEntryObjectCode = param.getFinancialSystemParameterText();
-        if ((originEntryObjectCode == null) || (originEntryObjectCode.length() == 0)) {
-            originEntryObjectCode = originEntry.getFinancialObjectCode();
-        }
-
+        boolean done = false;
+        String originEntryObjectCode = originEntry.getFinancialObjectCode();
+        
         // IU Specific Rules
-        if ("BENF".equals(originEntryObjectLevelCode) && ("9956".equals(originEntryObjectCode) || 5700 > Integer.valueOf(originEntryObjectCode).intValue())) { // BENEFITS
+
+        if ( (! done) && ("BENF".equals(originEntryObjectLevelCode) && ("9956".equals(originEntryObjectCode) || 5700 > Integer.valueOf(originEntryObjectCode).intValue()))) { // BENEFITS
             originEntryObjectCode = "9956"; // TRSFRS_OF_FUNDS_FRINGE_BENF
+            done = true;
         }
-        else if ("FINA".equals(originEntryObjectLevelCode) && ("9954".equals(originEntryObjectCode) || "5400".equals(originEntryObjectCode))) {
+
+        if ( (! done) && ("FINA".equals(originEntryObjectLevelCode) && ("9954".equals(originEntryObjectCode) || "5400".equals(originEntryObjectCode)))) {
             // STUDENT_FINANCIAL_AID - TRSFRS_OF_FUNDS_FEE_REM - GRADUATE_FEE_REMISSIONS
             originEntryObjectCode = "9954"; // TRSFRS_OF_FUNDS_CAPITAL
+            done = true;
+        }
+
+        // General rules
+        if ( ! done ) {
+            FinancialSystemParameter param = parameters.get(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_PREFIX + originEntryObjectLevelCode);
+            if ( param == null ) {
+                param = getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT);
+                if ( param == null ) {
+                    throw new IllegalArgumentException("Missing " + GLConstants.GL_SCRUBBER_GROUP + "/" + GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT + " parameter in system parameters table");
+                } else {
+                    originEntryObjectCode = param.getFinancialSystemParameterText();
+                }
+            } else {
+                if ( param.getFinancialSystemParameterText() == null ) {
+                    // Don't do anything with the object code
+                } else {
+                    originEntryObjectCode = param.getFinancialSystemParameterText();                    
+                }
+            }
+
+            done = true;
         }
 
         // Lookup the new object code
@@ -1367,6 +1431,9 @@ public class ScrubberProcess {
                 offsetKey.append(offsetDefinition.getFinancialObjectCode());
 
                 putTransactionError(offsetEntry, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), offsetKey.toString(), Message.TYPE_FATAL);
+                
+                createOutputEntry(offsetEntry, errorGroup);
+                scrubberReport.incrementErrorRecordWritten();
                 return false;
             }
 
@@ -1387,6 +1454,9 @@ public class ScrubberProcess {
             sb.append(scrubbedEntry.getFinancialBalanceTypeCode());
 
             putTransactionError(offsetEntry, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), sb.toString(), Message.TYPE_FATAL);
+
+            createOutputEntry(offsetEntry, errorGroup);
+            scrubberReport.incrementErrorRecordWritten();
             return false;
         }
 
@@ -1417,7 +1487,7 @@ public class ScrubberProcess {
         catch (InvalidFlexibleOffsetException e) {
             LOG.debug("generateOffset() Offset Flexible Offset Error: " + e.getMessage());
             putTransactionError(offsetEntry, e.getMessage(), "", Message.TYPE_FATAL);
-            return false;
+            return true;
         }
 
         createOutputEntry(offsetEntry, validGroup);
@@ -1432,7 +1502,9 @@ public class ScrubberProcess {
      * @param group Group to save it in
      */
     private void createOutputEntry(OriginEntry entry, OriginEntryGroup group) {
-        if (!reportOnlyMode) {
+        // Write the entry if we aren't running in report only mode.  Or write the entry if we are in 
+        // report only mode and it is a valid entry
+        if ( (! reportOnlyMode) || (group.getSourceCode().equals(OriginEntrySource.SCRUBBER_VALID)) ) {
             entry.setGroup(group);
             originEntryService.save(entry);
         }

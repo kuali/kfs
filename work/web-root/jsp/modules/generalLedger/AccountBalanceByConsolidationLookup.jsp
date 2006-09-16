@@ -49,14 +49,14 @@
 						<a
 							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
 						<img src="images/buttonsmall_cancel.gif" class="tinybutton"
-							border="0" /> </a>
+							border="0" alt="cancel" /> </a>
 					</c:if> <!-- Optional extra button --> <c:if
 						test="${not empty KualiForm.lookupable.extraButtonSource}">
 						<a
 							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.core.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'>
 						<img
 							src='<c:out value="${KualiForm.lookupable.extraButtonSource}" />'
-							class="tinybutton" border="0" /></a>
+							class="tinybutton"  border="0" alt="cancel"/></a>
 					</c:if></td>
 				</tr>
 			</table>

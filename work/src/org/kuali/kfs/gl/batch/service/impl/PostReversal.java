@@ -18,7 +18,7 @@ import org.kuali.module.gl.dao.ReversalDao;
  * @author jsissom
  * 
  */
-public class PostReversal implements PostTransaction, VerifyTransaction {
+public class PostReversal implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostReversal.class);
 
     private ReversalDao reversalDao;
@@ -29,22 +29,6 @@ public class PostReversal implements PostTransaction, VerifyTransaction {
 
     public PostReversal() {
         super();
-    }
-
-    /**
-     * Make sure the transaction is correct for posting. If there is an error, this will stop the transaction from posting in all
-     * files.
-     */
-    public List verifyTransaction(Transaction t) {
-        LOG.debug("verifyTransaction() started");
-
-        List errors = new ArrayList();
-
-        if ((t.getFinancialDocumentReversalDate() != null) && (reversalDao.getByTransaction(t) != null)) {
-            errors.add("Duplicate GL_REVERSAL_T record found");
-        }
-
-        return errors;
     }
 
     /*
@@ -61,7 +45,14 @@ public class PostReversal implements PostTransaction, VerifyTransaction {
         }
 
         Reversal re = new Reversal(t);
+
+        // Make sure the row will be unique when adding to the reversal table by
+        // adjusting the transaction sequence id
+        int maxSequenceId = reversalDao.getMaxSequenceNumber(t);
+        re.setTransactionLedgerEntrySequenceNumber(new Integer(maxSequenceId + 1));
+
         reversalDao.save(re);
+
         return "I";
     }
 

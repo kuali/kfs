@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Benefits Type Inquiry</title>
+            <title>Labor Benefits Type Inquiry</title>
 
             <inquiryFields>
                 <field attributeName="positionBenefitTypeCode" />
@@ -17,7 +17,7 @@
         </inquiry>
 
         <lookup>
-            <title>Benefits Type Lookup</title>
+            <title>Labor Benefits Type Lookup</title>
 
 			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.BenefitsType">Create New</a>]]></menubar>
 

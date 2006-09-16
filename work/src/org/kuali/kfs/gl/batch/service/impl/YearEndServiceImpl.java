@@ -1091,42 +1091,21 @@ public class YearEndServiceImpl implements YearEndService {
      * upon one another in terms of expected behavior.
      */
     public void forwardBalances() {
+        LOG.debug("forwardBalances() started");
 
-        Integer varFiscalYear = null;
-        Date varTransactionDate = null;
-
-        try {
-
-            varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
-            throw new RuntimeException("Unable to get university fiscal year from kualiConfigurationService", e);
-
-        }
-
+        Date varTransactionDate;
         try {
             varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.TRANSACTION_DT)).getTime());
-
         }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", e);
-
+        catch (ParseException e) {
+            LOG.error("forwardBalances() Unable to parse transaction date", e);
+            throw new IllegalArgumentException("Unable to parse transaction date");
         }
-        catch (ParseException pe) {
 
-            LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
-
-        }
+        Integer varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
 
         OriginEntryGroup unclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, false, false, false);
         OriginEntryGroup closedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, false, false, false);
-        ;
 
         BalanceForwardRuleHelper balanceForwardRuleHelper = new BalanceForwardRuleHelper(varFiscalYear, varTransactionDate, closedPriorYearAccountGroup, unclosedPriorYearAccountGroup);
 

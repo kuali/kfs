@@ -7,7 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Benefits Calculation Inquiry</title>
+            <title>Labor Benefits Calculation Inquiry</title>
 
             <inquiryFields>
                 <field attributeName="universityFiscalYear" />
@@ -19,7 +19,7 @@
         </inquiry>
 
         <lookup>
-            <title>Benefits Calculation Lookup</title>
+            <title>Labor Benefits Calculation Lookup</title>
 
 			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.BenefitsCalculation">Create New</a>]]></menubar>
 

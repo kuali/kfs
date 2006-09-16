@@ -43,6 +43,11 @@ import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
+import static org.kuali.Constants.DOCUMENT_PROPERTY_NAME;
+import static org.kuali.KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
+import static org.kuali.PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 /**
  * Business rules applicable to Credit Card Receipt documents.
  * 
@@ -84,7 +89,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
 
         return isValid;
     }
-
+    
     /**
      * This method is a helper that checks to make sure that at least one credit card receipt line exists for the document.
      * 
@@ -129,7 +134,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
      * @return boolean
      */
     private boolean validateCreditCardReceipts(CreditCardReceiptDocument creditCardReceiptDocument) {
-        GlobalVariables.getErrorMap().addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_PROPERTY_NAME);
         boolean isValid = true;
         for (int i = 0; i < creditCardReceiptDocument.getCreditCardReceipts().size(); i++) {
             String propertyName = PropertyConstants.CREDIT_CARD_RECEIPT + "[" + i + "]";
@@ -137,7 +142,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
             isValid &= CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceiptDocument.getCreditCardReceipt(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().removeFromErrorPath(DOCUMENT_PROPERTY_NAME);
         return isValid;
     }
 

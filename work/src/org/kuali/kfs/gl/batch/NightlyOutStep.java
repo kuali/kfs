@@ -22,23 +22,37 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.util.Collection;
+import java.sql.Date;
+
 import org.kuali.core.batch.Step;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.NightlyOutService;
+import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.ReportService;
 
 /**
- * This class...
- * 
  * @author Bin Gao from Michigan State University
  */
 public class NightlyOutStep implements Step {
 
     private NightlyOutService nightlyOutService;
+    private ReportService reportService;
+    private OriginEntryGroupService originEntryGroupService;
+    private DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.core.batch.Step#performStep()
      */
     public boolean performStep() {
         nightlyOutService.copyApprovedPendingLedgerEntries();
+        reportService.generatePendingEntryReport();
+        
+        Date runDate = new java.sql.Date(dateTimeService.getCurrentDate().getTime());
+        Collection groups = originEntryGroupService.getGroupsFromSourceForDate(OriginEntrySource.GENERATE_BY_EDOC, runDate);
+        reportService.generateLedgerSummaryReport(runDate, groups);
+        
         return true;
     }
 
@@ -57,4 +71,24 @@ public class NightlyOutStep implements Step {
     public void setNightlyOutService(NightlyOutService nightlyOutService) {
         this.nightlyOutService = nightlyOutService;
     }
+    
+    /**
+     * Sets the reportService attribute value.
+     * 
+     * @param reportService
+     */
+    public void setReportService(ReportService reportService) {
+        this.reportService = reportService;
+    }
+
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
+    
+    
 }

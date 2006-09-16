@@ -7,20 +7,15 @@
 <%@ attribute name="channelUrl" required="true" %>
 <%@ attribute name="selectedTab" required="true" %>
 
-<table width="100%" border="0" cellpadding="0" cellspacing="9" cols="3" summary="need a summary here">
-  <tbody>
-    <tr>
-      <td class="uportal-background-dark" valign="top" colspan="3">
-      
-        <portal:immutableBar />
-              
-      </td>
-    </tr>
-    <tr>
+      <portal:immutableBar />
+
+ <table width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
+    <tr valign="top" bgcolor="#FFFFFF">
+     <td width="15" class="leftback-focus">&nbsp;</td>
         <c:choose>
           <%-- first try to check if they are focusing in --%>
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
-            <td class="uportal-background-dark" valign="top" colspan="2">
+            <td class="content" valign="top" colspan="2">
               <c:if test="${!empty param.backdoorId}">
                   <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login.x=1" />
               </c:if>
@@ -46,5 +41,8 @@
           </c:otherwise>
         </c:choose>
     </tr>
-  </tbody>
+        <tr valign="top">
+      <td colspan="4"><div id="footer-copyright">&copy; 2006 kuali.org </div></td>
+    </tr>
+
 </table>

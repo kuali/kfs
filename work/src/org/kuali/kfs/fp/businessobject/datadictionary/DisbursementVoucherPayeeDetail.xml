@@ -42,13 +42,11 @@
             </attribute>
 
             <attributeReference name="disbVchrPayeePersonName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeePersonName">
-                <required>true</required>
                 <description>Full name of document Payee, expressed as "Lastname, Firstname Initial"</description>
 
             </attributeReference>
 
             <attributeReference name="disbVchrPayeeLine1Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine1Addr">
-                <required>true</required>
                 <description>First address line of Payee.</description>
 
             </attributeReference>
@@ -74,7 +72,6 @@
             </attributeReference>
 
             <attributeReference name="disbVchrPayeeCountryCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCountryCode">
-                <required>true</required>
                 <description>The name of the Country of the Payee. Select one from the pulldown list.</description>
 
             </attributeReference>
@@ -82,6 +79,7 @@
             <attributeReference name="disbVchrRemitPersonName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeePersonName">
                 <label>Remit Name</label>
                 <shortLabel>Remit Nm</shortLabel>
+                <required>false</required>
 
                 <summary>
                     <![CDATA[&nbsp;]]>
@@ -92,6 +90,7 @@
             <attributeReference name="disbVchrRemitLine1Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine1Addr">
                 <label>Remit Address 1</label>
                 <shortLabel>Remit Addr 1</shortLabel>
+                <required>false</required>
 
                 <summary>
                     <![CDATA[&nbsp;]]>
@@ -143,6 +142,7 @@
             <attributeReference name="disbVchrRemitCountryCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCountryCode">
                 <label>Remit Country</label>
                 <shortLabel>Remit Cntry</shortLabel>
+                <required>false</required>
 
                 <summary>
                     <![CDATA[&nbsp;]]>

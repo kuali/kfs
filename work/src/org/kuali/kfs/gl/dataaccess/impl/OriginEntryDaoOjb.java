@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -104,15 +105,18 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
      * 
      * @see org.kuali.module.gl.dao.OriginEntryDao#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg) {
+    public Iterator getDocumentsByGroup(OriginEntryGroup oeg) {
         LOG.debug("getDocumentsByGroup() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(ENTRY_GROUP_ID, oeg.getId());
 
-        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
-        qbc.setDistinct(true);
-        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(OriginEntry.class, criteria);
+        q.setAttributes(new String[] { "financialDocumentNumber","financialDocumentTypeCode","financialSystemOriginationCode" });
+
+        q.setDistinct(true);
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
     }
 
     /**
@@ -202,8 +206,15 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_AMOUNT);
             qbc.addOrderByAscending(TRANSACTION_DEBIT_CREDIT_CODE);
-        }
-        else {
+        } else if (sort == OriginEntryDao.SORT_REPORT ) {
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_DEBIT_CREDIT_CODE);            
+            qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
+            qbc.addOrderByAscending(ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+        } else {
             qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(ACCOUNT_NUMBER);
             qbc.addOrderByAscending(SUB_ACCOUNT_NUMBER);

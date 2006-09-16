@@ -25,8 +25,10 @@
 
 package org.kuali.module.financial.document;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineParser;
@@ -38,6 +40,10 @@ import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLineParser;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleUtil;
+import org.kuali.module.gl.GLConstants;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.service.SufficientFundsService;
+import org.kuali.module.gl.util.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -58,6 +64,25 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     public BudgetAdjustmentDocument() {
         super();
     }
+
+    
+    /***
+     *BA Documents should only do SF checking on PLEs with a Balance Type of 'CB' - not 'BB' or 'MB'.
+     *
+     * @Override
+     * @see org.kuali.core.document.TransactionalDocumentBase#getPendingLedgetEntriesForSufficientFundsChecking()
+     */
+    public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
+        List <GeneralLedgerPendingEntry> pendingLedgerEntries = new ArrayList();
+        for (GeneralLedgerPendingEntry ple : this.getGeneralLedgerPendingEntries()) {
+            if (!Constants.BALANCE_TYPE_BASE_BUDGET.equals(ple.getFinancialBalanceTypeCode()) && !Constants.BALANCE_TYPE_MONTHLY_BUDGET.equals(ple.getFinancialBalanceTypeCode())) {
+                pendingLedgerEntries.add(ple);
+            }
+        }
+        return pendingLedgerEntries;
+    }
+
+
 
     /**
      * generic, shared logic used to iniate a ba document

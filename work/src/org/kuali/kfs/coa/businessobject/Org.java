@@ -901,30 +901,22 @@ public class Org extends BusinessObjectBase {
 
         Properties params = new Properties();
 
-        params.put("returnLocation", "");
-        params.put("quickFinderLookupable", "");
-        params.put("backLocation", "");
-        params.put("formKey", "");
-        params.put("methodToCall", "search");
-        params.put("lookupableImplServiceName", "RuleBaseValuesLookupableImplService");
-        params.put("ruleTemplateName", "KualiOrgReviewTemplate");
-        params.put("activeInd", "");
-        params.put("delegateRuleSearch", "ALL");
+        /*
+        Lookup.do?
+        methodToCall=start
+        docFormKey=
+        lookupableImplServiceName=OrgReviewLookupable
+        conversionFields=
+        returnLocation=
+        */ 
+        
+        params.put("methodToCall", "start");
+        params.put("docFormKey", "");
+        params.put("lookupableImplServiceName", "OrgReviewLookupable");
+        params.put("fin_coa_cd", this.chartOfAccountsCode);
+        params.put("org_cd", this.organizationCode);
         params.put("conversionFields", "");
-        params.put("docTypeFullName", "");
-        params.put("ruleDescription", "");
-        params.put("workgroupName", "");
-        params.put("ruleDelegationOnly", "");
-        params.put("networkId", "");
-        params.put("roleName", "");
-        params.put("ruleBaseValuesId", "");
-        params.put("delegationWizard", "");
-        params.put("org_review_fin_coa_cd", this.chartOfAccountsCode);
-        params.put("org_review_org_cd", this.organizationCode);
-        params.put("fromAmount", "");
-        params.put("toAmount", "");
-        params.put("listKey", "");
-        params.put("overrideCd", "");
+        params.put("returnLocation", "");
 
         return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString("workflow.base.url") + "/Lookup.do", params);
     }

@@ -45,6 +45,7 @@ import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.WireCharge;
@@ -64,6 +65,34 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class DisbursementVoucherAction extends KualiTransactionalDocumentActionBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAction.class);
+
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward dest = super.execute(mapping, form, request, response);
+
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        if (form != null) {
+            DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) dvForm.getDocument();
+            if (dvDoc != null) {
+                DisbursementVoucherNonEmployeeTravel dvNet = dvDoc.getDvNonEmployeeTravel();
+                if (dvNet != null) {
+                    // clear values derived from travelMileageAmount if that amount has been (manually) cleared
+                    Integer amount = dvNet.getDvPersonalCarMileageAmount();
+                    if ((amount == null) || (amount.intValue() == 0)) {
+                        clearTravelMileageAmount(dvNet);
+                    }
+                }
+            }
+        }
+
+        return dest;
+    }
+
 
     /**
      * Do initialization for a new disbursement voucher
@@ -251,18 +280,26 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
 
-        try {
-            dvDocument.getDvNonEmployeeTravel().setDisbVchrMileageCalculatedAmt(null);
-            dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(null);
-        }
-        catch (RuntimeException e) {
-            LOG.error("Error in clearing travel personal vehicle amount: " + e.getMessage());
-            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
-        }
+//        try {
+            DisbursementVoucherNonEmployeeTravel dvNet = dvDocument.getDvNonEmployeeTravel();
+            if (dvNet != null) {
+                clearTravelMileageAmount(dvNet);
+            }
+//        }
+//        catch (RuntimeException e) {
+//            LOG.error("Error in clearing travel personal vehicle amount: " + e.getMessage());
+//            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
+//        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
+
+    private void clearTravelMileageAmount(DisbursementVoucherNonEmployeeTravel dvNet) {
+        dvNet.setDisbVchrMileageCalculatedAmt(null);
+        dvNet.setDisbVchrPersonalCarAmount(null);
+    }
+
 
     /**
      * Adds a new employee travel expense line.

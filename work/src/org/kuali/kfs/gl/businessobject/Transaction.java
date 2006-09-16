@@ -96,4 +96,6 @@ public interface Transaction {
     public Options getOption();
 
     public ObjectType getObjectType();
+    
+    public void refreshNonUpdateableReferences();
 }

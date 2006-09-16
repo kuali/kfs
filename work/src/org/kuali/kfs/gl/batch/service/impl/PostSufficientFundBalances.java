@@ -135,6 +135,9 @@ public class PostSufficientFundBalances implements PostTransaction {
                     // 2632-PROCESS-OBJTACCT-ENCMBRNC
                     updateEncumbranceAmount(t.getTransactionDebitCreditCode(), sfBalance, t.getTransactionLedgerEntryAmount());
                 }
+                else if (t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd())) {
+                    sfBalance.setCurrentBudgetBalanceAmount(sfBalance.getCurrentBudgetBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
+                }
                 else {
                     // No need to post this
                     return "";

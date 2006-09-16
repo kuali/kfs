@@ -26,6 +26,7 @@
                 <field attributeName="finPreEncumbranceObjectCode" />
                 <field attributeName="icrIncomeFinancialObjectCode" />
                 <field attributeName="icrExpenseFinancialObjectCd" />
+                <field attributeName="fundBalanceObjectCode" />
             </inquiryFields>
         </inquiry>
 
@@ -238,10 +239,10 @@
                 <shortLabel>rptsToChartCode</shortLabel>
 
                 <maxLength>2</maxLength>
-                <required>true</required>
+                <required>false</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                	<text size="2"/>
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>
@@ -358,6 +359,25 @@
                     <![CDATA[&nbsp;]]>
                 </description>
             </attributeReference>
+
+            <attributeReference name="fundBalanceObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <label>Fund Balance Object Code</label>
+                <shortLabel>FndBalObjCde</shortLabel>
+
+                <maxLength>4</maxLength>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
 
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

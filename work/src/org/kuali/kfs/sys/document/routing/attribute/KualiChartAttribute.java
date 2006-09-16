@@ -33,6 +33,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
@@ -111,7 +112,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public KualiChartAttribute(String finCoaCd) {
 
         this();
-        this.finCoaCd = finCoaCd;
+        this.finCoaCd = LookupUtils.forceUppercase(Chart.class, "chartOfAccountsCode", finCoaCd);
 
     }
 
@@ -154,7 +155,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd())) {
             return "";
         }
-        return "<" + CHART_ATTRIBUTE + ">" + "<" + FIN_COA_CD_KEY + ">" + getFinCoaCd() + "</" + FIN_COA_CD_KEY + ">" + "</" + CHART_ATTRIBUTE + ">";
+        return "<report><" + CHART_ATTRIBUTE + ">" + "<" + FIN_COA_CD_KEY + ">" + getFinCoaCd() + "</" + FIN_COA_CD_KEY + ">" + "</" + CHART_ATTRIBUTE + "></report>";
     }
 
     /**
@@ -190,7 +191,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public List validateRoutingData(Map paramMap) {
 
         List errors = new ArrayList();
-        this.finCoaCd = (String) paramMap.get(CHART_REVIEW_FIN_COA_CD_KEY);
+        this.finCoaCd = LookupUtils.forceUppercase(Chart.class, "chartOfAccountsCode", (String) paramMap.get(CHART_REVIEW_FIN_COA_CD_KEY));
         if (isRequired() && (this.finCoaCd == null || "".equals(finCoaCd))) {
             errors.add(new WorkflowServiceErrorImpl("Chart is required.", "routetemplate.chartorgattribute.chartorg.required"));
         }
@@ -268,12 +269,12 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
             try {
                 // the report business is to support Routing Reports, which we
                 // need to work on Chart
-                boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('/documentContent/attributeContent/report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+                boolean isReport = ((Boolean) xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
-                    chartXPath = "wf:xstreamsafe('/documentContent/attributeContent/report/chart')";
+                    chartXPath = "wf:xstreamsafe('//report/chart')";
                 }
-                else { // this is the typical path during normal workflow
-                    // operation
+                //  this is the typical path during normal workflow operation
+                else { 
                     chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
                 }
                 chart = xpath.evaluate(chartXPath, docContent.getDocument());
@@ -285,7 +286,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 throw new RuntimeException("An unexpected error occurred while trying to locate the Chart.", e);
             }
 
-            if (!StringUtils.isEmpty(chart)) {
+            if (StringUtils.isNotEmpty(chart)) {
                 qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart));
             }
             /*

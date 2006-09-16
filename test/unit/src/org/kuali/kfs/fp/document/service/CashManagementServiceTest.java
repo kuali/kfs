@@ -60,13 +60,16 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
     @Override
     protected void setUp() throws Exception {
-        super.needsTestTransaction = false;
         super.setUp();
         documentService = SpringServiceLocator.getDocumentService();
         cashReceiptService = SpringServiceLocator.getCashReceiptService();
         cashManagementService = SpringServiceLocator.getCashManagementService();
         cashDrawerService = SpringServiceLocator.getCashDrawerService();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
+    }
+
+    public boolean doRollback() {
+        return false;
     }
 
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {

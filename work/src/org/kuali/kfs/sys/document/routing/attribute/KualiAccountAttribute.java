@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UuId;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
@@ -121,8 +122,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * @param totalDollarAmount
      */
     public KualiAccountAttribute(String finCoaCd, String accountNbr, String totalDollarAmount) {
-        this.finCoaCd = finCoaCd;
-        this.accountNbr = accountNbr;
+        this.finCoaCd = LookupUtils.forceUppercase(Account.class, "chartOfAccountsCode", finCoaCd);
+        this.accountNbr = LookupUtils.forceUppercase(Account.class, "accountNumber", accountNbr);
         this.totalDollarAmount = totalDollarAmount;
     }
 
@@ -175,8 +176,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
         if (isRequired()) {
-            this.finCoaCd = (String) paramMap.get(FIN_COA_CD_KEY);
-            this.accountNbr = (String) paramMap.get(ACCOUNT_NBR_KEY);
+            this.finCoaCd = LookupUtils.forceUppercase(Account.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
+            this.accountNbr = LookupUtils.forceUppercase(Account.class, "accountNumber", (String) paramMap.get(ACCOUNT_NBR_KEY));
             this.totalDollarAmount = (String) paramMap.get(FDOC_TOTAL_DOLLAR_AMOUNT_KEY);
             validateAccount(errors);
             if (StringUtils.isNotBlank(this.totalDollarAmount) && !StringUtils.isNumeric(this.totalDollarAmount)) {
@@ -189,8 +190,10 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private void validateAccount(List errors) {
         if (StringUtils.isBlank(this.finCoaCd) || StringUtils.isBlank(this.accountNbr)) {
             errors.add(new WorkflowServiceErrorImpl("Account is required.", "routetemplate.accountattribute.account.required"));
+            return;
         }
-        else if (SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(finCoaCd, accountNbr) == null) {
+        Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(finCoaCd, accountNbr);
+        if (account == null) {
             errors.add(new WorkflowServiceErrorImpl("Account is invalid.", "routetemplate.accountattribute.account.invalid"));
         }
     }
@@ -373,10 +376,10 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 Set fiscalOfficers = new HashSet();
-                if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("/report"), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
-                    String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("/report/chart"), docContent.getDocument());
-                    String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("/report/accountNumber"), docContent.getDocument());
-                    String totalDollarAmount = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("/report/totalDollarAmount"), docContent.getDocument());
+                if (((Boolean) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report"), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
+                    String chart = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/chart"), docContent.getDocument());
+                    String accountNumber = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/accountNumber"), docContent.getDocument());
+                    String totalDollarAmount = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath("//report/totalDollarAmount"), docContent.getDocument());
                     FiscalOfficerRole role = new FiscalOfficerRole(roleName);
                     role.chart = chart;
                     role.accountNumber = accountNumber;
@@ -454,9 +457,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
         KualiDecimal sum = new KualiDecimal(0);
+        String stringAddend = "";
         for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
-            KualiDecimal addend = new KualiDecimal((String) xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "amount/value", targetAccountingLineNodes.item(index), XPathConstants.STRING));
-            sum = sum.add(addend);
+            stringAddend = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "amount/value", targetAccountingLineNodes.item(index));
+            if (StringUtils.isNumeric(stringAddend) && StringUtils.isNotBlank(stringAddend)) {
+                sum = sum.add(new KualiDecimal(stringAddend));
+            }
         }
         return sum.toString();
     }

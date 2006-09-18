@@ -1058,7 +1058,6 @@
 	<field-descriptor name="vendorRemitStateCode" column="VNDR_RMT_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorRemitPostalCode" column="VNDR_RMT_PSTL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorRemitCountryCode" column="VNDR_RMT_CNTRY_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="paymentExtractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>
 	<field-descriptor name="accountsPayableProcessorIdentifier" column="AP_PRCSR_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountsPayableRequestCancelIdentifier" column="AP_RQST_CNCL_ID" jdbc-type="VARCHAR"/>

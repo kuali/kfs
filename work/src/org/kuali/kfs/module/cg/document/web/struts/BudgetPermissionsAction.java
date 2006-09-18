@@ -144,6 +144,8 @@ public class BudgetPermissionsAction extends BudgetAction {
 
         budgetForm.getBudgetDocument().getBudget().setAdHocPermissions(adHocPermissions);
         budgetForm.getBudgetDocument().getBudget().setAdHocOrgs(adHocOrgs);
+        
+        SpringServiceLocator.getDocumentService().updateDocument(budgetForm.getBudgetDocument());
 
         return super.save(mapping, budgetForm, request, response);
     }

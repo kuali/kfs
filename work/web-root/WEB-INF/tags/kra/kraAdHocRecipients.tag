@@ -110,6 +110,7 @@
 	                    <td>${person.user.campusCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.campusCode" /></td>
 	                    <td>${person.orgCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.deptid" /></td>
 	                    <td>
+	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" /></c:if>
 	                    	<html:select value="${person.budgetPermissionCode}" property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" disabled="${displayReadOnly}">
 								<html:option value="R">READ</html:option>
 								<html:option value="M">MOD</html:option>
@@ -128,15 +129,13 @@
 	                </tr>
 				</c:forEach>
 				<%-- next do the orgs --%>
-                <%-- %>
-			  	<kul:displayIfErrors keyMatch="${Constants.AD_HOC_ROUTE_ORG_ERRORS}">
+                <kul:displayIfErrors keyMatch="newAdHocOrg">
 				  	<tr>
 	        			<th colspan=3>
-	            			<kul:errors keyMatch="${Constants.AD_HOC_ROUTE_WORKGROUP_ERRORS}" />
+	            			<kul:errors keyMatch="newAdHocOrg" />
 	        			</th>
 	    		  	</tr>    
 			  	</kul:displayIfErrors>
-			  	--%>
                 <tr>
 					<td colspan=6 class="tab-subhead">Ad Hoc Org Requests:</td>
 				</tr>
@@ -217,6 +216,7 @@
 	                    </td>
 						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
 						<td>
+							<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" /></c:if>
 							<html:select value="${org.budgetPermissionCode}" property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" disabled="${displayReadOnly}">
 								<html:option value="R">READ</html:option>
 								<html:option value="M">MOD</html:option>

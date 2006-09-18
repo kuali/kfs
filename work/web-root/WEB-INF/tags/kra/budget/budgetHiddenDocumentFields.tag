@@ -13,6 +13,7 @@
     <c:if test="${includeDocumenHeaderIdFields == 'true' || includeDocumenHeaderIdFields == 'TRUE'}">
       <html:hidden property="document.documentHeader.versionNumber" />
       <html:hidden property="document.documentHeader.financialDocumentNumber" />
+      <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
     </c:if>
 
     <c:if test="${includeTaskPeriodLists == 'true' || includeTaskPeriodLists== 'TRUE'}">

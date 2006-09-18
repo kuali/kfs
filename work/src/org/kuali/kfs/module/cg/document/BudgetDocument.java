@@ -40,12 +40,10 @@ import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetAbstractCostShare;
-import org.kuali.module.kra.budget.bo.BudgetAbstractPeriodCostShare;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetPeriodUniversityCostShare;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
@@ -399,8 +397,20 @@ public class BudgetDocument extends ResearchDocumentBase {
             xml.append(org.getPrimaryDepartmentCode());
             xml.append("</organizationCode></chartOrg>");
         }
+        xml.append("<projectDirector><universalUser><personUserIdentifier>" 
+                + budget.getProjectDirector().getUniversalUser().getPersonUserIdentifier() 
+                + "</personUserIdentifier></universalUser></projectDirector>");
         xml.append("</documentContent>");
         return xml.toString();
     }
-
+    
+    private String buildAdhocUsersXml(List<BudgetAdHocPermission> users) {
+        StringBuffer xml = new StringBuffer();
+        for (BudgetAdHocPermission user: users) {
+            xml.append("<manualAdHocUser>");
+            xml.append(user.getUser().getPersonUserIdentifier());
+            xml.append("</manualAdHocUser>");
+        }
+        return xml.toString();
+    }
 }

@@ -49,7 +49,6 @@ public class PurchaseOrderAccount extends BusinessObjectBase {
 	private String organizationReferenceId;
 	private Integer accountLinePercent;
 	private KualiDecimal itemAccountOutstandingEncumbranceAmount;
-	private KualiDecimal itemAccountPaidAmount;
 
     private PurchaseOrderItem purchaseOrderItem;
     private Chart chartOfAccounts;
@@ -292,26 +291,6 @@ public class PurchaseOrderAccount extends BusinessObjectBase {
 		this.itemAccountOutstandingEncumbranceAmount = itemAccountOutstandingEncumbranceAmount;
 	}
 
-
-	/**
-	 * Gets the itemAccountPaidAmount attribute.
-	 * 
-	 * @return - Returns the itemAccountPaidAmount
-	 * 
-	 */
-	public KualiDecimal getItemAccountPaidAmount() { 
-		return itemAccountPaidAmount;
-	}
-
-	/**
-	 * Sets the itemAccountPaidAmount attribute.
-	 * 
-	 * @param - itemAccountPaidAmount The itemAccountPaidAmount to set.
-	 * 
-	 */
-	public void setItemAccountPaidAmount(KualiDecimal itemAccountPaidAmount) {
-		this.itemAccountPaidAmount = itemAccountPaidAmount;
-	}
 
 	/**
 	 * Gets the chartOfAccounts attribute.

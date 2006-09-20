@@ -408,12 +408,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorOwnershipDescription" column="VNDR_OWNR_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorSocialSecurityNumberAllowedIndicator" column="VNDR_SSN_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorFeinAllowedIndicator" column="VNDR_FEIN_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorOwnershipCategoryAllowedIndicator" column="VNDR_OWNR_CTGRY_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorTaxNumberRequiredIndicator" column="VNDR_TAX_NBR_RQRD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorRouteToTaxAreaIndicator" column="VNDR_RTE_TAX_AREA_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorExcludeAutoApproveIndicator" column="VNDR_EXCL_AUTO_APRV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
@@ -1179,12 +1174,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorAddressTypeDescription" column="VNDR_ADDR_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorApuAllowedIndicator" column="VNDR_APU_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorTaxAllowedIndicator" column="VNDR_TAX_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorDisbursementVoucherTypeAllowedIndicator" column="VNDR_DV_TYP_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorDefaultIndicator" column="VNDR_DFLT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorDivisionAllowedIndicator" column="VNDR_DIV_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="vendorMaintainInAddressIndicator" column="VNDR_MNTN_IN_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 

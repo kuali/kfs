@@ -27,7 +27,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="restrictedMaterialCode" />
+                    <sortAttribute attributeName="restrictedMaterialDescription" />
                 </sortAttributes>
             </defaultSort>
 

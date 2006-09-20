@@ -25,7 +25,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                    <sortAttribute attributeName="invoiceRejectReasonTypeDescription" />
                 </sortAttributes>
             </defaultSort>
 

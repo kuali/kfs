@@ -26,7 +26,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="invoiceHeaderInformationIdentifier" />
+                    <sortAttribute attributeName="invoiceRejectReasonDescription" />
                 </sortAttributes>
             </defaultSort>
 

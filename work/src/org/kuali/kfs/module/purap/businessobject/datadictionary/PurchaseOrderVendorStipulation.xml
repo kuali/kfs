@@ -27,7 +27,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="purchaseOrderIdentifier" />
+                    <sortAttribute attributeName="vendorStipulationDescription" />
                 </sortAttributes>
             </defaultSort>
 

@@ -39,7 +39,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetTransactionTypeCode" />
+                    <sortAttribute attributeName="itemDescription" />
                 </sortAttributes>
             </defaultSort>
 

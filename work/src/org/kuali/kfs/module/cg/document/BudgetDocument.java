@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiUser;
@@ -383,34 +384,51 @@ public class BudgetDocument extends ResearchDocumentBase {
         KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
         xmlWrapper.setDocument(this);
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        //String xml = SpringServiceLocator.getXmlObjectSerializerService().toXml(xmlWrapper);
-        String xml = buildOrgReportXml(this.getBudget().getAdHocOrgs());
-        documentHeader.getWorkflowDocument().getRouteHeader().getDocumentContent().setApplicationContent(xml);
+        
+        List referenceObjects = new ArrayList();
+        referenceObjects.add("personnel");
+        referenceObjects.add("adHocPermissions");
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budget, referenceObjects);
+        
+        StringBuffer xml = new StringBuffer("<documentContent>");
+        buildOrgReportXml(xml);
+        buildAdhocUsersXml(xml);
+        if (ObjectUtils.isNotNull(budget.getProjectDirector()) && ObjectUtils.isNotNull(budget.getProjectDirector().getUniversalUser())) {
+            xml.append("<projectDirector><userId>" 
+                + budget.getProjectDirector().getUniversalUser().getPersonUserIdentifier() 
+                + "</userId></projectDirector>");
+        }
+        xml.append("</documentContent>");
+        documentHeader.getWorkflowDocument().getRouteHeader().getDocumentContent().setApplicationContent(xml.toString());
     }
     
-    private String buildOrgReportXml(List<BudgetAdHocOrg> orgs) {
-        StringBuffer xml = new StringBuffer("<documentContent>");
-        for (BudgetAdHocOrg org: orgs) {
+    private void buildOrgReportXml(StringBuffer xml) {
+        for (BudgetAdHocOrg org: this.getBudget().getAdHocOrgs()) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());
             xml.append("</chartOfAccountsCode><organizationCode>");
             xml.append(org.getPrimaryDepartmentCode());
             xml.append("</organizationCode></chartOrg>");
         }
-        xml.append("<projectDirector><universalUser><personUserIdentifier>" 
-                + budget.getProjectDirector().getUniversalUser().getPersonUserIdentifier() 
-                + "</personUserIdentifier></universalUser></projectDirector>");
-        xml.append("</documentContent>");
-        return xml.toString();
+        // Add Project Director's org
+        if (!this.getBudget().getPersonnel().isEmpty()) {
+            // PD is always the first one.
+            BudgetUser projectDirector = (BudgetUser) this.getBudget().getPersonnel().get(0);
+            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
+                xml.append("<chartOrg><chartOfAccountsCode>");
+                xml.append(projectDirector.getFiscalCampusCode());
+                xml.append("</chartOfAccountsCode><organizationCode>");
+                xml.append(projectDirector.getPrimaryDepartmentCode());
+                xml.append("</organizationCode></chartOrg>");
+            }
+        }
     }
     
-    private String buildAdhocUsersXml(List<BudgetAdHocPermission> users) {
-        StringBuffer xml = new StringBuffer();
-        for (BudgetAdHocPermission user: users) {
-            xml.append("<manualAdHocUser>");
+    private void buildAdhocUsersXml(StringBuffer xml) {
+        for (BudgetAdHocPermission user: this.getBudget().getAdHocPermissions()) {
+            xml.append("<manualAdhocUser>");
             xml.append(user.getUser().getPersonUserIdentifier());
-            xml.append("</manualAdHocUser>");
+            xml.append("</manualAdhocUser>");
         }
-        return xml.toString();
     }
 }

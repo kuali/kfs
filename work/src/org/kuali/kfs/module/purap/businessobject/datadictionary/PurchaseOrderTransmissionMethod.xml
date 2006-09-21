@@ -10,9 +10,9 @@
             <title>Purchase Order Transmission Method Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="purchaseOrderTransmissionMethodCode" />
                 <field attributeName="purchaseOrderTransmissionMethodDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields>
         </inquiry>
 
@@ -30,15 +30,15 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="purchaseOrderTransmissionMethodCode" required="false" />
                 <lookupField attributeName="purchaseOrderTransmissionMethodDescription" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="purchaseOrderTransmissionMethodCode" />
                 <field attributeName="purchaseOrderTransmissionMethodDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 

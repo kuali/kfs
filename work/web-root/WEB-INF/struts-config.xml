@@ -61,7 +61,7 @@
         <form-bean name="RfProjectDetailsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
         <form-bean name="RfAgencySpecificForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
         <form-bean name="RfSF424Form" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfAttachmentsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RfLinkForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
         <form-bean name="RfNotesForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
         <form-bean name="RfOutputForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
         <form-bean name="RfTemplateForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
@@ -215,7 +215,7 @@
             <forward name="projectdetails" path="/jsp/modules/research/routingform/RfProjectDetails.jsp" redirect="false" />       
             <forward name="agencyspecific" path="/jsp/modules/research/routingform/RfAgencySpecific.jsp" redirect="false" />       
             <forward name="sf424" path="/jsp/modules/research/routingform/RfSF424.jsp" redirect="false" />       
-            <forward name="attachments" path="/jsp/modules/research/routingform/RfAttachments.jsp" redirect="false" />       
+            <forward name="link" path="/jsp/modules/research/routingform/RfLink.jsp" redirect="false" />       
             <forward name="notes" path="/jsp/modules/research/routingform/RfNotes.jsp" redirect="false" />       
             <forward name="output" path="/jsp/modules/research/routingform/RfOutput.jsp" redirect="false" />       
             <forward name="template" path="/jsp/modules/research/routingform/RfTemplate.jsp" redirect="false" />       

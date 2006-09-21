@@ -25,6 +25,7 @@ package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 import java.sql.Date;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.PriorYearAccount;
@@ -38,7 +39,6 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.util.FatalErrorException;
 import org.kuali.module.gl.util.ObjectHelper;
 
@@ -209,7 +209,13 @@ public class BalanceForwardRuleHelper {
             // 971 004960 (GLGLBL-FIN-OBJ-TYP-CD = 'AS' OR 'LI' OR 'FB')
             // 972 004970 MOVE 'Y' TO WS-SELECT-GENERAL-SW.
 
-            if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), new String[] { "AC", "NB" }) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), new String[] { "AS", "LI", "FB" })) {
+            Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
+            String[] generalSwObjectTypes = new String[3];
+            generalSwObjectTypes[0] = options.getFinancialObjectTypeAssetsCd();
+            generalSwObjectTypes[1] = options.getFinObjectTypeLiabilitiesCode();
+            generalSwObjectTypes[2] = options.getFinObjectTypeFundBalanceCd();
+
+            if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), new String[] { "AC", "NB" }) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), generalSwObjectTypes)) {
 
                 selectGeneralSwFlag = true;
 
@@ -301,7 +307,18 @@ public class BalanceForwardRuleHelper {
 
             PriorYearAccount priorYearAccount = null; // This is used below in the write routine.
 
-            if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), new String[] { "AC", "CB" }) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), new String[] { "EE", "ES", "EX", "IC", "TE", "TI", "IN", "CH" })) {
+            // "EE", "ES", "EX", "IC", "TE", "TI", "IN", "CH"
+            String[] priorYearAccountObjectTypes = new String[7];
+            priorYearAccountObjectTypes[0] = options.getFinObjTypeExpendNotExpCode();
+            priorYearAccountObjectTypes[1] = options.getFinObjTypeExpNotExpendCode();
+            priorYearAccountObjectTypes[2] = options.getFinObjTypeExpenditureexpCd();
+            priorYearAccountObjectTypes[3] = options.getFinObjTypeIncomeNotCashCd();
+            priorYearAccountObjectTypes[4] = options.getFinancialObjectTypeTransferExpenseCode();
+            priorYearAccountObjectTypes[5] = options.getFinancialObjectTypeTransferIncomeCode();
+            priorYearAccountObjectTypes[6] = options.getFinObjectTypeIncomecashCode();
+            priorYearAccountObjectTypes[7] = options.getFinObjTypeCshNotIncomeCd();
+
+            if (ObjectHelper.isOneOf(balance.getBalanceTypeCode(), new String[] { "AC", "CB" }) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), priorYearAccountObjectTypes)) {
 
                 // 1025 005520 MOVE GLGLBL-FIN-COA-CD
                 // 1026 005530 TO CAPYACTT-FIN-COA-CD
@@ -375,7 +392,7 @@ public class BalanceForwardRuleHelper {
                     // 1075 006020 (CASFGR-SUB-FUND-GRP-CD = 'SDCI '
                     // 1076 006030 OR 'PFCMR ')
 
-                    // Contract and grants balances.                    
+                    // Contract and grants balances.
                     if (priorYearAccount.isInCg() || ObjectHelper.isOneOf(subFundGroup.getSubFundGroupCode().trim(), new String[] { "SDCI", "PFCMR" })) {
 
                         // 1077 006040 MOVE 'Y' TO WS-SELECT-ACTIVE-SW
@@ -740,12 +757,12 @@ public class BalanceForwardRuleHelper {
 
                     // 1241 007680 IF GLGLBL-FIN-OBJ-TYP-CD = 'EE'
 
-                    if ("EE".equals(balance.getObjectTypeCode())) {
+                    if (options.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode())) {
 
                         // 1242 007690 MOVE 'AS'
                         // 1243 007700 TO FIN-OBJ-TYP-CD
 
-                        entry.setFinancialObjectTypeCode("AS");
+                        entry.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
 
                         // 1244 007710 ELSE
 
@@ -758,7 +775,7 @@ public class BalanceForwardRuleHelper {
                         entry.setFinancialObjectTypeCode(balance.getObjectTypeCode());
 
                     }
-                                        
+
                     // 1247 007740 MOVE 'BB'
                     // 1248 007750 TO UNIV-FISCAL-PRD-CD.
 
@@ -1068,7 +1085,7 @@ public class BalanceForwardRuleHelper {
                     // 1349 008710 TO FIN-OBJ-TYP-CD OF GLEN-RECORD.
 
                     activeEntry.setFinancialObjectTypeCode(balance.getObjectTypeCode());
-                    
+
                     try {
                         flexibleOffsetAccountService.updateOffset(activeEntry);
                     }

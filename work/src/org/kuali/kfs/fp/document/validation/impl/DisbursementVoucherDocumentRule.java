@@ -22,6 +22,9 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +32,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
@@ -282,8 +283,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         validateDocumentAmounts(dvDocument);
 
         LOG.debug("validating accounting line counts");
-        validateAccountingLineCounts(dvDocument);          
-        
+        validateAccountingLineCounts(dvDocument);
+
         LOG.debug("validating documentaton location");
         validateDocumentationLocation(dvDocument);
 
@@ -365,7 +366,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
-        explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE);
+        explicitEntry.setFinancialObjectTypeCode(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
 
         if (Constants.COUNTRY_CODE_UNITED_STATES.equals(dvDocument.getDvWireTransfer().getDisbVchrBankCountryCode())) {
@@ -1112,16 +1113,17 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     /**
      * 
      * This method...
+     * 
      * @param document
      */
     private void validateAccountingLineCounts(DisbursementVoucherDocument dvDocument) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        if(dvDocument.getSourceAccountingLines().size()<1) {
+        if (dvDocument.getSourceAccountingLines().size() < 1) {
             errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NO_ACCOUNTING_LINES);
         }
     }
-    
+
     /**
      * Checks the amounts on the document for reconciliation.
      * 

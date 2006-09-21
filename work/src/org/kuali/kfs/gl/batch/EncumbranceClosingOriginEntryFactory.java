@@ -279,7 +279,6 @@ public class EncumbranceClosingOriginEntryFactory {
         pair.setEntry(entry);
 
         // And now build the offset.
-
         OriginEntry offset = new OriginEntry(entry);
         offset.setTransactionLedgerEntryAmount(entry.getTransactionLedgerEntryAmount());
         offset.setFinancialObjectCode("9891");
@@ -295,7 +294,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
         }
 
-        offset.setFinancialObjectTypeCode("FB");
+        offset.setFinancialObjectTypeCode(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinObjectTypeFundBalanceCd());
         offset.setTransactionLedgerEntryDescription("BEGINNING FUND BALANCE OFFSET");
 
         if (Constants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode())) {

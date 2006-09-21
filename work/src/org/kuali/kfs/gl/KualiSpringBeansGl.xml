@@ -185,6 +185,9 @@
         <property name="postAccountBalance">
             <ref bean="glPostGlAccountBalance" />
         </property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
     </bean>
 
     <bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableImpl" singleton="false">

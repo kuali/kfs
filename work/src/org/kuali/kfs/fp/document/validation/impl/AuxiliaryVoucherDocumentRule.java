@@ -68,6 +68,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessRule;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
@@ -247,7 +248,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             explicitEntry.setFinancialDocumentReversalDate(null);
         }
         explicitEntry.setFinancialDocumentTypeCode(auxVoucher.getTypeCode()); // make sure to use the accrual type as the document
-                                                                                // type
+        // type
         explicitEntry.setFinancialObjectTypeCode(getObjectTypeCode(accountingLine));
         explicitEntry.setUniversityFiscalPeriodCode(auxVoucher.getPostingPeriodCode()); // use chosen posting period code
         explicitEntry.setUniversityFiscalYear(auxVoucher.getPostingYear()); // use chosen posting year
@@ -328,7 +329,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         }
         else {
             sequenceHelper.decrement(); // the parent already increments; b/c it assumes that all documents have offset entries all
-                                        // of the time
+            // of the time
         }
 
         return success;
@@ -443,13 +444,14 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @return object type for an AuxiliaryVoucher document
      */
     protected String getObjectTypeCode(AccountingLine line) {
+        Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
         String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
 
-        if (OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE.equals(objectTypeCode) || OBJECT_TYPE_CODE.EXPENDITURE_NOT_EXPENSE.equals(objectTypeCode)) {
-            objectTypeCode = OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE;
+        if (options.getFinObjTypeExpenditureexpCd().equals(objectTypeCode) || options.getFinObjTypeExpendNotExpCode().equals(objectTypeCode)) {
+            objectTypeCode = options.getFinObjTypeExpNotExpendCode();
         }
-        else if (OBJECT_TYPE_CODE.INCOME_CASH.equals(objectTypeCode) || OBJECT_TYPE_CODE.EXPENDITURE_NOT_EXPENSE.equals(objectTypeCode)) {
-            objectTypeCode = OBJECT_TYPE_CODE.INCOME_NOT_CASH;
+        else if (options.getFinObjectTypeIncomecashCode().equals(objectTypeCode) || options.getFinObjTypeExpendNotExpCode().equals(objectTypeCode)) {
+            objectTypeCode = options.getFinObjTypeIncomeNotCashCd();
         }
 
         return objectTypeCode;
@@ -463,13 +465,14 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @return object type code
      */
     protected String getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(GeneralLedgerPendingEntry explicitEntry) {
+        Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
         String objectTypeCode = explicitEntry.getFinancialObjectTypeCode();
 
-        if (OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE.equals(objectTypeCode)) {
-            objectTypeCode = OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE;
+        if (options.getFinObjTypeExpNotExpendCode().equals(objectTypeCode)) {
+            objectTypeCode = options.getFinObjTypeExpenditureexpCd();
         }
-        else if (OBJECT_TYPE_CODE.INCOME_NOT_CASH.equals(objectTypeCode)) {
-            objectTypeCode = OBJECT_TYPE_CODE.INCOME_CASH;
+        else if (options.getFinObjTypeIncomeNotCashCd().equals(objectTypeCode)) {
+            objectTypeCode = options.getFinObjectTypeIncomecashCode();
         }
 
         return objectTypeCode;

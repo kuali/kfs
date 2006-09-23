@@ -24,11 +24,14 @@ package org.kuali.module.chart.rules;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.OrganizationExtension;
@@ -39,8 +42,8 @@ import org.kuali.module.chart.bo.OrganizationExtension;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
-    private Org newAccount;
-    private Org copyAccount;
+    private Org newOrg;
+    private Org copyOrg;
 
 
     public OrgPreRules() {
@@ -61,21 +64,21 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
-        if (StringUtils.isNotBlank(newAccount.getOrganizationDefaultAccountNumber())) {
-            Account account = checkForContinuationAccount("Account Number", newAccount.getChartOfAccountsCode(), newAccount.getOrganizationDefaultAccountNumber(), "");
+        if (StringUtils.isNotBlank(newOrg.getOrganizationDefaultAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", newOrg.getChartOfAccountsCode(), newOrg.getOrganizationDefaultAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                newAccount.setOrganizationDefaultAccountNumber(account.getAccountNumber());
-                newAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                newOrg.setOrganizationDefaultAccountNumber(account.getAccountNumber());
+                newOrg.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
 
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
-        // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount = (Org) document.getNewMaintainableObject().getBusinessObject();
-        copyAccount = (Org) ObjectUtils.deepCopy(newAccount);
-        copyAccount.refresh();
+        // setup newOrg convenience objects, make sure all possible sub-objects are populated
+        newOrg = (Org) document.getNewMaintainableObject().getBusinessObject();
+        copyOrg = (Org) ObjectUtils.deepCopy(newOrg);
+        copyOrg.refresh();
     }
 
     /**
@@ -106,5 +109,24 @@ public class OrgPreRules extends MaintenancePreRulesBase {
             newData.getOrganizationExtension().setHrmsLastUpdateDate(new Timestamp(new Date().getTime()));
         }
     }
+    private void setLocationFromZip(MaintenanceDocument maintenanceDocument) {
+
+        // organizationStateCode , organizationCityName are populated by looking up
+        // the zip code and getting the state and city from that
+        if (!StringUtils.isBlank(copyOrg.getOrganizationZipCode())) {
+
+            HashMap primaryKeys = new HashMap();
+            primaryKeys.put("postalZipCode", copyOrg.getOrganizationZipCode());
+            PostalZipCode zip = (PostalZipCode) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
+
+            // If user enters a valid zip code, override city name and state code entered by user
+            if (ObjectUtils.isNotNull(zip)) { // override old user inputs
+                newOrg.setOrganizationCityName(zip.getPostalCityName());
+                newOrg.setOrganizationStateCode(zip.getPostalStateCode());
+                newOrg.setOrganizationCountryCode("US");//no way to look up
+            }
+        }
+    }
+
 
 }

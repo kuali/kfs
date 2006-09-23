@@ -6,7 +6,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.Org</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.KualiOrgMaintainable</maintainableClass>
 
         <businessRulesClass>org.kuali.module.chart.rules.OrgRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.chart.rules.OrgPreRules</preRulesCheckClass>
@@ -22,6 +22,8 @@
         <documentTypeName>KualiOrganizationMaintenanceDocument</documentTypeName>
         <documentTypeCode>ORGN</documentTypeCode>
 
+		<webScriptFile>chart/organizationDocument.js</webScriptFile>
+		
         <label>Organization Maintenance Document</label>
         <shortLabel>OrgMainDoc</shortLabel>
 
@@ -60,11 +62,11 @@
                     <maintainableField name="organizationPhysicalCampusCode" required="true" />
                     <maintainableField name="organizationTypeCode" required="true" />
                     <maintainableField name="organizationDefaultAccountNumber" required="true" />
-                    <maintainableField name="organizationZipCode" required="true" />
+                    <maintainableField name="organizationZipCode" required="true" webUILeaveFieldFunction="updateLocation" webUILeaveFieldCallbackFunction="updateLocation_Callback"/>
                     <maintainableField name="organizationLine1Address" required="true" />
                     <maintainableField name="organizationLine2Address" required="false" />
-                    <maintainableField name="organizationCityName" required="true" />
-                    <maintainableField name="organizationStateCode" required="true" />
+                    <maintainableField name="organizationCityName" required="true" readOnly="true" />
+                    <maintainableField name="organizationStateCode" required="true" readOnly="true" />
                     <maintainableField name="organizationCountryCode" required="true" />
                     <maintainableField name="organizationBeginDate" required="true">
                         <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>

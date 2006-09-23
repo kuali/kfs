@@ -163,6 +163,7 @@
             <forward name="bankAccount" path="/jsp/xmlhttp/bankAccount.jsp" />
             <forward name="objectTypeCode" path="/jsp/xmlhttp/objectTypeCode.jsp" />
             <forward name="accountICR" path="/jsp/xmlhttp/accountICR.jsp" />
+	    	<forward name="orgLocation" path="/jsp/xmlhttp/orgLocation.jsp" />
         </action>
 
         <!--  Module Action Mappings -->

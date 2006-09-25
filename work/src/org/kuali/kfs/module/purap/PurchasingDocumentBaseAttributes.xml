@@ -1,0 +1,1086 @@
+<attributeReference name="vendorName" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorName">
+    <label>Suggested Vendor</label>
+    <shortLabel>Vendor</shortLabel>
+    <required>true</required>
+</attributeReference>
+
+<attribute name="billingCityName" forceUppercase="true">
+    <label>Billing City Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>billingCityName</summary>
+    <description>billingCityName description...</description>
+</attribute>
+
+<attribute name="billingCountryCode" forceUppercase="true">
+    <label>Billing Country Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>billingCountryCode</summary>
+    <description>billingCountryCode description...</description>
+</attribute>
+
+<attribute name="billingLine1Address" forceUppercase="true">
+    <label>Billing Line1 Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>billingLine1Address</summary>
+    <description>billingLine1Address description...</description>
+</attribute>
+
+<attribute name="billingLine2Address" forceUppercase="true">
+    <label>Billing Line2 Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>billingLine2Address</summary>
+    <description>billingLine2Address description...</description>
+</attribute>
+
+<attribute name="billingName" forceUppercase="true">
+    <label>Billing Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>billingName</summary>
+    <description>billingName description...</description>
+</attribute>
+
+<attribute name="billingPhoneNumber" forceUppercase="true">
+    <label>Billing Phone Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>20</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="22" />
+    </control>
+
+    <summary>billingPhoneNumber</summary>
+    <description>billingPhoneNumber description...</description>
+</attribute>
+
+<attribute name="billingPostalCode" forceUppercase="true">
+    <label>Billing Postal Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>20</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="22" />
+    </control>
+
+    <summary>billingPostalCode</summary>
+    <description>billingPostalCode description...</description>
+</attribute>
+
+<attribute name="billingStateCode" forceUppercase="true">
+    <label>Billing State Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>billingStateCode</summary>
+    <description>billingStateCode description...</description>
+</attribute>
+
+<attribute name="chartOfAccountsCode" forceUppercase="true">
+    <label>Chart Of Accounts Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>chartOfAccountsCode</summary>
+    <description>chartOfAccountsCode description...</description>
+</attribute>
+
+<attribute name="contractManagerCode" forceUppercase="true">
+    <label>Contract Manager Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <numeric />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>contractManagerCode</summary>
+    <description>contractManagerCode description...</description>
+</attribute>
+
+<attribute name="deliveryBuildingCode" forceUppercase="true">
+    <label>Delivery Building Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>deliveryBuildingCode</summary>
+    <description>deliveryBuildingCode description...</description>
+</attribute>
+
+<attribute name="deliveryBuildingLine1Address" forceUppercase="true">
+    <label>Delivery Building Line1 Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>deliveryBuildingLine1Address</summary>
+    <description>deliveryBuildingLine1Address description...</description>
+</attribute>
+
+<attribute name="deliveryBuildingLine2Address" forceUppercase="true">
+    <label>Delivery Building Line2 Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>deliveryBuildingLine2Address</summary>
+    <description>deliveryBuildingLine2Address description...</description>
+</attribute>
+
+<attribute name="deliveryBuildingName" forceUppercase="true">
+    <label>Delivery Building Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>deliveryBuildingName</summary>
+    <description>deliveryBuildingName description...</description>
+</attribute>
+
+<attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
+    <label>Delivery Building Room Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>8</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="10" />
+    </control>
+
+    <summary>deliveryBuildingRoomNumber</summary>
+    <description>deliveryBuildingRoomNumber description...</description>
+</attribute>
+
+<attribute name="deliveryCampusCode" forceUppercase="true">
+    <label>Delivery Campus Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>deliveryCampusCode</summary>
+    <description>deliveryCampusCode description...</description>
+</attribute>
+
+<attribute name="deliveryCityName" forceUppercase="true">
+    <label>Delivery City Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>deliveryCityName</summary>
+    <description>deliveryCityName description...</description>
+</attribute>
+
+<attribute name="deliveryCountryCode" forceUppercase="true">
+    <label>Delivery Country Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>deliveryCountryCode</summary>
+    <description>deliveryCountryCode description...</description>
+</attribute>
+
+<attribute name="deliveryInstructionText" forceUppercase="true">
+    <label>Delivery Instruction Text</label>
+    <shortLabel>Text</shortLabel>
+
+    <maxLength>255</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <textarea rows="5" cols="80" />
+    </control>
+
+    <summary>deliveryInstructionText</summary>
+    <description>deliveryInstructionText description...</description>
+</attribute>
+
+<attribute name="deliveryPostalCode" forceUppercase="true">
+    <label>Delivery Postal Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>20</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="22" />
+    </control>
+
+    <summary>deliveryPostalCode</summary>
+    <description>deliveryPostalCode description...</description>
+</attribute>
+
+<attribute name="deliveryRequiredDate" forceUppercase="true">
+    <label>Delivery Required Date</label>
+    <shortLabel>Date</shortLabel>
+
+    <maxLength>7</maxLength>
+    <validationPattern>
+        <date />
+    </validationPattern>
+
+    <control>
+        <text size="9" />
+    </control>
+
+    <summary>deliveryRequiredDate</summary>
+    <description>deliveryRequiredDate description...</description>
+</attribute>
+
+<attribute name="deliveryRequiredDateReasonCode" forceUppercase="true">
+    <label>Delivery Required Date Reason Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>deliveryRequiredDateReasonCode</summary>
+    <description>deliveryRequiredDateReasonCode description...</description>
+</attribute>
+
+<attribute name="deliveryStateCode" forceUppercase="true">
+    <label>Delivery State Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>deliveryStateCode</summary>
+    <description>deliveryStateCode description...</description>
+</attribute>
+
+<attribute name="deliveryToEmailAddress" forceUppercase="true">
+    <label>Delivery To Email Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>100</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="102" />
+    </control>
+
+    <summary>deliveryToEmailAddress</summary>
+    <description>deliveryToEmailAddress description...</description>
+</attribute>
+
+<attribute name="deliveryToName" forceUppercase="true">
+    <label>Delivery To Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>deliveryToName</summary>
+    <description>deliveryToName description...</description>
+</attribute>
+
+<attribute name="deliveryToPhoneNumber" forceUppercase="true">
+    <label>Delivery To Phone Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>deliveryToPhoneNumber</summary>
+    <description>deliveryToPhoneNumber description...</description>
+</attribute>
+
+<attribute name="externalOrganizationB2bSupplierIdentifier" forceUppercase="true">
+    <label>External OrganizationB2b Supplier Identifier</label>
+    <shortLabel>Identifier</shortLabel>
+
+    <maxLength>19</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="21" />
+    </control>
+
+    <summary>externalOrganizationB2bSupplierIdentifier</summary>
+    <description>externalOrganizationB2bSupplierIdentifier description...</description>
+</attribute>
+
+<attribute name="facilitiesManagementBuildingCode" forceUppercase="true">
+    <label>Facilities Management Building Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>10</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="12" />
+    </control>
+
+    <summary>facilitiesManagementBuildingCode</summary>
+    <description>facilitiesManagementBuildingCode description...</description>
+</attribute>
+
+<attribute name="fundingSourceCode" forceUppercase="true">
+    <label>Funding Source Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>fundingSourceCode</summary>
+    <description>fundingSourceCode description...</description>
+</attribute>
+
+<attribute name="institutionContactEmailAddress" forceUppercase="true">
+    <label>Institution Contact Email Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>100</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="102" />
+    </control>
+
+    <summary>institutionContactEmailAddress</summary>
+    <description>institutionContactEmailAddress description...</description>
+</attribute>
+
+<attribute name="institutionContactName" forceUppercase="true">
+    <label>Institution Contact Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>institutionContactName</summary>
+    <description>institutionContactName description...</description>
+</attribute>
+
+<attribute name="institutionContactPhoneNumber" forceUppercase="true">
+    <label>Institution Contact Phone Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>institutionContactPhoneNumber</summary>
+    <description>institutionContactPhoneNumber description...</description>
+</attribute>
+
+<attribute name="nonInstitutionFundAccountNumber" forceUppercase="true">
+    <label>Non Institution Fund Account Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>7</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="9" />
+    </control>
+
+    <summary>nonInstitutionFundAccountNumber</summary>
+    <description>nonInstitutionFundAccountNumber description...</description>
+</attribute>
+
+<attribute name="nonInstitutionFundChartOfAccountsCode" forceUppercase="true">
+    <label>Non Institution Fund Chart Of Accounts Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>nonInstitutionFundChartOfAccountsCode</summary>
+    <description>nonInstitutionFundChartOfAccountsCode description...</description>
+</attribute>
+
+<attribute name="nonInstitutionFundOrgChartOfAccountsCode" forceUppercase="true">
+    <label>Non Institution Fund Org Chart Of Accounts Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>nonInstitutionFundOrgChartOfAccountsCode</summary>
+    <description>nonInstitutionFundOrgChartOfAccountsCode description...</description>
+</attribute>
+
+<attribute name="nonInstitutionFundOrganizationCode" forceUppercase="true">
+    <label>Non Institution Fund Organization Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>nonInstitutionFundOrganizationCode</summary>
+    <description>nonInstitutionFundOrganizationCode description...</description>
+</attribute>
+
+<attribute name="organizationCode" forceUppercase="true">
+    <label>Organization Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>organizationCode</summary>
+    <description>organizationCode description...</description>
+</attribute>
+
+<attribute name="purchaseOrderAutomaticIndicator" forceUppercase="true">
+    <label>Purchase Order Automatic Indicator</label>
+    <shortLabel>Indicator</shortLabel>
+
+    <maxLength>1</maxLength>
+
+    <control>
+        <checkbox />
+    </control>
+
+    <summary>purchaseOrderAutomaticIndicator</summary>
+    <description>purchaseOrderAutomaticIndicator description...</description>
+</attribute>
+
+<attribute name="purchaseOrderBeginDate" forceUppercase="true">
+    <label>Purchase Order Begin Date</label>
+    <shortLabel>Date</shortLabel>
+
+    <maxLength>7</maxLength>
+    <validationPattern>
+        <date />
+    </validationPattern>
+
+    <control>
+        <text size="9" />
+    </control>
+
+    <summary>purchaseOrderBeginDate</summary>
+    <description>purchaseOrderBeginDate description...</description>
+</attribute>
+
+<attribute name="purchaseOrderCostSourceCode" forceUppercase="true">
+    <label>Purchase Order Cost Source Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>purchaseOrderCostSourceCode</summary>
+    <description>purchaseOrderCostSourceCode description...</description>
+</attribute>
+
+<attribute name="purchaseOrderEndDate" forceUppercase="true">
+    <label>Purchase Order End Date</label>
+    <shortLabel>Date</shortLabel>
+
+    <maxLength>7</maxLength>
+    <validationPattern>
+        <date />
+    </validationPattern>
+
+    <control>
+        <text size="9" />
+    </control>
+
+    <summary>purchaseOrderEndDate</summary>
+    <description>purchaseOrderEndDate description...</description>
+</attribute>
+
+<attribute name="purchaseOrderTotalLimit" forceUppercase="true">
+    <label>Purchase Order Total Limit</label>
+    <shortLabel>Limit</shortLabel>
+
+    <maxLength>19</maxLength>
+    <validationPattern>
+        <floatingPoint />
+    </validationPattern>
+
+    <control>
+        <text size="21" />
+    </control>
+
+    <summary>purchaseOrderTotalLimit</summary>
+    <description>purchaseOrderTotalLimit description...</description>
+</attribute>
+
+<attribute name="purchaseOrderTransmissionMethodCode" forceUppercase="true">
+    <label>Purchase Order Transmission Method Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>purchaseOrderTransmissionMethodCode</summary>
+    <description>purchaseOrderTransmissionMethodCode description...</description>
+</attribute>
+
+<attribute name="recurringPaymentTypeCode" forceUppercase="true">
+    <label>Recurring Payment Type Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>recurringPaymentTypeCode</summary>
+    <description>recurringPaymentTypeCode description...</description>
+</attribute>
+
+<attribute name="requestorPersonEmailAddr" forceUppercase="true">
+    <label>Requestor Person Email Addr</label>
+    <shortLabel>Addr</shortLabel>
+
+    <maxLength>100</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="102" />
+    </control>
+
+    <summary>requestorPersonEmailAddr</summary>
+    <description>requestorPersonEmailAddr description...</description>
+</attribute>
+
+<attribute name="requestorPersonName" forceUppercase="true">
+    <label>Requestor Person Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>requestorPersonName</summary>
+    <description>requestorPersonName description...</description>
+</attribute>
+
+<attribute name="requestorPersonPhoneNumber" forceUppercase="true">
+    <label>Requestor Person Phone Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>requestorPersonPhoneNumber</summary>
+    <description>requestorPersonPhoneNumber description...</description>
+</attribute>
+
+<attribute name="requisitionSourceCode" forceUppercase="true">
+    <label>Requisition Source Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>requisitionSourceCode</summary>
+    <description>requisitionSourceCode description...</description>
+</attribute>
+
+
+<attribute name="vendorCityName" forceUppercase="true">
+    <label>Vendor City Name</label>
+    <shortLabel>Name</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>vendorCityName</summary>
+    <description>vendorCityName description...</description>
+</attribute>
+
+<attribute name="vendorContractGeneratedIdentifier" forceUppercase="true">
+    <label>Vendor Contract Generated Identifier</label>
+    <shortLabel>Identifier</shortLabel>
+
+    <maxLength>10</maxLength>
+    <validationPattern>
+        <numeric />
+    </validationPattern>
+
+    <control>
+        <text size="12" />
+    </control>
+
+    <summary>vendorContractGeneratedIdentifier</summary>
+    <description>vendorContractGeneratedIdentifier description...</description>
+</attribute>
+
+<attribute name="vendorCountryCode" forceUppercase="true">
+    <label>Vendor Country Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>4</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="6" />
+    </control>
+
+    <summary>vendorCountryCode</summary>
+    <description>vendorCountryCode description...</description>
+</attribute>
+
+<attribute name="vendorCustomerNumber" forceUppercase="true">
+    <label>Vendor Customer Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>30</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="32" />
+    </control>
+
+    <summary>vendorCustomerNumber</summary>
+    <description>vendorCustomerNumber description...</description>
+</attribute>
+
+<attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
+    <label>Vendor Detail Assigned Identifier</label>
+    <shortLabel>Identifier</shortLabel>
+
+    <maxLength>10</maxLength>
+    <validationPattern>
+        <numeric />
+    </validationPattern>
+
+    <control>
+        <text size="12" />
+    </control>
+
+    <summary>vendorDetailAssignedIdentifier</summary>
+    <description>vendorDetailAssignedIdentifier description...</description>
+</attribute>
+
+<attribute name="vendorFaxNumber" forceUppercase="true">
+    <label>Vendor Fax Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>40</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="42" />
+    </control>
+
+    <summary>vendorFaxNumber</summary>
+    <description>vendorFaxNumber description...</description>
+</attribute>
+
+<attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
+    <label>Vendor Header Generated Identifier</label>
+    <shortLabel>Identifier</shortLabel>
+
+    <maxLength>10</maxLength>
+    <validationPattern>
+        <numeric />
+    </validationPattern>
+
+    <control>
+        <text size="12" />
+    </control>
+
+    <summary>vendorHeaderGeneratedIdentifier</summary>
+    <description>vendorHeaderGeneratedIdentifier description...</description>
+</attribute>
+
+<attribute name="vendorLine1Address" forceUppercase="true">
+    <label>Vendor Line1 Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>vendorLine1Address</summary>
+    <description>vendorLine1Address description...</description>
+</attribute>
+
+<attribute name="vendorLine2Address" forceUppercase="true">
+    <label>Vendor Line2 Address</label>
+    <shortLabel>Address</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>vendorLine2Address</summary>
+    <description>vendorLine2Address description...</description>
+</attribute>
+
+<!-- attribute name="vendorName" forceUppercase="true">
+    <label>Vendor Name</label>
+    <shortLabel>Name</shortLabel>
+    
+    <maxLength>45</maxLength>
+    <validationPattern><anyCharacter /></validationPattern>
+    
+    <control>
+    <text size="47" />
+    </control>
+    
+    <summary>vendorName</summary>
+    <description>vendorName description...</description>
+    </attribute-->
+
+<attribute name="vendorNoteText" forceUppercase="true">
+    <label>Vendor Note Text</label>
+    <shortLabel>Text</shortLabel>
+
+    <maxLength>255</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <textarea rows="5" cols="80" />
+    </control>
+
+    <summary>vendorNoteText</summary>
+    <description>vendorNoteText description...</description>
+</attribute>
+
+<attribute name="vendorPhoneNumber" forceUppercase="true">
+    <label>Vendor Phone Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>45</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="47" />
+    </control>
+
+    <summary>vendorPhoneNumber</summary>
+    <description>vendorPhoneNumber description...</description>
+</attribute>
+
+<attribute name="vendorPostalCode" forceUppercase="true">
+    <label>Vendor Postal Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>20</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="22" />
+    </control>
+
+    <summary>vendorPostalCode</summary>
+    <description>vendorPostalCode description...</description>
+</attribute>
+
+<attribute name="vendorRestrictedIndicator" forceUppercase="true">
+    <label>Vendor Restricted Indicator</label>
+    <shortLabel>Indicator</shortLabel>
+
+    <maxLength>1</maxLength>
+
+    <control>
+        <checkbox />
+    </control>
+
+    <summary>vendorRestrictedIndicator</summary>
+    <description>vendorRestrictedIndicator description...</description>
+</attribute>
+
+<attribute name="vendorStateCode" forceUppercase="true">
+    <label>Vendor State Code</label>
+    <shortLabel>Code</shortLabel>
+
+    <maxLength>2</maxLength>
+    <validationPattern>
+        <anyCharacter />
+    </validationPattern>
+
+    <control>
+        <text size="4" />
+    </control>
+
+    <summary>vendorStateCode</summary>
+    <description>vendorStateCode description...</description>
+</attribute>
+
+<attribute name="versionNumber" forceUppercase="true">
+    <label>Version Number</label>
+    <shortLabel>Number</shortLabel>
+
+    <maxLength>8</maxLength>
+    <validationPattern>
+        <numeric />
+    </validationPattern>
+
+    <control>
+        <text size="10" />
+    </control>
+
+    <summary>versionNumber</summary>
+    <description>versionNumber description...</description>
+</attribute>

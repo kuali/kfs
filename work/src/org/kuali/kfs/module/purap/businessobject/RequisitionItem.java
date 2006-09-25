@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -54,7 +55,7 @@ public class RequisitionItem extends BusinessObjectBase {
 	private String externalOrganizationB2bProductTypeName;
 	private boolean itemAssignedToTradeInIndicator;
 
-    private Requisition requisition;
+    private RequisitionDocument requisition;
 	private CapitalAssetTransactionType capitalAssetTransactionType;
 	private ItemType itemType;
 
@@ -428,7 +429,7 @@ public class RequisitionItem extends BusinessObjectBase {
 	 * @return - Returns the requisition
 	 * 
 	 */
-	public Requisition getRequisition() { 
+	public RequisitionDocument getRequisition() { 
 		return requisition;
 	}
 
@@ -438,7 +439,7 @@ public class RequisitionItem extends BusinessObjectBase {
 	 * @param - requisition The requisition to set.
 	 * @deprecated
 	 */
-	public void setRequisition(Requisition requisition) {
+	public void setRequisition(RequisitionDocument requisition) {
 		this.requisition = requisition;
 	}
 

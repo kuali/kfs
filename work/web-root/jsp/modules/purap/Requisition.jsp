@@ -1,7 +1,9 @@
 <%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
+
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRequisitionDocument"
-	htmlFormAction="financialRequisition" renderMultipart="true"
+	htmlFormAction="purapRequisition" renderMultipart="true"
 	showTabButtons="true">
 
 	<kul:hiddenDocumentFields excludePostingYear="true" />
@@ -9,11 +11,27 @@
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true" />
 
-	<kul:generalLedgerPendingEntries />
+    <purap:vendor
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
+        displayRequisitionFields="true" />
+
+    <purap:items
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+
+    <purap:paymentinfo
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+
+    <purap:delivery
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+
+    <purap:additional
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+
+    <kul:generalLedgerPendingEntries />
 
 	<kul:notes />
 
-	<kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>
+	<kul:adHocRecipients />
 
 	<kul:routeLog />
 

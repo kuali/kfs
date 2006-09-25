@@ -8,9 +8,9 @@
 	<target name="echo-properties" depends="init-filter-sets" description="Print all build properties that have been set">
 		<echoproperties />
 	</target>
-
+	
 	<target name="dist-test-local" depends="dist-local,make-tests" description="Prepare local configuration and tokenized resources and compile tests on a development workstation"/>
-
+	
 	<target name="test-local" depends="init-project-properties,test" description="Run all unit tests and format results"/>
 
 	<target name="clean" depends="clean-project,clean-local,clean-workflow-local" description="Remove all build output" />
@@ -61,31 +61,22 @@
 		<condition property="base.url" value="${local.environment.url}">
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
-		<condition property="application.url" value="${local.environment.url}${ant.project.name}-${build.environment}">
-			<equals arg1="${is.local.build}" arg2="true" />
+		<condition property="base.url" value="${prod.environment.url}">
+			<or>
+				<equals arg1="${build.environment}" arg2="ptd" />
+				<equals arg1="${build.environment}" arg2="gl" />
+			</or>
 		</condition>
+		<property name="base.url" value="${test.environment.url}" />
+		<property name="application.url" value="${base.url}${ant.project.name}-${build.environment}" />
 		<condition property="cas.url" value="${local.environment.url}cas-${build.environment}">
 			<equals arg1="${is.local.cas.build}" arg2="true" />
 		</condition>
+		<property name="cas.url" value="${base.url}cas-${build.environment}" />
 		<condition property="workflow.url" value="${local.environment.url}en-${build.environment}">
 			<equals arg1="${is.local.workflow.build}" arg2="true" />
 		</condition>
-		<condition property="base.url" value="${prod.environment.url}">
-			<equals arg1="${build.environment}" arg2="ptd" />
-		</condition>
-		<condition property="application.url" value="${prod.environment.url}${ant.project.name}-${build.environment}">
-			<equals arg1="${build.environment}" arg2="ptd" />
-		</condition>
-		<condition property="cas.url" value="${prod.environment.url}cas-${build.environment}">
-			<equals arg1="${build.environment}" arg2="ptd" />
-		</condition>
-		<condition property="workflow.url" value="${prod.environment.url}en-${build.environment}">
-			<equals arg1="${build.environment}" arg2="ptd" />
-		</condition>
-		<property name="base.url" value="${test.environment.url}" />
-		<property name="application.url" value="${test.environment.url}${ant.project.name}-${build.environment}" />
-		<property name="cas.url" value="${test.environment.url}cas-unt" />
-		<property name="workflow.url" value="${test.environment.url}en-${build.environment}" />
+		<property name="workflow.url" value="${base.url}en-${build.environment}" />
 		<condition property="driver.class" value="${p6spy.driver.class}">
 			<isset property="use.p6spy.local" />
 		</condition>
@@ -360,7 +351,7 @@
 			<fileset dir="${classes.directory}" includes="**/OJB-*.xml" />
 		</copy>
 	</target>
-
+	
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">
 		<mkdir dir="${test.temp.directory}" />
@@ -431,16 +422,34 @@
 		<mkdir dir="${temp.directory}"/>
 		<unjar src="${build.cas.appserver.directory}/${cas.application}-${build.environment}.war" dest="${temp.directory}" />
 		<copy file="${build.cas.appserver.directory}/${tomcat.context.file}" todir="${temp.directory}/META-INF" overwrite="true">
-			<filterset>
-				<filter token="environment" value="${build.environment}" />
-				<filter token="datasource-file" value="${security.directory}/cas-datasource.xml" />
-			</filterset>
+			<filterset refid="general.filterset" />
 		</copy>
 		<jar jarfile="${temp.directory}/${cas.application}-${build.environment}.war" basedir="${temp.directory}"  />
 		<copy file="${temp.directory}/${cas.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
 		<delete dir="${temp.directory}" />
 	</target>
+	
+	<target name="init-packaging">
+		<property file="build-packaging.properties" />
+		<delete dir="${packaging.directory}" />
+		<mkdir dir="${packaging.directory}" />
+		<get dest="${packaging.server.zip.file}" src="https://test.kuali.org/confluence/download/attachments/9969/${appserver}.zip" />
+		<unzip src="${packaging.server.zip.file}" dest="${packaging.contents.directory}" />
+	</target>
 
+	<target name="dist-packaged-binary-only" depends="init-packaging,dist-local,dist">
+		<delete file="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" />
+		<copy file="${ant.project.name}-${build.environment}.war" todir="${appserver.deploy.dir}" />
+		<copy todir="${packaging.contents.directory}">
+			<fileset dir="." includes="*-packaged.*" />
+		</copy>
+		<copy todir="${external.config.directory}-source">
+			<fileset dir="${external.config.directory}" />
+		</copy>
+		<delete dir="${external.config.directory}" />
+		<zip basedir="${packaging.contents.directory}" destfile="${packaging.contents.directory}.zip" />
+	</target>
+	
 	<target name="continuous-integration" depends="make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>

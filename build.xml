@@ -58,28 +58,36 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="context.docbase" value="" />
-		<condition property="base.url" value="${local.environment.url}">
+		<condition property="base.application.url" value="${local.environment.url}">
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
-		<condition property="base.url" value="${prod.environment.url}">
+		<condition property="base.cas.url" value="${local.environment.url}">
+			<equals arg1="${is.local.cas.build}" arg2="true" />
+		</condition>
+		<condition property="base.workflow.url" value="${local.environment.url}">
+			<equals arg1="${is.local.workflow.build}" arg2="true" />
+		</condition>
+		<condition property="base.application.url" value="${prod.environment.url}">
 			<or>
 				<equals arg1="${build.environment}" arg2="ptd" />
 				<equals arg1="${build.environment}" arg2="gl" />
 			</or>
 		</condition>
-		<property name="base.url" value="${test.environment.url}" />
-		<property name="application.url" value="${base.url}${ant.project.name}-${build.environment}" />
-		<condition property="cas.url" value="${local.environment.url}cas-${build.environment}">
-			<equals arg1="${is.local.cas.build}" arg2="true" />
+		<condition property="base.cas.url" value="${prod.environment.url}">
+			<or>
+				<equals arg1="${build.environment}" arg2="ptd" />
+				<equals arg1="${build.environment}" arg2="gl" />
+			</or>
 		</condition>
-		<property name="cas.url" value="${base.url}cas-${build.environment}" />
-		<condition property="workflow.url" value="${local.environment.url}en-${build.environment}">
-			<equals arg1="${is.local.workflow.build}" arg2="true" />
+		<condition property="base.workflow.url" value="${prod.environment.url}">
+			<or>
+				<equals arg1="${build.environment}" arg2="ptd" />
+				<equals arg1="${build.environment}" arg2="gl" />
+			</or>
 		</condition>
-		<property name="workflow.url" value="${base.url}en-${build.environment}" />
-		<condition property="driver.class" value="${p6spy.driver.class}">
-			<isset property="use.p6spy.local" />
-		</condition>
+		<property name="base.application.url" value="${test.environment.url}" />
+		<property name="base.cas.url" value="${test.environment.url}" />
+		<property name="base.workflow.url" value="${test.environment.url}" />
 		<property name="driver.class" value="${oracle.driver.class}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut">
 			<equals arg1="${is.local.build}" arg2="true" />
@@ -100,10 +108,10 @@
 			<filter token="batch-reports-directory" value="${batch.reports.directory}" />
 			<filter token="online-reports-directory" value="${online.reports.directory}" />
 			<filter token="staging-directory" value="${staging.directory}" />
-			<filter token="base-url" value="${base.url}" />
-			<filter token="application-url" value="${application.url}" />
-			<filter token="cas-url" value="${cas.url}" />
-			<filter token="workflow-url" value="${workflow.url}" />
+			<filter token="application-url" value="${base.application.url}${ant.project.name}-${build.environment}" />
+			<filter token="cas-url" value="${base.cas.url}cas-${build.environment}" />
+			<filter token="base-workflow-url" value="${base.workflow.url}" />
+			<filter token="workflow-url" value="${base.workflow.url}en-${build.environment}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}" />
 			<filter token="driver-class" value="${driver.class}" />

@@ -27,8 +27,6 @@
     <purap:additional
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
 
-    <kul:generalLedgerPendingEntries />
-
 	<kul:notes />
 
 	<kul:adHocRecipients />

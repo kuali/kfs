@@ -22,6 +22,6 @@
  */
 package org.kuali.module.purap.rules;
 
-public class CreditMemoDocumentRule extends PurchasingDocumentRuleBase {
+public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
 }

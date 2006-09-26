@@ -22,6 +22,6 @@
  */
 package org.kuali.module.purap.rules;
 
-public class PurchaseOrderDocumentRule extends AccountsPayableDocumentRuleBase {
+public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
 }

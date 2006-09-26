@@ -33,7 +33,6 @@ import org.kuali.core.web.uidraw.Column;
 import org.kuali.core.web.uidraw.ResultRow;
 
 /**
- * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  */
 public class BalanceInquiryTableDecorator extends TableDecorator {
 

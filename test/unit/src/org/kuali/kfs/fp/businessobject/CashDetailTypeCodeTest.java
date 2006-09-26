@@ -29,7 +29,7 @@ import org.kuali.test.KualiTestBase;
 /**
  * This class...
  * 
- * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Red Team ()
  */
 public class CashDetailTypeCodeTest extends KualiTestBase {
     CashDetailTypeCode cdtc = null;

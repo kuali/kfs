@@ -22,9 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -41,15 +38,19 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 /**
  * This class tests the Transfer of Funds Document's persistence, routing, and PE generation.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME = "TransferOfFundsDocumentRuleTest.collection1";
@@ -574,7 +575,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
         SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
         testProcessGenerateGeneralLedgerPendingEntries(createDocumentFromParameter("tof2000documentParameter"), createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntryMissingOffsetDefinition", false);
-        assertGlobalErrorMapContains(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
+        assertGlobalErrorMapContains(Constants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
     }
 
 

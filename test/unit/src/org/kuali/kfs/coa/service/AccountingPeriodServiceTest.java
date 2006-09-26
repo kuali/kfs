@@ -32,12 +32,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the AccountingPeriod business object from a persistence standpoint using the BusinessObjectService.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class AccountingPeriodServiceTest extends KualiTestBaseWithFixtures {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceTest.class);

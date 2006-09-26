@@ -33,6 +33,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -44,7 +45,7 @@ import org.kuali.module.chart.bo.Delegate;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class DelegateRule extends MaintenanceDocumentRuleBase {
 
@@ -385,7 +386,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNull(newDelegate.getAccountDelegate())) {
             return success;
         }
-        KualiUser user = newDelegate.getAccountDelegate();
+        UniversalUser user = newDelegate.getAccountDelegate();
 
         // user must be of the allowable statuses (A - Active)
         if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {

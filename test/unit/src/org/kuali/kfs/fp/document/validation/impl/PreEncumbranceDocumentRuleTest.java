@@ -32,13 +32,15 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 import org.kuali.test.KualiTestBaseWithSession;
+import org.kuali.test.WithTestSpringContext;
 
 
 /**
  * This class tests the <code>PreEncumbranceDocumentRule</code>s
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class PreEncumbranceDocumentRuleTest extends KualiTestBaseWithSession {
 
     /**

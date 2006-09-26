@@ -28,7 +28,7 @@ import org.kuali.module.financial.bo.CashDrawer;
 /**
  * This interface defines methods that a CashDrawer service implementation must provide.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public interface CashDrawerService {
     /**

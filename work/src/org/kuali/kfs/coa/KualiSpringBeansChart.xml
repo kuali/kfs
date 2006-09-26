@@ -34,7 +34,7 @@
         </property>
     </bean>
 
-    <bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PrioYearAccountServiceImpl">
+    <bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PriorYearAccountServiceImpl">
         <property name="priorYearAccountDao">
             <ref bean="priorYearAccountDao" />
         </property>
@@ -109,6 +109,30 @@
         </property>
     </bean>
 
+    <bean id="workflow-org.kuali.module.chart.bo.Account-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.Account</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.SubAccount-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.SubAccount</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.ProjectCode-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.ProjectCode</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.ObjectCode-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.ObjectCodeCurrent</value>
+        </property>
+    </bean>
+    
     <bean id="workflow-org.kuali.module.chart.bo.ObjectCodeCurrent-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
             <value>org.kuali.module.chart.bo.ObjectCodeCurrent</value>
@@ -133,6 +157,12 @@
         </property>
     </bean>
 
+    <bean id="workflow-org.kuali.module.chart.bo.FundGroup-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.FundGroup</value>
+        </property>
+    </bean>
+    
     <bean id="workflow-org.kuali.module.chart.bo.SubFundGroup-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
             <value>org.kuali.module.chart.bo.SubFundGroup</value>
@@ -145,12 +175,6 @@
         </property>
     </bean>
 
-    <bean id="workflow-org.kuali.module.chart.bo.FundGroup-Lookupable" parent="workflowLookupable" singleton="false">
-        <property name="businessObjectClassName">
-            <value>org.kuali.module.chart.bo.FundGroup</value>
-        </property>
-    </bean>
-    
     <bean id="workflow-org.kuali.module.chart.bo.Org-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
             <value>org.kuali.module.chart.bo.Org</value>
@@ -166,6 +190,36 @@
     <bean id="workflow-org.kuali.module.chart.bo.OrgType-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
             <value>org.kuali.module.chart.bo.OrgType</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.Campus</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.AcctType-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.AcctType</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.module.chart.bo.Program-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.Program</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.core.bo.user.KualiUser-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.core.bo.user.KualiUser</value>
+        </property>
+    </bean>
+
+    <bean id="workflow-org.kuali.core.bo.user.UniversalUser-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.core.bo.user.UniversalUser</value>
         </property>
     </bean>
 

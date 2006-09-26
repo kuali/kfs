@@ -31,11 +31,14 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentType;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class Delegate extends BusinessObjectBase {
 
@@ -62,7 +65,7 @@ public class Delegate extends BusinessObjectBase {
     private Chart chart;
     private Account account;
     private DocumentType documentType;
-    private KualiUser accountDelegate;
+    private UniversalUser accountDelegate;
 
     /**
      * Gets the accountNumber attribute.
@@ -276,12 +279,8 @@ public class Delegate extends BusinessObjectBase {
         this.documentType = documentType;
     }
 
-    /**
-     * Gets the accountDelegate attribute.
-     * 
-     * @return Returns the accountDelegate.
-     */
-    public KualiUser getAccountDelegate() {
+    public UniversalUser getAccountDelegate() {
+        accountDelegate = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
         return accountDelegate;
     }
 
@@ -290,7 +289,7 @@ public class Delegate extends BusinessObjectBase {
      * 
      * @param accountDelegate The accountDelegate to set.
      */
-    public void setAccountDelegate(KualiUser accountDelegate) {
+    public void setAccountDelegate(UniversalUser accountDelegate) {
         this.accountDelegate = accountDelegate;
     }
 

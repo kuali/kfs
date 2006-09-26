@@ -43,7 +43,7 @@ import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
  * built into the document methods for handling route status and other routing changes that take place asyncronously and potentially
  * on a different server.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 
 public class KualiPostProcessor implements PostProcessorRemote {

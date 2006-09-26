@@ -42,12 +42,14 @@ import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
 import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team ()
  */
+@WithTestSpringContext
 public class BudgetCostShareFormHelperTest extends KualiTestBaseWithSpring {
 
     List<BudgetPeriod> periods;

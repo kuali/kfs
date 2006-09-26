@@ -31,6 +31,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -38,7 +39,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the ChartDao interface.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 
 
@@ -57,8 +58,9 @@ public class ChartDaoOjb extends PersistenceBrokerDaoSupport implements ChartDao
     public Collection getAll() {
         QueryByCriteria qbc = QueryFactory.newQuery(Chart.class, (Criteria) null);
         qbc.addOrderByAscending("chartOfAccountsCode");
-
-        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        Collection charts = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        List chartList = new ArrayList(charts);
+        return chartList;
     }
 
     public Chart getUniversityChart() {

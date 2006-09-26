@@ -66,6 +66,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.bo.user.Options;
@@ -82,15 +84,16 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.module.financial.rules.stack.Lexical;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase {
+    private static Log LOG = LogFactory.getLog(AuxiliaryVoucherDocumentRule.class);
+
     /**
      * Convenience method for accessing the most-likely requested security grouping
      * 
@@ -684,10 +687,11 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     private boolean isValidDocWithSubAndLevel(TransactionalDocument document, AccountingLine accountingLine) {
         boolean retval = true;
 
-        StackRuntimeRule rule = getStackRuntimeRule(RESTRICTED_COMBINED_CODES);
-        rule = rule.withLexical(new Lexical("objectType", accountingLine.getObjectType().getCode())).withLexical(new Lexical("objSubTyp", accountingLine.getObjectCode().getFinancialObjectSubType().getCode())).withLexical(new Lexical("objLevel", accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode()));
-
-        retval = rule.succeedsRule(new String());
+        StringBuffer combinedCodes = new StringBuffer("objectType=").append(accountingLine.getObjectType().getCode())
+            .append(";objSubTyp=").append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode())
+            .append(";objLevel=").append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
+        
+        retval = !getParameterRule(RESTRICTED_COMBINED_CODES).getParameterText().equals(combinedCodes.toString());
 
         if (!retval) {
             String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode(), accountingLine.getObjectCode().getFinancialObjectSubType().getCode(), accountingLine.getObjectType().getCode() };
@@ -801,23 +805,4 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         return valid;
     }
 
-
-    /**
-     * helper method that is more of a FactoryMethod which determines from the <code>{@link BusinessRule}</code> what kind of
-     * <code>{@link KualiParameterRule}</code> instance to create.
-     * 
-     * @param parameterName
-     * @return <code>{@link StackRuntimeRule}</code>
-     * @see org.kuali.core.service.impl.KualiConfigurationServiiceImpl#getApplicationParameterRule(String, String)
-     */
-    private StackRuntimeRule getStackRuntimeRule(String parameterName) {
-        StackRuntimeRule retval = null;
-        BusinessRule param = getKualiConfigurationService().getApplicationRule(getDefaultSecurityGrouping(), parameterName);
-
-        if (param.getRuleText() != null && param.getRuleText().startsWith(SHEBANG)) {
-            retval = new StackRuntimeRule(new KualiParameterRule(param.getRuleGroupName() + ":" + param.getRuleName(), param.getRuleText(), param.getRuleOperatorCode(), param.isFinancialSystemParameterActiveIndicator()));
-        }
-
-        return retval;
-    }
 }

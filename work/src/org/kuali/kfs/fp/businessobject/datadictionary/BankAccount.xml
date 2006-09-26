@@ -72,6 +72,11 @@
                 <control>
                     <text size="15" />
                 </control>
+                
+                <attributeAuthorization>
+                  <displayWorkgroup>kualiUniversalGroup</displayWorkgroup>
+                  <displayMask><maskLiteral literal="***************"/></displayMask>
+                </attributeAuthorization>
 
                 <summary>Bank Account Number</summary>
                 <description>Bank Account Number...</description>

@@ -28,10 +28,6 @@ import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
-/**
- * @author Laran Evans <lc278@cornell.edu>
- */
-
 public interface OriginEntryGroupService {
     public Collection getGroupsFromSourceForDate(String sourceCode, Date date);
     

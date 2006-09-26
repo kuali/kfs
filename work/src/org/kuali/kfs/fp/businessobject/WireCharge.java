@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class WireCharge extends BusinessObjectBase {
 

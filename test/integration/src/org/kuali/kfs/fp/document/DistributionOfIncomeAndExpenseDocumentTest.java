@@ -31,12 +31,15 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.TestsWorkflowViaDatabase;
 
 /**
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
  * 
- * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Transaction Processing Team ()
  */
+@WithTestSpringContext
 public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDocumentTestBase {
     private static final Log LOG = LogFactory.getLog(DistributionOfIncomeAndExpenseDocumentTest.class);
 
@@ -117,6 +120,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
     }
 
 
+    @TestsWorkflowViaDatabase
     public void testKULEDOCS_1401() throws Exception {
         String testDocId = null;
 

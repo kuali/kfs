@@ -34,8 +34,6 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id$
  */
 public class GeneralLedgerTestHelper {
 

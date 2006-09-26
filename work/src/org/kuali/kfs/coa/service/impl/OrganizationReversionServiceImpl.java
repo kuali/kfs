@@ -39,8 +39,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- * @version $Id$
  */
 public class OrganizationReversionServiceImpl implements OrganizationReversionService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);

@@ -31,12 +31,14 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the ObjectCode service.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class ObjectCodeServiceTest extends KualiTestBaseWithFixtures {
     public static final String CHART_CODE = TestConstants.Data4.CHART_CODE;
 

@@ -42,6 +42,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -50,7 +51,7 @@ import org.kuali.module.financial.document.InternalBillingDocument;
 /**
  * Business rule(s) applicable to InternalBilling document.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -200,20 +201,12 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      * @return whether any items were invalid
      */
     private static boolean validateItems(InternalBillingDocument internalBillingDocument) {
-        final ErrorMap errorMap = GlobalVariables.getErrorMap();
-        errorMap.addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
-        int originalErrorCount = errorMap.getErrorCount();
+        boolean retval = true;
         for (int i = 0; i < internalBillingDocument.getItems().size(); i++) {
-            // todo: expose and use a method for this List handling in DictionaryValidationService
-            String propertyName = PropertyConstants.ITEM + "[" + i + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-            SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(internalBillingDocument.getItem(i));
-            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
+            String propertyName = Constants.DOCUMENT_PROPERTY_NAME + "." + PropertyConstants.ITEM + "[" + i + "]";
+            retval &= getDictionaryValidationService().isBusinessObjectValid(internalBillingDocument.getItem(i), propertyName);
         }
-        // todo: return a boolean from DictionaryValidationService instead of checking errorMap. KULNRVSYS-1093
-        int currentErrorCount = errorMap.getErrorCount();
-        errorMap.removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
-        return currentErrorCount == originalErrorCount;
+        return retval;
     }
 
     /**

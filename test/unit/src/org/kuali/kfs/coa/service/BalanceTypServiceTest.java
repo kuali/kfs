@@ -28,12 +28,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the BalanceType service.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class BalanceTypServiceTest extends KualiTestBaseWithFixtures {
     BusinessObjectService businessObjectService;
 

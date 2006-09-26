@@ -22,9 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +33,10 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.NonCheckDisbursementDocument;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
@@ -46,8 +46,9 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
  * implemented properly. When we get to building this document, we would need to extend TransactionalDocumentRuleTestBase. For now
  * it contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
  * 
- * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Transaction Processing Team ()
  */
+@WithTestSpringContext
 public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME = "NonCheckDisbursementDocumentRuleTest.collection1";

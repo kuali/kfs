@@ -39,7 +39,7 @@ import org.kuali.module.financial.bo.ServiceBillingControl;
 /**
  * This class contains static helper methods for ServiceBillingDocumentRule and ServiceBillingDocumentAuthorizer.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class ServiceBillingDocumentRuleUtil {
 
@@ -83,7 +83,7 @@ public class ServiceBillingDocumentRuleUtil {
         }
         else {
             if (action != null) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPersonUserIdentifier(), control.getWorkgroupName());
+                GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getUniversalUser().getPersonUserIdentifier(), control.getWorkgroupName());
             }
             return false;
         }

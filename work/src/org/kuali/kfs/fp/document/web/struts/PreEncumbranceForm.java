@@ -28,8 +28,8 @@ import org.kuali.module.financial.document.PreEncumbranceDocument;
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: PreEncumbranceForm.java,v 1.3 2006-06-14 12:26:51 abyrne Exp $
+ * @author Kuali Financial Transactions Team ()
+ * @version $Id: PreEncumbranceForm.java,v 1.4 2006-09-26 05:50:00 abyrne Exp $
  */
 public class PreEncumbranceForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;

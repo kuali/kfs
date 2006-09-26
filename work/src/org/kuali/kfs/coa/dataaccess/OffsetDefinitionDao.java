@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 /**
  * This interface defines basic methods that OffsetDefinition Dao's must provide
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public interface OffsetDefinitionDao {
 

@@ -43,7 +43,7 @@ import edu.iu.uis.eden.util.Utilities;
 /**
  * KualiOrgReviewAttribute should be used when using Orgs and thier inner details to do routing.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
@@ -95,10 +95,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         List fields = new ArrayList();
 
         ruleRows = new ArrayList();
-        ruleRows.add(getChartRow());
-        ruleRows.add(getOrgRow());
-        ruleRows.add(getOverrideCodeRow());
-
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, Constants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY));
+        ruleRows.add(KualiWorkflowUtils.buildTextRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY));
+        
         fields = new ArrayList();
         fields.add(new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", null, null, FROM_AMOUNT_KEY));
         ruleRows.add(new Row(fields));
@@ -107,9 +107,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         ruleRows.add(new Row(fields));
 
         routingDataRows = new ArrayList();
-        routingDataRows.add(getChartRow());
-        routingDataRows.add(getOrgRow());
-        routingDataRows.add(getOverrideCodeRow());
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, Constants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY));
 
         // TODO: hook TotalDollarAmount into the DD attribute for DocumentHeader.financialDocumentTotalAmount once
         // the DD has this attribute defined, like Chart and Org above
@@ -118,30 +118,45 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         routingDataRows.add(new Row(fields));
     }
 
-    private edu.iu.uis.eden.lookupable.Row getChartRow() {
+    /**
+     * This method produces a chart row.
+     * @return
+     * @deprecated Use KualiWorkflowUtils.buildTextRow or buildTextRowWithLookup instead
+     */
+    public edu.iu.uis.eden.lookupable.Row getChartRow() {
         org.kuali.core.web.uidraw.Field kualiChartField = FieldUtils.getPropertyField(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, false);
         List chartFields = new ArrayList();
         chartFields.add(new Field(kualiChartField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiChartField), Field.TEXT, true, FIN_COA_CD_KEY, kualiChartField.getPropertyValue(), kualiChartField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Chart.class), FIN_COA_CD_KEY));
         chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Chart.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(":").append(FIN_COA_CD_KEY).toString())));
         return new Row(chartFields);
     }
-
-    private edu.iu.uis.eden.lookupable.Row getOrgRow() {
+    
+    /**
+     * This method produces an org row.
+     * @return
+     * @deprecated Use KualiWorkflowUtils.buildTextRow or buildTextRowWithLookup instead
+     */
+    public edu.iu.uis.eden.lookupable.Row getOrgRow() {
         org.kuali.core.web.uidraw.Field kualiOrgField = FieldUtils.getPropertyField(Org.class, Constants.ORGANIZATION_CODE_PROPERTY_NAME, false);
         List orgFields = new ArrayList();
         orgFields.add(new Field(kualiOrgField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOrgField), Field.TEXT, true, ORG_CD_KEY, kualiOrgField.getPropertyValue(), kualiOrgField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Org.class), ORG_CD_KEY));
         orgFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Org.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(Constants.ORGANIZATION_CODE_PROPERTY_NAME).append(":").append(ORG_CD_KEY).toString())));
         return new Row(orgFields);
     }
-
-    private edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
+    
+    /**
+     * This method produces an overrideCode row.
+     * @return
+     * @deprecated Use KualiWorkflowUtils.buildTextRow or buildTextRowWithLookup instead
+     */
+    public edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
         org.kuali.core.web.uidraw.Field kualiOverrideCodeField;
         kualiOverrideCodeField = FieldUtils.getPropertyField(SourceAccountingLine.class, "overrideCode", false);
         List orgFields = new ArrayList();
         orgFields.add(new Field(kualiOverrideCodeField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOverrideCodeField), Field.TEXT, true, OVERRIDE_CD_KEY, kualiOverrideCodeField.getPropertyValue(), kualiOverrideCodeField.getFieldValidValues(), null, OVERRIDE_CD_KEY));
         return new Row(orgFields);
     }
-
+    
     /**
      * constructor that takes the chart, org, which calls the no arg constructor
      * 
@@ -150,7 +165,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      */
     public KualiOrgReviewAttribute(String finCoaCd, String orgCd) {
         this();
-        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", orgCd);
+        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", finCoaCd);
         this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", orgCd);
     }
 

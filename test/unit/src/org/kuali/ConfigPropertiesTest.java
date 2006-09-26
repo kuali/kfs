@@ -30,15 +30,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.ConfigProperties;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.BeanUtils;
 
 /**
  * This class tests the Config constants.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
-public class ConfigPropertiesTest extends KualiTestBaseWithSpring {
+@WithTestSpringContext
+public class ConfigPropertiesTest extends KualiTestBase {
     private static final String SIMPLE_TESTING_KEY = "simpleTestingKey";
     private static final String SIMPLE_TESTING_VALUE = "simpleTestingValue";
     private static final String COMPLEX_TESTING_KEY = "complex.testing.key";

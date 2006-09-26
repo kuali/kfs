@@ -30,8 +30,6 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- * @version $Id$
  */
 public interface OrganizationReversionService {
     /**

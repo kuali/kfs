@@ -32,7 +32,7 @@ import junit.framework.AssertionFailedError;
 /**
  * This class implements a method for a {@link MockService}.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class MockMethod {
 

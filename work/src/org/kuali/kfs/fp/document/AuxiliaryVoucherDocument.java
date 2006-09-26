@@ -47,7 +47,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
  * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
  * and target. Expense is the expense and target is the income lines.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
@@ -55,23 +55,17 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     private String typeCode = ADJUSTMENT_DOC_TYPE;
     private java.sql.Date reversalDate;
 
+    
+    @Override
+    public boolean documentPerformsSufficientFundsCheck() {
+        return false;
+    }
+
     /**
      * Initializes the array lists and some basic info.
      */
     public AuxiliaryVoucherDocument() {
         super();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#checkSufficientFunds()
-     */
-    @Override
-    public List<SufficientFundsItem> checkSufficientFunds() {
-        LOG.debug("checkSufficientFunds() started");
-
-        // This document does not do sufficient funds checking
-        return new ArrayList<SufficientFundsItem>();
     }
 
     /**

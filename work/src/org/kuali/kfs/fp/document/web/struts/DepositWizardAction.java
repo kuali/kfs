@@ -65,7 +65,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This class handles actions for the deposit wizard, which is used to create deposits that bundle groupings of Cash Receipt
  * documents.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class DepositWizardAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepositWizardAction.class);
@@ -88,7 +88,7 @@ public class DepositWizardAction extends KualiAction {
         DocumentAuthorizer cmDocAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(cmDocTypeName);
         KualiUser luser = GlobalVariables.getUserSession().getKualiUser();
         if (!cmDocAuthorizer.canInitiate(cmDocTypeName, luser)) {
-            throw new DocumentTypeAuthorizationException(luser.getPersonUserIdentifier(), "add deposits to", cmDocTypeName);
+            throw new DocumentTypeAuthorizationException(luser.getUniversalUser().getPersonUserIdentifier(), "add deposits to", cmDocTypeName);
         }
 
         // populate the outgoing form used by the JSP if it seems empty

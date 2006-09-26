@@ -52,7 +52,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
 /**
  * Sufficient Funds implementation
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class SufficientFundsServiceImpl implements SufficientFundsService, SufficientFundsServiceConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsServiceImpl.class);

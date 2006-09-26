@@ -28,7 +28,7 @@ import org.kuali.core.bo.KualiSystemCode;
 /**
  * Budget Aggregation Code Business Object
  * 
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Nervous System Team ()
  */
 public class BudgetAggregationCode extends KualiSystemCode {
 

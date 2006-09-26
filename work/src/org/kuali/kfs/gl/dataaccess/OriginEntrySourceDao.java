@@ -27,8 +27,8 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.OriginEntrySource;
 
 /**
- * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntrySourceDao.java,v 1.2 2006-06-14 12:26:54 abyrne Exp $
+ * @author 
+ * @version $Id: OriginEntrySourceDao.java,v 1.3 2006-09-26 05:50:32 abyrne Exp $
  * 
  */
 

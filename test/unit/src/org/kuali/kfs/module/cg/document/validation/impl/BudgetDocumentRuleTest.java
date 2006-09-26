@@ -34,13 +34,15 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 
 /**
  * Test basic rule methods of <code>{@link BudgetDocumentRuleBase}</code> convenience class.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team ()
  */
+@WithTestSpringContext
 public class BudgetDocumentRuleTest extends KualiTestBaseWithFixtures {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetDocumentRuleTest.class);

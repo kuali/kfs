@@ -33,7 +33,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rules applicable to <code>YearEndBudgetAdjustmentDocument</code>
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumentRule {
 

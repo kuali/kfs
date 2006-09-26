@@ -47,10 +47,6 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.springframework.util.StringUtils;
 
-/**
- * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.35 2006-09-06 23:29:13 tdurkin Exp $
- */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
 
@@ -284,48 +280,48 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setUniversityFiscalPeriodCode(getValue(line, 29, 31));
         setFinancialDocumentTypeCode(getValue(line, 31, 35));
         setFinancialSystemOriginationCode(getValue(line, 35, 37));
-        setFinancialDocumentNumber(getValue(line, 37, 46));
-        if (!"     ".equals(line.substring(46, 51)) && !"00000".equals(line.substring(46, 51))) {
-            setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(46, 51).trim()));
+        setFinancialDocumentNumber(getValue(line, 37, 51));
+        if (!"     ".equals(line.substring(51, 56)) && !"00000".equals(line.substring(51, 56))) {
+            setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
         }
         else {
             setTransactionLedgerEntrySequenceNumber(null);
         }
-        setTransactionLedgerEntryDescription(getValue(line, 51, 91));
+        setTransactionLedgerEntryDescription(getValue(line, 56, 96));
 
         try {
-            setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
+            setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(96, 113).trim()));
         }
         catch (NumberFormatException e) {
             GlobalVariables.getErrorMap().putError("numberFormatError", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount" });
             throw (e);
         }
 
-        setTransactionDebitCreditCode(line.substring(108, 109));
+        setTransactionDebitCreditCode(line.substring(113, 114));
 
         try {
-            setTransactionDate(parseDate(line.substring(109, 119), false));
+            setTransactionDate(parseDate(line.substring(114, 124), false));
         }
         catch (NumberFormatException e) {
             GlobalVariables.getErrorMap().putError("numberFormatError", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
             throw (e);
         }
 
-        setOrganizationDocumentNumber(getValue(line, 119, 129));
-        setProjectCode(getValue(line, 129, 139));
-        setOrganizationReferenceId(getValue(line, 139, 147));
-        setReferenceFinancialDocumentTypeCode(getValue(line, 147, 151));
-        setReferenceFinancialSystemOriginationCode(getValue(line, 151, 153));
-        setReferenceFinancialDocumentNumber(getValue(line, 153, 162));
+        setOrganizationDocumentNumber(getValue(line, 124, 134));
+        setProjectCode(getValue(line, 134, 144));
+        setOrganizationReferenceId(getValue(line, 144, 152));
+        setReferenceFinancialDocumentTypeCode(getValue(line, 152, 156));
+        setReferenceFinancialSystemOriginationCode(getValue(line, 156, 158));
+        setReferenceFinancialDocumentNumber(getValue(line, 158, 172));
         try {
-            setFinancialDocumentReversalDate(parseDate(line.substring(162, 172), true));
+            setFinancialDocumentReversalDate(parseDate(line.substring(172, 182), true));
         }
         catch (NumberFormatException e) {
             GlobalVariables.getErrorMap().putError("numberFormatError", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Financial Document Reversal Date" });
             throw (e);
         }
 
-        setTransactionEncumbranceUpdateCode(line.substring(172, 173));
+        setTransactionEncumbranceUpdateCode(line.substring(182, 183));
     }
 
     private static String SPACES = "                                                                                                              ";
@@ -363,7 +359,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         sb.append(getField(2, universityFiscalPeriodCode));
         sb.append(getField(4, financialDocumentTypeCode));
         sb.append(getField(2, financialSystemOriginationCode));
-        sb.append(getField(9, financialDocumentNumber));
+        sb.append(getField(14, financialDocumentNumber));
 
         // This is the cobol code for transaction sequence numbers.
         // 3025 019280 IF TRN-ENTR-SEQ-NBR OF GLEN-RECORD NOT NUMERIC
@@ -404,7 +400,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         sb.append(getField(8, organizationReferenceId));
         sb.append(getField(4, referenceFinancialDocumentTypeCode));
         sb.append(getField(2, referenceFinancialSystemOriginationCode));
-        sb.append(getField(9, referenceFinancialDocumentNumber));
+        sb.append(getField(14, referenceFinancialDocumentNumber));
         sb.append(formatDate(financialDocumentReversalDate));
         sb.append(getField(1, transactionEncumbranceUpdateCode));
         // pad to full length of 173 chars.

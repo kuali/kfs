@@ -25,12 +25,14 @@ package org.kuali.module.kra.web.struts.form;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Research Administration Team ()
  */
+@WithTestSpringContext
 public class BudgetOverviewFormHelperTest extends KualiTestBaseWithSpring {
 
     protected void setUp() throws Exception {

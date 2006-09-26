@@ -8,8 +8,8 @@
 <%@ attribute name="displayTitle" required="false" %>
 
 <c:if test="${displayTitle}" >
-  <a class="portal_link" href="portal.do?channelTitle=${title}&channelUrl=${url}">${title}</a>
+  <a class="portal_link" href="portal.do?channelTitle=${title}&channelUrl=${url}"  title="${title}">${title}</a>
 </c:if>
 <c:if test="${! displayTitle}" >
-  <a class="portal_link" href="portal.do?channelTitle=${title}&channelUrl=${url}"><jsp:doBody/></a>
+  <a class="portal_link" href="portal.do?channelTitle=${title}&channelUrl=${url}" title="${title}"><jsp:doBody/></a>
 </c:if>

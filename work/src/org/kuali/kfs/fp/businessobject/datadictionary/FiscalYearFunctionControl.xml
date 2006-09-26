@@ -71,7 +71,7 @@
                 <label>Financial System Function Active Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
-                <maxLength>$attribute.maxLength</maxLength>
+                <maxLength>1</maxLength>
 
                 <control>
                     <checkbox />
@@ -79,6 +79,8 @@
 
                 <summary>financialSystemFunctionActiveIndicator</summary>
                 <description>financialSystemFunctionActiveIndicator description...</description>
+                
+               <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -1,0 +1,1032 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.PriorYearAccount">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Prior Year Account Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="accountCityName" />
+                <field attributeName="accountClosedIndicator" />
+                <field attributeName="accountCreateDate" />
+                <field attributeName="accountEffectiveDate" />
+                <field attributeName="accountExpirationDate" />
+                <field attributeName="accountFiscalOfficerSystemIdentifier" />
+                <field attributeName="accountFiscalOfficerUser" />
+                <field attributeName="accountInFinancialProcessingIndicator" />
+                <field attributeName="accountManagerSystemIdentifier" />
+                <field attributeName="accountManagerUser" />
+                <field attributeName="accountName" />
+                <field attributeName="accountNumber" />
+                <field attributeName="accountOffCampusIndicator" />
+                <field attributeName="accountPhysicalCampusCode" />
+                <field attributeName="accountRestrictedStatusCode" />
+                <field attributeName="accountRestrictedStatusDate" />
+                <field attributeName="accountStateCode" />
+                <field attributeName="accountStreetAddress" />
+                <field attributeName="accountSufficientFundsCode" />
+                <field attributeName="accountSupervisoryUser" />
+                <field attributeName="accountTypeCode" />
+                <field attributeName="accountZipCode" />
+                <field attributeName="accountsFringesBnftIndicator" />
+                <field attributeName="accountsSupervisorySystemsIdentifier" />
+                <field attributeName="acctCustomIndCstRcvyExclCd" />
+                <field attributeName="acctIndirectCostRcvyTypeCd" />
+                <field attributeName="awardPeriodBeginMonth" />
+                <field attributeName="awardPeriodBeginYear" />
+                <field attributeName="awardPeriodEndMonth" />
+                <field attributeName="awardPeriodEndYear" />
+                <field attributeName="budgetRecordingLevelCode" />
+                <field attributeName="cgCatlfFedDomestcAssistNbr" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="continuationAccountNumber" />
+                <field attributeName="continuationFinChrtOfAcctCd" />
+                <field attributeName="contractControlAccountNumber" />
+                <field attributeName="contractControlFinCoaCode" />
+                <field attributeName="endowmentIncomeAccountNumber" />
+                <field attributeName="endowmentIncomeAcctFinCoaCd" />
+                <field attributeName="expired" />
+                <field attributeName="extrnlFinEncumSufficntFndIndicator" />
+                <field attributeName="finPreencumSufficientFundIndicator" />
+                <field attributeName="financialHigherEdFunctionCd" />
+                <field attributeName="financialIcrSeriesIdentifier" />
+                <field attributeName="financialObjectivePrsctrlIndicator" />
+                <field attributeName="inCg" />
+                <field attributeName="incomeStreamAccountNumber" />
+                <field attributeName="incomeStreamFinancialCoaCode" />
+                <field attributeName="indirectCostRcvyFinCoaCode" />
+                <field attributeName="indirectCostRecoveryAcctNbr" />
+                <field attributeName="intrnlFinEncumSufficntFndIndicator" />
+                <field attributeName="organizationCode" />
+                <field attributeName="pendingAcctSufficientFundsIndicator" />
+                <field attributeName="programCode" />
+                <field attributeName="reportsToAccountNumber" />
+                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="subFundGroupCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Prior Year Account Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.PriorYearAccount">Create New</a>]]></menubar>
+
+            <instructions>Look up a Prior Year Account</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="accountNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountCityName" required="false" />
+                <lookupField attributeName="accountClosedIndicator" required="false" />
+                <lookupField attributeName="accountCreateDate" required="false" />
+                <lookupField attributeName="accountEffectiveDate" required="false" />
+                <lookupField attributeName="accountExpirationDate" required="false" />
+                <lookupField attributeName="accountFiscalOfficerSystemIdentifier" required="false" />
+                <lookupField attributeName="accountFiscalOfficerUser" required="false" />
+                <lookupField attributeName="accountInFinancialProcessingIndicator" required="false" />
+                <lookupField attributeName="accountManagerSystemIdentifier" required="false" />
+                <lookupField attributeName="accountManagerUser" required="false" />
+                <lookupField attributeName="accountName" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="accountOffCampusIndicator" required="false" />
+                <lookupField attributeName="accountPhysicalCampusCode" required="false" />
+                <lookupField attributeName="accountRestrictedStatusCode" required="false" />
+                <lookupField attributeName="accountRestrictedStatusDate" required="false" />
+                <lookupField attributeName="accountStateCode" required="false" />
+                <lookupField attributeName="accountStreetAddress" required="false" />
+                <lookupField attributeName="accountSufficientFundsCode" required="false" />
+                <lookupField attributeName="accountSupervisoryUser" required="false" />
+                <lookupField attributeName="accountTypeCode" required="false" />
+                <lookupField attributeName="accountZipCode" required="false" />
+                <lookupField attributeName="accountsFringesBnftIndicator" required="false" />
+                <lookupField attributeName="accountsSupervisorySystemsIdentifier" required="false" />
+                <lookupField attributeName="acctCustomIndCstRcvyExclCd" required="false" />
+                <lookupField attributeName="acctIndirectCostRcvyTypeCd" required="false" />
+                <lookupField attributeName="awardPeriodBeginMonth" required="false" />
+                <lookupField attributeName="awardPeriodBeginYear" required="false" />
+                <lookupField attributeName="awardPeriodEndMonth" required="false" />
+                <lookupField attributeName="awardPeriodEndYear" required="false" />
+                <lookupField attributeName="budgetRecordingLevelCode" required="false" />
+                <lookupField attributeName="cgCatlfFedDomestcAssistNbr" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="continuationAccountNumber" required="false" />
+                <lookupField attributeName="continuationFinChrtOfAcctCd" required="false" />
+                <lookupField attributeName="contractControlAccountNumber" required="false" />
+                <lookupField attributeName="contractControlFinCoaCode" required="false" />
+                <lookupField attributeName="endowmentIncomeAccountNumber" required="false" />
+                <lookupField attributeName="endowmentIncomeAcctFinCoaCd" required="false" />
+                <lookupField attributeName="expired" required="false" />
+                <lookupField attributeName="extrnlFinEncumSufficntFndIndicator" required="false" />
+                <lookupField attributeName="finPreencumSufficientFundIndicator" required="false" />
+                <lookupField attributeName="financialHigherEdFunctionCd" required="false" />
+                <lookupField attributeName="financialIcrSeriesIdentifier" required="false" />
+                <lookupField attributeName="financialObjectivePrsctrlIndicator" required="false" />
+                <lookupField attributeName="inCg" required="false" />
+                <lookupField attributeName="incomeStreamAccountNumber" required="false" />
+                <lookupField attributeName="incomeStreamFinancialCoaCode" required="false" />
+                <lookupField attributeName="indirectCostRcvyFinCoaCode" required="false" />
+                <lookupField attributeName="indirectCostRecoveryAcctNbr" required="false" />
+                <lookupField attributeName="intrnlFinEncumSufficntFndIndicator" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="pendingAcctSufficientFundsIndicator" required="false" />
+                <lookupField attributeName="programCode" required="false" />
+                <lookupField attributeName="reportsToAccountNumber" required="false" />
+                <lookupField attributeName="reportsToChartOfAccountsCode" required="false" />
+                <lookupField attributeName="subFundGroupCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountCityName" />
+                <field attributeName="accountClosedIndicator" />
+                <field attributeName="accountCreateDate" />
+                <field attributeName="accountEffectiveDate" />
+                <field attributeName="accountExpirationDate" />
+                <field attributeName="accountFiscalOfficerSystemIdentifier" />
+                <field attributeName="accountFiscalOfficerUser" />
+                <field attributeName="accountInFinancialProcessingIndicator" />
+                <field attributeName="accountManagerSystemIdentifier" />
+                <field attributeName="accountManagerUser" />
+                <field attributeName="accountName" />
+                <field attributeName="accountNumber" />
+                <field attributeName="accountOffCampusIndicator" />
+                <field attributeName="accountPhysicalCampusCode" />
+                <field attributeName="accountRestrictedStatusCode" />
+                <field attributeName="accountRestrictedStatusDate" />
+                <field attributeName="accountStateCode" />
+                <field attributeName="accountStreetAddress" />
+                <field attributeName="accountSufficientFundsCode" />
+                <field attributeName="accountSupervisoryUser" />
+                <field attributeName="accountTypeCode" />
+                <field attributeName="accountZipCode" />
+                <field attributeName="accountsFringesBnftIndicator" />
+                <field attributeName="accountsSupervisorySystemsIdentifier" />
+                <field attributeName="acctCustomIndCstRcvyExclCd" />
+                <field attributeName="acctIndirectCostRcvyTypeCd" />
+                <field attributeName="awardPeriodBeginMonth" />
+                <field attributeName="awardPeriodBeginYear" />
+                <field attributeName="awardPeriodEndMonth" />
+                <field attributeName="awardPeriodEndYear" />
+                <field attributeName="budgetRecordingLevelCode" />
+                <field attributeName="cgCatlfFedDomestcAssistNbr" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="continuationAccountNumber" />
+                <field attributeName="continuationFinChrtOfAcctCd" />
+                <field attributeName="contractControlAccountNumber" />
+                <field attributeName="contractControlFinCoaCode" />
+                <field attributeName="endowmentIncomeAccountNumber" />
+                <field attributeName="endowmentIncomeAcctFinCoaCd" />
+                <field attributeName="expired" />
+                <field attributeName="extrnlFinEncumSufficntFndIndicator" />
+                <field attributeName="finPreencumSufficientFundIndicator" />
+                <field attributeName="financialHigherEdFunctionCd" />
+                <field attributeName="financialIcrSeriesIdentifier" />
+                <field attributeName="financialObjectivePrsctrlIndicator" />
+                <field attributeName="inCg" />
+                <field attributeName="incomeStreamAccountNumber" />
+                <field attributeName="incomeStreamFinancialCoaCode" />
+                <field attributeName="indirectCostRcvyFinCoaCode" />
+                <field attributeName="indirectCostRecoveryAcctNbr" />
+                <field attributeName="intrnlFinEncumSufficntFndIndicator" />
+                <field attributeName="organizationCode" />
+                <field attributeName="pendingAcctSufficientFundsIndicator" />
+                <field attributeName="programCode" />
+                <field attributeName="reportsToAccountNumber" />
+                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="subFundGroupCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountCityName" forceUppercase="true">
+                <label>Account City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>accountCityName</summary>
+                <description>accountCityName description...</description>
+			</attribute>
+
+            <attribute name="accountClosedIndicator" forceUppercase="true">
+                <label>Account Closed Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>accountClosedIndicator</summary>
+                <description>accountClosedIndicator description...</description>
+			</attribute>
+
+            <attribute name="accountCreateDate" forceUppercase="true">
+                <label>Account Create Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountCreateDate</summary>
+                <description>accountCreateDate description...</description>
+			</attribute>
+
+            <attribute name="accountEffectiveDate" forceUppercase="true">
+                <label>Account Effective Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountEffectiveDate</summary>
+                <description>accountEffectiveDate description...</description>
+			</attribute>
+
+            <attribute name="accountExpirationDate" forceUppercase="true">
+                <label>Account Expiration Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountExpirationDate</summary>
+                <description>accountExpirationDate description...</description>
+			</attribute>
+
+            <attribute name="accountFiscalOfficerSystemIdentifier" forceUppercase="true">
+                <label>Account Fiscal Officer System Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>accountFiscalOfficerSystemIdentifier</summary>
+                <description>accountFiscalOfficerSystemIdentifier description...</description>
+			</attribute>
+
+            <attribute name="accountInFinancialProcessingIndicator" forceUppercase="true">
+                <label>Account In Financial Processing Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>accountInFinancialProcessingIndicator</summary>
+                <description>accountInFinancialProcessingIndicator description...</description>
+			</attribute>
+
+            <attribute name="accountManagerSystemIdentifier" forceUppercase="true">
+                <label>Account Manager System Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>accountManagerSystemIdentifier</summary>
+                <description>accountManagerSystemIdentifier description...</description>
+			</attribute>
+
+            <attribute name="accountName" forceUppercase="true">
+                <label>Account Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>accountName</summary>
+                <description>accountName description...</description>
+			</attribute>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="accountOffCampusIndicator" forceUppercase="true">
+                <label>Account Off Campus Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>accountOffCampusIndicator</summary>
+                <description>accountOffCampusIndicator description...</description>
+			</attribute>
+
+            <attribute name="accountPhysicalCampusCode" forceUppercase="true">
+                <label>Account Physical Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>accountPhysicalCampusCode</summary>
+                <description>accountPhysicalCampusCode description...</description>
+			</attribute>
+
+            <attribute name="accountRestrictedStatusCode" forceUppercase="true">
+                <label>Account Restricted Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>accountRestrictedStatusCode</summary>
+                <description>accountRestrictedStatusCode description...</description>
+			</attribute>
+
+            <attribute name="accountRestrictedStatusDate" forceUppercase="true">
+                <label>Account Restricted Status Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountRestrictedStatusDate</summary>
+                <description>accountRestrictedStatusDate description...</description>
+			</attribute>
+
+            <attribute name="accountStateCode" forceUppercase="true">
+                <label>Account State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>accountStateCode</summary>
+                <description>accountStateCode description...</description>
+			</attribute>
+
+            <attribute name="accountStreetAddress" forceUppercase="true">
+                <label>Account Street Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>accountStreetAddress</summary>
+                <description>accountStreetAddress description...</description>
+			</attribute>
+
+            <attribute name="accountSufficientFundsCode" forceUppercase="true">
+                <label>Account Sufficient Funds Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>accountSufficientFundsCode</summary>
+                <description>accountSufficientFundsCode description...</description>
+			</attribute>
+
+            <attribute name="accountTypeCode" forceUppercase="true">
+                <label>Account Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>accountTypeCode</summary>
+                <description>accountTypeCode description...</description>
+			</attribute>
+
+            <attribute name="accountZipCode" forceUppercase="true">
+                <label>Account Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>accountZipCode</summary>
+                <description>accountZipCode description...</description>
+			</attribute>
+
+            <attribute name="accountsFringesBnftIndicator" forceUppercase="true">
+                <label>Accounts Fringes Bnft Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>accountsFringesBnftIndicator</summary>
+                <description>accountsFringesBnftIndicator description...</description>
+			</attribute>
+
+            <attribute name="accountsSupervisorySystemsIdentifier" forceUppercase="true">
+                <label>Accounts Supervisory Systems Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>accountsSupervisorySystemsIdentifier</summary>
+                <description>accountsSupervisorySystemsIdentifier description...</description>
+			</attribute>
+
+            <attribute name="acctCustomIndCstRcvyExclCd" forceUppercase="true">
+                <label>Acct Custom Ind Cst Rcvy Excl Cd</label>
+                <shortLabel>Cd</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>acctCustomIndCstRcvyExclCd</summary>
+                <description>acctCustomIndCstRcvyExclCd description...</description>
+			</attribute>
+
+            <attribute name="acctIndirectCostRcvyTypeCd" forceUppercase="true">
+                <label>Acct Indirect Cost Rcvy Type Cd</label>
+                <shortLabel>Cd</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>acctIndirectCostRcvyTypeCd</summary>
+                <description>acctIndirectCostRcvyTypeCd description...</description>
+			</attribute>
+
+            <attribute name="awardPeriodBeginMonth" forceUppercase="true">
+                <label>Award Period Begin Month</label>
+                <shortLabel>Month</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>awardPeriodBeginMonth</summary>
+                <description>awardPeriodBeginMonth description...</description>
+			</attribute>
+
+            <attribute name="awardPeriodBeginYear" forceUppercase="true">
+                <label>Award Period Begin Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>awardPeriodBeginYear</summary>
+                <description>awardPeriodBeginYear description...</description>
+			</attribute>
+
+            <attribute name="awardPeriodEndMonth" forceUppercase="true">
+                <label>Award Period End Month</label>
+                <shortLabel>Month</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>awardPeriodEndMonth</summary>
+                <description>awardPeriodEndMonth description...</description>
+			</attribute>
+
+            <attribute name="awardPeriodEndYear" forceUppercase="true">
+                <label>Award Period End Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>awardPeriodEndYear</summary>
+                <description>awardPeriodEndYear description...</description>
+			</attribute>
+
+            <attribute name="budgetRecordingLevelCode" forceUppercase="true">
+                <label>Budget Recording Level Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>budgetRecordingLevelCode</summary>
+                <description>budgetRecordingLevelCode description...</description>
+			</attribute>
+
+            <attribute name="cgCatlfFedDomestcAssistNbr" forceUppercase="true">
+                <label>Cg Catlf Fed Domestc Assist Nbr</label>
+                <shortLabel>Nbr</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>cgCatlfFedDomestcAssistNbr</summary>
+                <description>cgCatlfFedDomestcAssistNbr description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="continuationAccountNumber" forceUppercase="true">
+                <label>Continuation Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>continuationAccountNumber</summary>
+                <description>continuationAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="continuationFinChrtOfAcctCd" forceUppercase="true">
+                <label>Continuation Fin Chrt Of Acct Cd</label>
+                <shortLabel>Cd</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>continuationFinChrtOfAcctCd</summary>
+                <description>continuationFinChrtOfAcctCd description...</description>
+			</attribute>
+
+            <attribute name="contractControlAccountNumber" forceUppercase="true">
+                <label>Contract Control Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>contractControlAccountNumber</summary>
+                <description>contractControlAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="contractControlFinCoaCode" forceUppercase="true">
+                <label>Contract Control Fin Coa Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>contractControlFinCoaCode</summary>
+                <description>contractControlFinCoaCode description...</description>
+			</attribute>
+
+            <attribute name="endowmentIncomeAccountNumber" forceUppercase="true">
+                <label>Endowment Income Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>endowmentIncomeAccountNumber</summary>
+                <description>endowmentIncomeAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="endowmentIncomeAcctFinCoaCd" forceUppercase="true">
+                <label>Endowment Income Acct Fin Coa Cd</label>
+                <shortLabel>Cd</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>endowmentIncomeAcctFinCoaCd</summary>
+                <description>endowmentIncomeAcctFinCoaCd description...</description>
+			</attribute>
+
+            <attribute name="expired" forceUppercase="true">
+                <label>Expired</label>
+                <shortLabel>Expired</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>expired</summary>
+                <description>expired description...</description>
+			</attribute>
+
+            <attribute name="extrnlFinEncumSufficntFndIndicator" forceUppercase="true">
+                <label>Extrnl Fin Encum Sufficnt Fnd Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>extrnlFinEncumSufficntFndIndicator</summary>
+                <description>extrnlFinEncumSufficntFndIndicator description...</description>
+			</attribute>
+
+            <attribute name="finPreencumSufficientFundIndicator" forceUppercase="true">
+                <label>Fin Preencum Sufficient Fund Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>finPreencumSufficientFundIndicator</summary>
+                <description>finPreencumSufficientFundIndicator description...</description>
+			</attribute>
+
+            <attribute name="financialHigherEdFunctionCd" forceUppercase="true">
+                <label>Financial Higher Ed Function Cd</label>
+                <shortLabel>Cd</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialHigherEdFunctionCd</summary>
+                <description>financialHigherEdFunctionCd description...</description>
+			</attribute>
+
+            <attribute name="financialIcrSeriesIdentifier" forceUppercase="true">
+                <label>Financial Icr Series Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>financialIcrSeriesIdentifier</summary>
+                <description>financialIcrSeriesIdentifier description...</description>
+			</attribute>
+
+            <attribute name="financialObjectivePrsctrlIndicator" forceUppercase="true">
+                <label>Financial Objective Prsctrl Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>financialObjectivePrsctrlIndicator</summary>
+                <description>financialObjectivePrsctrlIndicator description...</description>
+			</attribute>
+
+            <attribute name="inCg" forceUppercase="true">
+                <label>In Cg</label>
+                <shortLabel>Cg</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>inCg</summary>
+                <description>inCg description...</description>
+			</attribute>
+
+            <attribute name="incomeStreamAccountNumber" forceUppercase="true">
+                <label>Income Stream Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>incomeStreamAccountNumber</summary>
+                <description>incomeStreamAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="incomeStreamFinancialCoaCode" forceUppercase="true">
+                <label>Income Stream Financial Coa Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>incomeStreamFinancialCoaCode</summary>
+                <description>incomeStreamFinancialCoaCode description...</description>
+			</attribute>
+
+            <attribute name="indirectCostRcvyFinCoaCode" forceUppercase="true">
+                <label>Indirect Cost Rcvy Fin Coa Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>indirectCostRcvyFinCoaCode</summary>
+                <description>indirectCostRcvyFinCoaCode description...</description>
+			</attribute>
+
+            <attribute name="indirectCostRecoveryAcctNbr" forceUppercase="true">
+                <label>Indirect Cost Recovery Acct Nbr</label>
+                <shortLabel>Nbr</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>indirectCostRecoveryAcctNbr</summary>
+                <description>indirectCostRecoveryAcctNbr description...</description>
+			</attribute>
+
+            <attribute name="intrnlFinEncumSufficntFndIndicator" forceUppercase="true">
+                <label>Intrnl Fin Encum Sufficnt Fnd Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>intrnlFinEncumSufficntFndIndicator</summary>
+                <description>intrnlFinEncumSufficntFndIndicator description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="pendingAcctSufficientFundsIndicator" forceUppercase="true">
+                <label>Pending Acct Sufficient Funds Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>pendingAcctSufficientFundsIndicator</summary>
+                <description>pendingAcctSufficientFundsIndicator description...</description>
+			</attribute>
+
+            <attribute name="programCode" forceUppercase="true">
+                <label>Program Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>programCode</summary>
+                <description>programCode description...</description>
+			</attribute>
+
+            <attribute name="reportsToAccountNumber" forceUppercase="true">
+                <label>Reports To Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>reportsToAccountNumber</summary>
+                <description>reportsToAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="reportsToChartOfAccountsCode" forceUppercase="true">
+                <label>Reports To Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>reportsToChartOfAccountsCode</summary>
+                <description>reportsToChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="subFundGroupCode" forceUppercase="true">
+                <label>Sub Fund Group Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>subFundGroupCode</summary>
+                <description>subFundGroupCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="accountFiscalOfficerUser" >
+                <primitiveAttribute sourceName="accountFiscalOfficerSystemIdentifier" targetName="personUniversalIdentifier" />
+            </relationship>
+
+            <relationship objectAttributeName="accountSupervisoryUser" >
+                <primitiveAttribute sourceName="accountsSupervisorySystemsIdentifier" targetName="personUniversalIdentifier" />
+            </relationship>
+
+            <relationship objectAttributeName="accountManagerUser" >
+                <primitiveAttribute sourceName="accountManagerSystemIdentifier" targetName="personUniversalIdentifier" />
+            </relationship>
+
+            <relationship objectAttributeName="accountGuideline" >
+                <primitiveAttribute sourceName="chartOfAccountsCode" targetName="chartOfAccountsCode" />
+                <primitiveAttribute sourceName="accountNumber" targetName="accountNumber" />
+            </relationship>
+        </relationships>
+    </businessObject>
+</dictionaryEntry>

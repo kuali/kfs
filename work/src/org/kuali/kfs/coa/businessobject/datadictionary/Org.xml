@@ -190,7 +190,7 @@
                 </description>
             </attributeReference>
 
-            <attributeReference name="organizationManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.KualiUser" sourceAttributeName="personUserIdentifier">
+            <attributeReference name="organizationManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>Organization Manager UserID</label>
                 <shortLabel>OrgMgrUserId</shortLabel>
                 <required>false</required>
@@ -637,7 +637,7 @@
       </attributeReference>
 
 	  <attributeReference name="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" 
-	  					  sourceClassName="org.kuali.core.bo.user.KualiUser" 
+	  					  sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 	  					  sourceAttributeName="personUserIdentifier">
 			<label>Personnel Approver UserID</label>
 			<shortLabel>Personnel Approver</shortLabel>
@@ -678,7 +678,7 @@
       </attributeReference>
 
 	  <attributeReference name="organizationExtension.fiscalApproverUniversal.personUserIdentifier" 
-	  					  sourceClassName="org.kuali.core.bo.user.KualiUser" 
+	  					  sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 	  					  sourceAttributeName="personUserIdentifier">
 			<label>Fiscal Approver UserID</label>
 			<shortLabel>Fiscal Approver</shortLabel>
@@ -769,6 +769,13 @@
    			sourceAttributeName="versionNumber" />
    			
         </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="organizationManagerUniversal" >
+                <primitiveAttribute sourceName="organizationManagerUniversalId" targetName="personUniversalIdentifier" />
+            </relationship>
+        </relationships>
+
     </businessObject>
 </dictionaryEntry>
 

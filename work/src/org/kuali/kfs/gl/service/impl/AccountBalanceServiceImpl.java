@@ -37,9 +37,6 @@ import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 
-/**
- * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
 

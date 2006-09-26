@@ -76,7 +76,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Implementation of ProcurementCardCreateDocumentService
  * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);

@@ -34,14 +34,16 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the <code>{@link IndirectCostAdjustmentDocument}</code>'s rules and PE generation. This is not currently
  * implemented properly. When we get to building this document, we would need to extend TransactionalDocumentRuleTestBase. For now
  * it contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
  * 
- * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Transaction Processing Team ()
  */
+@WithTestSpringContext
 public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBaseWithFixtures {
     // ////////////////////////////////////////////////////////////////////////
     // Test methods start here //

@@ -41,8 +41,6 @@ public interface NightlyOutService {
      * 
      * This method copies the approved pending ledger entries to orign entry table
      * 
-     * @return the number of ledger entries that have been copied
-     * 
      */
-    public int copyApprovedPendingLedgerEntries();
+    public void copyApprovedPendingLedgerEntries();
 }

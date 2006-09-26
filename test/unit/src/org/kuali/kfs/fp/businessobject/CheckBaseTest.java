@@ -32,7 +32,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
 /**
  * This class...
  * 
- * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Red Team ()
  */
 public class CheckBaseTest extends KualiTestBaseWithSpring {
     CheckBase crchk = null;

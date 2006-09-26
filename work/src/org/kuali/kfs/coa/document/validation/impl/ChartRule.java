@@ -49,8 +49,10 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
 
         if (chartCode!=null && !chartCode.equals(reportsToChartCode)) { // if not equal to this newly created chart, then must exist
             Chart reportsToChart=chartService.getByPrimaryId(reportsToChartCode);
-            putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_CHART_REPORTS_TO_CHART_MUST_EXIST);
-            result = reportsToChart==null;
+            if (reportsToChart==null) {
+                result = false;
+                putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_CHART_REPORTS_TO_CHART_MUST_EXIST);
+            }
         }
         
         return result;

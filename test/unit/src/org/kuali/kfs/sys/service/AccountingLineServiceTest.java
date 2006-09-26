@@ -32,12 +32,14 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the AccountingLine service.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class AccountingLineServiceTest extends KualiTestBaseWithFixtures {
 
     private AccountingLineService accountingLineService;

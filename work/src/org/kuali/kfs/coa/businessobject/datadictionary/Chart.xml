@@ -108,7 +108,7 @@
             <attributeReference name="finCoaManagerUniversalId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Chart Manager Employee Id</label>
                 <shortLabel>Chart Manager</shortLabel>
-                <required>false</required>
+                <required>true</required>
                 <control>
                     <hidden />
                 </control>
@@ -149,7 +149,7 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
-                <required>false</required>
+                <required>true</required>
                 <control>
                     <text size="40" />
                 </control>
@@ -239,7 +239,7 @@
                 <shortLabel>rptsToChartCode</shortLabel>
 
                 <maxLength>2</maxLength>
-                <required>false</required>
+                <required>true</required>
 
                 <control>
                 	<text size="2"/>
@@ -383,6 +383,13 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="finCoaManagerUniversal" >
+                <primitiveAttribute sourceName="finCoaManagerUniversalId" targetName="personUniversalIdentifier" />
+            </relationship>
+        </relationships>
+
     </businessObject>
 </dictionaryEntry>
 

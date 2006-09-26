@@ -374,7 +374,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         DocumentInitiator initiatior = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            KualiUser initiatorUser = SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(initiatorNetworkId));
+            KualiUser initiatorUser = SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(initiatorNetworkId));
             initiatior.setKualiUser(initiatorUser);
         }
         catch (UserNotFoundException e) {

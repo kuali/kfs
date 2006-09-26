@@ -92,7 +92,7 @@
 							write="false" property="document.totalCashAmount" />
 					</c:if> <c:if test="${!readOnly}">
 						<kul:htmlControlAttribute property="document.totalCashAmount"
-							attributeEntry="${cashReceiptAttributes.totalCashAmount}" />
+							attributeEntry="${cashReceiptAttributes.totalCashAmount}" styleClass="amount" />
 					</c:if></td>
 				</tr>
 				<tr>
@@ -106,7 +106,7 @@
 							write="false" property="document.totalCoinAmount" />
 					</c:if> <c:if test="${!readOnly}">
 						<kul:htmlControlAttribute property="document.totalCoinAmount"
-							attributeEntry="${cashReceiptAttributes.totalCoinAmount}" />
+							attributeEntry="${cashReceiptAttributes.totalCoinAmount}" styleClass="amount" />
 					</c:if></td>
 				</tr>
 				<tr>

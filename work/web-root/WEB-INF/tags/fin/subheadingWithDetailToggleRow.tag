@@ -14,7 +14,7 @@
       <c:if test="${!empty KualiForm.hideDetails}">
         <c:set var="toggle" value="${KualiForm.hideDetails ? 'show' : 'hide'}"/>
         <html:image property="methodToCall.${toggle}Details" src="images/det-${toggle}.gif"
-                    alt="${toggle} transaction details" styleClass="tinybutton"/>
+                    alt="${toggle} transaction details" title="${toggle} transaction details" styleClass="tinybutton"/>
       </c:if>
     </span>
   </td>

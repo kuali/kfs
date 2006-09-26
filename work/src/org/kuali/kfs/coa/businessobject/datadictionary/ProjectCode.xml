@@ -86,7 +86,7 @@
                 </control>
             </attributeReference>
 
-            <attributeReference name="projectManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.KualiUser" sourceAttributeName="personUserIdentifier">
+            <attributeReference name="projectManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>Project Manager UserID</label>
                 <shortLabel>UserID</shortLabel>
                 <required>false</required>
@@ -99,7 +99,7 @@
                 <description>The UserID of the Project Manager.</description>
             </attributeReference>
 
-            <attributeReference name="projectManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.KualiUser" sourceAttributeName="personName">
+            <attributeReference name="projectManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
                 <label>Project Manager Name</label>
                 <shortLabel>Name</shortLabel>
                 <required>false</required>
@@ -181,6 +181,13 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="projectManagerUniversal" >
+                <primitiveAttribute sourceName="projectManagerUniversalId" targetName="personUniversalIdentifier" />
+            </relationship>
+        </relationships>
+
     </businessObject>
 </dictionaryEntry>
 

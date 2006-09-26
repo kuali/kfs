@@ -26,6 +26,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * Reporting Codes Business Object
@@ -130,7 +132,7 @@ public class ReportingCodes extends BusinessObjectBase {
     public void setFinancialReportsToReportingCode(String financialReportsToReportingCode) {
         this.financialReportsToReportingCode = financialReportsToReportingCode;
     }
-
+    
     /**
      * @return Returns the chart.
      */
@@ -161,10 +163,8 @@ public class ReportingCodes extends BusinessObjectBase {
         this.org = org;
     }
 
-    /**
-     * @return Returns the universalUser.
-     */
     public UniversalUser getUniversalUser() {
+        universalUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(financialReportingCodeMgrId, universalUser);
         return universalUser;
     }
 

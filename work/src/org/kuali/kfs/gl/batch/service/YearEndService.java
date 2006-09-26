@@ -24,8 +24,6 @@ package org.kuali.module.gl.batch.closing.year.service;
 
 
 /**
- * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id$
  */
 
 public interface YearEndService {

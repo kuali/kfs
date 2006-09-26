@@ -37,15 +37,6 @@
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cg.bo.ProjectDirector" table="CG_PRJDR_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="universalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUniversalIdentifier" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cg.bo.Subcontractor" table="CG_SUBCNR_T">
     <field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -57,18 +48,6 @@
     <field-descriptor name="subcontractorStateCode" column="CG_SUBCNR_ST_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="subcontractorZipCode" column="CG_SUBCNR_ZIP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="subcontractorCountryCode" column="CGSUBCNR_CNTRY_CD" jdbc-type="VARCHAR" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" table="CG_PRJDR_V">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="personUserIdentifier" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="employeeStatusCode" column="EMP_STAT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="employeeTypeCode" column="EMP_TYPE_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="deptid" column="DEPTID" jdbc-type="VARCHAR" />
-    <reference-descriptor name="personUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUniversalIdentifier" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ResearchType" table="CG_RESEARCH_TYP_T">
@@ -131,9 +110,6 @@
     </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="accountManagerUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="accountManagerUniversalId" />
     </reference-descriptor>
     <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalNumber" />
@@ -303,9 +279,6 @@
     <field-descriptor name="proposalClosedCount" column="CGPRPSL_CLOSED_CNT" jdbc-type="BIGINT" />
     <field-descriptor name="personUserIdentifier" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="userInitiatedCloseDate" column="CG_USR_INITIATE_DT" jdbc-type="TIMESTAMP" />
-    <reference-descriptor name="personUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUserIdentifier" target-field-ref="personUserIdentifier" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalDiary" table="CG_PRPSL_DIARY_T">
@@ -316,9 +289,6 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="proposalDiaryTopicDescription" column="PRPSL_DRY_TPC_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="proposalDiaryText" column="CGPRPSL_DIARY_TXT" jdbc-type="VARCHAR" />
-    <reference-descriptor name="personUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUniversalIdentifier" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.Award" table="CG_AWD_T">
@@ -458,9 +428,6 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="awardDiaryTopicDescription" column="CGAWD_DRY_TPC_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="awardDiaryText" column="CGAWD_DIARY_TXT" jdbc-type="VARCHAR" />
-    <reference-descriptor name="personUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personUniversalIdentifier" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.AwardOrganization" table="CG_AWD_ORG_T">
@@ -583,9 +550,6 @@
     </reference-descriptor>
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="accountManagerUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="accountManagerUniversalId" />
     </reference-descriptor>
     <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalNumber" />

@@ -56,7 +56,6 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.lookup.keyvalues.CorrectionGroupComparator;
 import org.kuali.core.lookup.keyvalues.OEGDateComparator;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -68,6 +67,7 @@ import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
@@ -82,46 +82,32 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
- * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
+ * @author 
+ * @version $Id: CorrectionAction.java,v 1.50 2006-09-26 05:49:46 abyrne Exp $
  * 
  */
-
 public class CorrectionAction extends KualiDocumentActionBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionAction.class);
 
-
-    private DateTimeService dateTimeService;
     private CorrectionForm errorCorrectionForm;
     private CorrectionDocument document;
     private OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
     private OriginEntryService originEntryService = (OriginEntryService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryService");
 
-
     private static final String[] DOCUMENT_LOAD_COMMANDS = { IDocHandler.ACTIONLIST_COMMAND, IDocHandler.DOCSEARCH_COMMAND, IDocHandler.SUPERUSER_COMMAND, IDocHandler.HELPDESK_ACTIONLIST_COMMAND };
-
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        /*
-         * //check authorization manually, since the auth-check isn't inherited by this class String docTypeName =
-         * SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CorrectionDocument.class); DocumentAuthorizer
-         * cmDocAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(docTypeName); KualiUser
-         * user = GlobalVariables.getUserSession().getKualiUser(); if (!cmDocAuthorizer.canInitiate(docTypeName, user)) { throw new
-         * DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", docTypeName);
-         *  }
-         */
-        CorrectionForm previousForm = (CorrectionForm) form;
+        LOG.debug("execute() started");
 
+        CorrectionForm previousForm = (CorrectionForm) form;
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(Constants.CORRECTION_FORM_KEY);
 
-
         if (errorCorrectionForm != null) {
-
             previousForm.setAllEntries(errorCorrectionForm.getAllEntries());
             previousForm.setEditableFlag(errorCorrectionForm.getEditableFlag());
             previousForm.setManualEditFlag(errorCorrectionForm.getManualEditFlag());
-            // previousForm.setGroupIdList(errorCorrectionForm.getGroupIdList());
         }
 
         if (request.getParameter("document.correctionChangeGroupNextLineNumber") != null) {
@@ -139,39 +125,30 @@ public class CorrectionAction extends KualiDocumentActionBase {
             request.setAttribute("displayTablePageNumber", displayTablePageNumber.toString());
         }
 
-
         if (displayTableColumnNumber != null) {
             request.setAttribute("displayTableColumnNumber", displayTableColumnNumber.toString());
         }
-
 
         return super.execute(mapping, form, request, response);
     }
 
     public ActionForward uploadFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
+        LOG.debug("uploadFile() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
 
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
-        OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", false, false, false);
+        OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, false, false, false);
 
 
         FormFile sourceFile = errorCorrectionForm.getSourceFile();
-        String curDir = System.getProperty("user.dir");
-        String lowerCaseFileName = StringUtils.lowerCase(sourceFile.getFileName());
-        // sourceFile.setFileName(lowerCaseFileName);
-        // fullFileName has file path
-        String fullFileName = curDir + " - " + sourceFile.getFileName();
-        Object fullFileNameObject = (Object) fullFileName;
 
+        String fullFileName = sourceFile.getFileName();
 
         sourceFile.getInputStream();
 
-        GlobalVariables.getUserSession().addObject("fileName", fullFileNameObject);
-        // CommonsMultipartRequestHandler.CommonsFormFile test = (CommonsMultipartRequestHandler.CommonsFormFile) sourceFile;
-        // CommonsMultipartRequestHandler test = (CommonsMultipartRequestHandler) sourceFile;
-
+        GlobalVariables.getUserSession().addObject("fileName", (Object)fullFileName);
 
         /*
          * DiskFile test = (DiskFile) sourceFile; String filePath = test.getFilePath();
@@ -185,7 +162,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
             while (currentLine != null) {
                 lineNumber += 1;
                 if (!currentLine.equals("")) {
-
                     try {
                         entryFromFile.setFromTextFile(currentLine, lineNumber);
                         entryFromFile.setEntryGroupId(newOriginEntryGroup.getId());
@@ -194,10 +170,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
                     catch (NumberFormatException e) {
 
                     }
-
-
                 }
-
                 currentLine = br.readLine();
             }
         }
@@ -220,14 +193,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
         }
 
         if (errorCorrectionForm.getEditMethod().equals("criteria")) {
-
-
             String groupId[] = { newOriginEntryGroup.getId().toString() };
             // the boolean is readOnly, show output only - not storing in DB
             showAllEntries(groupId, errorCorrectionForm, request);
         }
 
-        // errorCorrectionForm.setGroupIdList(new String[] {"newGroupId"});
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
@@ -244,6 +214,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      */
 
     public ActionForward addCorrectionGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addCorrectionGroup() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -270,6 +241,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward removeCorrectionGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("removeCorrectionGroup() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -303,6 +275,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward addSearchCriterion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addSearchCriterion() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -351,6 +324,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward removeSearchCriterion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("removeSearchCriterion() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -381,6 +355,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward addReplacementSpecification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addReplacementSpecification() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -430,6 +405,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward removeReplacementSpecification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("removeReplacementSpecification() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -460,6 +436,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public void searchAndReplaceWithCriteria(CorrectionForm errorCorrectionForm, HttpServletRequest request) throws Exception {
+        LOG.debug("searchAndReplaceWithCriteria() started");
 
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
@@ -471,15 +448,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         List correctionGroups = document.getCorrectionChangeGroup();
 
-        // check required field and show error messages
-        /*
-         * if (!checkEmptyValues(correctionGroups, groupId)){
-         * CorrectionActionHelper.sortForDisplay(document.getCorrectionChangeGroup());
-         * 
-         * return mapping.findForward(Constants.MAPPING_BASIC); }
-         */
-
-
         resultCorrectionList = searchAndReplace(groupId, errorCorrectionForm);
 
         errorCorrectionForm.setAllEntries(resultCorrectionList);
@@ -488,21 +456,21 @@ public class CorrectionAction extends KualiDocumentActionBase {
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
 
         if (errorCorrectionForm.isProcessInBatch()) {
-            newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", true, true, true);
-
+            // This is wrong.  true true true should only happen after document approval
+            newOriginEntryGroup = originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, true, true);
         }
         else {
-            newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", true, false, true);
+            newOriginEntryGroup = originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true);
         }
 
         // save to DB and calculate Debits/Blanks and Total Credits
-        KualiDecimal tempTotalDebitsOrBlanks = new KualiDecimal(0);
-        KualiDecimal tempTotalCredits = new KualiDecimal(0);
+        KualiDecimal tempTotalDebitsOrBlanks = KualiDecimal.ZERO;
+        KualiDecimal tempTotalCredits = KualiDecimal.ZERO;
 
         for (OriginEntry oe : resultCorrectionList) {
             originEntryService.createEntry(oe, newOriginEntryGroup);
 
-            if (oe.getTransactionDebitCreditCode().equals(" ") | oe.getTransactionDebitCreditCode().equals("D")) {
+            if (oe.getTransactionDebitCreditCode().equals(Constants.GL_BUDGET_CODE) | oe.getTransactionDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                 tempTotalDebitsOrBlanks = tempTotalDebitsOrBlanks.add(oe.getTransactionLedgerEntryAmount());
             }
             else {
@@ -515,8 +483,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
         document.setCorrectionCreditTotalAmount(tempTotalCredits);
         document.setCorrectionRowCount(resultCorrectionList.size());
 
-        document.setCorrectionInputFileName(groupId[0].toString());
-        document.setCorrectionOutputFileName(newOriginEntryGroup.getId().toString());
+        document.setCorrectionInputGroupId(Long.parseLong(groupId[0]));
+        document.setCorrectionOutputGroupId(newOriginEntryGroup.getId().longValue());
         document.setCorrectionTypeCode("C");
         // Store in DB CorrectionChange, CorrectionChangeGroup, CorrectionCriteria
         storeCorrectionGroup(document);
@@ -538,28 +506,29 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward readDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("readDocument() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         HttpSession session = request.getSession(true);
         if (checkOriginEntryGroupList(errorCorrectionForm)){
-        showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
+           showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
+        
+            if (errorCorrectionForm.getAllEntries().size() > 0) {
 
-        if (errorCorrectionForm.getAllEntries().size() > 0) {
-
-            if (errorCorrectionForm.getEditMethod().equals("manual")) {
+                if (errorCorrectionForm.getEditMethod().equals("manual")) {
                 errorCorrectionForm.setManualEditFlag("Y");
                 errorCorrectionForm.setEditableFlag("N");
-            }
-
+                }
             
-        } else {
-            request.setAttribute("noOriginEntry", "There are no records for the origin entry group selected.");
-        }
+            
+                } else {
+                    request.setAttribute("noOriginEntry", "There are no records for the origin entry group selected.");
+                }
 
-        // not need to if multiple dropdown keep values
-        session.setAttribute("groupId", errorCorrectionForm.getGroupIdList());
+            // not need to if multiple dropdown keep values
+            session.setAttribute("groupId", errorCorrectionForm.getGroupIdList());
 
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -574,6 +543,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      */
 
     public String changeSearchField(String op, String field) {
+        LOG.debug("changeSearchField() started");
 
         if (op.equals("ne")) {
             return "!" + field;
@@ -612,6 +582,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("route() started");
+
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -622,141 +594,28 @@ public class CorrectionAction extends KualiDocumentActionBase {
         
         if (errorCorrectionForm.getChooseSystem().equals("file")) {
             if (errorCorrectionForm.getEditMethod().equals("manual")) {
-
                 manualErrorCorrection(errorCorrectionForm, request);
-
-
             }
             else {
-
                 fileUploadSearchAndReplaceWithCriteria(errorCorrectionForm, request);
-
-
             }
             document.setCorrectionInputFileName((String) GlobalVariables.getUserSession().retrieveObject("fileName"));
         }
 
         if (errorCorrectionForm.getChooseSystem().equals("system")) {
             if (errorCorrectionForm.getEditMethod().equals("manual")) {
-
                 manualErrorCorrection(errorCorrectionForm, request);
-
-
             }
             else {
-
                 searchAndReplaceWithCriteria(errorCorrectionForm, request);
-
-
             }
         }
 
         document.setCorrectionSelectionCode(errorCorrectionForm.getMatchCriteriaOnly());
         document.setCorrectionFileDeleteCode(errorCorrectionForm.isProcessInBatch());
 
-
-        // build document common properties
-        // cause an error from workflow?, commented out
-        /*
-         * if (errorCorrectionForm.getChooseSystem().equals("file")){ document.setCorrectionSelectionCode(false); } else
-         * {document.setCorrectionSelectionCode(true);}
-         * 
-         * if (errorCorrectionForm.getDeleteOutput() != null) { document.setCorrectionFileDeleteCode(true); } else
-         * {document.setCorrectionFileDeleteCode(false);}
-         */
-
-
         return super.route(mapping, form, request, response);
     }
-
-
-    /**
-     * Method for Save
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    /*
-     * 
-     * public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-     * throws Exception {
-     * 
-     * return mapping.findForward(Constants.MAPPING_BASIC); }
-     */
-
-    /**
-     * Method for Approve
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-
-    /*
-     * public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse
-     * response) throws Exception { return mapping.findForward(Constants.MAPPING_BASIC);
-     * 
-     *  }
-     */
-
-    /**
-     * Method for Approve
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-
-    /*
-     * public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse
-     * response) throws Exception {
-     * 
-     * return mapping.findForward(Constants.MAPPING_BASIC); }
-     */
-
-    /**
-     * Method for Cancel
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-
-    /*
-     * public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-     * throws Exception {
-     * 
-     * return mapping.findForward(Constants.MAPPING_CANCEL); }
-     */
-
-    /**
-     * Method for Close
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-
-    /*
-     * public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-     * throws Exception { return mapping.findForward(Constants.MAPPING_CLOSE); }
-     */
 
     /**
      * Creating search Map from searchField and searchValues
@@ -826,12 +685,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
         while (oldEntryIter.hasNext()) {
             OriginEntry eachEntry = (OriginEntry) oldEntryIter.next();
             eachEntry.setEntryGroupId(newOriginEntryGroup.getId());
-            // returnCollection.add(eachEntry);
             originEntryService.createEntry(eachEntry, newOriginEntryGroup);
-
         }
-
-        // return returnCollection;
     }
 
     /**
@@ -841,7 +696,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @param correctionGroup
      */
     public OriginEntry replaceOriginEntryValues(OriginEntry eachReplaceEntries, CorrectionChangeGroup correctionGroup) throws Exception {
-
+        LOG.debug("replaceOriginEntryValues() started");
 
         CorrectionChange correctionReplacementSpecification;
         Iterator replaceIter = correctionGroup.getCorrectionChange().iterator();
@@ -908,16 +763,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @return boolean returnVal
      */
     public boolean checkEmptyValues(List correctionGroups, String[] groupId) {
-        boolean returnVal = true;
+        LOG.debug("checkEmptyValues() started");
 
-        // if the description is required, then
-        /*
-         * if (document.getDocumentHeader().getFinancialDocumentDescription() == null) {
-         * //GlobalVariables.getErrorMap().put("documentHeader.financialDocumentDescription", KeyConstants.ERROR_REQUIRED,
-         * "Financial Document Description");
-         * GlobalVariables.getErrorMap().put("document.documentHeader.financialDocumentDescription", KeyConstants.ERROR_REQUIRED,
-         * "Financial Document Description"); }
-         */
+        boolean returnVal = true;
 
         if (groupId == null) {
             GlobalVariables.getErrorMap().putError("searchFieldError", KeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED);
@@ -953,6 +801,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward chooseMainDropdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("chooseMainDropdown() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         GlobalVariables.getUserSession().removeObject(Constants.CORRECTION_FORM_KEY);
@@ -961,79 +810,47 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setEditableFlag("N");
         errorCorrectionForm.setManualEditFlag("N");
 
-
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
-
+        
         errorCorrectionForm.setProcessInBatch(true);
 
-        
         if (checkMainDropdown(errorCorrectionForm)){
-        // if users choose database to get document, then set the default entry group
-        if (errorCorrectionForm.getChooseSystem().equals("system")) {
+            //if users choose database to get document, then set the default entry group
+            if (errorCorrectionForm.getChooseSystem().equals("system")) {
 
-            OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
-            List<OriginEntryGroup> entryGroupList = (List) originEntryGroupService.getRecentGroupsByDays(Constants.CORRECTION_RECENT_GROUPS_DAY);
+                OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+                List<OriginEntryGroup> entryGroupList = (List) originEntryGroupService.getAllOriginEntryGroup();
 
-            // if there is at least one group on the list
-            if (entryGroupList.size() > 0) {
-                List<OriginEntryGroup> sceGroupList = new ArrayList();
+                // if there is at least one group on the list
+                if (entryGroupList.size() > 0) {
+                    List<OriginEntryGroup> sceGroupList = new ArrayList();
 
-                for (OriginEntryGroup oeg : entryGroupList) {
-                    if (oeg.getSourceCode().equals("SCE")) {
-                        sceGroupList.add(oeg);
+                    for (OriginEntryGroup oeg : entryGroupList) {
+                        if (oeg.getSourceCode().equals(OriginEntrySource.SCRUBBER_ERROR)) {
+                            sceGroupList.add(oeg);
+                        }
                     }
-                }
-                // if there is at least one SCE group on the list
-                if (sceGroupList.size() > 0) {
-                    OEGDateComparator oegDateComparator = new OEGDateComparator();
-                    Collections.sort(sceGroupList, oegDateComparator);
-                    Collections.sort(entryGroupList, oegDateComparator);
+                    // if there is at least one SCE group on the list
+                    if (sceGroupList.size() > 0) {
+                        OEGDateComparator oegDateComparator = new OEGDateComparator();
+                        Collections.sort(sceGroupList, oegDateComparator);
+                        Collections.sort(entryGroupList, oegDateComparator);
 
-                    String[] defaultGroupId = { sceGroupList.get(0).getId().toString() };
-                    errorCorrectionForm.setGroupIdList(defaultGroupId);
-                }
-                else {
-                    // if there is not SCE group on the list, default group is first group on the list
-                    String[] defaultGroupId = { entryGroupList.get(0).getId().toString() };
-                    errorCorrectionForm.setGroupIdList(defaultGroupId);
+                        String[] defaultGroupId = { sceGroupList.get(0).getId().toString() };
+                        errorCorrectionForm.setGroupIdList(defaultGroupId);
+                    }
+                    else {
+                        // if there is not SCE group on the list, default group is first group on the list
+                        String[] defaultGroupId = { entryGroupList.get(0).getId().toString() };
+                        errorCorrectionForm.setGroupIdList(defaultGroupId);
+                    }
+
                 }
 
             }
-
-        }
         } 
-
-
-        /*
-         * //rebuild tabstate if (errorCorrectionForm.getEditMethod().equals("Manual")){
-         * errorCorrectionForm.getTabState(0).setOpen(true); errorCorrectionForm.getTabState(0).setOpen(true);
-         * errorCorrectionForm.getTabState(0).setOpen(true); errorCorrectionForm.getTabState(0).setOpen(true);
-         * errorCorrectionForm.getTabState(0).setOpen(false); errorCorrectionForm.getTabState(0).setOpen(false);
-         * 
-         *  }
-         */
-
-
-        /*
-         * //default group is latest scrubber error file. OriginEntryGroupService originEntryGroupService =
-         * (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService"); List
-         * <OriginEntryGroup> entryGroupList = (List) originEntryGroupService.getAllOriginEntryGroup(); List <OriginEntryGroup>
-         * sceGroupList = new ArrayList();
-         * 
-         * for(OriginEntryGroup oeg: entryGroupList){ if (oeg.getSourceCode().equals("SCE")){ sceGroupList.add(oeg); } }
-         * 
-         * OEGDateComparator oegDateComparator = new OEGDateComparator(); Collections.sort(sceGroupList, oegDateComparator);
-         * Collections.sort(entryGroupList, oegDateComparator);
-         * 
-         * //if there is a SCE group then default value for group list is SCE. If not, the latest group is default if
-         * (sceGroupList.get(0) != null ){ String[] defaultGroupId = {sceGroupList.get(0).getId().toString()};
-         * errorCorrectionForm.setGroupIdList(defaultGroupId); } else { String[] defaultGroupId =
-         * {entryGroupList.get(0).toString()}; errorCorrectionForm.setGroupIdList(defaultGroupId); }
-         * 
-         * 
-         */return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
 
     /**
      * Show one entry for Manual edit
@@ -1046,6 +863,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward showOneEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("showOneEntry() started");
+
         HttpSession session = request.getSession(true);
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
@@ -1079,18 +898,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         errorCorrectionForm.setEditingEntryId(editEntryId);
 
-
-        /*
-         * Object displayTableParameterPage = GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_PAGE_NUMBER);
-         * Object displayTableParameterColumn =
-         * GlobalVariables.getUserSession().retrieveObject(Constants.DISPLAY_TABLE_COLUMN_NUMBER);
-         *//*
-             * if (displayTableParameterPage != null) { request.getParameterMap().put(Constants.DISPLAY_TABLE_PARAMETER_PAGE_NAME,
-             * displayTableParameterPage); } if (displayTableParameterColumn !=null) {
-             * request.getParameterMap().put(Constants.DISPLAY_TABLE_PARAMETER_COLUMN_NAME, displayTableParameterColumn); }
-             */
-
-
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -1105,9 +912,10 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward editEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("editEntry() started");
+
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         OriginEntry oe = errorCorrectionForm.getEachEntryForManualEdit();
-        // OriginEntry temp = (OriginEntry) request.getAttribute("eachEntryForManualEdit");
 
         // set entryId
         // null id means user added a new entry.
@@ -1146,7 +954,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
             originEntryService.createEntry(oe, newOriginEntryGroup);
 
         }
-
+       
         OriginEntry newOriginEntry = new OriginEntry();
         errorCorrectionForm.setEachEntryForManualEdit(newOriginEntry);
 
@@ -1161,7 +969,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         if (ccg.getCorrectionCriteria().size() > 0) {
             searchForManualEdit(mapping, form, request, response);
         } else {
-        showAllEntries(newGroupId, errorCorrectionForm, request);
+            showAllEntries(newGroupId, errorCorrectionForm, request);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -1170,6 +978,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
 
     public ActionForward addEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addEntry() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         OriginEntry oe = errorCorrectionForm.getNewEntryForManualEdit();
@@ -1200,6 +1009,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward searchForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("searchForManualEdit() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -1209,10 +1019,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         List correctionGroups = document.getCorrectionChangeGroup();
         String groupId;
-        /*
-         * if (request.getAttribute("chooseSystem") == "file") { groupId = (String) session.getAttribute("newGroupId"); } else {
-         * groupId = (String) session.getAttribute("newGroupId"); }
-         */
+
         groupId = (String) session.getAttribute("newGroupId");
 
         CorrectionChangeGroup correctionGroup;
@@ -1260,6 +1067,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
 
     public ActionForward searchCancelForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("searchCancelForManualEdit() started");
+
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
         document.getCorrectionChangeGroup().clear();
@@ -1279,13 +1088,14 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public void manualErrorCorrection(CorrectionForm errorCorrectionForm, HttpServletRequest request) throws Exception {
+        LOG.debug("manualErrorCorrection() started");
 
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
 
         Map searchMap = new HashMap();
 
         HttpSession session = request.getSession(true);
-
+        
         //TODO: newGroupId can be null when user did not click edit button after loading a docu.
         //TODO: should fix!
         String newGroupId = (String) session.getAttribute("newGroupId");
@@ -1308,18 +1118,14 @@ public class CorrectionAction extends KualiDocumentActionBase {
         searchMap.put("entryGroupId", newGroupId);
         Collection<OriginEntry> searchResult = originEntryService.getMatchingEntriesByCollection(searchMap);
 
-        KualiDecimal tempTotalDebitsOrBlanks = new KualiDecimal(0);
-        KualiDecimal tempTotalCredits = new KualiDecimal(0);
-
+        KualiDecimal tempTotalDebitsOrBlanks = KualiDecimal.ZERO;
+        KualiDecimal tempTotalCredits = KualiDecimal.ZERO;
 
         for (OriginEntry oe : searchResult) {
-            if (oe.getTransactionDebitCreditCode().equals(" ") | oe.getTransactionDebitCreditCode().equals("D")) {
-
-
+            if (oe.getTransactionDebitCreditCode().equals(Constants.GL_BUDGET_CODE) | oe.getTransactionDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                 tempTotalDebitsOrBlanks = tempTotalDebitsOrBlanks.add(oe.getTransactionLedgerEntryAmount());
             }
             else {
-
                 tempTotalCredits = tempTotalCredits.add(oe.getTransactionLedgerEntryAmount());
             }
         }
@@ -1336,16 +1142,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
             document.setCorrectionInputFileName(inputFileName);
         }
 
-        document.setCorrectionOutputFileName(newOriginEntryGroup.getId().toString());
+        document.setCorrectionOutputGroupId(newOriginEntryGroup.getId().longValue());
         document.setCorrectionTypeCode("M");
 
         document.setCorrectionDebitTotalAmount(tempTotalDebitsOrBlanks);
         document.setCorrectionCreditTotalAmount(tempTotalCredits);
         document.setCorrectionRowCount(searchResult.size());
-
-        /*
-         * errorCorrectionForm.setEditMethod(null); errorCorrectionForm.setChooseSystem(null);
-         */
     }
 
     /**
@@ -1354,6 +1156,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @param groupId
      */
     public void showAllEntries(String[] groupId, CorrectionForm errorCorrectionForm, HttpServletRequest request) {
+        LOG.debug("showAllEntries() started");
 
         String previousCorrectionFormKey = request.getParameter(Constants.CORRECTION_FORM_KEY);
         if (!(previousCorrectionFormKey == null)) {
@@ -1374,16 +1177,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setAllEntries(resultFromGroupId);
 
 
-        // request.setAttribute("reqSearchResults", resultFromGroupId);
-
-        /*
-         * String searchResultKey = GlobalVariables.getUserSession().addObject(resultFromGroupId, Constants.SEARCH_LIST_KEY_PREFIX);
-         * request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, searchResultKey);
-         */
-
         GlobalVariables.getUserSession().addObject(Constants.CORRECTION_FORM_KEY, errorCorrectionForm);
-        // request.setAttribute(Constants.CORRECTION_FORM_KEY, correctionFormKey);
-
     }
 
     /**
@@ -1393,6 +1187,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @param CorrectionGroups
      */
     public Collection searchAndReplace(String[] groupId, CorrectionForm errorCorrectionForm) {
+        LOG.debug("searchAndReplace() started");
 
         LookupService lookupService = (LookupService) SpringServiceLocator.getBeanFactory().getBean("lookupService");
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -1403,7 +1198,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // create an OriginEntryGroup
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
         // create a docu with all indicators as false(N)
-        OriginEntryGroup copiedOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", false, false, false);
+        OriginEntryGroup copiedOriginEntryGroup = originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, false, false, false);
 
         OriginEntryGroupDao originEntryGroupDao = (OriginEntryGroupDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupDao");
         OriginEntryDao originEntryDao = (OriginEntryDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryDao");
@@ -1411,12 +1206,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // copy a group
         OriginEntryGroup originalOEG = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(groupId[0]));
         originEntryGroupDao.copyGroup(originalOEG, copiedOriginEntryGroup);
-
-        /*
-         * Map testHashMap = new HashMap(); testHashMap.put("entryGroupId", copiedOriginEntryGroup.getId()); Collection test =
-         * originEntryDao.getMatchingEntriesByCollection(testHashMap);
-         */
-
 
         // sorting correctionGroup
         CorrectionGroupComparator ccgComparator = new CorrectionGroupComparator();
@@ -1463,14 +1252,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
                 // initialize search field
                 fieldValues = new HashMap();
             }
-
-            /*
-             * // build result collection if (errorCorrectionForm.getMatchCriteriaOnly() == false) { resultMap.put("entryGroupId",
-             * groupId[i]); Collection<OriginEntry> tempResultList = originEntryService.getMatchingEntriesByCollection(resultMap);
-             *  // not adding entries which are in changedMap for (OriginEntry oe : tempResultList) { if
-             * (changedEntryMap.get(oe.getEntryId()) == null) { finalResult.add(oe); }
-             *  } }
-             */
         }
 
 
@@ -1506,6 +1287,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public void fileUploadSearchAndReplaceWithCriteria(CorrectionForm errorCorrectionForm, HttpServletRequest request) throws Exception {
+        LOG.debug("fileUploadSearchAndReplaceWithCriteria() started");
 
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // TODO: Change later. The purpose of this method is just for groupId.
@@ -1520,14 +1302,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         List correctionGroups = document.getCorrectionChangeGroup();
 
-        // check required field and show error messages
-        /*
-         * if (!checkEmpteyValues(correctionGroups, groupId)){
-         * CorrectionActionHelper.sortForDisplay(document.getCorrectionChangeGroup());
-         * 
-         * return mapping.findForward(Constants.MAPPING_BASIC); }
-         */
-
         // the boolean is readOnly, show output only - not storing in DB
         resultCorrectionList = searchAndReplace(groupId, errorCorrectionForm);
 
@@ -1536,21 +1310,21 @@ public class CorrectionAction extends KualiDocumentActionBase {
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
 
         if (errorCorrectionForm.isProcessInBatch()) {
-            newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", true, true, true);
-
+            // TODO This is wrong.  It should only be true true true after it is approved
+            newOriginEntryGroup = originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, true, true);
         }
         else {
-            newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", true, false, true);
+            newOriginEntryGroup = originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true);
         }
 
         // save to DB and calculate Debits/Blanks and Total Credits
-        KualiDecimal tempTotalDebitsOrBlanks = new KualiDecimal(0);
-        KualiDecimal tempTotalCredits = new KualiDecimal(0);
+        KualiDecimal tempTotalDebitsOrBlanks = KualiDecimal.ZERO;
+        KualiDecimal tempTotalCredits = KualiDecimal.ZERO;
 
         for (OriginEntry oe : resultCorrectionList) {
             originEntryService.createEntry(oe, newOriginEntryGroup);
 
-            if (oe.getTransactionDebitCreditCode().equals(" ") | oe.getTransactionDebitCreditCode().equals("D")) {
+            if (oe.getTransactionDebitCreditCode().equals(Constants.GL_BUDGET_CODE) | oe.getTransactionDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                 tempTotalDebitsOrBlanks = tempTotalDebitsOrBlanks.add(oe.getTransactionLedgerEntryAmount());
             }
             else {
@@ -1580,9 +1354,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     // If user click 'edit', thne all entries store in DB.
 
     public ActionForward showEditMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("showEditMethod() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
-        // CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         HttpSession session = request.getSession(true);
 
@@ -1599,7 +1373,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
             // create an OriginEntryGroup
             java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
             // create a docu with all indicators as false(N)
-            newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", false, false, false);
+            newOriginEntryGroup = originEntryGroupService.createGroup(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, false, false, false);
 
             // Create new Entries with newOriginEntryGroup
             Collection<OriginEntry> newEntries = errorCorrectionForm.getAllEntries();
@@ -1613,7 +1387,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
             showAllEntries(groupIdList, errorCorrectionForm, request);
         }
-
 
         errorCorrectionForm.setEditableFlag("Y");
         // manualEditFlag is for activate a button for asking user to ask edit the docu.
@@ -1644,6 +1417,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward addSearchCriterionForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addSearchCriterionForManualEdit() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -1697,6 +1471,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward removeSearchCriterionForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("removeSearchCriterionForManualEdit() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -1730,10 +1505,10 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
 
     public ActionForward deleteEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("deleteEntry() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument(); 
-
 
         String stringEditEntryId = "";
         for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
@@ -1752,7 +1527,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         originEntryService.delete(eachEntry);
         HttpSession session = request.getSession(true);
         String[] newGroupId = { (String) session.getAttribute("newGroupId") };
-
+        
         OriginEntry newOriginEntry = new OriginEntry();
         errorCorrectionForm.setEachEntryForManualEdit(newOriginEntry);
 
@@ -1761,7 +1536,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         errorCorrectionForm.setManualEditFlag("N");
 
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
-
+        
         //search 
         CorrectionChangeGroup ccg = (CorrectionChangeGroup) document.getCorrectionChangeGroup().get(0);
         if (ccg.getCorrectionCriteria().size() > 0) {
@@ -1774,6 +1549,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
 
     public ActionForward showOutputFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("showOutputFile() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         document = (CorrectionDocument) errorCorrectionForm.getDocument();
@@ -1795,19 +1571,20 @@ public class CorrectionAction extends KualiDocumentActionBase {
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultCorrectionList, Constants.SEARCH_LIST_KEY_PREFIX));
 
         // calculate Debits/Blanks and Total Credits
-        KualiDecimal tempTotalDebitsOrBlanks = new KualiDecimal(0);
-        KualiDecimal tempTotalCredits = new KualiDecimal(0);
+        KualiDecimal tempTotalDebitsOrBlanks = KualiDecimal.ZERO;
+        KualiDecimal tempTotalCredits = KualiDecimal.ZERO;
 
         for (OriginEntry oe : resultCorrectionList) {
             if (oe.getTransactionDebitCreditCode() != null){
-            if (oe.getTransactionDebitCreditCode().equals(" ") | oe.getTransactionDebitCreditCode().equals("D")) {
+                if (oe.getTransactionDebitCreditCode().equals(Constants.GL_BUDGET_CODE) | oe.getTransactionDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
+                    tempTotalDebitsOrBlanks = tempTotalDebitsOrBlanks.add(oe.getTransactionLedgerEntryAmount());
+                }
+                else {
+                    tempTotalCredits = tempTotalCredits.add(oe.getTransactionLedgerEntryAmount());
+                }
+            } else {
                 tempTotalDebitsOrBlanks = tempTotalDebitsOrBlanks.add(oe.getTransactionLedgerEntryAmount());
             }
-            else {
-                tempTotalCredits = tempTotalCredits.add(oe.getTransactionLedgerEntryAmount());
-            }
-            } else {tempTotalDebitsOrBlanks = tempTotalDebitsOrBlanks.add(oe.getTransactionLedgerEntryAmount());}
-            
         }
 
         document.setCorrectionDebitTotalAmount(tempTotalDebitsOrBlanks);
@@ -1829,6 +1606,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
 
     public ActionForward saveToDesktop(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        LOG.debug("saveToDesktop() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
@@ -1857,8 +1635,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
 
-        // response.setContentLength(bw.size());
-
         // write to output
 
         bw.flush();
@@ -1869,33 +1645,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
         // return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /*
-     * public ActionForward showPreviousCorrectionFiles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-     * HttpServletResponse response) throws WorkflowException {
-     * 
-     * CorrectionChangeGroupDao correctionChangeGroupDao = (CorrectionChangeGroupDao)
-     * SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeGroupDao"); CorrectionChangeDao correctionChangeDao =
-     * (CorrectionChangeDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeDao"); CorrectionCriteriaDao
-     * correctionCriteriaDao = (CorrectionCriteriaDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionCriteriaDao");
-     * 
-     * CorrectionChangeGroup correctionChangeGroup = new CorrectionChangeGroup(); CorrectionChange correctionChange = new
-     * CorrectionChange(); CorrectionCriteria correctionCriteria = new CorrectionCriteria(); CorrectionForm errorCorrectionForm =
-     * (CorrectionForm) form;
-     * 
-     * DocumentDao documentDao = (DocumentDao) SpringServiceLocator.getBeanFactory().getBean("documentDao");
-     * 
-     * CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument(); Integer docId =
-     * errorCorrectionForm.getOldDocId(); CorrectionDocument oldDoc = (CorrectionDocument)
-     * documentDao.findByDocumentHeaderId(CorrectionDocument.class, docId.toString());
-     * 
-     * buildFormForShowingPreviousDoc(errorCorrectionForm, request, oldDoc);
-     * 
-     * return mapping.findForward(Constants.MAPPING_BASIC);
-     *  }
-     */
-
-
     public ActionForward confirmDeleteDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("confirmDeleteDocument() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
@@ -1906,6 +1657,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
 
     public ActionForward deleteDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("deleteDocument() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         showAllEntries(errorCorrectionForm.getGroupIdList(), errorCorrectionForm, request);
@@ -1917,12 +1669,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
             originEntryGroupService.save(oeg);
         }
 
-
         return mapping.findForward(Constants.MAPPING_BASIC);
-
     }
 
     public void storeCorrectionGroup(CorrectionDocument document) {
+        LOG.debug("storeCorrectionGroup() started");
 
         CorrectionChangeGroupDao correctionChangeGroupDao = (CorrectionChangeGroupDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeGroupDao");
         CorrectionChangeDao correctionChangeDao = (CorrectionChangeDao) SpringServiceLocator.getBeanFactory().getBean("glCorrectionChangeDao");
@@ -1957,28 +1708,16 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
 
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("viewResults() started");
 
-        /*
-         * request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
-         * request.setAttribute("reqSearchResults",
-         * GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
-         */
-        // UserSession userSession = (UserSession) request.getSession().getAttribute(Constants.USER_SESSION_KEY);
-
-        // errorCorrectionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(Constants.CORRECTION_FORM_KEY);
-        // errorCorrectionForm.setMethodToCall("viewResults");
         CorrectionForm sessionForm = (CorrectionForm) GlobalVariables.getUserSession().retrieveObject(Constants.CORRECTION_FORM_KEY);
 
-
         errorCorrectionForm = (CorrectionForm) form;
-        // form = (CorrectionForm) errorCorrectionForm;
-
 
         errorCorrectionForm.setChooseSystem(sessionForm.getChooseSystem());
         errorCorrectionForm.setEditMethod(sessionForm.getEditMethod());
         errorCorrectionForm.setManualEditFlag(sessionForm.getManualEditFlag());
         errorCorrectionForm.setEditableFlag(sessionForm.getEditableFlag());
-
 
         errorCorrectionForm.setDocument(sessionForm.getDocument());
         errorCorrectionForm.setDeleteFileFlag(sessionForm.getDeleteFileFlag());
@@ -2009,6 +1748,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("docHandler() started");
 
         CorrectionForm errorCorrectionForm = (CorrectionForm) form;
         String command = errorCorrectionForm.getCommand();
@@ -2024,7 +1764,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         }
         else {
-            // LOG.error("docHandler called with invalid parameters");
+            LOG.error("docHandler called with invalid parameters");
             throw new IllegalStateException("docHandler called with invalid parameters");
         }
 
@@ -2033,6 +1773,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
 
     public void buildFormForShowingPreviousDoc(CorrectionForm errorCorrectionForm, HttpServletRequest request, CorrectionDocument oldDoc) {
+        LOG.debug("buildFormForShowingPreviousDoc() started");
+
         CorrectionDocumentService correctionDocumentService = (CorrectionDocumentService) SpringServiceLocator.getBeanFactory().getBean("glCorrectionDocumentService");
 
         // build errorCorrectionForm
@@ -2045,7 +1787,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
         CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument();
 
         errorCorrectionForm.setDocument(oldDoc);
-
+        
+       
         try {
             if (oldDoc.getCorrectionTypeCode().equals("M")) {
                 request.setAttribute("oldDocEditMethod", "Manual Edit");
@@ -2089,6 +1832,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
                 intGroupId = Integer.parseInt(groupId[0]);
             }
             catch (Exception e) {
+                // TODO What if it is an invalid integer?
             }
 
 
@@ -2106,6 +1850,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         }
         catch (Exception e) {
+            // TODO What now?
         }
 
         errorCorrectionForm.setProcessInBatch(oldDoc.getCorrectionFileDeleteCode());
@@ -2114,30 +1859,14 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
     }
 
-    public OriginEntryGroupService getOriginEntryGroupService() {
-        return originEntryGroupService;
-    }
-
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
-    }
-
-    public OriginEntryService getOriginEntryService() {
-        return originEntryService;
-    }
-
-    public void setOriginEntryService(OriginEntryService originEntryService) {
-        this.originEntryService = originEntryService;
-    }
-
     public String changeFieldName(String fieldName) {
 
         if (fieldName.equals("Fiscal Year")) {
             return "universityFiscalYear";
         }
-        if (fieldName.equals("Budget Year")) {
-            return "budgetYear";
-        }
+//        if (fieldName.equals("Budget Year")) {
+//            return "budgetYear";
+//        }
         if (fieldName.equals("Chart Code")) {
             return "chartOfAccountsCode";
         }
@@ -2213,20 +1942,25 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         return null;
     }
-
+    
     public boolean checkMainDropdown(CorrectionForm errorCorrectionForm) {
+        LOG.debug("checkMainDropdown() started");
+
         boolean returnVal = true;
         if (errorCorrectionForm.getChooseSystem() == null){
             GlobalVariables.getErrorMap().putError("systemAndEditMethod", KeyConstants.ERROR_GL_ERROR_CORRECTION_SYSTEMFIELD_REQUIRED);
             returnVal = false;
-}
+        }
             if (errorCorrectionForm.getEditMethod() == null) {
             GlobalVariables.getErrorMap().putError("systemAndEditMethod", KeyConstants.ERROR_GL_ERROR_CORRECTION_EDITMETHODFIELD_REQUIRED);
             returnVal = false;
         }
         return returnVal;
     }
+    
     public boolean checkOriginEntryGroupList(CorrectionForm errorCorrectionForm){
+        LOG.debug("checkOriginEntryGroupList() started");
+
         boolean returnVal = true;
         if (errorCorrectionForm.getGroupIdList() == null){
             GlobalVariables.getErrorMap().putError("documentLoadError", KeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED); 
@@ -2237,7 +1971,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
     
     public void changeSearchOperatorLabel(CorrectionForm errorCorrectionForm){
-        
+        LOG.debug("changeSearchOperatorLabel() started");
+
         CorrectionDocument document = (CorrectionDocument) errorCorrectionForm.getDocument(); 
         
         List<CorrectionChangeGroup> ccgList = document.getCorrectionChangeGroup();
@@ -2251,4 +1986,11 @@ public class CorrectionAction extends KualiDocumentActionBase {
         }
     }
     
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
+    }
+
+    public void setOriginEntryService(OriginEntryService originEntryService) {
+        this.originEntryService = originEntryService;
+    }
 }

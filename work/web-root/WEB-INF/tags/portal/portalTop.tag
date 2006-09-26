@@ -18,7 +18,7 @@ if (top.location != self.location) {
 </head>
 <body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
 
- <div id="header">
-    <h1><span>Kuali</span></h1>
+ <div id="header" title="Kuali Financial System">
+    <h1></h1>Kuali Financial System
   </div>
   <div id="build">${ConfigProperties.version}</div>

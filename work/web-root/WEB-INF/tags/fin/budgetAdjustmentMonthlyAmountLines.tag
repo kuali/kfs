@@ -36,10 +36,10 @@
             <tr>
                 <td colspan="4" class="tab-subhead" style="border-right: none;">Monthly Lines 
                   <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-hide.gif" alt="hide" styleClass="tinybutton"  styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton"  styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
                  </c:if>
                  <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                   <html:image  property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                   <html:image  property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
                  </c:if>
                 </td>
             </tr>
@@ -55,39 +55,39 @@
         <table class="datatable" style="width: 100%;">
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth1LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth1LineAmount}" property="${accountingLine}.financialDocumentMonth1LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth1LineAmount}" property="${accountingLine}.financialDocumentMonth1LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth7LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth7LineAmount}" property="${accountingLine}.financialDocumentMonth7LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth7LineAmount}" property="${accountingLine}.financialDocumentMonth7LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth2LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth2LineAmount}" property="${accountingLine}.financialDocumentMonth2LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth2LineAmount}" property="${accountingLine}.financialDocumentMonth2LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth8LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth8LineAmount}" property="${accountingLine}.financialDocumentMonth8LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth8LineAmount}" property="${accountingLine}.financialDocumentMonth8LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth3LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth3LineAmount}" property="${accountingLine}.financialDocumentMonth3LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth3LineAmount}" property="${accountingLine}.financialDocumentMonth3LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth9LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth9LineAmount}" property="${accountingLine}.financialDocumentMonth9LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth9LineAmount}" property="${accountingLine}.financialDocumentMonth9LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth4LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth4LineAmount}" property="${accountingLine}.financialDocumentMonth4LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth4LineAmount}" property="${accountingLine}.financialDocumentMonth4LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth10LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth10LineAmount}" property="${accountingLine}.financialDocumentMonth10LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth10LineAmount}" property="${accountingLine}.financialDocumentMonth10LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth5LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth5LineAmount}" property="${accountingLine}.financialDocumentMonth5LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth5LineAmount}" property="${accountingLine}.financialDocumentMonth5LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth11LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth11LineAmount}" property="${accountingLine}.financialDocumentMonth11LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth11LineAmount}" property="${accountingLine}.financialDocumentMonth11LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth6LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth6LineAmount}" property="${accountingLine}.financialDocumentMonth6LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth6LineAmount}" property="${accountingLine}.financialDocumentMonth6LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${baAttributes.financialDocumentMonth12LineAmount}" readOnly="${!KualiForm.editingMode['fullEntry']}"/></div></th>
-                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth12LineAmount}" property="${accountingLine}.financialDocumentMonth12LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}"/></td>
+                <td align="left" valign="middle"><kul:htmlControlAttribute attributeEntry="${baAttributes.financialDocumentMonth12LineAmount}" property="${accountingLine}.financialDocumentMonth12LineAmount" readOnly="${!KualiForm.editingMode['fullEntry']}" styleClass="amount"/></td>
             </tr>
             
           </table>

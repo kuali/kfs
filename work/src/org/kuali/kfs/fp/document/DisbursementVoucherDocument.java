@@ -58,7 +58,7 @@ import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private Integer finDocNextRegistrantLineNbr;
@@ -841,7 +841,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      */
     public void initiateDocument() {
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-        setDisbVchrContactPersonName(currentUser.getPersonName());
+        setDisbVchrContactPersonName(currentUser.getUniversalUser().getPersonName());
         setCampusCode(currentUser.getOrganization().getOrganizationPhysicalCampusCode());
 
         // due date

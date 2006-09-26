@@ -80,7 +80,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to Budget Adjustment Card document.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
 

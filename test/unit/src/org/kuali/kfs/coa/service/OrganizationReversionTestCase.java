@@ -29,7 +29,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class OrganizationReversionTestCase extends KualiTestBaseWithSpring {
 

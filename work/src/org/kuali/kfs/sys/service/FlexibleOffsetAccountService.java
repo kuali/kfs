@@ -29,7 +29,7 @@ import org.kuali.module.gl.bo.OriginEntry;
 /**
  * This interface defines methods that a FlexibleOffsetAccount Service must provide.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public interface FlexibleOffsetAccountService {
 

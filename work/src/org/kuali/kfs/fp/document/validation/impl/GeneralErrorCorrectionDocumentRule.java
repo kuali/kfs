@@ -50,7 +50,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * Business rule(s) applicable to <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code>
  * instances.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRuleBase {
 

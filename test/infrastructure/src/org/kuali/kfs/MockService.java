@@ -34,7 +34,7 @@ import junit.framework.AssertionFailedError;
  * arguments, and can also relay unspecified methods or arguments to a fallback service. Note that this proxy does not do Spring
  * things like AOP transactions, altho the fallback service may.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class MockService implements InvocationHandler {
 

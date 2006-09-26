@@ -74,7 +74,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to Disbursement Voucher documents.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherRuleConstants, GenerateGeneralLedgerDocumentPendingEntriesRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
@@ -111,7 +111,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         // report (and log) errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier() };
+            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getUniversalUser().getPersonUserIdentifier() };
             GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
         }
 
@@ -1338,7 +1338,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         KualiUser initUser = null;
         try {
 
-            initUser = SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+            initUser = SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
         }
         catch (UserNotFoundException e) {
             throw new RuntimeException("Document Initiator not found " + e.getMessage());

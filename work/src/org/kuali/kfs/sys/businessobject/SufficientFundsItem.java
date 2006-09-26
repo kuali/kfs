@@ -24,6 +24,7 @@ package org.kuali.module.gl.util;
 
 import java.io.Serializable;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -68,7 +69,7 @@ public class SufficientFundsItem implements Serializable, Comparable {
     }
 
     public void add(Transaction t) {
-        if (t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode())) {
+        if (t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) || Constants.EMPTY_STRING.equals(t.getTransactionDebitCreditCode())) {
             amount = amount.add(t.getTransactionLedgerEntryAmount());
         }
         else {

@@ -33,7 +33,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCodeCurrent;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class OffsetAccount extends BusinessObjectBase {
 

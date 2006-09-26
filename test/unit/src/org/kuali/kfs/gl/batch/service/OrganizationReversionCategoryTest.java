@@ -29,10 +29,12 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
-import org.kuali.test.KualiTestBaseWithSpringOnly;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
 
-public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOnly {
+@WithTestSpringContext
+public class OrganizationReversionCategoryTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionCategoryTest.class);
 
     private BeanFactory beanFactory;

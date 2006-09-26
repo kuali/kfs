@@ -30,8 +30,8 @@ import org.kuali.module.chart.dao.SubFundGroupDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author Bin Gao from Michigan State University
- * @author Laran Evans <lc278@cornell.edu>
+ * @author 
+ * @author 
  */
 public class SubFundGroupDaoOjb extends PersistenceBrokerDaoSupport implements SubFundGroupDao {
 

@@ -20,10 +20,10 @@
       </c:when> 
       <c:otherwise> 
       <html:form action="/portal.do" method="post" style="margin:0;">
-          <input name="backdoorId" type="text" class="searchbox" size="10">
+          <input name="backdoorId" type="text" class="searchbox" size="10" title="Enter your backdoor ID here.">
           <input name="channelUrl" type="hidden" value="${ConfigProperties.workflow.base.url}/Portal.do">
           <input name="channelTitle" type="hidden" value="Workflow Services">
-          <input name="imageField" type="submit" value="login" class="go">
+          <input name="imageField" type="submit" value="login" class="go" title="Click to login.">
           </html:form> 
           </c:otherwise> 
           </c:choose> 

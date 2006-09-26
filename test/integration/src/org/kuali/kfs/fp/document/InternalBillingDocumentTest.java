@@ -34,14 +34,17 @@ import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 /**
  * This class is used to test InternalBillingDocument.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
     public static final String COLLECTION_NAME = "InternalBillingDocumentTest.collection1";
     public static final String USER_NAME = "user1";
@@ -136,6 +139,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @exception Exception
      */
+    @TestsWorkflowViaDatabase
     public final void testApprove_addAccessibleAccount_ChangingTotals() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
@@ -176,6 +180,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @exception Exception
      */
+    @TestsWorkflowViaDatabase
     public final void testApprove_addInaccessibleAccount_sourceLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -211,6 +216,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_addInaccessibleAccount_targetLine() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
@@ -247,6 +253,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_deleteAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -283,6 +290,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_deleteInaccessibleAccount_sourceLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -319,6 +327,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_deleteInaccessibleAccount_targetLine() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
@@ -354,6 +363,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_deleteLastAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -392,6 +402,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
     }
 
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_updateAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -437,6 +448,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         }
     }
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_updateInaccessibleAccount_sourceLine() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
@@ -473,6 +485,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     public final void testApprove_updateInaccessibleAccount_targetLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines

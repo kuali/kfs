@@ -92,9 +92,9 @@ public class CorrectionForm extends KualiDocumentFormBase {
                 if (fields[i].getName().equals("universityFiscalYear")) {
                     fieldNames.put(1, "Fiscal Year");
                 }
-                if (fields[i].getName().equals("budgetYear")) {
-                    fieldNames.put(2, "Budget Year");
-                }
+                // if (fields[i].getName().equals("budgetYear")) {
+                //    fieldNames.put(2, "Budget Year");
+                // }
                 if (fields[i].getName().equals("chartOfAccountsCode")) {
                     fieldNames.put(3, "Chart Code");
                 }

@@ -18,12 +18,6 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="budgetLockUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="budgetLockUserIdentifier" />
-	</reference-descriptor>
-	<reference-descriptor name="budgetTransactionLockUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="budgetTransactionLockUserIdentifier" />
-	</reference-descriptor>
 	<reference-descriptor name="organizationLevelOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="organizationLevelChartOfAccountsCode" />
 		<foreignkey field-ref="organizationLevelOrganizationCode" />

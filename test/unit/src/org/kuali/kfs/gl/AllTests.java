@@ -34,7 +34,6 @@ import org.kuali.module.gl.service.NightlyOutServiceTest;
 import org.kuali.module.gl.service.PosterServiceTest;
 import org.kuali.module.gl.service.ScrubberFlexibleOffsetTest;
 import org.kuali.module.gl.service.ScrubberServiceTest;
-import org.kuali.module.gl.service.SufficientFundRebuildServiceTest;
 import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
 import org.kuali.module.gl.util.OJBUtilityTest;
 
@@ -67,7 +66,6 @@ public class AllTests {
         suite.addTestSuite(PosterServiceTest.class);
         suite.addTestSuite(ScrubberFlexibleOffsetTest.class);
         suite.addTestSuite(ScrubberServiceTest.class);
-        suite.addTestSuite(SufficientFundRebuildServiceTest.class);
         suite.addTestSuite(SufficientFundsRebuilderServiceTest.class);
 
         // org.kuali.module.gl.util

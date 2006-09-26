@@ -28,7 +28,7 @@ package org.kuali.module.cg.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  * 
  * Extends KualiCodeBase with no changes.
  * 

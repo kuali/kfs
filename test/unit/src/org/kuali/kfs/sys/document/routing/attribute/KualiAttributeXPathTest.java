@@ -29,6 +29,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.exception.InvalidXmlException;
@@ -37,8 +38,9 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class KualiAttributeXPathTest extends KualiTestBaseWithFixtures {
 
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE = "//org.kuali.core.bo.SourceAccountingLine/account/subFundGroupCode or //org.kuali.core.bo.TargetAccountingLine/account/subFundGroupCode";
@@ -54,7 +56,7 @@ public class KualiAttributeXPathTest extends KualiTestBaseWithFixtures {
 
     public void testKualiSubFundGroupAttribute_TransferOfFunds1() throws IOException, InvalidXmlException, XPathExpressionException {
 
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile("TransferOfFunds_FEMPSubcode_OneLIner.xml", "KualiTransferOfFundsDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile("TransferOfFunds_FEMPSubcode_OneLiner.xml", "KualiTransferOfFundsDocument");
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
 
         String xpathResult;

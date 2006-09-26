@@ -122,7 +122,7 @@ public class BalanceServiceImpl implements BalanceService {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
         ArrayList fundBalanceObjectCodes = new ArrayList();
-        fundBalanceObjectCodes.add(account.getChartOfAccounts().getFundBalanceObjectCode());
+        fundBalanceObjectCodes.add(null == account.getChartOfAccounts() ? null : account.getChartOfAccounts().getFundBalanceObjectCode());
         Iterator balances = balanceDao.findBalances(account, fiscalYear, null, fundBalanceObjectCodes, wrap(getAssetLiabilityFundBalanceBalanceTypeCodes()), wrap(getActualBalanceCodes()));
 
         KualiDecimal begin;

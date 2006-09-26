@@ -52,8 +52,6 @@ import org.springframework.util.StringUtils;
 
 
 /**
- * @author Kuali General Ledger Team <kualigltech@oncourse.indiana.edu>
- * @version $Id$
  */
 
 public class ScrubberValidatorImpl implements ScrubberValidator {

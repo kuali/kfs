@@ -26,7 +26,7 @@ import org.kuali.core.bo.SourceAccountingLine;
 
 
 /**
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class ProcurementCardSourceAccountingLine extends SourceAccountingLine {
     private Integer financialDocumentTransactionLineNumber;

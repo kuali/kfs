@@ -27,7 +27,9 @@ import java.util.List;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
+@WithTestSpringContext
 public class OrganizationService2Test extends KualiTestBaseWithFixtures {
 
     private static final String GOOD_CHART = "BL";

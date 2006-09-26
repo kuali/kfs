@@ -507,10 +507,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         boolean success = user.isManagerForChart(newOrg.getChartOfAccountsCode());
 
         if (success) {
-            LOG.info("User: [" + user.getPersonUserIdentifier() + "] " + user.getPersonName() + " is a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
+            LOG.info("User: [" + user.getUniversalUser().getPersonUserIdentifier() + "] " + user.getUniversalUser().getPersonName() + " is a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
         }
         else {
-            LOG.info("User: [" + user.getPersonUserIdentifier() + "] " + user.getPersonName() + " is NOT a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
+            LOG.info("User: [" + user.getUniversalUser().getPersonUserIdentifier() + "] " + user.getUniversalUser().getPersonName() + " is NOT a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
         }
 
         return success;
@@ -575,11 +575,11 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         String allowedPlantWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, PLANT_WORKGROUP_PARM_NAME);
 
         if (user.isMember(new KualiGroup(allowedPlantWorkgroup))) {
-            LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
+            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
             return true;
         }
         else {
-            LOG.info("User '" + user.getPersonUserIdentifier() + "' is not a member of the group '" + allowedPlantWorkgroup + "', so they have no access to the Plant fields.");
+            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is not a member of the group '" + allowedPlantWorkgroup + "', so they have no access to the Plant fields.");
             return false;
         }
     }

@@ -55,7 +55,7 @@ import org.kuali.module.gl.web.struts.form.BalanceInquiryForm;
 /**
  * This class handles Actions for lookup flow
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 
 public class BalanceInquiryAction extends KualiAction {

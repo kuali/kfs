@@ -25,16 +25,17 @@ package org.kuali.core.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.Options;
-import org.kuali.core.util.SpringEnabledTest;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the Options service.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class OptionsServiceTest extends KualiTestBase implements SpringEnabledTest {
+@WithTestSpringContext
+public class OptionsServiceTest extends KualiTestBase {
     private static final Log LOG = LogFactory.getLog(OptionsServiceTest.class);
 
     OptionsService optionsService;
@@ -42,8 +43,6 @@ public class OptionsServiceTest extends KualiTestBase implements SpringEnabledTe
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        SpringServiceLocator.initializeTestApplicationContext(this);
-
         optionsService = SpringServiceLocator.getOptionsService();
     }
 

@@ -29,11 +29,6 @@ import java.util.Map;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 
-/**
- * @author Laran evans <lc278@cornell.edu>
- * @version $Id: BalanceService.java,v 1.14 2006-09-06 23:29:07 tdurkin Exp $
- */
-
 public interface BalanceService {
     /**
      * Save

@@ -59,6 +59,7 @@ import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.BalanceEncumbranceReport;
 import org.kuali.module.gl.util.BalanceReport;
+import org.kuali.module.gl.util.GeneralLedgerPendingEntryReport;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.NominalActivityClosingTransactionReport;
@@ -79,8 +80,6 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
- * @version $Id$
  */
 public class ReportServiceImpl implements ReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportServiceImpl.class);
@@ -110,336 +109,38 @@ public class ReportServiceImpl implements ReportService {
     /**
      * @see org.kuali.module.gl.service.ReportService#generatePendingEntryReport(java.util.Date)
      */
-    public void generatePendingEntryReport() {
-        
-        Date runDate = dateTimeService.getCurrentDate();
-        String title = "PENDING LEDGER ENTRY TABLE";
-        String filePrefix = "glpe_ledger";
-        
-        Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
-        Font textFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
-        
-        Document document = new Document(PageSize.A4.rotate());
-        
-        TransactionReport.PageHelper helper = new TransactionReport.PageHelper();
-        
-        helper.runDate = runDate;
-        helper.headerFont = headerFont;
-        helper.title = title;
-        
-        try {
-            String filename = batchReportsDirectory + "/" + filePrefix + "_";
-            
-            filename = filename + sdf.format(runDate);
-            filename = filename + ".pdf";
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
-            writer.setPageEvent(helper);
-            
-            document.open();
-            
-            float[] columnWidths = new float[] {10, 10, 10, 10, 10, 10, 10, 10, 10};
-            
-            PdfPTable dataTable = new PdfPTable(columnWidths);
-            dataTable.setHeaderRows(1);
-            dataTable.setWidthPercentage(100);
-            
-            String[] columnHeaders = new String[] {
-                    "Doc Type", "Document Number", "Bal Type", "COA Code",
-                    "Account Number", "Object Code", "Debit", "Credit", "Blank" };
-            
-            for(int x = 0; x < columnHeaders.length; x++) {
-                PdfPCell cell = new PdfPCell(new Phrase(columnHeaders[x], headerFont));
-                dataTable.addCell(cell);
-            }
-            
-            document.add(dataTable);
-            
-            Collection groups = originEntryGroupService.getGroupsFromSourceForDate(OriginEntrySource.GENERATE_BY_EDOC, new java.sql.Date(runDate.getTime()));
-            
-            // We use the collection/iterator out of necessity. But there should only be one group in the collection.
-            String previousDocumentType = "-1";
-            String previousDocumentNumber = "-1";
-            
-            for(Iterator groupIterator = groups.iterator(); groupIterator.hasNext();) {
-                
-                OriginEntryGroup originEntryGroup = (OriginEntryGroup) groupIterator.next();
-                
-//                PdfPTable dataTable = new PdfPTable(columnWidths);
-//                dataTable.setWidthPercentage(100);
-                
-                int countForDocumentType = 0;
-                
-                KualiDecimal debitClusterTotal = new KualiDecimal(0);
-                KualiDecimal creditClusterTotal = new KualiDecimal(0);
-                KualiDecimal unassignedClusterTotal = new KualiDecimal(0);
-                
-                KualiDecimal documentTypeCreditTotal = new KualiDecimal(0);
-                KualiDecimal documentTypeDebitTotal = new KualiDecimal(0);
-                KualiDecimal documentTypeUnassignedTotal = new KualiDecimal(0);
-                
-                PdfPCell column = null;
-                
-                for(Iterator entries = originEntryService.getEntriesByGroupReportOrder(originEntryGroup); entries.hasNext();) {
-                    
-                    OriginEntry entry = (OriginEntry) entries.next();
-                    persistenceService.retrieveNonKeyFields(entry);
-                    
-                    if(!entry.getFinancialDocumentNumber().equals(previousDocumentNumber) && !"-1".equals(previousDocumentNumber)) {
-                        
-                        column = new PdfPCell(new Phrase("Totals:", textFont));
-                        column.setColspan(6);
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                        String s = debitClusterTotal.toString();
-                        column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        dataTable.addCell(column);
-                        
-                        s = creditClusterTotal.toString();
-                        column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        dataTable.addCell(column);
-                        
-                        s = unassignedClusterTotal.toString();
-                        column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        dataTable.addCell(column);
-                        
-                        // reset totals for the new cluster
-                        debitClusterTotal = new KualiDecimal(0);
-                        creditClusterTotal = new KualiDecimal(0);
-                        unassignedClusterTotal = new KualiDecimal(0);
-                        
-                    }
-                    
-                    // Show doc type totals.
-                    if(!entry.getFinancialDocumentTypeCode().equals(previousDocumentType) && !"-1".equals(previousDocumentType)) {
-                        
-                        column = new PdfPCell(new Phrase("Totals for Document Type " + previousDocumentType + " Cnt: " + countForDocumentType, textFont));
-                        column.setColspan(6);
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                        String s = documentTypeDebitTotal.toString();
-                        column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        dataTable.addCell(column);
-                        
-                        s = documentTypeCreditTotal.toString();
-                        column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        dataTable.addCell(column);
-                        
-                        s = documentTypeUnassignedTotal.toString();
-                        column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                        column.setPaddingTop(10.0F);
-                        column.setPaddingBottom(10.0F);
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        dataTable.addCell(column);
-                        
-                        documentTypeCreditTotal = new KualiDecimal(0);
-                        documentTypeDebitTotal = new KualiDecimal(0);
-                        documentTypeUnassignedTotal = new KualiDecimal(0);
-                        
-                    }
-                    
-                    if(!entry.getFinancialDocumentNumber().equals(previousDocumentNumber)) {
-                        
-                        column = new PdfPCell(new Phrase(entry.getFinancialDocumentTypeCode(), textFont));
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                        column = new PdfPCell(new Phrase(entry.getFinancialDocumentNumber(), textFont));
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                        column = new PdfPCell(new Phrase(entry.getFinancialBalanceTypeCode(), textFont));
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                        if(!entry.getFinancialDocumentTypeCode().equals(previousDocumentType)) {
-                            
-                            previousDocumentType = entry.getFinancialDocumentTypeCode();
-                            countForDocumentType = 0;
-                            
-                        }
-                        
-                        countForDocumentType++;
-                        
-                        previousDocumentNumber = entry.getFinancialDocumentNumber();
-                        
-                    } else {
-                        
-                        column = new PdfPCell(new Phrase(" ", textFont));
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                        column = new PdfPCell(new Phrase(" ", textFont));
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                        column = new PdfPCell(new Phrase(" ", textFont));
-                        column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                        dataTable.addCell(column);
-                        
-                    }
-                    
-                    column = new PdfPCell(new Phrase(entry.getChartOfAccountsCode(), textFont));
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                    dataTable.addCell(column);
-                    
-                    column = new PdfPCell(new Phrase(entry.getAccountNumber(), textFont));
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                    dataTable.addCell(column);
-                    
-                    column = new PdfPCell(new Phrase(entry.getFinancialObjectCode(), textFont));
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                    dataTable.addCell(column);
-                    
-                    KualiDecimal amount = null;
-                    
-                    if(Constants.GL_DEBIT_CODE.equalsIgnoreCase(entry.getTransactionDebitCreditCode())) {
-                        amount = entry.getTransactionLedgerEntryAmount();
-                        debitClusterTotal = debitClusterTotal.add(amount);
-                        documentTypeDebitTotal = documentTypeDebitTotal.add(amount);
-                    }
-                    column = new PdfPCell(new Phrase(null == amount ? " " : amount.toString(), textFont));
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    amount = null;
-                    if(Constants.GL_CREDIT_CODE.equalsIgnoreCase(entry.getTransactionDebitCreditCode())) {
-                        amount = entry.getTransactionLedgerEntryAmount();
-                        creditClusterTotal = creditClusterTotal.add(amount);
-                        documentTypeCreditTotal = documentTypeCreditTotal.add(amount);
-                    }
-                    column = new PdfPCell(new Phrase(null == amount ? " " : amount.toString(), textFont));
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    amount = null;
-                    if(!Constants.GL_CREDIT_CODE.equalsIgnoreCase(entry.getTransactionDebitCreditCode()) && !Constants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
-                        amount = entry.getTransactionLedgerEntryAmount();
-                        unassignedClusterTotal = unassignedClusterTotal.add(amount);
-                        documentTypeUnassignedTotal = documentTypeUnassignedTotal.add(amount);
-                    }
-                    column = new PdfPCell(new Phrase(null == amount ? " " : amount.toString(), textFont));
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                }
-                
-                // If there were entries, write the totals after the last entry in the group.
-                
-                if(!"-1".equals(previousDocumentNumber)) {
-                    
-                    column = new PdfPCell(new Phrase("Totals:", textFont));
-                    column.setColspan(6);
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                    dataTable.addCell(column);
-                    
-                    String s = debitClusterTotal.toString();
-                    column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    s = creditClusterTotal.toString();
-                    column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    s = unassignedClusterTotal.toString();
-                    column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    // reset totals for the new cluster
-                    debitClusterTotal = new KualiDecimal(0);
-                    creditClusterTotal = new KualiDecimal(0);
-                    unassignedClusterTotal = new KualiDecimal(0);
-                    
-                }
-                
-                // Show doc type totals.
-                if(!"-1".equals(previousDocumentType)) {
-                    
-                    column = new PdfPCell(new Phrase("Totals for Document Type " + previousDocumentType + " Cnt: " + countForDocumentType, textFont));
-                    column.setColspan(6);
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-                    dataTable.addCell(column);
-                    
-                    String s = documentTypeDebitTotal.toString();
-                    column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    s = documentTypeCreditTotal.toString();
-                    column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    s = documentTypeUnassignedTotal.toString();
-                    column = new PdfPCell(new Phrase("".equals(s.trim()) ? "0.00" : s, textFont));
-                    column.setPaddingTop(10.0F);
-                    column.setPaddingBottom(10.0F);
-                    column.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                    dataTable.addCell(column);
-                    
-                    documentTypeCreditTotal = new KualiDecimal(0);
-                    documentTypeDebitTotal = new KualiDecimal(0);
-                    documentTypeUnassignedTotal = new KualiDecimal(0);
-                    
-                }                
-                
-                document.add(dataTable);
-                
-            }
-            
-        }
-        catch (Exception de) {
-            LOG.error("generateReport() Error creating PDF report", de);
-            throw new RuntimeException("Report Generation Failed");
-        }
-        
-        document.close();
+    public void generatePendingEntryReport(Date runDate,OriginEntryGroup group) {
+        LOG.debug("generatePendingEntryReport() started");
+
+        GeneralLedgerPendingEntryReport glper = new GeneralLedgerPendingEntryReport();
+        glper.generateReport(runDate,batchReportsDirectory,sdf,originEntryService.getEntriesByGroupReportOrder(group));
     }
-        
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.ReportService#generatePendingEntryLedgerSummaryReport(java.util.Date, org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public void generatePendingEntryLedgerSummaryReport(Date runDate, OriginEntryGroup group) {
+        LOG.debug("generatePendingEntryLedgerSummaryReport() started");
+
+        LedgerReport ledgerReport = new LedgerReport();
+        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
+
+        Collection g = new ArrayList();
+        g.add(group);
+
+        ledgerEntries = originEntryService.getSummaryByGroupId(g);
+
+        ledgerReport.generateReport(ledgerEntries, runDate, "GLPE Statistics Report", "glpe_ledger", batchReportsDirectory);
+    }
+
     /**
      * 
      * @see org.kuali.module.gl.service.ReportService#generateSufficientFundsReport(java.util.Map, java.util.List, java.util.Date,
      *      int)
      */
     public void generateSufficientFundsReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
-        LOG.debug("generateReport() started");
+        LOG.debug("generateSufficientFundsReport() started");
 
         String title = "Sufficient Funds Report ";
         String fileprefix = "sufficientFunds";
@@ -662,22 +363,6 @@ public class ReportServiceImpl implements ReportService {
 
         ledgerReport.generateReport(ledgerEntries, runDate, "Ledger Report", "scrubber_ledger", batchReportsDirectory);
     }
-
-    /**
-     * 
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberLedgerSummaryReportBatch(java.util.Date, java.util.Collection)
-     */
-    public void generateLedgerSummaryReport(Date runDate, Collection groups) {
-        LOG.debug("generateLedgerSummaryReport() started");
-
-        LedgerReport ledgerReport = new LedgerReport();
-        LedgerEntryHolder ledgerEntries = new LedgerEntryHolder();
-        if (groups.size() > 0) {
-            ledgerEntries = originEntryService.getSummaryByGroupId(groups);
-        }
-
-        ledgerReport.generateReport(ledgerEntries, runDate, "GLPE Statistics Report", "glpe_statistics", batchReportsDirectory);
-    }
     
     /**
      * 
@@ -820,10 +505,8 @@ public class ReportServiceImpl implements ReportService {
         }
         else {
             balanceTypeCodes.add(year.getBudgetCheckingBalanceTypeCd());
-
-            // TODO these may need fields in the fs_option_t table
-            balanceTypeCodes.add("BB");
-            balanceTypeCodes.add("MB");
+            balanceTypeCodes.add(year.getBaseBudgetFinancialBalanceTypeCode());
+            balanceTypeCodes.add(year.getMonthlyBudgetFinancialBalanceTypeCode());
         }
 
         List balances = balanceService.getGlSummary(year.getUniversityFiscalYear(), balanceTypeCodes);

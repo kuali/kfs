@@ -53,7 +53,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to Cash Management Document.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class CashManagementDocumentRule extends FinancialDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
     private static final Logger LOG = Logger.getLogger(CashManagementDocumentRule.class);
@@ -93,8 +93,8 @@ public class CashManagementDocumentRule extends FinancialDocumentRuleBase implem
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
             String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            if (!cmdInitiatorNetworkId.equalsIgnoreCase(currentUser.getPersonUserIdentifier())) {
-                throw new IllegalStateException("The current user (" + currentUser.getPersonUserIdentifier() + ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
+            if (!cmdInitiatorNetworkId.equalsIgnoreCase(currentUser.getUniversalUser().getPersonUserIdentifier())) {
+                throw new IllegalStateException("The current user (" + currentUser.getUniversalUser().getPersonUserIdentifier() + ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
             }
         }
     }

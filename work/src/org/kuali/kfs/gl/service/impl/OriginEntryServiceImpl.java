@@ -46,10 +46,6 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.LedgerEntry;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 
-/**
- * @author jsissom
- * @author Laran Evans <lc278@cornell.edu>
- */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 

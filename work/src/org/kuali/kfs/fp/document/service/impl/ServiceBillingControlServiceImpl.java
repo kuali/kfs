@@ -33,7 +33,7 @@ import org.kuali.module.financial.service.ServiceBillingControlService;
 /**
  * This class implements ServiceBillingControlService.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class ServiceBillingControlServiceImpl implements ServiceBillingControlService {
 

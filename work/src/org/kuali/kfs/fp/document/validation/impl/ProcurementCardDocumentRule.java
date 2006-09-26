@@ -64,7 +64,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Business rule(s) applicable to Procurement Card document.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 

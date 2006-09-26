@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * Business rule(s) applicable to <code>YearEndTransferOfFundsDocument</code>s
  * 
  * @see org.kuali.module.financial.rules.TransferOfFundsDocumentRule
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentRule {
 

@@ -23,8 +23,6 @@
 package org.kuali.module.gl.util;
 
 /**
- * @author Laran Evans
- * @version $Id$
  */
 
 public class FatalErrorException extends Exception {

@@ -425,7 +425,7 @@ public class BudgetForm extends KualiDocumentFormBase {
      */
     public String getInitiatorOrgCode() {
         if (this.getInitiator() != null) {
-            String[] departmentIdSplit = this.getInitiator().getDeptid().split("-");
+            String[] departmentIdSplit = this.getInitiator().getUniversalUser().getDeptid().split("-");
             if (departmentIdSplit.length > 1) {
                 return departmentIdSplit[1];
             }

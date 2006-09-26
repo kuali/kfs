@@ -31,10 +31,12 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtures {
 
     private static final String COLLECTION_NAME = "DisbursementVoucherDocumentRuleTest.collection1";

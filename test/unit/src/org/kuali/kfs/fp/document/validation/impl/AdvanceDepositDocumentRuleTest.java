@@ -31,13 +31,15 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 import org.kuali.test.KualiTestBaseWithSession;
+import org.kuali.test.WithTestSpringContext;
 
 
 /**
  * This class tests the <code>AdvanceDepositDocumentRule</code>s
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class AdvanceDepositDocumentRuleTest extends KualiTestBaseWithSession {
 
     /**

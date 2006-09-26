@@ -25,8 +25,6 @@ package org.kuali.module.chart.service;
 import org.kuali.module.chart.bo.PriorYearAccount;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
- * @version $Id$
  */
 
 public interface PriorYearAccountService {

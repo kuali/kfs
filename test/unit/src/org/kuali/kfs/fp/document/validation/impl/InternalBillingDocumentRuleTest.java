@@ -37,13 +37,15 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.InternalBillingDocument;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend
  * TransactionalDocumentRuleTestBase. We'll fully implement this when we get to this document during development.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class InternalBillingDocumentRuleTest extends KualiTestBaseWithFixtures {
 
     // ////////////////////////////////////////////////////////////////////////

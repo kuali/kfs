@@ -126,18 +126,6 @@
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountFiscalOfficerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountFiscalOfficerSystemIdentifier" />
-    </reference-descriptor>
-
-    <reference-descriptor name="accountSupervisoryUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountsSupervisorySystemsIdentifier" />
-    </reference-descriptor>
-
-    <reference-descriptor name="accountManagerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountManagerSystemIdentifier" />
-    </reference-descriptor>
-
     <reference-descriptor name="postalZipCode" class-ref="org.kuali.core.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountZipCode" />
     </reference-descriptor>
@@ -275,10 +263,6 @@
     <field-descriptor name="active" column="PROJ_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="projectDescription" column="PROJECT_DESC" jdbc-type="VARCHAR" />
 
-    <reference-descriptor name="projectManagerUniversal" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="projectManagerUniversalId" />
-    </reference-descriptor>
-
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -351,9 +335,6 @@
     <reference-descriptor name="fundBalanceObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="fundBalanceObjectCode" />
-    </reference-descriptor>
-    <reference-descriptor name="finCoaManagerUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="finCoaManagerUniversalId" />
     </reference-descriptor>
     <reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="reportsToChartOfAccountsCode" />
@@ -840,9 +821,6 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationDefaultAccountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="organizationManagerUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="organizationManagerUniversalId" />
-    </reference-descriptor>
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
@@ -909,9 +887,6 @@
     <reference-descriptor name="documentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="accountDelegate" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountDelegateSystemId" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.OrgType" table="CA_ORG_TYPE_T">
@@ -937,10 +912,6 @@
     <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="universalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="financialReportingCodeMgrId" />
     </reference-descriptor>
 
     <reference-descriptor name="reportingCodes" class-ref="org.kuali.module.chart.bo.ReportingCodes" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1171,18 +1142,6 @@
     <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
-    </reference-descriptor>
-
-    <reference-descriptor name="accountFiscalOfficerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountFiscalOfficerSystemIdentifier" />
-    </reference-descriptor>
-
-    <reference-descriptor name="accountSupervisoryUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountsSupervisorySystemsIdentifier" />
-    </reference-descriptor>
-
-    <reference-descriptor name="accountManagerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountManagerSystemIdentifier" />
     </reference-descriptor>
 
     <reference-descriptor name="postalZipCode" class-ref="org.kuali.core.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1509,15 +1468,7 @@
     <reference-descriptor name="accountState" class-ref="org.kuali.core.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountStateCode" />
     </reference-descriptor>
-    <reference-descriptor name="accountFiscalOfficerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="accountFiscalOfficerSystemIdentifier" />
-    </reference-descriptor>
-    <reference-descriptor name="accountSupervisoryUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="accountsSupervisorySystemsIdentifier" />
-    </reference-descriptor>
-    <reference-descriptor name="accountManagerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="accountManagerSystemIdentifier" />
-    </reference-descriptor>
+
     <reference-descriptor name="continuationFinChrtOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="continuationFinChrtOfAcctCd" />
     </reference-descriptor>
@@ -1596,9 +1547,6 @@
     <field-descriptor name="accountDelegatePrimaryRoutingIndicator" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE" />
 
-    <reference-descriptor name="accountDelegate" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="accountDelegateUniversalId" />
-    </reference-descriptor>
     <reference-descriptor name="documentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialDocumentTypeCode" />
     </reference-descriptor>
@@ -1833,14 +1781,8 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="hrmsPersonnelApproverUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="hrmsPersonnelApproverUniversalId" />
-    </reference-descriptor>
     <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="hrmsIuCampusCode" />
-    </reference-descriptor>
-    <reference-descriptor name="fiscalApproverUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="fiscalApproverUniversalId" />
     </reference-descriptor>
 </class-descriptor>
 

@@ -23,6 +23,7 @@
 package org.kuali.module.chart.rules;
 
 import org.kuali.KeyConstants;
+import org.kuali.test.WithTestSpringContext;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
@@ -30,6 +31,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
 
+@WithTestSpringContext
 public class SubAccountRuleTest extends ChartRuleTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRuleTest.class);
@@ -160,7 +162,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     private KualiUser createKualiUser(String userid) {
         KualiUser user = new KualiUser();
         try {
-            user = SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(userid));
+            user = SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(userid));
         }
         catch (Exception e) {
             e.printStackTrace();

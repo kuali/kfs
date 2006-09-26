@@ -28,9 +28,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.util.SpringServiceLocator;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class Chart extends BusinessObjectBase {
 
@@ -235,13 +237,8 @@ public class Chart extends BusinessObjectBase {
         this.finAccountsReceivableObj = finAccountsReceivableObj;
     }
 
-    /**
-     * Gets the finCoaManagerUniversal attribute.
-     * 
-     * @return - Returns the finCoaManagerUniversal
-     * 
-     */
     public UniversalUser getFinCoaManagerUniversal() {
+        finCoaManagerUniversal = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
         return finCoaManagerUniversal;
     }
 
@@ -626,8 +623,7 @@ public class Chart extends BusinessObjectBase {
     public void setFundBalanceObjectCode(String fundBalanceObjectCode) {
         this.fundBalanceObjectCode = fundBalanceObjectCode;
     }
-
-
+    
     /**
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */

@@ -28,14 +28,16 @@ import java.util.List;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class is used to test YearEndTransferOfFundsDocument. Note that structurally, there is no difference between a
  * YearEndTransferOfFundsDocument and a regular TransferOfFundsDocument other than they have different document types and that this
  * one posts to the year end accouting period.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class YearEndTransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     public static final String COLLECTION_NAME = "YearEndTransferOfFundsDocumentTest.collection1";
     public static final String USER_NAME = "user1";

@@ -64,9 +64,7 @@ import org.kuali.module.gl.util.Summary;
 /**
  * This class owns the logic to perform year end tasks.
  * 
- * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id$
- */
+  */
 public class YearEndServiceImpl implements YearEndService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndServiceImpl.class);
 
@@ -125,62 +123,10 @@ public class YearEndServiceImpl implements YearEndService {
         // 682 003690 DISPLAY "NET_EXP_OBJECT_CD" UPON ENVIRONMENT-NAME.
         // 683 003700 ACCEPT VAR-NET-EXP-OBJECT-CD FROM ENVIRONMENT-VALUE.
 
-        try {
-
-            varNetExpenseObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_EXP_OBJECT_CD);
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get NET_EXP_OBJECT_CD from kualiConfigurationService");
-            throw new RuntimeException("Unable to get net expense object code from kualiConfigurationService", e);
-
-        }
-
-        // 684 003710 DISPLAY "NET_REV_OBJECT_CD" UPON ENVIRONMENT-NAME.
-        // 685 003720 ACCEPT VAR-NET-REV-OBJECT-CD FROM ENVIRONMENT-VALUE.
-
-        try {
-
-            varNetRevenueObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_REV_OBJECT_CD);
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get NET_REV_OBJECT_CD from kualiConfigurationService");
-            throw new RuntimeException("Unable to get net revenue object code from kualiConfigurationService", e);
-
-        }
-
-        // 686 003730 DISPLAY "FUND_BAL_OBJECT_CD" UPON ENVIRONMENT-NAME.
-        // 687 003740 ACCEPT VAR-FUND-BAL-OBJECT-CD FROM ENVIRONMENT-VALUE.
-
-        try {
-
-            varFundBalanceObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJECT_CD);
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get FUND_BAL_OBJECT_CD from kualiConfigurationService");
-            throw new RuntimeException("Unable to get fund balance object code from kualiConfigurationService", e);
-
-        }
-
-        // 688 003750 DISPLAY "FUND_BAL_OBJ_TYP_CD" UPON ENVIRONMENT-NAME.
-        // 689 003760 ACCEPT VAR-FUND-BAL-OBJ-TYP-CD FROM ENVIRONMENT-VALUE.
-
-        try {
-
-            varFundBalanceObjectTypeCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD);
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get FUND_BAL_OBJECT_TYP_CD from kualiConfigurationService");
-            throw new RuntimeException("Unable to get fund balance object type code from kualiConfigurationService", e);
-
-        }
+        varNetExpenseObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_EXP_OBJECT_CD);
+        varNetRevenueObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_REV_OBJECT_CD);
+        varFundBalanceObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJECT_CD);
+        varFundBalanceObjectTypeCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD);
 
         jobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         jobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
@@ -1171,34 +1117,15 @@ public class YearEndServiceImpl implements YearEndService {
         String FIELD_TRANSACTION_DATE = GLConstants.ColumnNames.TRANSACTION_DT;
 
         // Get the current fiscal year.
-        try {
-
-            varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(YEAR_END_SCRIPT_NAME, FIELD_FISCAL_YEAR));
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
-            throw new RuntimeException("Unable to get university fiscal year from kualiConfigurationService", e);
-
-        }
+        varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(YEAR_END_SCRIPT_NAME, FIELD_FISCAL_YEAR));
 
         // Get the current date (transaction date).
         try {
             varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(YEAR_END_SCRIPT_NAME, FIELD_TRANSACTION_DATE)).getTime());
-
-        }
-        catch (ApplicationParameterException e) {
-
-            LOG.error("Unable to get TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", e);
-
         }
         catch (ParseException pe) {
-
             LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
             throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
-
         }
 
         // counters for the report

@@ -25,12 +25,14 @@ package org.kuali.module.chart.service;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the OffsetDefinition service.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class OffsetDefinitionServiceTest extends KualiTestBaseWithFixtures {
     private OffsetDefinitionService offsetDefinitionService;
 

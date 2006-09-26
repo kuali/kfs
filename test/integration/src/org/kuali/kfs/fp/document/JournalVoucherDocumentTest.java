@@ -39,14 +39,17 @@ import org.kuali.test.monitor.DocumentStatusMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.TestsWorkflowViaDatabase;
 
 import edu.iu.uis.eden.EdenConstants;
 
 /**
  * This class is used to test JournalVoucherDocument.
  * 
- * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Red Team ()
  */
+@WithTestSpringContext
 public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
     public static final String COLLECTION_NAME = "JournalVoucherDocument.collection1";
     public static final String USER_NAME = "user_jvdoc";
@@ -103,6 +106,7 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoCopy()
      */
+    @TestsWorkflowViaDatabase
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         TransactionalDocument document = (TransactionalDocument) buildDocument();
@@ -169,6 +173,7 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoErrorCorrection()
      */
+    @TestsWorkflowViaDatabase
     public void testConvertIntoErrorCorrection() throws Exception {
         TransactionalDocument document = (TransactionalDocument) buildDocument();
 
@@ -259,6 +264,7 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @see org.kuali.core.document.DocumentTestBase#testRouteDocument()
      */
+    @TestsWorkflowViaDatabase
     public void testRouteDocument() throws Exception {
         // save the original doc, wait for status change
         Document document = buildDocument();

@@ -31,26 +31,28 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLineParser;
+import org.kuali.module.financial.bo.FiscalYearFunctionControl;
+import org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleUtil;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.service.SufficientFundsService;
-import org.kuali.module.gl.util.SufficientFundsItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This is the business object that represents the BudgetAdjustment document in Kuali.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
@@ -74,7 +76,18 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
      */
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
         List <GeneralLedgerPendingEntry> pendingLedgerEntries = new ArrayList();
-        for (GeneralLedgerPendingEntry ple : this.getGeneralLedgerPendingEntries()) {
+
+        GeneralLedgerPendingEntrySequenceHelper glpeSequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+        BudgetAdjustmentDocumentRule budgetAdjustmentDocumentRule = new BudgetAdjustmentDocumentRule();
+        
+        BudgetAdjustmentDocument copiedBa = (BudgetAdjustmentDocument) ObjectUtils.deepCopy(this);
+        copiedBa.getGeneralLedgerPendingEntries().clear();
+        for (BudgetAdjustmentAccountingLine fromLine : (List<BudgetAdjustmentAccountingLine>)copiedBa.getSourceAccountingLines()) {
+            budgetAdjustmentDocumentRule.processGenerateGeneralLedgerPendingEntries(copiedBa, fromLine, glpeSequenceHelper);    
+        }
+        
+        
+        for (GeneralLedgerPendingEntry ple : copiedBa.getGeneralLedgerPendingEntries()) {
             if (!Constants.BALANCE_TYPE_BASE_BUDGET.equals(ple.getFinancialBalanceTypeCode()) && !Constants.BALANCE_TYPE_MONTHLY_BUDGET.equals(ple.getFinancialBalanceTypeCode())) {
                 pendingLedgerEntries.add(ple);
             }
@@ -88,9 +101,21 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
      * generic, shared logic used to iniate a ba document
      */
     public void initiateDocument() {
-        // setting default posting year
+        // setting default posting year. Trying to set currentYear first if it's allowed, if it isn't,
+        // just set first allowed year. Note: allowedYears will never be empty because then
+        // BudgetAdjustmentDocumentAuthorizer.canInitiate would have failed.
+        List allowedYears = SpringServiceLocator.getKeyValuesService().getBudgetAdjustmentAllowedYears();
         Integer currentYearParam = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
-        setPostingYear(currentYearParam);
+        
+        FiscalYearFunctionControl fiscalYearFunctionControl = new FiscalYearFunctionControl();
+        fiscalYearFunctionControl.setUniversityFiscalYear(currentYearParam);
+        
+        // use 'this.postingYear =' because setPostingYear has logic we want to circumvent on initiateDocument
+        if(allowedYears.contains(fiscalYearFunctionControl)) {
+            this.postingYear = currentYearParam;
+        } else {
+            this.postingYear = ((FiscalYearFunctionControl) allowedYears.get(0)).getUniversityFiscalYear();
+        }
     }
 
     /**

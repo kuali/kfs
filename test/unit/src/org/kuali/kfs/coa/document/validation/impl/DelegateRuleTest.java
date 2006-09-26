@@ -29,12 +29,14 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Delegate;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class DelegateRuleTest extends ChartRuleTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRuleTest.class);

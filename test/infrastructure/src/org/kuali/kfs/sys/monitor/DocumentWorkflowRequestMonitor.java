@@ -20,7 +20,7 @@ public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
     }
 
     public boolean valueChanged() throws Exception {
-        KualiWorkflowDocument document = SpringServiceLocator.getWorkflowDocumentService().createWorkflowDocument(docHeaderId, SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(networkId)));
+        KualiWorkflowDocument document = SpringServiceLocator.getWorkflowDocumentService().createWorkflowDocument(docHeaderId, SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(networkId)));
         if (EdenConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
             return document.isCompletionRequested();
         }

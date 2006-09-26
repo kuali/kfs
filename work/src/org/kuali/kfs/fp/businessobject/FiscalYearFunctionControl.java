@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class FiscalYearFunctionControl extends BusinessObjectBase {
 
@@ -126,6 +126,27 @@ public class FiscalYearFunctionControl extends BusinessObjectBase {
         this.functionControl = functionControl;
     }
 
+    /**
+     * Implementing equals since I need contains to behave reasonably.
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        boolean equal = false;
+
+        if (obj != null) {
+            if (this.getClass().equals(obj.getClass())) {
+                FiscalYearFunctionControl fiscalYearFunctionControl = (FiscalYearFunctionControl) obj;
+
+                if (this.getUniversityFiscalYear().equals(fiscalYearFunctionControl.getUniversityFiscalYear())) {
+                    equal = true;
+                }
+            }
+        }
+
+        return equal;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

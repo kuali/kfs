@@ -121,7 +121,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
         DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
         if (!documentAuthorizer.canInitiate(documentTypeName, user)) {
-            throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
+            throw new DocumentTypeAuthorizationException(user.getUniversalUser().getPersonUserIdentifier(), "initiate", documentTypeName);
         }
 
         // check cash drawer

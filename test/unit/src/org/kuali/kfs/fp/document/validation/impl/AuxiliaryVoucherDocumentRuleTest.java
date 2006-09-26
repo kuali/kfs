@@ -22,12 +22,11 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -36,6 +35,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
@@ -43,8 +43,9 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
 /**
  * This class tests the <code>{@link AuxiliaryVoucherDocument}</code>'s rules and PE generation.
  * 
- * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Transaction Processing Team ()
  */
+@WithTestSpringContext
 public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME = "AuxiliaryVoucherDocumentRuleTest.collection1";

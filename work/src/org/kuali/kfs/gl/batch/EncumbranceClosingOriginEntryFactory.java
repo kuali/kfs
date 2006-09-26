@@ -41,8 +41,6 @@ import org.kuali.module.gl.util.OriginEntryOffsetPair;
 /**
  * A helper to create origin entries to carry forward different types of encumbrances.
  * 
- * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id$
  */
 
 public class EncumbranceClosingOriginEntryFactory {

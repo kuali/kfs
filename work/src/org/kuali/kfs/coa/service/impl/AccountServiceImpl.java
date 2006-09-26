@@ -22,11 +22,15 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiUserService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
@@ -35,12 +39,13 @@ import org.kuali.module.chart.service.AccountService;
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);
 
     private AccountDao accountDao;
+    private KualiUserService kualiUserService;
 
     /**
      * Retrieves an Account object based on primary key.
@@ -77,14 +82,13 @@ public class AccountServiceImpl implements AccountService {
      */
     public List getAccountsThatUserIsResponsibleFor(KualiUser kualiUser) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieving accountsResponsible list for user " + kualiUser.getPersonName());
+            LOG.debug("retrieving accountsResponsible list for user " + kualiUser.getUniversalUser().getPersonName());
         }
 
         // gets the list of accounts that the user is the Fiscal Officer of
         List accountList = accountDao.getAccountsThatUserIsResponsibleFor(kualiUser);
-
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieved accountsResponsible list for user " + kualiUser.getPersonName());
+            LOG.debug("retrieved accountsResponsible list for user " + kualiUser.getUniversalUser().getPersonName());
         }
         return accountList;
     }
@@ -114,7 +118,12 @@ public class AccountServiceImpl implements AccountService {
     public Iterator getAllAccounts() {
         LOG.debug("getAllAccounts() started");
 
-        return accountDao.getAllAccounts();
+        Iterator accountIter = accountDao.getAllAccounts();
+        List accountList = new ArrayList();
+        while (accountIter.hasNext()) {
+            accountList.add(accountIter.next());
+        }
+        return accountList.iterator();
     }
 
     /**
@@ -123,4 +132,9 @@ public class AccountServiceImpl implements AccountService {
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
+
+    public void setKualiUserService(KualiUserService kualiUserService) {
+        this.kualiUserService = kualiUserService;
+    }
+
 }

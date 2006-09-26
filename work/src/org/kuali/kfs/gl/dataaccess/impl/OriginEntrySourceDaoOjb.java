@@ -31,12 +31,6 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntrySourceDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntrySourceDaoOjb.java,v 1.5 2006-09-06 23:29:09 tdurkin Exp $
- * 
- */
-
 public class OriginEntrySourceDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntrySourceDao {
 
     private static final String FINANCIAL_DOCUMENT_REVERSAL_DATE = "financialDocumentReversalDate";

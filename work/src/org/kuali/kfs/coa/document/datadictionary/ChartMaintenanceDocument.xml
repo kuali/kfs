@@ -53,13 +53,13 @@
                     <maintainableField name="finCoaManagerUniversalId" required="true" readOnly="true" />
                     <maintainableField name="finCoaManagerUniversal.personUserIdentifier" required="true" />
                     <maintainableField name="finCoaManagerUniversal.personName" required="false" readOnly="true" />
-                    <maintainableField name="finChartOfAccountDescription" />
+                    <maintainableField name="finChartOfAccountDescription" required="true" />
                     <maintainableField name="finChartOfAccountActiveIndicator" />
                     <maintainableField name="financialCashObjectCode" />
                     <maintainableField name="finAccountsPayableObjectCode" />
                     <maintainableField name="incBdgtEliminationsFinObjCd" />
                     <maintainableField name="expBdgtEliminationsFinObjCd" />
-                    <maintainableField name="reportsToChartOfAccountsCode" />
+                    <maintainableField name="reportsToChartOfAccountsCode" required="true" />
                     <maintainableField name="finAccountsReceivableObjCode" />
                     <maintainableField name="finInternalEncumbranceObjCd" />
                     <maintainableField name="finExternalEncumbranceObjCd" />

@@ -27,8 +27,7 @@ import org.kuali.module.chart.dao.A21SubAccountDao;
 import org.kuali.module.chart.service.A21SubAccountService;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
- * @version $Id$
+ * @author 
  */
 
 public class A21SubAccountServiceImpl implements A21SubAccountService {

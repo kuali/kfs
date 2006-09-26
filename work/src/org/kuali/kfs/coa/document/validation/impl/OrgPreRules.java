@@ -39,7 +39,7 @@ import org.kuali.module.chart.bo.OrganizationExtension;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
     private Org newOrg;

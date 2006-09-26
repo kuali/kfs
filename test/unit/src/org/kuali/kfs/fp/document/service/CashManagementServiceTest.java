@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.service;
 
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,8 +31,11 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.core.document.Document;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BankAccount;
@@ -41,12 +45,16 @@ import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.exceptions.CashDrawerStateException;
 import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
+import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
 import org.kuali.test.KualiTestBaseWithSession;
+import org.kuali.test.TestsWorkflowViaDatabase;
+import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@WithTestSpringContext
 public class CashManagementServiceTest extends KualiTestBaseWithSession {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
 
@@ -66,10 +74,6 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         cashManagementService = SpringServiceLocator.getCashManagementService();
         cashDrawerService = SpringServiceLocator.getCashDrawerService();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
-    }
-
-    public boolean doRollback() {
-        return false;
     }
 
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {
@@ -98,6 +102,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     final public void testCreateCashManagementDocument_valid() throws Exception {
         String testDocumentId = null;
 
@@ -112,7 +117,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it separately
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             // verify that the doc was saved
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -127,31 +132,52 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         }
     }
 
+    @TestsWorkflowViaDatabase
     final public void testCreateCashManagementDocument_cashDrawerAlreadyOpen() throws Exception {
+        
+        String testDocumentId = null;
         try {
             deleteIfExists(CMST_WORKGROUP);
             CashDrawer preDocCD = cashDrawerService.getByWorkgroupName(CMST_WORKGROUP, true);
             assertTrue(preDocCD.isClosed());
 
+            CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testCreate_cashDrawerAlreadyOpen", "cmst3");
+            assertNotNull(createdDoc);
+            testDocumentId = createdDoc.getFinancialDocumentNumber();
+            
             // force the drawer open
-            cashDrawerService.openCashDrawer(CMST_WORKGROUP, "foo");
+            cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
+            saveDocument(createdDoc);
 
-            // fail creating the document since the CashDrawer is already open
             boolean failedAsExpected = false;
+            // fail creating the document since the CashDrawer is already open
             try {
                 cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testCreate_validCollision 2", "cmst5");
+                fail("created a CMD while the CashDrawer is already open");
             }
             catch (CashDrawerStateException e) {
+                // good
                 failedAsExpected = true;
             }
+            
+            assertEquals(failedAsExpected, true);
+            
+            //
+            // cancel empty CMDoc
+            //
+            cashManagementService.cancelCashManagementDocument(createdDoc);
+            
         }
         finally {
+            // cancel the document
+            cleanupCancel(testDocumentId);
+            
             // delete the cashDrawer you created
             deleteIfExists(CMST_WORKGROUP);
         }
     }
 
-
+    @TestsWorkflowViaDatabase
     final public void testCancelCashManagementDocument_validEmpty() throws Exception {
         String testDocumentId = null;
 
@@ -169,7 +195,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it separately
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             // verify it actually got saved
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -196,6 +222,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
     }
 
 
+    @TestsWorkflowViaDatabase
     final public void testCancelCashManagementDocument_valid_interimOnly() throws Exception {
         String testDocumentId = null;
 
@@ -211,7 +238,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it separately
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             //
             // create Interim Deposit
@@ -323,6 +350,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     final public void testAddInterimDeposit_nullCashReceiptList() throws Exception {
         boolean failedAsExpected = false;
 
@@ -332,7 +360,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             docId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, docId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), null, false);
         }
@@ -352,6 +380,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     final public void testAddInterimDeposit_emptyCashReceiptList() throws Exception {
         boolean failedAsExpected = false;
 
@@ -361,7 +390,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             docId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, docId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), new ArrayList(), false);
         }
@@ -381,6 +410,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     final public void testAddInterimDeposit_nullBank() throws Exception {
         boolean failedAsExpected = false;
 
@@ -390,7 +420,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             docId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, docId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, null, new ArrayList(), false);
         }
@@ -410,6 +440,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     final public void testAddInterimDeposit_nonverifiedCashReceipt() throws Exception {
         boolean failedAsExpected = false;
 
@@ -426,7 +457,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             testDocumentId = createdDoc.getFinancialDocumentNumber();
 
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             // retrieve the document, for future use
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -462,6 +493,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         assertTrue(failedAsExpected);
     }
 
+    @TestsWorkflowViaDatabase
     final public void testAddInterimDeposit_unsavedCMDoc() throws Exception {
         boolean failedAsExpected = false;
 
@@ -507,6 +539,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
     }
 
 
+    @TestsWorkflowViaDatabase
     final public void testAddInterimDeposit_valid() throws Exception {
         String testDocumentId = null;
 
@@ -522,7 +555,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             // retrieve the document, for future use
             CashManagementDocument retrievedDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
@@ -605,6 +638,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
     }
 
 
+    @TestsWorkflowViaDatabase
     public void testCancelDeposit_cancelSingleInterim() throws Exception {
         String testDocumentId = null;
 
@@ -620,7 +654,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             //
             // add Interim Deposit
@@ -748,6 +782,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         }
     }
 
+    @TestsWorkflowViaDatabase
     public void testKULEDOCS_1475_existentDocument() throws Exception {
         boolean failedAsExpected = false;
 
@@ -765,7 +800,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // save it
             cashDrawerService.openCashDrawer(CMST_WORKGROUP, testDocumentId);
-            documentService.saveDocument(createdDoc);
+            saveDocument(createdDoc);
 
             // try create a new CM doc
             cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_valid", null);
@@ -821,28 +856,51 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
         crDoc.setCampusLocationCode(cashReceiptService.getCampusCodeForCashReceiptVerificationUnit(workgroupName));
 
-        documentService.saveDocument(crDoc);
+        crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getFinancialDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
+        saveDocument(crDoc);
 
         CashReceiptDocument persistedDoc = (CashReceiptDocument) documentService.getByDocumentHeaderId(crDoc.getFinancialDocumentNumber());
         return persistedDoc;
     }
 
-    private BankAccount lookupBankAccount() {
+    private void saveDocument(Document doc)
+        throws WorkflowException
+    {
+        try {
+            documentService.saveDocument(doc);
+        }
+        catch(ValidationException e) {
+            // If the business rule evaluation fails then give us more info for debugging this test.
+            fail(e.getMessage() + ", " + GlobalVariables.getErrorMap());
+        }
+    }
+
+    private BankAccount lookupBankAccount() throws GeneralSecurityException {
         Map keyMap = new HashMap();
         keyMap.put("financialDocumentBankCode", "TEST");
         keyMap.put("finDocumentBankAccountNumber", "1111");
 
         BankAccount bankAccount = (BankAccount) businessObjectService.findByPrimaryKey(BankAccount.class, keyMap);
 
+        assertNotNull("invalid bank account for test",bankAccount);
         return bankAccount;
     }
 
-    private void cleanupCancel(String documentId) throws WorkflowException {
+    private void cleanupCancel(String documentId)
+        throws WorkflowException, UserNotFoundException {
         if (documentId != null) {
             Document testDoc = documentService.getByDocumentHeaderId(documentId);
 
             if (!testDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+                final String initiatorNetworkId = testDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+                final String previousNetworkId = GlobalVariables.getUserSession().getNetworkId();
+                if (!previousNetworkId.equals(initiatorNetworkId)) {
+                    changeCurrentUser(initiatorNetworkId);
+                    // Only the initiator can cancel an initiated or saved document.
+                    testDoc = documentService.getByDocumentHeaderId(documentId);
+                }
                 documentService.cancelDocument(testDoc, "CMST cleanup cancel");
+                changeCurrentUser(previousNetworkId);
             }
         }
     }

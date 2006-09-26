@@ -33,7 +33,7 @@ import java.util.List;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class CorrectionChangeGroup extends BusinessObjectBase implements Comparable {
 

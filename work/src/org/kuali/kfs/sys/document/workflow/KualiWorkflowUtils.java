@@ -24,6 +24,7 @@ package org.kuali.workflow;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +36,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
@@ -43,10 +45,13 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.workflow.attribute.WorkflowLookupableImpl;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.doctype.DocumentType;
+import edu.iu.uis.eden.lookupable.Field;
+import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowFunctionResolver;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
@@ -54,7 +59,7 @@ import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
 /**
  * This class contains static utility methods used by the Kuali Workflow Attribute Classes.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  * 
  */
 public class KualiWorkflowUtils {
@@ -290,4 +295,73 @@ public class KualiWorkflowUtils {
         }
         return workflowRows;
     }
+    
+    /**
+     * 
+     * This method builds a workflow-lookup-screen Row of type TEXT, with no quickfinder/lookup.
+     * 
+     * @param propertyClass The Class of the BO that this row is based on.  For example, Account.class for accountNumber.
+     * @param boPropertyName The property name on the BO that this row is based on.  For example, accountNumber for Account.accountNumber.
+     * @param workflowPropertyKey The workflow-lookup-screen property key.  For example, account_nbr for Account.accountNumber.  This key can be 
+     *                            anything, but needs to be consistent with what is used for the row/field key on the java attribute, so everything 
+     *                            links up correctly.
+     * @return A populated and ready-to-use workflow lookupable.Row.
+     * 
+     */
+    public static edu.iu.uis.eden.lookupable.Row buildTextRow(Class propertyClass, String boPropertyName, String workflowPropertyKey) {
+        if (propertyClass == null) {
+            throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
+        }
+        if (StringUtils.isBlank(boPropertyName)) {
+            throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
+        }
+        if (StringUtils.isBlank(workflowPropertyKey)) {
+            throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
+        }
+        List chartFields = new ArrayList();
+        org.kuali.core.web.uidraw.Field field;
+        field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
+        chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, false, workflowPropertyKey, 
+                        field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey));
+        return new Row(chartFields);
+    }
+    
+    /**
+     * 
+     * This method builds a workflow-lookup-screen Row of type TEXT, with the attached lookup icon and functionality.
+     * 
+     * @param propertyClass The Class of the BO that this row is based on.  For example, Account.class for accountNumber.
+     * @param boPropertyName The property name on the BO that this row is based on.  For example, accountNumber for Account.accountNumber.
+     * @param workflowPropertyKey The workflow-lookup-screen property key.  For example, account_nbr for Account.accountNumber.  This key can be 
+     *                            anything, but needs to be consistent with what is used for the row/field key on the java attribute, so everything 
+     *                            links up correctly.
+     * @return A populated and ready-to-use workflow lookupable.Row, which includes both the property field and the lookup icon.
+     * 
+     */
+    public static edu.iu.uis.eden.lookupable.Row buildTextRowWithLookup(Class propertyClass, String boPropertyName, String workflowPropertyKey) {
+        if (propertyClass == null) {
+            throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
+        }
+        if (StringUtils.isBlank(boPropertyName)) {
+            throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
+        }
+        if (StringUtils.isBlank(workflowPropertyKey)) {
+            throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
+        }
+        org.kuali.core.web.uidraw.Field field;
+        field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
+        
+        //  build the quickFinder/lookupableName info
+        String lookupableClassNameImpl = WorkflowLookupableImpl.getLookupableImplName(propertyClass);
+        StringBuffer fieldConversions = new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX); 
+        fieldConversions.append(boPropertyName + ":" + workflowPropertyKey);
+        String lookupableName = WorkflowLookupableImpl.getLookupableName(lookupableClassNameImpl, fieldConversions.toString());
+        
+        List chartFields = new ArrayList();
+        chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, true, workflowPropertyKey, 
+                        field.getPropertyValue(), field.getFieldValidValues(), lookupableClassNameImpl, workflowPropertyKey));
+        chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon 
+        return new Row(chartFields);
+    }
+    
 }

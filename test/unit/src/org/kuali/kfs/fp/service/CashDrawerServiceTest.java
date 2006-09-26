@@ -31,12 +31,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the Check service.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
     private static final String BLANK_WORKGROUP_NAME = "";
     private static final String VALID_WORKGROUP_NAME = "testWorkgroup";
@@ -55,14 +57,6 @@ public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
         cashDrawerService = SpringServiceLocator.getCashDrawerService();
         boService = SpringServiceLocator.getBusinessObjectService();
     }
-
-    @Override
-    protected void tearDown() throws Exception {
-        deleteCashDrawer(VALID_WORKGROUP_NAME);
-
-        super.tearDown();
-    }
-
 
     public final void testOpenCashDrawer_blankWorkgroup() {
         boolean failedAsExpected = false;

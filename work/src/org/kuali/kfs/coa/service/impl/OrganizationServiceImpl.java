@@ -25,6 +25,7 @@ package org.kuali.module.chart.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.KualiUserService;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.kuali.module.chart.service.OrganizationService;
@@ -32,11 +33,12 @@ import org.kuali.module.chart.service.OrganizationService;
 /**
  * This class is the service implementation for the Org structure. This is the default implementation, that is delivered with Kuali.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
-
+    private KualiUserService kualiUserService;
+    
     /**
      * Implements the getByPrimaryId method defined by OrganizationService.
      * 
@@ -82,6 +84,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         this.organizationDao = organizationDao;
     }
 
+    public void setKualiUserService(KualiUserService kualiUserService) {
+        this.kualiUserService = kualiUserService;
+    }    
+    
     /**
      * 
      * @see org.kuali.module.chart.service.OrganizationService#getActiveAccountsByOrg(java.lang.String, java.lang.String)
@@ -113,5 +119,4 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         return organizationDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
     }
-
 }

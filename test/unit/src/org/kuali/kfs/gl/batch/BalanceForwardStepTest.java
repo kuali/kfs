@@ -27,7 +27,6 @@ package org.kuali.module.gl.batch;
 
 import java.sql.Date;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +35,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -44,11 +42,13 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.GeneralLedgerTestHelper;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
  */
+@WithTestSpringContext
 public class BalanceForwardStepTest extends OriginEntryTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceForwardStepTest.class);

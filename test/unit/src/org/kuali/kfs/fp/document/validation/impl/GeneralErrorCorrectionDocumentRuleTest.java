@@ -28,6 +28,7 @@ import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -37,6 +38,7 @@ import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
@@ -44,8 +46,9 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
 /**
  * This class tests the General Error Correction Document's persistence, routing, and PE generation.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME = "GeneralErrorCorrectionDocumentRuleTest.collection1";
@@ -527,6 +530,12 @@ public class GeneralErrorCorrectionDocumentRuleTest extends TransactionalDocumen
     @Override
     public final GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
         return getExpectedGECOffsetTargetPendingEntry();
+    }
+
+    public final GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntryForTargetAsset() {
+        GeneralLedgerPendingEntry entry = getExpectedGECOffsetTargetPendingEntry();
+        entry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+        return entry;
     }
 
     /**

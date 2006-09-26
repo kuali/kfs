@@ -149,6 +149,13 @@
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
 
         </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="universalUser" >
+                <primitiveAttribute sourceName="financialReportingCodeMgrId" targetName="personUniversalIdentifier" />
+            </relationship>
+        </relationships>
+
     </businessObject>
 </dictionaryEntry>
 

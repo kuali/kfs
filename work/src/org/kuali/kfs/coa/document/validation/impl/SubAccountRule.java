@@ -44,7 +44,7 @@ import org.kuali.module.chart.bo.SubAccount;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
@@ -513,11 +513,11 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         String allowedCgWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_WORKGROUP_PARM_NAME);
 
         if (user.isMember(new KualiGroup(allowedCgWorkgroup))) {
-            LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
+            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;
         }
         else {
-            LOG.info("User '" + user.getPersonUserIdentifier() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
+            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
             return false;
         }
     }

@@ -186,4 +186,11 @@
             <value>org.kuali.module.financial.bo.PaymentReasonCode</value>
         </property>
     </bean>
+
+    <bean id="workflow-org.kuali.module.financial.bo.TaxControlCode-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.financial.bo.TaxControlCode</value>
+        </property>
+    </bean>
+
 </beans>

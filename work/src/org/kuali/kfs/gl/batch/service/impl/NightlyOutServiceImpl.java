@@ -23,6 +23,7 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.Constants;
@@ -35,6 +36,7 @@ import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.service.NightlyOutService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.service.ReportService;
 
 /**
  * This class implements the nightly out batch job.
@@ -48,6 +50,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     private OriginEntryService originEntryService;
     private DateTimeService dateTimeService;
     private OriginEntryGroupService originEntryGroupService;
+    private ReportService reportService;
 
     /**
      * Constructs a NightlyOutServiceImpl.java.
@@ -65,15 +68,15 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     /**
      * @see org.kuali.module.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
-    public int copyApprovedPendingLedgerEntries() {
+    public void copyApprovedPendingLedgerEntries() {
         LOG.debug("copyApprovedPendingLedgerEntries() started");
 
         Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
 
-        // create a new group for the entries fetch above
-        OriginEntryGroup group = createGroupForCurrentProcessing();
+        Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
 
-        int counter = 0;
+        OriginEntryGroup group = originEntryGroupService.createGroup(today, OriginEntrySource.GENERATE_BY_EDOC, true, true, true);
+
         while (pendingEntries.hasNext()) {
             // get one pending entry
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries.next();
@@ -82,24 +85,14 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             saveAsOriginEntry(pendingEntry, group);
 
             // update the pending entry to indicate it has been copied
-            updatePendingEntryAfterCopy(pendingEntry);
-
-            // count the number of ledger entries that have been processed
-            counter++;
+            pendingEntry.setFinancialDocumentApprovedCode("X");
+            pendingEntry.setTransactionDate(today);
+            generalLedgerPendingEntryService.save(pendingEntry);
         }
 
-        return counter;
-    }
-
-    /**
-     * create a new group for the entries to be processing
-     */
-    private OriginEntryGroup createGroupForCurrentProcessing() {
-        Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
-        String groupSourceCode = OriginEntrySource.GENERATE_BY_EDOC;
-
-        OriginEntryGroup group = originEntryGroupService.createGroup(today, groupSourceCode, true, true, true);
-        return group;
+        // Print reports
+        reportService.generatePendingEntryReport(today,group);
+        reportService.generatePendingEntryLedgerSummaryReport(today, group);
     }
 
     /*
@@ -112,50 +105,23 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         originEntryService.createEntry(originEntry, group);
     }
 
-    /**
-     * After it is copied to origin entry table, this method updates the pending entry in order to indicate it has been proceesed.
-     * 
-     * @param pendingEntry the given pending entry
-     */
-    private void updatePendingEntryAfterCopy(GeneralLedgerPendingEntry pendingEntry) {
-        pendingEntry.setFinancialDocumentApprovedCode(Constants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM);
-        pendingEntry.setTransactionDate(new Date(dateTimeService.getCurrentDate().getTime()));
-        generalLedgerPendingEntryService.save(pendingEntry);
-    }
-
-    /**
-     * Sets the generalLedgerPendingEntryService attribute value.
-     * 
-     * @param generalLedgerPendingEntryService The generalLedgerPendingEntryService to set.
-     */
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 
-    /**
-     * Sets the originEntryService attribute value.
-     * 
-     * @param originEntryService The originEntryService to set.
-     */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }
 
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
+    }
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Sets the originEntryGroupService attribute value.
-     * 
-     * @param originEntryGroupService The originEntryGroupService to set.
-     */
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
+    public void setReportService(ReportService rs) {
+        this.reportService = rs;
     }
 }

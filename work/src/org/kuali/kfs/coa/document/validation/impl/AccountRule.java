@@ -49,7 +49,7 @@ import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class AccountRule extends MaintenanceDocumentRuleBase {
 

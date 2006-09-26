@@ -32,7 +32,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.InternalBillingItem;
 import org.kuali.module.financial.web.struts.form.InternalBillingForm;
@@ -40,7 +40,7 @@ import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 /**
  * This class handles Actions for InternalBilling.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 
 
@@ -72,14 +72,7 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
      * @return whether the new item is valid
      */
     private static boolean validateNewItem(InternalBillingForm internalBillingForm) {
-        final ErrorMap errorMap = GlobalVariables.getErrorMap();
-        int originalErrorCount = errorMap.getErrorCount();
-        errorMap.addToErrorPath(PropertyConstants.NEW_ITEM);
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(internalBillingForm.getNewItem());
-        errorMap.removeFromErrorPath(PropertyConstants.NEW_ITEM);
-        // todo: return a boolean from DictionaryValidationService instead of checking errorMap. KULNRVSYS-1093
-        int currentErrorCount = errorMap.getErrorCount();
-        return currentErrorCount == originalErrorCount;
+        return getDictionaryValidationService().isBusinessObjectValid(internalBillingForm.getNewItem(), PropertyConstants.NEW_ITEM);
     }
 
     /**

@@ -38,7 +38,7 @@ import org.kuali.module.financial.rules.CashReceiptFamilyRule;
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 abstract public class CashReceiptFamilyBase extends TransactionalDocumentBase {
     private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this

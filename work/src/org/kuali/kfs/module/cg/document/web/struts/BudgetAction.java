@@ -339,7 +339,7 @@ public class BudgetAction extends KualiDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
         
-        budgetForm.setInitiator(SpringServiceLocator.getKualiUserService().getUser(
+        budgetForm.setInitiator(SpringServiceLocator.getKualiUserService().getKualiUser(
                 new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
 
         // This is so that tab states are not shared between pages.

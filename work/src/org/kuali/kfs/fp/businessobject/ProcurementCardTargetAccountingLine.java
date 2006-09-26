@@ -26,7 +26,7 @@ import org.kuali.core.bo.TargetAccountingLine;
 
 
 /**
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class ProcurementCardTargetAccountingLine extends TargetAccountingLine {
     private Integer financialDocumentTransactionLineNumber;

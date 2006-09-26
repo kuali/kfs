@@ -22,6 +22,8 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import org.kuali.core.service.KualiUserService;
+import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.dao.ProjectCodeDao;
 import org.kuali.module.chart.service.ProjectCodeService;
@@ -30,13 +32,14 @@ import org.kuali.module.chart.service.ProjectCodeService;
  * This class is the service implementation for the ProjectCode structure. This is the default implementation, that is delivered
  * with Kuali.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class ProjectCodeServiceImpl implements ProjectCodeService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceImpl.class);
 
     private ProjectCodeDao projectCodeDao;
-
+    private KualiUserService kualiUserService;
+    
     /**
      * Retrieves an ProjectCode object based on primary key.
      * 
@@ -70,4 +73,9 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
     public void setProjectCodeDao(ProjectCodeDao projectCodeDao) {
         this.projectCodeDao = projectCodeDao;
     }
+
+    public void setKualiUserService(KualiUserService kualiUserService) {
+        this.kualiUserService = kualiUserService;
+    }  
+
 }

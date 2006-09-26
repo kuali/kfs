@@ -48,7 +48,7 @@ import edu.iu.uis.eden.routetemplate.RouteContext;
  * the account 3) Only current adjustments are being made 4) The fund group for the account is not contract and grants 5) current
  * income/expense decrease amount must equal increase amount
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements SplitNode {
 
@@ -68,7 +68,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
         List accountingLines = new ArrayList();
         accountingLines.addAll(budgetDocument.getSourceAccountingLines());
         accountingLines.addAll(budgetDocument.getTargetAccountingLines());
-
+        
         /* only one account can be present on document and only current adjustments allowed */
         String chart = "";
         String accountNumber = "";
@@ -92,7 +92,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
         // check remaining conditions
         if (autoApprovalAllowed) {
             // initiator should be fiscal officer or primary delegate for account
-            KualiUser initiator = SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(budgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+            KualiUser initiator = SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(budgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
             List userAccounts = SpringServiceLocator.getAccountService().getAccountsThatUserIsResponsibleFor(initiator);
             Account userAccount = null;
             for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {

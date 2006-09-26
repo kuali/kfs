@@ -28,12 +28,14 @@ import java.util.List;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class is used to test NonCheckDisbursementDocumentTest.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class AuxiliaryVoucherDocumentTest extends TransactionalDocumentTestBase {
     public static final String COLLECTION_NAME = "AuxiliaryVoucherDocument.collection1";
     public static final String USER_NAME = "user1";

@@ -25,8 +25,6 @@ package org.kuali.module.gl.util;
 import org.kuali.module.gl.bo.OriginEntry;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
- * @version $Id$
  */
 
 public class OriginEntryOffsetPair {

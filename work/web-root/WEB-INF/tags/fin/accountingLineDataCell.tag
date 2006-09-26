@@ -7,6 +7,8 @@
 
 <%@ attribute name="dataCellCssClass" required="true"
               description="The name of the CSS class for this data cell." %>
+<%@ attribute name="dataFieldCssClass" required="false"
+              description="The name of the CSS class for this data field." %>
 <%@ attribute name="field" required="true"
               description="The name of the field of the accounting line being edited or displayed by this cell.
               Combined with the accountingLine, this identifies the value (i.e., the data) of this cell." %>
@@ -97,6 +99,9 @@
 <c:if test="${empty conversionField}">
     <c:set var="conversionField" value="${field}"/>
 </c:if>
+<c:if test="${empty dataFieldCssClass}">
+    <c:set var="dataFieldCssClass" value=""/>
+</c:if>
 <c:choose>
     <c:when test="${empty boPackageName}">
         <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
@@ -142,6 +147,7 @@
         onblur="${onblur}"
         readOnly="${readOnly}"
         readOnlyBody="true"
+        styleClass="${dataFieldCssClass}"
         >
         <fin:accountingLineReadOnlyCellProperty
             property="${cellProperty}"

@@ -28,12 +28,14 @@ import java.util.List;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class is used to test the IndirectCostAdjustmentDocument.
  * 
- * @author Kuali Financial Transactions Blue Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Blue Team ()
  */
+@WithTestSpringContext
 public class IndirectCostAdjustmentDocumentTest extends TransactionalDocumentTestBase {
     public static final String COLLECTION_NAME = "IndirectCostAdjustmentDocumentTest.collection1";
     public static final String USER_NAME = "user1";

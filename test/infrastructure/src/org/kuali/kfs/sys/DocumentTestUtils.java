@@ -34,7 +34,7 @@ import org.kuali.module.financial.bo.InternalBillingItem;
 /**
  * DocumentTestUtils
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class DocumentTestUtils {
     public static SourceAccountingLine createSourceLine(String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {

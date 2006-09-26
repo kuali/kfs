@@ -44,14 +44,14 @@
 						<td height="30" colspan=2 class="infoline"><html:image
 							property="methodToCall.search" value="search"
 							src="images/buttonsmall_search.gif" styleClass="tinybutton"
-							alt="search" border="0" /> <html:image
+							alt="search" title="search" border="0" /> <html:image
 							property="methodToCall.clearValues" value="clearValues"
 							src="images/buttonsmall_clear.gif" styleClass="tinybutton"
-							alt="clear" border="0" /> <c:if test="${KualiForm.formKey!=''}">
+							alt="clear" title="clear" border="0" /> <c:if test="${KualiForm.formKey!=''}">
 							<a
-								href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
+								href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'  title="cancel">
 							<img src="images/buttonsmall_cancel.gif" class="tinybutton"
-								border="0" alt="cancel"/> </a>
+								border="0" alt="cancel" title="cancel"/> </a>
 						</c:if> <!-- Optional extra button --> <c:if
 							test="${not empty KualiForm.lookupable.extraButtonSource}">
 							<a
@@ -99,7 +99,7 @@
 								<c:choose>
 
 									<c:when test="${column.propertyURL != \"\"}">
-											<a href="<c:out value="${column.propertyURL}"/>"
+											<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
 												target="blank"><c:out value="${column.propertyValue}" /></a>	
 									</c:when>
 	
@@ -122,7 +122,7 @@
 										title="${column.columnTitle}"
 										comparator="${column.comparator}">
 
-										<a href="<c:out value="${column.propertyURL}"/>"
+										<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
 											target="blank"><c:out value="${column.propertyValue}" /></a>
 
 									</display:column>

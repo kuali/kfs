@@ -35,6 +35,8 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.test.parameters.DisbursementVoucherDocumentParameter;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -43,8 +45,9 @@ import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 /**
  * This class is used to test DisbursementVoucherDocument.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
+@WithTestSpringContext
 public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBase {
     public static final String COLLECTION_NAME = "DisbursementVoucherDocumentTest.collection1";
     public static final String USER_NAME = "user1";
@@ -66,7 +69,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
     private static final String ALIEN_INDICATOR_PAYMENT_REASON = "Alien Indicator+Payment Reason";
     private static final String PAYMENT_METHOD = "Payment Method";
 
-    /**
+    /*
      * @see org.kuali.core.document.TransactionalDocumentTestBase#setUp()
      */
     protected void setUp() throws Exception {
@@ -97,7 +100,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         dvParameter.setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
         dvParameter.setDisbVchrPayeeTaxControlCode("");
 
-        dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getKualiUser().getPersonName());
+        dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getKualiUser().getUniversalUser().getPersonName());
         // set to tomorrow
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -120,6 +123,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
 
     }
 
+    @TestsWorkflowViaDatabase
     public void testWorkflowRouting() throws Exception {
         NetworkIdVO VPUTMAN = new NetworkIdVO("VPUTMAN");
         NetworkIdVO CSWINSON = new NetworkIdVO("CSWINSON");

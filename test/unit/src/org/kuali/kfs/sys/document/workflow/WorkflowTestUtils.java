@@ -21,7 +21,7 @@ public class WorkflowTestUtils {
 
     public static KualiWorkflowDocument refreshDocument(Document document, NetworkIdVO networkId) throws WorkflowException, UserNotFoundException {
         Long docId = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        KualiWorkflowDocument workflowDocument = SpringServiceLocator.getWorkflowDocumentService().createWorkflowDocument(docId, SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(networkId.getNetworkId())));
+        KualiWorkflowDocument workflowDocument = SpringServiceLocator.getWorkflowDocumentService().createWorkflowDocument(docId, SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(networkId.getNetworkId())));
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
         GlobalVariables.putLocalDocReference(docId.toString());
         document.getDocumentHeader().setWorkflowDocument(workflowDocument);

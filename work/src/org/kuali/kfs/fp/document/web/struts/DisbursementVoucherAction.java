@@ -60,7 +60,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class handles Actions for the DisbursementVoucher.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team ()
  */
 public class DisbursementVoucherAction extends KualiTransactionalDocumentActionBase {
 

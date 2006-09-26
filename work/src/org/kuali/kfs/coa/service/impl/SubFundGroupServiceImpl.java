@@ -27,8 +27,7 @@ import org.kuali.module.chart.dao.SubFundGroupDao;
 import org.kuali.module.chart.service.SubFundGroupService;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
- * @version $Id$
+ * @author 
  */
 public class SubFundGroupServiceImpl implements SubFundGroupService {
 

@@ -24,7 +24,9 @@ package org.kuali.module.chart.rules;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.test.WithTestSpringContext;
 
+@WithTestSpringContext
 public class OrgRuleTest extends ChartRuleTestBase {
 
     private static final String GOOD_CHART = "UA";

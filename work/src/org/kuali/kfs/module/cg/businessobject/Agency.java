@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.AgencyExtension;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team ()
  */
 public class Agency extends BusinessObjectBase {
 

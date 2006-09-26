@@ -63,7 +63,7 @@
                 <required>true</required>
             </attributeReference>
 
-            <attribute name="finDocumentBankAccountNumber" forceUppercase="false">
+            <attribute name="finDocumentBankAccountNumber" forceUppercase="true">
                 <label>Bank Account Number</label>
                 <shortLabel>Bank Acct</shortLabel>
 

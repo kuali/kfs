@@ -144,7 +144,7 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
             throw new IllegalStateException("Reference Document Number is required and should be validated before this point.");
         }
 
-        description = Constants.ORIGIN_CODE_KUALI + line.getReferenceNumber();
+        description = Constants.ORIGIN_CODE_KUALI + "-" + line.getReferenceNumber();
 
         if (StringUtils.isNotBlank(line.getFinancialDocumentLineDescription())) {
             description += ": " + line.getFinancialDocumentLineDescription();

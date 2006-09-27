@@ -26,8 +26,18 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 
 public class RoutingForm extends KualiDocumentFormBase {
     
+    private boolean auditActivated;
+    
     public RoutingForm() {
         super();
         this.setHeaderNavigationTabs(new HeaderNavigation[] { new HeaderNavigation("mainpage", "Main Page"), new HeaderNavigation("personnel", "Personnel"), new HeaderNavigation("researchrisks", "Research Risks"), new HeaderNavigation("projectdetails", "Project Details"), new HeaderNavigation("agencyspecific", "Agency Specific"), new HeaderNavigation("sf424", "SF 424"), new HeaderNavigation("link", "Link"), new HeaderNavigation("notes", "Notes"), new HeaderNavigation("output", "Output"), new HeaderNavigation("template", "Template"), new HeaderNavigation("auditmode", "Audit Mode"), new HeaderNavigation("permissions", "Permissions"), new HeaderNavigation("approvals", "Approvals")});
+    }
+
+    public boolean isAuditActivated() {
+        return auditActivated;
+    }
+
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
     }
 }

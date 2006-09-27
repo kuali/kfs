@@ -73,7 +73,7 @@
 </attribute>
 
 <attribute name="billingName" forceUppercase="true">
-    <label>Billing Name</label>
+    <label>Address</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
@@ -650,7 +650,7 @@
 </attribute>
 
 <attribute name="purchaseOrderBeginDate" forceUppercase="true">
-    <label>Purchase Order Begin Date</label>
+    <label>Begin/End Date</label>
     <shortLabel>Date</shortLabel>
 
     <maxLength>7</maxLength>
@@ -669,14 +669,14 @@
 <attribute name="purchaseOrderCostSourceCode" forceUppercase="true">
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
-    
+
     <maxLength>4</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
     <required>true</required>
 
-	<control>
+    <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
     </control>
 
@@ -685,7 +685,7 @@
 </attribute>
 
 <attribute name="purchaseOrderEndDate" forceUppercase="true">
-    <label>Purchase Order End Date</label>
+    <label>Begin/End Date</label>
     <shortLabel>Date</shortLabel>
 
     <maxLength>7</maxLength>
@@ -728,7 +728,7 @@
     </validationPattern>
     <required>true</required>
 
-	<control>
+    <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
     </control>
 
@@ -737,7 +737,7 @@
 </attribute>
 
 <attribute name="recurringPaymentTypeCode" forceUppercase="true">
-    <label>Recurring Payment Type Code</label>
+    <label>Type of Recurring Payment</label>
     <shortLabel>Code</shortLabel>
 
     <maxLength>4</maxLength>
@@ -746,7 +746,7 @@
     </validationPattern>
 
     <control>
-        <text size="6" />
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder" />
     </control>
 
     <summary>recurringPaymentTypeCode</summary>

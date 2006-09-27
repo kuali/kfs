@@ -24,7 +24,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" />
                     &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode" readOnly="true"/>
 			        <!--  c:if test="${fullEntryMode}" -->
-			            <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.organizationCode"/>
+			            <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode"/>
 			        <!--  /c:if -->
                 </td>
                 <th align=right valign=middle class="bord-l-b">

@@ -151,7 +151,7 @@
     <required>true</required>
 
     <control>
-        <text size="4" />
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SimpleChartValuesFinder" />
     </control>
 
     <summary>chartOfAccountsCode</summary>
@@ -618,8 +618,8 @@
 </attribute>
 
 <attribute name="organizationCode" forceUppercase="true">
-    <label>Organization</label>
-    <shortLabel>Code</shortLabel>
+    <label>Chart/Org</label>
+    <shortLabel>Chart/Org</shortLabel>
 
     <maxLength>4</maxLength>
     <validationPattern>
@@ -669,14 +669,14 @@
 <attribute name="purchaseOrderCostSourceCode" forceUppercase="true">
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
-
+    
     <maxLength>4</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
     <required>true</required>
 
-    <control>
+	<control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
     </control>
 
@@ -728,7 +728,7 @@
     </validationPattern>
     <required>true</required>
 
-    <control>
+	<control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
     </control>
 

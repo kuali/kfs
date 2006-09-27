@@ -87,7 +87,7 @@ public class BudgetNonpersonnelCopyOverFormHelperTest extends KualiTestBaseWithS
         List budgetNonpersonnelList = budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems();
         assertTrue("Incorrect number of items found after copy over.", budgetNonpersonnelList.size() == 11);
 
-        /** @todo Could test values next for a more exhaustive test case ... */
+        // Could test values next for a more exhaustive test case, but this covers the basics for now.
     }
 
     public void testRefresh() {

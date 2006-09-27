@@ -141,13 +141,14 @@
 </attribute>
 
 <attribute name="chartOfAccountsCode" forceUppercase="true">
-    <label>Chart Of Accounts Code</label>
+    <label>Chart</label>
     <shortLabel>Code</shortLabel>
 
     <maxLength>2</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="4" />
@@ -498,7 +499,7 @@
 </attribute>
 
 <attribute name="institutionContactEmailAddress" forceUppercase="true">
-    <label>Institution Contact Email Address</label>
+    <label>Contact Email</label>
     <shortLabel>Address</shortLabel>
 
     <maxLength>100</maxLength>
@@ -507,7 +508,7 @@
     </validationPattern>
 
     <control>
-        <text size="102" />
+        <text size="47" />
     </control>
 
     <summary>institutionContactEmailAddress</summary>
@@ -515,7 +516,7 @@
 </attribute>
 
 <attribute name="institutionContactName" forceUppercase="true">
-    <label>Institution Contact Name</label>
+    <label>Contact Name</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
@@ -532,7 +533,7 @@
 </attribute>
 
 <attribute name="institutionContactPhoneNumber" forceUppercase="true">
-    <label>Institution Contact Phone Number</label>
+    <label>Contact Phone</label>
     <shortLabel>Number</shortLabel>
 
     <maxLength>45</maxLength>
@@ -617,13 +618,14 @@
 </attribute>
 
 <attribute name="organizationCode" forceUppercase="true">
-    <label>Organization Code</label>
+    <label>Organization</label>
     <shortLabel>Code</shortLabel>
 
     <maxLength>4</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="6" />
@@ -665,16 +667,17 @@
 </attribute>
 
 <attribute name="purchaseOrderCostSourceCode" forceUppercase="true">
-    <label>Purchase Order Cost Source Code</label>
+    <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
-
+    
     <maxLength>4</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
-    <control>
-        <text size="6" />
+	<control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
     </control>
 
     <summary>purchaseOrderCostSourceCode</summary>
@@ -699,7 +702,7 @@
 </attribute>
 
 <attribute name="purchaseOrderTotalLimit" forceUppercase="true">
-    <label>Purchase Order Total Limit</label>
+    <label>PO Total Cannot Exceed</label>
     <shortLabel>Limit</shortLabel>
 
     <maxLength>19</maxLength>
@@ -716,16 +719,17 @@
 </attribute>
 
 <attribute name="purchaseOrderTransmissionMethodCode" forceUppercase="true">
-    <label>Purchase Order Transmission Method Code</label>
+    <label>Method of PO Transmission</label>
     <shortLabel>Code</shortLabel>
 
     <maxLength>4</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
-    <control>
-        <text size="6" />
+	<control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
     </control>
 
     <summary>purchaseOrderTransmissionMethodCode</summary>
@@ -750,16 +754,17 @@
 </attribute>
 
 <attribute name="requestorPersonEmailAddr" forceUppercase="true">
-    <label>Requestor Person Email Addr</label>
+    <label>Requestor Email</label>
     <shortLabel>Addr</shortLabel>
 
     <maxLength>100</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
-        <text size="102" />
+        <text size="47" />
     </control>
 
     <summary>requestorPersonEmailAddr</summary>
@@ -767,13 +772,14 @@
 </attribute>
 
 <attribute name="requestorPersonName" forceUppercase="true">
-    <label>Requestor Person Name</label>
+    <label>Requestor Name</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="47" />
@@ -784,13 +790,14 @@
 </attribute>
 
 <attribute name="requestorPersonPhoneNumber" forceUppercase="true">
-    <label>Requestor Person Phone Number</label>
+    <label>Requestor Phone</label>
     <shortLabel>Number</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="47" />

@@ -18,19 +18,62 @@
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right">&nbsp;</div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.recurringPaymentTypeCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    &nbsp;
-                </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right">&nbsp;</div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    &nbsp;
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode" />
                 </td>
             </tr>
-
+            <tr>
+                <th align=right valign=middle class="bord-l-b">
+                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderBeginDate}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell"> from:
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true"/>
+                 	&nbsp;&nbsp;
+                  to:
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderEndDate" datePicker="true"/>
+               </td> 
+            </tr>
+		</table> 
+		<div class="h2-container">
+           	<h2>Billing Address</h2>
+        </div> 
+		<table cellpadding=0 class="datatable" summary="Payment Info Section">	 
+			<tr>
+                <th align=right valign=top rowspan="4" class="bord-l-b">
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.billingName}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingName}" property="document.billingName" readOnly="true" />
+                </td>
+            </tr>
+            <tr>
+                <td>   
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingLine1Address}" property="document.billingLine1Address" readOnly="true" />
+                </td>
+            </tr>
+               
+	        <c:if test="${!empty document.billingLine2Address}">
+	        	<tr>
+	               	<td>  
+	                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingLine2Address}" property="document.billingLine2Address" readOnly="true" />
+	                </td>
+	        	</tr>   	
+	        </c:if>
+	        <tr>
+               <td>  
+               		<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingCityName}" property="document.billingCityName" readOnly="true" />,&nbsp;
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingStateCode}" property="document.billingStateCode" readOnly="true" />&nbsp;
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingPostalCode}" property="document.billingPostalCode" readOnly="true" />
+               </td>
+            </tr>
+            <tr>
+               	<td>     
+               		<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingCountryCode}" property="document.billingCountryCode" readOnly="true" />
+            	</td>
+                
+            </tr>
         </table>
 
     </div>

@@ -28,12 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -45,5 +42,32 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class RequisitionAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
 
+    /**
+     * Do initialization for a new requisition
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        ((RequisitionDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+    }
+
+    /**
+     * Perform extra steps needed to copy a Requisition
+     * 
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward forward = super.copy(mapping, form, request, response);
+        
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)form;
+        ((RequisitionDocument) kualiDocumentFormBase.getDocument()).copyDocument();
+        
+        return forward;
+    }
 
 }

@@ -22,7 +22,9 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
@@ -40,4 +42,57 @@ public class RequisitionForm extends KualiTransactionalDocumentFormBase {
         super();
         setDocument(new RequisitionDocument());
     }
+
+    /**
+     * @return Returns the internalBillingDocument.
+     */
+    public RequisitionDocument getRequisitionDocument() {
+        return (RequisitionDocument) getDocument();
+    }
+
+    /**
+     * @param internalBillingDocument The internalBillingDocument to set.
+     */
+    public void setRequisitionDocument(RequisitionDocument requisitionDocument) {
+        setDocument(requisitionDocument);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
+     */
+    public KeyLabelPair getAdditionalDocInfo1() {
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getRequisitionIdentifier())) {
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionIdentifier", ((RequisitionDocument)this.getDocument()).getRequisitionIdentifier().toString());
+        } else {
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionIdentifier", "Not Available");
+        }
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
+     */
+    public KeyLabelPair getAdditionalDocInfo2() {
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getRequisitionStatus())) {
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionStatusCode", ((RequisitionDocument)this.getDocument()).getRequisitionStatus().getRequisitionStatusDescription());
+        } else {
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionStatusCode", "Not Available");
+        }
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#setAdditionalDocInfo1(org.kuali.core.web.uidraw.KeyLabelPair)
+     */
+    public void setAdditionalDocInfo1(KeyLabelPair additionalDocInfo1) {
+        // TODO Auto-generated method stub
+        super.setAdditionalDocInfo1(additionalDocInfo1);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#setAdditionalDocInfo2(org.kuali.core.web.uidraw.KeyLabelPair)
+     */
+    public void setAdditionalDocInfo2(KeyLabelPair additionalDocInfo2) {
+        // TODO Auto-generated method stub
+        super.setAdditionalDocInfo2(additionalDocInfo2);
+    }
+
 }

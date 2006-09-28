@@ -25,22 +25,12 @@
 
 package org.kuali.module.purap.document;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Campus;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
-import org.kuali.module.purap.bo.FundingSource;
-import org.kuali.module.purap.bo.PurchaseOrderCostSource;
-import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
-import org.kuali.module.purap.bo.RecurringPaymentType;
-import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.purap.bo.RequisitionStatus;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
 
@@ -71,12 +61,182 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
 	}
 
-	/**
-	 * Gets the requisitionIdentifier attribute.
-	 * 
-	 * @return - Returns the requisitionIdentifier
-	 * 
-	 */
+    /**
+     * Perform logic needed to initiate Requisition Document
+     */
+    public void initiateDocument() {
+        //TODO add code
+        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
+
+//        r.setSource((RequisitionSource) referenceService.getCode("RequisitionSource", EpicConstants.REQ_SOURCE_STANDARD_ORDER));
+//        r.setStatus((RequisitionStatus) referenceService.getCode("RequisitionStatus", EpicConstants.REQ_STAT_IN_PROCESS));
+//
+
+// TODO get fiscal year from dateservice        
+//        UniversityDate ud = coaService.getFiscalPeriodForToday();
+//        r.setPurchaseOrderEncumbranceFiscalYear(ud.getUniversityFiscalYear());
+//        r.setFinancialChartOfAccountsCode(u.getOrganization().getChart().getCode());
+//        r.setOrganizationCode(u.getOrganization().getCode());
+//        r.setDeliveryCampus(vendorService.getCampusByCode(u.getCampusCd()));
+
+        // TODO wait to code this until we have the new table created
+        // get the APO limit and the alternate reference titles (if set)
+//        updateOrganizationAndAPOLimit(r);// this must be done after the chart/org has been set on the req (do not move this line)
+
+//        BillingAddress billingAddress = billingAddressService.getByCampusCode(u.getCampusCd());
+//        if (billingAddress != null) {
+//            r.setBillingName(billingAddress.getName());
+//            r.setBillingLine1Address(billingAddress.getLine1Address());
+//            r.setBillingLine2Address(billingAddress.getLine2Address());
+//            r.setBillingCityName(billingAddress.getCityName());
+//            r.setBillingStateCode(billingAddress.getStateCode());
+//            r.setBillingPostalCode(billingAddress.getPostalCode());
+//            r.setBillingCountryCode(billingAddress.getCountryCode());
+//            r.setBillingPhoneNumber(billingAddress.getPhoneNumber());
+//        }
+
+        // default cost source to estimate and transmission method to fax
+//        r.setPurchaseOrderCostSourceCode(EpicConstants.PO_COST_SRC_ESTIMATE);
+//        r.setPurchaseOrderTransmissionMethodCode(EpicConstants.PO_TRANSMISSION_METHOD_FAX);
+//        this.updateDropDownObjects(r);
+
+// TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
+//        // add new item for freight
+//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_FREIGHT_CODE);
+//
+//        // add new item for s&h
+//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_SHIP_AND_HAND_CODE);
+//
+//        // add new item for full order discount
+//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE);
+//
+//        // add new item for trade in
+//        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_TRADE_IN_CODE);
+
+//        Integer numRows = applicationSettingService.getInt("DEFAULT_ITEM_ROWS");
+//        for (int i = 0; i < numRows.intValue(); i++) {
+//            Integer nextLineNum = r.getNextItemLineNumber();
+//            ItemType iT = getItemType();
+//            addNewItem(r, iT, nextLineNum);
+//        }
+
+    }
+
+    /**
+     * Perform logic needed to copy Requisition Document
+     */
+    public void copyDocument() {
+        
+//      //set req status to 'INPR'
+//      newReq.setStatus((RequisitionStatus) referenceService.getCode("RequisitionStatus", EpicConstants.REQ_STAT_IN_PROCESS));
+//
+//      //set fields from the user
+//      newReq.setFinancialChartOfAccountsCode(user.getOrganization().getChart().getCode());
+//      newReq.setOrganizationCode(user.getOrganization().getCode());
+//      newReq.setLastUpdateUser(user);
+//      newReq.setLastUpdateTimestamp(new Timestamp((new java.util.Date()).getTime()));
+//
+//      if (req.getDeliveryCampus() != null) {
+//        BillingAddress billingAddress = billingAddressService.getByCampusCode(req.getDeliveryCampus().getCampusCd());
+//        if (billingAddress != null) {
+//          newReq.setBillingName(billingAddress.getName());
+//          newReq.setBillingLine1Address(billingAddress.getLine1Address());
+//          newReq.setBillingLine2Address(billingAddress.getLine2Address());
+//          newReq.setBillingCityName(billingAddress.getCityName());
+//          newReq.setBillingStateCode(billingAddress.getStateCode());
+//          newReq.setBillingPostalCode(billingAddress.getPostalCode());
+//          newReq.setBillingCountryCode(billingAddress.getCountryCode());
+//          newReq.setBillingPhoneNumber(billingAddress.getPhoneNumber());
+//        }
+//      }
+//
+//      UniversityDate ud = coaService.getFiscalPeriodForToday();
+//      newReq.setPurchaseOrderEncumbranceFiscalYear(ud.getUniversityFiscalYear());
+//
+//      boolean activeVendor = true;
+//      boolean activeContract = true;
+//
+//      Date today = new Date(java.lang.System.currentTimeMillis());
+//      VendorContract vendorContract = vendorService.getVendorContractById(req.getVendorContractGeneratedId());
+//      if (!(vendorContract != null && 
+//          today.after(vendorContract.getBeginDate()) && 
+//          today.before(vendorContract.getEndDate()))) {
+//        activeContract = false;
+//      }
+//
+//      VendorDetail vendorDetail = vendorService.getVendorDetail(req.getVendorHeaderGeneratedId(), 
+//          req.getVendorDetailAssignedId());
+//      if (!(vendorDetail != null && EpicConstants.VENDOR_STAT_TYPE_ACTIVE.equals(vendorDetail.getStatusCode()))) {
+//        activeVendor = false;
+//      }
+//
+//      //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
+//      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
+//        if (!activeContract) {
+//          LOG.debug("copy() B2B contract has expired; don't allow copy.");
+//          throw new PurError("Requisition # " + req.getId() + " uses an expired contract and cannot be copied.");
+//        }
+//        if (!activeVendor) {
+//          LOG.debug("copy() B2B vendor is inactive; don't allow copy.");
+//          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
+//        }
+//      }
+
+//DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
+//      if (activeVendor) {
+//        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
+//        newReq.setVendorDetailAssignedId(req.getVendorDetailAssignedId());
+//        if (activeContract) {
+//          newReq.setVendorContract(req.getVendorContract());
+//        }
+//      }
+
+      //these fields should not be set in this method; force to be null
+//      newReq.setVendorNoteText(null);
+//      newReq.setContractManager(null);
+//      newReq.setInstitutionContactName(null);
+//      newReq.setInstitutionContactPhoneNumber(null);
+//      newReq.setInstitutionContactEmailAddress(null);
+//      newReq.setAutomaticPurchaseOrderLimit(null);
+//      newReq.setIsAPO(null);
+//      newReq.setStatusHistoryList(null);
+
+//TODO DAVID AND CHRIS SHOULD FIX THIS
+      //Trade In and Discount Items are only available for B2B. If the Requisition
+      //doesn't currently contain trade in and discount, we should add them in 
+      //here (KULAPP 1715)
+//      if (! EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
+//        boolean containsFullOrderDiscount = req.containsFullOrderDiscount();
+//        //If the po has not contained full order discount item, create and
+//        //add the full order discount item to it.
+//        if (! containsFullOrderDiscount) {
+//          ItemType iT = (ItemType)(referenceService.getCode("ItemType",EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE));
+//          RequisitionItem discountItem = new RequisitionItem(iT, EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_LINE_NUMBER, req);
+//          newReq.getItems().add(discountItem);
+//        }
+//          
+//        boolean containsTradeIn = req.containsTradeIn();
+//        //If the po has not contained trade in item, create and
+//        //add the trade in item to it.
+//        if (! containsTradeIn) {
+//          ItemType iT = (ItemType)(referenceService.getCode("ItemType",EpicConstants.ITEM_TYPE_TRADE_IN_CODE));
+//          RequisitionItem tradeInItem = new RequisitionItem(iT, EpicConstants.ITEM_TYPE_TRADE_IN_LINE_NUMBER, req);
+//          newReq.getItems().add(tradeInItem);
+//        }
+//      }
+
+      // get the contacts, supplier diversity list and APO limit 
+//      setupRequisition(newReq);
+      
+        
+    }
+    
+    /**
+     * Gets the requisitionIdentifier attribute.
+     * 
+     * @return - Returns the requisitionIdentifier
+     * 
+     */
 	public Integer getRequisitionIdentifier() { 
 		return requisitionIdentifier;
 	}

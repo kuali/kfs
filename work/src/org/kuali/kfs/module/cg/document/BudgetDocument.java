@@ -59,7 +59,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class BudgetDocument extends ResearchDocumentBase {
 
-
     private static final long serialVersionUID = -3561859858801995441L;
     private Integer budgetTaskNextSequenceNumber;
     private Integer budgetPeriodNextSequenceNumber;
@@ -88,6 +87,21 @@ public class BudgetDocument extends ResearchDocumentBase {
         thirdPartyCostShareNextSequenceNumber = new Integer(1);
     }
 
+    /**
+     * Budget Document specific logic to perform prior to saving.
+     * 
+     * @see org.kuali.core.document.DocumentBase#prepareForSave()
+     */
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        try {
+            SpringServiceLocator.getBudgetService().prepareBudgetForSave(this);
+        } catch (WorkflowException e) {
+            throw new RuntimeException("no document found for documentHeaderId '" + this.documentHeader + "'", e);
+        }
+    }
+    
     /**
      * @param o
      */

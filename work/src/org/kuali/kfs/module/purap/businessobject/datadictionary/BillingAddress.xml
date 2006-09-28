@@ -160,7 +160,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <validationPattern><phoneNumber /></validationPattern>
 
                 <control>
                     <text size="47" />

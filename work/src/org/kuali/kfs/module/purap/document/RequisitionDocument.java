@@ -76,57 +76,39 @@ public class RequisitionDocument extends PurchasingDocumentBase {
      */
     public void initiateDocument() {
 
-//        r.setSource((RequisitionSource) referenceService.getCode("RequisitionSource", EpicConstants.REQ_SOURCE_STANDARD_ORDER));
-//        this.setRequisitionSourceCode(PurapConstants.REQ_SOURCE_STANDARD_ORDER);
-//        r.setStatus((RequisitionStatus) referenceService.getCode("RequisitionStatus", EpicConstants.REQ_STAT_IN_PROCESS));
-//        this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
-        // Default cost source to estimate and transmission method to fax
-//      r.setPurchaseOrderCostSourceCode(EpicConstants.PO_COST_SRC_ESTIMATE);
-//        this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
-//      r.setPurchaseOrderTransmissionMethodCode(EpicConstants.PO_TRANSMISSION_METHOD_FAX);
-//        this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
-
-//        UniversityDate ud = coaService.getFiscalPeriodForToday();
-//        r.setPurchaseOrderEncumbranceFiscalYear(ud.getUniversityFiscalYear());
-        this.setPostingYear(dateTimeService.getCurrentFiscalYear());
+        this.setRequisitionSourceCode(PurapConstants.REQ_SOURCE_STANDARD_ORDER);
+        this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
+        this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
+        this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
+        
+        // ripierce: the PostingYear has already been set before we come to this method.
 
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-//        r.setFinancialChartOfAccountsCode(u.getOrganization().getChart().getCode());
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
-//        r.setOrganizationCode(u.getOrganization().getCode());
         this.setOrganizationCode(currentUser.getOrganization().getOrganizationCode());
-//        r.setDeliveryCampus(vendorService.getCampusByCode(u.getCampusCd()));
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
 
         // TODO wait to code this until we have the new table created
         // get the APO limit and the alternate reference titles (if set)
 //        updateOrganizationAndAPOLimit(r);// this must be done after the chart/org has been set on the req (do not move this line)
+
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
-//      BillingAddress billingAddress = billingAddressService.getByCampusCode(u.getCampusCd());
         billingAddress = (BillingAddress) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BillingAddress.class, keys);
 
         if (billingAddress != null) {
-//            r.setBillingName(billingAddress.getName());
             this.setBillingName(billingAddress.getBillingName());
-//            r.setBillingLine1Address(billingAddress.getLine1Address());
             this.setBillingLine1Address(billingAddress.getBillingLine1Address());
-//            r.setBillingLine2Address(billingAddress.getLine2Address());
             this.setBillingLine2Address(billingAddress.getBillingLine2Address());
-//            r.setBillingCityName(billingAddress.getCityName());
             this.setBillingCityName(billingAddress.getBillingCityName());
-//            r.setBillingStateCode(billingAddress.getStateCode());
             this.setBillingStateCode(billingAddress.getBillingStateCode());
-//            r.setBillingPostalCode(billingAddress.getPostalCode());
             this.setBillingPostalCode(billingAddress.getBillingPostalCode());
-//            r.setBillingCountryCode(billingAddress.getCountryCode());
             this.setBillingCountryCode(billingAddress.getBillingCountryCode());
-//            r.setBillingPhoneNumber(billingAddress.getPhoneNumber());
             this.setBillingPhoneNumber(billingAddress.getBillingPhoneNumber());
         }
 
-// TODO       this.updateDropDownObjects(r);
+// TODO Needed?      this.updateDropDownObjects(r);
 
 // TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
 //        // add new item for freight

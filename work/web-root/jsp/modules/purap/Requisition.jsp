@@ -25,6 +25,7 @@
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
 
     <purap:additional
+        editingMode="${KualiForm.editingMode}"
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
 
 	<kul:notes />

@@ -53,21 +53,10 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
         ((RequisitionDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
 
-    /**
-     * Perform extra steps needed to copy a Requisition
-     * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
-    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ActionForward forward = super.copy(mapping, form, request, response);
-        
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)form;
-        ((RequisitionDocument) kualiDocumentFormBase.getDocument()).copyDocument();
-        
-        return forward;
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO add code to retrieve new building list
+        return super.refresh(mapping, form, request, response);
     }
 
 }

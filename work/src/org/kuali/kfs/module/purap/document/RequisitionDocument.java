@@ -34,6 +34,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.RequisitionStatus;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * @author PURAP (kualidev@oncourse.iu.edu)
  */
@@ -125,7 +127,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     /**
      * Perform logic needed to copy Requisition Document
      */
-    public void copyDocument() {
+    @Override
+    public void convertIntoCopy() throws WorkflowException {
+        super.convertIntoCopy();
         
 //      //set req status to 'INPR'
 //      newReq.setStatus((RequisitionStatus) referenceService.getCode("RequisitionStatus", EpicConstants.REQ_STAT_IN_PROCESS));

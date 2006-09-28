@@ -82,4 +82,21 @@ public class PurapConstants {
     public static final String PAYMENT_TERMS_TYPE_DAYS = "Days";
     public static final String PAYMENT_TERMS_TYPE_DATE = "Date";
     
+    //Requisition Statuses
+    public static String REQ_STAT_IN_PROCESS = "INPR";
+    public static String REQ_STAT_CANCELLED = "CANC";
+    public static String REQ_STAT_CLOSED = "CLOS";
+    public static String REQ_STAT_AWAIT_CONTENT_APRVL = "ACNT";
+    public static String REQ_STAT_AWAIT_SUB_ACCT_APRVL = "ASUB";
+    public static String REQ_STAT_AWAIT_FISCAL_APRVL = "AFIS";
+    public static String REQ_STAT_AWAIT_CHART_APRVL = "ACHA";
+    public static String REQ_STAT_AWAIT_SEP_OF_DUTY_APRVL = "ASOD";
+    public static String REQ_STAT_DAPRVD_CONTENT = "DCNT";
+    public static String REQ_STAT_DAPRVD_SUB_ACCT = "DSUB";
+    public static String REQ_STAT_DAPRVD_FISCAL = "DFIS";
+    public static String REQ_STAT_DAPRVD_CHART = "DCHA";
+    public static String REQ_STAT_DAPRVD_SEP_OF_DUTY = "DSOD";
+    public static String REQ_STAT_AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
+    public static String REQ_STAT_CONTRACT_MANAGER_ASSGN = "CMRA"; 
+    
 }

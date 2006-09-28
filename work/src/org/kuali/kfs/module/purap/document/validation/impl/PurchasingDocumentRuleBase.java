@@ -22,6 +22,38 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.kuali.module.purap.document.PurchasingDocument;
+
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
+
+    boolean processVendorValidation(PurchasingDocument document) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processItemValidation(PurchasingDocument document) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processPaymentInfoValidation(PurchasingDocument document) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processDeliveryValidation(PurchasingDocument document) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processAdditionalValidation(PurchasingDocument document) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
 
 }

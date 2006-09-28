@@ -22,6 +22,73 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.kuali.core.document.Document;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.module.purap.document.RequisitionDocument;
+
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        RequisitionDocument reqDocument = (RequisitionDocument) document;
+        return isValid &= processValidation(reqDocument);
+    }
+
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        RequisitionDocument reqDocument = (RequisitionDocument) document;
+        return isValid &= processValidation(reqDocument);
+    }
+
+    @Override
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
+        RequisitionDocument reqDocument = (RequisitionDocument) approveEvent.getDocument();
+        return isValid &= processValidation(reqDocument);
+    }
+
+    private boolean processValidation(RequisitionDocument document) {
+        boolean valid = true;
+        valid &= processVendorValidation(document);
+        valid &= processItemValidation(document);
+        valid &= processPaymentInfoValidation(document);
+        valid &= processDeliveryValidation(document);
+        valid &= processAdditionalValidation(document);
+        return valid;
+    }
+    
+    boolean processVendorValidation(RequisitionDocument document) {
+        boolean valid = super.processVendorValidation(document);
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processItemValidation(RequisitionDocument document) {
+        boolean valid = super.processItemValidation(document);
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processPaymentInfoValidation(RequisitionDocument document) {
+        boolean valid = super.processPaymentInfoValidation(document);
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processDeliveryValidation(RequisitionDocument document) {
+        boolean valid = super.processDeliveryValidation(document);
+        // TODO code validation
+        return valid;
+    }
+
+    boolean processAdditionalValidation(RequisitionDocument document) {
+        boolean valid = super.processAdditionalValidation(document);
+        // TODO code validation
+        return valid;
+    }
 }

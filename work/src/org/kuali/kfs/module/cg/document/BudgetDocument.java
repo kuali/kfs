@@ -366,6 +366,7 @@ public class BudgetDocument extends ResearchDocumentBase {
             list.add(budget.getUniversityCostSharePersonnelItems());
             list.add(budget.getAdHocPermissions());
             list.add(budget.getAdHocOrgs()); 
+            list.add(budget.getAdHocWorkgroups());
 
             if (budget.getIndirectCost() != null && budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
                 list.add(budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());

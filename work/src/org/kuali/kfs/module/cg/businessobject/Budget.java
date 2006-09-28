@@ -86,6 +86,7 @@ public class Budget extends BusinessObjectBase {
     private List universityCostSharePersonnelItems;
     private List<BudgetAdHocPermission> adHocPermissions;
     private List<BudgetAdHocOrg> adHocOrgs;
+    private List<BudgetAdHocWorkgroup> adHocWorkgroups;
 
     private BudgetIndirectCost indirectCost;
 
@@ -112,6 +113,7 @@ public class Budget extends BusinessObjectBase {
         universityCostSharePersonnelItems = new ArrayList();
         adHocPermissions = new ArrayList<BudgetAdHocPermission>();
         adHocOrgs = new ArrayList<BudgetAdHocOrg>();
+        adHocWorkgroups = new ArrayList<BudgetAdHocWorkgroup>();
         budgetIndirectCostLookups = new ArrayList<BudgetIndirectCostLookup>();
 
     }
@@ -1001,6 +1003,27 @@ public class Budget extends BusinessObjectBase {
             this.getAdHocOrgs().add(new BudgetAdHocOrg());
         }
         return this.getAdHocOrgs().get(index);
+    }
+
+    public List<BudgetAdHocWorkgroup> getAdHocWorkgroups() {
+        return adHocWorkgroups;
+    }
+
+    public void setAdHocWorkgroups(List<BudgetAdHocWorkgroup> adHocWorkgroups) {
+        this.adHocWorkgroups = adHocWorkgroups;
+    }
+    
+    /**
+     * Gets the BudgetAdHocWorkgroup item at given index.
+     * 
+     * @param index
+     * @return BudgetAdHocWorkgroup
+     */
+    public BudgetAdHocWorkgroup getBudgetAdHocWorkgroupItem(int index) {
+        while (this.getAdHocWorkgroups().size() <= index) {
+            this.getAdHocWorkgroups().add(new BudgetAdHocWorkgroup());
+        }
+        return this.getAdHocWorkgroups().get(index);
     }
 
     public Date getDefaultNextPeriodBeginDate() {

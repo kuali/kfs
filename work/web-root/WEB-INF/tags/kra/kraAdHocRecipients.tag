@@ -250,12 +250,12 @@
                   	<kul:htmlAttributeHeaderCell
                       attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}"
                       scope="col"
-                      colspan="4"
+                      colspan="3"
                       />
-                  	<%--kul:htmlAttributeHeaderCell
+                  	<kul:htmlAttributeHeaderCell
                   		attributeEntry="${DataDictionary.BudgetAdHocPermission.attributes.budgetPermissionCode}"
                   		scope="col"
-                  	  /--%>
+                  	  />
                   	<c:if test="${not displayReadOnly}">
                   		<kul:htmlAttributeHeaderCell
                       		literalLabel="Actions"
@@ -274,19 +274,18 @@
   			            		</html:select> (upon completion)
   			            	</div>
                     	</td>
-                    	<td class="infoline" colspan="4"><div align=center>
+                    	<td class="infoline" colspan="3"><div align=center>
                         	<kul:htmlControlAttribute property="newAdHocRouteWorkgroup.id" attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}" readOnly="${displayReadOnly}" />
                         	<kul:workflowWorkgroupLookup fieldConversions="workgroupId:newAdHocRouteWorkgroup.id" /></div>
                     	</td>
-                    	<%--
                     	<td class="infoline">
                     		<div align="left">
-								<html:select value="${KualiForm.newAdHocOrg.budgetPermissionCode}" property="newAdHocOrg.budgetPermissionCode">
+								<html:select value="${KualiForm.newAdHocWorkgroupPermissionCode}" property="newAdHocWorkgroupPermissionCode">
 									<html:option value="R">READ</html:option>
 									<html:option value="M">MOD</html:option>
 								</html:select>
 							</div>
-						</td> --%>
+						</td>
 						<c:if test="${not displayReadOnly}">
                     		<td class="infoline"><div align=center>
                         		<html:image property="methodToCall.insertAdHocRouteWorkgroup" src="images/tinybutton-add1.gif" alt="Insert Additional Ad Hoc Workgroup" styleClass="tinybutton"/></div>
@@ -294,6 +293,7 @@
                     	</c:if>
                 	</tr>
 				</c:if>
+				<%-- %>
                 <logic:iterate name="KualiForm" id="workgroup" property="adHocRouteWorkgroups" indexId="ctr">
                     <tr>
                         <td class="datacell center">
@@ -317,6 +317,40 @@
                         </c:if>
                     </tr>
                 </logic:iterate>
+                --%>
+                <c:forEach items="${KualiForm.document.budget.adHocWorkgroups}" var="workgroup" varStatus="status">
+					<tr>
+	                    <td class="datacell center">
+	                    	<div align=center>
+	                    		<html:select property="workgroup.actionRequested" value="F" disabled="true">
+  		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
+	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
+	  			        		</html:select>
+	  			        		(upon completion)
+	  			        	</div>
+	                    </td>
+	                    <td colspan="3" class="datacell center">
+	                    	<div align=left>${workgroup.workgroupName}</div>
+	                    	<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].workgroupName" />
+	                    </td>
+	                    <td>
+	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" /></c:if>
+	                    	<html:select value="${workgroup.budgetPermissionCode}" property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" disabled="${displayReadOnly}">
+								<html:option value="R">READ</html:option>
+								<html:option value="M">MOD</html:option>
+							</html:select>
+							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].addedByPerson" />
+							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].personAddedTimestamp" />
+							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].objectId" />
+							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].versionNumber" />
+						</td>
+						<c:if test="${not displayReadOnly}">
+		                    <td class="datacell center"><div align=center>
+                            	<html:image property="methodToCall.delete.line${status.index}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+	                    	</td>
+	                    </c:if>
+	                </tr>
+				</c:forEach>
 	        </table>
 	    </div>
 	</kul:tabTop>

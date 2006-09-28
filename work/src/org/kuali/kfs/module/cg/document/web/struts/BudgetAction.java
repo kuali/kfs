@@ -22,7 +22,7 @@
  */
 package org.kuali.module.kra.budget.web.struts.action;
 
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +37,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.AdHocRoutePerson;
+import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
@@ -44,7 +46,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.module.kra.budget.KraConstants;
-import org.kuali.module.kra.budget.bo.BudgetPeriod;
+import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.budget.bo.BudgetAdHocWorkgroup;
 import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
 import org.kuali.module.kra.budget.rules.event.RunAuditEvent;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
@@ -85,6 +88,8 @@ public class BudgetAction extends KualiDocumentActionBase {
     }
     
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        BudgetForm budgetForm = (BudgetForm) form;
 
         Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
@@ -98,6 +103,8 @@ public class BudgetAction extends KualiDocumentActionBase {
         Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
 
         if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+            budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getBudget().getAdHocPermissions()));
+            budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getBudget().getAdHocWorkgroups()));
             return super.route(mapping, form, request, response);
         }
         
@@ -397,6 +404,30 @@ public class BudgetAction extends KualiDocumentActionBase {
         budgetForm.setAcademicYearSubdivisionNames(Arrays.asList(academicYearSubdivisionNames));
         budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
     }
+    
+    private static List<AdHocRoutePerson> convertToAdHocRoutePersons(List<BudgetAdHocPermission> adHocPermissions) {
+        List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
+        for (BudgetAdHocPermission adHocPermission: adHocPermissions) {
+            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(adHocPermission);
+            AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+            adHocRoutePerson.setId(adHocPermission.getUser().getPersonUserIdentifier());
+            adHocRoutePerson.setActionRequested("F");
+            adHocRoutePersons.add(adHocRoutePerson);
+        }
+        return adHocRoutePersons;
+    }
+    
+    private static List<AdHocRouteWorkgroup> convertToAdHocRouteWorkgroups(List<BudgetAdHocWorkgroup> adHocWorkgroups) {
+        List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
+        for (BudgetAdHocWorkgroup adHocWorkgroup: adHocWorkgroups) {
+            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(adHocWorkgroup);
+            AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
+            adHocRouteWorkgroup.setId(adHocWorkgroup.getWorkgroupName());
+            adHocRouteWorkgroup.setActionRequested("F");
+            adHocRouteWorkgroups.add(adHocRouteWorkgroup);
+        }
+        return adHocRouteWorkgroups;
+    }
 
     /**
      * We want to allow navigation for a couple of specific errors. So find these here.
@@ -411,5 +442,4 @@ public class BudgetAction extends KualiDocumentActionBase {
         }
         return map.size() == counter;
     }
-
 }

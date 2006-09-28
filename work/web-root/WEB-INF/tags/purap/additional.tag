@@ -7,10 +7,8 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
-<%@ attribute name="editingMode" required="true" type="java.util.Map"
-              description="used to decide editability of overview fields" %>
 
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
+<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Additional" defaultOpen="true">
     <div class="tab-container" align=center>

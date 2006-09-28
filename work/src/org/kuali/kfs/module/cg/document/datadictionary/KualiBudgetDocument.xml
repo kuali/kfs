@@ -24,7 +24,61 @@
         <summary>Budget document</summary>
         <description>Filling out budgets is a delight which all persons should be so lucky as to be able to do dailly twice</description>
         <allowsCopy>true</allowsCopy>
+        
+        <headerNavigation>
+        	<headerNavigationTab>
+        		<navigateTo>parameters</navigateTo>
+        		<displayName>Parameters</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>overview</navigateTo>
+        		<displayName>Overview</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>personnel</navigateTo>
+        		<displayName>Personnel</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>nonpersonnel</navigateTo>
+        		<displayName>Nonpersonnel</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>costshare</navigateTo>
+        		<displayName>Cost Share</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>modular</navigateTo>
+        		<displayName>Modular</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>indirectcost</navigateTo>
+        		<displayName>Indirect Cost</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>permissions</navigateTo>
+        		<displayName>Permissions</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>output</navigateTo>
+        		<displayName>Output</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetOutputHelp"/>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>template</navigateTo>
+        		<displayName>Template</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>auditmode</navigateTo>
+        		<displayName>Audit Mode</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>notes</navigateTo>
+        		<displayName>Notes</displayName>
+        	</headerNavigationTab>
+        </headerNavigation>
+        
         <allowsNoteDelete>true</allowsNoteDelete>
         <!--  attachmentTypesValuesFinderClass>org.kuali.module.kra.budget.lookup.keyvalues.BudgetBaseCodeValuesFinder</attachmentTypesValuesFinderClass -->
+        
     </researchDocument>
 </dictionaryEntry>

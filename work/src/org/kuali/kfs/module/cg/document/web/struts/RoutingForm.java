@@ -22,6 +22,10 @@
  */
 package org.kuali.module.kra.routingform.web.struts.form;
 
+import org.kuali.core.datadictionary.DataDictionary;
+import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.datadictionary.HeaderNavigation;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 
 public class RoutingForm extends KualiDocumentFormBase {
@@ -30,7 +34,10 @@ public class RoutingForm extends KualiDocumentFormBase {
     
     public RoutingForm() {
         super();
-        this.setHeaderNavigationTabs(new HeaderNavigation[] { new HeaderNavigation("mainpage", "Main Page"), new HeaderNavigation("personnel", "Personnel"), new HeaderNavigation("researchrisks", "Research Risks"), new HeaderNavigation("projectdetails", "Project Details"), new HeaderNavigation("agencyspecific", "Agency Specific"), new HeaderNavigation("sf424", "SF 424"), new HeaderNavigation("link", "Link"), new HeaderNavigation("notes", "Notes"), new HeaderNavigation("output", "Output"), new HeaderNavigation("template", "Template"), new HeaderNavigation("auditmode", "Audit Mode"), new HeaderNavigation("permissions", "Permissions"), new HeaderNavigation("approvals", "Approvals")});
+        
+        DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
+        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
+        this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
     }
 
     public boolean isAuditActivated() {

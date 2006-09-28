@@ -36,8 +36,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.datadictionary.DataDictionary;
+import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
@@ -78,6 +81,7 @@ public class BudgetForm extends KualiDocumentFormBase {
     
     private BudgetAdHocPermission newAdHocPermission;
     private BudgetAdHocOrg newAdHocOrg;
+    private String newAdHocWorkgroupPermissionCode;
     private KualiUser initiator;
 
     private String[] deleteValues = new String[50];
@@ -114,7 +118,7 @@ public class BudgetForm extends KualiDocumentFormBase {
     private boolean auditActivated;
     private boolean includeAdHocPermissions;
     private boolean includeBudgetIdcRates;
-
+    
 
     public BudgetForm() {
         super();
@@ -140,8 +144,9 @@ public class BudgetForm extends KualiDocumentFormBase {
 
         academicYearSubdivisionNames = new ArrayList();
         
-        this.setHeaderNavigationTabs(new HeaderNavigation[] { new HeaderNavigation("parameters", "Parameters"), new HeaderNavigation("overview", "Overview"), new HeaderNavigation("personnel", "Personnel"), new HeaderNavigation("nonpersonnel", "Nonpersonnel"), new HeaderNavigation("costshare", "Cost Share"), new HeaderNavigation("modular", "Modular"), new HeaderNavigation("indirectcost", "Indirect Cost"), new HeaderNavigation("permissions", "Permissions"), new HeaderNavigation("output", "Output"), new HeaderNavigation("template", "Template"), new HeaderNavigation("auditmode", "Audit Mode"), new HeaderNavigation("notes","Notes")});
-
+        DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
+        DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.budget.document.BudgetDocument.class);
+        this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
     }
 
     /**
@@ -400,6 +405,14 @@ public class BudgetForm extends KualiDocumentFormBase {
      */
     public void setNewAdHocOrg(BudgetAdHocOrg newAdHocOrg) {
         this.newAdHocOrg = newAdHocOrg;
+    }
+
+    public String getNewAdHocWorkgroupPermissionCode() {
+        return newAdHocWorkgroupPermissionCode;
+    }
+
+    public void setNewAdHocWorkgroupPermissionCode(String newAdHocWorkgroupPermissionCode) {
+        this.newAdHocWorkgroupPermissionCode = newAdHocWorkgroupPermissionCode;
     }
 
     /**

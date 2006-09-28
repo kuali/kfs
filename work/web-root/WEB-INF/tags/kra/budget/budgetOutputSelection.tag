@@ -14,7 +14,7 @@
             <tr>
               <td colspan=3 class="subhead">
                 <span class="subhead-left"> Select Report Type </span>
-                <span class="subhead-right"> <span class="subhead"><kul:help securityGroupName="${KraConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${KraConstants.BUDGET_OUTPUT_HELP_PARAMETER_NAME}" altText="help"/></span> </span>
+                <span class="subhead-right"> <span class="subhead"><kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.OUTPUT_HEADER_TAB}" altText="help"/></span> </span>
               </td>
             </tr>
             <tr align="center" valign="top">

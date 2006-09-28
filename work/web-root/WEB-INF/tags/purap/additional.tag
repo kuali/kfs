@@ -22,7 +22,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" />
-                    &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode" readOnly="true"/>
+                    &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"/>
 			        <!--  c:if test="${fullEntryMode}" -->
 			            <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode"/>
 			        <!--  /c:if -->
@@ -32,6 +32,9 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonName}" property="document.requestorPersonName" />
+			        <!--  c:if test="${fullEntryMode}" -->
+                        <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" fieldConversions="universalUser.personName:document.requestorPersonName,universalUser.personLocalPhoneNumber:document.requestorPersonPhoneNumber,universalUser.personEmailAddress:document.requestorPersonEmailAddr" /></div>
+			        <!--  /c:if -->
                 </td>
             </tr>
 

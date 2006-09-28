@@ -44,11 +44,6 @@ public class BudgetPeriodTest extends KualiTestBaseWithSpring {
 
     public void testBudgetPeriod() {
         assertTrue(true);
-
-        /**
-         * @todo stubbed this for creation of static method below. Probably should write some BudgetPeriod test cases at some point
-         *       ...
-         */
     }
 
     public static List createBudgetPeriods(int numberOfPeriods) {

@@ -55,6 +55,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.WebUtils;
+import org.kuali.module.kra.budget.KraConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.xml.BudgetXml;
@@ -80,17 +81,6 @@ public class BudgetOutputAction extends BudgetAction {
     private static final String NIH_MOD = "NIH-mod";
     private static final String NIH_SUMMARY = "NSF-summary";
     private static final String SF_424 = "SF424";
-
-    // Style sheet locations.
-    /** TODO Application Constants */
-    private static final String STYLESHEET_URL_OR_PATH = "/xml/budget/";
-    private static final String GENERIC_BY_TASK_XSL_PATH = "generic/genericByTask.xsl";
-    private static final String GENERIC_BY_PERIOD_XSL_PATH = "generic/genericByPeriod.xsl";
-    private static final String NIH_2590_XSL_PATH = "nih/nih-2590.xsl";
-    private static final String NIH_398_XSL_PATH = "nih/nih-398.xsl";
-    private static final String NIH_MOD_XSL_PATH = "nih/nih-modular.xsl";
-    private static final String NIH_SUMMARY_XSL_PATH = "nsf/NSFSummaryProposalBudget.xsl";
-    private static final String SF_424_XSL_PATH = "sf424.xsl";
 
     /**
      * Use for generation of PDF that is to be pushed to the browser.
@@ -125,8 +115,7 @@ public class BudgetOutputAction extends BudgetAction {
         Document foDocument = (Document) result.getNode();
 
         // Set logger for FOP up. org.apache.avalon.framework.logger.Logger is replaced with Jakarta Commons-Logging in FOP 0.92.
-        // See
-        // http://xmlgraphics.apache.org/fop/0.20.5/embedding.html#basic-logging for details. */
+        // See http://xmlgraphics.apache.org/fop/0.20.5/embedding.html#basic-logging for details.
         if (fopLogger == null) {
             fopLogger = new Log4JLogger(LOG);
             MessageHandler.setScreenLogger(fopLogger);
@@ -232,12 +221,8 @@ public class BudgetOutputAction extends BudgetAction {
      * @throws Exception
      */
     private Document makeXml(HttpServletRequest request, BudgetForm budgetForm, BudgetDocument budgetDocument) throws ParserConfigurationException, Exception {
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath(); // like
-                                                                                                                                            // returnUrl
-                                                                                                                                            // in
-                                                                                                                                            // Kuali
-                                                                                                                                            // Core
-
+        // following is like returnUrl in KualiCore
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         String param = "";
         if (GENERIC_BY_TASK.equals(budgetForm.getCurrentOutputReportType()) || GENERIC_BY_PERIOD.equals(budgetForm.getCurrentOutputReportType())) {
             param = budgetForm.getCurrentOutputDetailLevel();
@@ -267,47 +252,48 @@ public class BudgetOutputAction extends BudgetAction {
      */
     private StreamSource pickStylesheet(String currentOutputReportType, String currentOutputAgencyType, HttpServletRequest request) throws IOException {
         String urlString = "";
+        
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        String STYLESHEET_URL_OR_PATH = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputStylesheetUrlOrPath");
 
+        // following checks if STYLESHEET_URL_OR_PATH is a URL already or path within the project
         if (STYLESHEET_URL_OR_PATH.contains("://")) {
             urlString = STYLESHEET_URL_OR_PATH;
         }
         else {
-            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath(); // like
-                                                                                                                                                // returnUrl
-                                                                                                                                                // in
-                                                                                                                                                // Kuali
-                                                                                                                                                // Core
+            // following is like returnUrl in KualiCore
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
             urlString = baseUrl + STYLESHEET_URL_OR_PATH;
         }
 
         if (GENERIC_BY_TASK.equals(currentOutputReportType)) {
-            urlString += GENERIC_BY_TASK_XSL_PATH;
+            urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputGenericByTaskXslPath");
         }
         else if (GENERIC_BY_PERIOD.equals(currentOutputReportType)) {
-            urlString += GENERIC_BY_PERIOD_XSL_PATH;
+            urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputGenericByPeriodXslPath");
         }
         else if (AGENCY.equals(currentOutputReportType)) {
             if (NIH_2590.equals(currentOutputAgencyType)) {
-                urlString += NIH_2590_XSL_PATH;
+                urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputNih2590XslPath");
             }
             else if (NIH_398.equals(currentOutputAgencyType)) {
-                urlString += NIH_398_XSL_PATH;
+                urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputNih398XslPath");
             }
             else if (NIH_MOD.equals(currentOutputAgencyType)) {
-                urlString += NIH_MOD_XSL_PATH;
+                urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputModularXslPath");
             }
             else if (NIH_SUMMARY.equals(currentOutputAgencyType)) {
-                urlString += NIH_SUMMARY_XSL_PATH;
+                urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputNsfSummaryXslPath");
             }
             else {
-                LOG.error("Report type agency stylesheet not found, using default.");
+                LOG.error("Report type agency stylesheet not found.");
             }
         }
         else if (SF_424.equals(currentOutputReportType)) {
-            urlString += SF_424_XSL_PATH;
+            urlString += kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "outputSf424XslPath");
         }
         else {
-            LOG.error("Report type stylesheet not found, using default.");
+            LOG.error("Report type stylesheet not found.");
         }
 
         return new StreamSource(new URL(urlString).openConnection().getInputStream());

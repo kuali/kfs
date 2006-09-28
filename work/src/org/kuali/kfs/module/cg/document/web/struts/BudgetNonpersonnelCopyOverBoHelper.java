@@ -114,10 +114,6 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
             this.setBudgetUniversityCostShareAmount(new KualiInteger(0));
         }
 
-        /**
-         * @todo the below is a bit crazy, particularly the casting. I got the original code from one of Terry's methods. Jay Sissom
-         *       said he also needed some service were we could centralize this. Do this?
-         */
         // calculate inflation based on origin amounts per method specification.
         // Can always be done because of t=0 then it's the original value.
         // details here: http://en.wikipedia.org/wiki/Interest
@@ -188,7 +184,6 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
 
         // 7. Note: Does not use origin amounts like inflation calculation in other constructor.
 
-        /** @todo See todo above. */
         // calculate inflation based on amounts per method specification
         BigDecimal inflationFactor = budgetNonpersonnelInflationRate.bigDecimalValue().divide(BigDecimal.valueOf(100), 8, BigDecimal.ROUND_HALF_EVEN).add(BigDecimal.valueOf(1));
 

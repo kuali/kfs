@@ -43,11 +43,6 @@ public class BudgetNonpersonnelTest extends KualiTestBaseWithSpring {
 
     public void testBudgetNonpersonnel() {
         assertTrue(true);
-
-        /**
-         * @todo stubbed this for creation of static method below. Probably should write some BudgetPeriod test cases at some point
-         *       ...
-         */
     }
 
     public static List createBudgetNonpersonnel(String[] nonpersonnelCategories, String[] subCategories, String[] subcontractorNumber) {

@@ -176,8 +176,8 @@
 </attribute>
 
 <attribute name="deliveryBuildingCode" forceUppercase="true">
-    <label>Delivery Building Code</label>
-    <shortLabel>Code</shortLabel>
+    <label>Building Code</label>
+    <shortLabel>Bldg. Code</shortLabel>
 
     <maxLength>4</maxLength>
     <validationPattern>
@@ -193,13 +193,14 @@
 </attribute>
 
 <attribute name="deliveryBuildingLine1Address" forceUppercase="true">
-    <label>Delivery Building Line1 Address</label>
-    <shortLabel>Address</shortLabel>
+    <label>Address 1</label>
+    <shortLabel>Addr. 1</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="47" />
@@ -210,8 +211,8 @@
 </attribute>
 
 <attribute name="deliveryBuildingLine2Address" forceUppercase="true">
-    <label>Delivery Building Line2 Address</label>
-    <shortLabel>Address</shortLabel>
+    <label>Address 2</label>
+    <shortLabel>Addr. 2</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
@@ -227,16 +228,17 @@
 </attribute>
 
 <attribute name="deliveryBuildingName" forceUppercase="true">
-    <label>Delivery Building Name</label>
-    <shortLabel>Name</shortLabel>
+    <label>Building</label>
+    <shortLabel>Building</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
-        <text size="47" />
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BuildingValuesFinder"/>
     </control>
 
     <summary>deliveryBuildingName</summary>
@@ -244,13 +246,14 @@
 </attribute>
 
 <attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
-    <label>Delivery Building Room Number</label>
-    <shortLabel>Number</shortLabel>
+    <label>Room</label>
+    <shortLabel>Room</shortLabel>
 
     <maxLength>8</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="10" />
@@ -261,16 +264,17 @@
 </attribute>
 
 <attribute name="deliveryCampusCode" forceUppercase="true">
-    <label>Delivery Campus Code</label>
-    <shortLabel>Code</shortLabel>
+    <label>Delivery Campus</label>
+    <shortLabel>Del. Campus</shortLabel>
 
     <maxLength>2</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
-        <text size="4" />
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
     </control>
 
     <summary>deliveryCampusCode</summary>
@@ -278,13 +282,14 @@
 </attribute>
 
 <attribute name="deliveryCityName" forceUppercase="true">
-    <label>Delivery City Name</label>
-    <shortLabel>Name</shortLabel>
+    <label>City</label>
+    <shortLabel>City</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="47" />
@@ -312,8 +317,8 @@
 </attribute>
 
 <attribute name="deliveryInstructionText" forceUppercase="true">
-    <label>Delivery Instruction Text</label>
-    <shortLabel>Text</shortLabel>
+    <label>Delivery Instructions</label>
+    <shortLabel>Instructions</shortLabel>
 
     <maxLength>255</maxLength>
     <validationPattern>
@@ -329,13 +334,14 @@
 </attribute>
 
 <attribute name="deliveryPostalCode" forceUppercase="true">
-    <label>Delivery Postal Code</label>
-    <shortLabel>Code</shortLabel>
+    <label>Postal Code</label>
+    <shortLabel>Zip</shortLabel>
 
     <maxLength>20</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="22" />
@@ -347,15 +353,15 @@
 
 <attribute name="deliveryRequiredDate" forceUppercase="true">
     <label>Delivery Required Date</label>
-    <shortLabel>Date</shortLabel>
+    <shortLabel>Required Date</shortLabel>
 
-    <maxLength>7</maxLength>
+    <maxLength>10</maxLength>
     <validationPattern>
         <date />
     </validationPattern>
 
     <control>
-        <text size="9" />
+        <text size="12" />
     </control>
 
     <summary>deliveryRequiredDate</summary>
@@ -363,8 +369,8 @@
 </attribute>
 
 <attribute name="deliveryRequiredDateReasonCode" forceUppercase="true">
-    <label>Delivery Required Date Reason Code</label>
-    <shortLabel>Code</shortLabel>
+    <label>Required Date Reason</label>
+    <shortLabel>Date Reason</shortLabel>
 
     <maxLength>4</maxLength>
     <validationPattern>
@@ -372,7 +378,7 @@
     </validationPattern>
 
     <control>
-        <text size="6" />
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
     </control>
 
     <summary>deliveryRequiredDateReasonCode</summary>
@@ -380,16 +386,17 @@
 </attribute>
 
 <attribute name="deliveryStateCode" forceUppercase="true">
-    <label>Delivery State Code</label>
-    <shortLabel>Code</shortLabel>
+    <label>State</label>
+    <shortLabel>State</shortLabel>
 
     <maxLength>2</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
-        <text size="4" />
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.StateValuesFinder"/>
     </control>
 
     <summary>deliveryStateCode</summary>
@@ -397,8 +404,8 @@
 </attribute>
 
 <attribute name="deliveryToEmailAddress" forceUppercase="true">
-    <label>Delivery To Email Address</label>
-    <shortLabel>Address</shortLabel>
+    <label>Email Address</label>
+    <shortLabel>Email</shortLabel>
 
     <maxLength>100</maxLength>
     <validationPattern>
@@ -414,13 +421,14 @@
 </attribute>
 
 <attribute name="deliveryToName" forceUppercase="true">
-    <label>Delivery To Name</label>
-    <shortLabel>Name</shortLabel>
+    <label>Delivery To</label>
+    <shortLabel>To</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
+    <required>true</required>
 
     <control>
         <text size="47" />
@@ -431,8 +439,8 @@
 </attribute>
 
 <attribute name="deliveryToPhoneNumber" forceUppercase="true">
-    <label>Delivery To Phone Number</label>
-    <shortLabel>Number</shortLabel>
+    <label>Phone Number</label>
+    <shortLabel>Phone</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
@@ -669,14 +677,14 @@
 <attribute name="purchaseOrderCostSourceCode" forceUppercase="true">
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
-    
+
     <maxLength>4</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
     <required>true</required>
 
-	<control>
+    <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
     </control>
 
@@ -728,7 +736,7 @@
     </validationPattern>
     <required>true</required>
 
-	<control>
+    <control>
         <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
     </control>
 

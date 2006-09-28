@@ -25,21 +25,23 @@
 
 package org.kuali.module.purap.document;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.bo.Payee;
-import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.RequisitionStatus;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
-import org.kuali.core.service.DateTimeService;
+import org.kuali.module.purap.bo.VendorContract;
+import org.kuali.module.purap.bo.VendorDetail;
+import org.kuali.module.purap.service.VendorService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -63,6 +65,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     private RequisitionStatusHistory requisition;
 	private RequisitionStatus requisitionStatus;
     private DateTimeService dateTimeService;
+    private VendorService vendorService;
 
 	/**
 	 * Default constructor.
@@ -80,7 +83,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
-        
+
         // ripierce: the PostingYear has already been set before we come to this method.
 
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
@@ -91,7 +94,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         // TODO wait to code this until we have the new table created
         // get the APO limit and the alternate reference titles (if set)
 //        updateOrganizationAndAPOLimit(r);// this must be done after the chart/org has been set on the req (do not move this line)
-
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
@@ -137,51 +139,41 @@ public class RequisitionDocument extends PurchasingDocumentBase {
      */
     @Override
     public void convertIntoCopy() throws WorkflowException {
-        super.convertIntoCopy();
-        
-//      //set req status to 'INPR'
-//      newReq.setStatus((RequisitionStatus) referenceService.getCode("RequisitionStatus", EpicConstants.REQ_STAT_IN_PROCESS));
-//
-//      //set fields from the user
-//      newReq.setFinancialChartOfAccountsCode(user.getOrganization().getChart().getCode());
-//      newReq.setOrganizationCode(user.getOrganization().getCode());
-//      newReq.setLastUpdateUser(user);
-//      newReq.setLastUpdateTimestamp(new Timestamp((new java.util.Date()).getTime()));
-//
-//      if (req.getDeliveryCampus() != null) {
-//        BillingAddress billingAddress = billingAddressService.getByCampusCode(req.getDeliveryCampus().getCampusCd());
-//        if (billingAddress != null) {
-//          newReq.setBillingName(billingAddress.getName());
-//          newReq.setBillingLine1Address(billingAddress.getLine1Address());
-//          newReq.setBillingLine2Address(billingAddress.getLine2Address());
-//          newReq.setBillingCityName(billingAddress.getCityName());
-//          newReq.setBillingStateCode(billingAddress.getStateCode());
-//          newReq.setBillingPostalCode(billingAddress.getPostalCode());
-//          newReq.setBillingCountryCode(billingAddress.getCountryCode());
-//          newReq.setBillingPhoneNumber(billingAddress.getPhoneNumber());
-//        }
-//      }
-//
-//      UniversityDate ud = coaService.getFiscalPeriodForToday();
-//      newReq.setPurchaseOrderEncumbranceFiscalYear(ud.getUniversityFiscalYear());
-//
-//      boolean activeVendor = true;
-//      boolean activeContract = true;
-//
-//      Date today = new Date(java.lang.System.currentTimeMillis());
-//      VendorContract vendorContract = vendorService.getVendorContractById(req.getVendorContractGeneratedId());
-//      if (!(vendorContract != null && 
-//          today.after(vendorContract.getBeginDate()) && 
-//          today.before(vendorContract.getEndDate()))) {
-//        activeContract = false;
-//      }
-//
-//      VendorDetail vendorDetail = vendorService.getVendorDetail(req.getVendorHeaderGeneratedId(), 
-//          req.getVendorDetailAssignedId());
-//      if (!(vendorDetail != null && EpicConstants.VENDOR_STAT_TYPE_ACTIVE.equals(vendorDetail.getStatusCode()))) {
-//        activeVendor = false;
-//      }
-//
+      super.convertIntoCopy();
+      
+      KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
+      RequisitionDocument newReq = new RequisitionDocument();
+      
+      //Set req status to INPR.
+      newReq.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
+
+      //Set fields from the user.
+      newReq.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
+      newReq.setOrganizationCode(currentUser.getOrganizationCode());
+
+      newReq.setPostingYear(dateTimeService.getCurrentFiscalYear());
+
+      boolean activeVendor = true;
+      boolean activeContract = true;
+
+      Date today = dateTimeService.getCurrentDate();
+ 
+      VendorContract vendorContract = new VendorContract();
+      vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
+      Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(vendorContract);
+      vendorContract = (VendorContract)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, keys);
+      if (!(vendorContract != null && 
+          today.after(vendorContract.getVendorContractBeginningDate()) && 
+          today.before(vendorContract.getVendorContractEndDate()))) {
+        activeContract = false;
+      }     
+
+      VendorDetail vendorDetail = vendorService.getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), 
+          this.getVendorDetailAssignedIdentifier());
+      if(!(vendorDetail != null && vendorDetail.isDataObjectMaintenanceCodeActiveIndicator() )) {
+          activeVendor = false;
+      }
+
 //      //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
 //      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
 //        if (!activeContract) {
@@ -193,7 +185,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
 //        }
 //      }
-
 //DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
 //      if (activeVendor) {
 //        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
@@ -240,7 +231,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       // get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
       
-        
     }
     
     /**

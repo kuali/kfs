@@ -49,8 +49,11 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        
         super.createDocument(kualiDocumentFormBase);
+        
         ((RequisitionDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+        
     }
 
     @Override

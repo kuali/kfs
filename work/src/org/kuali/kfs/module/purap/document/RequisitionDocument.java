@@ -26,13 +26,20 @@
 package org.kuali.module.purap.document;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.RequisitionStatus;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
+import org.kuali.core.service.DateTimeService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -55,6 +62,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
     private RequisitionStatusHistory requisition;
 	private RequisitionStatus requisitionStatus;
+    private DateTimeService dateTimeService;
 
 	/**
 	 * Default constructor.
@@ -67,40 +75,58 @@ public class RequisitionDocument extends PurchasingDocumentBase {
      * Perform logic needed to initiate Requisition Document
      */
     public void initiateDocument() {
-        //TODO add code
-        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
 
 //        r.setSource((RequisitionSource) referenceService.getCode("RequisitionSource", EpicConstants.REQ_SOURCE_STANDARD_ORDER));
+//        this.setRequisitionSourceCode(PurapConstants.REQ_SOURCE_STANDARD_ORDER);
 //        r.setStatus((RequisitionStatus) referenceService.getCode("RequisitionStatus", EpicConstants.REQ_STAT_IN_PROCESS));
-//
+//        this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
+        // Default cost source to estimate and transmission method to fax
+//      r.setPurchaseOrderCostSourceCode(EpicConstants.PO_COST_SRC_ESTIMATE);
+//        this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
+//      r.setPurchaseOrderTransmissionMethodCode(EpicConstants.PO_TRANSMISSION_METHOD_FAX);
+//        this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
 
-// TODO get fiscal year from dateservice        
 //        UniversityDate ud = coaService.getFiscalPeriodForToday();
 //        r.setPurchaseOrderEncumbranceFiscalYear(ud.getUniversityFiscalYear());
+        this.setPostingYear(dateTimeService.getCurrentFiscalYear());
+
+        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
 //        r.setFinancialChartOfAccountsCode(u.getOrganization().getChart().getCode());
+        this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
 //        r.setOrganizationCode(u.getOrganization().getCode());
+        this.setOrganizationCode(currentUser.getOrganization().getOrganizationCode());
 //        r.setDeliveryCampus(vendorService.getCampusByCode(u.getCampusCd()));
+        this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
 
         // TODO wait to code this until we have the new table created
         // get the APO limit and the alternate reference titles (if set)
 //        updateOrganizationAndAPOLimit(r);// this must be done after the chart/org has been set on the req (do not move this line)
+        BillingAddress billingAddress = new BillingAddress();
+        billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
+        Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
+//      BillingAddress billingAddress = billingAddressService.getByCampusCode(u.getCampusCd());
+        billingAddress = (BillingAddress) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BillingAddress.class, keys);
 
-//        BillingAddress billingAddress = billingAddressService.getByCampusCode(u.getCampusCd());
-//        if (billingAddress != null) {
+        if (billingAddress != null) {
 //            r.setBillingName(billingAddress.getName());
+            this.setBillingName(billingAddress.getBillingName());
 //            r.setBillingLine1Address(billingAddress.getLine1Address());
+            this.setBillingLine1Address(billingAddress.getBillingLine1Address());
 //            r.setBillingLine2Address(billingAddress.getLine2Address());
+            this.setBillingLine2Address(billingAddress.getBillingLine2Address());
 //            r.setBillingCityName(billingAddress.getCityName());
+            this.setBillingCityName(billingAddress.getBillingCityName());
 //            r.setBillingStateCode(billingAddress.getStateCode());
+            this.setBillingStateCode(billingAddress.getBillingStateCode());
 //            r.setBillingPostalCode(billingAddress.getPostalCode());
+            this.setBillingPostalCode(billingAddress.getBillingPostalCode());
 //            r.setBillingCountryCode(billingAddress.getCountryCode());
+            this.setBillingCountryCode(billingAddress.getBillingCountryCode());
 //            r.setBillingPhoneNumber(billingAddress.getPhoneNumber());
-//        }
+            this.setBillingPhoneNumber(billingAddress.getBillingPhoneNumber());
+        }
 
-        // default cost source to estimate and transmission method to fax
-//        r.setPurchaseOrderCostSourceCode(EpicConstants.PO_COST_SRC_ESTIMATE);
-//        r.setPurchaseOrderTransmissionMethodCode(EpicConstants.PO_TRANSMISSION_METHOD_FAX);
-//        this.updateDropDownObjects(r);
+// TODO       this.updateDropDownObjects(r);
 
 // TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
 //        // add new item for freight

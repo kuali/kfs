@@ -36,6 +36,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.RequisitionStatus;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
@@ -155,7 +156,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     @Override
     public void convertIntoCopy() throws WorkflowException {
       super.convertIntoCopy();
-        
+      
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
       RequisitionDocument newReq = new RequisitionDocument();
       
@@ -189,7 +190,17 @@ public class RequisitionDocument extends PurchasingDocumentBase {
           activeVendor = false;
       }
 
-//      //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
+      //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
+      if(this.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_B2B)) {
+          if( !activeContract ) {
+              //putDocumentError(this.getVendorContractGeneratedIdentifier(),
+              //        PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT,this.getRequisitionIdentifier().toString());
+              return;
+          }
+          if( !activeVendor ) {
+              //TODO: dterret -- Throw an exception.
+          }
+      }
 //      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
 //        if (!activeContract) {
 //          LOG.debug("copy() B2B contract has expired; don't allow copy.");
@@ -200,7 +211,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
 //        }
 //      }
-
 //DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
 //      if (activeVendor) {
 //        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
@@ -247,7 +257,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       // get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
       
-        
     }
     
     /**

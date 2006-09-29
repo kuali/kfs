@@ -101,8 +101,9 @@ public class PurapConstants {
     public static String REQ_STAT_AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
     public static String REQ_STAT_CONTRACT_MANAGER_ASSGN = "CMRA"; 
     
-//  Misc. constants needed for initiate a requisition, we may need more later.
+    //Misc. constants needed for initiate a requisition, we may need more later.
     public static String REQ_SOURCE_STANDARD_ORDER = "STAN";
+    public static String REQ_SOURCE_B2B = "B2B";
     public static String PO_COST_SRC_ESTIMATE = "EST";
     public static String PO_TRANSMISSION_METHOD_FAX = "FAX";
 

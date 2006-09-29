@@ -13,9 +13,6 @@
 
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 <c:set var="vendorReadOnly" value="${readOnly or not empty KualiForm.document.vendorNumber}" />
-<%--this should be replaced with a call to kul:htmlControlAttribute attributeEntryName below, however
-    that doesn't work yet, once it does remove the following var --%>
-<c:set var="supplierDiversityAttributes" value="${DataDictionary.SupplierDiversity.attributes}" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="true">
     <div class="tab-container" align=center>
@@ -34,7 +31,7 @@
                     <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${supplierDiversityAttributes.vendorSupplierDiversityDescription}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.supplierDiversityLabel}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                       <c:if test="${not empty KualiForm.document.vendorDetail.vendorSupplierDiversities}">

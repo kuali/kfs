@@ -190,13 +190,17 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* payment reason must be selected before an accounting line can be entered */
         if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
-            errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON);
+            if(!errors.containsMessageKey(KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON)) {
+                errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON);
+            }
             allow = false;
         }
 
         /* payee must be selected before an accounting line can be entered */
         if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
-            errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE);
+            if(!errors.containsMessageKey(KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE)) {
+                errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE);
+            }
             allow = false;
         }
 

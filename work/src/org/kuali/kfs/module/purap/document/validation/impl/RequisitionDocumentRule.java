@@ -24,6 +24,10 @@ package org.kuali.module.purap.rules;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
@@ -77,6 +81,35 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     boolean processPaymentInfoValidation(RequisitionDocument document) {
         boolean valid = super.processPaymentInfoValidation(document);
         // TODO code validation
+
+        if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) ||
+                ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+            if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(document.getPurchaseOrderEndDate())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
+                    valid &= false;
+            } 
+            else {
+                if (ObjectUtils.isNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
+                    valid &= false;
+                }
+            }
+            if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+                if (document.getPurchaseOrderBeginDate().after(document.getPurchaseOrderEndDate())) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
+                    valid &= false;
+                }
+                if (ObjectUtils.isNull(document.getRecurringPaymentTypeCode())) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE, PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE);
+                    
+                    valid &= false;
+                }
+            } else if (ObjectUtils.isNotNull(document.getRecurringPaymentTypeCode())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
+                valid &= false; 
+            }
+        }
+        
         return valid;
     }
 
@@ -91,4 +124,37 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         // TODO code validation
         return valid;
     }
+    
+    /**
+     * 
+     * This method validates that: 
+     * 1. If the purchaseOrderBegDate is entered then the purchaseOrderEndDate is also entered, and vice versa. 
+     * 2. If both dates are entered, the purchaseOrderBegDate is before the purchaseOrderEndDate.
+     *
+     * The date fields are required so we should know that we have valid dates.
+     * 
+     * @return True if the beginning date is before the end date. False otherwise.
+     */
+    boolean validatePOBeginEndDates(RequisitionDocument document) {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(document.getPurchaseOrderEndDate())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
+                valid &= false;
+        } 
+        else {
+            if (ObjectUtils.isNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
+                valid &= false;
+            }
+        }
+        if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+            if (document.getPurchaseOrderBeginDate().after(document.getPurchaseOrderEndDate())) {
+                GlobalVariables.getErrorMap().putError( PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
+                valid &= false;
+            }
+        }
+  
+        return valid;
+    }
+
 }

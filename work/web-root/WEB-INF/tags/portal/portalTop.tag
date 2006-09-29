@@ -9,12 +9,33 @@
 <head>
 <title>Kuali Portal Index</title>
 <link href="css/portal.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="scripts/log4javascript.js"></script>
+<script type="text/javascript">
+	//comment the next line to enable logging
+	log4javascript.setEnabled(false);
+	// Create the logger. "mylogger" is the unique name of the logger and
+	// can be any string.
+	var log = log4javascript.getLogger("mylogger"); 
+	
+
+	// Create a PopUpAppender with default options
+	var appender = new log4javascript.PopUpAppender();
+	
+	// Change the desired configuration options
+	appender.setFocusPopUp(true);
+	appender.setNewestMessageAtTop(true);
+	
+	// Add the appender to the logger
+	log.addAppender(appender);
+	
+</script>
 <script language="javascript" src="scripts/my_common.js"></script>
 <script language="javascript" >
 if (top.location != self.location) {
 	top.location = self.location;
 }
 </script>
+
 </head>
 <body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
 

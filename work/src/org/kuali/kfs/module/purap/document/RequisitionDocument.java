@@ -34,6 +34,7 @@ import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -84,7 +85,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
-
+        
         // ripierce: the PostingYear has already been set before we come to this method.
 
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
@@ -93,14 +94,15 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
 
         // TODO wait to code this until we have the new table created
-        // get the APO limit and the alternate reference titles (if set)
+//        Integer contractId = this.getVendorContractGeneratedIdentifier();
+//        vendorService.getApoLimitFromContract(contractId, this.getChartOfAccountsCode(), this.getOrganizationCode());
 //        updateOrganizationAndAPOLimit(r);// this must be done after the chart/org has been set on the req (do not move this line)
+
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
         billingAddress = (BillingAddress) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BillingAddress.class, keys);
-
-        if (billingAddress != null) {
+        if (ObjectUtils.isNotNull(billingAddress)) {
             this.setBillingName(billingAddress.getBillingName());
             this.setBillingLine1Address(billingAddress.getBillingLine1Address());
             this.setBillingLine2Address(billingAddress.getBillingLine2Address());
@@ -169,8 +171,8 @@ public class RequisitionDocument extends PurchasingDocumentBase {
      */
     @Override
     public void convertIntoCopy() throws WorkflowException {
-      super.convertIntoCopy();
-      
+        super.convertIntoCopy();
+        
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
       RequisitionDocument newReq = new RequisitionDocument();
       
@@ -225,6 +227,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
 //        }
 //      }
+
 //DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
 //      if (activeVendor) {
 //        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
@@ -271,6 +274,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       // get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
       
+        
     }
     
     /**

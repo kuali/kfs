@@ -4,6 +4,57 @@
     <required>true</required>
 </attributeReference>
 
+<attributeReference name="vendorNumber" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorNumber">
+    <label>Vendor Number</label>
+    <shortLabel>Number</shortLabel>
+    <required>true</required>
+</attributeReference>
+
+<attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.purap.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
+    <label>Vendor Address Generated Identifier</label>
+    <shortLabel>Identifier</shortLabel>
+    <required>true</required>
+</attributeReference>
+
+<attributeReference name="vendorContractName" sourceClassName="org.kuali.module.purap.bo.VendorContract" sourceAttributeName="vendorContractName">
+    <label>Vendor Contract Name</label>
+    <shortLabel>Contract Name</shortLabel>
+    <required>true</required>
+</attributeReference>
+
+<attribute name="supplierDiversityLabel">
+    <label>Supplier Diversity</label>
+    <shortLabel>Supplier Diversity</shortLabel>
+
+    <maxLength>10</maxLength>
+    <validationPattern>
+        <numeric />
+    </validationPattern>
+
+    <control>
+        <text size="12" />
+    </control>
+
+    <summary>supplierDiversityLabel</summary>
+    <description>supplierDiversityLabel description...</description>
+</attribute>
+
+<attribute name="vendorContactsLabel">
+    <label>Vendor Contacts</label>
+    <shortLabel>Vendor Contacts</shortLabel>
+
+    <maxLength>10</maxLength>
+    <validationPattern>
+        <numeric />
+    </validationPattern>
+
+    <control>
+        <text size="12" />
+    </control>
+
+    <summary>vendorContactsLabel</summary>
+    <description>vendorContactsLabel description...</description>
+</attribute>
 <attribute name="billingCityName" forceUppercase="true">
     <label>Billing City Name</label>
     <shortLabel>Name</shortLabel>
@@ -834,7 +885,7 @@
 
 
 <attribute name="vendorCityName" forceUppercase="true">
-    <label>Vendor City Name</label>
+    <label>City</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
@@ -851,7 +902,7 @@
 </attribute>
 
 <attribute name="vendorContractGeneratedIdentifier" forceUppercase="true">
-    <label>Vendor Contract Generated Identifier</label>
+    <label>Contract ID</label>
     <shortLabel>Identifier</shortLabel>
 
     <maxLength>10</maxLength>
@@ -868,7 +919,7 @@
 </attribute>
 
 <attribute name="vendorCountryCode" forceUppercase="true">
-    <label>Vendor Country Code</label>
+    <label>Country</label>
     <shortLabel>Code</shortLabel>
 
     <maxLength>4</maxLength>
@@ -876,8 +927,8 @@
         <anyCharacter />
     </validationPattern>
 
-    <control>
-        <text size="6" />
+	<control>
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
     </control>
 
     <summary>vendorCountryCode</summary>
@@ -885,7 +936,7 @@
 </attribute>
 
 <attribute name="vendorCustomerNumber" forceUppercase="true">
-    <label>Vendor Customer Number</label>
+    <label>Customer Number</label>
     <shortLabel>Number</shortLabel>
 
     <maxLength>30</maxLength>
@@ -919,7 +970,7 @@
 </attribute>
 
 <attribute name="vendorFaxNumber" forceUppercase="true">
-    <label>Vendor Fax Number</label>
+    <label>Fax Number</label>
     <shortLabel>Number</shortLabel>
 
     <maxLength>40</maxLength>
@@ -953,7 +1004,7 @@
 </attribute>
 
 <attribute name="vendorLine1Address" forceUppercase="true">
-    <label>Vendor Line1 Address</label>
+    <label>Address 1</label>
     <shortLabel>Address</shortLabel>
 
     <maxLength>45</maxLength>
@@ -970,7 +1021,7 @@
 </attribute>
 
 <attribute name="vendorLine2Address" forceUppercase="true">
-    <label>Vendor Line2 Address</label>
+    <label>Address 2</label>
     <shortLabel>Address</shortLabel>
 
     <maxLength>45</maxLength>
@@ -1002,7 +1053,7 @@
     </attribute-->
 
 <attribute name="vendorNoteText" forceUppercase="true">
-    <label>Vendor Note Text</label>
+    <label>Notes To Vendor</label>
     <shortLabel>Text</shortLabel>
 
     <maxLength>255</maxLength>
@@ -1011,7 +1062,7 @@
     </validationPattern>
 
     <control>
-        <textarea rows="5" cols="80" />
+        <textarea rows="3" cols="80" />
     </control>
 
     <summary>vendorNoteText</summary>
@@ -1019,7 +1070,7 @@
 </attribute>
 
 <attribute name="vendorPhoneNumber" forceUppercase="true">
-    <label>Vendor Phone Number</label>
+    <label>Phone Number</label>
     <shortLabel>Number</shortLabel>
 
     <maxLength>45</maxLength>
@@ -1036,7 +1087,7 @@
 </attribute>
 
 <attribute name="vendorPostalCode" forceUppercase="true">
-    <label>Vendor Postal Code</label>
+    <label>Postal Code</label>
     <shortLabel>Code</shortLabel>
 
     <maxLength>20</maxLength>
@@ -1067,7 +1118,7 @@
 </attribute>
 
 <attribute name="vendorStateCode" forceUppercase="true">
-    <label>Vendor State Code</label>
+    <label>State</label>
     <shortLabel>Code</shortLabel>
 
     <maxLength>2</maxLength>
@@ -1075,8 +1126,8 @@
         <anyCharacter />
     </validationPattern>
 
-    <control>
-        <text size="4" />
+	<control>
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.StateValuesFinder" />
     </control>
 
     <summary>vendorStateCode</summary>

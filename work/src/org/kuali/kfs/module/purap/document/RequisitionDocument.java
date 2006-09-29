@@ -135,12 +135,27 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     }
 
     /**
+     * Convenience method to set vendor detail fields based on a given VendorDetail.
+     * 
+     * @param vendorDetail
+     */
+    public void templateVendorDetail(VendorDetail vendorDetail) {
+        if (vendorDetail == null) {
+            return;
+        }
+
+        this.setVendorDetail(vendorDetail);
+        this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
+        this.setVendorName(vendorDetail.getVendorName());
+    }
+    
+    /**
      * Perform logic needed to copy Requisition Document
      */
     @Override
     public void convertIntoCopy() throws WorkflowException {
       super.convertIntoCopy();
-      
+        
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
       RequisitionDocument newReq = new RequisitionDocument();
       
@@ -185,6 +200,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
 //        }
 //      }
+
 //DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
 //      if (activeVendor) {
 //        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
@@ -231,6 +247,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       // get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
       
+        
     }
     
     /**

@@ -28,9 +28,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.web.struts.form.RequisitionForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -56,10 +60,29 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
         
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO add code to retrieve new building list
+        RequisitionForm rqForm = (RequisitionForm) form;
+        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
+
+        /* refresh from requisition vendor lookup */
+        if (PurapConstants.VENDOR_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) && 
+            request.getParameter("document.vendorDetailAssignedIdentifier") != null &&
+            request.getParameter("document.vendorHeaderGeneratedIdentifier") != null) {
+            Integer vendorDetailAssignedId = ((RequisitionDocument) rqForm.getDocument()).getVendorDetailAssignedIdentifier();
+            Integer vendorHeaderGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorHeaderGeneratedIdentifier();
+            VendorDetail refreshVendorDetail = new VendorDetail();
+            refreshVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedId);
+            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
+            refreshVendorDetail = (VendorDetail) SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorDetail);
+            ((RequisitionDocument) rqForm.getDocument()).templateVendorDetail(refreshVendorDetail);
+        }
+
+        //TODO add code to retrieve new building list        
         return super.refresh(mapping, form, request, response);
     }
-
 }

@@ -707,6 +707,10 @@
 	<reference-descriptor name="nonInstitutionFundChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="nonInstitutionFundChartOfAccountsCode" />
 	</reference-descriptor>
+	<reference-descriptor name="vendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
+		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.FundingSource" table="PUR_FND_SRC_T">

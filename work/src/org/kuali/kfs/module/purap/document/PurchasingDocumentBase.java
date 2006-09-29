@@ -23,10 +23,8 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.chart.bo.Chart;
@@ -37,6 +35,7 @@ import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
+import org.kuali.module.purap.bo.VendorDetail;
 
 /**
  * Purchasing Document Base
@@ -108,6 +107,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Integer contractManagerCode;
     private boolean purchaseOrderAutomaticIndicator;
 
+    private String vendorNumber; //not persisted in db
+    private Integer vendorAddressGeneratedIdentifier; //not persisted in db
+    private String vendorContractName; //not persisted in db
+    private String supplierDiversityLabel; //not persisted in db
+    private String vendorContactsLabel; //not persisted in db
+    
     // REFERENCE OBJECTS
     private FundingSource fundingSource;
     private RequisitionSource requisitionSource;
@@ -122,8 +127,10 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Org nonInstitutionFundOrganization;
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
-
-    // GETTERS AND SETTERS
+    private VendorDetail vendorDetail;
+    
+    // GETTERS AND SETTERS    
+    
     /**
      * Gets the fundingSourceCode attribute.
      * 
@@ -1583,4 +1590,54 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setNonInstitutionFundChartOfAccounts(Chart nonInstitutionFundChartOfAccounts) {
         this.nonInstitutionFundChartOfAccounts = nonInstitutionFundChartOfAccounts;
     }
+
+    public VendorDetail getVendorDetail() {
+        return vendorDetail;
+    }
+
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
+    }
+
+    public String getVendorNumber() {
+        return vendorNumber;
+    }
+
+    public void setVendorNumber(String vendorNumber) {
+        this.vendorNumber = vendorNumber;
+    }
+
+    public Integer getVendorAddressGeneratedIdentifier() {
+        return vendorAddressGeneratedIdentifier;
+    }
+
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
+        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
+    }
+
+    public String getVendorContractName() {
+        return vendorContractName;
+    }
+
+    public void setVendorContractName(String vendorContractName) {
+        this.vendorContractName = vendorContractName;
+    }
+
+    public String getSupplierDiversityLabel() {
+        return supplierDiversityLabel;
+    }
+
+    public void setSupplierDiversityLabel(String supplierDiversityLabel) {
+        this.supplierDiversityLabel = supplierDiversityLabel;
+    }
+
+    public String getVendorContactsLabel() {
+        return vendorContactsLabel;
+    }
+
+    public void setVendorContactsLabel(String vendorContactsLabel) {
+        this.vendorContactsLabel = vendorContactsLabel;
+    }
+
+    
 }

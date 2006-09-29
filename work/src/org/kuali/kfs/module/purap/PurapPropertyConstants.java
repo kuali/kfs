@@ -73,4 +73,10 @@ public class PurapPropertyConstants {
     // Vendor contract organizations
     public static final String VENDOR_CONTRACT_ORGANIZATION = "vendorContractOrganizations";
     public static final String ORGANIZATION_APO_LIMIT = "vendorContractPurchaseOrderLimitAmount";
+    
+    // Purchase Order & Requisition
+    public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
+    public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
+    public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";
+    
 }

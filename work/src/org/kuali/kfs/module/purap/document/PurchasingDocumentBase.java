@@ -35,6 +35,7 @@ import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
+import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 
 /**
@@ -128,6 +129,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorDetail vendorDetail;
+    private VendorContract vendorContract;
     
     // GETTERS AND SETTERS    
     
@@ -1637,6 +1639,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setVendorContactsLabel(String vendorContactsLabel) {
         this.vendorContactsLabel = vendorContactsLabel;
+    }
+
+    public VendorContract getVendorContract() {
+        return vendorContract;
+    }
+
+    public void setVendorContract(VendorContract vendorContract) {
+        this.vendorContract = vendorContract;
     }
 
     

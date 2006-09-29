@@ -149,6 +149,20 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setVendorName(vendorDetail.getVendorName());
     }
+
+    /**
+     * Convenience method to set vendor contract fields based on a given VendorContract.
+     * 
+     * @param vendorContract
+     */
+    public void templateVendorContract(VendorContract vendorContract) {
+        if (vendorContract == null) {
+            return;
+        }
+
+        this.setVendorContract(vendorContract);
+        this.setVendorContractName(vendorContract.getVendorContractName());
+    }
     
     /**
      * Perform logic needed to copy Requisition Document

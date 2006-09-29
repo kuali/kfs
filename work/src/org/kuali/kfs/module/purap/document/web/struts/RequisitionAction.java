@@ -28,10 +28,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.web.struts.form.RequisitionForm;
@@ -80,6 +82,13 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
             refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
             refreshVendorDetail = (VendorDetail) SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorDetail);
             ((RequisitionDocument) rqForm.getDocument()).templateVendorDetail(refreshVendorDetail);
+        } else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) &&
+                   request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
+            Integer vendorContractGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorContractGeneratedIdentifier();
+            VendorContract refreshVendorContract = new VendorContract();
+            refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
+            refreshVendorContract = (VendorContract)SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorContract);
+            ((RequisitionDocument) rqForm.getDocument()).templateVendorContract(refreshVendorContract);
         }
 
         //TODO add code to retrieve new building list        

@@ -711,6 +711,9 @@
 		<foreignkey field-ref="vendorDetailAssignedIdentifier" />
 		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
 	</reference-descriptor>
+	<reference-descriptor name="vendorContract" class-ref="org.kuali.module.purap.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="vendorContractGeneratedIdentifier" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.FundingSource" table="PUR_FND_SRC_T">

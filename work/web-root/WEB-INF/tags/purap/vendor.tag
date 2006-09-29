@@ -13,6 +13,8 @@
 
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 <c:set var="vendorReadOnly" value="${readOnly or not empty KualiForm.document.vendorNumber}" />
+<%--this should be replaced with a call to kul:htmlControlAttribute attributeEntryName below, however
+    that doesn't work yet, once it does remove the following var --%>
 <c:set var="supplierDiversityAttributes" value="${DataDictionary.SupplierDiversity.attributes}" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="true">

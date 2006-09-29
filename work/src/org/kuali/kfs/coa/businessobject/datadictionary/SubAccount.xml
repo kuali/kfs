@@ -78,9 +78,11 @@
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="subAccountName" required="false" />
+				<!-- KULCOA-1071 commented out as these fields are not shown in results
                 <lookupField attributeName="financialReportChartCode" required="false" />
                 <lookupField attributeName="finReportOrganizationCode" required="false" />
                 <lookupField attributeName="financialReportingCode" required="false" />
+                -->
                 <lookupField attributeName="subAccountActiveIndicator" required="false" />
             </lookupFields>
 

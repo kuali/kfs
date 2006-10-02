@@ -377,7 +377,7 @@
     </validationPattern>
 
     <control>
-        <textarea rows="5" cols="80" />
+        <textarea rows="5" cols="50" />
     </control>
 
     <summary>deliveryInstructionText</summary>
@@ -402,22 +402,15 @@
     <description>deliveryPostalCode description...</description>
 </attribute>
 
-<attribute name="deliveryRequiredDate" forceUppercase="true">
+<attributeReference name="deliveryRequiredDate" 
+		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+		sourceAttributeName="genericDate">
     <label>Delivery Required Date</label>
     <shortLabel>Required Date</shortLabel>
 
-    <maxLength>10</maxLength>
-    <validationPattern>
-        <date />
-    </validationPattern>
-
-    <control>
-        <text size="12" />
-    </control>
-
     <summary>deliveryRequiredDate</summary>
     <description>deliveryRequiredDate description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="deliveryRequiredDateReasonCode" forceUppercase="true">
     <label>Required Date Reason</label>
@@ -464,7 +457,7 @@
     </validationPattern>
 
     <control>
-        <text size="102" />
+        <text size="47" />
     </control>
 
     <summary>deliveryToEmailAddress</summary>
@@ -494,9 +487,7 @@
     <shortLabel>Phone</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><phoneNumber /></validationPattern>
 
     <control>
         <text size="47" />
@@ -1134,19 +1125,6 @@
     <description>vendorStateCode description...</description>
 </attribute>
 
-<attribute name="versionNumber" forceUppercase="true">
-    <label>Version Number</label>
-    <shortLabel>Number</shortLabel>
+<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-    <maxLength>8</maxLength>
-    <validationPattern>
-        <numeric />
-    </validationPattern>
 
-    <control>
-        <text size="10" />
-    </control>
-
-    <summary>versionNumber</summary>
-    <description>versionNumber description...</description>
-</attribute>

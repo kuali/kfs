@@ -72,9 +72,10 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
 
         /* refresh from requisition vendor lookup */
-        if (PurapConstants.VENDOR_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) && 
-            request.getParameter("document.vendorDetailAssignedIdentifier") != null &&
-            request.getParameter("document.vendorHeaderGeneratedIdentifier") != null) {
+        if (document.getVendorDetail() == null &&
+            document.getVendorDetailAssignedIdentifier() != null &&
+            document.getVendorHeaderGeneratedIdentifier() != null)  {
+
             Integer vendorDetailAssignedId = ((RequisitionDocument) rqForm.getDocument()).getVendorDetailAssignedIdentifier();
             Integer vendorHeaderGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorHeaderGeneratedIdentifier();
             VendorDetail refreshVendorDetail = new VendorDetail();
@@ -82,8 +83,9 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
             refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
             refreshVendorDetail = (VendorDetail) SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorDetail);
             ((RequisitionDocument) rqForm.getDocument()).templateVendorDetail(refreshVendorDetail);
-        } else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) &&
-                   request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
+        } 
+        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) &&
+            request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
             Integer vendorContractGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorContractGeneratedIdentifier();
             VendorContract refreshVendorContract = new VendorContract();
             refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);

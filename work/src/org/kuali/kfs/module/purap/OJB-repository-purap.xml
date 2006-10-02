@@ -660,7 +660,7 @@
 		<foreignkey field-ref="requisitionIdentifier" />
 	</reference-descriptor>
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentHeaderIdentifier" />
+		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="fundingSourceCode" />

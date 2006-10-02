@@ -1629,16 +1629,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return supplierDiversityLabel;
     }
 
-    public void setSupplierDiversityLabel(String supplierDiversityLabel) {
-        this.supplierDiversityLabel = supplierDiversityLabel;
-    }
-
     public String getVendorContactsLabel() {
         return vendorContactsLabel;
-    }
-
-    public void setVendorContactsLabel(String vendorContactsLabel) {
-        this.vendorContactsLabel = vendorContactsLabel;
     }
 
     public VendorContract getVendorContract() {

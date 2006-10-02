@@ -287,13 +287,11 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
             // In case errorText is still too long, truncate it and indicate so.
             int documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(AttributeReferenceDummy.class.getName(), PropertyConstants.DOCUMENT_EXPLANATION);
-            if (errorText.length() <= documentExplanationMaxLength) {
-                pcardDocument.setExplanation(errorText);
+            if (errorText.length() > documentExplanationMaxLength) {
+                String truncatedMessage = " ... TRUNCATED.";
+                errorText = errorText.substring(0, documentExplanationMaxLength - truncatedMessage.length()) + truncatedMessage;
             }
-            else {
-                String tuncatedMessage = " ... TRUNCATED.";
-                errorText = errorText.substring(0, documentExplanationMaxLength - tuncatedMessage.length()) + tuncatedMessage;
-            }
+            pcardDocument.setExplanation(errorText);
         }
         catch (WorkflowException e) {
             LOG.error("Error creating pcdo documents: " + e.getMessage());

@@ -55,7 +55,8 @@ public class PurchaseOrderVendorQuote extends BusinessObjectBase {
 	private String purchaseOrderQuoteStatusCode;
 	private Date purchaseOrderQuoteAwardDate;
 	private String purchaseOrderQuoteRankNumber;
-
+    private String vendorCountryCode;
+    
     private PurchaseOrder purchaseOrder;
 	private PurchaseOrderQuoteStatus purchaseOrderQuoteStatus;
 
@@ -526,14 +527,31 @@ public class PurchaseOrderVendorQuote extends BusinessObjectBase {
 		this.purchaseOrderQuoteStatus = purchaseOrderQuoteStatus;
 	}
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the vendorCountryCode attribute. 
+     * @return Returns the vendorCountryCode.
+     */
+    public String getVendorCountryCode() {
+        return vendorCountryCode;
+    }
+
+    /**
+     * Sets the vendorCountryCode attribute value.
+     * @param vendorCountryCode The vendorCountryCode to set.
+     */
+    public void setVendorCountryCode(String vendorCountryCode) {
+        this.vendorCountryCode = vendorCountryCode;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
         if (this.purchaseOrderVendorQuoteIdentifier != null) {
             m.put("purchaseOrderVendorQuoteIdentifier", this.purchaseOrderVendorQuoteIdentifier.toString());
         }
-	    return m;
+        return m;
     }
+
 }

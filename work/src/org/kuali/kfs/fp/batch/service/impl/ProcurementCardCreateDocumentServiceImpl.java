@@ -523,8 +523,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         if (!AccountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
-            LOG.info("Account " + targetLine.getAccountNumber() + " is invalid; using error account.");
-            errorText += " Account " + targetLine.getAccountNumber() + " is invalid; using error Chart & Account.";
+            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
+            LOG.info(tempErrorText);
+            errorText += " " + tempErrorText;
 
             targetLine.setChartOfAccountsCode(getErrorChartCode());
             targetLine.setAccountNumber(getErrorAccountNumber());

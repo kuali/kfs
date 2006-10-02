@@ -27,7 +27,7 @@
             <title>Account Delegate Lookup</title>
 
             <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Delegate"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Delegate"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>&nbsp;<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.DelegateChangeContainer"><img src="images/tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
             </menubar>
 
             <instructions>Lookup an Account Delegate</instructions>

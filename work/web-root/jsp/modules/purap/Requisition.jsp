@@ -8,6 +8,10 @@
 
 	<kul:hiddenDocumentFields excludePostingYear="true" />
 
+<html:hidden property="document.requisitionSourceCode" />
+<html:hidden property="document.requisitionStatusCode" />
+<html:hidden property="document.billingPhoneNumber" />
+
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true" />
 

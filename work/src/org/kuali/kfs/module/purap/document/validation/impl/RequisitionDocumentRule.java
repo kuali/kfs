@@ -62,7 +62,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
     private boolean processValidation(RequisitionDocument document) {
         boolean valid = true;
-        valid &= processVendorValidation(document);
+    //    valid &= processVendorValidation(document);
         valid &= processItemValidation(document);
         valid &= processPaymentInfoValidation(document);
         valid &= processDeliveryValidation(document);

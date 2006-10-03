@@ -78,5 +78,6 @@ public class PurapPropertyConstants {
     public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
     public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
     public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";
+    public static final String VENDOR_POSTAL_CODE = "document.vendorPostalCode";
     
 }

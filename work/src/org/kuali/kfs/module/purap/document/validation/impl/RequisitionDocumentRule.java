@@ -22,10 +22,14 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -67,7 +71,18 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
     
     boolean processVendorValidation(RequisitionDocument document) {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean valid = super.processVendorValidation(document);
+        if (document.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_STANDARD_ORDER)) { 
+            if (document.getVendorCountryCode().equals(PurapConstants.UNITED_STATES) && 
+                !StringUtils.isBlank(document.getVendorPostalCode())) {
+                ZipcodeValidationPattern pattern = new ZipcodeValidationPattern();
+                if (!pattern.matches(document.getVendorPostalCode())) {
+                    valid = false;
+                    errorMap.putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
+                }
+            }
+        }
         // TODO code validation
         return valid;
     }

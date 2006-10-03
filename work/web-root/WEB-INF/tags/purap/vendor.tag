@@ -14,7 +14,7 @@
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 <c:set var="vendorReadOnly" value="${readOnly or not empty KualiForm.document.vendorNumber}" />
 
-<kul:tab tabTitle="Vendor" defaultOpen="true">
+<kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${Constants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Vendor Info</h2>

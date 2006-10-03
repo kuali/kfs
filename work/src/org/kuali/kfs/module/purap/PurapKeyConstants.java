@@ -85,6 +85,6 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE = "error.purchaseOrder.beginDateNoEndDate";
     public static final String ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE = "error.purchaseOrder.endDateNoBeginDate";
     public static final String ERROR_RECURRING_DATE_NO_TYPE = "errors.recurring.type";
-    public static final String ERROR_RECURRING_TYPE_NO_DATE = "errors.recurring.date";
+    public static final String ERROR_RECURRING_TYPE_NO_DATE = "errors.recurring.dates";
     public static final String ERROR_POSTAL_CODE_INVALID = "errors.postalCode.invalid";
 }

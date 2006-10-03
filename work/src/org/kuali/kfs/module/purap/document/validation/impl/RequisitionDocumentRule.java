@@ -95,8 +95,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
     boolean processPaymentInfoValidation(RequisitionDocument document) {
         boolean valid = super.processPaymentInfoValidation(document);
-        // TODO code validation
-
+  
         if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) ||
                 ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
             if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(document.getPurchaseOrderEndDate())) {
@@ -109,7 +108,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                     valid &= false;
                 }
             }
-            if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+        }   
+        if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
                 if (document.getPurchaseOrderBeginDate().after(document.getPurchaseOrderEndDate())) {
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
                     valid &= false;
@@ -119,10 +119,9 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                     
                     valid &= false;
                 }
-            } else if (ObjectUtils.isNotNull(document.getRecurringPaymentTypeCode())) {
+        } else if (ObjectUtils.isNotNull(document.getRecurringPaymentTypeCode())) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
                 valid &= false; 
-            }
         }
         
         return valid;

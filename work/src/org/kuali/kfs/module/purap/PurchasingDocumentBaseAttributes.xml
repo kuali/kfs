@@ -1,25 +1,25 @@
 <attributeReference name="vendorName" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorName">
     <label>Suggested Vendor</label>
     <shortLabel>Vendor</shortLabel>
-    <required>true</required>
+    <required>false</required>
 </attributeReference>
 
 <attributeReference name="vendorNumber" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorNumber">
     <label>Vendor Number</label>
     <shortLabel>Number</shortLabel>
-    <required>true</required>
+    <required>false</required>
 </attributeReference>
 
 <attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.purap.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
     <label>Vendor Address Generated Identifier</label>
     <shortLabel>Identifier</shortLabel>
-    <required>true</required>
+    <required>false</required>
 </attributeReference>
 
 <attributeReference name="vendorContractName" sourceClassName="org.kuali.module.purap.bo.VendorContract" sourceAttributeName="vendorContractName">
     <label>Vendor Contract Name</label>
     <shortLabel>Contract Name</shortLabel>
-    <required>true</required>
+    <required>false</required>
 </attributeReference>
 
 <attribute name="supplierDiversityLabel">

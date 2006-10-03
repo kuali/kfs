@@ -29,10 +29,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -70,7 +70,7 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RequisitionForm rqForm = (RequisitionForm) form;
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
-
+        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
         /* refresh from requisition vendor lookup */
         if (document.getVendorDetail() == null &&
             document.getVendorDetailAssignedIdentifier() != null &&
@@ -81,7 +81,7 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
             VendorDetail refreshVendorDetail = new VendorDetail();
             refreshVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedId);
             refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
-            refreshVendorDetail = (VendorDetail) SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorDetail);
+            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
             ((RequisitionDocument) rqForm.getDocument()).templateVendorDetail(refreshVendorDetail);
         } 
         if (Constants.KUALI_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) &&
@@ -89,7 +89,7 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
             Integer vendorContractGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorContractGeneratedIdentifier();
             VendorContract refreshVendorContract = new VendorContract();
             refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
-            refreshVendorContract = (VendorContract)SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorContract);
+            refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
             ((RequisitionDocument) rqForm.getDocument()).templateVendorContract(refreshVendorContract);
         }
 

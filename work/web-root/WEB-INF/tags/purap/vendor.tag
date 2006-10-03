@@ -37,20 +37,22 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                       <c:if test="${not empty KualiForm.document.vendorDetail.vendorSupplierDiversities}">
-                        <c:forEach var="item" items="${KualiForm.document.vendorDetail.vendorSupplierDiversities}" varStatus="status">
-                          <c:if test="${!(status.first)}"><br></c:if>${item.vendorSupplierDiversity.vendorSupplierDiversityDescription}
-                        </c:forEach>
+                          <c:forEach var="item" items="${KualiForm.document.vendorDetail.vendorSupplierDiversities}" varStatus="status">
+                              <c:if test="${!(status.first)}"><br></c:if>${item.vendorSupplierDiversity.vendorSupplierDiversityDescription}
+                          </c:forEach>
                       </c:if>&nbsp;
                 </td>
             </tr>
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAddressGeneratedIdentifier}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine1Address}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAddressGeneratedIdentifier}" property="document.vendorAddressGeneratedIdentifier" />
-                    <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorAddress" fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.vendorLine1Address" />
+                    <c:if test="${not empty KualiForm.document.vendorDetail}">
+                        <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorAddress" fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
+                    </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPhoneNumber}" /></div>
@@ -62,10 +64,10 @@
                         
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine1Address}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine2Address}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.vendorLine1Address" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorFaxNumber}" /></div>
@@ -75,22 +77,6 @@
                 </td>
             </tr>
           
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine2Address}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" />
-                </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorContractGeneratedIdentifier}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContractGeneratedIdentifier}" property="document.vendorContractGeneratedIdentifier" readOnly="${vendorReadOnly}"/>
-                    <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorContract" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
-                </td>
-            </tr>            
-            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCityName}" /></div>
@@ -103,8 +89,9 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContractName}" property="document.vendorContractName" readOnly="true"/>
+                    <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorContract" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
                 </td>
-            </tr>  
+            </tr>            
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
@@ -119,7 +106,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" />
                 </td>
-            </tr>   
+            </tr>  
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
@@ -135,8 +122,8 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorDetail.vendorContacts}" property="document.vendorDetail.vendorContacts" />
                     <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorContact" fieldConversions="vendorContacts:document.vendorDetail.vendorContacts"/>
                 </td>
-            </tr> 
-                   
+            </tr>   
+            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
@@ -150,58 +137,58 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" />
                 </td>
-            </tr>                       
+            </tr> 
                                  
         </table>
 
-<c:if test="${displayRequisitionFields}">
-        <div class="h2-container">
-            <h2>Additional Suggested Vendor Names</h2>
-        </div>
+        <c:if test="${displayRequisitionFields}">
+            <div class="h2-container">
+                <h2>Additional Suggested Vendor Names</h2>
+            </div>
 
-        <table cellpadding=0 class="datatable" summary="Additional Vendor Section">
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate1VendorName}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate1VendorName}" property="document.alternate1VendorName" />
-                </td>
-            </tr>
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate2VendorName}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate2VendorName}" property="document.alternate2VendorName" />
-                </td>
-            </tr>
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate3VendorName}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate3VendorName}" property="document.alternate3VendorName" />
-                </td>
-            </tr>
-            <tr>    
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate4VendorName}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate4VendorName}" property="document.alternate4VendorName" />
-                </td>
-            </tr>
-            <tr>    
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate5VendorName}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate5VendorName}" property="document.alternate5VendorName" />
-                </td>                                                
-            </tr>
-        </table>
-</c:if>
+            <table cellpadding=0 class="datatable" summary="Additional Vendor Section">
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate1VendorName}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate1VendorName}" property="document.alternate1VendorName" />
+                    </td>
+                </tr>
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate2VendorName}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate2VendorName}" property="document.alternate2VendorName" />
+                    </td>
+                </tr>
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate3VendorName}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate3VendorName}" property="document.alternate3VendorName" />
+                    </td>
+                </tr>
+                <tr>    
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate4VendorName}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate4VendorName}" property="document.alternate4VendorName" />
+                    </td>
+                </tr>
+                <tr>    
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate5VendorName}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate5VendorName}" property="document.alternate5VendorName" />
+                    </td>                                                
+                </tr>
+            </table>
+        </c:if>
 
     </div>
 </kul:tab>

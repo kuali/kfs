@@ -24,6 +24,7 @@
 package org.kuali.module.financial.bo;
 
 import static org.kuali.KeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
+import static org.kuali.KeyConstants.AccountingLineParser.ERROR_TOO_MANY_AMOUNTS;
 import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
 import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.PropertyConstants.CREDIT;
@@ -72,24 +73,29 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
         String creditValue = attributeValueMap.remove(CREDIT);
         KualiDecimal amount = null;
         String debitCreditCode = null;
-        if (StringUtils.isNotBlank(debitValue)) {
-            try {
-                amount = new KualiDecimal(debitValue);
-                debitCreditCode = Constants.GL_DEBIT_CODE;
+        if(StringUtils.isNotBlank(debitValue) && StringUtils.isNotBlank(creditValue)) {
+            String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
+            throw new AccountingLineParserException("invalid format - only one amount allowed: " + DEBIT + "=" + debitValue + " and " + CREDIT + "=" + creditValue + " for " + accountingLineAsString, ERROR_TOO_MANY_AMOUNTS, errorParameters);
+        } else {            
+            if (StringUtils.isNotBlank(debitValue)) {
+                try {
+                    amount = new KualiDecimal(debitValue);
+                    debitCreditCode = Constants.GL_DEBIT_CODE;
+                }
+                catch (NumberFormatException e) {
+                    String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), accountingLineAsString };
+                    throw new AccountingLineParserException("invalid (NaN) '" + DEBIT + "=" + debitValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+                }
             }
-            catch (NumberFormatException e) {
-                String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), accountingLineAsString };
-                throw new AccountingLineParserException("invalid (NaN) '" + DEBIT + "=" + debitValue + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
-            }
-        }
-        else {
-            try {
-                amount = new KualiDecimal(creditValue);
-                debitCreditCode = Constants.GL_CREDIT_CODE;
-            }
-            catch (NumberFormatException e) {
-                String[] errorParameters = { creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
-                throw new AccountingLineParserException("invalid (NaN) '" + CREDIT + "=" + creditValue + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+            else {
+                try {
+                    amount = new KualiDecimal(creditValue);
+                    debitCreditCode = Constants.GL_CREDIT_CODE;
+                }
+                catch (NumberFormatException e) {
+                    String[] errorParameters = { creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
+                    throw new AccountingLineParserException("invalid (NaN) '" + CREDIT + "=" + creditValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+                }
             }
         }
         sourceAccountingLine.setAmount(amount);

@@ -371,13 +371,13 @@
     <label>Delivery Instructions</label>
     <shortLabel>Instructions</shortLabel>
 
-    <maxLength>255</maxLength>
+    <maxLength>125</maxLength>
     <validationPattern>
         <anyCharacter />
     </validationPattern>
 
     <control>
-        <textarea rows="5" cols="50" />
+        <textarea rows="3" cols="50" />
     </control>
 
     <summary>deliveryInstructionText</summary>
@@ -447,14 +447,13 @@
     <description>deliveryStateCode description...</description>
 </attribute>
 
-<attribute name="deliveryToEmailAddress" forceUppercase="true">
+<attribute name="deliveryToEmailAddress">
     <label>Email Address</label>
     <shortLabel>Email</shortLabel>
 
-    <maxLength>100</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <maxLength>45</maxLength>
+    <validationPattern><emailAddress /></validationPattern>
+    <required>true</required>
 
     <control>
         <text size="47" />

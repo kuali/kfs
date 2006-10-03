@@ -174,16 +174,16 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         super.convertIntoCopy();
         
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-      RequisitionDocument newReq = new RequisitionDocument();
       
       //Set req status to INPR.
-      newReq.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
+      this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
 
       //Set fields from the user.
-      newReq.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
-      newReq.setOrganizationCode(currentUser.getOrganizationCode());
+      this.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
+      this.setOrganizationCode(currentUser.getOrganizationCode());
 
-      newReq.setPostingYear(dateTimeService.getCurrentFiscalYear());
+      this.dateTimeService = SpringServiceLocator.getDateTimeService();
+      this.setPostingYear(dateTimeService.getCurrentFiscalYear());
 
       boolean activeVendor = true;
       boolean activeContract = true;
@@ -200,6 +200,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         activeContract = false;
       }     
 
+      this.vendorService = SpringServiceLocator.getVendorService();
       VendorDetail vendorDetail = vendorService.getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), 
           this.getVendorDetailAssignedIdentifier());
       if(!(vendorDetail != null && vendorDetail.isDataObjectMaintenanceCodeActiveIndicator() )) {
@@ -209,43 +210,40 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
       if(this.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_B2B)) {
           if( !activeContract ) {
-              //putDocumentError(this.getVendorContractGeneratedIdentifier(),
-              //        PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT,this.getRequisitionIdentifier().toString());
+              GlobalVariables.getErrorMap().putError(this.getVendorContractGeneratedIdentifier().toString(),
+                      PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT,this.getRequisitionIdentifier().toString());
               return;
           }
           if( !activeVendor ) {
-              //TODO: dterret -- Throw an exception.
+              GlobalVariables.getErrorMap().putError(this.getVendorHeaderGeneratedIdentifier().toString(),
+                      PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR,this.getRequisitionIdentifier().toString());
+              return;
           }
       }
-//      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
-//        if (!activeContract) {
-//          LOG.debug("copy() B2B contract has expired; don't allow copy.");
-//          throw new PurError("Requisition # " + req.getId() + " uses an expired contract and cannot be copied.");
-//        }
-//        if (!activeVendor) {
-//          LOG.debug("copy() B2B vendor is inactive; don't allow copy.");
-//          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
-//        }
-//      }
 
-//DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
-//      if (activeVendor) {
-//        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
-//        newReq.setVendorDetailAssignedId(req.getVendorDetailAssignedId());
-//        if (activeContract) {
-//          newReq.setVendorContract(req.getVendorContract());
-//        }
-//      }
+      if( !activeVendor ) {
+        this.setVendorHeaderGeneratedIdentifier(null);
+        this.setVendorDetailAssignedIdentifier(null);
+        if( !activeContract ) {
+          this.setVendorContract(null);
+        }
+      }
 
-      //these fields should not be set in this method; force to be null
-//      newReq.setVendorNoteText(null);
-//      newReq.setContractManager(null);
-//      newReq.setInstitutionContactName(null);
-//      newReq.setInstitutionContactPhoneNumber(null);
-//      newReq.setInstitutionContactEmailAddress(null);
-//      newReq.setAutomaticPurchaseOrderLimit(null);
-//      newReq.setIsAPO(null);
-//      newReq.setStatusHistoryList(null);
+      //These fields should not be set in this method; force to be null
+      this.setVendorNoteText(null);
+      //this.setContractManager(null);
+      this.setContractManagerCode(null);
+      this.setInstitutionContactName(null);
+      this.setInstitutionContactPhoneNumber(null);
+      this.setInstitutionContactEmailAddress(null);
+      //this.setAutomaticPurchaseOrderLimit(null);
+      this.setOrganizationAutomaticPurchaseOrderLimit(null);
+      //this.setIsAPO(null);
+      this.setPurchaseOrderAutomaticIndicator(false);
+      //TODO dterret: Make sure that the Status History gets nulled out here after David E. gets done
+      //implementing it.
+      //this.setStatusHistoryList(null);
+
 
 //TODO DAVID AND CHRIS SHOULD FIX THIS
       //Trade In and Discount Items are only available for B2B. If the Requisition

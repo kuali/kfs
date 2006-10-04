@@ -928,7 +928,7 @@
     </validationPattern>
 
     <control>
-        <hidden/>
+        <text size="12" />
     </control>
 
     <summary>vendorDetailAssignedIdentifier</summary>
@@ -962,7 +962,7 @@
     </validationPattern>
 
     <control>
-        <hidden />
+        <text size="12" />
     </control>
 
     <summary>vendorHeaderGeneratedIdentifier</summary>

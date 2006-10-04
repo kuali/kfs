@@ -85,7 +85,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
-        
+
         // ripierce: the PostingYear has already been set before we come to this method.
 
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
@@ -97,7 +97,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //        Integer contractId = this.getVendorContractGeneratedIdentifier();
 //        vendorService.getApoLimitFromContract(contractId, this.getChartOfAccountsCode(), this.getOrganizationCode());
 //        updateOrganizationAndAPOLimit(r);// this must be done after the chart/org has been set on the req (do not move this line)
-
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
@@ -151,7 +150,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setVendorName(vendorDetail.getVendorName());
     }
-
+    
     /**
      * Convenience method to set vendor contract fields based on a given VendorContract.
      * 
@@ -166,13 +165,20 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setVendorContractName(vendorContract.getVendorContractName());
     }
     
+    @Override
+    public boolean getAllowsCopy() {
+        boolean allowsCopy = super.getAllowsCopy();
+        // TODO complete with EPIC rules for allows copy
+        return allowsCopy;
+    }
+
     /**
      * Perform logic needed to copy Requisition Document
      */
     @Override
     public void convertIntoCopy() throws WorkflowException {
-        super.convertIntoCopy();
-        
+      super.convertIntoCopy();
+      
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
       
       //Set req status to INPR.
@@ -220,6 +226,24 @@ public class RequisitionDocument extends PurchasingDocumentBase {
               return;
           }
       }
+//      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
+//        if (!activeContract) {
+//          LOG.debug("copy() B2B contract has expired; don't allow copy.");
+//          throw new PurError("Requisition # " + req.getId() + " uses an expired contract and cannot be copied.");
+//        }
+//        if (!activeVendor) {
+//          LOG.debug("copy() B2B vendor is inactive; don't allow copy.");
+//          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
+//        }
+//      }
+//DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
+//      if (activeVendor) {
+//        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
+//        newReq.setVendorDetailAssignedId(req.getVendorDetailAssignedId());
+//        if (activeContract) {
+//          newReq.setVendorContract(req.getVendorContract());
+//        }
+//      }
 
       if( !activeVendor ) {
         this.setVendorHeaderGeneratedIdentifier(null);
@@ -243,7 +267,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       //TODO dterret: Make sure that the Status History gets nulled out here after David E. gets done
       //implementing it.
       //this.setStatusHistoryList(null);
-
 
 //TODO DAVID AND CHRIS SHOULD FIX THIS
       //Trade In and Discount Items are only available for B2B. If the Requisition
@@ -272,7 +295,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       // get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
       
-        
     }
     
     /**

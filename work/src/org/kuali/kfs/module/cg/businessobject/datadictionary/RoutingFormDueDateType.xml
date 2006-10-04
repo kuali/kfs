@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Due Date Type Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="proposalApprovalLeadTime" />
+                <field attributeName="proposalDueDateDescription" />
+                <field attributeName="proposalDueDateTypeCode" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Due Date Type Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormDueDateType">Create New</a>]]></menubar>
+
+            <instructions>Look up a Routing Form Due Date Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="proposalDueDateTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                <lookupField attributeName="proposalApprovalLeadTime" required="false" />
+                <lookupField attributeName="proposalDueDateDescription" required="false" />
+                <lookupField attributeName="proposalDueDateTypeCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="proposalApprovalLeadTime" />
+                <field attributeName="proposalDueDateDescription" />
+                <field attributeName="proposalDueDateTypeCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
+                <label>Data Object Maintenance Code Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
+                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
+			</attribute>
+
+            <attribute name="proposalApprovalLeadTime" forceUppercase="true">
+                <label>Proposal Approval Lead Time</label>
+                <shortLabel>Time</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>proposalApprovalLeadTime</summary>
+                <description>proposalApprovalLeadTime description...</description>
+			</attribute>
+
+            <attribute name="proposalDueDateDescription" forceUppercase="true">
+                <label>Proposal Due Date Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>proposalDueDateDescription</summary>
+                <description>proposalDueDateDescription description...</description>
+			</attribute>
+
+            <attribute name="proposalDueDateTypeCode" forceUppercase="true">
+                <label>Proposal Due Date Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalDueDateTypeCode</summary>
+                <description>proposalDueDateTypeCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormAgency">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Agency Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="agencyAddressDescription" />
+                <field attributeName="agencyCityName" />
+                <field attributeName="agencyContactName" />
+                <field attributeName="agencyCountryCode" />
+                <field attributeName="agencyDiskAccompanyIndicator" />
+                <field attributeName="agencyElectronicSubmissionIndicator" />
+                <field attributeName="agencyLine1Address" />
+                <field attributeName="agencyLine2Address" />
+                <field attributeName="agencyLine3Address" />
+                <field attributeName="agencyLine4Address" />
+                <field attributeName="agencyLine5Address" />
+                <field attributeName="agencyLine6Address" />
+                <field attributeName="agencyLine7Address" />
+                <field attributeName="agencyLine8Address" />
+                <field attributeName="agencyNumber" />
+                <field attributeName="agencyShippingInstructionsDescription" />
+                <field attributeName="agencyStateCode" />
+                <field attributeName="agencyZipCode" />
+                <field attributeName="proposalDueDate" />
+                <field attributeName="proposalDueDateTypeCode" />
+                <field attributeName="proposalDueTime" />
+                <field attributeName="proposalRequiredCopyNumber" />
+                <field attributeName="proposalRequiredCopyText" />
+                <field attributeName="proposalSubmitDate" />
+                <field attributeName="researchDocumentNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Agency Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormAgency">Create New</a>]]></menubar>
+
+            <instructions>Look up a Routing Form Agency</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="researchDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="agencyAddressDescription" required="false" />
+                <lookupField attributeName="agencyCityName" required="false" />
+                <lookupField attributeName="agencyContactName" required="false" />
+                <lookupField attributeName="agencyCountryCode" required="false" />
+                <lookupField attributeName="agencyDiskAccompanyIndicator" required="false" />
+                <lookupField attributeName="agencyElectronicSubmissionIndicator" required="false" />
+                <lookupField attributeName="agencyLine1Address" required="false" />
+                <lookupField attributeName="agencyLine2Address" required="false" />
+                <lookupField attributeName="agencyLine3Address" required="false" />
+                <lookupField attributeName="agencyLine4Address" required="false" />
+                <lookupField attributeName="agencyLine5Address" required="false" />
+                <lookupField attributeName="agencyLine6Address" required="false" />
+                <lookupField attributeName="agencyLine7Address" required="false" />
+                <lookupField attributeName="agencyLine8Address" required="false" />
+                <lookupField attributeName="agencyNumber" required="false" />
+                <lookupField attributeName="agencyShippingInstructionsDescription" required="false" />
+                <lookupField attributeName="agencyStateCode" required="false" />
+                <lookupField attributeName="agencyZipCode" required="false" />
+                <lookupField attributeName="proposalDueDate" required="false" />
+                <lookupField attributeName="proposalDueDateTypeCode" required="false" />
+                <lookupField attributeName="proposalDueTime" required="false" />
+                <lookupField attributeName="proposalRequiredCopyNumber" required="false" />
+                <lookupField attributeName="proposalRequiredCopyText" required="false" />
+                <lookupField attributeName="proposalSubmitDate" required="false" />
+                <lookupField attributeName="researchDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="agencyAddressDescription" />
+                <field attributeName="agencyCityName" />
+                <field attributeName="agencyContactName" />
+                <field attributeName="agencyCountryCode" />
+                <field attributeName="agencyDiskAccompanyIndicator" />
+                <field attributeName="agencyElectronicSubmissionIndicator" />
+                <field attributeName="agencyLine1Address" />
+                <field attributeName="agencyLine2Address" />
+                <field attributeName="agencyLine3Address" />
+                <field attributeName="agencyLine4Address" />
+                <field attributeName="agencyLine5Address" />
+                <field attributeName="agencyLine6Address" />
+                <field attributeName="agencyLine7Address" />
+                <field attributeName="agencyLine8Address" />
+                <field attributeName="agencyNumber" />
+                <field attributeName="agencyShippingInstructionsDescription" />
+                <field attributeName="agencyStateCode" />
+                <field attributeName="agencyZipCode" />
+                <field attributeName="proposalDueDate" />
+                <field attributeName="proposalDueDateTypeCode" />
+                <field attributeName="proposalDueTime" />
+                <field attributeName="proposalRequiredCopyNumber" />
+                <field attributeName="proposalRequiredCopyText" />
+                <field attributeName="proposalSubmitDate" />
+                <field attributeName="researchDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="agencyAddressDescription" forceUppercase="true">
+                <label>Agency Address Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>500</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>agencyAddressDescription</summary>
+                <description>agencyAddressDescription description...</description>
+			</attribute>
+
+            <attribute name="agencyCityName" forceUppercase="true">
+                <label>Agency City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>agencyCityName</summary>
+                <description>agencyCityName description...</description>
+			</attribute>
+
+            <attribute name="agencyContactName" forceUppercase="true">
+                <label>Agency Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>agencyContactName</summary>
+                <description>agencyContactName description...</description>
+			</attribute>
+
+            <attribute name="agencyCountryCode" forceUppercase="true">
+                <label>Agency Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyCountryCode</summary>
+                <description>agencyCountryCode description...</description>
+			</attribute>
+
+            <attribute name="agencyDiskAccompanyIndicator" forceUppercase="true">
+                <label>Agency Disk Accompany Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>agencyDiskAccompanyIndicator</summary>
+                <description>agencyDiskAccompanyIndicator description...</description>
+			</attribute>
+
+            <attribute name="agencyElectronicSubmissionIndicator" forceUppercase="true">
+                <label>Agency Electronic Submission Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>agencyElectronicSubmissionIndicator</summary>
+                <description>agencyElectronicSubmissionIndicator description...</description>
+			</attribute>
+
+            <attribute name="agencyLine1Address" forceUppercase="true">
+                <label>Agency Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine1Address</summary>
+                <description>agencyLine1Address description...</description>
+			</attribute>
+
+            <attribute name="agencyLine2Address" forceUppercase="true">
+                <label>Agency Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine2Address</summary>
+                <description>agencyLine2Address description...</description>
+			</attribute>
+
+            <attribute name="agencyLine3Address" forceUppercase="true">
+                <label>Agency Line3 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine3Address</summary>
+                <description>agencyLine3Address description...</description>
+			</attribute>
+
+            <attribute name="agencyLine4Address" forceUppercase="true">
+                <label>Agency Line4 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine4Address</summary>
+                <description>agencyLine4Address description...</description>
+			</attribute>
+
+            <attribute name="agencyLine5Address" forceUppercase="true">
+                <label>Agency Line5 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine5Address</summary>
+                <description>agencyLine5Address description...</description>
+			</attribute>
+
+            <attribute name="agencyLine6Address" forceUppercase="true">
+                <label>Agency Line6 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine6Address</summary>
+                <description>agencyLine6Address description...</description>
+			</attribute>
+
+            <attribute name="agencyLine7Address" forceUppercase="true">
+                <label>Agency Line7 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine7Address</summary>
+                <description>agencyLine7Address description...</description>
+			</attribute>
+
+            <attribute name="agencyLine8Address" forceUppercase="true">
+                <label>Agency Line8 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>agencyLine8Address</summary>
+                <description>agencyLine8Address description...</description>
+			</attribute>
+
+            <attribute name="agencyNumber" forceUppercase="true">
+                <label>Agency Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>agencyNumber</summary>
+                <description>agencyNumber description...</description>
+			</attribute>
+
+            <attribute name="agencyShippingInstructionsDescription" forceUppercase="true">
+                <label>Agency Shipping Instructions Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>1000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>agencyShippingInstructionsDescription</summary>
+                <description>agencyShippingInstructionsDescription description...</description>
+			</attribute>
+
+            <attribute name="agencyStateCode" forceUppercase="true">
+                <label>Agency State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>agencyStateCode</summary>
+                <description>agencyStateCode description...</description>
+			</attribute>
+
+            <attribute name="agencyZipCode" forceUppercase="true">
+                <label>Agency Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>agencyZipCode</summary>
+                <description>agencyZipCode description...</description>
+			</attribute>
+
+            <attribute name="proposalDueDate" forceUppercase="true">
+                <label>Proposal Due Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalDueDate</summary>
+                <description>proposalDueDate description...</description>
+			</attribute>
+
+            <attribute name="proposalDueDateTypeCode" forceUppercase="true">
+                <label>Proposal Due Date Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalDueDateTypeCode</summary>
+                <description>proposalDueDateTypeCode description...</description>
+			</attribute>
+
+            <attribute name="proposalDueTime" forceUppercase="true">
+                <label>Proposal Due Time</label>
+                <shortLabel>Time</shortLabel>
+
+                <maxLength>15</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="17" />
+                </control>
+
+                <summary>proposalDueTime</summary>
+                <description>proposalDueTime description...</description>
+			</attribute>
+
+            <attribute name="proposalRequiredCopyNumber" forceUppercase="true">
+                <label>Proposal Required Copy Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>proposalRequiredCopyNumber</summary>
+                <description>proposalRequiredCopyNumber description...</description>
+			</attribute>
+
+            <attribute name="proposalRequiredCopyText" forceUppercase="true">
+                <label>Proposal Required Copy Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>proposalRequiredCopyText</summary>
+                <description>proposalRequiredCopyText description...</description>
+			</attribute>
+
+            <attribute name="proposalSubmitDate" forceUppercase="true">
+                <label>Proposal Submit Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalSubmitDate</summary>
+                <description>proposalSubmitDate description...</description>
+			</attribute>
+
+            <attribute name="researchDocumentNumber" forceUppercase="true">
+                <label>Research Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>researchDocumentNumber</summary>
+                <description>researchDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

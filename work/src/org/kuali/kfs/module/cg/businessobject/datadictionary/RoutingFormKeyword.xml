@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormKeyword">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Keyword Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="proposalKeywordDescription" />
+                <field attributeName="researchDocumentNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Keyword Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormKeyword">Create New</a>]]></menubar>
+
+            <instructions>Look up a Routing Form Keyword</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="proposalKeywordDescription" />
+                    <sortAttribute attributeName="researchDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="proposalKeywordDescription" required="false" />
+                <lookupField attributeName="researchDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="proposalKeywordDescription" />
+                <field attributeName="researchDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="proposalKeywordDescription" forceUppercase="true">
+                <label>Proposal Keyword Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>70</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="72" />
+                </control>
+
+                <summary>proposalKeywordDescription</summary>
+                <description>proposalKeywordDescription description...</description>
+			</attribute>
+
+            <attribute name="researchDocumentNumber" forceUppercase="true">
+                <label>Research Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>researchDocumentNumber</summary>
+                <description>researchDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

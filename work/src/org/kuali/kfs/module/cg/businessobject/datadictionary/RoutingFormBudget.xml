@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormBudget">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Budget Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="proposalBudgetDirectAmount" />
+                <field attributeName="proposalBudgetEndDate" />
+                <field attributeName="proposalBudgetIndirectCostAmount" />
+                <field attributeName="proposalBudgetIndirectCostDescription" />
+                <field attributeName="proposalBudgetMaximumPeriodNumber" />
+                <field attributeName="proposalBudgetMinimumPeriodNumber" />
+                <field attributeName="proposalBudgetStartDate" />
+                <field attributeName="proposalBudgetTypeCode" />
+                <field attributeName="researchDocumentNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Budget Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormBudget">Create New</a>]]></menubar>
+
+            <instructions>Look up a Routing Form Budget</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="proposalBudgetTypeCode" />
+                    <sortAttribute attributeName="researchDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="proposalBudgetDirectAmount" required="false" />
+                <lookupField attributeName="proposalBudgetEndDate" required="false" />
+                <lookupField attributeName="proposalBudgetIndirectCostAmount" required="false" />
+                <lookupField attributeName="proposalBudgetIndirectCostDescription" required="false" />
+                <lookupField attributeName="proposalBudgetMaximumPeriodNumber" required="false" />
+                <lookupField attributeName="proposalBudgetMinimumPeriodNumber" required="false" />
+                <lookupField attributeName="proposalBudgetStartDate" required="false" />
+                <lookupField attributeName="proposalBudgetTypeCode" required="false" />
+                <lookupField attributeName="researchDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="proposalBudgetDirectAmount" />
+                <field attributeName="proposalBudgetEndDate" />
+                <field attributeName="proposalBudgetIndirectCostAmount" />
+                <field attributeName="proposalBudgetIndirectCostDescription" />
+                <field attributeName="proposalBudgetMaximumPeriodNumber" />
+                <field attributeName="proposalBudgetMinimumPeriodNumber" />
+                <field attributeName="proposalBudgetStartDate" />
+                <field attributeName="proposalBudgetTypeCode" />
+                <field attributeName="researchDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="proposalBudgetDirectAmount" forceUppercase="true">
+                <label>Proposal Budget Direct Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>proposalBudgetDirectAmount</summary>
+                <description>proposalBudgetDirectAmount description...</description>
+			</attribute>
+
+            <attribute name="proposalBudgetEndDate" forceUppercase="true">
+                <label>Proposal Budget End Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalBudgetEndDate</summary>
+                <description>proposalBudgetEndDate description...</description>
+			</attribute>
+
+            <attribute name="proposalBudgetIndirectCostAmount" forceUppercase="true">
+                <label>Proposal Budget Indirect Cost Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>proposalBudgetIndirectCostAmount</summary>
+                <description>proposalBudgetIndirectCostAmount description...</description>
+			</attribute>
+
+            <attribute name="proposalBudgetIndirectCostDescription" forceUppercase="true">
+                <label>Proposal Budget Indirect Cost Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>1000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>proposalBudgetIndirectCostDescription</summary>
+                <description>proposalBudgetIndirectCostDescription description...</description>
+			</attribute>
+
+            <attribute name="proposalBudgetMaximumPeriodNumber" forceUppercase="true">
+                <label>Proposal Budget Maximum Period Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalBudgetMaximumPeriodNumber</summary>
+                <description>proposalBudgetMaximumPeriodNumber description...</description>
+			</attribute>
+
+            <attribute name="proposalBudgetMinimumPeriodNumber" forceUppercase="true">
+                <label>Proposal Budget Minimum Period Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalBudgetMinimumPeriodNumber</summary>
+                <description>proposalBudgetMinimumPeriodNumber description...</description>
+			</attribute>
+
+            <attribute name="proposalBudgetStartDate" forceUppercase="true">
+                <label>Proposal Budget Start Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalBudgetStartDate</summary>
+                <description>proposalBudgetStartDate description...</description>
+			</attribute>
+
+            <attribute name="proposalBudgetTypeCode" forceUppercase="true">
+                <label>Proposal Budget Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalBudgetTypeCode</summary>
+                <description>proposalBudgetTypeCode description...</description>
+			</attribute>
+
+            <attribute name="researchDocumentNumber" forceUppercase="true">
+                <label>Research Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>researchDocumentNumber</summary>
+                <description>researchDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

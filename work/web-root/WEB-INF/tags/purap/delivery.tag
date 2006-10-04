@@ -10,7 +10,7 @@
               
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-<kul:tab tabTitle="Delivery" defaultOpen="true">
+<kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="document.delivery*">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Delivery</h2>
@@ -39,7 +39,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" 
                     	property="document.deliveryToName" readOnly="${readOnly}"/>
                     <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" 
-                    	fieldConversions="universalUser.personName:document.deliveryToName"/>
+                    	fieldConversions="universalUser.personName:document.deliveryToName,universalUser.personEmailAddress:document.deliveryToEmailAddress,universalUser.personLocalPhoneNumber:document.deliveryToPhoneNumber"/>
                 </td>
             </tr>
             <tr>

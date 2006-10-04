@@ -80,7 +80,9 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                 ZipcodeValidationPattern pattern = new ZipcodeValidationPattern();
                 if (!pattern.matches(document.getVendorPostalCode())) {
                     valid = false;
-                    errorMap.putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
+                    if (!errorMap.fieldHasMessage(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID)) {
+                        errorMap.putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
+                    }
                 }
             }
         }

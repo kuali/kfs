@@ -61,6 +61,8 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	private String proposalRequiredCopyText;
 	private Date proposalSubmitDate;
 
+    private RoutingFormDueDateType proposalDueDateType;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -592,13 +594,30 @@ public class RoutingFormAgency extends BusinessObjectBase {
 		this.proposalSubmitDate = proposalSubmitDate;
 	}
 
-
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
-	    return m;
+    /**
+     * Gets the proposalDueDateType attribute. 
+     * @return Returns the proposalDueDateType.
+     */
+    public RoutingFormDueDateType getProposalDueDateType() {
+        return proposalDueDateType;
     }
+
+    /**
+     * Sets the proposalDueDateType attribute value.
+     * @param proposalDueDateType The proposalDueDateType to set.
+     * @deprecated
+     */
+    public void setProposalDueDateType(RoutingFormDueDateType proposalDueDateType) {
+        this.proposalDueDateType = proposalDueDateType;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        return m;
+    }
+
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormStatus">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Status Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="proposalStatusCode" />
+                <field attributeName="proposalStatusDescription" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Status Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormStatus">Create New</a>]]></menubar>
+
+            <instructions>Look up a Routing Form Status</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="proposalStatusCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                <lookupField attributeName="proposalStatusCode" required="false" />
+                <lookupField attributeName="proposalStatusDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="proposalStatusCode" />
+                <field attributeName="proposalStatusDescription" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
+                <label>Data Object Maintenance Code Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
+                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
+			</attribute>
+
+            <attribute name="proposalStatusCode" forceUppercase="true">
+                <label>Proposal Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalStatusCode</summary>
+                <description>proposalStatusCode description...</description>
+			</attribute>
+
+            <attribute name="proposalStatusDescription" forceUppercase="true">
+                <label>Proposal Status Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>15</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="17" />
+                </control>
+
+                <summary>proposalStatusDescription</summary>
+                <description>proposalStatusDescription description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

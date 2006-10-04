@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormConflictOfInterest">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Conflict Of Interest Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="proposalConflictOfInterestDescription" />
+                <field attributeName="researchDocumentNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Conflict Of Interest Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormConflictOfInterest">Create New</a>]]></menubar>
+
+            <instructions>Look up a Routing Form Conflict Of Interest</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="researchDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="proposalConflictOfInterestDescription" required="false" />
+                <lookupField attributeName="researchDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="proposalConflictOfInterestDescription" />
+                <field attributeName="researchDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="proposalConflictOfInterestDescription" forceUppercase="true">
+                <label>Proposal Conflict Of Interest Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>1000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>proposalConflictOfInterestDescription</summary>
+                <description>proposalConflictOfInterestDescription description...</description>
+			</attribute>
+
+            <attribute name="researchDocumentNumber" forceUppercase="true">
+                <label>Research Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>researchDocumentNumber</summary>
+                <description>researchDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

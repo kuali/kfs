@@ -248,9 +248,7 @@
     <shortLabel>Addr. 1</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
     <required>true</required>
 
     <control>
@@ -266,9 +264,7 @@
     <shortLabel>Addr. 2</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
     <control>
         <text size="47" />
@@ -337,9 +333,7 @@
     <shortLabel>City</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
     <required>true</required>
 
     <control>
@@ -367,14 +361,12 @@
     <description>deliveryCountryCode description...</description>
 </attribute>
 
-<attribute name="deliveryInstructionText" forceUppercase="true">
+<attribute name="deliveryInstructionText">
     <label>Delivery Instructions</label>
     <shortLabel>Instructions</shortLabel>
 
     <maxLength>125</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
     <control>
         <textarea rows="3" cols="50" />
@@ -468,9 +460,7 @@
     <shortLabel>To</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
     <required>true</required>
 
     <control>

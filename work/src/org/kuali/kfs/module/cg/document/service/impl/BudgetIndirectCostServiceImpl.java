@@ -35,11 +35,13 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.budget.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
+import org.kuali.module.kra.budget.bo.BudgetBaseCode;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCostLookup;
 import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
+import org.kuali.module.kra.budget.bo.BudgetPurposeCode;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.IndirectCostLookup;
@@ -533,6 +535,14 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
             budgetIndirectCostLookupList.add(new BudgetIndirectCostLookup(budget, indirectCostLookup));
         }
         budget.setBudgetIndirectCostLookups(budgetIndirectCostLookupList);
+    }
+    
+    public List<BudgetBaseCode> getDefaultBudgetBaseCodeValues() {
+        return new ArrayList(businessObjectService.findAll(BudgetBaseCode.class));
+    }
+    
+    public List<BudgetPurposeCode> getDefaultBudgetPurposeCodeValues() {
+        return new ArrayList(businessObjectService.findAll(BudgetPurposeCode.class));
     }
 
     /**

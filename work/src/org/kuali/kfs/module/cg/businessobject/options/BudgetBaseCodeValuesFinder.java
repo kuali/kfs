@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.module.kra.budget.bo.AppointmentType;
+import org.kuali.module.kra.budget.bo.BudgetBaseCode;
 
 public class BudgetBaseCodeValuesFinder extends KeyValuesBase {
 
@@ -35,17 +38,13 @@ public class BudgetBaseCodeValuesFinder extends KeyValuesBase {
     }
 
     public List getKeyValues() {
-        List ret = new ArrayList();
+        
+        List<BudgetBaseCode> baseCodes = new ArrayList(SpringServiceLocator.getBudgetIndirectCostService().getDefaultBudgetBaseCodeValues());
+        List baseCodeKeyLabelPairList = new ArrayList();
+        for (BudgetBaseCode element: baseCodes) {
+            baseCodeKeyLabelPairList.add(new KeyLabelPair(element.getBudgetBaseCode(), element.getBudgetBaseDescription()));
+        }
 
-        // TODO Replace this hard-coded list with calls to the appropriate service.
-        ret.add(new KeyLabelPair("MT", "Standard Base (MTDC)"));
-        ret.add(new KeyLabelPair("TD", "Total Direct Cost (TDC)"));
-        ret.add(new KeyLabelPair("MN", "Manual Base"));
-
-        // TODO Verify that this should be here -- it is not consistent with the mocks.
-        // ret.add(new KeyLabelPair("NO","No Indirect Cost"));
-
-        return ret;
+        return baseCodeKeyLabelPairList;
     }
-
 }

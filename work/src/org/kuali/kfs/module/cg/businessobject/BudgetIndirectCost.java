@@ -30,6 +30,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.budget.KraConstants;
 
 /**
  * @author mmorgan
@@ -61,8 +64,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     private List budgetTaskPeriodIndirectCostItems;
 
     /**
-     * Default no-arg constructor. TODO Add lookup to APC for budgetPurposeCode and budgetBaseCode instead of hardcoding the
-     * defaults.
+     * Default no-arg constructor.
      */
     public BudgetIndirectCost() {
         super();
@@ -74,11 +76,10 @@ public class BudgetIndirectCost extends BusinessObjectBase {
         this.setBudgetUnrecoveredIndirectCostIndicator(false);
         this.setBudgetManualMtdcIndicator(false);
 
-        // Default values for budgetPurposeCode, budgetBaseCode and budgetManualRateIndicator should be pulled
-        // from the application constants instead of being hard-coded here.
-        this.setBudgetPurposeCode("RS");
-        this.setBudgetBaseCode("MT");
-        this.setBudgetManualRateIndicator("N");
+        KualiConfigurationService configurationService = SpringServiceLocator.getKualiConfigurationService();
+        this.setBudgetPurposeCode(configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.BUDGET_PURPOSE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
+        this.setBudgetBaseCode(configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.BUDGET_BASE_CODE_DEFAULT_VALUE_PARAMETER_NAME));
+        this.setBudgetManualRateIndicator(configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.BUDGET_MANUAL_RATE_INDICATOR_DEFAULT_VALUE_PARAMETER_NAME));
 
         this.budgetTaskPeriodIndirectCostItems = new ArrayList();
     }
@@ -102,7 +103,6 @@ public class BudgetIndirectCost extends BusinessObjectBase {
         // First call default constructor.
         this();
 
-        // TODO this should probably be called in super()
         this.setDocumentHeaderId(idc.getDocumentHeaderId());
         this.setVersionNumber(idc.getVersionNumber());
         this.setObjectId(idc.getObjectId());

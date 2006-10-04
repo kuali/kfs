@@ -294,11 +294,11 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             String periodKey = currentUserAppointmentTaskPeriod.getBudgetPeriodSequenceNumber().toString();
             KualiInteger actualDirectCostAmountLessExcluded = (KualiInteger) directCostsMap.get(periodKey);
 
-            actualDirectCostAmountLessExcluded = actualDirectCostAmountLessExcluded.add(currentUserAppointmentTaskPeriod.getAgencyRequestTotalAmount());
-
-            actualDirectCostAmountLessExcluded = actualDirectCostAmountLessExcluded.add(currentUserAppointmentTaskPeriod.getAgencyFringeBenefitTotalAmount());
-
-            directCostsMap.put(periodKey, actualDirectCostAmountLessExcluded);
+            if (actualDirectCostAmountLessExcluded != null) { // Could be null in the case of a period being deleted
+                actualDirectCostAmountLessExcluded = actualDirectCostAmountLessExcluded.add(currentUserAppointmentTaskPeriod.getAgencyRequestTotalAmount());
+                actualDirectCostAmountLessExcluded = actualDirectCostAmountLessExcluded.add(currentUserAppointmentTaskPeriod.getAgencyFringeBenefitTotalAmount());
+                directCostsMap.put(periodKey, actualDirectCostAmountLessExcluded);
+            }
         }
 
         // calculate nonpersonnel direct costs, then total all direct costs & set in BO

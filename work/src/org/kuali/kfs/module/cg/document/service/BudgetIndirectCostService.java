@@ -22,9 +22,11 @@
  */
 package org.kuali.module.kra.budget.service;
 
-import org.kuali.core.util.KualiInteger;
+import java.util.List;
+
 import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
+import org.kuali.module.kra.budget.bo.BudgetBaseCode;
+import org.kuali.module.kra.budget.bo.BudgetPurposeCode;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 
 public interface BudgetIndirectCostService {
@@ -34,4 +36,8 @@ public interface BudgetIndirectCostService {
     public void refreshIndirectCost(BudgetDocument budget);
 
     public void setupIndirectCostRates(Budget budget);
+    
+    public List<BudgetBaseCode> getDefaultBudgetBaseCodeValues();
+    
+    public List<BudgetPurposeCode> getDefaultBudgetPurposeCodeValues();
 }

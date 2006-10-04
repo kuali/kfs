@@ -415,8 +415,8 @@
     <reference-descriptor name="universityFiscal" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
-</class-descriptor>
 
+</class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.ObjectCodeCurrent" table="CA_OBJECT_CODE_V">
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
@@ -715,14 +715,12 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 </class-descriptor>
 
-<!-- 
-    <class-descriptor class="org.kuali.module.chart.bo.codes.BudgetAggregationCode" table="CA_BDGT_AGGR_T" >
+<class-descriptor class="org.kuali.module.chart.bo.codes.BudgetAggregationCode" table="CA_BDGT_AGGR_T" >
     <field-descriptor name="code" column="FOBJ_BDGT_AGGR_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="name" column="FIN_BDGT_AGGR_NM" jdbc-type="VARCHAR" />
-    </class-descriptor>
--->
+</class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" table="CA_MNXFR_ELIM_T">
     <field-descriptor name="code" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR" primarykey="true" />

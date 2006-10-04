@@ -61,7 +61,6 @@ public class ObjectCode extends BusinessObjectBase {
     private String finObjMandatoryTrnfrelimCd;
     private String financialFederalFundedCode;
 
-
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private transient FederalFundedCode financialFederalFunded;
@@ -254,9 +253,9 @@ public class ObjectCode extends BusinessObjectBase {
      * @return - Returns the financialBudgetAggregationCd
      * 
      */
-    public BudgetAggregationCode getFinancialBudgetAggregation() {
+    /*public BudgetAggregationCode getFinancialBudgetAggregation() {
         return financialBudgetAggregation;
-    }
+    }*/
 
     /**
      * Sets the financialBudgetAggregationCd attribute.
@@ -264,9 +263,9 @@ public class ObjectCode extends BusinessObjectBase {
      * @param financialBudgetAggregationCd The financialBudgetAggregationCd to set.
      * @deprecated
      */
-    public void setFinancialBudgetAggregation(BudgetAggregationCode financialBudgetAggregationCd) {
+    /*public void setFinancialBudgetAggregation(BudgetAggregationCode financialBudgetAggregationCd) {
         this.financialBudgetAggregation = financialBudgetAggregationCd;
-    }
+    }*/
 
     /**
      * Gets the universityFiscal attribute.
@@ -587,6 +586,10 @@ public class ObjectCode extends BusinessObjectBase {
      */
     public void setObjectCode(ObjectCode objectCode) {
         this.objectCode = objectCode;
+    }
+
+    public BudgetAggregationCode getFinancialBudgetAggregation() {
+        return financialBudgetAggregation;
     }
 
     /**

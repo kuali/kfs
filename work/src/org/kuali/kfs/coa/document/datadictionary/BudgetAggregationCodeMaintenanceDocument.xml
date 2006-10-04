@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.codes.BudgetAggregationCode</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiBudgetAggregationCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>BAMD</documentTypeCode>
+        <label>Budget Aggregation Code Maintenance Document</label>
+        <shortLabel>BudgetAggrCodeMaintDoc</shortLabel>
+        <summary>Budget Aggregation Code Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Budget Aggregation Codes, or modify existing Budget Aggregation Codes.</description>
+
+        <lockingKeys>
+            <field attributeName="code" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Budget Aggregation Code">
+                <maintainableItems>
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+
+</dictionaryEntry>

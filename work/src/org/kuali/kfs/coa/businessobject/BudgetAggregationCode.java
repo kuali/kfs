@@ -22,7 +22,7 @@
  */
 package org.kuali.module.chart.bo.codes;
 
-import org.kuali.core.bo.KualiSystemCode;
+import org.kuali.core.bo.KualiCodeBase;
 
 
 /**
@@ -30,8 +30,9 @@ import org.kuali.core.bo.KualiSystemCode;
  * 
  * @author Nervous System Team ()
  */
-public class BudgetAggregationCode extends KualiSystemCode {
+public class BudgetAggregationCode extends KualiCodeBase {
 
-    private static final long serialVersionUID = 7523455569064583249L;
-
+    public BudgetAggregationCode(){
+        super.setActive(true); // always active, plus no column in the table
+    }
 }

@@ -168,7 +168,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     @Override
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
-        // TODO complete with EPIC rules for allows copy
+        // TODO dterret: complete with EPIC rules for allows copy
         return allowsCopy;
     }
 

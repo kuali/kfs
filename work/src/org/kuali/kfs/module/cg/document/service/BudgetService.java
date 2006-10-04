@@ -35,6 +35,8 @@ public interface BudgetService {
     public void initializeBudget(BudgetDocument budgetDocument);
 
     public void prepareBudgetForSave(BudgetDocument budgetDocument) throws WorkflowException;
+    
+    public void appSpecificRouteDocumentToUsers(BudgetDocument budgetDocument) throws WorkflowException;
 
     /**
      * This method will return a String of codes corresponding to cost share types that have been removed

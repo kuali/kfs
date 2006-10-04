@@ -54,6 +54,9 @@ import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 import org.kuali.module.kra.budget.service.BudgetService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
 
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
+import edu.iu.uis.eden.clientapp.vo.RouteNodeInstanceVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
@@ -80,6 +83,17 @@ public class BudgetServiceImpl implements BudgetService {
         budgetFringeRateService.setupDefaultFringeRates(budget);
         budgetGraduateAssistantRateService.setupDefaultGradAssistantRates(budget);
         budgetIndirectCostService.setupIndirectCostRates(budget);
+    }
+    
+    public void appSpecificRouteDocumentToUsers(BudgetDocument budgetDocument) throws WorkflowException {
+        documentService.prepareWorkflowDocument(budgetDocument);
+        String[] currentNodes = budgetDocument.getDocumentHeader().getWorkflowDocument().getNodeNames();
+        WorkflowInfo workflowInfo = new WorkflowInfo();
+        //RouteNodeInstanceVO[] nodes = workflowInfo.get(budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        budgetDocument.getDocumentHeader().getWorkflowDocument().appSpecificRouteDocumentToUser(
+                "F", "Adhoc Routing", 0, "", 
+                new NetworkIdVO(budgetDocument.getBudget().getProjectDirector().getUniversalUser().getPersonUserIdentifier()), 
+                "Project Director notification of completion.", true);
     }
 
     /**

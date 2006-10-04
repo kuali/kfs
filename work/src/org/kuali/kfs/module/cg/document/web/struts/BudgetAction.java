@@ -105,6 +105,7 @@ public class BudgetAction extends KualiDocumentActionBase {
         if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
             budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getBudget().getAdHocPermissions()));
             budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getBudget().getAdHocWorkgroups()));
+            SpringServiceLocator.getBudgetService().appSpecificRouteDocumentToUsers(budgetForm.getBudgetDocument());
             return super.route(mapping, form, request, response);
         }
         
@@ -197,7 +198,7 @@ public class BudgetAction extends KualiDocumentActionBase {
         budgetForm.newTabState(true, true);
 
         // Set default task name
-        String DEFAULT_BUDGET_TASK_NAME = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "defaultBudgetTaskName");
+        String DEFAULT_BUDGET_TASK_NAME = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "defaultBudgetTaskName");
         budgetForm.getNewTask().setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " " + (budgetForm.getBudgetDocument().getTaskListSize() + 1));
         
 //      New task defaults to on campus

@@ -29,8 +29,6 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${vendorReadOnly}" />
                     <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier"/>
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorHeaderGeneratedIdentifier}" property="document.vendorHeaderGeneratedIdentifier" />
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorDetailAssignedIdentifier}" property="document.vendorDetailAssignedIdentifier" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.supplierDiversityLabel}" /></div>

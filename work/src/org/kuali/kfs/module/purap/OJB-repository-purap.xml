@@ -13,6 +13,7 @@
 	<field-descriptor name="vendorW9ReceivedIndicator" column="VNDR_W9_RCVD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorW8BenReceivedIndicator" column="VNDR_W8_BEN_RCVD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorDebarredIndicator" column="VNDR_DEBRD_IND" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorForeignIndicator" column="VNDR_FRGN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="vendorType" class-ref="org.kuali.module.purap.bo.VendorType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorTypeCode" />
 	</reference-descriptor>
@@ -308,6 +309,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorDefaultAddress" table="PUR_VNDR_DFLT_ADDR_T">
+    <field-descriptor name="vendorDefaultAddressGeneratedIdentifier" column="VNDR_DFLT_ADDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_DFLT_ADDR_GNRTD_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorAddressGeneratedIdentifier" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER"/>
@@ -370,6 +372,9 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorTypeDescription" column="VNDR_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="vendorTaxNumberRequiredIndicator" column="VNDR_TAX_NBR_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="vendorTypeChangeAllowedIndicator" column="VNDR_TYP_CHG_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="vendorAddressTypeRequiredCode" column="VNDR_ADDR_TYP_REQ_CD" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorStipulation" table="PUR_VNDR_STPLTN_T">
@@ -1841,4 +1846,31 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="noteTypeDescription" column="NTE_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="noteTypeActiveIndicator" column="NTE_TYP_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.purap.bo.OrganizationParameter" table="PUR_AP_ORG_PARM_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="organizationAutomaticPurchaseOrderLimit" column="ORG_AUTO_PO_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.purap.bo.CampusParameter" table="PUR_AP_CMP_PARM_T">
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="campusPurchasingDirectorName" column="CMP_PUR_DRCTR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusPurchasingDirectorTitle" column="CMP_PUR_DRCTR_TTL" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusAccountsPayableEmailAddress" column="CMP_AP_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="campus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="campusCode" />
+	</reference-descriptor>
 </class-descriptor>

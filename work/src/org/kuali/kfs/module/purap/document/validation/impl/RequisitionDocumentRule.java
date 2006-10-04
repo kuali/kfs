@@ -62,7 +62,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
     private boolean processValidation(RequisitionDocument document) {
         boolean valid = true;
-    //    valid &= processVendorValidation(document);
+        valid &= processVendorValidation(document);
         valid &= processItemValidation(document);
         valid &= processPaymentInfoValidation(document);
         valid &= processDeliveryValidation(document);
@@ -74,7 +74,8 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean valid = super.processVendorValidation(document);
         if (document.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_STANDARD_ORDER)) { 
-            if (document.getVendorCountryCode().equals(PurapConstants.UNITED_STATES) && 
+            if (!StringUtils.isBlank(document.getVendorCountryCode()) &&
+                document.getVendorCountryCode().equals(PurapConstants.UNITED_STATES) && 
                 !StringUtils.isBlank(document.getVendorPostalCode())) {
                 ZipcodeValidationPattern pattern = new ZipcodeValidationPattern();
                 if (!pattern.matches(document.getVendorPostalCode())) {

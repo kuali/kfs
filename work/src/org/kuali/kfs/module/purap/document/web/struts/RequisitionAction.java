@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -37,6 +38,7 @@ import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.web.struts.form.RequisitionForm;
+import org.kuali.module.purap.util.PhoneNumberUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -93,6 +95,19 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
             ((RequisitionDocument) rqForm.getDocument()).templateVendorContract(refreshVendorContract);
         }
 
+        // Format phone numbers
+        String unformattedNumber = document.getInstitutionContactPhoneNumber();
+        String formattedNumber = PhoneNumberUtils.formatNumberIfPossible(unformattedNumber);
+        document.setInstitutionContactPhoneNumber(ObjectUtils.isNotNull(formattedNumber) ? formattedNumber : unformattedNumber);    
+
+        unformattedNumber = document.getRequestorPersonPhoneNumber();
+        formattedNumber = PhoneNumberUtils.formatNumberIfPossible(unformattedNumber);
+        document.setRequestorPersonPhoneNumber(ObjectUtils.isNotNull(formattedNumber) ? formattedNumber : unformattedNumber);    
+        
+        unformattedNumber = document.getDeliveryToPhoneNumber();
+        formattedNumber = PhoneNumberUtils.formatNumberIfPossible(unformattedNumber);
+        document.setDeliveryToPhoneNumber(ObjectUtils.isNotNull(formattedNumber) ? formattedNumber : unformattedNumber);    
+        
         //TODO add code to retrieve new building list        
         return super.refresh(mapping, form, request, response);
     }

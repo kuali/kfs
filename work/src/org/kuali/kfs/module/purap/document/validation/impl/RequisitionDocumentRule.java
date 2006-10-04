@@ -23,6 +23,8 @@
 package org.kuali.module.purap.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
@@ -77,12 +79,21 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             if (!StringUtils.isBlank(document.getVendorCountryCode()) &&
                 document.getVendorCountryCode().equals(PurapConstants.UNITED_STATES) && 
                 !StringUtils.isBlank(document.getVendorPostalCode())) {
-                ZipcodeValidationPattern pattern = new ZipcodeValidationPattern();
-                if (!pattern.matches(document.getVendorPostalCode())) {
+                ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
+                if (!zipPattern.matches(document.getVendorPostalCode())) {
                     valid = false;
                     if (!errorMap.fieldHasMessage(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID)) {
                         errorMap.putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
                     }
+                }
+            }
+            if (!StringUtils.isBlank(document.getVendorFaxNumber())) {
+                PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
+                if (!phonePattern.matches(document.getVendorFaxNumber())) {
+                    valid = false;
+                    if (!errorMap.fieldHasMessage(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID)) {
+                        errorMap.putErrorWithoutFullErrorPath(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
+                    }                    
                 }
             }
         }

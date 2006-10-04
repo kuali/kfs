@@ -107,6 +107,4 @@ public class PurapConstants {
     public static String PO_COST_SRC_ESTIMATE = "EST";
     public static String PO_TRANSMISSION_METHOD_FAX = "FAX";
 
-    //Country codes
-    public static String UNITED_STATES = "US";
 }

@@ -77,7 +77,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         boolean valid = super.processVendorValidation(document);
         if (document.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_STANDARD_ORDER)) { 
             if (!StringUtils.isBlank(document.getVendorCountryCode()) &&
-                document.getVendorCountryCode().equals(PurapConstants.UNITED_STATES) && 
+                document.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES) && 
                 !StringUtils.isBlank(document.getVendorPostalCode())) {
                 ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
                 if (!zipPattern.matches(document.getVendorPostalCode())) {

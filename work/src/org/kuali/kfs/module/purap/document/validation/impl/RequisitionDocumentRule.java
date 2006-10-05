@@ -30,11 +30,13 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
@@ -159,6 +161,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     boolean processAdditionalValidation(RequisitionDocument document) {
         boolean valid = super.processAdditionalValidation(document);
         // TODO code validation
+        validateReqTotAmtIsLessThanPOTotLimit(document);
         return valid;
     }
     
@@ -190,6 +193,27 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                 valid &= false;
             }
         }
+  
+        return valid;
+    }
+
+    /**
+     * 
+     * This method validates that if the PO Total Limit is not null, 
+     *   then the Requisition Total Amount cannot be greater than the PO Total Limit. 
+     * 
+     * @return True if the Requisition Total Amount is less than the PO Total Limit. False otherwise.
+     */
+    boolean validateReqTotAmtIsLessThanPOTotLimit(RequisitionDocument document) {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(document.getPurchaseOrderTotalLimit()) &&
+                ObjectUtils.isNotNull(document.getTotalDollarAmount())) {
+            if (document.getTotalDollarAmount().isGreaterThan(document.getPurchaseOrderTotalLimit())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, 
+                  PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
+                valid &= false;
+            }
+        } 
   
         return valid;
     }

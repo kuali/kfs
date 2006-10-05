@@ -55,14 +55,12 @@
     <summary>vendorContactsLabel</summary>
     <description>vendorContactsLabel description...</description>
 </attribute>
-<attribute name="billingCityName" forceUppercase="true">
+<attribute name="billingCityName" forceUppercase="false">
     <label>Billing City Name</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
     <control>
         <text size="47" />
@@ -89,14 +87,12 @@
     <description>billingCountryCode description...</description>
 </attribute>
 
-<attribute name="billingLine1Address" forceUppercase="true">
+<attribute name="billingLine1Address" forceUppercase="false">
     <label>Billing Line1 Address</label>
     <shortLabel>Address</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
     <control>
         <text size="47" />
@@ -106,14 +102,12 @@
     <description>billingLine1Address description...</description>
 </attribute>
 
-<attribute name="billingLine2Address" forceUppercase="true">
+<attribute name="billingLine2Address" forceUppercase="false">
     <label>Billing Line2 Address</label>
     <shortLabel>Address</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
     <control>
         <text size="47" />
@@ -123,14 +117,12 @@
     <description>billingLine2Address description...</description>
 </attribute>
 
-<attribute name="billingName" forceUppercase="true">
+<attribute name="billingName" forceUppercase="false">
     <label>Address</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
     <control>
         <text size="47" />
@@ -145,9 +137,7 @@
     <shortLabel>Number</shortLabel>
 
     <maxLength>20</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><phoneNumber /></validationPattern>
 
     <control>
         <text size="22" />
@@ -542,9 +532,7 @@
     <shortLabel>Address</shortLabel>
 
     <maxLength>100</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><emailAddress /></validationPattern>
 
     <control>
         <text size="47" />
@@ -554,14 +542,12 @@
     <description>institutionContactEmailAddress description...</description>
 </attribute>
 
-<attribute name="institutionContactName" forceUppercase="true">
+<attribute name="institutionContactName" forceUppercase="false">
     <label>Contact Name</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter  allowWhitespace="true"/></validationPattern>
 
     <control>
         <text size="47" />
@@ -576,9 +562,7 @@
     <shortLabel>Number</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><phoneNumber /></validationPattern>
 
     <control>
         <text size="47" />
@@ -780,12 +764,10 @@
 
 <attribute name="requestorPersonEmailAddr" forceUppercase="true">
     <label>Requestor Email</label>
-    <shortLabel>Addr</shortLabel>
+    <shortLabel>Email</shortLabel>
 
     <maxLength>100</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><emailAddress /></validationPattern>
     <required>true</required>
 
     <control>
@@ -796,14 +778,12 @@
     <description>requestorPersonEmailAddr description...</description>
 </attribute>
 
-<attribute name="requestorPersonName" forceUppercase="true">
+<attribute name="requestorPersonName" forceUppercase="false">
     <label>Requestor Name</label>
     <shortLabel>Name</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><anyCharacter  allowWhitespace="true"/></validationPattern>
     <required>true</required>
 
     <control>
@@ -816,12 +796,10 @@
 
 <attribute name="requestorPersonPhoneNumber" forceUppercase="true">
     <label>Requestor Phone</label>
-    <shortLabel>Number</shortLabel>
+    <shortLabel>Phone Number</shortLabel>
 
     <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
+    <validationPattern><phoneNumber /></validationPattern>
     <required>true</required>
 
     <control>

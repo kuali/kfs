@@ -88,4 +88,5 @@ public class PurapKeyConstants {
     public static final String ERROR_RECURRING_TYPE_NO_DATE = "errors.recurring.dates";
     public static final String ERROR_POSTAL_CODE_INVALID = "errors.postalCode.invalid";
     public static final String ERROR_FAX_NUMBER_INVALID = "errors.faxNumber.invalid";
+    public static final String REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "error.purchaseOrderTotalLimit";
 }

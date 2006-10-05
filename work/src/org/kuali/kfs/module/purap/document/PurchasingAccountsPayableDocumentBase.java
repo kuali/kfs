@@ -41,12 +41,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     private Integer vendorDetailAssignedIdentifier;
     private String vendorCustomerNumber;
 
-    
-    public KualiDecimal getTotalAmount() {
+    @Override
+    public KualiDecimal getTotalDollarAmount() {
         return Constants.ZERO;
     }
-   
-    
+
     /**
      * Gets the vendorHeaderGeneratedIdentifier attribute.
      * 

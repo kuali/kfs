@@ -96,18 +96,10 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
         }
 
         // Format phone numbers
-        String unformattedNumber = document.getInstitutionContactPhoneNumber();
-        String formattedNumber = PhoneNumberUtils.formatNumberIfPossible(unformattedNumber);
-        document.setInstitutionContactPhoneNumber(ObjectUtils.isNotNull(formattedNumber) ? formattedNumber : unformattedNumber);    
+        document.setInstitutionContactPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
+        document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
+        document.setDeliveryToPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
 
-        unformattedNumber = document.getRequestorPersonPhoneNumber();
-        formattedNumber = PhoneNumberUtils.formatNumberIfPossible(unformattedNumber);
-        document.setRequestorPersonPhoneNumber(ObjectUtils.isNotNull(formattedNumber) ? formattedNumber : unformattedNumber);    
-        
-        unformattedNumber = document.getDeliveryToPhoneNumber();
-        formattedNumber = PhoneNumberUtils.formatNumberIfPossible(unformattedNumber);
-        document.setDeliveryToPhoneNumber(ObjectUtils.isNotNull(formattedNumber) ? formattedNumber : unformattedNumber);    
-        
         //TODO add code to retrieve new building list        
         return super.refresh(mapping, form, request, response);
     }

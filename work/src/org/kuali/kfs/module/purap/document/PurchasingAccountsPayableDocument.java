@@ -23,7 +23,6 @@
 package org.kuali.module.purap.document;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.KualiDecimal;
 
 
 /**
@@ -33,6 +32,4 @@ import org.kuali.core.util.KualiDecimal;
  */
 public interface PurchasingAccountsPayableDocument extends TransactionalDocument {
     
-    public KualiDecimal getTotalAmount();
-
 }

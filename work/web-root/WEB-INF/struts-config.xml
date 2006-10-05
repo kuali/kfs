@@ -191,7 +191,7 @@
             <forward name="basic" path="/jsp/modules/generalLedger/AccountBalanceByConsolidationLookup.jsp" />
         </action>
 
-        <action path="/researchBudget*" name="Budget{1}Form" input="/jsp/modules/research/budget/{1}.jsp" type="org.kuali.module.kra.budget.web.struts.action.Budget{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <action path="/researchBudget*" name="Budget{1}Form" input="/jsp/modules/research/budget/Budget{1}.jsp" type="org.kuali.module.kra.budget.web.struts.action.Budget{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/jsp/modules/research/budget/Budget{1}.jsp" />
             <forward name="parameters" path="/jsp/modules/research/budget/BudgetParameters.jsp" redirect="false" />
             <forward name="overview" path="/jsp/modules/research/budget/BudgetOverview.jsp" redirect="false" />

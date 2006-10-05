@@ -87,20 +87,21 @@ public class BudgetDocument extends ResearchDocumentBase {
         thirdPartyCostShareNextSequenceNumber = new Integer(1);
     }
 
-    /**
-     * Budget Document specific logic to perform prior to saving.
-     * 
-     * @see org.kuali.core.document.DocumentBase#prepareForSave()
-     */
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-        try {
-            SpringServiceLocator.getBudgetService().prepareBudgetForSave(this);
-        } catch (WorkflowException e) {
-            throw new RuntimeException("no document found for documentHeaderId '" + this.documentHeader + "'", e);
-        }
-    }
+    //TODO Can't use this just yet - need to ensure that rules are run prior to this being called
+//    /**
+//     * Budget Document specific logic to perform prior to saving.
+//     * 
+//     * @see org.kuali.core.document.DocumentBase#prepareForSave()
+//     */
+//    @Override
+//    public void prepareForSave() {
+//        super.prepareForSave();
+//        try {
+//            SpringServiceLocator.getBudgetService().prepareBudgetForSave(this);
+//        } catch (WorkflowException e) {
+//            throw new RuntimeException("no document found for documentHeaderId '" + this.documentHeader + "'", e);
+//        }
+//    }
     
     /**
      * @param o

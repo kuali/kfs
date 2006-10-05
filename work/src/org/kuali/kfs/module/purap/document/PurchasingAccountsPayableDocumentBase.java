@@ -24,7 +24,9 @@ package org.kuali.module.purap.document;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
@@ -39,6 +41,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     private Integer vendorDetailAssignedIdentifier;
     private String vendorCustomerNumber;
 
+    
+    public KualiDecimal getTotalAmount() {
+        return Constants.ZERO;
+    }
+   
+    
     /**
      * Gets the vendorHeaderGeneratedIdentifier attribute.
      * 

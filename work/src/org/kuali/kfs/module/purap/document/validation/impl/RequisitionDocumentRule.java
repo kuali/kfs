@@ -72,6 +72,20 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
     
+    /**
+     * 
+     * This method performs validations for the fields in vendor tab.
+     * The business rules to be validated are:
+     * 1.  If this is a standard order requisition (not B2B), then if Country is United 
+     *     States and the postal code is required and if zip code is entered, it should 
+     *     be a valid US Zip code. (format)
+     * 2.  If this is a standard order requisition (not a B2B requisition), then if 
+     *     the fax number is entered, it should be a valid fax number. (format) 
+     *     
+     * @param document The requisition document object whose vendor tab is to be validated
+     * 
+     * @return true if it passes vendor validation and false otherwise.
+     */
     boolean processVendorValidation(RequisitionDocument document) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean valid = super.processVendorValidation(document);
@@ -82,22 +96,17 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                 ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
                 if (!zipPattern.matches(document.getVendorPostalCode())) {
                     valid = false;
-                    if (!errorMap.fieldHasMessage(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID)) {
-                        errorMap.putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
-                    }
+                    errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
                 }
             }
             if (!StringUtils.isBlank(document.getVendorFaxNumber())) {
                 PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
                 if (!phonePattern.matches(document.getVendorFaxNumber())) {
                     valid = false;
-                    if (!errorMap.fieldHasMessage(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID)) {
-                        errorMap.putErrorWithoutFullErrorPath(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
-                    }                    
+                    errorMap.putError(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
                 }
             }
         }
-        // TODO code validation
         return valid;
     }
 

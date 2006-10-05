@@ -856,7 +856,7 @@
 
     <maxLength>45</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
 
     <control>
@@ -907,7 +907,7 @@
 
     <maxLength>30</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
 
     <control>
@@ -975,7 +975,7 @@
 
     <maxLength>45</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
 
     <control>
@@ -992,7 +992,7 @@
 
     <maxLength>45</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
 
     <control>
@@ -1003,28 +1003,13 @@
     <description>vendorLine2Address description...</description>
 </attribute>
 
-<!-- attribute name="vendorName" forceUppercase="true">
-    <label>Vendor Name</label>
-    <shortLabel>Name</shortLabel>
-    
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter /></validationPattern>
-    
-    <control>
-    <text size="47" />
-    </control>
-    
-    <summary>vendorName</summary>
-    <description>vendorName description...</description>
-    </attribute-->
-
 <attribute name="vendorNoteText" forceUppercase="true">
     <label>Notes To Vendor</label>
     <shortLabel>Text</shortLabel>
 
     <maxLength>255</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
 
     <control>
@@ -1041,7 +1026,7 @@
 
     <maxLength>45</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
 
     <control>
@@ -1058,7 +1043,7 @@
 
     <maxLength>20</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
 
     <control>

@@ -25,6 +25,8 @@
 
 package org.kuali.module.purap.document;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -36,6 +38,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
@@ -165,10 +168,46 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setVendorContractName(vendorContract.getVendorContractName());
     }
     
+    /**
+     * A method in which to do checks as to whether copying of this document should be allowed.
+     * Copying is not to be allowed if this is a B2B req. and more than a set number of days
+     * have passed since the document's creation.
+     * 
+     * @return  True if copying of this requisition is allowed.
+     * @see     org.kuali.core.document.Document#getAllowsCopy()
+     */
     @Override
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
-        // TODO dterret: complete with EPIC rules for allows copy
+        if( this.getRequisitionSourceCode().equals( PurapConstants.REQ_SOURCE_B2B ) ) {
+            String allowedCopyDays = ( new Integer( PurapConstants.REQ_B2B_ALLOW_COPY_DAYS ) ).toString();
+            
+            Calendar c = Calendar.getInstance();
+            DocumentHeader dh = this.getDocumentHeader();
+            KualiWorkflowDocument wd = dh.getWorkflowDocument();
+            Timestamp createDate = (Timestamp)wd.getCreateDate();
+            c.setTime( createDate );
+            c.set(Calendar.HOUR, 12);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+            c.set(Calendar.AM_PM, Calendar.AM);
+            c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
+            //The allowed copy date is the document creation date plus a set number of days.
+            Timestamp allowedCopyDate = new Timestamp(c.getTime().getTime());
+            
+            Calendar c2 = Calendar.getInstance();
+            c2.setTime(new java.util.Date());
+            c2.set(Calendar.HOUR, 11);
+            c2.set(Calendar.MINUTE, 59);
+            c2.set(Calendar.SECOND, 59);
+            c2.set(Calendar.MILLISECOND, 59);
+            c2.set(Calendar.AM_PM, Calendar.PM);
+            Timestamp testTime = new Timestamp(c2.getTime().getTime());
+            
+            //Return true if the current time is before the allowed copy date.
+            allowsCopy = (testTime.compareTo(allowedCopyDate) <=  0);
+        }
         return allowsCopy;
     }
 

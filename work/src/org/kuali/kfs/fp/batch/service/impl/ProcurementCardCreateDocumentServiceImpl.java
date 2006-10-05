@@ -492,15 +492,20 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         targetLine.refresh();
 
         if (!AccountingLineRuleUtil.isValidObjectCode(targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.");
-            errorText += (" Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.");
+            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + 
+                    " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
+            LOG.info(tempErrorText);
+            errorText += " " + tempErrorText;
 
             targetLine.setFinancialObjectCode(getDefaultObjectCode());
         }
 
         if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !AccountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting to blank.");
-            errorText += " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting to blank.";
+            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() +
+                    " Account " + targetLine.getAccountNumber() +
+                    " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
+            LOG.info(tempErrorText);
+            errorText += " " + tempErrorText;
 
             targetLine.setSubAccountNumber("");
         }
@@ -509,8 +514,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         targetLine.refresh();
 
         if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !AccountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
-            LOG.info("Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting to blank.");
-            errorText += " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting to blank.";
+            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() +
+                    " Account " + targetLine.getAccountNumber() +
+                    " Object Code " + targetLine.getFinancialObjectCode() +
+                    " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
+            LOG.info(tempErrorText);
+            errorText += " " + tempErrorText;
 
             targetLine.setFinancialSubObjectCode("");
         }

@@ -134,34 +134,9 @@ public class BudgetParametersAction extends BudgetAction {
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
         // Logic for Cost Share question.
-        String costShareRemoved = SpringServiceLocator.getBudgetService().buildCostShareRemovedCode(budgetForm.getBudgetDocument());
-        if (StringUtils.isNotBlank(costShareRemoved)) {
-            if (question == null) {
-
-                // Build our confirmation message with proper context.
-                StringBuffer confirmationText = new StringBuffer();
-                if (costShareRemoved.contains(KraConstants.INSTITUTION_COST_SHARE_CODE)) {
-                    confirmationText.append("Institution Cost Share");
-                }
-                if (costShareRemoved.contains(KraConstants.THIRD_PARTY_COST_SHARE_CODE)) {
-                    if (costShareRemoved.indexOf(KraConstants.THIRD_PARTY_COST_SHARE_CODE) != 0) {
-                        confirmationText.append(" and ");
-                    }
-                    confirmationText.append("Third Party Cost Share");
-                }
-                String confirmationQuestion = super.buildBudgetConfirmationQuestion(confirmationText.toString(), kualiConfiguration);
-
-                // Ask for confirmation.
-                return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_DELETE_QUESTION, confirmationQuestion, Constants.CONFIRMATION_QUESTION, "saveParameters", "");
-            }
-
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-
-            if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                // If 'yes' button was clicked, save.
-                super.save(mapping, form, request, response);
-            }
-            return mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response, "saveParameters");
+        if (preRulesForward != null) {
+            return preRulesForward;
         }
 
         super.save(mapping, form, request, response);
@@ -309,35 +284,13 @@ public class BudgetParametersAction extends BudgetAction {
     }
 
     public ActionForward deletePeriodLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+
+        ((BudgetForm) form).getBudgetDocument().setPeriodToDelete(Integer.toString(getLineToDelete(request)));
+        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
+        if (preRulesForward != null) {
+            return preRulesForward;
+        }
         
-        // Logic for DocCancelQuestion.
-        if (question == null) {
-
-            // Build our confirmation message with proper context.
-            BudgetForm budgetForm = (BudgetForm) form;
-            BudgetPeriod periodToDelete = budgetForm.getBudgetDocument().getBudget().getPeriod(getLineToDelete(request));
-            String confirmationQuestion = super.buildBudgetConfirmationQuestion(periodToDelete.getBudgetPeriodLabel(), kualiConfiguration);
-
-            // Ask for confirmation.
-            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_DELETE_QUESTION, confirmationQuestion, Constants.CONFIRMATION_QUESTION, "deletePeriodLine", Integer.toString(getLineToDelete(request)));
-        }
-
-        Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-
-        if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-
-            // Remove the period & set the new period start date.
-            BudgetForm budgetForm = (BudgetForm) form;
-            budgetForm.getBudgetDocument().getBudget().getPeriods().remove(Integer.parseInt(request.getParameter("context")));
-
-            Date defaultNextBeginDate = budgetForm.getBudgetDocument().getBudget().getDefaultNextPeriodBeginDate();
-            if (defaultNextBeginDate != null) {
-                budgetForm.getNewPeriod().setBudgetPeriodBeginDate(defaultNextBeginDate);
-            }
-        }
-
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -350,35 +303,14 @@ public class BudgetParametersAction extends BudgetAction {
     }
 
     public ActionForward deleteTaskLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
-
-        // Logic for DocCancelQuestion.
-        if (question == null) {
-
-            // Build our confirmation with proper context.
-            BudgetForm budgetForm = (BudgetForm) form;
-            BudgetTask taskToDelete = budgetForm.getBudgetDocument().getBudget().getTask(getLineToDelete(request));
-            String confirmationQuestion = super.buildBudgetConfirmationQuestion(taskToDelete.getBudgetTaskName(), kualiConfiguration);
-
-            // Ask for confirmation.
-            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_DELETE_QUESTION, confirmationQuestion, Constants.CONFIRMATION_QUESTION, "deleteTaskLine", Integer.toString(getLineToDelete(request)));
+        
+        ((BudgetForm) form).getBudgetDocument().setTaskToDelete(Integer.toString(getLineToDelete(request)));
+        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
+        if (preRulesForward != null) {
+            return preRulesForward;
         }
-        else {
-
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-
-            if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                // If no button clicked, reload the confirmation page.
-            }
-            else {
-                // Remove the task from the task list.
-                BudgetForm budgetForm = (BudgetForm) form;
-                budgetForm.getBudgetDocument().getBudget().getTasks().remove(Integer.parseInt(request.getParameter("context")));
-            }
-
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

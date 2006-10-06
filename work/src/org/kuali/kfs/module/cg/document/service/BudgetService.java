@@ -44,5 +44,5 @@ public interface BudgetService {
      * @param budgetDocument
      * @return boolean
      */
-    public String buildCostShareRemovedCode(BudgetDocument budgetDocument) throws WorkflowException;
+    public String buildCostShareRemovedCode(BudgetDocument budgetDocument);
 }

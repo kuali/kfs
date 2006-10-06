@@ -68,6 +68,8 @@ public class BudgetDocument extends ResearchDocumentBase {
     private Integer thirdPartyCostShareNextSequenceNumber;
     boolean forceRefreshOfBOSubListsForSave = true;
     boolean cleanseBudgetOnSave = true;
+    private String periodToDelete;
+    private String taskToDelete;
 
     private Budget budget;
 
@@ -346,6 +348,22 @@ public class BudgetDocument extends ResearchDocumentBase {
         this.thirdPartyCostShareNextSequenceNumber = budgetThirdPartyCostShareNextSequenceNumber;
     }
     
+    public String getPeriodToDelete() {
+        return periodToDelete;
+    }
+
+    public void setPeriodToDelete(String periodToDelete) {
+        this.periodToDelete = periodToDelete;
+    }
+    
+    public String getTaskToDelete() {
+        return taskToDelete;
+    }
+
+    public void setTaskToDelete(String taskToDelete) {
+        this.taskToDelete = taskToDelete;
+    }
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List list = new ArrayList();

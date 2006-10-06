@@ -169,8 +169,14 @@ public class BudgetServiceImpl implements BudgetService {
     /**
      * @see org.kuali.module.kra.budget.service.BudgetService#isCostShareInclusionModified(org.kuali.module.kra.budget.document.BudgetDocument)
      */
-    public String buildCostShareRemovedCode(BudgetDocument budgetDocument) throws WorkflowException {
-        BudgetDocument databaseBudgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getFinancialDocumentNumber());
+    public String buildCostShareRemovedCode(BudgetDocument budgetDocument) {
+        
+        BudgetDocument databaseBudgetDocument;
+        try {
+            databaseBudgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getFinancialDocumentNumber());
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Exception retrieving document: " + e);
+        }
         if (databaseBudgetDocument == null) {
             return "";
         }

@@ -11,8 +11,8 @@
 
             <inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
                 <field attributeName="organizationCode" />
+                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
             </inquiryFields>
         </inquiry>
 
@@ -32,14 +32,14 @@
 
             <lookupFields>
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationAutomaticPurchaseOrderLimit" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="organizationAutomaticPurchaseOrderLimit" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
                 <field attributeName="organizationCode" />
+                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
             </resultFields>
         </lookup>
 

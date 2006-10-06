@@ -313,9 +313,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 modularBudget.getBudgetModularPeriods().add(currentModularPeriod);
             }
 
-            KualiInteger actualDirectCostAmountTotal = new BudgetNonpersonnelFormHelper(new Integer(0), new Integer(i + 1), nonpersonnelCategories, budget.getNonpersonnelItems(), true).getNonpersonnelAgencyTotal();
+            KualiInteger actualDirectCostAmountTotal = new BudgetNonpersonnelFormHelper(new Integer(0), period.getBudgetPeriodSequenceNumber(), nonpersonnelCategories, budget.getNonpersonnelItems(), true).getNonpersonnelAgencyTotal();
 
-            KualiInteger actualDirectCostAmountLessExcluded = new BudgetNonpersonnelFormHelper(new Integer(0), new Integer(i + 1), nonpersonnelCategories, budget.getNonpersonnelItems(), false).getNonpersonnelAgencyTotal();
+            KualiInteger actualDirectCostAmountLessExcluded = new BudgetNonpersonnelFormHelper(new Integer(0), period.getBudgetPeriodSequenceNumber(), nonpersonnelCategories, budget.getNonpersonnelItems(), false).getNonpersonnelAgencyTotal();
 
             currentModularPeriod.setConsortiumAmount(actualDirectCostAmountTotal.subtract(actualDirectCostAmountLessExcluded));
 

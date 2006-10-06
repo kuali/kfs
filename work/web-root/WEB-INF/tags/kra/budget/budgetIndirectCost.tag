@@ -149,11 +149,12 @@
       <td width="10" align="center" >&nbsp;</td>
 	  <td colspan="4" class="tab-subhead">&nbsp;</td>
 	</tr>
+	<c:set var="periodNum" value="1"/>
 	
  </c:if>
             
 <tr>
-  <th ><div align="center" class="nowrap"><strong>Period ${taskPeriodLine.budgetPeriodSequenceNumber}</strong> <span class="fineprint"><br/>
+  <th ><div align="center" class="nowrap"><strong>Period ${periodNum}</strong> <span class="fineprint"><br/><c:set var="periodNum" value="${periodNum + 1}"/>
     (<fmt:formatDate value="${taskPeriodLine.period.budgetPeriodBeginDate}" dateStyle="short"/> - <fmt:formatDate value="${taskPeriodLine.period.budgetPeriodEndDate}" dateStyle="short"/>)</span></div></th>
   <td align="right" >
   	<div align="right">
@@ -292,7 +293,7 @@
 <logic:iterate id="periodTotal" name="KualiForm" property="budgetIndirectCostFormHelper.periodTotals" indexId="ctr">
 		
 <tr>
-  <th><div align="center" class="nowrap"><strong>Period ${periodTotal.budgetPeriodSequenceNumber}</strong> <span class="fineprint"><br/>
+  <th><div align="center" class="nowrap"><strong>Period ${ctr + 1}</strong> <span class="fineprint"><br/>
     (<fmt:formatDate value="${periodTotal.period.budgetPeriodBeginDate}" dateStyle="short"/> - <fmt:formatDate value="${periodTotal.period.budgetPeriodEndDate}" dateStyle="short"/>)</span></div></th>
   <td align="right" >
   	<div align="right">

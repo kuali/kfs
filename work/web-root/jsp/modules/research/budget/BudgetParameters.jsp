@@ -5,11 +5,12 @@
 	htmlFormAction="researchBudgetParameters"
 	headerDispatch="saveParameters" feedbackKey="app.krafeedback.link"
 	headerTabActive="parameters"
+	showTabButtons="true"
 	auditCount="${AuditErrors['parametersAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
+	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="false"
 		excludeBudgetParameteres="true" />
 
 	<html:hidden property="document.budgetTaskNextSequenceNumber" />

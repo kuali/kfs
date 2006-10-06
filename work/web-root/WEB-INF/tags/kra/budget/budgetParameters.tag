@@ -13,37 +13,16 @@
   <c:set var="supportsModular" value="${KualiForm.supportsModular}" />
   <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
-       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3">
-          <tbody>
-            <tr>
-              <td ><img src="images/pixel_clear.gif" alt="" width="12" height="12" class="tl3"/></td>
-              <td align="right"><img src="images/pixel_clear.gif" alt="" width="12" height="12" class="tr3"/></td>
-            </tr>
-          </tbody>
-        </table>
+       	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-        <div id="workarea" >
-        
-        <div class="tab-container-error">
-        	<div class="left-errmsg-tab">
-		        <kul:errors keyMatch="document.budget.parameters*,document.budget.budgetAgency*,document.budget.budgetProject*,document.budget.university*,document.budget.electronic*,document.budget.federal*,document.budget.modular*,document.budget.budgetPersonnelInflationRate,document.budget.budgetNonpersonnelInflationRate"/>
-            <kra-b:auditErrors cluster="parametersAuditErrors" keyMatch="document.budget.audit.parameters.pd*" isLink="false" includesTitle="true"/>
-          </div>
-        </div>
-        
-        <div class="tab-container" align="center">
         <kra-b:budgetParametersGeneral supportsModular="${supportsModular}" />
-      	
-        <div class="left-errmsg-tab" style="padding-bottom: 10px;"><kul:errors keyMatch="document.budget.period*,newPeriod*"/></div>
+
         <kra-b:budgetPeriods />
-        
-        <div class="left-errmsg-tab" style="padding-bottom: 10px;">
-        	<kul:errors keyMatch="document.budget.task*"/>
-        	<kra-b:auditErrors cluster="parametersSoftAuditErrors" keyMatch="document.budget.audit.parameters.tasks.negativeIdc*" isLink="false" includesTitle="true"/>
-        </div>
+
         <kra-b:budgetTasks supportsModular="${supportsModular}" />
 
-        <div class="left-errmsg-tab" style="padding-bottom: 10px;"><kul:errors keyMatch="document.budget.fringe*"/></div>
+         <kul:tab tabTitle="Fringe Benefit Rates" defaultOpen="true" tabErrorKey="document.budget.fringe*">
+              <div class="tab-container" id="G02" style="" align="center">
         <kra-b:budgetFringeBenefits />
         
         <c:if test="${KualiForm.numberOfAcademicYearSubdivisions gt 0}">
@@ -64,7 +43,9 @@
 				      </div></td>
 				  </tr>
 				</table>        
- 		</div>
+
+</div>
+</kul:tab>
  		
         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
           <tr>

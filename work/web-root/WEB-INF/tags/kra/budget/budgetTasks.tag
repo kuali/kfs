@@ -11,6 +11,16 @@
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetTask.businessObjectClass}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
+
+        <kul:tab tabTitle="Tasks/Components" defaultOpen="true" tabErrorKey="document.budget.task*,newTask*"  tabAuditKey="document.budget.audit.parameters.tasks.negativeIdc*">
+        
+
+        
+              <div class="tab-container" id="G02" style="" align="center">
+        <div class="left-errmsg-tab" style="padding-bottom: 10px;">
+        	<kra-b:auditErrors cluster="parametersSoftAuditErrors" keyMatch="document.budget.audit.parameters.tasks.negativeIdc*" isLink="false" includesTitle="true"/>
+        </div>
+
 <div class="h2-container"> <span class="subhead-left">
   <a name="Tasks"></a><h2>Tasks/Components</h2>
   </span><span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </span> </div>
@@ -33,7 +43,7 @@
     <td class="infoline"><div align="center">
         <label><input type="radio" name="document.budget.modularBudget.budgetModularTaskNumber" disabled="true" value="-1" /></label>
       </div></td>
-    <td class="infoline"><div align="center"><html:image property="methodToCall.insertTaskLine.anchorTasks" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add task line"/></div></td>
+    <td class="infoline"><div align="center"><html:image property="methodToCall.insertTaskLine.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add task line"/></div></td>
   </tr>
   </c:if>
   <!-- Iterate over currently attached tasks. -->
@@ -52,6 +62,6 @@
   </logic:iterate>
   <!-- End of tasks table. -->
 </table>
-<div align="right">*required&nbsp;&nbsp;&nbsp;<br>
-  <br>
+<div align="right">*required&nbsp;&nbsp;&nbsp;</div>
 </div>
+</kul:tab>

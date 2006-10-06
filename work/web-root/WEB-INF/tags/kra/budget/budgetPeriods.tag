@@ -11,6 +11,10 @@
 <c:set var="businessObjectClass" value="${DataDictionary.BudgetPeriod.businessObjectClass}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
+        <kul:tab tabTitle="Budget Periods" defaultOpen="true" tabErrorKey="document.budget.period*,newPeriod**">
+              <div class="tab-container" id="G02" style="" align="center">
+        
+
 <div class="h2-container"> <span class="subhead-left">
   <h2><a name="Periods"></a>Budget Periods</h2>
   </span><span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </div>
@@ -28,7 +32,7 @@
     <th width="2%"  scope="row"><div align="right">add:</div></th>
     <td class="infoline"><html:hidden property="newPeriod.documentHeaderId" /> <html:hidden property="newPeriod.budgetPeriodSequenceNumber" /> <html:hidden property="newPeriod.objectId" /> <html:hidden property="newPeriod.versionNumber"/> from: <kul:htmlControlAttribute property="newPeriod.budgetPeriodBeginDate" attributeEntry="${budgetPeriodAttributes.budgetPeriodBeginDate}" readOnly="${viewOnly}" datePicker="true"/> &nbsp;&nbsp;&nbsp;to: <kul:htmlControlAttribute property="newPeriod.budgetPeriodEndDate" attributeEntry="${budgetPeriodAttributes.budgetPeriodEndDate}" datePicker="true"/> </td>
     <td class="infoline"><div align="center"><kul:htmlControlAttribute property="newPeriod.budgetPeriodParticipantsNumber" attributeEntry="${budgetPeriodAttributes.budgetPeriodParticipantsNumber}" /></div></td>
-    <td class="infoline"><div align="center"> <html:image property="methodToCall.insertPeriodLine.anchorPeriods" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add period line"/> </div></td>
+    <td class="infoline"><div align="center"> <html:image property="methodToCall.insertPeriodLine.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add period line"/> </div></td>
   </tr>
   </c:if>
   <!-- Show all currently attached tasks.  -->
@@ -42,6 +46,6 @@
   </logic:iterate>
   <!-- End periods list. -->
 </tbody></table>
-<div align="right">*required&nbsp;&nbsp;&nbsp;<br>
-  <br>
+<div align="right">*required&nbsp;&nbsp;&nbsp;</div>
 </div>
+</kul:tab>

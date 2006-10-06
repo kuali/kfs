@@ -28,6 +28,15 @@
 	}
 </script>
 
+         <kul:tab tabTitle="General" defaultOpen="true" tabErrorKey="document.budget.parameters*,document.budget.budgetAgency*,document.budget.budgetProject*,document.budget.university*,document.budget.electronic*,document.budget.federal*,document.budget.modular*,document.budget.budgetPersonnelInflationRate,document.budget.budgetNonpersonnelInflationRate" tabAuditKey="document.budget.audit.parameters.pd*">
+
+
+        
+              <div class="tab-container" id="G02" style="" align="center">
+        <div class="left-errmsg-tab" style="padding-bottom: 10px;">
+        	<kra-b:auditErrors cluster="parametersAuditErrors" keyMatch="document.budget.audit.parameters.pd*" isLink="false" includesTitle="true"/>
+        </div>
+
 <div class="h2-container"> <span class="subhead-left">
   <a name="General"></a><h2>General</h2>
   </span><span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </span> </div>
@@ -42,7 +51,7 @@
     	<c:if test="${empty KualiForm.document.budget.budgetProjectDirectorSystemId && !KualiForm.document.budget.projectDirectorToBeNamedIndicator}">(select)</c:if>
     	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
-	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorSystemId,universalUser.personName:document.budget.projectDirector.universalUser.personName" tabindexOverride="5000" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="General" />
+	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorSystemId,universalUser.personName:document.budget.projectDirector.universalUser.personName" tabindexOverride="5000" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="${currentTabIndex}" />
     	</c:if>
     </td>
     <th scope="row" ><div align="right">* ${budgetAttributes.budgetPersonnelInflationRate.label}:</div></th>
@@ -67,7 +76,7 @@
     	<c:if test="${empty KualiForm.document.budget.budgetAgencyNumber && !KualiForm.document.budget.agencyToBeNamedIndicator}">(select)</c:if>
     	<c:if test="${KualiForm.document.budget.agencyToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
-    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.budget.budgetAgencyNumber:agencyNumber,document.budget.budgetAgency.fullName:fullName" fieldConversions="agencyNumber:document.budget.budgetAgencyNumber,fullName:document.budget.budgetAgency.fullName" tabindexOverride="5100" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.budget.agencyToBeNamedIndicator=true" anchor="General" />
+    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.budget.budgetAgencyNumber:agencyNumber,document.budget.budgetAgency.fullName:fullName" fieldConversions="agencyNumber:document.budget.budgetAgencyNumber,fullName:document.budget.budgetAgency.fullName" tabindexOverride="5100" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.budget.agencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
     	</c:if>
     </td>
   </tr>
@@ -82,7 +91,7 @@
     	<c:choose>
     		<c:when test="${!viewOnly && KualiForm.document.budget.budgetAgency.agencyTypeCode != Constants.AGENCY_TYPE_CODE_FEDERAL}">
     			<c:if test="${empty KualiForm.document.budget.federalPassThroughAgencyNumber}">(select)</c:if>
-    			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.budget.federalPassThroughAgencyNumber,fullName:document.budget.federalPassThroughAgency.fullName" tabindexOverride="5110" anchor="General" />
+    			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.budget.federalPassThroughAgencyNumber,fullName:document.budget.federalPassThroughAgency.fullName" tabindexOverride="5110" anchor="${currentTabIndex}" />
     		</c:when>
     		<c:otherwise>
     			N/A
@@ -129,6 +138,10 @@
   
   </tbody>
 </table>
-<div align="right">*required&nbsp;&nbsp;&nbsp;<br>
-  <br>
+<div align="right">*required&nbsp;&nbsp;&nbsp;
 </div>
+
+
+</div>
+      	</kul:tab>
+        

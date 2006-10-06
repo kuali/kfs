@@ -43,12 +43,10 @@
   <tr align="left">
     <th>&nbsp;
       <div align="left"></div></th>
-    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copyFringeRateLines.anchorFringes" styleClass="tinybutton" src="images/tinybutton-copsysrates.gif" alt="copy fall rate"/></div></th>
+    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copyFringeRateLines.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-copsysrates.gif" alt="copy fall rate"/></div></th>
     <th width="20">&nbsp;</th>
-    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copyUniversityCostShareLines.anchorFringes" styleClass="tinybutton" src="images/tinybutton-copsysrates.gif" alt="copy spring rate"/></div></th>
+    <th height="22" colspan="2"><div align="center"><html:image property="methodToCall.copyUniversityCostShareLines.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-copsysrates.gif" alt="copy spring rate"/></div></th>
   </tr>
   </c:if>
 </table>
-<div align="right">*required&nbsp;&nbsp;&nbsp;<br>
-  <br>
-</div>
+<div align="right">*required&nbsp;&nbsp;&nbsp;</div>

@@ -8,7 +8,6 @@
 
     <html:hidden property="document.budget.documentHeaderId" />
     <html:hidden property="document.budget.versionNumber" />
-    <html:hidden property="document.documentHeader.financialDocumentDescription" value="KRA Budget Document"/>
 		
     <c:if test="${includeDocumenHeaderIdFields == 'true' || includeDocumenHeaderIdFields == 'TRUE'}">
       <html:hidden property="document.documentHeader.versionNumber" />
@@ -45,6 +44,9 @@
       <html:hidden property="document.budget.budgetNonpersonnelInflationRate" />
       
       <html:hidden property="document.budget.agencyModularIndicator" />
+      
+      <html:hidden property="document.documentHeader.financialDocumentDescription" />
+      
     </c:if>
     
     <html:hidden property="document.budget.agencyToBeNamedIndicator" />

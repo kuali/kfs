@@ -10,14 +10,14 @@
 
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-<kul:tab tabTitle="Additional" defaultOpen="true" tabErrorKey="${Constants.ADDITIONAL_ERRORS}">
+<kul:tab tabTitle="Additional" defaultOpen="true" tabErrorKey="${Constants.ADDITIONAL_TAB_ERRORS}">
 
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Additional</h2>
         </div>
 
-        <table cellpadding=0 class="datatable" summary="Additional Section">
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Additional Section">
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">

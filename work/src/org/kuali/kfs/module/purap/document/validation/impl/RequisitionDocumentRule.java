@@ -239,15 +239,4 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
     
-    // TODO: this is the Epic code, delete it when converted.
-//    if ((this.requisition.getVendorHeaderGeneratedId() != null) &&
-//        (StringUtils.equals(requisition.getPurchaseOrderTransmissionMethodCode(),
-//          EpicConstants.PO_TRANSMISSION_METHOD_FAX)) &&
-//          (FormValidation.isStringEmpty(requisition.getVendorFaxNumber()))) {
-//      //allowing reqs to not force fax # when transmission type is fax if vendor id is empty
-//      //because it will not be allowed to become an APO and it will be forced on the PO
-//      messages.add("additional", new ActionMessage("errors.missing.fax",mr.getMessage(locale,"requisition.purchaseOrderTransmissionMethod")));
-//      messages.add("vendor", new ActionMessage("errors.missing.fax",mr.getMessage(locale,"requisition.purchaseOrderTransmissionMethod")));
-//    }
-
 }

@@ -20,7 +20,7 @@
             <h2>Vendor Info</h2>
         </div>
 
-        <table cellpadding=0 class="datatable" summary="Vendor Section">
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">
@@ -144,7 +144,7 @@
                 <h2>Additional Suggested Vendor Names</h2>
             </div>
 
-            <table cellpadding=0 class="datatable" summary="Additional Vendor Section">
+            <table cellpadding="0" cellspacing="0" class="datatable" summary="Additional Vendor Section">
                 <tr>
                     <th align=right valign=middle class="bord-l-b">
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate1VendorName}" /></div>

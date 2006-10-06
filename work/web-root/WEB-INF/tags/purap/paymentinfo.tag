@@ -14,7 +14,7 @@
             <h2>Payment Info</h2>
         </div>
 
-        <table cellpadding=0 class="datatable" summary="Payment Info Section">
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">

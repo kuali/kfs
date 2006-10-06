@@ -10,10 +10,10 @@
             <title>Campus Parameter Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="campusAccountsPayableEmailAddress" />
                 <field attributeName="campusCode" />
                 <field attributeName="campusPurchasingDirectorName" />
                 <field attributeName="campusPurchasingDirectorTitle" />
+                <field attributeName="campusAccountsPayableEmailAddress" />
             </inquiryFields>
         </inquiry>
 
@@ -31,17 +31,17 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="campusAccountsPayableEmailAddress" required="false" />
                 <lookupField attributeName="campusCode" required="false" />
                 <lookupField attributeName="campusPurchasingDirectorName" required="false" />
                 <lookupField attributeName="campusPurchasingDirectorTitle" required="false" />
+                <lookupField attributeName="campusAccountsPayableEmailAddress" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="campusAccountsPayableEmailAddress" />
                 <field attributeName="campusCode" />
                 <field attributeName="campusPurchasingDirectorName" />
                 <field attributeName="campusPurchasingDirectorTitle" />
+                <field attributeName="campusAccountsPayableEmailAddress" />
             </resultFields>
         </lookup>
 

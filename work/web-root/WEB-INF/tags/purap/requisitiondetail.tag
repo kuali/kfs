@@ -23,6 +23,13 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.contractManagerCode}" 
                    		property="document.contractManagerCode" readOnly="true"/>
                 </td>
+                <th align=right valign=middle class="bord-l-b">
+                	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.fundingSourceCode}" /></div>
+               	</th>
+               	<td align=left valign=middle class="datacell">
+               		<kul:htmlControlAttribute attributeEntry="${documentAttributes.fundingSourceCode}" 
+                   		property="document.fundingSourceCode"/>
+               	</td>
             </tr>
 		</table> 
     </div>

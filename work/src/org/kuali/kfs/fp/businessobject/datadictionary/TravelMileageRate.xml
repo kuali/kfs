@@ -55,12 +55,19 @@
                 <description>Travel Mileage Limit Amount...</description>
             </attributeReference>
 
-            <attributeReference name="mileageRate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attribute name="mileageRate">
                 <label>Travel Mileage Rate</label>
                 <shortLabel>Rate</shortLabel>
+                <maxLength>10</maxLength>
+                <validationPattern>
+                	<fixedPoint allowNegative="false" precision="10" scale="3" />
+                </validationPattern>
+                <control>
+                    <currency size="10" formattedMaxLength="26" />
+                </control>
                 <summary>Travel Mileage Rate</summary>
                 <description>Travel Mileage Rate...</description>
-            </attributeReference>
+            </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>

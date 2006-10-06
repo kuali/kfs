@@ -59,7 +59,7 @@
                 <description>The code uniquely identifying a particular University Budget Office Function Code.</description>
             </attribute>
 
-            <attribute name="financialUniversityBudgetOfficeFunctionName" forceUppercase="false">
+            <attribute name="financialUniversityBudgetOfficeFunctionName" forceUppercase="true">
                 <label>University Budget Office Function Name</label>
                 <shortLabel>Name</shortLabel>
 

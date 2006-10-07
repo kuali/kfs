@@ -52,7 +52,7 @@
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>100</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><emailAddress/></validationPattern>
 
                 <control>
                     <text size="102" />

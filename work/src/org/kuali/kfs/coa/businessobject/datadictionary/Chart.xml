@@ -88,7 +88,7 @@
                 <description>The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.</description>
             </attribute>
 
-            <attribute name="codeAndDescription" forceUppercase="false">
+            <attribute name="codeAndDescription" forceUppercase="true">
                 <label>Chart Code</label>
                 <shortLabel>Chart Code</shortLabel>
 

@@ -73,7 +73,7 @@
                 <description>The Yes/No indicator of a prepaid expense</description>
             </attribute>
 
-            <attribute name="name" forceUppercase="false">
+            <attribute name="name" forceUppercase="true">
                 <label>Travel Expense Type Name</label>
                 <shortLabel>Name</shortLabel>
 

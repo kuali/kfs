@@ -130,6 +130,22 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorDetail vendorDetail;
     private VendorContract vendorContract;
+
+    
+    /**
+     * Retrieve all references common to purchasing
+     */
+    public void refreshAllReferences() {
+        super.refreshAllReferences();
+        this.refreshReferenceObject("fundingSource");
+        this.refreshReferenceObject("requisitionSource");
+        this.refreshReferenceObject("purchaseOrderCostSource");
+        this.refreshReferenceObject("purchaseOrderTransmissionMethod");
+        this.refreshReferenceObject("chartOfAccounts");
+        this.refreshReferenceObject("organization");
+        this.refreshReferenceObject("deliveryCampus");
+    }
+
     
     // GETTERS AND SETTERS    
     

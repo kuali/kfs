@@ -41,6 +41,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     private Integer vendorDetailAssignedIdentifier;
     private String vendorCustomerNumber;
 
+    /**
+     * Retrieve all references common to purchasing and ap
+     */
+    public void refreshAllReferences() {
+    }
+
     @Override
     public KualiDecimal getTotalDollarAmount() {
         return Constants.ZERO;

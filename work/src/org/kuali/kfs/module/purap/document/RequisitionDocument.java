@@ -79,6 +79,11 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
 	}
 
+    public void refreshAllReferences() {
+        super.refreshAllReferences();
+        this.refreshReferenceObject("requisitionStatus");
+    }
+    
     /**
      * Perform logic needed to initiate Requisition Document
      */
@@ -88,6 +93,8 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
+        this.setFundingSourceCode("IUAC");
+        // TODO set default funding source in params or make non-IU specific
 
         // ripierce: the PostingYear has already been set before we come to this method.
 
@@ -137,6 +144,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //            addNewItem(r, iT, nextLineNum);
 //        }
 
+        this.refreshAllReferences();
     }
 
     /**

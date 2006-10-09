@@ -200,8 +200,8 @@
 </attribute>
 
 <attribute name="contractManagerCode" forceUppercase="true">
-    <label>Contract Manager Code</label>
-    <shortLabel>Code</shortLabel>
+    <label>Contract Manager</label>
+    <shortLabel>Contract Manager</shortLabel>
 
     <maxLength>2</maxLength>
     <validationPattern>
@@ -511,8 +511,8 @@
 </attribute>
 
 <attribute name="fundingSourceCode" forceUppercase="true">
-    <label>Funding Source Code</label>
-    <shortLabel>Code</shortLabel>
+    <label>Funding Source</label>
+    <shortLabel>Funding Source</shortLabel>
 
     <maxLength>4</maxLength>
     <validationPattern>

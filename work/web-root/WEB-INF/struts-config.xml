@@ -74,6 +74,7 @@
         <form-bean name="BalanceInquiryForm" type="org.kuali.module.gl.web.struts.form.BalanceInquiryForm" />
 
         <!-- PURAP Module Bean Definitions -->
+        <form-bean name="AssignContractManagerForm" type="org.kuali.module.purap.web.struts.form.AssignContractManagerForm" />
         <form-bean name="RequisitionForm" type="org.kuali.module.purap.web.struts.form.RequisitionForm" />
 
     </form-beans>

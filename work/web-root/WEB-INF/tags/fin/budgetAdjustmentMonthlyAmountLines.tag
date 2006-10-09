@@ -9,6 +9,10 @@
 <%@ attribute name="accountingLine" required="true"
               description="The name in the form of the accounting line
               being edited or displayed by this row." %>
+<%@ attribute name="baselineAccountingLine" required="false"
+              description="The name in the form of the baseline accounting line
+              from before the most recent edit of this row,
+              to put in hidden fields for comparison or reversion." %>
 
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
 <c:set var="baAttributes" value="${DataDictionary.BudgetAdjustmentSourceAccountingLine.attributes}" />
@@ -50,6 +54,21 @@
         </c:if>
         <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
             <div style="display: none;" id="tab-${currentTabIndex}-div">
+        </c:if>
+
+        <c:if test="${!empty baselineAccountingLine}">
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth1LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth2LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth3LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth4LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth5LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth6LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth7LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth8LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth9LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth10LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth11LineAmount"/>
+          <html:hidden property="${baselineAccountingLine}.financialDocumentMonth12LineAmount"/>
         </c:if>
 
         <table class="datatable" style="width: 100%;">

@@ -27,16 +27,16 @@ import java.util.ArrayList;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the CashDetailTypeCode service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class CashDetailTypeCodeServiceTest extends KualiTestBaseWithFixtures {
+public class CashDetailTypeCodeServiceTest extends KualiTestBase {
     private ArrayList validCashDetailTypeCodes;
 
     private CashDetailTypeCodeService cashDetailTypeCodeService;

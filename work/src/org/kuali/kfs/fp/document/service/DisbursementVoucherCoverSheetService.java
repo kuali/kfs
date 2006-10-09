@@ -11,7 +11,7 @@ import com.lowagie.text.DocumentException;
 /**
  * Service used for manipulating disbursement voucher cover sheets.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface DisbursementVoucherCoverSheetService {
     /**

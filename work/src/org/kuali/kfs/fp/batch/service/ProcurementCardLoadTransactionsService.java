@@ -26,7 +26,7 @@ package org.kuali.module.financial.service;
 /**
  * Service interface provides methods to load procurment card data.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface ProcurementCardLoadTransactionsService {
 

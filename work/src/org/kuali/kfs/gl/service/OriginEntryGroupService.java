@@ -30,7 +30,21 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupService {
     public Collection getGroupsFromSourceForDate(String sourceCode, Date date);
-    
+
+    /**
+     * Mark a group as don't process
+     * 
+     * @param groupId
+     */
+    public void dontProcessGroup(Integer groupId);
+
+    /**
+     * Get the newest scrubber error group
+     * 
+     * @return
+     */
+    public OriginEntryGroup getNewestScrubberErrorGroup();
+
     /**
      * Create the backup group which has all the entries from all the groups where all the flags are set Y.
      * 
@@ -43,14 +57,6 @@ public interface OriginEntryGroupService {
      * @param days
      */
     public void deleteOlderGroups(int days);
-
-    /**
-     * Get a group by its id
-     * 
-     * @param groupId
-     * @return
-     */
-    public OriginEntryGroup getOriginEntryGroup(String groupId);
 
     /**
      * Get groups that match

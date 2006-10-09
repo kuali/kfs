@@ -31,7 +31,7 @@ import org.kuali.module.financial.document.CashManagementDocument;
 /**
  * This interface defines methods that a CashManagementService implementation must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface CashManagementService {
     /**

@@ -39,7 +39,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PostEncumbrance implements PostTransaction, VerifyTransaction, EncumbranceCalculator {

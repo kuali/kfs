@@ -28,7 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Interface for voucher type documents that require debit/credit support
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface VoucherDocument extends TransactionalDocument {
 

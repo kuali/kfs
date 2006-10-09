@@ -29,7 +29,7 @@ import java.util.Collection;
 /**
  * The data access interface retrieving mileage rate objects.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface TravelMileageRateDao {
 

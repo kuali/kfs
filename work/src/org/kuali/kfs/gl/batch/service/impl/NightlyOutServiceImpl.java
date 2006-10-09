@@ -41,7 +41,7 @@ import org.kuali.module.gl.service.ReportService;
 /**
  * This class implements the nightly out batch job.
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class NightlyOutServiceImpl implements NightlyOutService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NightlyOutServiceImpl.class);

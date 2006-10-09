@@ -24,14 +24,14 @@ package org.kuali.module.chart.service;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
-public class OrganizationReversionTestCase extends KualiTestBaseWithSpring {
+public class OrganizationReversionTestCase extends KualiTestBase {
 
     public void testGetByPrimaryKey() throws Exception {
         OrganizationReversionService organizationReversionService = SpringServiceLocator.getOrganizationReversionService();

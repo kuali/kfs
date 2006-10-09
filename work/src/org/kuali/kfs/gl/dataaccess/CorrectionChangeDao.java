@@ -31,5 +31,5 @@ public interface CorrectionChangeDao {
 
     void delete(CorrectionChange spec);
 
-    List findByDocumentHeaderIdAndCorrectionGroupNumber(Integer documentHeaderId, Integer correctionGroupLineNumber);
+    List findByDocumentHeaderIdAndCorrectionGroupNumber(String documentHeaderId, Integer correctionGroupLineNumber);
 }

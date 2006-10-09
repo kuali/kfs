@@ -27,16 +27,16 @@ import java.sql.Timestamp;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the DisbursementVoucherTravel service.
  * 
- * @author Kuali Financial Transactions ()
+ * 
  */
 @WithTestSpringContext
-public class DisbursementVoucherTravelServiceTest extends KualiTestBaseWithFixtures {
+public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
     private DisbursementVoucherTravelService disbursementVoucherTravelService;
     private DisbursementVoucherDocument dvDocument;
 

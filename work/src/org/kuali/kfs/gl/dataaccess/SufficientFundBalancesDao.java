@@ -27,7 +27,7 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface SufficientFundBalancesDao {

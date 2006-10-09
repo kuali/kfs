@@ -213,7 +213,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    This value automatically defaults to the Reports to Chart of Accounts Code associated with object code's Chart Code.
                 </description>
             </attribute>
 
@@ -234,7 +234,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The Object Code in the chart higher than the current chart that this Object Code reports to.
                 </description>
             </attribute>
 
@@ -344,7 +344,8 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>Mandatory Transfer Or Eliminations Code</description>
+                <description>The code to identify for a mandatory transfer code (M), elimination code (E), or neither (N). This value is used by the KFS for the application of business rules where mandatory transfer or elimination codes are either required or prohibited.
+</description>
             </attribute>
 
             <attribute name="financialFederalFundedCode" forceUppercase="true">
@@ -361,7 +362,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The indicator shows whether this is an Object Code for capital equipment is Federally Funded.  Values include non-federally funded, university owned (N), federally funded, university owned (O), or federally funded, federally owned (F).
                 </description>
             </attribute>
 
@@ -382,7 +383,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    Select the check box if this attribute allows the referencing of a subsequent year code in a previous chart year. Clear the check box if it does not.
                 </description>
             </attribute>
 

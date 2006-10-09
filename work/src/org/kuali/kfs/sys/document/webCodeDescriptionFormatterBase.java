@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObject;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFormatter {
 

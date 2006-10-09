@@ -21,72 +21,82 @@
  *
  */
 package org.kuali.module.financial.document;
-
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentTestBase;
-import org.kuali.test.parameters.DocumentParameter;
-import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE15;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class is used to test NonCheckDisbursementDocumentTest.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
-@WithTestSpringContext
+@WithTestSpringContext(session = KHUNTLEY)
 public class AuxiliaryVoucherDocumentTest extends TransactionalDocumentTestBase {
-    public static final String COLLECTION_NAME = "AuxiliaryVoucherDocument.collection1";
-    public static final String USER_NAME = "user1";
-    public static final String DOCUMENT_PARAMETER = "auxiliaryVoucherDocument";
-    public static final String SOURCE_LINE4 = "sourceLine4";
-    public static final String TARGET_LINE4 = "targetLine4";
-
-
-    /**
-     * Get names of fixture collections test class is using.
-     * 
-     * @return String[]
-     */
-    public String[] getFixtureCollectionNames() {
-        return new String[] { COLLECTION_NAME };
-    }
 
     /**
      * 
      * @see org.kuali.core.document.DocumentTestCase#getDocumentParameterFixture()
      */
-    public DocumentParameter getDocumentParameterFixture() {
-        return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, DOCUMENT_PARAMETER).createObject();
+    public Document getDocumentParameterFixture() throws Exception {
+        //AV document has a restriction on accounting period cannot be more than 2 periods behind current
+        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
+        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
+        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), AuxiliaryVoucherDocument.class, accountingPeriod.getUniversityFiscalYear(), accountingPeriod.getUniversityFiscalPeriodCode());
     }
 
     /**
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
      */
-    public List getTargetAccountingLineParametersFromFixtures() {
-        ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, TARGET_LINE4).createObject());
-        return list;
+    @Override
+    public List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
+return  new ArrayList<AccountingLineFixture>();
     }
 
     /**
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
      */
-    public List getSourceAccountingLineParametersFromFixtures() {
-        ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE4).createObject());
+    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+    List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+        list.add(LINE15);
         return list;
     }
 
     /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getUserName()
+     * @see org.kuali.core.document.TransactionalDocumentTestBase#buildDocument()
      */
-    public String getUserName() {
-        return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
+    @Override
+    protected Document buildDocument() throws Exception {
+            // put accounting lines into document parameter for later
+            TransactionalDocument document = (TransactionalDocument) getDocumentParameterFixture();
+
+            // set accountinglines to document
+            for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+                SourceAccountingLine line=sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
+                SourceAccountingLine balance=sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
+                balance.setDebitCreditCode(GL_DEBIT_CODE.equals(line.getDebitCreditCode())?GL_CREDIT_CODE:GL_DEBIT_CODE);
+                document.addSourceAccountingLine(line);
+                document.addSourceAccountingLine(balance);
+
+            }
+
+            return document;
     }
 
     /**
@@ -99,4 +109,31 @@ public class AuxiliaryVoucherDocumentTest extends TransactionalDocumentTestBase 
         // when we get to this document, we'll fix the problem with blanket approving non check
         // disbursement document test
     }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoCopy_invalidYear()
+     * @see AuxiliaryVoucherDocument#getNullOrReasonNotToCopy(String, boolean)
+     */
+    @Override
+    public void testConvertIntoCopy_invalidYear() throws Exception {
+//      this test is not valid for the AV
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoErrorCorrection_invalidYear()
+     * @see AuxiliaryVoucherDocument#getNullOrReasonNotToCopy(String, boolean)
+     */
+    @Override
+    public void testConvertIntoErrorCorrection_invalidYear() throws Exception {
+       //this test is not valid for the AV
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentTestBase#getExpectedPrePeCount()
+     */
+    @Override
+    protected int getExpectedPrePeCount() {
+        return 2;
+    }
+
 }

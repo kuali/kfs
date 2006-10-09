@@ -33,7 +33,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rules applicable to <code>YearEndBudgetAdjustmentDocument</code>
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumentRule {
 
@@ -52,6 +52,17 @@ public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumen
         super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
     }
+
+    
+    
+    @Override
+    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean success = super.customizeOffsetGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry, offsetEntry);
+        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+        return success;
+    }
+
+
 
     /**
      * @see org.kuali.module.financial.rules.BudgetAdjustmentDocumentRule#getTransferDocumentType()

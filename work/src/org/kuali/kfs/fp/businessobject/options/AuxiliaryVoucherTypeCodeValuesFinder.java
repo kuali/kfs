@@ -33,7 +33,7 @@ import org.kuali.core.web.uidraw.KeyLabelPair;
  * <code>{@link KeyValuesBase}</code> class that handles
  * <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> types.
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
 

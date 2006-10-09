@@ -39,7 +39,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class Balance extends BusinessObjectBase {

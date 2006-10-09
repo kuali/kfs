@@ -25,7 +25,7 @@ package org.kuali.module.financial.web.struts.action;
 /**
  * This class handles Actions for ServiceBilling.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ServiceBillingAction extends InternalBillingAction {
     // no difference from superclass

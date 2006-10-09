@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
  * that are necessary for transaction processing in the application. This interface defines methods for each balance type that is
  * needed by the application. TODO - Continue to update this with new balance type as they are needed.
  * 
- * @author Kuali Financial Transactions Red Team ()
+ * 
  */
 public interface BalanceTypService {
     /**

@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 

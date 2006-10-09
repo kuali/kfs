@@ -40,7 +40,7 @@ import org.kuali.module.financial.document.CashReceiptFamilyBase;
 /**
  * Business rule(s) applicable to CashReceipt documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements AddCheckRule, DeleteCheckRule, UpdateCheckRule {
     /**

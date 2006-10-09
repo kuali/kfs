@@ -26,7 +26,7 @@ package org.kuali.module.financial.rules;
 /**
  * Holds constants for <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code> business rules.
  * 
- * @author Nervous System Team ()
+ * 
  */
 public interface GeneralErrorCorrectionDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups

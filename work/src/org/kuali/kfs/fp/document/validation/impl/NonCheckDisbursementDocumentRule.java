@@ -48,7 +48,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to NonCheckDisbursement documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleBase {
 

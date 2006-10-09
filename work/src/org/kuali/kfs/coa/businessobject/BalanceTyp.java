@@ -28,7 +28,7 @@ import org.kuali.core.bo.KualiCodeBase;
 /**
  * This class is the business object for the Balance Type object.
  * 
- * @author Nervous System Team ()
+ * 
  */
 public class BalanceTyp extends KualiCodeBase {
 

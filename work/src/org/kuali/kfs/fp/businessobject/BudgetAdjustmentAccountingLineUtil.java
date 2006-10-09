@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiInteger;
 /**
  * Util class to consolidate BA accounting line code
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentAccountingLineUtil {
     /**

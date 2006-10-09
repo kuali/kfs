@@ -32,7 +32,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Chart extends BusinessObjectBase {
 

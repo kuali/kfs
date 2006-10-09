@@ -43,7 +43,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 /**
  * Checks warnings and prompt conditions for dv document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBase implements DisbursementVoucherRuleConstants {
     private KualiConfigurationService kualiConfiguration;

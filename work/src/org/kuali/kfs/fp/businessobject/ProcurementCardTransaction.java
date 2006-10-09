@@ -36,7 +36,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardTransaction extends BusinessObjectBase {
 

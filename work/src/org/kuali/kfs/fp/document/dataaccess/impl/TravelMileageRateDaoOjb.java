@@ -38,7 +38,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the TravelMileageRate interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class TravelMileageRateDaoOjb extends PersistenceBrokerDaoSupport implements TravelMileageRateDao {
     private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);

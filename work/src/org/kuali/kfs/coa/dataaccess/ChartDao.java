@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.Chart;
 /**
  * This is the data access interface for Chart objects.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ChartDao {
     public Collection getAll();

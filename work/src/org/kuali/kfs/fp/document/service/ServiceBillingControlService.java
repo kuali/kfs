@@ -27,7 +27,7 @@ import org.kuali.module.financial.bo.ServiceBillingControl;
 /**
  * This interface defines methods that a ServiceBillingControl Service must provide.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface ServiceBillingControlService {
 

@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BankAccount extends BusinessObjectBase {
     private String finDocumentBankAccountDesc;

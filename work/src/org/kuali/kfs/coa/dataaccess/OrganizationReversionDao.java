@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface OrganizationReversionDao {
 

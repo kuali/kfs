@@ -27,14 +27,14 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 
 /**
  * This class...
  * 
- * @author Kuali Financial Transactions Red Team ()
+ * 
  */
-public class CheckBaseTest extends KualiTestBaseWithSpring {
+public class CheckBaseTest extends KualiTestBase {
     CheckBase crchk = null;
     public static final KualiDecimal AMOUNT = new KualiDecimal("100.27");
     public static final String GUID = "123456789012345678901234567890123456";

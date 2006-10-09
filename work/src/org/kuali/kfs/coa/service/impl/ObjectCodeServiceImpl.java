@@ -32,7 +32,7 @@ import org.kuali.module.chart.service.ObjectCodeService;
  * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with
  * Kuali.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjectCodeServiceImpl implements ObjectCodeService {
     private ObjectCodeDao objectCodeDao;

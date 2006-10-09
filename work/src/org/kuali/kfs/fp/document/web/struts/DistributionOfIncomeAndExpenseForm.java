@@ -28,7 +28,7 @@ import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocumen
 /**
  * This class is the action form for Distribution of Income and Expense.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class DistributionOfIncomeAndExpenseForm extends KualiTransactionalDocumentFormBase {

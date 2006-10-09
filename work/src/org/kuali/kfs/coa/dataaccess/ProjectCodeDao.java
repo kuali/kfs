@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 /**
  * This interface defines basic methods that ProjectCode Dao's must provide
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ProjectCodeDao {
 

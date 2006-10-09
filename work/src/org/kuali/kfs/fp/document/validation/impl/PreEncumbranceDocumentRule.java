@@ -48,7 +48,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to PreEncumbrance documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
 

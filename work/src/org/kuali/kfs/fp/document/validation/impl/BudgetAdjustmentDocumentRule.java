@@ -80,7 +80,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to Budget Adjustment Card document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
 
@@ -171,6 +171,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
             }
 
+            customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+            
             // add the new explicit entry to the document now
             transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
@@ -192,6 +194,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                 explicitEntry.setUniversityFiscalPeriodCode("01");
             }
 
+            customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+            
             // add the new explicit entry to the document now
             transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
@@ -268,6 +272,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         explicitEntry.setTransactionLedgerEntryAmount(monthAmount);
         explicitEntry.setUniversityFiscalPeriodCode(fiscalPeriod);
 
+        customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+        
         // add the new explicit entry to the document now
         transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
     }
@@ -334,6 +340,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                         explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
                     }
 
+                    customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+                    
                     // add the new explicit entry to the document now
                     transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 

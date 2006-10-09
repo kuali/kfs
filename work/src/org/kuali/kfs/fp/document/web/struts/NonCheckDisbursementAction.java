@@ -28,7 +28,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
  * Action class for <code>{@link org.kuali.module.financial.document.NonCheckDisbursementDocument}</code> It doesn't do anything
  * because it doesn't need to.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class NonCheckDisbursementAction extends KualiTransactionalDocumentActionBase {
 }

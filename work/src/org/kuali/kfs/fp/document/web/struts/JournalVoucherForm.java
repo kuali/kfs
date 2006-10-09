@@ -47,7 +47,7 @@ import org.kuali.module.financial.document.JournalVoucherDocument;
  * the new line is explicitly known; however, already existing accounting lines need to exist within a list with ordering that
  * matches the accounting lines source list.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class JournalVoucherForm extends VoucherForm {
     private List balanceTypes;

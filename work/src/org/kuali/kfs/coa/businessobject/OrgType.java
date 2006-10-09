@@ -25,7 +25,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 /**
  * Org Type Business Object
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrgType extends BusinessObjectBase {
     private String organizationTypeCode;

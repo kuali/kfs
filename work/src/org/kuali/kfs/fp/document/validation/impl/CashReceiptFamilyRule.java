@@ -45,7 +45,7 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseCons
 /**
  * Business rule(s) shared amongst to CashReceipt-related documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashReceiptFamilyRule extends TransactionalDocumentRuleBase implements CashReceiptDocumentRuleConstants {
 

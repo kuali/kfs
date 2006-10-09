@@ -107,4 +107,12 @@ public class DemergerReportData {
     public int getValidTransactionsSaved() {
         return validTransactionsSaved;
     }
+
+    public void setErrorTransactionsRead(int x) {
+        this.errorTransactionsRead = x;
+    }
+
+    public void setErrorTransactionWritten(int x) {
+        this.errorTransactionsSaved = x;
+    }
 }

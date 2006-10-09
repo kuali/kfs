@@ -29,7 +29,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * This interface defines basic methods that Org Dao's must provide
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface OrganizationDao {
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode);

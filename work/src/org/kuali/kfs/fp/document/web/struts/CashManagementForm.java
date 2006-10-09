@@ -43,7 +43,7 @@ import org.kuali.module.financial.service.CashManagementService;
 /**
  * This class is the action form for CashManagement
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashManagementForm extends KualiDocumentFormBase {
     private static final long serialVersionUID = 1L;
@@ -152,7 +152,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     /**
      * Inner helper class.
      * 
-     * @author Kuali Nervous System Team ()
+     * 
      */
     public static final class DepositHelper {
         private Integer depositLineNumber;

@@ -44,7 +44,7 @@ import org.kuali.module.chart.bo.SubAccount;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class SubAccountRule extends MaintenanceDocumentRuleBase {
 

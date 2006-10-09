@@ -8,7 +8,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
-import org.kuali.test.KualiTestBaseWithSession;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -18,7 +18,7 @@ import org.kuali.test.WithTestSpringContext;
  * @author Kuali Nervous System Team ()
  */
 @WithTestSpringContext
-public class BudgetFringeRateServiceTest extends KualiTestBaseWithSession {
+public class BudgetFringeRateServiceTest extends KualiTestBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetFringeRateServiceTest.class);
 
@@ -38,7 +38,8 @@ public class BudgetFringeRateServiceTest extends KualiTestBaseWithSession {
 
     protected void setUp() throws Exception {
         super.setUp();
-        super.changeCurrentUser(KNOWN_USERNAME);
+        // TODO fix this
+        //super.changeCurrentUser(KNOWN_USERNAME);
         this.budgetFringeRateService = SpringServiceLocator.getBudgetFringeRateService();
     }
 

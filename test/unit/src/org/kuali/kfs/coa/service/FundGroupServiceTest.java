@@ -25,17 +25,17 @@ package org.kuali.module.chart.service;
 import org.kuali.core.service.KualiCodeService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.FundGroup;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the FundGroup service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 
 @WithTestSpringContext
-public class FundGroupServiceTest extends KualiTestBaseWithFixtures {
+public class FundGroupServiceTest extends KualiTestBase {
 
     KualiCodeService kualiCodeService;
 

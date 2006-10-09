@@ -54,7 +54,7 @@ import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService
  * Implementation of ProcurementCardDocumentService
  * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCardLoadTransactionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadTransactionsServiceImpl.class);

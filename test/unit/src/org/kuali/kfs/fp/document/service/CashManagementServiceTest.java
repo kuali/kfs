@@ -46,16 +46,18 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.exceptions.CashDrawerStateException;
 import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
-import org.kuali.test.KualiTestBaseWithSession;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.fixtures.UserNameFixture;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@WithTestSpringContext
-public class CashManagementServiceTest extends KualiTestBaseWithSession {
+@WithTestSpringContext(session = KHUNTLEY)
+public class CashManagementServiceTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "CashManagementServiceTest";
 
 
@@ -75,7 +77,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         cashDrawerService = SpringServiceLocator.getCashDrawerService();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
-
+    
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {
         boolean failedAsExpected = false;
 
@@ -244,7 +246,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             // create Interim Deposit
 
             // create CashReceipts
-            changeCurrentUser("INEFF");
+            changeCurrentUser(UserNameFixture.INEFF);
             CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
             CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, KualiDecimal.ZERO, new KualiDecimal("25.00"));
             CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("27.00"), new KualiDecimal("23.00"));
@@ -255,7 +257,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             crList.add(cr3);
 
             // add interim deposit
-            changeCurrentUser("KHUNTLEY");
+            changeCurrentUser(KHUNTLEY);
             CashManagementDocument interimDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
             cashManagementService.addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
@@ -466,9 +468,9 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             // create Interim Deposit
 
             // create CashReceipt
-            changeCurrentUser("INEFF");
+            changeCurrentUser(UserNameFixture.INEFF);
             CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST nonverified CR", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("25.00"), new KualiDecimal("75.00"));
-            changeCurrentUser("KHUNTLEY");
+            changeCurrentUser(KHUNTLEY);
 
             List crList = new ArrayList();
             crList.add(cr);
@@ -506,7 +508,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             CashDrawer preDocCD = cashDrawerService.getByWorkgroupName(CMST_WORKGROUP, true);
             assertTrue(preDocCD.isClosed());
 
-            changeCurrentUser("KHUNTLEY");
+            changeCurrentUser(KHUNTLEY);
             CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nonverified", null);
             testDocumentId = createdDoc.getFinancialDocumentNumber();
 
@@ -514,9 +516,10 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             // create Interim Deposit
 
             // create CashReceipt
-            changeCurrentUser("INEFF");
+            changeCurrentUser(UserNameFixture.INEFF);
             CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST noncheck CR", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
-            changeCurrentUser("KHUNTLEY");
+            changeCurrentUser(KHUNTLEY);
+            changeCurrentUser(KHUNTLEY);
 
             List crList = new ArrayList();
             crList.add(cr);
@@ -565,7 +568,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             // create Interim Deposit
 
             // create CashReceipts
-            changeCurrentUser("INEFF");
+            changeCurrentUser(UserNameFixture.INEFF);
             CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
             CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, KualiDecimal.ZERO, new KualiDecimal("25.00"));
             CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("27.00"), new KualiDecimal("23.00"));
@@ -576,7 +579,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             crList.add(cr3);
 
             // add interim deposit
-            changeCurrentUser("KHUNTLEY");
+            changeCurrentUser(KHUNTLEY);
             cashManagementService.addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
 
@@ -660,7 +663,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             // add Interim Deposit
 
             // create CashReceipts
-            changeCurrentUser("INEFF");
+            changeCurrentUser(UserNameFixture.INEFF);
             CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"), KualiDecimal.ZERO);
             CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, KualiDecimal.ZERO, new KualiDecimal("25.00"));
             CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("27.00"), new KualiDecimal("23.00"));
@@ -671,7 +674,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             crList.add(cr3);
 
             // add interim deposit
-            changeCurrentUser("KHUNTLEY");
+            changeCurrentUser(KHUNTLEY);
             CashManagementDocument interimDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
             cashManagementService.addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
@@ -895,12 +898,12 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
                 final String initiatorNetworkId = testDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
                 final String previousNetworkId = GlobalVariables.getUserSession().getNetworkId();
                 if (!previousNetworkId.equals(initiatorNetworkId)) {
-                    changeCurrentUser(initiatorNetworkId);
+                    changeCurrentUser(UserNameFixture.valueOf(initiatorNetworkId.toUpperCase()));
                     // Only the initiator can cancel an initiated or saved document.
                     testDoc = documentService.getByDocumentHeaderId(documentId);
                 }
                 documentService.cancelDocument(testDoc, "CMST cleanup cancel");
-                changeCurrentUser(previousNetworkId);
+                changeCurrentUser(UserNameFixture.valueOf(previousNetworkId.toUpperCase()));
             }
         }
     }

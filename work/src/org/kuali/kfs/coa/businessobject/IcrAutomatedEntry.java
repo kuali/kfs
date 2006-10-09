@@ -34,7 +34,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class IcrAutomatedEntry extends BusinessObjectBase {
 

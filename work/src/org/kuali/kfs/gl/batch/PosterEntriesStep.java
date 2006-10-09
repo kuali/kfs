@@ -26,7 +26,7 @@ import org.kuali.core.batch.Step;
 import org.kuali.module.gl.service.PosterService;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PosterEntriesStep implements Step {

@@ -44,7 +44,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * This class is the action form for balance inquiries.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class BalanceInquiryForm extends LookupForm {
     private static final long serialVersionUID = 1L;

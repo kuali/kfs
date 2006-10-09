@@ -34,7 +34,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
  * fund groups which are not required either by the terms of a loan or by other external agreements. These transfers are the most
  * commonly used throughout the university.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class TransferOfFundsDocument extends TransactionalDocumentBase {
     private static final long serialVersionUID = -3871133713027969492L;

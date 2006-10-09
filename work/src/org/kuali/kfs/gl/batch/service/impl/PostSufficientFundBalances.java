@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PostSufficientFundBalances implements PostTransaction {
@@ -94,7 +94,7 @@ public class PostSufficientFundBalances implements PostTransaction {
             sfBalance.setAccountActualExpenditureAmt(KualiDecimal.ZERO);
             sfBalance.setAccountEncumbranceAmount(KualiDecimal.ZERO);
             sfBalance.setCurrentBudgetBalanceAmount(KualiDecimal.ZERO);
-            sfBalance.setAccountSufficientFundsCode(t.getAccount().getSufficientFundsCode().getCode());
+            sfBalance.setAccountSufficientFundsCode(t.getAccount().getAccountSufficientFundsCode());
         }
 
         if (Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {

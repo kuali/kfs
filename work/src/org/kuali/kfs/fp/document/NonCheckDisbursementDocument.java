@@ -34,7 +34,7 @@ import org.kuali.module.financial.bo.NonCheckDisbursementDocumentAccountingLineP
  * The "Non-Check Disbursement" document is used to record charges or credits directly assessed to university bank accounts. It is
  * used primarily by the Tax and Treasury Accounting office to record wire transfers, foreign drafts, etc.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class NonCheckDisbursementDocument extends TransactionalDocumentBase {
 

@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rules applicable to <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends DistributionOfIncomeAndExpenseDocumentRule {
 

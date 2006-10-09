@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.AccountingPeriod;
  * This service interface defines methods necessary for retreiving fully populated AccountingPeriod business objects from the
  * database that are necessary for transaction processing in the application.
  * 
- * @author Kuali Financial Transactions Red Team ()
+ * 
  */
 public interface AccountingPeriodService {
     /**

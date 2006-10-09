@@ -23,7 +23,7 @@
 package org.kuali.module.gl.service;
 
 import java.io.BufferedOutputStream;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,12 +32,24 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.kuali.module.gl.util.OriginEntryStatistics;
+import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface OriginEntryService {
+
+    /**
+     * Get statistics from a group
+     */
+    public OriginEntryStatistics getStatistics(Integer groupId);
+
+    /**
+     * Copy a set of entries into a new group
+     */
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<OriginEntry> entries);
 
     /**
      * Delete entry
@@ -69,6 +81,14 @@ public interface OriginEntryService {
      * @return
      */
     public Iterator<OriginEntry> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
+    
+    /**
+     * Return all entries for a group sorted across the columns in report from left to right.
+     * 
+     * @param oeg
+     * @return
+     */
+    public Iterator<OriginEntry> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for the groups where the balance type is empty
@@ -132,18 +152,30 @@ public interface OriginEntryService {
     public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, boolean scrub);
 
     /**
+     * Send data to an output stream
+     * 
+     * @param groupId
+     * @param bw
+     */
+    public void flatFile(Integer groupId, BufferedOutputStream bw);
+
+    /**
      * get the summarized information of the entries that belong to the entry groups with the given group id list
      * 
      * @param groupIdList the origin entry groups
      * @return a set of summarized information of the entries within the specified group
      */
-
-    public void flatFile(String filename, Integer groupId, BufferedOutputStream bw);
-
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 
     public Collection getMatchingEntriesByCollection(Map searchCriteria);
 
     public OriginEntry getExactMatchingEntry(Integer entryId);
 
+    /**
+     * get the summarized information of poster input entries that belong to the entry groups with the given group id list
+     * 
+     * @param groupIdList the origin entry groups
+     * @return a map of summarized information of poster input entries within the specified groups
+     */    
+    public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList);
 }

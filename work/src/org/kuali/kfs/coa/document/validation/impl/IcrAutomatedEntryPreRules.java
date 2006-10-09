@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.IcrAutomatedEntry;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
 

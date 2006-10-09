@@ -32,7 +32,7 @@ import org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 

@@ -51,7 +51,7 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseCons
 /**
  * Business rules applicable to Credit Card Receipt documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
     /**

@@ -32,7 +32,7 @@ import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UniversityCostSharePersonnel;
 import org.kuali.module.kra.budget.service.BudgetCostShareService;
-import org.kuali.test.KualiTestBaseWithSession;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -41,7 +41,7 @@ import org.kuali.test.WithTestSpringContext;
  * @author Kuali Research Administration Team ()
  */
 @WithTestSpringContext
-public class BudgetCostShareServiceTest extends KualiTestBaseWithSession {
+public class BudgetCostShareServiceTest extends KualiTestBase {
 
     private BudgetCostShareService budgetCostShareService;
 

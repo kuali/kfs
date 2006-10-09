@@ -42,7 +42,7 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseCons
 /**
  * Business rules applicable to Advance Deposit documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
     /**

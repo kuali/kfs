@@ -11,6 +11,9 @@
 		<property name="optionsService">
 			<ref bean="optionsService"/>
 		</property>
+		<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService"/>
+		</property>
 	</bean>
 
 	<bean id="glCreateBackupGroupStep" class="org.kuali.module.gl.batch.CreateBackupGroupStep">

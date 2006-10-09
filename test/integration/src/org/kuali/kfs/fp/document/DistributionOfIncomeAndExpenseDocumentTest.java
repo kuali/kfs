@@ -28,45 +28,31 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentTestBase;
-import org.kuali.test.parameters.DocumentParameter;
-import org.kuali.test.parameters.TransactionalDocumentParameter;
-import org.kuali.test.WithTestSpringContext;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.TestsWorkflowViaDatabase;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
  * 
- * @author Kuali Transaction Processing Team ()
+ * 
  */
-@WithTestSpringContext
+@WithTestSpringContext(session = KHUNTLEY)
 public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDocumentTestBase {
     private static final Log LOG = LogFactory.getLog(DistributionOfIncomeAndExpenseDocumentTest.class);
 
-    public static final String COLLECTION_NAME = "DistributionOfIncomeAndExpenseDocumentTest.collection1";
-    public static final String USER_NAME = "user1";
-    public static final String DOCUMENT_PARAMETER = "distributionOfIncomeAndExpenseDocumentParameter1";
-    public static final String SOURCE_LINE1 = "sourceLine2";
-    public static final String TARGET_LINE1 = "targetLine2";
-    public static final String SERIALIZED_LINE_PARAMTER = "serializedLine1";
-
     /**
-     * Get names of fixture collections test class is using.
-     * 
-     * @return String[]
-     */
-    @Override
-    public String[] getFixtureCollectionNames() {
-        return new String[] { COLLECTION_NAME };
-    }
-
-    /**
-     * 
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
      */
     @Override
-    public DocumentParameter getDocumentParameterFixture() {
-        return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, DOCUMENT_PARAMETER).createObject();
+    public Document getDocumentParameterFixture() throws Exception{
+        return DocumentTestUtils.createDocument(getDocumentService(), DistributionOfIncomeAndExpenseDocument.class);
     }
 
     /**
@@ -74,9 +60,9 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
      */
     @Override
-    public List getTargetAccountingLineParametersFromFixtures() {
-        ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, TARGET_LINE1).createObject());
+    public List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
+        List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+        list.add(LINE2);
         return list;
     }
 
@@ -85,20 +71,12 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
      */
     @Override
-    public List getSourceAccountingLineParametersFromFixtures() {
-        ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE1).createObject());
+    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+	List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+        list.add(LINE2);
         return list;
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getUserName()
-     */
-    @Override
-    public String getUserName() {
-        return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
-    }
 
     // START TEST METHODS
     /**
@@ -119,7 +97,10 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
         // do nothing to pass
     }
 
-
+    /* Removing this test until the following Phase 2 issue is closed.
+     * https://test.kuali.org/jira/browse/KULEDOCS-1662
+     */
+    /*
     @TestsWorkflowViaDatabase
     public void testKULEDOCS_1401() throws Exception {
         String testDocId = null;
@@ -165,4 +146,5 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
             }
         }
     }
+    */
 }

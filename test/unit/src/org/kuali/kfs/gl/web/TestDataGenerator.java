@@ -40,7 +40,7 @@ import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class TestDataGenerator {
 

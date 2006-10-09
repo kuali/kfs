@@ -28,7 +28,7 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseCons
 /**
  * Contains Credit Card Receipt rule related constants
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CreditCardReceiptDocumentRuleConstants {
     // Security grouping constants used to do application parameter lookups

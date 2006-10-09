@@ -42,7 +42,7 @@ import org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm;
  * type. The Auxiliary Voucher is unique in that it defines several fields that aren't typically used by the other financial
  * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class AuxiliaryVoucherAction extends VoucherAction {
     /**

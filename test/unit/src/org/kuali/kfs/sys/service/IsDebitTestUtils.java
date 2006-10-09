@@ -53,7 +53,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * IsDebitTestUtils
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class IsDebitTestUtils {
     /**

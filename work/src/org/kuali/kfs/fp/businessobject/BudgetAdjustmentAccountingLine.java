@@ -27,7 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface BudgetAdjustmentAccountingLine extends AccountingLine {
 

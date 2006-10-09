@@ -42,7 +42,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Org extends BusinessObjectBase {
     private static final Logger LOG = Logger.getLogger(Org.class);

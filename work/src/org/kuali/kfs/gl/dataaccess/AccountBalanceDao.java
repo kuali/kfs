@@ -30,7 +30,7 @@ import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface AccountBalanceDao {

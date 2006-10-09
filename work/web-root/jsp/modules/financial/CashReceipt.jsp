@@ -77,7 +77,7 @@
 								value="value" />
 						</html:select>
 						<noscript><html:image src="images/tinybutton-select.gif"
-							styleClass="tinybutton" alt="change check entry mode" /></noscript>
+							styleClass="tinybutton" alt="change check entry mode" title="change check entry mode" /></noscript>
 						</td>
 					</c:if>
 				</tr>
@@ -118,7 +118,7 @@
 					<td width="35%" align="left" valign="middle">$${KualiForm.document.currencyFormattedSumTotalAmount}&nbsp;&nbsp;&nbsp;
 					<c:if test="${!readOnly}">
 						<html:image src="images/tinybutton-recalculate.gif"
-							styleClass="tinybutton" alt="recalculate total" />
+							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
 					</c:if> <c:if test="${readOnly}"> &nbsp; </c:if></td>
 				</tr>
 			</tbody>

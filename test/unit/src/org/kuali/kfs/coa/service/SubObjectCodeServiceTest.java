@@ -24,16 +24,16 @@ package org.kuali.module.chart.service;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the SubObjectCode service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class SubObjectCodeServiceTest extends KualiTestBaseWithFixtures {
+public class SubObjectCodeServiceTest extends KualiTestBase {
 
     private SubObjectCodeService subObjectCodeService;
 

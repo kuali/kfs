@@ -55,9 +55,7 @@
                     <text size="2" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>The code uniquely identify an income class.</description>
             </attribute>
 
@@ -71,11 +69,10 @@
                     <text size="40" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
+                <summary><![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The name of the income tax class
                 </description>
             </attribute>
 

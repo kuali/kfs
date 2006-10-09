@@ -32,7 +32,7 @@ import org.kuali.module.chart.bo.AccountChangeDetail;
 /**
  * This class contains common Business Rule functionality for Global Documents.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
@@ -110,7 +110,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * 
      * This class is used internally to represent the result of the CheckOnlyOneChart method.
      * 
-     * @author Kuali Nervous System Team ()
+     * 
      */
     protected class CheckOnlyOneChartResult {
 

@@ -29,7 +29,7 @@ import org.kuali.module.financial.document.YearEndBudgetAdjustmentDocument;
  * non-yearEnd version of a document is the glpe's generation.
  * 
  * @see org.kuali.module.financial.web.struts.form.BudgetAdjustmentForm
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class YearEndBudgetAdjustmentForm extends BudgetAdjustmentForm {

@@ -38,7 +38,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Delegate extends BusinessObjectBase {
 

@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCdCurrent;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CreditCardVendor extends BusinessObjectBase {
 

@@ -31,7 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Internal Billing Item Business Object
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class InternalBillingItem extends BusinessObjectBase {
 

@@ -49,7 +49,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Voucher is unique in that we only make use of one accounting line list: the source accounting lines seeing as a JV only records
  * accounting lines as debits or credits.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class JournalVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(JournalVoucherDocument.class);

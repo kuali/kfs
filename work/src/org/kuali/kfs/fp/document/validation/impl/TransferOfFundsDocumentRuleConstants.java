@@ -26,7 +26,7 @@ package org.kuali.module.financial.rules;
 /**
  * Holds constants for transfer of funds document.
  * 
- * @author Nervous System Team ()
+ * 
  */
 public interface TransferOfFundsDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups

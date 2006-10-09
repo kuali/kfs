@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.ObjectCons;
 /**
  * This interface defines basic methods that ObjLevel Dao's must provide
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ObjectConsDao {
     public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode);

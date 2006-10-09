@@ -37,7 +37,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardTransactionDetail extends BusinessObjectBase {
 

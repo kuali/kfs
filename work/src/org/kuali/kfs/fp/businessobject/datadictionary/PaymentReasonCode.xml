@@ -55,11 +55,9 @@
                 <control>
                     <text size="1" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The system code that indicates the reason for the payment.
                 </description>
             </attribute>
 
@@ -73,9 +71,7 @@
                 <control>
                     <text size="40" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
             </attribute>
 
@@ -89,9 +85,7 @@
                 <control>
                     <textarea rows="10" cols="50" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
             </attribute>
 

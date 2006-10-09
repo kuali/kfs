@@ -40,7 +40,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
  * only accepting funds into the university, the accounting line data will be held in the source accounting line data structure
  * only.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashReceiptDocument extends CashReceiptFamilyBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);

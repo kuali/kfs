@@ -25,7 +25,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>Percentage of federal tax in the Nonresident Alien (NRA) Tax.</description>
+                <description>The percentage of Federal tax that needs to be withheld from the payment, entered directly or searched from valid values for a given Income Class Code in the Federal Tax Percent lookup.</description>
             </attribute>
 
             <attribute name="stateIncomeTaxPercent">
@@ -43,7 +43,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>Percentage of state tax in the Nonresident Alien (NRA) Tax.</description>
+                <description>The percentage of State tax that needs to be withheld from the payment, entered directly or searched from valid values for a given Income Class Code in the State Tax Percent lookup.</description>
             </attribute>
 
             <attributeReference name="incomeClassCode" sourceClassName="org.kuali.module.financial.bo.TaxIncomeClassCode" sourceAttributeName="code">
@@ -99,7 +99,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    Checkbox to indicate if the payment is defined as foreign source based on U.S. income sourcing rules.  It also indicates that there is no tax withholding on the payment.
                 </description>
             </attribute>
 

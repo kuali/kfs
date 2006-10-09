@@ -25,7 +25,7 @@ package org.kuali.module.chart.service;
 import org.kuali.module.chart.bo.A21SubAccount;
 
 /**
- * @author 
+ *  
  */
 
 public interface A21SubAccountService {

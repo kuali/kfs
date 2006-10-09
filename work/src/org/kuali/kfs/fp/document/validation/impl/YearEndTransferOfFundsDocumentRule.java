@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * Business rule(s) applicable to <code>YearEndTransferOfFundsDocument</code>s
  * 
  * @see org.kuali.module.financial.rules.TransferOfFundsDocumentRule
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentRule {
 
@@ -50,4 +50,13 @@ public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentR
         super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
     }
+
+    @Override
+    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean success = super.customizeOffsetGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry, offsetEntry);
+        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+        return success;
+    }
+    
+    
 }

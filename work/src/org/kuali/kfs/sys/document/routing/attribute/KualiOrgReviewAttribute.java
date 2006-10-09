@@ -43,7 +43,7 @@ import edu.iu.uis.eden.util.Utilities;
 /**
  * KualiOrgReviewAttribute should be used when using Orgs and thier inner details to do routing.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
@@ -384,14 +384,18 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     org = account.getOrganizationCode();
                 }
                 if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
-                    buildOrgReviewHierarchy(0, chartOrgValues, SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org));
+                    Org docOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart, org);
+                    if (docOrg == null) {
+                        throw new RuntimeException("Org declared on the document cannot be found in the system, routing cannot continue.");
+                    }
+                    //  possibly duplicate add, but this is safe in a HashSet
+                    chartOrgValues.add(docOrg);
+                    buildOrgReviewHierarchy(0, chartOrgValues, docOrg);
                 }
                 else {
                     String xpathExp = null;
                     if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("kualiUser").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                    } else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
-                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("chartOrg").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     }
                     else {
                         if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {

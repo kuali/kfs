@@ -22,25 +22,28 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
-import org.kuali.test.KualiTestBaseWithSession;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 
 /**
  * This class tests the <code>CreditCardReceiptDocumentRule</code>s
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
-@WithTestSpringContext
-public class CreditCardReceiptDocumentRuleTest extends KualiTestBaseWithSession {
+@WithTestSpringContext(session = KHUNTLEY)
+public class CreditCardReceiptDocumentRuleTest extends KualiTestBase {
 
     /**
      * test that an <code>IllegalStateException</code> gets thrown for an error correction document

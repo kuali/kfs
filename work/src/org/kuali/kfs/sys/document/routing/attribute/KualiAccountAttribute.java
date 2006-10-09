@@ -65,7 +65,7 @@ import edu.iu.uis.eden.util.Utilities;
 /**
  * KualiAccountAttribute which should be used when using Accounts to do routing
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
@@ -179,7 +179,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             this.accountNbr = LookupUtils.forceUppercase(Account.class, "accountNumber", (String) paramMap.get(ACCOUNT_NBR_KEY));
             this.totalDollarAmount = (String) paramMap.get(FDOC_TOTAL_DOLLAR_AMOUNT_KEY);
             validateAccount(errors);
-            if (StringUtils.isNotBlank(this.totalDollarAmount) && !StringUtils.isNumeric(this.totalDollarAmount)) {
+            if (StringUtils.isNotBlank(this.totalDollarAmount) && !KualiDecimal.isNumeric(this.totalDollarAmount)) {
                 errors.add(new WorkflowServiceErrorImpl("Total Dollar Amount is invalid.", "routetemplate.accountattribute.totaldollaramount.invalid"));
             }
         }
@@ -451,7 +451,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         String stringAddend = "";
         for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
             stringAddend = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "amount/value", targetAccountingLineNodes.item(index));
-            if (StringUtils.isNumeric(stringAddend) && StringUtils.isNotBlank(stringAddend)) {
+            if (KualiDecimal.isNumeric(stringAddend)) {
                 sum = sum.add(new KualiDecimal(stringAddend));
             }
         }
@@ -597,7 +597,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * A helper class which defines a Fiscal Officer role. Implements an equals() and hashCode() method so that it can be used in a
      * Set to prevent the generation of needless duplicate requests.
      * 
-     * @author ewestfal
+     * 
      */
     private static class FiscalOfficerRole {
 
@@ -628,6 +628,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             this.accountNumber = accountNumber;
         }
 
+        @Override
         public boolean equals(Object object) {
             if (object instanceof FiscalOfficerRole) {
                 FiscalOfficerRole role = (FiscalOfficerRole) object;
@@ -636,6 +637,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             return false;
         }
 
+        @Override
         public int hashCode() {
             return new HashCodeBuilder().append(roleName).append(fiscalOfficerId).append(chart).append(accountNumber).append(totalDollarAmount).hashCode();
         }

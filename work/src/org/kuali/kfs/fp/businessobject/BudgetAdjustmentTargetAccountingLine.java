@@ -31,7 +31,7 @@ import org.kuali.core.util.KualiInteger;
 
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine implements BudgetAdjustmentAccountingLine {
 

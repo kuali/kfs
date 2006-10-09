@@ -49,7 +49,7 @@ import edu.iu.uis.eden.util.Utilities;
 /**
  * This class provides a lookup for org review hierarchy routing rules.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrgReviewLookupableImpl implements WorkflowLookupable {
     private Long ruleTemplateId;

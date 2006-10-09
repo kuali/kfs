@@ -28,7 +28,7 @@ import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class GeneralErrorCorrectionForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;

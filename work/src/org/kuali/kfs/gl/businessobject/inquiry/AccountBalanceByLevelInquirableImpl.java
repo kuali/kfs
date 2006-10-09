@@ -42,7 +42,7 @@ import org.kuali.module.gl.web.Constant;
  * This class is used to generate the URL for the user-defined attributes for the account balace by level screen. It is entended the
  * KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByLevelInquirableImpl.class);

@@ -35,7 +35,7 @@ import org.kuali.module.financial.service.CashDrawerService;
 /**
  * CashDrawerService implementation.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CashDrawerServiceImpl implements CashDrawerService {
     private BusinessObjectService businessObjectService;

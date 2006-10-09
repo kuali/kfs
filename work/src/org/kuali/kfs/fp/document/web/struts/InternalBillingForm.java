@@ -29,7 +29,7 @@ import org.kuali.module.financial.document.InternalBillingDocument;
 /**
  * This class is the action form for Internal Billing.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class InternalBillingForm extends KualiTransactionalDocumentFormBase {

@@ -38,7 +38,7 @@ import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
 import org.kuali.module.gl.util.OJBUtilityTest;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class AllTests {

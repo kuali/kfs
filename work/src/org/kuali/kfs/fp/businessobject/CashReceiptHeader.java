@@ -34,7 +34,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CashReceiptHeader extends BusinessObjectBase {
 

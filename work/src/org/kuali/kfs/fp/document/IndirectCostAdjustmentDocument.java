@@ -36,7 +36,7 @@ import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConsta
 /**
  * 
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class IndirectCostAdjustmentDocument extends TransactionalDocumentBase {
 

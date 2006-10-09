@@ -30,7 +30,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 /**
  * Handles queries and validation on tax id numbers.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface DisbursementVoucherTaxService {
     public static Integer TAX_NUMBER_NOT_FOUND = new Integer(0);

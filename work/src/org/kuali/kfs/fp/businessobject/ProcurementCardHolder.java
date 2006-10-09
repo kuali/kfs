@@ -34,7 +34,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardHolder extends BusinessObjectBase {
 

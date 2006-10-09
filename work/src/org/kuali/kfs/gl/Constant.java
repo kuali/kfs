@@ -26,7 +26,7 @@ package org.kuali.module.gl.web;
 /**
  * This class contains the constants being used by balance inquiry screens of general ledger
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public final class Constant {
     public static final String EMPTY_STRING = "";

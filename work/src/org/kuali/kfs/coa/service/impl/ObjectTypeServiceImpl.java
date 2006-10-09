@@ -27,7 +27,7 @@ import org.kuali.module.chart.dao.ObjectTypeDao;
 import org.kuali.module.chart.service.ObjectTypeService;
 
 /**
- * @author 
+ *  
  */
 
 public class ObjectTypeServiceImpl implements ObjectTypeService {

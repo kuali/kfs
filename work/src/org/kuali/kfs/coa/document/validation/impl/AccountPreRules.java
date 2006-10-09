@@ -42,7 +42,7 @@ import org.kuali.module.chart.service.AccountService;
  * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
  * etc.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  * 
  */
 public class AccountPreRules extends MaintenancePreRulesBase {

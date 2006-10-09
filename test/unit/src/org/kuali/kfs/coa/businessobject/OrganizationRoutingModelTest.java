@@ -30,11 +30,11 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext
-public class OrganizationRoutingModelTest extends KualiTestBaseWithSpring {
+public class OrganizationRoutingModelTest extends KualiTestBase {
 
     OrganizationRoutingModel model = new OrganizationRoutingModel();
 

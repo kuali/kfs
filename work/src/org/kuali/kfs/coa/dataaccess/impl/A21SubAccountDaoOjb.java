@@ -30,7 +30,7 @@ import org.kuali.module.chart.dao.A21SubAccountDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class A21SubAccountDaoOjb extends PersistenceBrokerDaoSupport implements A21SubAccountDao {

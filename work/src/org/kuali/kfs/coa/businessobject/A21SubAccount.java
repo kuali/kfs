@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class A21SubAccount extends BusinessObjectBase {
 

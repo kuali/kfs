@@ -28,8 +28,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,7 +45,13 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.LedgerEntry;
 import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.kuali.module.gl.util.OriginEntryStatistics;
+import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 
+/**
+ *  
+ * @version $Id: OriginEntryServiceImpl.java,v 1.30 2006-10-09 13:58:20 abyrne Exp $
+ */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 
@@ -78,6 +84,36 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      */
     public OriginEntryServiceImpl() {
         super();
+    }
+
+    public OriginEntryStatistics getStatistics(Integer groupId) {
+        LOG.debug("getStatistics() started");
+
+        OriginEntryStatistics oes = new OriginEntryStatistics();
+
+        oes.setCreditTotalAmount(originEntryDao.getGroupTotal(groupId, true));
+        oes.setDebitTotalAmount(originEntryDao.getGroupTotal(groupId, false));
+        oes.setRowCount(originEntryDao.getGroupCount(groupId));
+
+        return oes;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.util.Date, java.lang.String, boolean, boolean, boolean, java.util.Collection)
+     */
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<OriginEntry> entries) {
+        LOG.debug("copyEntries() started");
+
+        OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(date, sourceCode, valid, process, scrub);
+
+        // Create new Entries with newOriginEntryGroup
+        for (OriginEntry oe : entries) {
+            oe.setEntryGroupId(newOriginEntryGroup.getId());
+            createEntry(oe, newOriginEntryGroup);
+        }
+
+        return newOriginEntryGroup;
     }
 
     /**
@@ -137,6 +173,12 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         LOG.debug("getEntriesByGroupAccountOrder() started");
 
         return originEntryDao.getEntriesByGroup(oeg, OriginEntryDao.SORT_REPORT);
+    }
+    
+    public Iterator<OriginEntry> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg) {
+        LOG.debug("getEntriesByGroupAccountOrder() started");
+
+        return originEntryDao.getEntriesByGroup(oeg, OriginEntryDao.SORT_LISTING_REPORT);
     }
 
     /**
@@ -255,6 +297,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(Collection)
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
+        LOG.debug("getSummaryByGroupId() started");
+
         LedgerEntryHolder ledgerEntryHolder = new LedgerEntryHolder();
 
         if (groupIdList.size() == 0) {
@@ -308,14 +352,14 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return ledgerEntry;
     }
 
-    // TODO
-    public void flatFile(String filename, Integer groupId, BufferedOutputStream bw) {
-
-
-        LOG.debug("exportFlatFile() started");
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#flatFile(java.lang.Integer, java.io.BufferedOutputStream)
+     */
+    public void flatFile(Integer groupId, BufferedOutputStream bw) {
+        LOG.debug("flatFile() started");
 
         try {
-
             OriginEntryGroup oeg = new OriginEntryGroup();
             oeg.setId(groupId);
             Iterator i = getEntriesByGroup(oeg);
@@ -325,17 +369,86 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             }
         }
         catch (IOException e) {
-            LOG.error("exportFlatFile() Error writing to file", e);
+            LOG.error("flatFile() Error writing to file", e);
+            throw new RuntimeException("Error writing to file: " + e.getMessage());
         }
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByCollection(java.util.Map)
+     */
     public Collection getMatchingEntriesByCollection(Map searchCriteria) {
-        return originEntryDao.getMatchingEntriesByCollection(searchCriteria);
+        LOG.debug("getMatchingEntriesByCollection() started");
 
+        return originEntryDao.getMatchingEntriesByCollection(searchCriteria);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#getExactMatchingEntry(java.lang.Integer)
+     */
     public OriginEntry getExactMatchingEntry(Integer entryId) {
+        LOG.debug("getExactMatchingEntry() started");
+
         return originEntryDao.getExactMatchingEntry(entryId);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#getPosterOutputSummaryByGroupId(java.util.Collection)
+     */
+    public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList) {
+        LOG.debug("getPosterOutputSummaryByGroupId() started");
+
+        Map<String,PosterOutputSummaryEntry> output = new HashMap<String,PosterOutputSummaryEntry>();
+
+        if (groupIdList.size() == 0) {
+            return output;
+        }
+
+        Iterator entrySummaryIterator = originEntryDao.getPosterOutputSummaryByGroupId(groupIdList);
+        while (entrySummaryIterator.hasNext()) {
+            Object[] entrySummary = (Object[]) entrySummaryIterator.next();            
+            PosterOutputSummaryEntry posterOutputSummaryEntry = new PosterOutputSummaryEntry();
+            int indexOfField = 0;
+
+            Object tempEntry = entrySummary[indexOfField++];
+            String entry = (tempEntry == null) ? "" : tempEntry.toString();
+            posterOutputSummaryEntry.setBalanceTypeCode(entry);
+
+            tempEntry = entrySummary[indexOfField++];
+            entry = (tempEntry == null) ? null : tempEntry.toString();
+            posterOutputSummaryEntry.setUniversityFiscalYear(new Integer(entry));
+
+            tempEntry = entrySummary[indexOfField++];
+            entry = (tempEntry == null) ? "" : tempEntry.toString();
+            posterOutputSummaryEntry.setFiscalPeriodCode(entry);
+
+            tempEntry = entrySummary[indexOfField++];
+            entry = (tempEntry == null) ? "" : tempEntry.toString();
+            posterOutputSummaryEntry.setFundGroup(entry);
+
+            tempEntry = entrySummary[indexOfField++];
+            String objectTypeCode = (tempEntry == null) ? "" : tempEntry.toString();
+            posterOutputSummaryEntry.setObjectTypeCode(objectTypeCode);
+
+            tempEntry = entrySummary[indexOfField++];
+            String debitCreditCode = (tempEntry == null) ? Constants.GL_BUDGET_CODE : tempEntry.toString();
+
+            tempEntry = entrySummary[indexOfField];
+            entry = (tempEntry == null) ? "0" : tempEntry.toString();            
+            KualiDecimal amount = new KualiDecimal(entry);
+
+            posterOutputSummaryEntry.setAmount(debitCreditCode, objectTypeCode, amount);
+
+            if ( output.containsKey(posterOutputSummaryEntry.getKey()) ) {
+                PosterOutputSummaryEntry pose = output.get(posterOutputSummaryEntry.getKey());
+                pose.add(posterOutputSummaryEntry);
+            } else {
+                output.put(posterOutputSummaryEntry.getKey(),posterOutputSummaryEntry);
+            }
+        }
+        return output;
+    }
 }

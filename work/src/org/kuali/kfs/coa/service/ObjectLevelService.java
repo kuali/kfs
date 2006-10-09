@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.ObjLevel;
 /**
  * This interface defines methods that an ObjLevel Service must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ObjectLevelService {
     /**

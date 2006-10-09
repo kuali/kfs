@@ -26,6 +26,7 @@
 package org.kuali.module.gl.bo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,9 +34,10 @@ import java.util.List;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CorrectionChangeGroup extends BusinessObjectBase implements Comparable {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionChangeGroup.class);
 
     private String financialDocumentNumber;
     private Integer correctionChangeGroupLineNumber;
@@ -44,9 +46,17 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     private List correctionCriteria;
     private List correctionChange;
 
-    /**
-     * Default constructor.
-     */
+    public CorrectionChangeGroup(String financialDocumentNumber,Integer correctionChangeGroupLineNumber) {
+        setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
+
+        correctionCriteria = new ArrayList();
+        correctionChange = new ArrayList();
+        correctionCriteriaNextLineNumber = new Integer(0);
+        correctionChangeNextLineNumber = new Integer(0);
+
+        setFinancialDocumentNumber(financialDocumentNumber);
+    }
+
     public CorrectionChangeGroup() {
         super();
         correctionCriteria = new ArrayList();
@@ -55,205 +65,140 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
         correctionChangeNextLineNumber = new Integer(0);
     }
 
-    /**
-     * Gets the financialDocumentNumber attribute.
-     * 
-     * @return - Returns the financialDocumentNumber
-     * 
-     */
+    public void addCorrectionChange(CorrectionChange cc) {
+        LOG.debug("addCorrectionChange() started");
+
+        cc.setFinancialDocumentNumber(financialDocumentNumber);
+        cc.setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
+        cc.setCorrectionChangeLineNumber(correctionChangeNextLineNumber++);
+        correctionChange.add(cc);
+    }
+
+    public void addCorrectionCriteria(CorrectionCriteria cc) {
+        cc.setFinancialDocumentNumber(financialDocumentNumber);
+        cc.setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
+        cc.setCorrectionCriteriaLineNumber(correctionCriteriaNextLineNumber++);
+        correctionCriteria.add(cc);
+    }
+
+    public void removeCorrectionChangeItem(int changeNumber) {
+        for (Iterator iter = correctionChange.iterator(); iter.hasNext();) {
+            CorrectionChange element = (CorrectionChange)iter.next();
+            if ( changeNumber == element.getCorrectionChangeLineNumber().intValue() ) {
+                iter.remove();
+            }
+        }
+    }
+
+    public void removeCorrectionCriteriaItem(int criteriaNumber) {
+        for (Iterator iter = correctionCriteria.iterator(); iter.hasNext();) {
+            CorrectionCriteria element = (CorrectionCriteria) iter.next();
+            if ( criteriaNumber == element.getCorrectionCriteriaLineNumber().intValue() ) {
+                iter.remove();
+            }
+        }
+    }
+
+    public CorrectionChange getCorrectionChangeItem(int changeNumber) {
+        for (Iterator iter = correctionChange.iterator(); iter.hasNext();) {
+            CorrectionChange element = (CorrectionChange)iter.next();
+            if ( changeNumber == element.getCorrectionChangeLineNumber().intValue() ) {
+                return element;
+            }
+        }
+
+        CorrectionChange cc = new CorrectionChange(getFinancialDocumentNumber(),correctionChangeGroupLineNumber,changeNumber);
+        correctionChange.add(cc);
+        
+        return cc;
+    }
+
+    public CorrectionCriteria getCorrectionCriteriaItem(int criteriaNumber) {
+        for (Iterator iter = correctionCriteria.iterator(); iter.hasNext();) {
+            CorrectionCriteria element = (CorrectionCriteria) iter.next();
+            if ( criteriaNumber == element.getCorrectionCriteriaLineNumber().intValue() ) {
+                return element;
+            }
+        }
+
+        CorrectionCriteria cc = new CorrectionCriteria(getFinancialDocumentNumber(),correctionChangeGroupLineNumber,criteriaNumber);
+        correctionCriteria.add(cc);
+        return cc;
+    }
+
     public String getFinancialDocumentNumber() {
         return financialDocumentNumber;
     }
 
-    /**
-     * Sets the financialDocumentNumber attribute.
-     * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
-     * 
-     */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
         this.financialDocumentNumber = financialDocumentNumber;
+
+        for (Iterator iter = correctionCriteria.iterator(); iter.hasNext();) {
+            CorrectionCriteria element = (CorrectionCriteria)iter.next();
+            element.setFinancialDocumentNumber(financialDocumentNumber);
+        }
+        for (Iterator iter = correctionChange.iterator(); iter.hasNext();) {
+            CorrectionChange element = (CorrectionChange)iter.next();
+            element.setFinancialDocumentNumber(financialDocumentNumber);
+        }
     }
 
-
-    /**
-     * Gets the correctionChangeGroupLineNumber attribute.
-     * 
-     * @return - Returns the correctionChangeGroupLineNumber
-     * 
-     */
     public Integer getCorrectionChangeGroupLineNumber() {
         return correctionChangeGroupLineNumber;
     }
 
-    /**
-     * Sets the correctionChangeGroupLineNumber attribute.
-     * 
-     * @param correctionChangeGroupLineNumber The correctionChangeGroupLineNumber to set.
-     * 
-     */
     public void setCorrectionChangeGroupLineNumber(Integer correctionChangeGroupLineNumber) {
         this.correctionChangeGroupLineNumber = correctionChangeGroupLineNumber;
     }
 
-
-    /**
-     * Gets the correctionCriteriaNextLineNumber attribute.
-     * 
-     * @return - Returns the correctionCriteriaNextLineNumber
-     * 
-     */
     public Integer getCorrectionCriteriaNextLineNumber() {
         return correctionCriteriaNextLineNumber;
     }
 
-    /**
-     * Sets the correctionCriteriaNextLineNumber attribute.
-     * 
-     * @param correctionCriteriaNextLineNumber The correctionCriteriaNextLineNumber to set.
-     * 
-     */
     public void setCorrectionCriteriaNextLineNumber(Integer correctionCriteriaNextLineNumber) {
         this.correctionCriteriaNextLineNumber = correctionCriteriaNextLineNumber;
     }
 
-
-    /**
-     * Gets the correctionChangeNextLineNumber attribute.
-     * 
-     * @return - Returns the correctionChangeNextLineNumber
-     * 
-     */
     public Integer getCorrectionChangeNextLineNumber() {
         return correctionChangeNextLineNumber;
     }
 
-    /**
-     * Sets the correctionChangeNextLineNumber attribute.
-     * 
-     * @param correctionChangeNextLineNumber The correctionChangeNextLineNumber to set.
-     * 
-     */
     public void setCorrectionChangeNextLineNumber(Integer correctionChangeNextLineNumber) {
         this.correctionChangeNextLineNumber = correctionChangeNextLineNumber;
     }
 
-
-    /**
-     * Gets the correctionCriteria list.
-     * 
-     * @return - Returns the correctionCriteria list
-     * 
-     */
     public List getCorrectionCriteria() {
+        Collections.sort(correctionCriteria);
         return correctionCriteria;
     }
 
-    /**
-     * Sets the correctionCriteria list.
-     * 
-     * @param correctionCriteria The correctionCriteria list to set.
-     * 
-     */
     public void setCorrectionCriteria(List correctionCriteria) {
         this.correctionCriteria = correctionCriteria;
     }
 
-    /**
-     * Gets the correctionChange attribute.
-     * 
-     * @return Returns the correctionChange.
-     */
     public List getCorrectionChange() {
+        Collections.sort(correctionChange);
         return correctionChange;
     }
 
-    /**
-     * Sets the correctionChange attribute value.
-     * 
-     * @param correctionChange The correctionChange to set.
-     */
     public void setCorrectionChange(List correctionChange) {
         this.correctionChange = correctionChange;
     }
 
-    /**
-     * 
-     * @param specification
-     */
-    public void addReplacementSpecification(CorrectionChange specification) {
-        specification.setCorrectionChangeGroupLineNumber(getCorrectionChangeGroupLineNumber());
-        specification.setFinancialDocumentNumber(getFinancialDocumentNumber());
-
-        specification.setCorrectionChangeLineNumber(getCorrectionChangeNextLineNumber());
-        this.correctionChangeNextLineNumber = new Integer(getCorrectionChangeNextLineNumber().intValue() + 1);
-
-        this.correctionChange.add(specification);
-    }
-
-    /**
-     * 
-     * @param specificationNumber
-     * @return
-     */
-    public CorrectionChange getReplacementSpecification(Integer specificationNumber) {
-        CorrectionChange selected = null;
-        for (Iterator i = getCorrectionChange().iterator(); i.hasNext();) {
-            CorrectionChange specification = (CorrectionChange) i.next();
-            if (specificationNumber.equals(specification.getCorrectionChangeLineNumber())) {
-                selected = specification;
-                break;
-            }
-        }
-        return selected;
-    }
-
-    /**
-     * 
-     * @param searchCriterion
-     */
-    public void addSearchCriterion(CorrectionCriteria searchCriterion) {
-        searchCriterion.setCorrectionChangeGroupLineNumber(getCorrectionChangeGroupLineNumber());
-        searchCriterion.setFinancialDocumentNumber(getFinancialDocumentNumber());
-
-        searchCriterion.setCorrectionCriteriaLineNumber(getCorrectionCriteriaNextLineNumber());
-        this.correctionCriteriaNextLineNumber = new Integer(getCorrectionCriteriaNextLineNumber().intValue() + 1);
-
-        this.correctionCriteria.add(searchCriterion);
-    }
-
-    /**
-     * 
-     * @param criterionNumber
-     * @return
-     */
-    public CorrectionCriteria getSearchCriterion(Integer criterionNumber) {
-        CorrectionCriteria selected = null;
-        for (Iterator i = getCorrectionCriteria().iterator(); i.hasNext();) {
-            CorrectionCriteria criterion = (CorrectionCriteria) i.next();
-            if (criterionNumber.equals(criterion.getCorrectionCriteriaLineNumber())) {
-                selected = criterion;
-                break;
-            }
-        }
-        return selected;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
     public int compareTo(Object o) {
-        CorrectionChangeGroup other = (CorrectionChangeGroup) o;
+        CorrectionChangeGroup other = (CorrectionChangeGroup)o;
 
-        int c = getCorrectionChangeGroupLineNumber().compareTo(other.getCorrectionChangeGroupLineNumber());
+        String thisFdocNbr = financialDocumentNumber == null ? "" : financialDocumentNumber;
+        String thatFdocNbr = other.financialDocumentNumber == null ? "" : other.financialDocumentNumber;
 
-        if (0 != c) {
+        int c = thisFdocNbr.compareTo(thatFdocNbr);
+        if ( c == 0 ) {
+            Integer thisNbr = correctionChangeGroupLineNumber == null ? 0 : correctionChangeGroupLineNumber;
+            Integer thatNbr = other.correctionChangeGroupLineNumber == null ? 0 : other.correctionChangeGroupLineNumber;
+            return thisNbr.compareTo(thatNbr);
+        } else {
             return c;
         }
-
-        return getFinancialDocumentNumber().compareTo(other.getFinancialDocumentNumber());
     }
 
     /**
@@ -267,6 +212,4 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
         }
         return m;
     }
-
-
 }

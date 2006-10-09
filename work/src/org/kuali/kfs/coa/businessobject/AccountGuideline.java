@@ -30,7 +30,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 /**
  * Account Guideline Business Object
  * 
- * @author Nervous System Team ()
+ * 
  */
 public class AccountGuideline extends BusinessObjectBase {
     private static final long serialVersionUID = 807136405105252199L;

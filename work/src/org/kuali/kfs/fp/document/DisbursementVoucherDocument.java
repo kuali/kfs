@@ -27,11 +27,13 @@ package org.kuali.module.financial.document;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.bo.user.KualiUser;
@@ -41,8 +43,10 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
 import org.kuali.core.rules.RulesUtils;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
@@ -54,11 +58,13 @@ import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private Integer finDocNextRegistrantLineNbr;
@@ -104,6 +110,45 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         dvWireTransfer = new DisbursementVoucherWireTransfer();
         disbVchrCheckTotalAmount = new KualiDecimal(0);
     }
+
+    
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
+     */
+    @Override
+    public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
+        List<GeneralLedgerPendingEntry> ples = new ArrayList();
+        
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        FlexibleOffsetAccountService flexibleOffsetAccountService = SpringServiceLocator.getFlexibleOffsetAccountService();
+        
+        for (GeneralLedgerPendingEntry ple : this.getGeneralLedgerPendingEntries()) {
+            if (kualiConfigurationService.getApplicationParameterRule("SYSTEM", "SufficientFundsExpenseObjectTypes").succeedsRule(ple.getFinancialObjectTypeCode())) {
+                //is an expense object type, keep checking
+                ple.refreshNonUpdateableReferences();
+                if (ple.getAccount().isPendingAcctSufficientFundsIndicator() && ple.getAccount().getAccountSufficientFundsCode().equals(Constants.SF_TYPE_CASH_AT_ACCOUNT)) {
+                    //is a cash account
+                    if (flexibleOffsetAccountService.getByPrimaryIdIfEnabled(ple.getChartOfAccountsCode(), ple.getAccountNumber(), ple.getChart().getFinancialCashObjectCode()) == null
+                            && flexibleOffsetAccountService.getByPrimaryIdIfEnabled(ple.getChartOfAccountsCode(), ple.getAccountNumber(), ple.getChart().getFinAccountsPayableObjectCode()) == null) {
+                        //does not have a flexible offset for cash or liability, set the object code to cash and add to list of PLEs to check for SF
+                        
+                        ple = (GeneralLedgerPendingEntry)ObjectUtils.deepCopy(ple);
+                        ple.setFinancialObjectCode(ple.getChart().getFinancialCashObjectCode());
+                        ple.setTransactionDebitCreditCode(ple.getTransactionDebitCreditCode().equals(Constants.GL_DEBIT_CODE) ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
+                        ples.add(ple);
+                    }
+                    
+                } else {
+                    //is not a cash account, process as normal
+                    ples.add(ple);
+                }
+            }
+        }
+
+        return ples;
+    }
+
+
 
     /**
      * Gets the finDocNextRegistrantLineNbr attribute.

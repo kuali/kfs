@@ -58,7 +58,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * type. Vouchers are unique in that they define several fields that aren't typically used by the other financial transaction
  * processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class VoucherAction extends KualiTransactionalDocumentActionBase {
     // used to determine which way the change balance type action is switching

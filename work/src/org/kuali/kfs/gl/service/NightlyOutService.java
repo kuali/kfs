@@ -27,7 +27,7 @@ package org.kuali.module.gl.service;
  * performed to ensure the correctness of the entries. As to date, the jobs involve two functions: finding unbalanced approved
  * documents and finding bad approved documents.
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public interface NightlyOutService {
 

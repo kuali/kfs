@@ -30,7 +30,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * This class...
  * 
- * @author Bin Gao
+ * 
  */
 public class LedgerEntryHolder {
     private Map ledgerEntries;

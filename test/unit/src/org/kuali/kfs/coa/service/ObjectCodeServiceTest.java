@@ -30,16 +30,16 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the ObjectCode service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class ObjectCodeServiceTest extends KualiTestBaseWithFixtures {
+public class ObjectCodeServiceTest extends KualiTestBase {
     public static final String CHART_CODE = TestConstants.Data4.CHART_CODE;
 
     private ObjectCodeService objectCodeService;

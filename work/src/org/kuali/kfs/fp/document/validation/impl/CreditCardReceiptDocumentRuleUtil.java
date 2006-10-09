@@ -40,7 +40,7 @@ import static org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleCons
 /**
  * Common Credit Card Receipt Document rule utilities.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CreditCardReceiptDocumentRuleUtil {
     /**

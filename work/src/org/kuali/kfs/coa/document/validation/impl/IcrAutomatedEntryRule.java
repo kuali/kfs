@@ -37,7 +37,7 @@ import org.kuali.module.chart.bo.IcrAutomatedEntry;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);

@@ -33,7 +33,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrganizationExtension extends BusinessObjectBase {
 

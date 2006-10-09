@@ -49,6 +49,8 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ */
 public class TransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
 
@@ -234,8 +236,8 @@ public class TransactionReport {
                             if ( m == null ) {
                                 msg = "";
                             } else {
-                            msg = m.toString();
-                        }
+                            	msg = m.toString();
+                        	}
                         }
 
                         if (first) {

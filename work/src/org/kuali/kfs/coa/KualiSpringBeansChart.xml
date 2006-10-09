@@ -211,6 +211,12 @@
         </property>
     </bean>
 
+    <bean id="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable" parent="workflowLookupable" singleton="false">
+        <property name="businessObjectClassName">
+            <value>org.kuali.module.chart.bo.HigherEdFunction</value>
+        </property>
+    </bean>
+
     <bean id="workflow-org.kuali.core.bo.user.KualiUser-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
             <value>org.kuali.core.bo.user.KualiUser</value>

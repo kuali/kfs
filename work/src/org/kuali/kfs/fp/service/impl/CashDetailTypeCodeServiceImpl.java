@@ -30,7 +30,7 @@ import org.kuali.module.financial.service.CashDetailTypeCodeService;
  * This is the default implementation for the CashDetailTypeCodeService interface. This implementation used the KualiCodeService,
  * which in turn uses the KualiCodeDao for retrieving values from the database.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService {
     private KualiCodeService kualiCodeService;

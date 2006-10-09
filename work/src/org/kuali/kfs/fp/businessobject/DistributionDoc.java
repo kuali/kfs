@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.document.DocumentHeader;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DistributionDoc extends BusinessObjectBase {
 

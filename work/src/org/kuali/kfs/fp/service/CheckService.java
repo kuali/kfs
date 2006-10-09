@@ -29,7 +29,7 @@ import org.kuali.module.financial.bo.Check;
 /**
  * This interface defines methods that a Check service implementation must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface CheckService {
     /**

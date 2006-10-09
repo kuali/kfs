@@ -32,7 +32,7 @@ import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class VerifyTransactionImpl implements VerifyTransaction {

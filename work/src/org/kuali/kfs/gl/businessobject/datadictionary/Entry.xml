@@ -259,9 +259,7 @@
                 <control>
                     <text size="10" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Organization Reference Id</summary>
                 <description>
                     <![CDATA[&nbsp;]]>
                 </description>

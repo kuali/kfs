@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * This interface defines methods that a FiscalYearFunctionControl Service must provide.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface FiscalYearFunctionControlService {
 

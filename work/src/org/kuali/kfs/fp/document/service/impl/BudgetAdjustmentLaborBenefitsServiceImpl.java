@@ -46,7 +46,7 @@ import org.kuali.module.labor.bo.LaborObjectBenefit;
 /**
  * These service performs methods related to the generation of labor benefit accounting lines for the budget adjustment document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmentLaborBenefitsService {
     private BusinessObjectService businessObjectService;

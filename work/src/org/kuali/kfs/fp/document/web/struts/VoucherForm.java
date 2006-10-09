@@ -57,7 +57,7 @@ import org.kuali.module.financial.document.VoucherDocument;
  * explicitly known; however, already existing accounting lines need to exist within a list with ordering that matches the
  * accounting lines source list.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class VoucherForm extends KualiTransactionalDocumentFormBase {
     private List accountingPeriods;

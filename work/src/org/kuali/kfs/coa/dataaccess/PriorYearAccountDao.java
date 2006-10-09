@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.PriorYearAccount;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public interface PriorYearAccountDao {
     /**

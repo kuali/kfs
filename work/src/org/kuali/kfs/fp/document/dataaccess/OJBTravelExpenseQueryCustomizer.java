@@ -36,7 +36,7 @@ import org.kuali.PropertyConstants;
 /**
  * Query customizer for to seperate out the pre-paid and non prepaid collections from the dv expense table.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class OJBTravelExpenseQueryCustomizer implements QueryCustomizer {
     private static final String prepaidAttributeName = "PREPAID";

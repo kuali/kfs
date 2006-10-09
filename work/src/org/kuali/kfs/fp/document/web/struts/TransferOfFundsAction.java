@@ -29,7 +29,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
  * follows the basic transactional document pattern, there are no specific actions that it has to implement; however, this empty
  * class is necessary for integrating into the framework.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class TransferOfFundsAction extends KualiTransactionalDocumentActionBase {
 }

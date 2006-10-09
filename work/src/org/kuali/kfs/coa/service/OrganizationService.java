@@ -29,7 +29,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * This interface defines methods that an Org Service must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface OrganizationService {
 

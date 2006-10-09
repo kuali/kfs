@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * Business rule(s) applicable to Year End General Error Correction documents. All other business rules are inherited from the
  * parent non-year end version.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndGeneralErrorCorrectionDocumentRule extends GeneralErrorCorrectionDocumentRule {
 

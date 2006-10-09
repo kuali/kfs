@@ -26,7 +26,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The location of the conference.
                 </description>
             </attribute>
 
@@ -46,7 +46,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The system code for the type of expense associated with the conference.
                 </description>
             </attribute>
 
@@ -66,7 +66,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The date on which the conference starts entered directly or selected from the calendar.
                 </description>
             </attribute>
 
@@ -86,7 +86,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The date on which the conference ends, entered directly or selected from the calendar.
                 </description>
             </attribute>
 
@@ -106,7 +106,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The total amount of the conference fees.
                 </description>
             </attribute>
         </attributes>

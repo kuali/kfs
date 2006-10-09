@@ -25,7 +25,7 @@ package org.kuali.module.financial.rules;
 /**
  * Holds constants for budget adjustments
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentDocumentRuleConstants {
     public static final String BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.BudgetAdjustmentDocument";

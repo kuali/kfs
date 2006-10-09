@@ -24,7 +24,7 @@ import org.kuali.module.gl.dao.ReversalDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class ReversalDaoOjb extends PersistenceBrokerDaoSupport implements ReversalDao {

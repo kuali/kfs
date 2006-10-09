@@ -43,6 +43,7 @@ import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS;
 import static org.kuali.KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
 import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
 import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
@@ -89,7 +90,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase {
     private static Log LOG = LogFactory.getLog(AuxiliaryVoucherDocumentRule.class);
@@ -131,7 +132,6 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
         String debitCreditCode = accountingLine.getDebitCreditCode();
         if (StringUtils.isBlank(debitCreditCode)) {
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
@@ -631,22 +631,49 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * specific entries because while these are offsets, their offset indicators do not show this, so they would be counted in the
      * balancing and we don't want that.
      * 
+     * Added a check for simple balance between credit and debit values as entered on the accountingLines, since that is also a
+     * requirement.
+     * 
      * @param transactionalDocument
      * @return boolean
      */
     @Override
     protected boolean isDocumentBalanceValidConsideringDebitsAndCredits(TransactionalDocument transactionalDocument) {
+        AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument) transactionalDocument;
+
+        return accountingLinesBalance(avDoc) && glpesBalance(avDoc);
+    }
+
+    /**
+     * @return true if the credit and debit entries from all accountingLines for the given document are in balance
+     */
+    private boolean accountingLinesBalance(AuxiliaryVoucherDocument avDoc) {
+        KualiDecimal creditAmount = avDoc.getCreditTotal();
+        KualiDecimal debitAmount = avDoc.getDebitTotal();
+
+        boolean balanced = debitAmount.equals(creditAmount);
+        if (!balanced) {
+            String errorParams[] = { creditAmount.toString(), debitAmount.toString() };
+            reportError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS, errorParams);
+        }
+        return balanced;
+    }
+
+    /**
+     * @param avDoc
+     * @return true if the explicit, non-DI credit and debit GLPEs derived from the document's accountingLines are in balance
+     */
+    private boolean glpesBalance(AuxiliaryVoucherDocument avDoc) {
         // generate GLPEs specifically here so that we can compare debits to credits
-        if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(transactionalDocument)) {
+        if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(avDoc)) {
             throw new ValidationException("general ledger GLPE generation failed");
         }
 
         // now loop through all of the GLPEs and calculate buckets for debits and credits
         KualiDecimal creditAmount = new KualiDecimal(0);
         KualiDecimal debitAmount = new KualiDecimal(0);
-        Iterator i = transactionalDocument.getGeneralLedgerPendingEntries().iterator();
-        while (i.hasNext()) {
-            GeneralLedgerPendingEntry glpe = (GeneralLedgerPendingEntry) i.next();
+
+        for (GeneralLedgerPendingEntry glpe : avDoc.getGeneralLedgerPendingEntries()) {
             // make sure we are looking at only the explicit entries that aren't DI types
             if (!glpe.isTransactionEntryOffsetIndicator() && !glpe.getFinancialDocumentTypeCode().equals(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(DistributionOfIncomeAndExpenseDocument.class))) {
                 if (GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
@@ -657,13 +684,13 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
                 }
             }
         }
-        boolean isValid = debitAmount.compareTo(creditAmount) == 0;
 
-        if (!isValid) {
-            reportError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE, new String[] { creditAmount.toString(), debitAmount.toString() });
+        boolean balanced = debitAmount.equals(creditAmount);
+        if (!balanced) {
+            String errorParams[] = { creditAmount.toString(), debitAmount.toString() };
+            reportError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE, errorParams);
         }
-
-        return isValid;
+        return balanced;
     }
 
     /**

@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.AccountBalance;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public interface AccountBalanceService {
     public final int PENDING_NONE = 1;

@@ -43,7 +43,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to Transfer of Funds documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase implements TransferOfFundsDocumentRuleConstants {
 

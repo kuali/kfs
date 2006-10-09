@@ -22,42 +22,36 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.financial.document.ServiceBillingDocument;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.KualiTestBase;
+import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 
 /**
  * 
  * This class tests the business rules of the service billing document. This is not implemented yet and needs to extend
  * TransactionalDocumentRuleTestBase.
  * 
- * @author Kuali Financial Transaction Processing Team ()
+ * 
  */
-@WithTestSpringContext
-public class ServiceBillingDocumentRuleTest extends KualiTestBaseWithFixtures {
+@WithTestSpringContext(session = DFOGLE)
+public class ServiceBillingDocumentRuleTest extends KualiTestBase {
 
 
     // ////////////////////////////////////////////////////////////////////////
     // Test methods start here //
     // ////////////////////////////////////////////////////////////////////////
-
-    /**
-     * @see org.kuali.test.KualiTestBaseWithFixtures#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        changeCurrentUser("DFOGLE");
-    }
 
     public final void testSave_nullDocument() throws Exception {
         boolean failedAsExpected = false;

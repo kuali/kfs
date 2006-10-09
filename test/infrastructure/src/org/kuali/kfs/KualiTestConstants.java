@@ -29,13 +29,13 @@ import org.kuali.core.util.KualiDecimal;
  * 
  * provides centralized storage of constants that occur throughout the tests
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface KualiTestConstants {
     /**
      * contains Test related constants
      * 
-     * @author Kuali Nervous System Team ()
+     * 
      */
     public final class TestConstants {
         private static final String HOST = "localhost";
@@ -46,7 +46,7 @@ public interface KualiTestConstants {
         /**
          * group of data values that should work if used togther
          * 
-         * @author Kuali Nervous System Team ()
+         * 
          */
         public static class Data1 {
             public final static String ACCOUNT_NUMBER = "9544900";

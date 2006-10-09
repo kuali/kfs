@@ -32,7 +32,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the ProjectCodeDao interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ProjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements ProjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeDaoOjb.class);

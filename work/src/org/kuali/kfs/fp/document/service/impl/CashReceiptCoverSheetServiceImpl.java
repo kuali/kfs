@@ -53,7 +53,7 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * Implementation of service for handling creation of the cover sheet of the <code>{@link CashReceiptDocument}</code>
  * 
- * @author Leo Przybylski
+ * 
  */
 public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetService {
     private static Log LOG = LogFactory.getLog(CashReceiptCoverSheetService.class);

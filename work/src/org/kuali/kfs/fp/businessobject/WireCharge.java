@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class WireCharge extends BusinessObjectBase {
 
@@ -312,7 +312,7 @@ public class WireCharge extends BusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear.toString());
+        m.put("universityFiscalYear", getUniversityFiscalYear());
         return m;
     }
 }

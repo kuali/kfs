@@ -30,16 +30,16 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the Check service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
+public class CashDrawerServiceTest extends KualiTestBase {
     private static final String BLANK_WORKGROUP_NAME = "";
     private static final String VALID_WORKGROUP_NAME = "testWorkgroup";
     private static final String BLANK_DOC_ID = "    ";

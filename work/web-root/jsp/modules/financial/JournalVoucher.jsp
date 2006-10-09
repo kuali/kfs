@@ -69,7 +69,8 @@
 							alt="press this button to refresh the page after changing the accounting period" />
 						</NOSCRIPT>
 						<kul:lookup
-							boClassName="org.kuali.module.chart.bo.AccountingPeriod" />
+							boClassName="org.kuali.module.chart.bo.AccountingPeriod" 
+							fieldLabel="${journalVoucherAttributes.accountingPeriod.label}"/>
 					</c:if></td>
 				</tr>
 				<tr>
@@ -118,7 +119,8 @@
 						<kul:lookup
 							boClassName="org.kuali.module.chart.bo.codes.BalanceTyp"
 							fieldConversions="code:selectedBalanceType.code"
-							lookupParameters="selectedBalanceType.code:code" />
+							lookupParameters="selectedBalanceType.code:code" 
+							 fieldLabel="${journalVoucherAttributes.balanceTypeCode.label}" />
 					</c:if></td>
 				</tr>
 				<tr>

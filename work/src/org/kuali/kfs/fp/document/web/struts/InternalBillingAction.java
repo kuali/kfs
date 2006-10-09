@@ -40,7 +40,7 @@ import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 /**
  * This class handles Actions for InternalBilling.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 

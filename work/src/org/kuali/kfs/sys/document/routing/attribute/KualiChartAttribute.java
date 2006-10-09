@@ -53,7 +53,7 @@ import edu.iu.uis.eden.util.Utilities;
 /**
  * KualiChartAttribute which should be used when using charts to do routing
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 

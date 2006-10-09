@@ -26,7 +26,7 @@ package org.kuali.module.financial.rules;
 /**
  * Holds constants for cash receipts document.
  * 
- * @author Nervous System Team ()
+ * 
  */
 public interface CashReceiptDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups

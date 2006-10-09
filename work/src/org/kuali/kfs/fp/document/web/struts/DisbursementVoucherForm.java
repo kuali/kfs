@@ -39,7 +39,7 @@ import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 /**
  * This class is the action form for the Disbursement Voucher.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;

@@ -33,7 +33,7 @@ import org.kuali.module.chart.service.BalanceTypService;
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali. It uses the
  * balance typs that are defined in the Kuali database.
  * 
- * @author Kuali Financial Transactions Red Team ()
+ * 
  */
 public class BalanceTypServiceImpl implements BalanceTypService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypServiceImpl.class);

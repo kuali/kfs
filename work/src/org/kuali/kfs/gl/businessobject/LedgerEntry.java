@@ -25,7 +25,7 @@ package org.kuali.module.gl.util;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author Anthony Potts
+ * 
  * 
  */
 public class LedgerEntry {

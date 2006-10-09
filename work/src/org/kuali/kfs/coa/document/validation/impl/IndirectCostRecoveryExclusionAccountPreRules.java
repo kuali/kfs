@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePreRulesBase {
 

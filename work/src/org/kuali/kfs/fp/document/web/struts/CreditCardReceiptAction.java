@@ -40,7 +40,7 @@ import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
 /**
  * This is the action class for the CreditCardReceiptDocument.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBase {
     /**

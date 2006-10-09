@@ -24,7 +24,7 @@ package org.kuali.module.kra.web.struts.form;
 
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -33,7 +33,7 @@ import org.kuali.test.WithTestSpringContext;
  * @author Kuali Research Administration Team ()
  */
 @WithTestSpringContext
-public class BudgetOverviewFormHelperTest extends KualiTestBaseWithSpring {
+public class BudgetOverviewFormHelperTest extends KualiTestBase {
 
     protected void setUp() throws Exception {
         super.setUp();

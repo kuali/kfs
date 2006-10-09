@@ -47,7 +47,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class represents a User Session
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class UserSession implements Serializable {
 
@@ -135,10 +135,11 @@ public class UserSession implements Serializable {
      * @throws EdenUserNotFoundException
      */
     public void setBackdoorUser(String networkId) throws UserNotFoundException, WorkflowException {
-        // TODO - determine how we will get the environment configuration - KULCFG-17
+       if (!"prd".equals(SpringServiceLocator.getKualiConfigurationService().getPropertyString("environment"))) {
         this.backdoorUser = SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(networkId));
         this.backdoorWorkflowUser = SpringServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
         this.workflowDocMap = new HashMap();
+       }
     }
 
     /**

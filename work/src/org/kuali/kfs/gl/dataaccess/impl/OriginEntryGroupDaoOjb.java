@@ -39,6 +39,10 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
+/**
+ *  
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.19 2006-10-09 13:56:40 abyrne Exp $ TODO Oracle Specific code here
+ */
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupDaoOjb.class);
 
@@ -115,7 +119,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getMatchingGroups(java.util.Map)
      */
     public Collection getMatchingGroups(Map searchCriteria) {
-        LOG.debug("getPendingEntries() started");
+        LOG.debug("getMatchingGroups() started");
 
         Criteria criteria = new Criteria();
         for (Iterator iterator = searchCriteria.keySet().iterator(); iterator.hasNext();) {

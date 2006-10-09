@@ -32,20 +32,20 @@ import junit.framework.AssertionFailedError;
 /**
  * This class implements a method for a {@link MockService}.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class MockMethod {
 
     private final String name;
     private final Object noResultFallback;
-    private final HashMap argListToResultMap = new HashMap();
+    private final HashMap<List<Object>,Object> argListToResultMap = new HashMap<List<Object>, Object>();
 
     /**
      * Constructs a new instance.
      * 
      * @param name the name of the method to mock
-     * @param noResultFallback the Object on which to actually invoke this method if no mock results are associated, or null if an
-     *        AssertionFailedError should be thrown in this case instead.
+     * @param noResultFallback the Object on which to actually invoke this method if no mock results are associated, or null if a
+     *        {@link junit.framework.AssertionFailedError} should be thrown in this case instead.
      */
     public MockMethod(String name, Object noResultFallback) {
         this.name = name;
@@ -69,13 +69,13 @@ public class MockMethod {
 
     /**
      * Returns the result associated with the given list of arguments (regardless of the given method). If there are no associated
-     * results, invokes the given method on the noResultFallback Object. If the noResultFallback Object is null, throws an
-     * AssertionFailedError.
+     * results, invokes the given method on the noResultFallback Object. If the noResultFallback Object is null, throws a
+     * {@link junit.framework.AssertionFailedError}.
      * 
      * @see java.lang.reflect.InvocationHandler#invoke
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        List key = Arrays.asList(args);
+        List<Object> key = Arrays.asList(args);
         if (argListToResultMap.containsKey(key)) {
             return argListToResultMap.get(key);
         }

@@ -25,7 +25,7 @@ package org.kuali.module.financial.rules;
 /**
  * This class...
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class PreEncumbranceDocumentRuleConstants {
     public static final String PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.PreEncumbranceDocument";

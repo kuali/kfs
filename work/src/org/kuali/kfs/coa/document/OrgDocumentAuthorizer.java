@@ -38,7 +38,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * Org/Organization specific authorization rules.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 

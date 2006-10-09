@@ -61,7 +61,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * type. The Journal Voucher is unique in that it defines several fields that aren't typically used by the other financial
  * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class JournalVoucherAction extends VoucherAction {
 

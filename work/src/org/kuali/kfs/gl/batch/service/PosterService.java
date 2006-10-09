@@ -23,7 +23,7 @@
 package org.kuali.module.gl.service;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface PosterService {

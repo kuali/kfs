@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.Chart;
 /**
  * This interface defines methods that a Chart Service must provide
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ChartService {
     /**

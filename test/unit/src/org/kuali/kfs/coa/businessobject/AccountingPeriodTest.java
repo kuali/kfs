@@ -31,7 +31,7 @@ import org.kuali.test.KualiTestBase;
 /**
  * This class tests the AccountingPeriod business object.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AccountingPeriodTest extends KualiTestBase {
     AccountingPeriod ap = null;

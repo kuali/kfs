@@ -28,7 +28,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 /**
  * This class handles Actions for the Distribution Income Expense objects.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class DistributionOfIncomeAndExpenseAction extends KualiTransactionalDocumentActionBase {

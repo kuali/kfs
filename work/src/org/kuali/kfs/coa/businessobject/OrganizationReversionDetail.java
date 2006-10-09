@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrganizationReversionDetail extends BusinessObjectBase {
 

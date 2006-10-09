@@ -128,9 +128,7 @@ public class EncumbranceClosingRuleHelper {
 
             // the sub fund group must exist for the prior year account and the
             // encumbrance must not be closed.
-            SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId(priorYearAccount.getSubFundGroupCode());
-            if (null != subFundGroup && priorYearAccount.isInCg()) {
-
+            if (priorYearAccount.isInCg()) {
                 return isEncumbranceClosed(encumbrance);
 
             }

@@ -35,7 +35,7 @@ import org.kuali.core.web.uidraw.KeyLabelPair;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
 

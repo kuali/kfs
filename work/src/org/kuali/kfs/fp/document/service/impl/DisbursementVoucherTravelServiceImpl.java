@@ -40,7 +40,7 @@ import org.kuali.module.financial.service.DisbursementVoucherTravelService;
 /**
  * Performs calculations of travel per diem and mileage amounts.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucherTravelService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTravelServiceImpl.class);

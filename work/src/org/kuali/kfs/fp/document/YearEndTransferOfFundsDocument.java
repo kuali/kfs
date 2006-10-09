@@ -29,7 +29,7 @@ package org.kuali.module.financial.document;
  * used on the glpe entries
  * 
  * @see TransferOfFundsDocument
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument implements YearEndDocument {
 

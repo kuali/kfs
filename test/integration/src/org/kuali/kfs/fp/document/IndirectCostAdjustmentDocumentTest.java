@@ -25,69 +25,49 @@ package org.kuali.module.financial.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentTestBase;
-import org.kuali.test.parameters.DocumentParameter;
-import org.kuali.test.parameters.TransactionalDocumentParameter;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.test.fixtures.AccountingLineFixture.ICA_LINE;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class is used to test the IndirectCostAdjustmentDocument.
  * 
- * @author Kuali Financial Transactions Blue Team ()
+ * 
  */
-@WithTestSpringContext
+@WithTestSpringContext(session = KHUNTLEY)
 public class IndirectCostAdjustmentDocumentTest extends TransactionalDocumentTestBase {
-    public static final String COLLECTION_NAME = "IndirectCostAdjustmentDocumentTest.collection1";
-    public static final String USER_NAME = "user1";
-    public static final String DOCUMENT_PARAMETER = "indirectCostAdjustmentDocumentParameter1";
-    public static final String SOURCE_LINE1 = "sourceLine2";
-    public static final String TARGET_LINE1 = "targetLine2";
-    public static final String SERIALIZED_LINE_PARAMTER = "serializedLine1";
-
-    /**
-     * Retrieve names of fixture collections test class is using.
-     * 
-     * @return String[]
-     */
-    public String[] getFixtureCollectionNames() {
-        return new String[] { COLLECTION_NAME };
-    }
 
     /**
      * 
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
      */
-    public DocumentParameter getDocumentParameterFixture() {
-        return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, DOCUMENT_PARAMETER).createObject();
+    public Document getDocumentParameterFixture() throws Exception {
+        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), IndirectCostAdjustmentDocument.class, 2007, "7");
     }
 
     /**
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
      */
-    public List getTargetAccountingLineParametersFromFixtures() {
-        ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, TARGET_LINE1).createObject());
-        return list;
+    public List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
+           return new ArrayList<AccountingLineFixture>();
     }
 
     /**
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
      */
-    public List getSourceAccountingLineParametersFromFixtures() {
-        ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE1).createObject());
+    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+    List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+        list.add(ICA_LINE);
         return list;
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getUserName()
-     */
-    public String getUserName() {
-        return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
-    }
 
     // START TEST METHODS
     /**
@@ -105,4 +85,5 @@ public class IndirectCostAdjustmentDocumentTest extends TransactionalDocumentTes
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
         // do nothing to pass
     }
+
 }

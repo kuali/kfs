@@ -233,7 +233,8 @@
     <c:if test="${displayMonthlyAmounts}">
         <fin:budgetAdjustmentMonthlyAmountLines 
             isSource="${isSource}" 
-            accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"/>
+            accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"
+            baselineAccountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]"/>
     </c:if>
 
 </logic:iterate>

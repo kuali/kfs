@@ -52,7 +52,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
 /**
  * Sufficient Funds implementation
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class SufficientFundsServiceImpl implements SufficientFundsService, SufficientFundsServiceConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsServiceImpl.class);
@@ -176,8 +176,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             }
         }
 
-        List<SufficientFundsItem> sfiList = new ArrayList<SufficientFundsItem>(items.values());
-        return sfiList;
+        return new ArrayList<SufficientFundsItem>(items.values());
     }
 
     private boolean hasSufficientFundsOnItem(SufficientFundsItem item) {
@@ -242,7 +241,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             LOG.debug("hasSufficientFundsOnItem() balanceAmount is negative, allow transaction to proceed");
             return true;
         }
-        
+
         PendingAmounts priorYearPending = new PendingAmounts();
         if ((Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode())) && (!item.getYear().isFinancialBeginBalanceLoadInd())) {
             priorYearPending = getPendingPriorYearBalanceAmount(item);
@@ -262,7 +261,8 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         else {
             availableBalance = sfBalance.getCurrentBudgetBalanceAmount().add(pending.budget).subtract(sfBalance.getAccountActualExpenditureAmt()).subtract(pending.actual).subtract(sfBalance.getAccountEncumbranceAmount()).subtract(pending.encumbrance);
         }
-       
+
+        LOG.debug("hasSufficientFundsOnItem() balanceAmount: " + balanceAmount + " availableBalance: " + availableBalance);
         if (balanceAmount.compareTo(availableBalance) > 0) {
             LOG.debug("hasSufficientFundsOnItem() no sufficient funds");
             return false;
@@ -300,6 +300,8 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             amounts.encumbrance = bal.getAccountEncumbranceAmount();
         }
 
+        LOG.debug("getPendingPriorYearBalanceAmount() budget      " + amounts.budget);
+        LOG.debug("getPendingPriorYearBalanceAmount() encumbrance " + amounts.encumbrance);
         return amounts;
     }
 
@@ -348,6 +350,9 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             amounts.encumbrance = amounts.encumbrance.subtract(generalLedgerPendingEntryService.getEncumbranceSummary(fiscalYear, chart, account, item.getSufficientFundsObjectCode(), false, item.getDocumentTypeCode().startsWith("YE")));
         }
 
+        LOG.debug("getPendingBalanceAmount() actual      " + amounts.actual);
+        LOG.debug("getPendingBalanceAmount() budget      " + amounts.budget);
+        LOG.debug("getPendingBalanceAmount() encumbrance " + amounts.encumbrance);
         return amounts;
     }
 

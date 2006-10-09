@@ -11,7 +11,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
 /**
  * Service used for manipulating disbursement voucher cover sheets.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface SufficientFundsService {
 

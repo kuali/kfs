@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.SubAccount;
 /**
  * This interface defines methods that a SubAccount Service must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface SubAccountService {
     /**

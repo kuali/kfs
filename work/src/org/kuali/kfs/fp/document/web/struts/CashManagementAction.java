@@ -58,7 +58,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Action class for CashManagementForm
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashManagementAction extends KualiDocumentActionBase {
     private static Logger LOG = Logger.getLogger(CashManagementAction.class);

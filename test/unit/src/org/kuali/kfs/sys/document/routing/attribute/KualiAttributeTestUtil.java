@@ -39,7 +39,7 @@ import edu.iu.uis.eden.routetemplate.RouteContext;
 /**
  * This class contains various utility methods for doing tests on workflow attributes.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class KualiAttributeTestUtil {
 

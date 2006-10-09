@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.ObjLevel;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
 

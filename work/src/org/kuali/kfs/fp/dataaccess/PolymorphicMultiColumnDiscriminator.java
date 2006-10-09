@@ -47,7 +47,7 @@ import org.apache.ojb.broker.metadata.ClassDescriptor;
  * 
  * (where ClassADiscriminator and ClassBDiscriminator extend PolymorphicMultiColumnDiscriminator)
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public abstract class PolymorphicMultiColumnDiscriminator extends RowReaderDefaultImpl {
 

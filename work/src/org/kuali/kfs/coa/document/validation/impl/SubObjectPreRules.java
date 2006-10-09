@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class SubObjectPreRules extends MaintenancePreRulesBase {
     private SubObjCd newAccount;

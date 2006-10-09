@@ -33,7 +33,7 @@ import org.kuali.module.chart.bo.Delegate;
 /**
  * This interface defines basic methods that Account Dao's must provide
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface AccountDao {
 

@@ -51,7 +51,7 @@ import org.kuali.module.gl.web.Constant;
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLInquirableImpl.class);

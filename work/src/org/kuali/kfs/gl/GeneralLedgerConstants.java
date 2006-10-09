@@ -26,7 +26,7 @@ package org.kuali.module.gl;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class GLConstants {
     public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";

@@ -58,7 +58,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>financialDocumentAdvanceDepositDescription description...</description>
+                <description>A brief description of the transaction. This field is for departmental use only, and does not appear on financial reports.</description>
             </attribute>
             <attributeReference name="financialDocumentAdvanceDepositReferenceNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber">
                 <label>Reference Number</label>

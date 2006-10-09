@@ -25,7 +25,7 @@ package org.kuali.module.financial.rules;
 /**
  * Distribution of Income and Expense Document specific APC constants
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface DistributionOfIncomeAndExpenseDocumentRuleConstants {
     public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.DistributionOfIncomeAndExpenseDocument";

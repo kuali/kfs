@@ -32,7 +32,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrganizationRoutingModel extends BusinessObjectBase {
 

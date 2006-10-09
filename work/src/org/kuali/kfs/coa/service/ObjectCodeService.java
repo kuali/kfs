@@ -29,7 +29,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * This interface defines methods that an ObjectCode Service must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ObjectCodeService {
 

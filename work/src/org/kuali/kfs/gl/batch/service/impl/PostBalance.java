@@ -36,7 +36,7 @@ import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.BalanceDao;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PostBalance implements PostTransaction, BalanceCalculator {

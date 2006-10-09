@@ -31,7 +31,7 @@ import org.kuali.module.gl.dao.BalanceDao;
 /**
  * Imlementation of AccountPresenceService
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class AccountPresenceServiceImpl implements AccountPresenceService {
     private BalanceDao balanceDao;

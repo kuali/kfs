@@ -32,7 +32,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the OffsetDefinitionDao interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OffsetDefinitionDaoOjb extends PersistenceBrokerDaoSupport implements OffsetDefinitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OffsetDefinitionDaoOjb.class);

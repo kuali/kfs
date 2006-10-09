@@ -259,7 +259,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>PDP customer profile number ACH payment.</description>
+                <description>The customer profile number for the Automated Cash Handling (ACH) payment</description>
             </attribute>
 
         </attributes>

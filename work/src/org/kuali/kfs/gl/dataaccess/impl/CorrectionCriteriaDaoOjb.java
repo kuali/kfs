@@ -32,30 +32,28 @@ import org.kuali.module.gl.dao.CorrectionCriteriaDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class CorrectionCriteriaDaoOjb extends PersistenceBrokerDaoSupport implements CorrectionCriteriaDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionCriteriaDaoOjb.class);
 
-    public CorrectionCriteriaDaoOjb() {
-        super();
-    }
-
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.kuali.module.gl.dao.CorrectionSearchCriterionDao#delete(org.kuali.module.gl.bo.CorrectionSearchCriterion)
+     * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#delete(org.kuali.module.gl.bo.CorrectionCriteria)
      */
     public void delete(CorrectionCriteria criterion) {
+        LOG.debug("delete() started");
+
         getPersistenceBrokerTemplate().delete(criterion);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#findByDocumentNumberAndCorrectionGroupId(java.lang.String,
-     *      java.lang.Integer)
+     * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String, java.lang.Integer)
      */
-    public List findByDocumentNumberAndCorrectionGroupNumber(Integer documentNumber, Integer correctionGroupLineNumber) {
+    public List findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupLineNumber) {
+        LOG.debug("findByDocumentNumberAndCorrectionGroupNumber() started");
+
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("FDOC_NBR", documentNumber);
-        criteria.addEqualTo("GL_COR_CHG_GRP_LN_NBR", correctionGroupLineNumber);
+        criteria.addEqualTo("financialDocumentNumber", documentNumber);
+        criteria.addEqualTo("correctionChangeGroupLineNumber", correctionGroupLineNumber);
 
         Class clazz = CorrectionCriteria.class;
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
@@ -70,6 +68,8 @@ public class CorrectionCriteriaDaoOjb extends PersistenceBrokerDaoSupport implem
      * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#save(org.kuali.module.gl.bo.CorrectionCriteria)
      */
     public void save(CorrectionCriteria criterion) {
+        LOG.debug("save() started");
+
         getPersistenceBrokerTemplate().store(criterion);
     }
 }

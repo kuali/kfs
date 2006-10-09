@@ -22,22 +22,9 @@
  */
 package org.kuali.module.financial.util;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.kuali.Constants;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.test.KualiTestBaseWithSession;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.TestsWorkflowViaDatabase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 @WithTestSpringContext
 public class CashReceiptFamilyTestUtil {

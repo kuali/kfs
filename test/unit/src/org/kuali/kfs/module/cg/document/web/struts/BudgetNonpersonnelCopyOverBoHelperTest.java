@@ -26,14 +26,16 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverBoHelper.
  * 
  * @author Kuali Research Administration Team ()
  */
-public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBaseWithSpring {
+@WithTestSpringContext
+public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBase {
 
     /**
      * @see junit.framework.TestCase#setUp()

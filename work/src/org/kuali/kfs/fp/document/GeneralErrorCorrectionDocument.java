@@ -35,7 +35,7 @@ import org.kuali.module.financial.bo.GeneralErrorCorrectionDocumentAccountingLin
  * will eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines:
  * from and to. From lines are the source lines, to lines are the target lines.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class GeneralErrorCorrectionDocument extends TransactionalDocumentBase {
     /**

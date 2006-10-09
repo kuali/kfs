@@ -42,6 +42,8 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.test.KualiTestBase;
 import org.springframework.beans.factory.BeanFactory;
 
+/**
+ */
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
 

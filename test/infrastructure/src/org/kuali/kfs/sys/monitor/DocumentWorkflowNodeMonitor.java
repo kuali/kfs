@@ -9,7 +9,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Watches the workflow document and indicates valueChanged when either the status or the current node changes.
  * 
- * @author ewestfal
+ * 
  * 
  */
 public class DocumentWorkflowNodeMonitor extends ChangeMonitor {

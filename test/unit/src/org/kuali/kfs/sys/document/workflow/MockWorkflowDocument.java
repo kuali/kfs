@@ -42,7 +42,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  * All state and behavior needs to be added via a subclass.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
 

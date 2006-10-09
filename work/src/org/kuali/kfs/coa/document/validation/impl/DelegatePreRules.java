@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.Delegate;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DelegatePreRules implements PreRulesCheck {
 

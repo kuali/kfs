@@ -31,9 +31,9 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class OriginEntryGroup extends BusinessObjectBase {
 
     private static final String VALID_STRING = "Valid-";
-    private static final String INVALID_STRING = "Invalid-";
-    private static final String PROCESSED_STRING = "Will Be Processed-";
-    private static final String NOT_PROCESSED_STRING = "Will Not Process-";
+    private static final String INVALID_STRING = "Error-";
+    private static final String PROCESSED_STRING = "Process-";
+    private static final String NOT_PROCESSED_STRING = "Don't Process-";
     private static final String SCRUB_STRING = "Scrub";
     private static final String NO_SCRUB_STRING = "Don't Scrub";
 

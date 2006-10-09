@@ -48,7 +48,7 @@ import edu.iu.uis.eden.routetemplate.RouteContext;
  * the account 3) Only current adjustments are being made 4) The fund group for the account is not contract and grants 5) current
  * income/expense decrease amount must equal increase amount
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements SplitNode {
 

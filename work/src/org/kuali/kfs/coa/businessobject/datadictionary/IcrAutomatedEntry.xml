@@ -72,13 +72,13 @@
             <attribute name="financialIcrSeriesIdentifier" forceUppercase="true">
                 <label>Series Id</label>
                 <shortLabel>Series Id</shortLabel>
-                <maxLength>4</maxLength>
+                <maxLength>3</maxLength>
                 <validationPattern>
                     <numeric />
                 </validationPattern>
                 <required>true</required>
                 <control>
-                    <text size="4" />
+                    <text size="3" />
                 </control>
                 <summary>Series Id</summary>
                 <description>Series Id</description>

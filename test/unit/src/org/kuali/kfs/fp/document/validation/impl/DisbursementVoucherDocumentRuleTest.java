@@ -22,39 +22,28 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-
+import static org.kuali.test.fixtures.UserNameFixture.LRAAB;
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
-@WithTestSpringContext
-public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtures {
-
-    private static final String COLLECTION_NAME = "DisbursementVoucherDocumentRuleTest.collection1";
-    private static final String SOURCE_LINE_1 = "sourceLine1";
-
+@WithTestSpringContext(session = LRAAB)
+public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
 
     // /////////////////////////////////////////////////////////////////////////
     // Test Methods Start Here //
     // /////////////////////////////////////////////////////////////////////////
-
-    /**
-     * @see org.kuali.test.KualiTestBaseWithFixtures#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        changeCurrentUser("lraab");
-    }
 
     // public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_line_notNull() {
     // boolean failedAsExpected = false;

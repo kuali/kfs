@@ -33,7 +33,7 @@ import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class OrganizationReversionDaoOjb extends PersistenceBrokerDaoSupport implements OrganizationReversionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionDaoOjb.class);

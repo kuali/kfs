@@ -27,7 +27,7 @@ import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 /**
  * Service interface for implementing methods to generate labor benefit budget adjustment accounting lines.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface BudgetAdjustmentLaborBenefitsService {
 

@@ -34,7 +34,7 @@ import org.kuali.module.financial.document.CreditCardReceiptDocument;
 /**
  * This class is the struts form for Credit Card Receipt document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
     private CreditCardDetail newCreditCardReceipt;

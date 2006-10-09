@@ -45,7 +45,7 @@ import org.kuali.module.financial.web.struts.form.ProcurementCardForm;
 /**
  * This class handles specific Actions requests for the ProcurementCard.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAction.class);

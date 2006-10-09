@@ -75,7 +75,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * This class holds document specific business rules for the Journal Voucher. It overrides methods in the base rule class to apply
  * specific checks.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 

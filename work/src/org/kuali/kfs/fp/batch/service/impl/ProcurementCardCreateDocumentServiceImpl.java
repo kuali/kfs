@@ -76,7 +76,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Implementation of ProcurementCardCreateDocumentService
  * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
@@ -137,12 +137,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 documentService.prepareWorkflowDocument(pcardDocument);
             
                 // calling workflow service to bypass business rule checks
-              //  if (!pcardDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+                if (!pcardDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
                     workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-//                }
-//                else {
-//                    LOG.warn("Document " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " is already ENROUTE. Route status out of sync with FP_DOC_HEADER_T");
-//                }
+            }
+                else {
+                    LOG.warn("Document " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " is already ENROUTE. Route status out of sync with FP_DOC_HEADER_T");
+                }
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());

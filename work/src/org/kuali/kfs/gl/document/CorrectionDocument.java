@@ -26,497 +26,260 @@
 package org.kuali.module.gl.document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.document.DocumentBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberService;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CorrectionDocument extends DocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
 
-    // private String financialDocumentNumber;
-
-    private String correctionTypeCode; // Smanual, Scriteria, Fmanual, Fcriteria
-    private boolean correctionSelectionCode; // Matched criteria
-    private boolean correctionFileDeleteCode; // Delete Output
-    private Integer correctionRowCount;
-    private KualiDecimal correctionDebitTotalAmount;
-    private KualiDecimal correctionCreditTotalAmount;
-    private String correctionInputFileName; // Should be integer?
-    private String correctionOutputFileName; // Should be integer?
-    private String correctionScriptText;
-    private Long correctionInputGroupId;
-    private Long correctionOutputGroupId;
-
-    // private DocumentHeader financialDocument;
-
-    /**
-     * Each CorrectionGroup is indexed within the Document. correctionChangeGroupNextLineNumber keeps track of what the next index
-     * should be. It functions as a memory-resident counter. An alternative approach would have been to use a database sequence.
-     */
+    private String correctionTypeCode;                      // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or CorrectionDocumentService.CORRECTION_TYPE_CRITERIA
+    private boolean correctionSelection;                    // false if all input rows should be in the output, true if only selected rows should be in the output
+    private boolean correctionFileDelete;                   // false if the file should be processed by scrubber, true if the file should not be processed by scrubber
+    private Integer correctionRowCount;                     // Row count in output group
+    private KualiDecimal correctionDebitTotalAmount;        // Debit/Budget amount total in output group
+    private KualiDecimal correctionCreditTotalAmount;       // Credit amount total in output group
+    private String correctionInputFileName;                 // File name if uploaded
+    private String correctionOutputFileName;                // Not used
+    private String correctionScriptText;                    // Not used
+    private Integer correctionInputGroupId;                 // Group ID that has input data
+    private Integer correctionOutputGroupId;                // Group ID that has output data
     private Integer correctionChangeGroupNextLineNumber;
 
-    /**
-     * A List of CorrectionGroup Objects.
-     */
     private List correctionChangeGroup;
 
-    /**
-     * All OriginEntries corrected by this document are owned by OriginEntryGroups with this OriginEntrySource.
-     */
-    private OriginEntryGroup originEntryGroup;
-    private String originEntryGroupId;
-
-    /**
-     * Default constructor.
-     */
     public CorrectionDocument() {
         super();
         correctionChangeGroupNextLineNumber = new Integer(0);
 
         correctionChangeGroup = new ArrayList();
-
-        // create a default correction group
-        addCorrectionGroup(new CorrectionChangeGroup());
-
-
-    }
-
-    /**
-     * Gets the financialDocumentNumber attribute.
-     * 
-     * @return - Returns the financialDocumentNumber
-     * 
-     */
-    // public String getFinancialDocumentNumber() {
-    // return financialDocumentNumber;
-    // }
-    /**
-     * Sets the financialDocumentNumber attribute.
-     * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
-     * 
-     */
-    // public void setFinancialDocumentNumber(String financialDocumentNumber) {
-    // this.financialDocumentNumber = financialDocumentNumber;
-    // }
-    /**
-     * Gets the correctionTypeCode attribute.
-     * 
-     * @return - Returns the correctionTypeCode
-     * 
-     */
-    public String getCorrectionTypeCode() {
-        return correctionTypeCode;
-    }
-
-    /**
-     * Sets the correctionTypeCode attribute.
-     * 
-     * @param correctionTypeCode The correctionTypeCode to set.
-     * 
-     */
-    public void setCorrectionTypeCode(String correctionTypeCode) {
-        this.correctionTypeCode = correctionTypeCode;
-    }
-
-
-    /**
-     * Gets the correctionSelectionCode attribute.
-     * 
-     * @return - Returns the correctionSelectionCode
-     * 
-     */
-    public boolean getCorrectionSelectionCode() {
-        return correctionSelectionCode;
-    }
-
-    /**
-     * Sets the correctionSelectionCode attribute.
-     * 
-     * @param correctionSelectionCode The correctionSelectionCode to set.
-     * 
-     */
-    public void setCorrectionSelectionCode(boolean correctionSelectionCode) {
-        this.correctionSelectionCode = correctionSelectionCode;
-    }
-
-
-    /**
-     * Gets the correctionFileDeleteCode attribute.
-     * 
-     * @return - Returns the correctionFileDeleteCode
-     * 
-     */
-    public boolean getCorrectionFileDeleteCode() {
-        return correctionFileDeleteCode;
-    }
-
-    /**
-     * Sets the correctionFileDeleteCode attribute.
-     * 
-     * @param correctionFileDeleteCode The correctionFileDeleteCode to set.
-     * 
-     */
-    public void setCorrectionFileDeleteCode(boolean correctionFileDeleteCode) {
-        this.correctionFileDeleteCode = correctionFileDeleteCode;
-    }
-
-
-    /**
-     * Gets the correctionRowCount attribute.
-     * 
-     * @return - Returns the correctionRowCount
-     * 
-     */
-    public Integer getCorrectionRowCount() {
-        return correctionRowCount;
-    }
-
-    /**
-     * Sets the correctionRowCount attribute.
-     * 
-     * @param correctionRowCount The correctionRowCount to set.
-     * 
-     */
-    public void setCorrectionRowCount(Integer correctionRowCount) {
-        this.correctionRowCount = correctionRowCount;
-    }
-
-
-    /**
-     * Gets the correctionChangeGroupNextLineNumber attribute.
-     * 
-     * @return - Returns the correctionChangeGroupNextLineNumber
-     * 
-     */
-    public Integer getCorrectionChangeGroupNextLineNumber() {
-        return correctionChangeGroupNextLineNumber;
-    }
-
-    /**
-     * Sets the correctionChangeGroupNextLineNumber attribute.
-     * 
-     * @param correctionChangeGroupNextLineNumber The correctionChangeGroupNextLineNumber to set.
-     * 
-     */
-    public void setCorrectionChangeGroupNextLineNumber(Integer correctionChangeGroupNextLineNumber) {
-        this.correctionChangeGroupNextLineNumber = correctionChangeGroupNextLineNumber;
-    }
-
-
-    /**
-     * Gets the correctionDebitTotalAmount attribute.
-     * 
-     * @return - Returns the correctionDebitTotalAmount
-     * 
-     */
-    public KualiDecimal getCorrectionDebitTotalAmount() {
-        return correctionDebitTotalAmount;
-    }
-
-    /**
-     * Sets the correctionDebitTotalAmount attribute.
-     * 
-     * @param correctionDebitTotalAmount The correctionDebitTotalAmount to set.
-     * 
-     */
-    public void setCorrectionDebitTotalAmount(KualiDecimal correctionDebitTotalAmount) {
-        this.correctionDebitTotalAmount = correctionDebitTotalAmount;
-    }
-
-
-    /**
-     * Gets the correctionCreditTotalAmount attribute.
-     * 
-     * @return - Returns the correctionCreditTotalAmount
-     * 
-     */
-    public KualiDecimal getCorrectionCreditTotalAmount() {
-        return correctionCreditTotalAmount;
-    }
-
-    /**
-     * Sets the correctionCreditTotalAmount attribute.
-     * 
-     * @param correctionCreditTotalAmount The correctionCreditTotalAmount to set.
-     * 
-     */
-    public void setCorrectionCreditTotalAmount(KualiDecimal correctionCreditTotalAmount) {
-        this.correctionCreditTotalAmount = correctionCreditTotalAmount;
-    }
-
-
-    /**
-     * Gets the correctionInputFileName attribute.
-     * 
-     * @return - Returns the correctionInputFileName
-     * 
-     */
-    public String getCorrectionInputFileName() {
-        return correctionInputFileName;
-    }
-
-    /**
-     * Sets the correctionInputFileName attribute.
-     * 
-     * @param correctionInputFileName The correctionInputFileName to set.
-     * 
-     */
-    public void setCorrectionInputFileName(String correctionInputFileName) {
-        this.correctionInputFileName = correctionInputFileName;
-    }
-
-
-    /**
-     * Gets the correctionOutputFileName attribute.
-     * 
-     * @return - Returns the correctionOutputFileName
-     * 
-     */
-    public String getCorrectionOutputFileName() {
-        return correctionOutputFileName;
-    }
-
-    /**
-     * Sets the correctionOutputFileName attribute.
-     * 
-     * @param correctionOutputFileName The correctionOutputFileName to set.
-     * 
-     */
-    public void setCorrectionOutputFileName(String correctionOutputFileName) {
-        this.correctionOutputFileName = correctionOutputFileName;
-    }
-
-
-    /**
-     * Gets the correctionScriptText attribute.
-     * 
-     * @return - Returns the correctionScriptText
-     * 
-     */
-    public String getCorrectionScriptText() {
-        return correctionScriptText;
-    }
-
-    /**
-     * Sets the correctionScriptText attribute.
-     * 
-     * @param correctionScriptText The correctionScriptText to set.
-     * 
-     */
-    public void setCorrectionScriptText(String correctionScriptText) {
-        this.correctionScriptText = correctionScriptText;
-    }
-
-
-    /**
-     * Gets the financialDocument attribute.
-     * 
-     * @return - Returns the financialDocument
-     * 
-     */
-    // public DocumentHeader getFinancialDocument() {
-    // return financialDocument;
-    // }
-    /**
-     * Sets the financialDocument attribute.
-     * 
-     * @param financialDocument The financialDocument to set.
-     * @deprecated
-     */
-    // public void setFinancialDocument(DocumentHeader financialDocument) {
-    // this.financialDocument = financialDocument;
-    // }
-    /**
-     * Gets the correctionChangeGroup list.
-     * 
-     * @return - Returns the correctionChangeGroup list
-     * 
-     */
-    public List getCorrectionChangeGroup() {
-        return correctionChangeGroup;
-    }
-
-    /**
-     * Sets the correctionChangeGroup list.
-     * 
-     * @param correctionChangeGroup The correctionChangeGroup list to set.
-     * 
-     */
-    public void setCorrectionChangeGroup(List correctionChangeGroup) {
-        this.correctionChangeGroup = correctionChangeGroup;
-    }
-
-    /**
-     * 
-     * @param groupNumber
-     * @return the CorrectionGroup with the given groupNumber
-     */
-    public CorrectionChangeGroup getCorrectionGroup(Integer groupNumber) {
-        CorrectionChangeGroup selected = null;
-        for (Iterator i = correctionChangeGroup.iterator(); i.hasNext();) {
-            CorrectionChangeGroup group = (CorrectionChangeGroup) i.next();
-            if (groupNumber.equals(group.getCorrectionChangeGroupLineNumber())) {
-                selected = group;
-                break;
-            }
-        }
-        return selected;
-    }
-
-    /**
-     * Assign the correct group number and add the group to the list of groups.
-     * 
-     * @param group
-     */
-    public void addCorrectionGroup(CorrectionChangeGroup group) {
-        group.setFinancialDocumentNumber(getFinancialDocumentNumber());
-
-        Integer currentNextGroupNumber = getCorrectionChangeGroupNextLineNumber();
-        group.setCorrectionChangeGroupLineNumber(currentNextGroupNumber);
-        group.setFinancialDocumentNumber(getFinancialDocumentNumber());
-
-        setCorrectionChangeGroupNextLineNumber(new Integer(currentNextGroupNumber.intValue() + 1));
-        correctionChangeGroup.add(group);
-    }
-
-    /**
-     * Remove the group with the given groupNumber.
-     * 
-     * @param groupNumber
-     */
-    public void removeCorrectionGroup(Integer groupNumber) {
-        for (Iterator i = correctionChangeGroup.iterator(); i.hasNext();) {
-            CorrectionChangeGroup group = (CorrectionChangeGroup) i.next();
-            if (groupNumber.equals(group.getCorrectionChangeGroupLineNumber())) {
-                group.setCorrectionChangeGroupLineNumber(null);
-                correctionChangeGroup.remove(group);
-                break;
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.core.document.Document#getDocumentTitle()
-     */
-    public String getDocumentTitle() {
-        return super.getDocumentTitle();
-    }
-
-    /**
-     * Gets the originEntryGroup attribute.
-     * 
-     * @return Returns the originEntryGroup.
-     */
-    public OriginEntryGroup getOriginEntryGroup() {
-        return originEntryGroup;
-    }
-
-    /**
-     * Sets the originEntryGroup attribute value.
-     * 
-     * @param originEntryGroup The originEntryGroup to set.
-     */
-    public void setOriginEntryGroup(OriginEntryGroup originEntryGroup) {
-        this.originEntryGroup = originEntryGroup;
-    }
-
-    /**
-     * Gets the originEntryGroupId attribute.
-     * 
-     * @return Returns the originEntryGroupId.
-     */
-    public String getOriginEntryGroupId() {
-        return originEntryGroupId;
-    }
-
-    /**
-     * Sets the originEntryGroupId attribute value.
-     * 
-     * @param originEntryGroupId The originEntryGroupId to set.
-     */
-    public void setOriginEntryGroupId(String originEntryGroupId) {
-        this.originEntryGroupId = originEntryGroupId;
-    }
-
-    /**
-     * Gets the correctionInputGroupId attribute.
-     * 
-     * @return Returns the correctionInputGroupId.
-     */
-    public Long getCorrectionInputGroupId() {
-        return correctionInputGroupId;
-    }
-
-    /**
-     * Sets the correctionInputGroupId attribute value.
-     * 
-     * @param correctionInputGroupId The correctionInputGroupId to set.
-     */
-    public void setCorrectionInputGroupId(Long correctionInputGroupId) {
-        this.correctionInputGroupId = correctionInputGroupId;
-    }
-
-    /**
-     * Gets the correctionOutputGroupId attribute.
-     * 
-     * @return Returns the correctionOutputGroupId.
-     */
-    public Long getCorrectionOutputGroupId() {
-        return correctionOutputGroupId;
-    }
-
-    /**
-     * Sets the correctionOutputGroupId attribute value.
-     * 
-     * @param correctionOutputGroupId The correctionOutputGroupId to set.
-     */
-    public void setCorrectionOutputGroupId(Long correctionOutputGroupId) {
-        this.correctionOutputGroupId = correctionOutputGroupId;
+        addCorrectionChangeGroup(new CorrectionChangeGroup());
     }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);
         return m;
     }
 
-    public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
-        if (getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
-            String docId = getDocumentHeader().getFinancialDocumentNumber();
-            CorrectionDocumentService correctionDocumentService = (CorrectionDocumentService) SpringServiceLocator.getBeanFactory().getBean("glCorrectionDocumentService");
-            CorrectionDocument oldDoc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
-            String groupId = oldDoc.getCorrectionOutputFileName();
-
-            OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
-            OriginEntryGroup approvedGLCP = originEntryGroupService.getExactMatchingEntryGroup(Integer.parseInt(groupId));
-            approvedGLCP.setScrub(true);
-            originEntryGroupService.save(approvedGLCP);
-            ScrubberService scrubberService = (ScrubberService) SpringServiceLocator.getBeanFactory().getBean("glScrubberService");
-            scrubberService.scrubGroupReportOnly(approvedGLCP);
-
-
+    public String getMethod() {
+        if ( CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionTypeCode) ) {
+            return "Manual Edit";
+        } else {
+            return "Using Criteria";
         }
-
-
     }
 
+    public String getSystem() {
+        if (correctionInputFileName != null) {
+            return "File Upload";
+        } else {
+            return "Database";
+        }
+    }
 
+    public void addCorrectionChangeGroup(CorrectionChangeGroup ccg) {
+        ccg.setFinancialDocumentNumber(financialDocumentNumber);
+        ccg.setCorrectionChangeGroupLineNumber(correctionChangeGroupNextLineNumber++);
+        correctionChangeGroup.add(ccg);
+    }
+
+    public void removeCorrectionChangeGroup(int changeNumber) {
+        for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
+            CorrectionChangeGroup element = (CorrectionChangeGroup)iter.next();
+            if ( changeNumber == element.getCorrectionChangeGroupLineNumber().intValue() ) {
+                iter.remove();
+            }
+        }
+    }
+
+    public CorrectionChangeGroup getCorrectionChangeGroupItem(int groupNumber) {
+        for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
+            CorrectionChangeGroup element = (CorrectionChangeGroup) iter.next();
+            if ( groupNumber == element.getCorrectionChangeGroupLineNumber().intValue() ) {
+                return element;
+            }
+        }
+
+        CorrectionChangeGroup ccg = new CorrectionChangeGroup(financialDocumentNumber,groupNumber);
+        correctionChangeGroup.add(ccg);
+
+        return ccg;
+    }
+
+    /**
+     * If the document final, change the process flag on the output origin entry group (if necessary)
+     * 
+     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        LOG.debug("handleRouteStatusChange() started");
+
+        super.handleRouteStatusChange();
+
+        ReportService reportService = (ReportService) SpringServiceLocator.getBeanFactory().getBean("glReportService");
+        ScrubberService scrubberService = (ScrubberService) SpringServiceLocator.getBeanFactory().getBean("glScrubberService");
+        CorrectionDocumentService correctionDocumentService = (CorrectionDocumentService) SpringServiceLocator.getBeanFactory().getBean("glCorrectionDocumentService");
+        OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+
+        String docId = getDocumentHeader().getFinancialDocumentNumber();
+        CorrectionDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
+
+        if ( getDocumentHeader().getWorkflowDocument().stateIsFinal() ) {
+            OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
+            if ( ! doc.getCorrectionFileDelete() ) {
+                LOG.debug("handleRouteStatusChange() Mark group as to be processed");
+                outputGroup.setProcess(true);
+                originEntryGroupService.save(outputGroup);
+            }
+        }
+
+        if ( getDocumentHeader().getWorkflowDocument().stateIsEnroute() ) {
+            if ( doc.getCorrectionOutputGroupId() != null ) {
+                LOG.debug("handleRouteStatusChange() Run reports");
+
+                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
+                DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
+                java.sql.Date today = dateTimeService.getCurrentSqlDate();
+
+                reportService.correctionOnlineReport(doc, today);
+
+                // Run the scrubber on this group to generate a bunch of reports.  The scrubber won't save anything when running it this way.
+                scrubberService.scrubGroupReportOnly(outputGroup,docId);
+            }
+        }
+    }
+
+    /**
+     * We need to make sure this is set on all the child objects also
+     * 
+     * @see org.kuali.core.document.DocumentBase#setFinancialDocumentNumber(java.lang.String)
+     */
+    @Override
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        super.setFinancialDocumentNumber(financialDocumentNumber);
+
+        for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
+            CorrectionChangeGroup element = (CorrectionChangeGroup)iter.next();
+            element.setFinancialDocumentNumber(financialDocumentNumber);
+        }
+    }
+
+    public String getCorrectionTypeCode() {
+        return correctionTypeCode;
+    }
+
+    public void setCorrectionTypeCode(String correctionTypeCode) {
+        this.correctionTypeCode = correctionTypeCode;
+    }
+
+    public boolean getCorrectionSelection() {
+        return correctionSelection;
+    }
+
+    public void setCorrectionSelection(boolean correctionSelection) {
+        this.correctionSelection = correctionSelection;
+    }
+
+    public boolean getCorrectionFileDelete() {
+        return correctionFileDelete;
+    }
+
+    public void setCorrectionFileDelete(boolean correctionFileDelete) {
+        this.correctionFileDelete = correctionFileDelete;
+    }
+
+    public Integer getCorrectionRowCount() {
+        return correctionRowCount;
+    }
+
+    public void setCorrectionRowCount(Integer correctionRowCount) {
+        this.correctionRowCount = correctionRowCount;
+    }
+
+    public Integer getCorrectionChangeGroupNextLineNumber() {
+        return correctionChangeGroupNextLineNumber;
+    }
+
+    public void setCorrectionChangeGroupNextLineNumber(Integer correctionChangeGroupNextLineNumber) {
+        this.correctionChangeGroupNextLineNumber = correctionChangeGroupNextLineNumber;
+    }
+
+    public KualiDecimal getCorrectionDebitTotalAmount() {
+        return correctionDebitTotalAmount;
+    }
+
+    public void setCorrectionDebitTotalAmount(KualiDecimal correctionDebitTotalAmount) {
+        this.correctionDebitTotalAmount = correctionDebitTotalAmount;
+    }
+
+    public KualiDecimal getCorrectionCreditTotalAmount() {
+        return correctionCreditTotalAmount;
+    }
+
+    public void setCorrectionCreditTotalAmount(KualiDecimal correctionCreditTotalAmount) {
+        this.correctionCreditTotalAmount = correctionCreditTotalAmount;
+    }
+
+    public String getCorrectionInputFileName() {
+        return correctionInputFileName;
+    }
+
+    public void setCorrectionInputFileName(String correctionInputFileName) {
+        this.correctionInputFileName = correctionInputFileName;
+    }
+
+    public String getCorrectionOutputFileName() {
+        return correctionOutputFileName;
+    }
+
+    public void setCorrectionOutputFileName(String correctionOutputFileName) {
+        this.correctionOutputFileName = correctionOutputFileName;
+    }
+
+    public List getCorrectionChangeGroup() {
+        Collections.sort(correctionChangeGroup);
+        return correctionChangeGroup;
+    }
+
+    public void setCorrectionChangeGroup(List correctionChangeGroup) {
+        this.correctionChangeGroup = correctionChangeGroup;
+    }
+
+    public Integer getCorrectionInputGroupId() {
+        return correctionInputGroupId;
+    }
+
+    public void setCorrectionInputGroupId(Integer correctionInputGroupId) {
+        this.correctionInputGroupId = correctionInputGroupId;
+    }
+
+    public Integer getCorrectionOutputGroupId() {
+        return correctionOutputGroupId;
+    }
+
+    public void setCorrectionOutputGroupId(Integer correctionOutputGroupId) {
+        this.correctionOutputGroupId = correctionOutputGroupId;
+    }
 }

@@ -35,7 +35,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AccountingPeriod extends BusinessObjectBase {
 

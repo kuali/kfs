@@ -37,7 +37,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * Business rule(s) applicable to IndirectCostAdjustment documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements IndirectCostAdjustmentDocumentRuleConstants {
 

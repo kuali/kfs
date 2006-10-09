@@ -331,7 +331,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>A free-form text field that identifies the departure City and State for the Non-Employee Travel.</description>
+                <description>The city and state of the traveler's departure.</description>
             </attribute>
 
             <attribute name="disbVchrAutoFromStateCode">
@@ -350,7 +350,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The city and state of the traveler's departure.
                 </description>
             </attribute>
 
@@ -369,7 +369,7 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>A free-form text field that identifies the destination City and State for the Non-Employee Travel.</description>
+                <description>The city and state of the traveler's destination.</description>
             </attribute>
 
             <attribute name="disbVchrAutoToStateCode">
@@ -388,7 +388,8 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The city and state of the traveler's destination.
+
                 </description>
             </attribute>
 

@@ -33,12 +33,12 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
-public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring {
+public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
 
     protected BeanFactory beanFactory;
@@ -65,22 +65,12 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
     public void testConversion() throws Exception {
         String[] expectedOutput = new String[] { 
                 "2007BL2220090    H                1                1                1",
-                "2007BL2231406BCASL                0                0                0",
-                "2007BL2231406CASHL                0                0                0",
-                "2007BL2231406FUBLL                0                0                0",
                 "2007BL2231406PRINL                0           180.35                0",
-                "2007BL2231406RESVL                0                0                0",
                 "2007BL2231406S&E L            12000             9.55                0",
                 "2007BL2231406TRAVL                0           2558.9                0",
                 "2007BL2231407GENXC                1                1                1",
-                "2007BL22314081800O                0                0                0",
                 "2007BL22314084938O                0           348.27                0",
-                "2007BL22314085000O                0                0                0",
                 "2007BL22314085215O                0              100                0",
-                "2007BL22314088000O                0                0                0",
-                "2007BL22314089041O                0                0                0",
-                "2007BL22314089892O                0                0                0",
-                "2007BL22314089899O                0                0                0"
         };
 
         updateAccount();
@@ -98,30 +88,15 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
     public void testAddedSFBLRecords() throws Exception {
         String[] expectedOutput = new String[] { 
                 "2007BL2220090    H         10756.57                0            503.5",
-                "2007BL2231406BCASL                0                0                0",
-                "2007BL2231406CASHL                0                0                0",
-                "2007BL2231406FUBLL                0                0                0",
                 "2007BL2231406PRINL                0           180.35                0",
-                "2007BL2231406RESVL                0                0                0",
                 "2007BL2231406S&E L            12000             9.55                0",
                 "2007BL2231406TRAVL                0           2558.9                0",
-                "2007BL2231407ASSTC                0                0                0",
-                "2007BL2231407FDBLC                0                0                0",
                 "2007BL2231407GENXC                0          -984.12                0",
-                "2007BL2231407LIABC                0                0                0",
-                "2007BL2231407OTREC                0                0                0",
-                "2007BL2231407RSRXC                0                0                0",
-                "2007BL22314081800O                0                0                0",
                 "2007BL22314084938O                0           348.27                0",
-                "2007BL22314085000O                0                0                0",
                 "2007BL22314085215O                0              100                0",
-                "2007BL22314088000O                0                0                0",
-                "2007BL22314089041O                0                0                0",
-                "2007BL22314089892O                0                0                0",
-                "2007BL22314089899O                0                0                0",
                 "2007BL2231415    A            12000           2748.8                0"
         };
-
+        
         updateAccount();
         clearSufficientFundBalanceTable();
         clearSufficientFundRebuildTable();
@@ -131,13 +106,13 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }
-
+    
     protected void loadInputTransactions(String[] transactions) {
         for (int i = 0; i < transactions.length; i++) {
             createSFRB(transactions[i]);
         }
     }
-
+    
     protected SufficientFundRebuild createSFRB(String line) {
         SufficientFundRebuild sfrb = new SufficientFundRebuild(line);
 

@@ -29,7 +29,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class Batch extends BusinessObjectBase {

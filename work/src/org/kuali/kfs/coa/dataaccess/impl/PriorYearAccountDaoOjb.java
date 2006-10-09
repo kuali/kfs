@@ -31,7 +31,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class PriorYearAccountDaoOjb extends PersistenceBrokerDaoSupport implements PriorYearAccountDao {
 

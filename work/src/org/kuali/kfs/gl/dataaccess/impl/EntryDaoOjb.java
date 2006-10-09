@@ -36,7 +36,7 @@ import org.kuali.module.gl.dao.EntryDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao {

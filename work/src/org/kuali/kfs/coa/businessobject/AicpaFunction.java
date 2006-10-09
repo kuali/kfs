@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  * 
  * Business object for American Institute of Certified Public Accountants (AICPA) function
  * 

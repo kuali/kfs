@@ -33,7 +33,7 @@ import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport implements SufficientFundBalancesDao {

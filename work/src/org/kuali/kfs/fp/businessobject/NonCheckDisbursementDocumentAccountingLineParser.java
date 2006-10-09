@@ -42,7 +42,7 @@ import org.kuali.core.bo.AccountingLineParserBase;
  * 
  * @see org.kuali.module.financial.document.NonCheckDisbursementDocument
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class NonCheckDisbursementDocumentAccountingLineParser extends AccountingLineParserBase {
     private static final String[] FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, OVERRIDE_CODE, AMOUNT };

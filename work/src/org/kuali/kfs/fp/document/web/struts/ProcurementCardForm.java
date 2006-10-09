@@ -43,7 +43,7 @@ import org.kuali.module.financial.document.ProcurementCardDocument;
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;

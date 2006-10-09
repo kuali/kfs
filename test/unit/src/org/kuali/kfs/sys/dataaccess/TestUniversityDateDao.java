@@ -32,7 +32,7 @@ import org.kuali.test.KualiTestBase;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class TestUniversityDateDao extends KualiTestBase {

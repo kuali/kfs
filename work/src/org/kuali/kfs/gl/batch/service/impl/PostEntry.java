@@ -13,7 +13,7 @@ import org.kuali.module.gl.dao.EntryDao;
 import org.kuali.module.gl.service.PosterService;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PostGlEntry implements PostTransaction {

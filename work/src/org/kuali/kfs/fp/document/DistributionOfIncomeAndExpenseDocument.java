@@ -31,7 +31,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
  * The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. Amounts
  * being distributed are usually the result of an accumulation of transactions that need to be divided up between various accounts.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DistributionOfIncomeAndExpenseDocument extends TransactionalDocumentBase {
 

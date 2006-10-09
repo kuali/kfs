@@ -28,7 +28,7 @@ package org.kuali.module.financial.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OwnershipTypeCode extends KualiCodeBase {
 

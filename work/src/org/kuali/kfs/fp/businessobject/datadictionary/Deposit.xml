@@ -20,8 +20,8 @@
                     <text size="2" />
                 </control>
 
-                <summary>Deposit number</summary>
-                <description>Deposit number</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The system number of the deposit assigned by KFS.</description>
             </attribute>
 
 
@@ -36,8 +36,8 @@
                     <text size="10" />
                 </control>
 
-                <summary>Deposit Type code</summary>
-                <description>Deposit Type code</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The system code for the type of deposit, selected from a pulldown list.</description>
             </attribute>
 
 
@@ -46,7 +46,7 @@
                 <shortLabel>Deposit Date</shortLabel>
                 <required>true</required>
 
-                <summary>Deposit Date</summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>Deposit Date</description>
             </attributeReference>
 
@@ -64,8 +64,8 @@
                     <text size="10" />
                 </control>
 
-                <summary>Deposit Ticket number</summary>
-                <description>Deposit Ticket number</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The ticket number of the deposit assigned by the bank.</description>
             </attribute>
 
 

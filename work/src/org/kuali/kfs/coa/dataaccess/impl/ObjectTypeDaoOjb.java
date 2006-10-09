@@ -12,7 +12,7 @@ import org.kuali.module.chart.dao.ObjectTypeDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class ObjectTypeDaoOjb extends PersistenceBrokerDaoSupport implements ObjectTypeDao {

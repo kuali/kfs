@@ -23,7 +23,7 @@
                 </control>
 
                 <summary>financialDocumentTransactionLineNumber</summary>
-                <description>financialDocumentTransactionLineNumber description...</description>
+                <description>The line number for the credit card transaction assigned by the bank.</description>
             </attribute>
 
             &accountingLineBaseAttributes;

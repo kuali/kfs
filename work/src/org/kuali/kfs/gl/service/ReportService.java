@@ -32,6 +32,7 @@ import org.kuali.core.bo.user.Options;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
@@ -69,7 +70,7 @@ public interface ReportService {
      * @param - runDate Run date of the report
      * @param - group Group to summarize for the report
      */
-    public void generateScrubberLedgerSummaryReportOnline(Date runDate, OriginEntryGroup group);
+    public void generateScrubberLedgerSummaryReportOnline(Date runDate, OriginEntryGroup group,String documentNumber);
 
     /**
      * Scrubber General Ledger Transaction Summary report
@@ -95,7 +96,7 @@ public interface ReportService {
      * @param - scrubberReport Summary information
      * @param - scrubberReportErrors Map of transactions with errors or warnings
      */
-    public void generateOnlineScrubberStatisticsReport(Integer groupId, Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors);
+    public void generateOnlineScrubberStatisticsReport(Integer groupId, Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors,String documentNumber);
 
     /**
      * Scrubber Demerger Statistics report
@@ -119,7 +120,7 @@ public interface ReportService {
      * @param - runDate Run date of the report
      * @param validGroup Group with transactions
      */
-    public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup);
+    public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup,String documentNumber);
 
     /**
      * Scrubber Removed Transactions report
@@ -243,4 +244,21 @@ public interface ReportService {
      * @param posterMode Mode the poster is running
      */
     public void generatePosterErrorTransactionListing(Date runDate, OriginEntryGroup group, int posterMode);
+    
+    /**
+     * GLCP document info report
+     * 
+     * @param cDocument
+     * @param runDate
+     */
+    public void correctionOnlineReport(CorrectionDocument cDocument, Date runDate);
+    
+    /**
+     * Poster output Summary Report: a summary of the three poster runs 
+     * (pulling in the  transactions from the main, reversal, and ICR posters) which we use for balancing.
+     * 
+     * @param runDate
+     * @param groups
+     */
+    public void generatePosterOutputTransactionSummaryReport(Date runDate, Collection groups);
 }

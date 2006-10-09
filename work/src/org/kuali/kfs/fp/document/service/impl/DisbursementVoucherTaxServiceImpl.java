@@ -55,7 +55,7 @@ import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 /**
  * Handles queries and validation on tax id numbers.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTaxService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTaxServiceImpl.class);

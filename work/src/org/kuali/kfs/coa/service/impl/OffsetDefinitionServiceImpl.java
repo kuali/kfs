@@ -30,7 +30,7 @@ import org.kuali.module.chart.service.OffsetDefinitionService;
  * This class is the service implementation for the OffsetDefinition structure. This is the default implementation, that is
  * delivered with Kuali.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
     private OffsetDefinitionDao offsetDefinitionDao;

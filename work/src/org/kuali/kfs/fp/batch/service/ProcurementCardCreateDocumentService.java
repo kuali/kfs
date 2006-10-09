@@ -26,7 +26,7 @@ package org.kuali.module.financial.service;
 /**
  * Service interface for implementing methods to create procurement card documents.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface ProcurementCardCreateDocumentService {
 

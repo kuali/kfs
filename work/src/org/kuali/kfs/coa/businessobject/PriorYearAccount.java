@@ -44,7 +44,7 @@ import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class PriorYearAccount extends BusinessObjectBase implements AccountIntf {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PriorYearAccount.class);

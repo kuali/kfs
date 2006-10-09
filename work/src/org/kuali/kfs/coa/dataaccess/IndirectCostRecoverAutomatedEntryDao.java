@@ -25,7 +25,7 @@ package org.kuali.module.chart.dao;
 import java.util.Collection;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface IcrAutomatedEntryDao {

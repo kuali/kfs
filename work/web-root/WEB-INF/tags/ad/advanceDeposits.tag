@@ -52,7 +52,7 @@
                 </td>
                 <td class="infoline">
                 	<div align="center">
-                		<html:image property="methodToCall.addAdvanceDeposit" src="images/tinybutton-add1.gif" alt="insert" title="insert" styleClass="tinybutton"/>
+                		<html:image property="methodToCall.addAdvanceDeposit" src="images/tinybutton-add1.gif" alt="Add an Advance Deposit" title="Add an Advance Deposit" styleClass="tinybutton"/>
                 	</div>
                 </td>
             </tr>
@@ -104,7 +104,7 @@
                 <c:if test="${not readOnly}">
                     <td class="datacell">
                     	<div align="center">
-                    		<html:image property="methodToCall.deleteAdvanceDeposit.line${ctr}" src="images/tinybutton-delete1.gif" alt="delete" title="delete" styleClass="tinybutton"/>
+                    		<html:image property="methodToCall.deleteAdvanceDeposit.line${ctr}" src="images/tinybutton-delete1.gif" alt="Delete an Advance Deposit" title="Delete an Advance Deposit" styleClass="tinybutton"/>
                     	</div>
                     </td>
                 </c:if>

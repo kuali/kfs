@@ -28,16 +28,16 @@ import java.util.Date;
 import org.kuali.core.bo.KualiSystemCode;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the BudgetAggregationCode service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class BudgetAggregationCodeServiceTest extends KualiTestBaseWithFixtures {
+public class BudgetAggregationCodeServiceTest extends KualiTestBase {
 
     private BudgetAggregationCode bac;
     private KualiCodeService kualiCodeService;

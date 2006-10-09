@@ -27,7 +27,7 @@ import org.kuali.core.web.struts.form.KualiForm;
 /**
  * This class is the Struts form for the Cash Management Status page.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashManagementStatusForm extends KualiForm {
     String verificationUnit;

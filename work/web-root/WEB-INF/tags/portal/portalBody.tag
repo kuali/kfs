@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/tlds/struts-bean.tld" prefix="bean" %>
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal" %>
 
 <%@ attribute name="channelTitle" required="true" %>
@@ -41,8 +42,9 @@
           </c:otherwise>
         </c:choose>
     </tr>
-        <tr valign="top">
-      <td colspan="4"><div id="footer-copyright">&copy; 2006 kuali.org </div></td>
-    </tr>
-
 </table>
+
+ <div class="footerbevel">&nbsp;</div>
+  <div id="footer-copyright"> <bean:message key="app.copyright" /></div>
+
+

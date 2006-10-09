@@ -37,11 +37,13 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public abstract class MaintenanceRuleTestBase extends KualiTestBaseWithFixtures {
+@WithTestSpringContext
+public abstract class MaintenanceRuleTestBase extends KualiTestBase {
         protected DictionaryValidationService dictionaryValidationService;
 
         protected void setUp() throws Exception {

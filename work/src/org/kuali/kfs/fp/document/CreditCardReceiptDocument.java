@@ -39,7 +39,7 @@ import org.kuali.module.financial.bo.CreditCardDetail;
  * document, only accepting funds into the university, the accounting line data will be held in the source accounting line data
  * structure only.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CreditCardReceiptDocument extends CashReceiptFamilyBase {
     // holds details about each credit card receipt

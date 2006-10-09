@@ -28,7 +28,7 @@ import org.kuali.module.financial.document.NonCheckDisbursementDocument;
 /**
  * This class is the action form for Non-Check Disbursement.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class NonCheckDisbursementForm extends KualiTransactionalDocumentFormBase {
 

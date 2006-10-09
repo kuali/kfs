@@ -179,7 +179,7 @@
             <kul:lookup
                 boClassName="${boClassName}"
                 fieldConversions="${fieldConversions}${conversionField}:${qualifiedField}"
-                lookupParameters="${lookupParameters}"
+                lookupParameters="${lookupParameters}" fieldLabel="${attributes[field].shortLabel}"
                 />
         </c:if>
     </c:if>

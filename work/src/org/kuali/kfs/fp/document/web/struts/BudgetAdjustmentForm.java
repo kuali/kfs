@@ -29,7 +29,7 @@ import org.kuali.module.financial.document.BudgetAdjustmentDocument;
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentForm extends KualiTransactionalDocumentFormBase {
 

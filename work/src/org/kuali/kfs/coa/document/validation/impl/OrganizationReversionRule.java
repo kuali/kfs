@@ -34,7 +34,7 @@ import org.kuali.module.chart.bo.OrganizationReversionDetail;
  * 
  * This class implements the business rules specific to the Organization Reversion Maintenance Document.
  * 
- * @author jkeller
+ * 
  * 
  */
 public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {

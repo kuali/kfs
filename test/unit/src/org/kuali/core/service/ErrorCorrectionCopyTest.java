@@ -27,7 +27,7 @@ import org.kuali.test.KualiTestBase;
 /**
  * This class tests the Document service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ErrorCorrectionCopyTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ErrorCorrectionCopyTest.class);

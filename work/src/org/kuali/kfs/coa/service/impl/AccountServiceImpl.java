@@ -39,7 +39,7 @@ import org.kuali.module.chart.service.AccountService;
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);

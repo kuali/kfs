@@ -69,8 +69,8 @@
                     <checkbox />
                 </control>
 
-                <summary>Prepaid Expense Indicator</summary>
-                <description>Prepaid Expense Indicator</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The Yes/No indicator of a prepaid expense</description>
             </attribute>
 
             <attribute name="name" forceUppercase="false">
@@ -83,7 +83,7 @@
                     <text size="25" />
                 </control>
 
-                <summary>Travel Expense Type Name</summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>Travel Expense Type Name</description>
             </attribute>
 

@@ -36,7 +36,7 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * This class...
  * 
- * @author Bin Gao
+ * 
  */
 public abstract class AbstractPdfReportGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractPdfReportGenerator.class);

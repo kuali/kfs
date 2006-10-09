@@ -33,7 +33,7 @@ import org.kuali.PropertyConstants;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class BusinessObjectFieldConverter {
 

@@ -31,7 +31,7 @@ public interface CorrectionChangeGroupDao {
 
     void delete(CorrectionChangeGroup group);
 
-    Collection findByDocumentNumber(Integer documentNumber);
+    Collection findByDocumentNumber(String documentNumber);
 
-    CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(Integer documentNumber, Integer CorrectionChangeGroupNumber);
+    CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String documentNumber, Integer CorrectionChangeGroupNumber);
 }

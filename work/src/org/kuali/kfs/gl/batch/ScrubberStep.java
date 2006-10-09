@@ -26,7 +26,7 @@ import org.kuali.core.batch.Step;
 import org.kuali.module.gl.service.ScrubberService;
 
 /**
- * @author aapotts
+ * 
  * 
  */
 public class ScrubberStep implements Step {

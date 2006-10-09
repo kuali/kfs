@@ -40,7 +40,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the AccountDao interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 
 public class AccountDaoOjb extends PersistenceBrokerDaoSupport implements AccountDao {

@@ -9,7 +9,7 @@ import java.util.Date;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface PostTransaction {

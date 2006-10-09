@@ -30,7 +30,7 @@ import org.kuali.module.chart.service.SubAccountService;
  * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered
  * with Kuali.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class SubAccountServiceImpl implements SubAccountService {
     private SubAccountDao subAccountDao;

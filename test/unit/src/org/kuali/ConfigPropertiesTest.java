@@ -37,7 +37,7 @@ import org.springframework.beans.BeanUtils;
 /**
  * This class tests the Config constants.
  * 
- * @author Kuali Nervous System Team ()
+ *
  */
 @WithTestSpringContext
 public class ConfigPropertiesTest extends KualiTestBase {

@@ -30,7 +30,7 @@ import org.kuali.module.chart.service.ObjectLevelService;
  * This class is the service implementation for the ObjLevel structure. This is the default implementation, that is delivered with
  * Kuali.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjectLevelServiceImpl implements ObjectLevelService {
     private ObjectLevelDao objectLevelDao;

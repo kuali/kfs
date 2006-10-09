@@ -29,7 +29,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * Year End version of the <code>BudgetAdjustmentDocument</code>
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument implements YearEndDocument {
 

@@ -24,16 +24,16 @@ package org.kuali.module.chart.service;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the Account service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class AccountServiceTest extends KualiTestBaseWithFixtures {
+public class AccountServiceTest extends KualiTestBase {
     private AccountService accountService;
 
     protected void setUp() throws Exception {

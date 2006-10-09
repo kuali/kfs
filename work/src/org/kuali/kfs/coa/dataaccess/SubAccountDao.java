@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.SubAccount;
 /**
  * This interface defines basic methods that SubAccount Dao's must provide
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface SubAccountDao {
 

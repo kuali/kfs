@@ -34,7 +34,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class BenefitsCalculation extends BusinessObjectBase {
 

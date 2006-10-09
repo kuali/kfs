@@ -22,130 +22,23 @@
  */
 package org.kuali.test;
 
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.DocumentNote;
-import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.InternalBillingItem;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * DocumentTestUtils
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DocumentTestUtils {
-    public static SourceAccountingLine createSourceLine(String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
-
-        return (SourceAccountingLine) createLine(SourceAccountingLine.class, documentHeaderId, chartOfAccounts, accountNumber, subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount, sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode, encumbranceUpdateCode, objectTypeCode);
-    }
-
-    public static TargetAccountingLine createTargetLine(String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
-        return (TargetAccountingLine) createLine(TargetAccountingLine.class, documentHeaderId, chartOfAccounts, accountNumber, subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount, sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode, encumbranceUpdateCode, objectTypeCode);
-    }
-
-    /**
-     * Using this allows you to create an AccountingLine in one line of code for testing, rather than having to go through all the
-     * object and sub-object setups by hand each time.
-     * 
-     * Note that this method returns an object with all of the reference objects populated from the parent primitives.
-     * 
-     * @param lineClass
-     * @param documentHeaderId
-     * @param chartOfAccounts
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param financialObjectCode
-     * @param financialSubObjectCode
-     * @param projectCode
-     * @param linePostingYear
-     * @param lineAmount
-     * @param sequenceNumber
-     * @param referenceNumber
-     * @param referenceTypeCode
-     * @param balanceTypeCode
-     * @param referenceOriginCode
-     * @return AccountingLine - returns a fully populated AccountingLine object
-     * 
-     * @throws Exception
-     */
-    private static AccountingLine createLine(Class lineClass, String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
-
-        AccountingLine line;
-
-        line = createLineHelper(lineClass, documentHeaderId, chartOfAccounts, accountNumber, subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount, sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode, encumbranceUpdateCode, objectTypeCode);
-
-        // have the persistence service refresh all the reference objects from the
-        // primitives primary key values.
-        line.refresh();
-
-        return line;
-    }
-
-
-    /**
-     * Using this allows you to create an AccountingLine in one line of code for testing, rather than having to go through all the
-     * object and sub-object setups by hand each time.
-     * 
-     * This accountingLine returned does NOT have the reference objects populated, so they will be either null or empty objects.
-     * 
-     * @param lineClass
-     * @param documentHeaderId
-     * @param chartOfAccounts
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param financialObjectCode
-     * @param financialSubObjectCode
-     * @param projectCode
-     * @param linePostingYear
-     * @param lineAmount
-     * @param sequenceNumber
-     * @param referenceNumber
-     * @param referenceTypeCode
-     * @param balanceTypeCode
-     * @param referenceOriginCode
-     * @return AccountingLine - returns a fully populated AccountingLine object
-     * 
-     * @throws Exception
-     */
-    public static AccountingLine createLineHelper(Class lineClass, String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
-
-        Integer postingYear = new Integer(linePostingYear);
-        AccountingLine line = null;
-        try {
-            line = (AccountingLine) lineClass.newInstance();
-        }
-        catch (InstantiationException e) {
-            throw new InfrastructureException("unable to create line instance", e);
-        }
-        catch (IllegalAccessException e) {
-            throw new InfrastructureException("unable to create line instance", e);
-        }
-
-        line.setFinancialDocumentNumber(documentHeaderId);
-        line.setPostingYear(postingYear);
-        line.setSequenceNumber(new Integer(sequenceNumber));
-        line.setChartOfAccountsCode(chartOfAccounts);
-        line.setAccountNumber(accountNumber);
-        line.setSubAccountNumber(subAccountNumber);
-        line.setFinancialObjectCode(financialObjectCode);
-        line.setFinancialSubObjectCode(financialSubObjectCode);
-        line.setProjectCode(projectCode);
-        line.setBalanceTypeCode(balanceTypeCode);
-        line.setObjectTypeCode(objectTypeCode);
-        line.setReferenceOriginCode(referenceOriginCode);
-        line.setReferenceNumber(referenceNumber);
-        line.setReferenceTypeCode(referenceTypeCode);
-        line.setDebitCreditCode(debitCreditCode);
-        line.setEncumbranceUpdateCode(encumbranceUpdateCode);
-        line.setAmount(lineAmount);
-
-        return line;
-    }
-
-
     /**
      * @param quantity
      * @param stockDescription
@@ -183,5 +76,21 @@ public class DocumentTestUtils {
         documentNote.setFinDocNotePostedDttmStamp(new java.sql.Timestamp(now.getTime()));
 
         return documentNote;
+    }
+    public static <D extends Document> D createDocument(DocumentService documentService,Class<D> docmentClass) throws WorkflowException {
+        D document = (D)documentService.getNewDocument(docmentClass);
+        document.setExplanation("unit test created document");
+
+        DocumentHeader documentHeader = document.getDocumentHeader();
+        documentHeader.setFinancialDocumentDescription("unit test created document");
+
+        return document;
+    }
+    public static <T extends TransactionalDocument> T createTransactionalDocument(DocumentService documentService,Class<T> docmentClass,Integer postingYear,String postingPeriodCode) throws WorkflowException {
+        T document = createDocument(documentService, docmentClass);
+        document.setPostingPeriodCode(postingPeriodCode);
+        document.setPostingYear(postingYear);
+
+        return document;
     }
 }

@@ -84,9 +84,7 @@
                     <text size="2" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Chart Code</summary>
                 <description>The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.</description>
             </attribute>
 
@@ -125,9 +123,7 @@
                 <control>
                     <kualiUser universalIdAttributeName="finCoaManagerUniversalId" userIdAttributeName="finCoaManagerUniversal.personUserIdentifier" personNameAttributeName="finCoaManagerUniversal.personName" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Chart Manager UserID</summary>
                 <description>The UserID of the Chart Manager.</description>
             </attributeReference>
 
@@ -163,9 +159,7 @@
                 <label>Chart Active Indicator</label>
                 <shortLabel>ChartActive</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Chart Active Indicator</summary>
                 <description>Radioboxes in the entry form that indicate if the Chart is active or inactive. If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.</description>
 
             </attributeReference>
@@ -180,9 +174,7 @@
                 <control>
                     <text size="4" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Cash Object Code</summary>
                 <description>The code for the "object" of accounting for a cash transaction.</description>
             </attributeReference>
 
@@ -244,9 +236,8 @@
                 <control>
                 	<text size="2"/>
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+
+                <summary>Reports To Chart of Accounts Code</summary>
                 <description>
                     <![CDATA[&nbsp;]]>
                 </description>
@@ -316,9 +307,7 @@
                 <control>
                     <text size="4" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Pre Encumbrances Object Code</summary>
                 <description>
                     <![CDATA[&nbsp;]]>
                 </description>

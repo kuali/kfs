@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
  * object side, there is a single attribute that keeps track of this and the amount field is used to keep track of the amount. This
  * helper class sits alongside the typical SourceAccountingLine bo... the synchronization between the two is the guaranteed order.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHelper {
     private KualiDecimal debit;

@@ -33,7 +33,7 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 /**
  * Service for handling creation of the cover sheet of the <code>{@link CashReceiptDocument}</code>
  * 
- * @author Leo Przybylski
+ * 
  */
 public interface CashReceiptCoverSheetService {
 

@@ -34,7 +34,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalculator {

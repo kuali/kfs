@@ -22,51 +22,32 @@
  */
 package org.kuali.module.financial.rules;
 
-import junit.framework.AssertionFailedError;
-
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
+import static org.kuali.core.util.SpringServiceLocator.getBalanceTypService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.fixtures.FixtureEntryException;
 
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures {
+public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
 
     private static final String DOES_NOT_MATTER = "doesNotMatter";
-    private static final String COLLECTION_NAME = "TransactionalDocumentRuleUtilTest.collection1";
-
-    private static final String[] FIXTURE_COLLECTION_NAMES = { COLLECTION_NAME };
-
-    public String[] getFixtureCollectionNames() {
-        return FIXTURE_COLLECTION_NAMES;
-    }
 
     private static long ONE_DAY_MILLIS = 24 * 60 * 60 * 1000L;
 
-    private String _balanceTypeActual;
-    private String _btcAttrName;
 
-    private String _annualBalancePeriodCode;
-    private Integer _currentFiscalYear;
+    private final String ANNUAL_BALANCE_PERIOD_CODE="AB";
+    private final Integer CURRENT_FISCAL_YEAR= new Integer("2004");
 
-
-    public void runTest() throws Throwable {
-        try {
-            super.runTest();
-        }
-        catch (AssertionFailedError afe) {
-            throw new FixtureEntryException(this, afe);
-        }
-    }
 
     // /////////////////////////////////////////////////////////////////////////
     // Fixture Methods Start Here //
@@ -86,7 +67,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
      * @return String
      */
     protected String getActiveBalanceType() {
-        return getActualBalanceTypeCode();
+        return Constants.BALANCE_TYPE_ACTUAL;
     }
 
     /**
@@ -95,27 +76,9 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
      * @return String
      */
     protected String getInactiveBalanceType() {
-        return getActualBalanceTypeCode();
+        return Constants.BALANCE_TYPE_ACTUAL;
     }
 
-    /**
-     * Fixture accessor method for the ACTUAL balance type. This is defined in the fixture XML.
-     * 
-     * @return String
-     */
-    public String getActualBalanceTypeCode() {
-        return _balanceTypeActual;
-    }
-
-    /**
-     * Fixture accessor method for the ACTUAL balance type. This is defined in the fixture XML.
-     * 
-     * @param bt <code>{@link String} instance serialization of an ACTUAL
-     * <code>{@link BalanceTyp}</code>
-     */
-    public void setActualBalanceTypeCode(String bt) {
-        _balanceTypeActual = bt;
-    }
 
     /**
      * Fixture accessor method for the Annual Balance <code>{@link AccountingPeriod}</code>
@@ -123,60 +86,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
      * @return AccountingPeriod
      */
     public AccountingPeriod getAnnualBalanceAccountingPeriod() {
-        return getAccountingPeriodService().getByPeriod(getAnnualBalancePeriodCode(), getCurrentFiscalYear());
-    }
-
-    public Integer getCurrentFiscalYear() {
-        return _currentFiscalYear;
-    }
-
-    public void setCurrentFiscalYear(Integer year) {
-        _currentFiscalYear = year;
-    }
-
-    /**
-     * Fixture accessor method for the Annual Balance <code>{@link AccountingPeriod}</code>
-     * 
-     * @return String
-     */
-    public String getAnnualBalancePeriodCode() {
-        return _annualBalancePeriodCode;
-    }
-
-    /**
-     * Fixture accessor method for the Annual Balance <code>{@link AccountingPeriod}</code>
-     * 
-     * @param periodCode
-     */
-    public void setAnnualBalancePeriodCode(String periodCode) {
-        _annualBalancePeriodCode = periodCode;
-    }
-
-    /**
-     * Fixture method for getting the property name of a <code>{@link BalanceTyp}</code> for displaying errors.
-     * 
-     * @return String
-     */
-    public String getBalanceTypeCodeAttributeName() {
-        return _btcAttrName;
-    }
-
-    /**
-     * Fixture method for getting the property name of a <code>{@link BalanceTyp}</code> for displaying errors.
-     * 
-     * @param n
-     */
-    public void setBalanceTypeCodeAttributeName(String n) {
-        _btcAttrName = n;
-    }
-
-    /**
-     * Fixture accessor method for an open <code>{@link AccountingPeriod}</code> instance.
-     * 
-     * @return AccountingPeriod
-     */
-    protected AccountingPeriod getOpenAccountingPeriod() {
-        return getAnnualBalanceAccountingPeriod();
+        return getAccountingPeriodService().getByPeriod(ANNUAL_BALANCE_PERIOD_CODE, CURRENT_FISCAL_YEAR);
     }
 
     /**
@@ -260,7 +170,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
             balanceType = getBalanceTypService().getBalanceTypByCode(btStr);
         }
         assertGlobalErrorMapEmpty();
-        boolean result = TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, getBalanceTypeCodeAttributeName());
+        boolean result = TransactionalDocumentRuleUtil.isValidBalanceType(balanceType,"code");
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -273,7 +183,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void testIsValidOpenAccountingPeriod_Open() {
-        testIsValidOpenAccountingPeriod(getOpenAccountingPeriod(), true);
+        testIsValidOpenAccountingPeriod(getAnnualBalanceAccountingPeriod(), true);
     }
 
     /**

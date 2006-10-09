@@ -64,6 +64,7 @@ import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.ObjectHelper;
+import org.kuali.module.gl.util.OriginEntryStatistics;
 import org.kuali.module.gl.util.StringHelper;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.StringUtils;
@@ -73,7 +74,7 @@ import org.springframework.util.StringUtils;
  * variables in a spring service are shared between all code calling the service. This will make sure each run of the scrubber has
  * it's own instance variables instead of being shared.
  * 
- * @author Kuali
+ * 
  */
 public class ScrubberProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberProcess.class);
@@ -157,21 +158,21 @@ public class ScrubberProcess {
      * 
      * @param group
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group) {
+    public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
-        scrubEntries(group);
+        scrubEntries(group,documentNumber);
     }
 
     public void scrubEntries() {
-        scrubEntries(null);
+        scrubEntries(null,null);
     }
 
     /**
      * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
      * scrubber error group, and transactions with an expired account in the scrubber expired account group.
      */
-    public void scrubEntries(OriginEntryGroup group) {
+    public void scrubEntries(OriginEntryGroup group,String documentNumber) {
         LOG.debug("scrubEntries() started");
 
         // We are in report only mode if we pass a group to this method.
@@ -194,12 +195,11 @@ public class ScrubberProcess {
         setDescriptions();
 
         // Create the groups that will store the valid and error entries that come out of the scrubber
+        // We don't need groups for the reportOnlyMode
         if (!reportOnlyMode) {
             validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
             errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
             expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
-        } else {
-            validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, false, false, false);            
         }
 
         // get the origin entry groups to be processed by Scrubber
@@ -215,7 +215,7 @@ public class ScrubberProcess {
 
         // generate the reports based on the origin entries to be processed by scrubber
         if (reportOnlyMode) {
-            reportService.generateScrubberLedgerSummaryReportOnline(runDate, group);
+            reportService.generateScrubberLedgerSummaryReportOnline(runDate, group,documentNumber);
         } else {
             reportService.generateScrubberLedgerSummaryReportBatch(runDate, groupsToScrub);
         }
@@ -239,7 +239,7 @@ public class ScrubberProcess {
 
         // generate the scrubber status summary report
         if (reportOnlyMode) {
-            reportService.generateOnlineScrubberStatisticsReport(group.getId(), runDate, scrubberReport, scrubberReportErrors);
+            reportService.generateOnlineScrubberStatisticsReport(group.getId(), runDate, scrubberReport, scrubberReportErrors,documentNumber);
         }
         else {
             reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
@@ -253,7 +253,7 @@ public class ScrubberProcess {
         // Run the reports
         if ( reportOnlyMode ) {
             // Run transaction list
-            reportService.generateScrubberTransactionsOnline(runDate, validGroup);
+            reportService.generateScrubberTransactionsOnline(runDate, group,documentNumber);
         } else {
             // Run bad balance type report and removed transaction report
             reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
@@ -273,7 +273,13 @@ public class ScrubberProcess {
     private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
         LOG.debug("performDemerger() started");
 
+        // Without this step, the job fails with Optimistic Lock Exceptions
+        persistenceService.getPersistenceBroker().clearCache();
+
         DemergerReportData demergerReport = new DemergerReportData();
+
+        OriginEntryStatistics eOes = originEntryService.getStatistics(errorGroup.getId());
+        demergerReport.setErrorTransactionsRead(eOes.getRowCount());
 
         // Read all the documents from the error group and move all non-generated
         // transactions for these documents from the valid group into the error group
@@ -281,9 +287,6 @@ public class ScrubberProcess {
         Iterator<OriginEntry> i = errorDocuments.iterator();
         while (i.hasNext()) {
             OriginEntry document = i.next();
-            
-            demergerReport.incrementErrorTransactionsRead();
-            demergerReport.incrementErrorTransactionsSaved();
 
             // Get all the transactions for the document in the valid group
             Integer lastId = -1;
@@ -383,6 +386,9 @@ public class ScrubberProcess {
                 originEntryService.save(transaction);
             }
         }
+
+        eOes = originEntryService.getStatistics(errorGroup.getId());
+        demergerReport.setErrorTransactionWritten(eOes.getRowCount());
 
         reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
     }
@@ -847,7 +853,7 @@ public class ScrubberProcess {
         }
 
         try {
-            flexibleOffsetAccountService.updateOffset(costShareOffsetEntry);
+            flexibleOffsetAccountService.updateOffset(costShareSourceAccountOffsetEntry);
         }
         catch (InvalidFlexibleOffsetException e) {
             Message m = new Message(e.getMessage(), Message.TYPE_FATAL);
@@ -991,7 +997,9 @@ public class ScrubberProcess {
         KualiParameterRule objectSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES);
         KualiParameterRule subFundGroupCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES);
 
-        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && subFundGroupCodes.succeedsRule(scrubbedEntry.getAccount().getSubFundGroupCode()) && objectSubTypeCodes.succeedsRule(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode())) {
+        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && 
+                subFundGroupCodes.succeedsRule(scrubbedEntry.getAccount().getSubFundGroupCode()) && 
+                objectSubTypeCodes.succeedsRule(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode())) {
 
             plantIndebtednessEntry.setTransactionLedgerEntryDescription(Constants.PLANT_INDEBTEDNESS_ENTRY_DESCRIPTION);
 
@@ -1015,6 +1023,7 @@ public class ScrubberProcess {
             plantIndebtednessEntry.setTransactionDebitCreditCode(scrubbedEntry.getTransactionDebitCreditCode());
 
             plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
+            plantIndebtednessEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
 
             try {
                 flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
@@ -1041,12 +1050,16 @@ public class ScrubberProcess {
             plantIndebtednessEntry.setAccountNumber(scrubbedEntry.getAccountNumber());
             plantIndebtednessEntry.setSubAccountNumber(scrubbedEntry.getSubAccountNumber());
 
-            if (scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getOrganization().getChartOfAccountsCode()) && scrubbedEntry.getAccount().getOrganizationCode().equals(scrubbedEntry.getAccount().getOrganization().getOrganizationCode()) && scrubbedEntry.getAccountNumber().equals(scrubbedEntry.getAccount().getAccountNumber()) && scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getChartOfAccountsCode())) {
+            if (scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getOrganization().getChartOfAccountsCode()) &&
+                    scrubbedEntry.getAccount().getOrganizationCode().equals(scrubbedEntry.getAccount().getOrganizationCode()) && 
+                    scrubbedEntry.getAccountNumber().equals(scrubbedEntry.getAccount().getAccountNumber()) && 
+                    scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getChartOfAccountsCode())) {
                 plantIndebtednessEntry.setAccountNumber(scrubbedEntry.getAccount().getOrganization().getCampusPlantAccountNumber());
                 plantIndebtednessEntry.setChartOfAccountsCode(scrubbedEntry.getAccount().getOrganization().getCampusPlantChartCode());
             }
 
             plantIndebtednessEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+            plantIndebtednessEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
 
             StringBuffer litGenPlantXferFrom = new StringBuffer();
             litGenPlantXferFrom.append(transferDescription + " ");
@@ -1063,6 +1076,7 @@ public class ScrubberProcess {
 
             plantIndebtednessEntry.setFinancialObjectCode(scrubbedEntry.getChart().getFundBalanceObjectCode());
             plantIndebtednessEntry.setFinancialObjectTypeCode(scrubbedEntry.getOption().getFinObjectTypeFundBalanceCd());
+            plantIndebtednessEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
 
             if (scrubbedEntry.isDebit()) {
                 plantIndebtednessEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
@@ -1502,12 +1516,17 @@ public class ScrubberProcess {
      * @param group Group to save it in
      */
     private void createOutputEntry(OriginEntry entry, OriginEntryGroup group) {
-        // Write the entry if we aren't running in report only mode.  Or write the entry if we are in 
-        // report only mode and it is a valid entry
-        if ( (! reportOnlyMode) || (group.getSourceCode().equals(OriginEntrySource.SCRUBBER_VALID)) ) {
+        // Write the entry if we aren't running in report only mode.
+        if ( reportOnlyMode ) {
+            // If the group is null don't write it because the error and expired groups aren't created in reportOnlyMode 
+            if ( group != null ) {
             entry.setGroup(group);
             originEntryService.save(entry);
         }
+        } else {
+            entry.setGroup(group);
+            originEntryService.save(entry);
+    }
     }
 
     /**

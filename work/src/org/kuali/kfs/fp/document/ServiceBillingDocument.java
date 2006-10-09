@@ -30,7 +30,7 @@ import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLin
  * {@link org.kuali.module.financial.rules.ServiceBillingDocumentRule} for details on how it differs from
  * {@link InternalBillingDocument}.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ServiceBillingDocument extends InternalBillingDocument {
     // no difference from superclass

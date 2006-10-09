@@ -22,8 +22,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>budgetAdjustmentPeriodCode</summary>
-                <description>budgetAdjustmentPeriodCode description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The system code for the distribution period in an Accounting Line, selected from a pulldown list.</description>
             </attribute>
 
             <attribute name="currentBudgetAdjustmentAmount" forceUppercase="true">
@@ -39,8 +39,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>currentBudgetAdjustmentAmount</summary>
-                <description>currentBudgetAdjustmentAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The adjustment amount in an Accounting Line for a Current Budget .  Current budgets designate the budget commitment only for the current fiscal year.</description>
             </attribute>
 
             <attribute name="baseBudgetAdjustmentAmount" forceUppercase="true">
@@ -56,8 +56,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>baseBudgetAdjustmentAmount</summary>
-                <description>baseBudgetAdjustmentAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The adjustment amount in an Accounting Line for a Base Budget .  Base budgets are established during the budget construction process, and designate an ongoing fiscal commitment.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth1LineAmount" forceUppercase="true">
@@ -73,8 +73,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth1LineAmount</summary>
-                <description>financialDocumentMonth1LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 1.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth2LineAmount" forceUppercase="true">
@@ -90,8 +90,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth2LineAmount</summary>
-                <description>financialDocumentMonth2LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 2.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth3LineAmount" forceUppercase="true">
@@ -107,8 +107,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth3LineAmount</summary>
-                <description>financialDocumentMonth3LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 3.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth4LineAmount" forceUppercase="true">
@@ -124,8 +124,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth4LineAmount</summary>
-                <description>financialDocumentMonth4LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 4.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth5LineAmount" forceUppercase="true">
@@ -141,8 +141,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth5LineAmount</summary>
-                <description>financialDocumentMonth5LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 5.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth6LineAmount" forceUppercase="true">
@@ -158,8 +158,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth6LineAmount</summary>
-                <description>financialDocumentMonth6LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 6.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth7LineAmount" forceUppercase="true">
@@ -175,8 +175,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth7LineAmount</summary>
-                <description>financialDocumentMonth7LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 7.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth8LineAmount" forceUppercase="true">
@@ -192,8 +192,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth8LineAmount</summary>
-                <description>financialDocumentMonth8LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 8.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth9LineAmount" forceUppercase="true">
@@ -209,8 +209,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth9LineAmount</summary>
-                <description>financialDocumentMonth9LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 9.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth10LineAmount" forceUppercase="true">
@@ -226,8 +226,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth10LineAmount</summary>
-                <description>financialDocumentMonth10LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 10.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth11LineAmount" forceUppercase="true">
@@ -243,8 +243,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth11LineAmount</summary>
-                <description>financialDocumentMonth11LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 11.</description>
             </attribute>
 
             <attribute name="financialDocumentMonth12LineAmount" forceUppercase="true">
@@ -260,8 +260,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>financialDocumentMonth12LineAmount</summary>
-                <description>financialDocumentMonth12LineAmount description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>The amount in an Accounting Line distributed into Month 12.</description>
             </attribute>
 
             &accountingLineBaseAttributes;

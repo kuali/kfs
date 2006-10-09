@@ -29,7 +29,7 @@ import org.kuali.core.service.DocumentService;
 /**
  * DocumentStatusMonitor
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DocumentStatusMonitor extends ChangeMonitor {
     final DocumentService documentService;

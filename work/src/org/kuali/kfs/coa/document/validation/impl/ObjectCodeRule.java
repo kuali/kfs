@@ -50,7 +50,7 @@ import org.kuali.module.chart.service.ObjectLevelService;
  * 
  * This class implements the business rules from: http://fms.dfa.cornell.edu:8080/confluence/display/KULCOA/Object+Code
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 

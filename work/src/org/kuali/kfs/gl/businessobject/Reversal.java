@@ -43,7 +43,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Reversal extends BusinessObjectBase implements Transaction {
 

@@ -36,7 +36,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
 

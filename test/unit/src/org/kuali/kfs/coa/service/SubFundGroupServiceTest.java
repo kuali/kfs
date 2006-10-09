@@ -24,16 +24,16 @@ package org.kuali.module.chart.service;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the subFundGroup service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class SubFundGroupServiceTest extends KualiTestBaseWithFixtures {
+public class SubFundGroupServiceTest extends KualiTestBase {
 
     SubFundGroupService subFundGroupService;
 

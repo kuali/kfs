@@ -39,7 +39,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class handles specific Actions requests for the BudgetAdjustment.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentAction.class);

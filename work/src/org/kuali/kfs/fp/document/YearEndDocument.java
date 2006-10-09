@@ -31,7 +31,7 @@ package org.kuali.module.financial.document;
  * @link http://en.wikipedia.org/wiki/Marker_interface_pattern
  * 
  * @see org.kuali.module.gl.service.SufficientFundsService
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public interface YearEndDocument {
     // empty do not change. see above.

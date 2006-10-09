@@ -36,7 +36,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the OrganizationDao interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrganizationDaoOjb extends PersistenceBrokerDaoSupport implements OrganizationDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDaoOjb.class);

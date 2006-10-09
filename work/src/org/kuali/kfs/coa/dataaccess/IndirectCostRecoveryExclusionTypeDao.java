@@ -25,7 +25,7 @@ package org.kuali.module.chart.dao;
 import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface IndirectCostRecoveryExclusionTypeDao {

@@ -25,7 +25,7 @@ package org.kuali.module.chart.service;
 import org.kuali.module.chart.bo.ObjectType;
 
 /**
- * @author 
+ *  
  */
 
 public interface ObjectTypeService {

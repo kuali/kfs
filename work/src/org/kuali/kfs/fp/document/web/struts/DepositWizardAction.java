@@ -65,7 +65,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This class handles actions for the deposit wizard, which is used to create deposits that bundle groupings of Cash Receipt
  * documents.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DepositWizardAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepositWizardAction.class);

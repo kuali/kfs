@@ -29,7 +29,7 @@ package org.kuali.module.chart.bo;
 /**
  * This is for ojb only to map to the object code view. Should not be used by application code.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class SubObjCdCurrent extends SubObjCd {
 

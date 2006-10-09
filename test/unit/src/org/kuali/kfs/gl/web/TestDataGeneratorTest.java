@@ -36,7 +36,7 @@ import org.kuali.test.KualiTestBase;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class TestDataGeneratorTest extends KualiTestBase {
 

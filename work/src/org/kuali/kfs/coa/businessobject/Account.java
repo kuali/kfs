@@ -54,7 +54,7 @@ import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Account extends BusinessObjectBase implements AccountIntf {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);

@@ -31,7 +31,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the ObjectLevelDao interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjectConsDaoOjb extends PersistenceBrokerDaoSupport implements ObjectConsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectConsDaoOjb.class);

@@ -29,7 +29,7 @@ import org.kuali.Constants;
 /**
  * This helper class works in conjunction with the DepositWizardForm to help build the UI for the Deposit Wizard.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DepositWizardHelper {
     private String selectedValue;

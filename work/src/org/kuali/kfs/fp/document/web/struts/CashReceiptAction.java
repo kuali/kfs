@@ -56,7 +56,7 @@ import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     /**

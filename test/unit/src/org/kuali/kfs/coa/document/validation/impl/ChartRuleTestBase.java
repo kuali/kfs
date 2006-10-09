@@ -38,12 +38,12 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
-    //TODO: change this class to extend MaintenanceRuleTestBase, or get rid of this class
+public abstract class ChartRuleTestBase extends KualiTestBase {
+
     protected DictionaryValidationService dictionaryValidationService;
 
     protected void setUp() throws Exception {
@@ -226,7 +226,7 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
      */
     protected void assertFieldErrorExistence(String fieldName, String errorKey, boolean expectedResult) {
         boolean result = doesFieldErrorExist(fieldName, errorKey);
-        assertEquals("Existence check for Error on fieldName/errorKey: " + fieldName + "/" + errorKey, expectedResult, result);
+        assertEquals("Existence check for Error on fieldName/errorKey: " + fieldName + "/" + errorKey+". "+GlobalVariables.getErrorMap(), expectedResult, result);
     }
 
     /**

@@ -28,7 +28,7 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.UniversityDate;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface UniversityDateDao {

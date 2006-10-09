@@ -50,7 +50,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * @author Anthony Potts
+ * 
  * 
  */
 public class SufficientFundsReportImpl extends PdfPageEventHelper implements SufficientFundsReport {

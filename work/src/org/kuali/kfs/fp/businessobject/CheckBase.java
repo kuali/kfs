@@ -35,7 +35,7 @@ import org.kuali.core.util.NumberUtils;
  * This class represents a check in the system. It is a generalized check business object that will be used by the Cash Receipts
  * document, the Cashier document, etc.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class CheckBase extends BusinessObjectBase implements Check {

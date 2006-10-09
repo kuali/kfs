@@ -36,7 +36,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 

@@ -41,7 +41,7 @@ import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -50,7 +50,7 @@ import org.kuali.test.WithTestSpringContext;
  * @author Kuali Research Administration Team ()
  */
 @WithTestSpringContext
-public class BudgetCostShareFormHelperTest extends KualiTestBaseWithSpring {
+public class BudgetCostShareFormHelperTest extends KualiTestBase {
 
     List<BudgetPeriod> periods;
     List<BudgetUser> personnel;

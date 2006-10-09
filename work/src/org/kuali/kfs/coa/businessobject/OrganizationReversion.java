@@ -34,7 +34,7 @@ import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.TypedArrayList;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrganizationReversion extends BusinessObjectBase {
 

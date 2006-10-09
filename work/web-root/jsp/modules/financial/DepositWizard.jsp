@@ -245,12 +245,12 @@ function checkAllOrNone() {
 
 			<div id="globalbuttons" class="globalbuttons"><html:image
 				property="methodToCall.createDeposit"
-				src="images/buttonsmall_create.gif" alt="create"
+				src="images/buttonsmall_create.gif" alt="create" title="create"
 				styleClass="tinybutton" /> <html:image
 				property="methodToCall.refresh" src="images/buttonsmall_refresh.gif"
-				alt="refresh" styleClass="tinybutton" /> <html:image
+				alt="refresh" title="refresh" styleClass="tinybutton" /> <html:image
 				property="methodToCall.cancel" src="images/buttonsmall_cancel.gif"
-				alt="cancel" styleClass="tinybutton" /></div>
+				alt="cancel" title="cancel" styleClass="tinybutton" /></div>
 		</kul:tab>
 	</c:if>
 
@@ -271,8 +271,8 @@ function checkAllOrNone() {
 
 		<div id="globalbuttons" class="globalbuttons"><html:image
 			property="methodToCall.refresh" src="images/buttonsmall_refresh.gif"
-			alt="refresh" styleClass="tinybutton" /> <html:image
+			alt="refresh" title="refresh" styleClass="tinybutton" /> <html:image
 			property="methodToCall.cancel" src="images/buttonsmall_cancel.gif"
-			alt="cancel" styleClass="tinybutton" /></div>
+			alt="cancel" title="cancel" styleClass="tinybutton" /></div>
 	</c:if>
 </kul:page>

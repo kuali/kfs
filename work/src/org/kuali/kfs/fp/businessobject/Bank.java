@@ -31,7 +31,7 @@ import java.util.List;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class Bank extends BusinessObjectBase {

@@ -63,8 +63,8 @@
                     <text size="8" />
                 </control>
 
-                <summary>financialSystemFunctionControlCode</summary>
-                <description>financialSystemFunctionControlCode description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>Any of various indicators that control Budget Construction.</description>
             </attribute>
 
             <attribute name="financialSystemFunctionActiveIndicator" forceUppercase="true">

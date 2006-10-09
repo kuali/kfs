@@ -25,7 +25,7 @@ package org.kuali.module.financial.rules;
 /**
  * Holds constants for <code>{@link org.kuali.module.financial.document.ProcurementCardDocument}</code> business rules.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ProcurementCardDocumentRuleConstants {
 

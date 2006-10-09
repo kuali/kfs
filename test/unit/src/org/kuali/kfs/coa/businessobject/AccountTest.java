@@ -27,16 +27,16 @@ import java.text.ParseException;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 @WithTestSpringContext
-public class AccountTest extends KualiTestBaseWithSpring {
+public class AccountTest extends KualiTestBase {
 
     private static final String TEST_DATE_1_TODAY = "2002-04-22 19:48:23";
     private static final String TEST_DATE_1_YESTERDAY = "2002-04-21 19:48:23";

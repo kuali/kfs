@@ -29,7 +29,7 @@ import org.kuali.core.bo.SourceAccountingLine;
  * Extends SourceAccountingLine so that, ultimately, GEC can generate different help text since it marks a field as required which
  * is otherwise optional.
  * 
- * @author Nervous System Team ()
+ * 
  */
 public class GECSourceAccountingLine extends SourceAccountingLine {
     /**

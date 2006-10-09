@@ -23,7 +23,7 @@
 package org.kuali.module.gl.util;
 
 /**
- * @author jsissom
+ * 
  * @version $Id :$
  */
 public class Summary implements Comparable {

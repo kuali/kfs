@@ -39,58 +39,55 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     private CorrectionCriteriaDao correctionCriteriaDao;
     private DocumentDao documentDao;
 
-    public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(Integer docId, int i) {
+    /**
+     * 
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String, int)
+     */
+    public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String docId, int i) {
 
         return correctionChangeGroupDao.findByDocumentNumberAndCorrectionChangeGroupNumber(docId, i);
     }
 
-    public List findByDocumentHeaderIdAndCorrectionGroupNumber(Integer docId, int i) {
+    /**
+     * 
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String, int)
+     */
+    public List findByDocumentHeaderIdAndCorrectionGroupNumber(String docId, int i) {
 
         return correctionChangeDao.findByDocumentHeaderIdAndCorrectionGroupNumber(docId, i);
     }
 
-    public List findByDocumentNumberAndCorrectionGroupNumber(Integer docId, int i) {
+    /**
+     * 
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String, int)
+     */
+    public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i) {
 
         return correctionCriteriaDao.findByDocumentNumberAndCorrectionGroupNumber(docId, i);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
+     */
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId) {
 
         return (CorrectionDocument) documentDao.findByDocumentHeaderId(CorrectionDocument.class, docId);
-    }
-
-
-    public CorrectionChangeDao getCorrectionChangeDao() {
-        return correctionChangeDao;
     }
 
     public void setCorrectionChangeDao(CorrectionChangeDao correctionChangeDao) {
         this.correctionChangeDao = correctionChangeDao;
     }
 
-    public CorrectionChangeGroupDao getCorrectionChangeGroupDao() {
-        return correctionChangeGroupDao;
-    }
-
     public void setCorrectionChangeGroupDao(CorrectionChangeGroupDao correctionChangeGroupDao) {
         this.correctionChangeGroupDao = correctionChangeGroupDao;
-    }
-
-    public CorrectionCriteriaDao getCorrectionCriteriaDao() {
-        return correctionCriteriaDao;
     }
 
     public void setCorrectionCriteriaDao(CorrectionCriteriaDao correctionCriteriaDao) {
         this.correctionCriteriaDao = correctionCriteriaDao;
     }
 
-    public DocumentDao getDocumentDao() {
-        return documentDao;
-    }
-
     public void setDocumentDao(DocumentDao documentDao) {
         this.documentDao = documentDao;
     }
-
-
 }

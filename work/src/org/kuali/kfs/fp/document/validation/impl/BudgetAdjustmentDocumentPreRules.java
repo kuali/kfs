@@ -34,7 +34,7 @@ import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 /**
  * Checks warnings and prompt conditions for ba document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
     private KualiConfigurationService kualiConfiguration;

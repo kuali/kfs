@@ -49,7 +49,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * <code>JournalVoucherDocument</code> accounting line parser
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccountingLineParser {
     private String balanceTypeCode;

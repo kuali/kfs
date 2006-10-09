@@ -42,7 +42,7 @@ import org.springframework.beans.factory.BeanFactory;
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class OJBUtility {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OJBUtility.class);

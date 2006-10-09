@@ -28,7 +28,7 @@ import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface EncumbranceCalculator {

@@ -30,7 +30,7 @@ import org.kuali.test.KualiTestBase;
 /**
  * This class tests the ProjectCode service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ProjectCodeServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceTest.class);

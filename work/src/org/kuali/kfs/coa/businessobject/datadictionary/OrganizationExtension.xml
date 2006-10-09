@@ -32,7 +32,7 @@
 		        </control>
 
 		        <summary><![CDATA[&nbsp;]]></summary>
-		        <description><![CDATA[&nbsp;]]></description>
+		        <description>The company in the HRMS system to which this organization belongs.</description>
 		      </attribute>
 
 								
@@ -48,7 +48,7 @@
 				</control>
 
         		<summary><![CDATA[&nbsp;]]></summary>
-        		<description><![CDATA[&nbsp;]]></description>
+        		<description>The first line of address where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
 			<attribute name="hrmsIuOrganizationAddress3" forceUppercase="false">
@@ -63,7 +63,7 @@
 				</control>
 
         		<summary><![CDATA[&nbsp;]]></summary>
-        		<description><![CDATA[&nbsp;]]></description>
+        		<description>The second line of address where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 
 			
@@ -79,7 +79,7 @@
 				</control>
 
         		<summary><![CDATA[&nbsp;]]></summary>
-        		<description><![CDATA[&nbsp;]]></description>
+        		<description>The campus where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
 			<attribute name="hrmsIuCampusBuilding" forceUppercase="false">
@@ -94,7 +94,7 @@
 				</control>
 
         		<summary><![CDATA[&nbsp;]]></summary>
-        		<description><![CDATA[&nbsp;]]></description>
+        		<description>The building where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
 			<attribute name="hrmsIuCampusRoom" forceUppercase="false">
@@ -109,7 +109,7 @@
 				</control>
 
         		<summary><![CDATA[&nbsp;]]></summary>
-        		<description><![CDATA[&nbsp;]]></description>
+        		<description>The room where correspondence can be sent related to HRMS issues for this organization.</description>
 			</attribute>
 			
       <attributeReference name="hrmsPersonnelApproverUniversalId"

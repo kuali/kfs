@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 /**
  * This interface defines methods that an OffsetDefinition Service must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface OffsetDefinitionService {
     /**

@@ -35,7 +35,7 @@ import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
     private String originalVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE; // keep this in sync with the default

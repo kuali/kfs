@@ -43,7 +43,7 @@ import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
 /**
  * This is the action class for the Advance Deposit document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
     /**

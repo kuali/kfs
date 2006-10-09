@@ -30,7 +30,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class ExpenditureTransaction extends BusinessObjectBase {

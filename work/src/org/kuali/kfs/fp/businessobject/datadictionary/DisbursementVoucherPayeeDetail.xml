@@ -37,7 +37,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The type of payee for searching.  Either of 1) DV Payee: a payee established using the Payee document, or 2) Employee: a payee identified as an employee by information fed into the KFS from some another source.
                 </description>
             </attribute>
 

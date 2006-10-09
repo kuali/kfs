@@ -31,7 +31,7 @@ package org.kuali.module.financial.document;
  * version except that it has slightly different routing and that it only allows posting to the year end accounting period for a
  * year.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectionDocument implements YearEndDocument {
 

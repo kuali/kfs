@@ -37,6 +37,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.web.struts.action.CorrectionAction;
 
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
@@ -49,6 +50,48 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         super();
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#dontProcessGroup(java.lang.Integer)
+     */
+    public void dontProcessGroup(Integer groupId) {
+        LOG.debug("dontProcessGroup() started");
+
+        OriginEntryGroup oeg = getExactMatchingEntryGroup(groupId);
+        if ( oeg != null ) {
+            oeg.setProcess(false);
+            save(oeg);
+        }
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getNewestScrubberErrorGroup()
+     */
+    public OriginEntryGroup getNewestScrubberErrorGroup() {
+        LOG.debug("getNewestScrubberErrorGroup() started");
+
+        OriginEntryGroup newest = null;
+
+        Map crit = new HashMap();
+        crit.put("sourceCode", OriginEntrySource.SCRUBBER_ERROR);
+
+        Collection groups = originEntryGroupDao.getMatchingGroups(crit);
+        for (Iterator iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup)iter.next();
+
+            if ( newest == null ) {
+                newest = element;
+            } else {
+                if ( newest.getId().intValue() < element.getId().intValue() ) {
+                    newest = element;
+                }
+            }
+        }
+
+        return newest;
+    }
+    
     public Collection getGroupsFromSourceForDate(String sourceCode, Date date) {
         LOG.debug("getGroupsFromSourceForDate() started");
         
@@ -120,26 +163,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         Collection returnCollection = new ArrayList();
         returnCollection = originEntryGroupDao.getMatchingGroups(criteria);
         return returnCollection;
-    }
-
-    /**
-     * Find an OriginEntryGroup by id.
-     * 
-     * @param groupId
-     * @return the OriginEntryGroup with the given id.
-     */
-    public OriginEntryGroup getOriginEntryGroup(String groupId) {
-        LOG.debug("getOriginEntryGroup() started");
-
-        Map criteria = new HashMap();
-        // shawn
-        criteria.put("id", groupId);
-        Collection matches = originEntryGroupDao.getMatchingGroups(criteria);
-        Iterator i = matches.iterator();
-        if (i.hasNext()) {
-            return (OriginEntryGroup) i.next();
-        }
-        return null;
     }
 
     /**
@@ -222,8 +245,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return originEntryGroupDao.getGroupsToBackup(scrubDate);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getMatchingGroups(java.util.Map)
      */
@@ -244,29 +266,13 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         originEntryGroupDao.save(originEntryGroup);
     }
 
-    public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
-        originEntryGroupDao = oegd;
-    }
-
-    public void setOriginEntryDao(OriginEntryDao oed) {
-        originEntryDao = oed;
-    }
-
-    public void setDateTimeService(DateTimeService dts) {
-        dateTimeService = dts;
-    }
-
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getExactMatchingEntryGroup(java.lang.Integer)
+     */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
-        OriginEntryGroup oeg = null;
-        try {
-            oeg = originEntryGroupDao.getExactMatchingEntryGroup(id);
+        return originEntryGroupDao.getExactMatchingEntryGroup(id);
         }
-        catch (Exception e) {
-
-        }
-        return oeg;
-
-    }
 
     /**
      * 
@@ -280,5 +286,16 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         Collection groups = originEntryGroupDao.getRecentGroups(new java.sql.Date(today.getTime().getTime()));
 
         return groups;
+    }
+
+    public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
+        originEntryGroupDao = oegd;
+}
+    public void setOriginEntryDao(OriginEntryDao oed) {
+        originEntryDao = oed;
+    }
+
+    public void setDateTimeService(DateTimeService dts) {
+        dateTimeService = dts;
     }
 }

@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * Simplifies writing tests which have to iterate in place until something happens (or until some timeout occurs and lets the test
  * fail).
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 
 abstract public class ChangeMonitor {

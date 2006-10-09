@@ -30,7 +30,7 @@ import org.kuali.module.chart.service.SubObjectCodeService;
  * This class is the service implementation for the SubObjectCode structure. This is the default implementation that gets delivered
  * with Kuali.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     private SubObjectCodeDao subObjectCodeDao;

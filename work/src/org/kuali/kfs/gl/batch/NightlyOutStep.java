@@ -26,7 +26,7 @@ import org.kuali.core.batch.Step;
 import org.kuali.module.gl.service.NightlyOutService;
 
 /**
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class NightlyOutStep implements Step {
 

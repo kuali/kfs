@@ -21,9 +21,9 @@
 
 	<div id="globalbuttons" class="globalbuttons"><html:image
 		src="images/buttonsmall_returnToIndex.gif" styleClass="globalbuttons"
-		property="methodToCall.returnToIndex" alt="Return to Index" />
+		property="methodToCall.returnToIndex" alt="Return to Index" title="Return to Index" />
 	&nbsp;&nbsp; <html:image src="images/buttonsmall_openExisting.gif"
 		styleClass="globalbuttons" property="methodToCall.openExisting"
-		alt="Open Existing Cash Management Document" /></div>
+		alt="Open Existing Cash Management Document" title="Open Existing Cash Management Document" /></div>
 
 </kul:page>

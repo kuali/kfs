@@ -51,10 +51,6 @@ import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.Summary;
 
-/**
- * @author Anthony Potts
- */
-
 public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebuilderService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceImpl.class);
 
@@ -205,7 +201,10 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
-        if ((sfrbAccount.getAccountSufficientFundsCode() != null) && (Constants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()))) {
+        if ((sfrbAccount.getAccountSufficientFundsCode() != null) && (Constants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || 
+                Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || 
+                Constants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || 
+                Constants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) || Constants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()))) {
             ++sfrbRecordsDeletedCount;
             sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 
@@ -234,7 +233,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                     // we have a change or are on the last record, write out the data if there is any
                     currentFinObjectCd = tempFinObjectCd;
 
-                    if (currentSfbl != null) {
+                    if (currentSfbl != null && amountsAreNonZero(currentSfbl)) {
                         sufficientFundBalancesDao.save(currentSfbl);
                         ++sfblInsertedCount;
                     }
@@ -263,7 +262,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             }
 
             // save the last one
-            if (currentSfbl != null) {
+            if (currentSfbl != null && amountsAreNonZero(currentSfbl)) {
                 sufficientFundBalancesDao.save(currentSfbl);
                 ++sfblInsertedCount;
             }
@@ -276,6 +275,14 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         }
     }
 
+    private boolean amountsAreNonZero(SufficientFundBalances sfbl) {
+        boolean zero = true;
+        zero &= KualiDecimal.ZERO.equals(sfbl.getAccountActualExpenditureAmt());
+        zero &= KualiDecimal.ZERO.equals(sfbl.getAccountEncumbranceAmount());
+        zero &= KualiDecimal.ZERO.equals(sfbl.getCurrentBudgetBalanceAmount());
+        return !zero;
+    }
+    
     private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
         if ( options.getFinObjTypeExpenditureexpCd().equals(balance.getObjectTypeCode()) || 
                 options.getFinObjTypeExpendNotExp().equals(balance.getObjectTypeCode()) || 

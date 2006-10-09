@@ -27,8 +27,8 @@ import org.kuali.module.chart.bo.SubFundGroup;
 /**
  * This class...
  * 
- * @author 
- * @author 
+ *  
+ *  
  */
 public interface SubFundGroupDao {
     public SubFundGroup getByPrimaryId(String subFundGroupCode);

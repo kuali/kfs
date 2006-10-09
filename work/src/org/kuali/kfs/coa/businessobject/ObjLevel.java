@@ -35,7 +35,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjLevel extends BusinessObjectBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjLevel.class);

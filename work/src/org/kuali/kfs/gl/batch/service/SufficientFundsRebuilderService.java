@@ -24,7 +24,7 @@ package org.kuali.module.gl.service;
 
 
 /**
- * @author Anthony Potts
+ * 
  * 
  */
 public interface SufficientFundsRebuilderService {

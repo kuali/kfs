@@ -40,7 +40,7 @@ import org.kuali.module.chart.service.AccountingPeriodService;
 /**
  * This service implementation is the default implementation of the AccountingPeriod service that is delivered with Kuali.
  * 
- * @author Kuali Financial Transactions Red Team ()
+ * 
  */
 public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     // member data

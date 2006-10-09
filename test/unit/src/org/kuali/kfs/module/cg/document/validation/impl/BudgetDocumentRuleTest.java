@@ -33,7 +33,7 @@ import org.kuali.module.kra.budget.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 
@@ -43,7 +43,7 @@ import org.kuali.test.WithTestSpringContext;
  * @author Kuali Research Administration Team ()
  */
 @WithTestSpringContext
-public class BudgetDocumentRuleTest extends KualiTestBaseWithFixtures {
+public class BudgetDocumentRuleTest extends KualiTestBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetDocumentRuleTest.class);
 

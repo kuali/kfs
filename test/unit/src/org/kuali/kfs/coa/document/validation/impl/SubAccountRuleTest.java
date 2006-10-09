@@ -22,16 +22,19 @@
  */
 package org.kuali.module.chart.rules;
 
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.KeyConstants;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
 
-@WithTestSpringContext
+@WithTestSpringContext(session = KHUNTLEY)
 public class SubAccountRuleTest extends ChartRuleTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRuleTest.class);
@@ -44,8 +47,8 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     private static final String NEW_SUBACCOUNT_NAME = "A New SubAccount";
 
     // CG authorized test users
-    private static final String GOOD_CG_USERID = "KCOPLEY"; // KCOPLEY
-    private static final String BAD_CG_USERID = "JHAVENS"; // JHAVENS
+    private static final UserNameFixture GOOD_CG_USERID = UserNameFixture.KCOPLEY;
+    private static final UserNameFixture BAD_CG_USERID = UserNameFixture.JHAVENS;
 
     // CG bad fund group test
     private static final String BAD_FUND_GRP_CHART = "BL";
@@ -282,8 +285,10 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * 
      * This method simulates a user that has permission to deal with CG accounts
      */
-    public void testIsCgAuthorized_goodUser() {
-        KualiUser user = createKualiUser(GOOD_CG_USERID);
+    public void testIsCgAuthorized_goodUser()
+        throws UserNotFoundException
+    {
+        KualiUser user = GOOD_CG_USERID.getKualiUser();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
@@ -298,8 +303,10 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * 
      * This method simulates a user that does not have permission to deal with CG accounts
      */
-    public void testIsCgAuthorized_badUser() {
-        KualiUser user = createKualiUser(BAD_CG_USERID);
+    public void testIsCgAuthorized_badUser()
+        throws UserNotFoundException
+    {
+        KualiUser user = BAD_CG_USERID.getKualiUser();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
@@ -325,7 +332,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         // null);
         newSubAccount = newA21SubAccount(GOOD_FUND_GRP_CHART, GOOD_FUND_GRP_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null, BAD_SUB_ACCT_TYPE, null, null, null, null, false, null, null, null);
         String fieldName = "a21SubAccount.subAccountTypeCode";
-        changeCurrentUser(GOOD_CG_USERID);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
         rule.setCgAuthorized(true);
 

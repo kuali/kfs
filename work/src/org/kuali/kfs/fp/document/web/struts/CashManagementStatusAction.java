@@ -47,7 +47,7 @@ import org.kuali.module.financial.web.struts.form.CashManagementStatusForm;
 /**
  * Action class for CashManagementStatusForm
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashManagementStatusAction extends KualiAction {
     private static Logger LOG = Logger.getLogger(CashManagementStatusAction.class);

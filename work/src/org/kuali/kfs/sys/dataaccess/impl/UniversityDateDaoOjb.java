@@ -35,7 +35,7 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements UniversityDateDao {

@@ -30,7 +30,7 @@ import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionTypeDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class IndirectCostRecoveryExclusionTypeDaoOjb extends PersistenceBrokerDaoSupport implements IndirectCostRecoveryExclusionTypeDao {

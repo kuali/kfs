@@ -41,7 +41,7 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class AccountBalance extends BusinessObjectBase {

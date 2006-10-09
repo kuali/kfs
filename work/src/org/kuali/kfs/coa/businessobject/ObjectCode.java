@@ -38,7 +38,7 @@ import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjectCode extends BusinessObjectBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);

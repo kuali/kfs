@@ -43,9 +43,10 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 
 /**
- * This class...
+ * Validates content of a <code>{@link AccountDelegate}</code> maintenance document upon triggering of a 
+ * approve, save, or route event.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DelegateRule extends MaintenanceDocumentRuleBase {
 
@@ -388,19 +389,24 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
         UniversalUser user = newDelegate.getAccountDelegate();
 
+        // user must be an active kuali user
+        if (!user.isActiveKualiUser()) {
+            success = false;
+            putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
+        }
+        
         // user must be of the allowable statuses (A - Active)
         if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
-            success &= false;
+            success = false;
             putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
         }
-
+        
         // user must be of the allowable types (P - Professional)
         if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
-            success &= false;
+            success = false;
             putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
         }
 
         return success;
     }
-
 }

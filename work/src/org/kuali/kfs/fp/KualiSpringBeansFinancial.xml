@@ -74,9 +74,6 @@
     </bean>
 
     <bean id="flexibleOffsetAccountService" class="org.kuali.module.financial.service.impl.FlexibleOffsetAccountServiceImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>

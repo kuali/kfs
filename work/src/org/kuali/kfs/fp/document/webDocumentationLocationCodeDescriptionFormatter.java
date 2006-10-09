@@ -36,7 +36,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
  * The values are the same as the disbursementVoucherDocumentationLocationCode in the DisbursementVoucherDocumentationLocation
  * class.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DocumentationLocationCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
     @Override

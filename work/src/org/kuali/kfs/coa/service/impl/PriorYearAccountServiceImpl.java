@@ -28,8 +28,6 @@ import org.kuali.module.chart.dao.PriorYearAccountDao;
 import org.kuali.module.chart.service.PriorYearAccountService;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: PriorYearAccountServiceImpl.java,v 1.2 2006-09-26 05:49:57 abyrne Exp $
  */
 public class PriorYearAccountServiceImpl implements PriorYearAccountService {
 

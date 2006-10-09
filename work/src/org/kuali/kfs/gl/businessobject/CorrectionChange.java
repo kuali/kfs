@@ -27,10 +27,11 @@ package org.kuali.module.gl.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CorrectionChange extends BusinessObjectBase implements Comparable {
 
@@ -42,192 +43,84 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     private String correctionFieldValue;
     private String correctionFieldName;
 
-    /**
-     * Default constructor.
-     */
     public CorrectionChange() {
         super();
 
     }
 
-    /**
-     * Gets the financialDocumentNumber attribute.
-     * 
-     * @return - Returns the financialDocumentNumber
-     * 
-     */
+    public CorrectionChange(String financialDocumentNumber,Integer correctionChangeGroupLineNumber,Integer correctionChangeLineNumber) {
+        super();
+        this.financialDocumentNumber = financialDocumentNumber;
+        this.correctionChangeGroupLineNumber = correctionChangeGroupLineNumber;
+        this.correctionChangeLineNumber = correctionChangeLineNumber;
+    }
+
+    public boolean isEmpty() {
+        return (versionNumber == null) && StringUtils.isEmpty(correctionFieldValue);
+    }
+
     public String getFinancialDocumentNumber() {
         return financialDocumentNumber;
     }
 
-    /**
-     * Sets the financialDocumentNumber attribute.
-     * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
-     * 
-     */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
         this.financialDocumentNumber = financialDocumentNumber;
     }
 
 
-    /**
-     * Gets the correctionChangeGroupLineNumber attribute.
-     * 
-     * @return - Returns the correctionChangeGroupLineNumber
-     * 
-     */
     public Integer getCorrectionChangeGroupLineNumber() {
         return correctionChangeGroupLineNumber;
     }
 
-    /**
-     * Sets the correctionChangeGroupLineNumber attribute.
-     * 
-     * @param correctionChangeGroupLineNumber The correctionChangeGroupLineNumber to set.
-     * 
-     */
     public void setCorrectionChangeGroupLineNumber(Integer correctionChangeGroupLineNumber) {
         this.correctionChangeGroupLineNumber = correctionChangeGroupLineNumber;
     }
 
-
-    /**
-     * Gets the correctionChangeLineNumber attribute.
-     * 
-     * @return - Returns the correctionChangeLineNumber
-     * 
-     */
     public Integer getCorrectionChangeLineNumber() {
         return correctionChangeLineNumber;
     }
 
-    /**
-     * Sets the correctionChangeLineNumber attribute.
-     * 
-     * @param correctionChangeLineNumber The correctionChangeLineNumber to set.
-     * 
-     */
     public void setCorrectionChangeLineNumber(Integer correctionChangeLineNumber) {
         this.correctionChangeLineNumber = correctionChangeLineNumber;
     }
 
-
-    /**
-     * Gets the correctionStartPosition attribute.
-     * 
-     * @return - Returns the correctionStartPosition
-     * 
-     */
-    public Integer getCorrectionStartPosition() {
-        return correctionStartPosition;
-    }
-
-    /**
-     * Sets the correctionStartPosition attribute.
-     * 
-     * @param correctionStartPosition The correctionStartPosition to set.
-     * 
-     */
-    public void setCorrectionStartPosition(Integer correctionStartPosition) {
-        this.correctionStartPosition = correctionStartPosition;
-    }
-
-
-    /**
-     * Gets the correctionEndPosition attribute.
-     * 
-     * @return - Returns the correctionEndPosition
-     * 
-     */
-    public Integer getCorrectionEndPosition() {
-        return correctionEndPosition;
-    }
-
-    /**
-     * Sets the correctionEndPosition attribute.
-     * 
-     * @param correctionEndPosition The correctionEndPosition to set.
-     * 
-     */
-    public void setCorrectionEndPosition(Integer correctionEndPosition) {
-        this.correctionEndPosition = correctionEndPosition;
-    }
-
-
-    /**
-     * Gets the correctionFieldValue attribute.
-     * 
-     * @return - Returns the correctionFieldValue
-     * 
-     */
     public String getCorrectionFieldValue() {
         return correctionFieldValue;
     }
 
-    /**
-     * Sets the correctionFieldValue attribute.
-     * 
-     * @param correctionFieldValue The correctionFieldValue to set.
-     * 
-     */
     public void setCorrectionFieldValue(String correctionFieldValue) {
         this.correctionFieldValue = correctionFieldValue;
     }
 
-    /**
-     * Gets the correctionFieldName attribute.
-     * 
-     * @return Returns the correctionFieldName.
-     */
     public String getCorrectionFieldName() {
         return correctionFieldName;
     }
 
-    /**
-     * Sets the correctionFieldName attribute value.
-     * 
-     * @param correctionFieldName The correctionFieldName to set.
-     */
     public void setCorrectionFieldName(String correctionFieldName) {
         this.correctionFieldName = correctionFieldName;
     }
 
-    /**
-     * Only fieldName and replacementValue are compared because this method is intended to be used with respect to the Set relation
-     * in CorrectionGroup. Comparisons of other fields aren't relevent, and would be detrimental.
-     * 
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
     public int compareTo(Object o) {
-        CorrectionChange specification = (CorrectionChange) o;
-        int c = correctionChangeLineNumber.compareTo(specification.getCorrectionChangeLineNumber());
+        CorrectionChange cc = (CorrectionChange)o;
 
-        if (0 != c) {
+        String thisFdocNbr = financialDocumentNumber == null ? "" : financialDocumentNumber;
+        String thatFdocNbr = cc.financialDocumentNumber == null ? "" : cc.financialDocumentNumber;
+        int c = thisFdocNbr.compareTo(thatFdocNbr);
+
+        if ( c == 0 ) {
+            Integer thisGn = correctionChangeGroupLineNumber == null ? 0 : correctionChangeGroupLineNumber;
+            Integer thatGn = cc.correctionChangeGroupLineNumber == null ? 0 : cc.correctionChangeGroupLineNumber;
+            c = thisGn.compareTo(thatGn);
+            if( c == 0 ) {
+                Integer thisCln = correctionChangeLineNumber == null ? 0 : correctionChangeLineNumber;
+                Integer thatCln = correctionChangeLineNumber == null ? 0 : cc.correctionChangeLineNumber;
+                return c = thisCln.compareTo(thatCln);
+            } else {
+                return c;
+            }
+        } else {
             return c;
         }
-
-        c = correctionChangeGroupLineNumber.compareTo(specification.getCorrectionChangeGroupLineNumber());
-        if (0 != c) {
-            return c;
-        }
-
-        c = financialDocumentNumber.compareTo(specification.getFinancialDocumentNumber());
-
-        return c;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    public boolean equals(Object obj) {
-        if (obj instanceof CorrectionChange) {
-            return 0 == compareTo(obj);
-        }
-
-        return super.equals(obj);
     }
 
     /**

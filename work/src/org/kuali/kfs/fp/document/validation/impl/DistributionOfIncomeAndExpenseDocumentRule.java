@@ -36,7 +36,7 @@ import org.kuali.module.chart.bo.ObjectCode;
  * This class holds document specific business rules for the Distribution of Income and Expense. It overrides methods in the base
  * rule class to apply specific checks.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDocumentRuleBase implements DistributionOfIncomeAndExpenseDocumentRuleConstants {
 

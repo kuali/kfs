@@ -40,7 +40,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the AccountingLineDao interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 
 public class CheckDaoOjb extends PersistenceBrokerDaoSupport implements CheckDao {

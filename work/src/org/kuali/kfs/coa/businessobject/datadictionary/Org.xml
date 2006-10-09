@@ -114,6 +114,7 @@
                 <control>
                     <text size="2" />
                 </control>
+                <summary>Chart Of Accounts Code</summary>
             </attributeReference>
 
             <attribute name="organizationCode" forceUppercase="true">
@@ -130,9 +131,7 @@
                     <text size="4" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Organization Code</summary>
                 <description>The code used to represent an organization.</description>
             </attribute>
 
@@ -150,11 +149,9 @@
                     <text size="40" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Organization Name</summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The long descriptive name of this Organization Code.
                 </description>
             </attribute>
 
@@ -234,11 +231,9 @@
                     <text size="2" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Responsibility Center Code</summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The Responsibility Center to which this Organization belongs.
                 </description>
             </attribute>
 
@@ -260,7 +255,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The campus code which represents the physical location of this organization.
                 </description>
             </attribute>
 
@@ -278,11 +273,9 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrgTypeValuesFinder" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Organization Type</summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The type of organization such as campus (C), responsibility center (R), university chart organization (U), and other organizations (O), and not official (N).
                 </description>
             </attribute>
 
@@ -343,7 +336,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                   The zip code assigned by the US Postal Service which relates to the city where this organization is located.
                 </description>
             </attribute>
 
@@ -365,7 +358,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The state where correspondence can be sent on issues identified to the organization.
                 </description>
             </attribute>
 
@@ -387,7 +380,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The country where correspondence can be sent on issues identified to the organization.
                 </description>
             </attribute>
             
@@ -409,7 +402,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The street address where correspondence can be sent on issues identified to the organization.
                 </description>
             </attribute>
 
@@ -431,7 +424,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The second line of the street address where correspondence can be sent on issues identified to the organization.
                 </description>
             </attribute>
             <attribute name="organizationCityName" forceUppercase="false">
@@ -452,7 +445,7 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The city where correspondence can be sent on issues identified to the organization.
                 </description>
             </attribute>
 
@@ -463,9 +456,7 @@
        	 		<control>
         	 	 <text size="2" />
         		</control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Reports to Chart Code</summary>
                 <description>
                     <![CDATA[&nbsp;]]>
                 </description>
@@ -475,9 +466,7 @@
                 <label>Reports to Organization</label>
                 <shortLabel>Rpts to Org</shortLabel>
                 <required>true</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Reports to Organization</summary>
                 <description>
                     <![CDATA[&nbsp;]]>
                 </description>
@@ -510,9 +499,7 @@
             <attributeReference name="organizationActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Active</label>
                 <shortLabel>Act.</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary>Organization Active Indicator</summary>
                 <description>
                     <![CDATA[&nbsp;]]>
                 </description>
@@ -602,7 +589,7 @@
         	</control>
 
         	<summary><![CDATA[&nbsp;]]></summary>
-        	<description><![CDATA[&nbsp;]]></description>
+        	<description>The company in the HRMS system to which this organization belongs.</description>
 		</attribute>
 
 		<attributeReference name="organizationExtension.hrmsIuOrganizationAddress2" 

@@ -32,7 +32,7 @@ import org.kuali.module.chart.service.ProjectCodeService;
  * This class is the service implementation for the ProjectCode structure. This is the default implementation, that is delivered
  * with Kuali.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ProjectCodeServiceImpl implements ProjectCodeService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceImpl.class);

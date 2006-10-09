@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 /**
  * This interface defines methods that a ProjectCode Service must provide.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ProjectCodeService {
     /**

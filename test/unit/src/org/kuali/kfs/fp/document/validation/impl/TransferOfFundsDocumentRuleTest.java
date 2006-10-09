@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -36,71 +37,43 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.DocumentTestUtils;
+import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.parameters.AccountingLineParameter;
-import org.kuali.test.parameters.TransactionalDocumentParameter;
-
+import static org.kuali.test.fixtures.AccountingLineFixture.FLEXIBLE_EXPENSE_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE11;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE12;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE13;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE9;
+import static org.kuali.test.fixtures.AccountingLineFixture.SOURCE_LINE;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 /**
  * This class tests the Transfer of Funds Document's persistence, routing, and PE generation.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
-@WithTestSpringContext
+@WithTestSpringContext(session = KHUNTLEY)
 public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTestBase {
 
-    private static final String COLLECTION_NAME = "TransferOfFundsDocumentRuleTest.collection1";
+    private static final String NON_MANDATORY_TRANSFER_OBJECT_CODE="1669";
     private static final String KNOWN_DOCUMENT_TYPENAME = "KualiTransferOfFundsDocument";
-
-    private static final String SUFF_FUNDS_CHECKING_SOURCE_EXPENSE = "TOFSufficientFundsCheckingPreparation_source_Expense_1";
-    private static final String SUFF_FUNDS_CHECKING_SOURCE_ASSET = "TOFSufficientFundsCheckingPreparation_source_Asset_1";
-    private static final String SUFF_FUNDS_CHECKING_SOURCE_LIABILITY = "TOFSufficientFundsCheckingPreparation_source_Liability_1";
-    private static final String SUFF_FUNDS_CHECKING_SOURCE_INCOME = "TOFSufficientFundsCheckingPreparation_source_Income_1";
-    private static final String SUFF_FUNDS_CHECKING_TARGET_EXPENSE = "TOFSufficientFundsCheckingPreparation_target_Expense_1";
-    private static final String SUFF_FUNDS_CHECKING_TARGET_ASSET = "TOFSufficientFundsCheckingPreparation_target_Asset_1";
-    private static final String SUFF_FUNDS_CHECKING_TARGET_LIABILITY = "TOFSufficientFundsCheckingPreparation_target_Liability_1";
-    private static final String SUFF_FUNDS_CHECKING_TARGET_INCOME = "TOFSufficientFundsCheckingPreparation_target_Income_1";
-
-    private static final String[] FIXTURE_COLLECTION_NAMES = { COLLECTION_NAME };
-
-    private TransactionalDocumentParameter _docParam1;
-    private TransactionalDocumentParameter _docParam2;
-    private TransactionalDocumentParameter _documentParameter5;
-    private AccountingLineParameter _sourceLine1;
-    private AccountingLineParameter _sourceLine2;
-    private AccountingLineParameter _sourceLine3;
-    private AccountingLineParameter _sourceLine4;
-    private AccountingLineParameter _sourceLine5;
-    private AccountingLineParameter _sourceLine6;
-    private AccountingLineParameter _assetSourceLine;
-    private AccountingLineParameter _targetLine1;
-    private AccountingLineParameter _targetLine2;
-    private AccountingLineParameter _targetLine3;
-    private GeneralLedgerPendingEntry _expectedExpSourceGlEntry;
-    private GeneralLedgerPendingEntry _expectedExpTargetGlEntry;
-    private GeneralLedgerPendingEntry _expectedOffSourceGlEntry;
-    private GeneralLedgerPendingEntry _expectedOffTargetGlEntry;
-
-
-    /**
-     * @see org.kuali.test.KualiTestBaseWithFixtures#getFixtureCollectionNames()
-     */
-    @Override
-    public String[] getFixtureCollectionNames() {
-        return FIXTURE_COLLECTION_NAMES;
-    }
-
-    /**
-     * @see KualiTestBaseWithFixtures#isMockConfigurationServiceRequired()
-     */
-    @Override
-    protected boolean isMockConfigurationServiceRequired() {
-        return true;
-    }
 
     // /////////////////////////////////////////////////////////////////////////
     // Fixture Methods Start Here //
@@ -115,83 +88,93 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
      */
     @Override
     public final TargetAccountingLine getAssetTargetLine() throws Exception {
-        return (TargetAccountingLine) getTargetLineParameter1().createLine();
+        return LINE11.createTargetAccountingLine();
     }
 
     @Override
     protected final TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
-        return (TargetAccountingLine) getTargetLineParameter1().createLine();
+        return (TargetAccountingLine) makeObjectTypeAndSubTypeValid(LINE11.createTargetAccountingLine());
+    }
+    
+    private AccountingLine makeObjectTypeAndSubTypeValid(AccountingLine line) {
+        line.setFinancialObjectCode("1698"); // IN type and MT sub-type on UA chart
+        line.refresh();
+        return line;
     }
 
     @Override
     protected final TargetAccountingLine getInvalidObjectSubTypeTargetLine() throws Exception {
-        return (TargetAccountingLine) getTargetLineParameter3().createLine();
+        return getTargetLineParameter3();
     }
 
     @Override
-    protected final List getValidObjectSubTypeSourceLines() throws Exception {
-        List retval = new ArrayList();
-        retval.add(getSourceLineParameter6().createLine());
+    protected final List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
+        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
+        retval.add(LINE11.createSourceAccountingLine());
         return retval;
     }
 
     @Override
-    protected final List getInvalidObjectSubTypeSourceLines() throws Exception {
-        List retval = new ArrayList();
-        retval.add(getSourceLineParameter1().createLine());
-        retval.add(getSourceLineParameter2().createLine());
+    protected final List<SourceAccountingLine> getInvalidObjectSubTypeSourceLines() throws Exception {
+        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
+        retval.add(LINE12.createSourceAccountingLine());
+        retval.add(LINE12.createSourceAccountingLine());
         return retval;
     }
 
     @Override
-    protected final List getInvalidObjectSubTypeTargetLines() throws Exception {
-        List retval = new ArrayList();
-        retval.add(getTargetLineParameter1().createLine());
-        retval.add(getTargetLineParameter3().createLine());
+    protected final List<TargetAccountingLine> getInvalidObjectSubTypeTargetLines() throws Exception {
+        List<TargetAccountingLine> retval = new ArrayList<TargetAccountingLine>();
+        retval.add(LINE11.createTargetAccountingLine());
+        retval.add(getTargetLineParameter3());
         return retval;
     }
 
     @Override
-    protected final List getValidObjectSubTypeTargetLines() throws Exception {
-        List retval = new ArrayList();
-        retval.add(getTargetLineParameter2().createLine());
-        retval.add(getTargetLineParameter2().createLine());
+    protected final List<TargetAccountingLine> getValidObjectSubTypeTargetLines() throws Exception {
+        List<TargetAccountingLine> retval = new ArrayList<TargetAccountingLine>();
+        retval.add(LINE11.createTargetAccountingLine());
+        retval.add(LINE11.createTargetAccountingLine());
         return retval;
     }
 
     @Override
     protected final SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
-        return (SourceAccountingLine) getSourceLineParameter4().createLine();
+        return LINE8.createSourceAccountingLine();
     }
 
     @Override
     protected final SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
-        return (SourceAccountingLine) getSourceLineParameter3().createLine();
+        SourceAccountingLine line = LINE9.createSourceAccountingLine();
+        line.setFinancialObjectCode("9889");
+        line.refresh();
+        assertEquals("need FB obj type because it is invalid", "FB", line.getObjectCode().getFinancialObjectTypeCode());
+        return line;
     }
 
     @Override
     protected final SourceAccountingLine getInvalidObjectCodeSourceLine() throws Exception {
-        return (SourceAccountingLine) getSourceLineParameter5().createLine();
+        return LINE10.createSourceAccountingLine();
     }
 
     @Override
     protected final SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
-        return (SourceAccountingLine) getSourceLineParameter6().createLine();
+        return LINE11.createSourceAccountingLine();
     }
 
     @Override
-    public final SourceAccountingLine getAssetSourceLine() {
-        return (SourceAccountingLine) getAssetSourceLineParameter().createLine();
+    public final SourceAccountingLine getAssetSourceLine() throws Exception {
+        return SOURCE_LINE.createSourceAccountingLine();
     }
 
     @Override
     protected final Document createDocument() throws Exception {
-        return getDocumentParameter1().createDocument(getDocumentService());
+        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), TransferOfFundsDocument.class, 2005, "01");
     }
 
     @Override
     protected final TransactionalDocument createDocument5() throws Exception {
-        return (TransactionalDocument) getDocumentParameter5().createDocument(getDocumentService());
+        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), TransferOfFundsDocument.class, 2007, "06");
     }
 
     @Override
@@ -226,7 +209,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
 
     @Override
     protected final Document createDocumentInvalidForSave() throws Exception {
-        return getDocumentParameterNoDescription().createDocument(getDocumentService());
+        return getDocumentParameterNoDescription();
     }
 
     @Override
@@ -240,14 +223,15 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     @Override
     protected final TransactionalDocument createDocumentUnbalanced() throws Exception {
         TransferOfFundsDocument retval = (TransferOfFundsDocument) createDocument();
-        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
+        retval.addSourceAccountingLine((SourceAccountingLine) makeObjectTypeAndSubTypeValid(getValidObjectCodeSourceLine()));
+        retval.addSourceAccountingLine((SourceAccountingLine) makeObjectTypeAndSubTypeValid(getValidObjectCodeSourceLine()));
         retval.addTargetAccountingLine(getValidObjectSubTypeTargetLine());
         return retval;
     }
 
     @Override
     protected final Document createDocumentInvalidDescription() throws Exception {
-        return getDocumentParameterNoDescription().createDocument(getDocumentService());
+        return getDocumentParameterNoDescription();
     }
 
     @Override
@@ -259,207 +243,19 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     }
 
     /**
-     * Accessor for fixture 'sourceLine1'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getSourceLineParameter1() {
-        return _sourceLine1;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine1'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setSourceLineParameter1(AccountingLineParameter p) {
-        _sourceLine1 = p;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine2'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getSourceLineParameter2() {
-        return _sourceLine2;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine2'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setSourceLineParameter2(AccountingLineParameter p) {
-        _sourceLine2 = p;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine3'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getSourceLineParameter3() {
-        return _sourceLine3;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine3'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setSourceLineParameter3(AccountingLineParameter p) {
-        _sourceLine3 = p;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine4'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setSourceLineParameter4(AccountingLineParameter p) {
-        _sourceLine4 = p;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine4'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getSourceLineParameter4() {
-        return _sourceLine4;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine5'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getSourceLineParameter5() {
-        return _sourceLine5;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine5'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setSourceLineParameter5(AccountingLineParameter p) {
-        _sourceLine5 = p;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine6'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getSourceLineParameter6() {
-        return _sourceLine6;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine6'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setSourceLineParameter6(AccountingLineParameter p) {
-        _sourceLine6 = p;
-    }
-
-    /**
-     * Accessor for fixture 'assetSourceLine'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getAssetSourceLineParameter() {
-        return _assetSourceLine;
-    }
-
-    /**
-     * Accessor for fixture 'assetSourceLine'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setAssetSourceLineParameter(AccountingLineParameter p) {
-        _assetSourceLine = p;
-    }
-
-    /**
-     * Accessor for fixture 'targetLine1'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getTargetLineParameter1() {
-        return _targetLine1;
-    }
-
-    /**
-     * Accessor for fixture 'targetLine1'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setTargetLineParameter1(AccountingLineParameter p) {
-        _targetLine1 = p;
-    }
-
-    /**
-     * Accessor for fixture 'targetLine2'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final AccountingLineParameter getTargetLineParameter2() {
-        return _targetLine2;
-    }
-
-    /**
-     * Accessor for fixture 'targetLine2'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setTargetLineParameter2(AccountingLineParameter p) {
-        _targetLine2 = p;
-    }
-
-    /**
      * Accessor for fixture 'targetLine3'
      * 
      * @return AccountingLineParameter
      */
-    public final AccountingLineParameter getTargetLineParameter3() {
-        return _targetLine3;
+    public final TargetAccountingLine getTargetLineParameter3()throws Exception {
+        return LINE13.createTargetAccountingLine();
     }
 
-    /**
-     * Accessor for fixture 'targetLine3'
-     * 
-     * @param p AccountingLineParameter
-     */
-    public final void setTargetLineParameter3(AccountingLineParameter p) {
-        _targetLine3 = p;
-    }
 
-    public final TransactionalDocumentParameter getDocumentParameter1() {
-        return _docParam1;
-    }
-
-    public final void setDocumentParameter1(TransactionalDocumentParameter p) {
-        _docParam1 = p;
-    }
-
-    public final TransactionalDocumentParameter getDocumentParameterNoDescription() {
-        return _docParam2;
-    }
-
-    public final void setDocumentParameterNoDescription(TransactionalDocumentParameter p) {
-        _docParam2 = p;
-    }
-
-    public final TransactionalDocumentParameter getDocumentParameter5() {
-        return _documentParameter5;
-    }
-
-    public final void setDocumentParameter5(TransactionalDocumentParameter p) {
-        _documentParameter5 = p;
+    public final Document getDocumentParameterNoDescription()throws Exception {
+        TransferOfFundsDocument document = DocumentTestUtils.createTransactionalDocument(getDocumentService(), TransferOfFundsDocument.class, 2005, "01");
+        document.getDocumentHeader().setFinancialDocumentDescription(null);
+        return document;
     }
 
     /**
@@ -469,16 +265,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
      */
     @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
-        return _expectedExpSourceGlEntry;
-    }
-
-    /**
-     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @param e pending entry fixture
-     */
-    public final void setExpectedExplicitSourcePendingEntry(GeneralLedgerPendingEntry e) {
-        _expectedExpSourceGlEntry = e;
+        return EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
     }
 
     /**
@@ -488,16 +275,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
      */
     @Override
     public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntry() {
-        return _expectedExpTargetGlEntry;
-    }
-
-    /**
-     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @param e pending entry fixture
-     */
-    public final void setExpectedExplicitTargetPendingEntry(GeneralLedgerPendingEntry e) {
-        _expectedExpTargetGlEntry = e;
+        return EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY.createGeneralLedgerPendingEntry();
     }
 
     /**
@@ -507,25 +285,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
      */
     @Override
     public final GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
-        return _expectedOffTargetGlEntry;
-    }
-
-    /**
-     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @param e pending entry fixture
-     */
-    public final void setExpectedOffsetTargetPendingEntry(GeneralLedgerPendingEntry e) {
-        _expectedOffTargetGlEntry = e;
-    }
-
-    /**
-     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @param e pending entry fixture
-     */
-    public final void setExpectedOffsetSourcePendingEntry(GeneralLedgerPendingEntry e) {
-        _expectedOffSourceGlEntry = e;
+        return EXPECTED_OFFSET_TARGET_PENDING_ENTRY.createGeneralLedgerPendingEntry();
     }
 
     /**
@@ -535,7 +295,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
      */
     @Override
     public final GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
-        return _expectedOffSourceGlEntry;
+        return EXPECTED_OFFSET_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -556,25 +316,25 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         // make sure we are using a valid object code for this type of doc
         for (int i = 0; i < doc.getSourceAccountingLines().size(); i++) {
             SourceAccountingLine sourceAccountingLine = (SourceAccountingLine) doc.getSourceAccountingLines().get(i);
-            sourceAccountingLine.setFinancialObjectCode(getFixtureEntry("nonMandatoryTransferObjectCodeForUAChart").getValue());
+            sourceAccountingLine.setFinancialObjectCode(NON_MANDATORY_TRANSFER_OBJECT_CODE);
         }
 
         for (int i = 0; i < doc.getTargetAccountingLines().size(); i++) {
             TargetAccountingLine sourceAccountingLine = (TargetAccountingLine) doc.getTargetAccountingLines().get(i);
-            sourceAccountingLine.setFinancialObjectCode(getFixtureEntry("nonMandatoryTransferObjectCodeForUAChart").getValue());
+            sourceAccountingLine.setFinancialObjectCode(NON_MANDATORY_TRANSFER_OBJECT_CODE);
         }
 
         testAddAccountingLine(doc, true);
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
-        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
-        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntry");
+        mockConfigurationServiceForFlexibleOffsetEnabled(true);
+        testProcessGenerateGeneralLedgerPendingEntries(FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2.createGeneralLedgerPendingEntry(), EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry());
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
-        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
-        testProcessGenerateGeneralLedgerPendingEntries(createDocumentFromParameter("tof2000documentParameter"), createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntryMissingOffsetDefinition", false);
+        mockConfigurationServiceForFlexibleOffsetEnabled(true);
+        testProcessGenerateGeneralLedgerPendingEntries(DocumentTestUtils.createTransactionalDocument(getDocumentService(), TransferOfFundsDocument.class, 2000, "06"), FLEXIBLE_EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry(),EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION.createGeneralLedgerPendingEntry(), false);
         assertGlobalErrorMapContains(Constants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
     }
 
@@ -1311,6 +1071,18 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+    }
+    
+    @Override
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
+        // Override this test to not run; it's invalid because TOF doesn't allow assets.  (TOF allows income.)
+        // todo: stop inheriting test methods
+    }
+
+    @Override
+    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() throws Exception {
+        // Override this test to not run; it's invalid because TOF doesn't allow assets.  (TOF allows income.)
+        // todo: stop inheriting test methods
     }
 
     // /////////////////////////////////////////////////////////////////////////

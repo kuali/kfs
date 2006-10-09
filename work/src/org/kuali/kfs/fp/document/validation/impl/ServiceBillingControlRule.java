@@ -37,7 +37,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class validates the ServiceBillingControl maintenance document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
 

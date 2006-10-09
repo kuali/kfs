@@ -35,7 +35,7 @@ import org.kuali.module.financial.document.AdvanceDepositDocument;
 /**
  * This business object represents the advance deposit detail business object that is used by the Advance Deposit Document.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AdvanceDepositDetail extends BusinessObjectBase {
     private String financialDocumentNumber;

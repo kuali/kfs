@@ -15,7 +15,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PostReversal implements PostTransaction {

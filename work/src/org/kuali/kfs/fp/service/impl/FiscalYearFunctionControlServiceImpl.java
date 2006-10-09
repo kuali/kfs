@@ -35,7 +35,7 @@ import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 /**
  * This class implements FiscalYearFunctionControlService.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionControlService {
 

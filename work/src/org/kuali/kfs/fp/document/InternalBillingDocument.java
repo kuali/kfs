@@ -39,7 +39,7 @@ import org.kuali.module.financial.bo.InternalBillingItem;
  * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
  * and Income.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class InternalBillingDocument extends TransactionalDocumentBase {
 

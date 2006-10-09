@@ -32,7 +32,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * Reporting Codes Business Object
  * 
- * @author Cathy Tan (tanc@ais.msu.edu)
+ * 
  */
 public class ReportingCodes extends BusinessObjectBase {
 

@@ -28,12 +28,17 @@ import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.document.CorrectionDocument;
 
 public interface CorrectionDocumentService {
+    public final static String CORRECTION_TYPE_MANUAL = "M";
+    public final static String CORRECTION_TYPE_CRITERIA = "C";
 
-    public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(Integer docId, int i);
+    public final static String SYSTEM_DATABASE = "D";
+    public final static String SYSTEM_UPLOAD = "U";
 
-    public List findByDocumentHeaderIdAndCorrectionGroupNumber(Integer docId, int i);
+    public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String docId, int i);
 
-    public List findByDocumentNumberAndCorrectionGroupNumber(Integer docId, int i);
+    public List findByDocumentHeaderIdAndCorrectionGroupNumber(String docId, int i);
+
+    public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i);
 
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId);
 }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.workflow.WorkflowTestUtils;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
@@ -34,49 +35,26 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.TestsWorkflowViaDatabase;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE5;
+import org.kuali.test.fixtures.UserNameFixture;
+import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentStatusMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.test.parameters.DocumentParameter;
-import org.kuali.test.parameters.TransactionalDocumentParameter;
-import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.TestsWorkflowViaDatabase;
 
 import edu.iu.uis.eden.EdenConstants;
-
 /**
  * This class is used to test JournalVoucherDocument.
  * 
- * @author Kuali Financial Transactions Red Team ()
+ * 
  */
-@WithTestSpringContext
+@WithTestSpringContext(session = DFOGLE)
 public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
-    public static final String COLLECTION_NAME = "JournalVoucherDocument.collection1";
-    public static final String USER_NAME = "user_jvdoc";
-    public static final String ADMIN_USER_NAME = "user1";
-    public static final String DOCUMENT_PARAMETER = "journalVoucherDocumentParameter1";
-    public static final String SOURCE_LINE5 = "sourceLine5";
-    public static final String SERIALIZED_LINE_PARAMTER = "serializedLine1";
-    public static final String ACTUAL_BAL_TYPE = "actualBalanceTypeCode";
-
-    /**
-     * Override to change the current user to getUserName() which returns the user_jvdoc user.
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        super.changeCurrentUser(getUserName());
-    }
-
-    /**
-     * Get names of fixture collections test class is using.
-     * 
-     * @return String[]
-     */
-    public String[] getFixtureCollectionNames() {
-        return new String[] { COLLECTION_NAME };
-    }
 
     /**
      * Override to set the balance type on the document.<br/>
@@ -94,9 +72,9 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * @see org.kuali.test.parameters.DisbursementVoucherDocumentParameter
      * @return Document used in test methods that require a specific <code>{@link Document}</code> instance.
      */
-    protected Document buildDocument(TransactionalDocumentParameter param) throws Exception {
-        JournalVoucherDocument jvDoc = (JournalVoucherDocument) super.buildDocument(param);
-        jvDoc.setBalanceTypeCode(getFixtureEntryFromCollection(COLLECTION_NAME, ACTUAL_BAL_TYPE).getValue());
+    protected Document buildDocument() throws Exception {
+        JournalVoucherDocument jvDoc = (JournalVoucherDocument) super.buildDocument();
+        jvDoc.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
         return jvDoc;
     }
 
@@ -271,8 +249,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
         getDocumentService().routeDocument(document, "saving copy source document", null);
         // jv docs go straight to final
-        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), EdenConstants.ROUTE_HEADER_FINAL_CD);
-        assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
+        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        // also check the Kuali (not Workflow) document status
         DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), Constants.DocumentStatusCodes.APPROVED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
@@ -281,8 +259,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
      */
-    public DocumentParameter getDocumentParameterFixture() {
-        return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, DOCUMENT_PARAMETER).createObject();
+    public Document getDocumentParameterFixture() throws Exception {
+        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), JournalVoucherDocument.class, 2007, "06");
     }
 
     /**
@@ -298,9 +276,10 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
      */
-    public List getSourceAccountingLineParametersFromFixtures() {
-        ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE5).createObject());
+    @Override
+    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+	List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+        list.add(LINE5);
         return list;
     }
 
@@ -308,7 +287,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getUserName()
      */
-    public String getUserName() {
-        return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
+    @Override
+    public UserNameFixture getUserName() {
+        return DFOGLE;
     }
 }

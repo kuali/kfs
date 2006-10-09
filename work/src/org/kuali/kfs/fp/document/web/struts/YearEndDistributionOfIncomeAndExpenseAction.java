@@ -28,7 +28,7 @@ package org.kuali.module.financial.web.struts.action;
  * YearEnd version and the non-yearEnd version of a document is the glpe's generation.
  * 
  * @see org.kuali.module.financial.web.struts.action.DistributionOfIncomeAndExpenseAction
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class YearEndDistributionOfIncomeAndExpenseAction extends DistributionOfIncomeAndExpenseAction {

@@ -33,7 +33,7 @@ import org.kuali.core.bo.KualiCodeBase;
  * represent this, we need an attribute to help differentiate between the bunch especially when they all three must co-exist within
  * the same parent CashReceiptDocument instance.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashDetailTypeCode extends KualiCodeBase {
     private static final long serialVersionUID = -5228907091959656216L;

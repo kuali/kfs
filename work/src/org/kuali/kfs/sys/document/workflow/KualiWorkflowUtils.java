@@ -59,7 +59,7 @@ import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
 /**
  * This class contains static utility methods used by the Kuali Workflow Attribute Classes.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  * 
  */
 public class KualiWorkflowUtils {

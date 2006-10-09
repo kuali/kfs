@@ -31,7 +31,7 @@ import org.kuali.core.bo.Building;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AccountDescription extends BusinessObjectBase {
 

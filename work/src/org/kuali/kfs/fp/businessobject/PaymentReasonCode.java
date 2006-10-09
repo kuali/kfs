@@ -28,7 +28,7 @@ package org.kuali.module.financial.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class PaymentReasonCode extends KualiCodeBase {
 

@@ -32,7 +32,7 @@ import org.kuali.module.financial.service.CheckService;
 /**
  * Default implementation of the Check service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 
 public class CheckServiceImpl implements CheckService {

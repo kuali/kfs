@@ -37,7 +37,7 @@ import org.kuali.module.financial.bo.BankAccount;
 /**
  * This is the rules class that is used for the default implementation of the Bank Account maintenance document.
  * 
- * @author Kuali Financial Transaction Processing team ()
+ * 
  */
 public class BankAccountRule extends MaintenanceDocumentRuleBase {
 

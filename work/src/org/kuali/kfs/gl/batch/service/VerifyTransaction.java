@@ -27,7 +27,7 @@ import java.util.List;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface VerifyTransaction {

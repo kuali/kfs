@@ -36,7 +36,7 @@ import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConsta
 /**
  * This class is the action form for Indirect Cost Adjustment Document
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class IndirectCostAdjustmentForm extends KualiTransactionalDocumentFormBase {

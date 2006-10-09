@@ -35,7 +35,7 @@ import org.kuali.core.util.KualiDecimal;
  * This class represents the CreditCardDetail business object, which is a single record on the Credit Card Receipts Document
  * representing a single credit card receipt. This is a type of advance deposit.
  * 
- * @author Kuali Transaction Processing eDocs Team ()
+ * 
  */
 public class CreditCardDetail extends BusinessObjectBase {
     private String financialDocumentNumber;

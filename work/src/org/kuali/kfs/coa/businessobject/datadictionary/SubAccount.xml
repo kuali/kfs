@@ -120,10 +120,12 @@
                 <control>
                     <text size="2" />
                 </control>
+                <summary><![CDATA[&nbsp;]]></summary>
             </attributeReference>
 
             <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <required>true</required>
+                <summary><![CDATA[&nbsp;]]></summary>
             </attributeReference>
 
             <attribute name="subAccountNumber" forceUppercase="true">
@@ -140,11 +142,9 @@
                     <text size="5" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The code to define this Sub-account. This is the code to be entered in the Sub-account field of the accounting line of financial documents.
                 </description>
             </attribute>
 
@@ -162,11 +162,9 @@
                     <text size="40" />
                 </control>
 
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    The long descriptive name of this Sub-account code. This name appears on the accounting line in financial documents as well as in searches and reports.
                 </description>
             </attribute>
 
@@ -177,11 +175,9 @@
                 <control>
                     <text size="2" />
                 </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    Financial Reporting Chart Code
                 </description>
             </attributeReference>
 
@@ -189,11 +185,9 @@
                 <label>Financial Reporting Org Code</label>
                 <shortLabel>Org</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    Financial Reporting Org Code
                 </description>
             </attributeReference>
 
@@ -201,11 +195,9 @@
                 <label>Financial Reporting Code</label>
                 <shortLabel>Fin. Rpt. Code</shortLabel>
                 <required>false</required>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>
-                    <![CDATA[&nbsp;]]>
+                    Financial Reporting Code
                 </description>
             </attributeReference>
 

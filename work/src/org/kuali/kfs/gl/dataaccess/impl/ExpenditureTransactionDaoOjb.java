@@ -34,7 +34,7 @@ import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class ExpenditureTransactionDaoOjb extends PersistenceBrokerDaoSupport implements ExpenditureTransactionDao {

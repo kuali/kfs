@@ -46,7 +46,7 @@ import org.kuali.module.gl.util.OJBUtility;
  * 
  * This class is the OJB implementation of the Balance Service
  * 
- * @author Randall P. Embry (rpembry@indiana.edu)
+ * 
  */
 public class BalanceServiceImpl implements BalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceImpl.class);
@@ -365,7 +365,7 @@ public class BalanceServiceImpl implements BalanceService {
     /**
      * Private method to load the values from the system options service and store them locally for later use.
      * 
-     * @author jkeller
+     * 
      */
     private void loadConstantsFromOptions() {
         LOG.debug("loadConstantsFromOptions() started");

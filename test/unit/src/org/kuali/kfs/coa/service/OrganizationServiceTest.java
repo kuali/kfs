@@ -33,7 +33,7 @@ import org.kuali.test.KualiTestBase;
 /**
  * This class tests the Organization service.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrganizationServiceTest extends KualiTestBase {
     private OrganizationServiceImpl organizationService;

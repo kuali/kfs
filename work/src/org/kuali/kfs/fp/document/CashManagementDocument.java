@@ -42,7 +42,7 @@ import org.kuali.module.financial.bo.Deposit;
 /**
  * This class represents the CashManagementDocument.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CashManagementDocument extends FinancialDocumentBase {
     private static final long serialVersionUID = 7475843770851900297L;

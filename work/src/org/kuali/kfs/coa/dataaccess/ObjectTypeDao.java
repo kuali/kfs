@@ -25,7 +25,7 @@ package org.kuali.module.chart.dao;
 import org.kuali.module.chart.bo.ObjectType;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface ObjectTypeDao {

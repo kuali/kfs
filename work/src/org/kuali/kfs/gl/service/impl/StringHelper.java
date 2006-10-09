@@ -24,7 +24,7 @@ package org.kuali.module.gl.util;
 
 
 /**
- * @author Evans
+ * 
  * 
  */
 public class StringHelper extends ObjectHelper {

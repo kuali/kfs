@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help task to view usage instructions -->
-	<target name="dist-local" if="is.local.build" depends="filter-local,dist-workflow-local,dist-cas-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-cas-local,dist-workflow-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
@@ -13,7 +13,7 @@
 	
 	<target name="test-local" depends="init-project-properties,test" description="Run all unit tests and format results"/>
 
-	<target name="clean" depends="clean-project,clean-local,clean-workflow-local" description="Remove all build output" />
+	<target name="clean" depends="clean-project,clean-local,clean-cas-local,clean-workflow-local" description="Remove all build output" />
 
 	<target name="init-user-properties">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
@@ -88,30 +88,54 @@
 		<property name="base.application.url" value="${test.environment.url}" />
 		<property name="base.cas.url" value="${test.environment.url}" />
 		<property name="base.workflow.url" value="${test.environment.url}" />
+        <condition property="staging.root.directory" value="${external.config.directory}">
+                <equals arg1="${is.local.build}" arg2="true"/>
+        </condition>
+        <property name="staging.root.directory" value="" />
+        <property name="staging.directory" value="${staging.root.directory}/staging/KUL/${build.environment}" />
+		<condition property="local.plugin.classes" value="${local.plugin.classes.token}">
+			<equals arg1="${is.local.build}" arg2="true" />
+		</condition>
+		<property name="local.plugin.classes" value="" />
+		<condition property="local.plugin.lib" value="${local.plugin.lib.token}">
+			<equals arg1="${is.local.build}" arg2="true" />
+		</condition>
+		<property name="local.plugin.lib" value="" />
+		<condition property="driver.class" value="${p6spy.driver.class}">
+			<equals arg1="${use.p6spy.local}" arg2="true"/>
+		</condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut">
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="appenders" value="INFO, LogFile" />
-		<filterset id="general.filterset">
-			<filter token="application" value="${ant.project.name}" />
-			<filter token="institution" value="${institution}" />
-			<filter token="environment" value="${build.environment}" />
-			<filter token="version" value="${project.cvs.tag}" />
-			<filter token="settings-directory" value="${settings.directory}/" />
+		<filterset id="external.config.filterset">
+			<filter token="settings-root-directory" value="${settings.root.directory}" />
+			<filter token="security-root-directory" value="${security.root.directory}" />			
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}" />
 			<filter token="log4j-batch-settings-file" value="${settings.directory}/${log4j.batch.settings.file}" />
-			<filter token="security-directory" value="${security.directory}/" />
-			<filter token="logs-directory" value="${logs.directory}/" />
+			<filter token="security-directory" value="${security.directory}" />
+			<filter token="logs-directory" value="${logs.directory}" />
 			<filter token="attachments-root-directory" value="${attachments.root.directory}" />
 			<filter token="htdocs-directory" value="${htdocs.directory}" />
 			<filter token="batch-reports-directory" value="${batch.reports.directory}" />
 			<filter token="online-reports-directory" value="${online.reports.directory}" />
 			<filter token="staging-directory" value="${staging.directory}" />
+			<filter token="plugin-deploy-root-directory" value="${plugin.deploy.root.directory}" />
+			<filter token="local-plugin-classes" value="${local.plugin.classes}"/>
+			<filter token="local-plugin-lib" value="${local.plugin.lib}"/>
+			<filter token="workflow-web-authentication-filter" value="${workflow.web.authentication.filter}" />
+		</filterset>
+		<filterset id="general.filterset">
+			<filterset refid="external.config.filterset" />
+			<filter token="application" value="${ant.project.name}" />
+			<filter token="institution" value="${institution}" />
+			<filter token="environment" value="${build.environment}" />
+			<filter token="version" value="${project.cvs.tag}" />
 			<filter token="application-url" value="${base.application.url}${ant.project.name}-${build.environment}" />
-			<filter token="cas-url" value="${base.cas.url}cas-${build.environment}" />
+			<filter token="cas-url" value="${base.cas.url}${cas.application}-${build.environment}" />
 			<filter token="base-workflow-url" value="${base.workflow.url}" />
-			<filter token="workflow-url" value="${base.workflow.url}en-${build.environment}" />
+			<filter token="workflow-url" value="${base.workflow.url}${workflow.application}-${build.environment}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}" />
 			<filter token="driver-class" value="${driver.class}" />
@@ -128,6 +152,9 @@
 			<filter token="keystore-password" value="${keystore.password}" />
 			<filter token="encryption-key" value="${encryption.key}" />
 		</filterset>
+		<condition property="batch.program.directory" value="/home/kultstb/batch/${build.environment}">
+			<equals arg1="${build.environment}" arg2="gl" />
+		</condition>
 		<property name="batch.program.directory" value="/home/kuldevb/batch/${build.environment}" />
 		<filterset id="batch.filterset">
 			<filter token="appenders" value="INFO, StdOut" />
@@ -143,11 +170,47 @@
 			<filter token="use-auto-commit" value="0" />
 		</filterset>
 	</target>
+	
+	<target name="init-make-references" depends="filter-project">
+		<path id="compile.source.classpath">
+			<fileset dir="${appserver.lib.dir}" includes="*.jar" />
+			<fileset dir="${lib.directory}" includes="*.jar" />
+		</path>
+		<path id="compile.tests.classpath">
+			<path refid="compile.source.classpath" />
+			<fileset dir="${test.lib.directory}" includes="*.jar" />
+		</path>
+		<patternset id="non.java.resources">
+			<include name="**/*.properties" />
+			<include name="**/*.dtd" />
+			<include name="**/*.xml" />
+			<include name="**/*.html" />
+		</patternset>
+	</target>
+
+	<target name="init-source-only-package">
+		<property name="package.type" value="source" />	
+	</target>
+
+	<target name="init-binary-only-package">
+		<property name="package.type" value="binary" />
+	</target>
+	
+	<target name="init-binary-and-source-package">
+		<property name="package.type" value="both" />
+	</target>
+			
+	<target name="init-package-directories" depends="init-project-properties">
+		<delete dir="${packaging.contents.directory}" />
+		<mkdir dir="${packaging.contents.directory}" />
+		<get dest="${packaging.server.zip.file}" src="https://test.kuali.org/confluence/download/attachments/9969/${appserver}.zip" />
+		<unzip src="${packaging.server.zip.file}" dest="${packaging.contents.directory}" />
+	</target>
 
 	<target name="clean-project" depends="init-project-properties">
 		<delete dir="${metainf.directory}" />
 		<delete file="${webinf.directory}/${web.xml.file}" />
-		<delete>
+		<delete failonerror="false">
 			<fileset dir="${source.directory}" includes="${tokenized.source.files}" />
 		</delete>
 		<delete file="${lib.directory}/${log4j.library}" />
@@ -171,6 +234,12 @@
 		<delete failonerror="false">
 			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml" />
 		</delete>
+		<delete failonerror="false">
+			<fileset dir="${appserver.deploy.dir}" includes="${ant.project.name}-*.war" />
+		</delete>
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${appserver.deploy.dir}" includes="${ant.project.name}-*/**" />
+		</delete>
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${settings.root.directory}" includes="*/${ant.project.name}/"/>
 		</delete>
@@ -182,6 +251,7 @@
 		</delete>
 		<delete dir="${attachments.root.directory}" failonerror="false" />
 		<delete dir="${htdocs.directory}" failonerror="false" />
+		<delete dir="${staging.directory}" failonerror="false" />
 	</target>
 
 	<target name="clean-workflow-local" if="is.local.build" depends="init-project-properties">
@@ -197,6 +267,7 @@
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.deploy.dir}" includes="${workflow.application}-*/**" />
 		</delete>
+		<delete file="${workflow.usr.directory}/workflow.xml" />
 		<delete dir="${plugin.deploy.directory}" failonerror="false" />
 	</target>
 	
@@ -212,7 +283,7 @@
 	<!-- wrapper based on naming convention required by workflow build script -->
 	<target name="clean-plugin" depends="clean"/>
 
-	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-filter-sets,clean-project">
+	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-filter-sets">
 		<copy file="${build.appserver.directory}/${log4j.library}" todir="${lib.directory}"/>
 	</target>
 	
@@ -235,7 +306,7 @@
 		<zip destfile="${static.content.zip}" basedir="${webroot.directory}" includes="reports/*,xml/*" />
 	</target>
 
-	<target name="filter-local" if="is.local.build" depends="init-filter-sets,clean-local,filter-project">
+	<target name="filter-local" if="is.local.build" depends="init-filter-sets">
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${build.appserver.directory}" includes="${appserver.library.list}" />
 		</copy>
@@ -265,9 +336,10 @@
 		<unzip src="${static.content.zip}" dest="${htdocs.directory}" />
 		<mkdir dir="${batch.reports.directory}" />
 		<mkdir dir="${online.reports.directory}" />
+		<mkdir dir="${staging.directory}" />
 	</target>
 
-	<target name="filter-workflow-local" if="dist.workflow.local" depends="init-filter-sets,clean-workflow-local">
+	<target name="filter-workflow-local" if="dist.workflow.local" depends="init-filter-sets">
 		<copy todir="${appserver.classes.dir}" overwrite="true">
 			<fileset dir="${build.workflow.appserver.directory}" includes="${workflow.appserver.classes.list}" />
 		</copy>
@@ -276,38 +348,16 @@
 		</copy>
 		<copy todir="${workflow.usr.directory}" overwrite="true">
 			<fileset dir="${build.workflow.usr.directory}" />
-			<filterset>
-				<filter token="local-plugin-classes" value="${local.plugin.classes.token}"/>
-				<filter token="local-plugin-lib" value="${local.plugin.lib.token}"/>
-				<filter token="workflow-web-authentication-filter" value="${workflow.web.authentication.filter}" />
-			</filterset>
 			<filterset refid="general.filterset" />
 		</copy>
 	</target>
 
-	<target name="init-make-references" depends="filter-project">
-		<path id="compile.source.classpath">
-			<fileset dir="${appserver.lib.dir}" includes="*.jar" />
-			<fileset dir="${lib.directory}" includes="*.jar" />
-		</path>
-		<path id="compile.tests.classpath">
-			<path refid="compile.source.classpath" />
-			<fileset dir="${test.lib.directory}" includes="*.jar" />
-		</path>
-		<patternset id="non.java.resources">
-			<include name="**/*.properties" />
-			<include name="**/*.dtd" />
-			<include name="**/*.xml" />
-			<include name="**/*.html" />
-		</patternset>
-	</target>
-
 	<target name="make-source" depends="init-make-references">
-		<mkdir dir="${war.classes.directory}" />
-		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true">
+		<mkdir dir="${make-source.target.directory}" />
+		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true">
 			<classpath refid="compile.source.classpath" />
 		</javac>
-		<copy todir="${war.classes.directory}">
+		<copy todir="${make-source.target.directory}">
 			<fileset dir="${source.directory}">
 				<patternset refid="non.java.resources" />
 			</fileset>
@@ -334,7 +384,7 @@
 		</copy>
 	</target>
 	
-	<target name="make-plugin-remote" depends="make-source">
+	<target name="make-plugin-remote" depends="init-make-references">
 		<copy todir="${plugin.classes.directory}">
 			<fileset dir="${war.classes.directory}" />
 		</copy>
@@ -354,11 +404,31 @@
 	</target>
 	
 	<target name="make-plugin-local" depends="init-project-properties">
-		<copy file="${classes.directory}/repository.dtd" todir="${plugin.classes.directory}"/>
 		<copy todir="${plugin.classes.directory}">
-			<fileset dir="${classes.directory}" includes="**/OJB-*.xml" />
+			<fileset dir="${source.directory}" includes="**/*repository*" />
 		</copy>
 	</target>
+	
+	<target name="make-zips" depends="filter-local,filter-workflow-local">
+		<zip destfile="settings.zip" basedir="${settings.directory}" />
+		<zip destfile="security.zip" basedir="${security.directory}" />
+	</target>
+
+	<target name="make-source-only-package" depends="init-package-directories">
+		<copy todir="${packaging.distribution.directory}" includeemptydirs="false">
+			<fileset dir="${basedir}" excludes="**/*.class,${packaged.build.properties.files}" />
+		</copy>
+	</target>
+
+	<target name="make-binary-only-package" depends="init-package-directories,dist">
+		<copy file="${ant.project.name}-${build.environment}.war" todir="${build.appserver.directory}" />
+		<ant target="clean-project" />
+		<copy todir="${packaging.distribution.directory}" includeemptydirs="false">
+			<fileset dir="${basedir}" includes="*.*,licenses/**/*,build/**/*" excludes="${packaged.build.properties.files}" />
+		</copy>
+	</target>
+	
+	<target name="make-binary-and-source-package" depends="make-source-only-package,make-binary-only-package" />
 	
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">
@@ -374,7 +444,6 @@
 				<fileset dir="${test.source.directory}">
 					<include name="**/*Test.java" />
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
-					<exclude name="**/PosterServiceTest.java" />
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
 			</batchtest>
@@ -397,7 +466,7 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-	<target name="dist-plugin" depends="make-plugin-remote,make-plugin" description="Build plugin zip for remote deployment">
+	<target name="dist-plugin" depends="make-source,make-plugin-remote,make-plugin" description="Build plugin zip for remote deployment">
 		<zip destfile="en-plugins.zip" basedir="${plugin.directory}" />
 	</target>
 
@@ -419,44 +488,39 @@
 	</target>
 
 	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local,make-plugin,make-plugin-local">
-		<copy file="${build.workflow.appserver.directory}/${workflow.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
+		<ant target="update-war">
+			<property name="source.war.directory" value="${build.workflow.appserver.directory}" />
+			<property name="application" value="${workflow.application}" />
+		</ant>
 		<copy todir="${plugin.deploy.directory}">
 			<fileset dir="${plugin.directory}" excludes="**/*.jar"/>
 		</copy>
 	</target>
 	
-	<target name="dist-cas-local" if="dist.cas.local" depends="init-filter-sets,clean-cas-local">
-		<property name="temp.directory" value="temp" />
-		<mkdir dir="${temp.directory}"/>
-		<unjar src="${build.cas.appserver.directory}/${cas.application}-${build.environment}.war" dest="${temp.directory}" />
-		<copy file="${build.cas.appserver.directory}/${tomcat.context.file}" todir="${temp.directory}/META-INF" overwrite="true">
-			<filterset refid="general.filterset" />
-		</copy>
-		<jar jarfile="${temp.directory}/${cas.application}-${build.environment}.war" basedir="${temp.directory}"  />
-		<copy file="${temp.directory}/${cas.application}-${build.environment}.war" todir="${appserver.deploy.dir}" />
-		<delete dir="${temp.directory}" />
+	<target name="dist-cas-local" if="dist.cas.local" depends="init-filter-sets">
+		<ant target="update-war">
+			<property name="source.war.directory" value="${build.cas.appserver.directory}" />
+			<property name="application" value="${cas.application}" />
+		</ant>
 	</target>
-	
-	<target name="init-packaging">
-		<property file="build-packaging.properties" />
-		<delete dir="${packaging.directory}" />
-		<mkdir dir="${packaging.directory}" />
-		<get dest="${packaging.server.zip.file}" src="https://test.kuali.org/confluence/download/attachments/9969/${appserver}.zip" />
-		<unzip src="${packaging.server.zip.file}" dest="${packaging.contents.directory}" />
+		
+	<target name="dist-package" depends="init-package-directories">
+		<copy todir="${packaging.distribution.directory}">
+			<fileset dir="${basedir}" includes="${packaged.build.properties.files}" />
+			<filterset>
+				<filter token="package-type" value="${package.type}" />
+				<filter token="classes-directory" value="${classes.directory}" />
+			</filterset>
+		</copy>
+		<delete file="${packaging.contents.directory}-${package.type}.zip" />
+		<zip basedir="${packaging.contents.directory}" destfile="${packaging.contents.directory}-${package.type}.zip" />
 	</target>
 
-	<target name="dist-packaged-binary-only" depends="init-packaging,dist-local,dist">
-		<delete file="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" />
-		<copy file="${ant.project.name}-${build.environment}.war" todir="${appserver.deploy.dir}" />
-		<copy todir="${packaging.contents.directory}">
-			<fileset dir="." includes="*-packaged.*" />
-		</copy>
-		<copy todir="${external.config.directory}-source">
-			<fileset dir="${external.config.directory}" />
-		</copy>
-		<delete dir="${external.config.directory}" />
-		<zip basedir="${packaging.contents.directory}" destfile="${packaging.contents.directory}.zip" />
-	</target>
+	<target name="dist-source-only-package" depends="init-source-only-package,make-source-only-package,dist-package"/>
+		
+	<target name="dist-binary-only-package" depends="init-binary-only-package,make-binary-only-package,dist-package"/>
+	
+	<target name="dist-binary-and-source-package" depends="init-binary-and-source-package,make-binary-and-source-package,dist-package" />
 	
 	<target name="continuous-integration" depends="make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
@@ -498,9 +562,16 @@
 		<copy file="${cas.project.directory}/${cas.application}-${build.environment}.war" todir="${build.cas.appserver.directory}" />
 	</target>
 
-	<target name="make-zips" depends="filter-local,filter-workflow-local">
-		<zip destfile="settings.zip" basedir="${settings.directory}" />
-		<zip destfile="security.zip" basedir="${security.directory}" />
+	<target name="update-war">
+		<property name="temp.directory" value="temp" />
+		<mkdir dir="${temp.directory}"/>
+		<unjar src="${source.war.directory}/${application}-dev.war" dest="${temp.directory}" />
+		<copy file="${source.war.directory}/${tomcat.context.file}" todir="${temp.directory}/META-INF" overwrite="true">
+			<filterset refid="general.filterset" />
+		</copy>
+		<replaceregexp file="${temp.directory}/WEB-INF/classes/META-INF/workflow.xml" match="\bdev\b" replace="${build.environment}" byline="true" flags="g" />
+		<jar jarfile="${appserver.deploy.dir}/${application}-${build.environment}.war" basedir="${temp.directory}"  />
+		<delete dir="${temp.directory}" />
 	</target>
 
 	<target name="help" description="Describe public targets">

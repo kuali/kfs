@@ -40,7 +40,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * department being billed, based on the service provider's ability to provide documentation for all transactions. These agreements
  * are configured in the Service Billing Control table by workgroup and income account number. This class enforces those agreements.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
 

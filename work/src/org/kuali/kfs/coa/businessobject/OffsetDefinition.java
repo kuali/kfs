@@ -33,7 +33,7 @@ import org.kuali.core.document.DocumentType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OffsetDefinition extends BusinessObjectBase {
 

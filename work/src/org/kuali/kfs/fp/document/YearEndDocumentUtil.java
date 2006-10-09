@@ -34,7 +34,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * utils for <code>YearEndDocument</code>s
  * 
  * @see org.kuali.module.gl.service.SufficientFundsService
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class YearEndDocumentUtil {
     private static final String FINAL_ACCOUNTING_PERIOD = "13";

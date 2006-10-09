@@ -32,7 +32,7 @@ import java.util.List;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class OrganizationRoutingModelName extends BusinessObjectBase {
 

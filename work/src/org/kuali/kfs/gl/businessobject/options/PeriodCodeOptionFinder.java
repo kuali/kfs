@@ -35,7 +35,7 @@ import org.kuali.module.gl.bo.UniversityDate;
 /**
  * This class...
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder {
 

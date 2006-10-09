@@ -39,7 +39,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * This class is the OJB implementation of the ChartDao interface.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 
 

@@ -31,5 +31,5 @@ public interface CorrectionCriteriaDao {
 
     void delete(CorrectionCriteria criterion);
 
-    List findByDocumentNumberAndCorrectionGroupNumber(Integer documentNumber, Integer correctionGroupLineNumber);
+    List findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupLineNumber);
 }

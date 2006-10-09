@@ -44,7 +44,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Entry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -24983129882357448L;

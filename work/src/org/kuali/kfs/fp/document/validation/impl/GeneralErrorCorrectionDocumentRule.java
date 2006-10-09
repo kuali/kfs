@@ -50,7 +50,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * Business rule(s) applicable to <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code>
  * instances.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -178,10 +178,6 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
      */
     private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(TransactionalDocument transactionalDocument, AccountingLine line) {
         String description = "";
-        if (StringUtils.isBlank(line.getReferenceOriginCode()) || StringUtils.isBlank(line.getReferenceNumber())) {
-            throw new IllegalStateException("Reference Origin Code and Reference Document Number are required and should be validated before this point.");
-        }
-
         description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
 
         if (StringUtils.isNotBlank(line.getFinancialDocumentLineDescription())) {

@@ -35,6 +35,7 @@ import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
@@ -49,7 +50,7 @@ import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AccountRule extends MaintenanceDocumentRuleBase {
 
@@ -116,15 +117,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomSaveDocumentBusinessRules called");
-        setupConvenienceObjects();
-
-        checkEmptyValues(document);
-        checkGeneralRules(document);
-        checkCloseAccount(document);
-        checkContractsAndGrants(document);
-        checkExpirationDate(document);
-        checkFundGroup(document);
-        checkSubFundGroup(document);
+        // call the route rules to report all of the messages, but ignore the result
+        processCustomRouteDocumentBusinessRules(document);
 
         // Save always succeeds, even if there are business rule failures
         return true;
@@ -145,6 +139,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkExpirationDate(document);
         success &= checkFundGroup(document);
         success &= checkSubFundGroup(document);
+        success &= checkFiscalOfficerIsValidKualiUser(newAccount.getAccountFiscalOfficerSystemIdentifier());
 
         return success;
     }
@@ -881,6 +876,32 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method insures the fiscal officer is a valid Kuali User
+     * @param fiscalOfficerUserId
+     * @return
+     */
+    protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
+        boolean result = true;
+        UniversalUser fiscalOfficer = null;
+        try {
+           fiscalOfficer=SpringServiceLocator.getKualiUserService().getUniversalUser(fiscalOfficerUserId);
+         }
+         catch (UserNotFoundException e) {
+             result = false;
+             putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_EXIST);
+         }
+        
+        if (fiscalOfficer!=null && !fiscalOfficer.isActiveKualiUser()) {
+            result=false;
+            putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
+        }
+        
+        return result;
+        
+    }
+    
     /**
      * 
      * This method checks to see if any SubFund Group rules were violated

@@ -23,253 +23,242 @@
 
 package org.kuali.module.gl.web.struts.form;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.gl.bo.CorrectionChange;
+import org.kuali.module.gl.bo.CorrectionChangeGroup;
+import org.kuali.module.gl.bo.CorrectionCriteria;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.document.CorrectionDocument;
+import org.kuali.module.gl.service.CorrectionDocumentService;
 
 public class CorrectionForm extends KualiDocumentFormBase {
-    static final private long serialVersionUID = 123456789L;
-
-    /**
-     * This is a list of names of attributes of OriginEntry that can be both searched on and replaced via the GL Error Correction
-     * Document. This static List is referenced by the JSP via the Struts form.
-     */
-    static final public Map fieldNames = new TreeMap();
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionForm.class);
 
     private String chooseSystem;
     private String editMethod;
+    private Integer inputGroupId;
+    private Integer outputGroupId;
+    private String inputFileName;
     protected FormFile sourceFile;
-
-    private String[] groupIdList;
-    private boolean processInBatch;
-    private boolean matchCriteriaOnly;
-    private String editableFlag;
-    private String manualEditFlag;
-    private String deleteFileFlag;
-
-
-    private String originEntryGroupDeletedMessage;
-    private Integer editingEntryId;
-
-    /**
-     * This is a Map of operators that can be used in searches from the GL Error Correction Document. Each value in this Map
-     * corresponds to a case in CorrectionActionHelper.isMatch(Object, CorrectionSearchCriterion).
-     */
-    static final public Map searchOperators = new TreeMap();
-
-    /* Statically initialize fieldNames and searchOperators. */
-    static {
-        Field[] fields = OriginEntry.class.getDeclaredFields();
-        Method[] methods = OriginEntry.class.getDeclaredMethods();
-        Set validMethods = new TreeSet();
-
-        // Only fields which are not business objects can be replaced from the form.
-        for (int i = 0; i < methods.length; i++) {
-            Method m = methods[i];
-            Class c = m.getReturnType();
-            if (m.getName().startsWith("get") && (c.equals(String.class) || c.equals(Integer.class) || c.equals(java.sql.Date.class) || c.equals(KualiDecimal.class))) {
-                char ch = Character.toLowerCase(m.getName().charAt(3));
-                validMethods.add(new StringBuffer("").append(ch).append(m.getName().substring(4)).toString());
-            }
-        }
-
-        for (int i = 0; i < fields.length; i++) {
-            if (!"serialVersionUID".equals(fields[i].getName()) && validMethods.contains(fields[i].getName()) && !"entryGroupId".equals(fields[i].getName()) && !"entryId".equals(fields[i].getName())) {
-                // fieldNames.add(fields[i].getName());
-
-                if (fields[i].getName().equals("universityFiscalYear")) {
-                    fieldNames.put(1, "Fiscal Year");
-                }
-                // if (fields[i].getName().equals("budgetYear")) {
-                //    fieldNames.put(2, "Budget Year");
-                // }
-                if (fields[i].getName().equals("chartOfAccountsCode")) {
-                    fieldNames.put(3, "Chart Code");
-                }
-                if (fields[i].getName().equals("accountNumber")) {
-                    fieldNames.put(4, "Account Number");
-                }
-                if (fields[i].getName().equals("subAccountNumber")) {
-                    fieldNames.put(5, "Sub Account Number");
-                }
-                if (fields[i].getName().equals("financialObjectCode")) {
-                    fieldNames.put(6, "Object Code");
-                }
-                if (fields[i].getName().equals("financialSubObjectCode")) {
-                    fieldNames.put(7, "Sub Object Code");
-                }
-                if (fields[i].getName().equals("financialBalanceTypeCode")) {
-                    fieldNames.put(8, "Balance Type");
-                }
-                if (fields[i].getName().equals("financialObjectTypeCode")) {
-                    fieldNames.put(9, "Object Type");
-                }
-                if (fields[i].getName().equals("universityFiscalPeriodCode")) {
-                    fieldNames.put(10, "Fiscal Period");
-                }
-                if (fields[i].getName().equals("financialDocumentTypeCode")) {
-                    fieldNames.put(11, "Document Type");
-                }
-                if (fields[i].getName().equals("financialSystemOriginationCode")) {
-                    fieldNames.put(12, "Origin Code");
-                }
-                if (fields[i].getName().equals("financialDocumentNumber")) {
-                    fieldNames.put(13, "Document Number");
-                }
-                if (fields[i].getName().equals("transactionLedgerEntrySequenceNumber")) {
-                    fieldNames.put(14, "Sequence Number");
-                }
-                if (fields[i].getName().equals("transactionLedgerEntryDescription")) {
-                    fieldNames.put(15, "Description");
-                }
-                if (fields[i].getName().equals("transactionLedgerEntryAmount")) {
-                    fieldNames.put(16, "Amount");
-                }
-                if (fields[i].getName().equals("transactionDebitCreditCode")) {
-                    fieldNames.put(17, "Debit Credit Indicator");
-                }
-                if (fields[i].getName().equals("transactionDate")) {
-                    fieldNames.put(18, "Transaction Date");
-                }
-                if (fields[i].getName().equals("organizationDocumentNumber")) {
-                    fieldNames.put(19, "Org Doc Number");
-                }
-                if (fields[i].getName().equals("projectCode")) {
-                    fieldNames.put(20, "Project Code");
-                }
-                if (fields[i].getName().equals("organizationReferenceId")) {
-                    fieldNames.put(21, "Org Ref ID");
-                }
-                if (fields[i].getName().equals("referenceFinancialDocumentTypeCode")) {
-                    fieldNames.put(22, "Ref Doc Type");
-                }
-                if (fields[i].getName().equals("referenceFinancialSystemOriginationCode")) {
-                    fieldNames.put(23, "Ref Origin Code");
-                }
-                if (fields[i].getName().equals("referenceFinancialDocumentNumber")) {
-                    fieldNames.put(24, "Ref Doc Number");
-                }
-                if (fields[i].getName().equals("financialDocumentReversalDate")) {
-                    fieldNames.put(25, "Reversal Date");
-                }
-                if (fields[i].getName().equals("transactionEncumbranceUpdateCode")) {
-                    fieldNames.put(26, "Enc Update Code");
-                }
-
-            }
-        }
-
-        // fieldNames.add("financialDocumentNumber");
-
-
-        searchOperators.put("eq", "Equals");
-        searchOperators.put("ne", "Not equal to");
-        // searchOperators.put("gt", "Greater than");
-        // searchOperators.put("lt", "Less than");
-        searchOperators.put("sw", "Starts with");
-        searchOperators.put("ew", "Ends with");
-        searchOperators.put("ct", "Contains");
-
-
-    }
-
-    /**
-     * The entries that match search criteria submitted from the GL Error Correction Document are stored in this Set. This Set is
-     * then referenced from the JSP for display on screen.
-     */
+    private boolean processInBatch = true;
+    private boolean matchCriteriaOnly = false;
+    private boolean dataLoadedFlag = false;
+    private boolean editableFlag = false;
+    private boolean manualEditFlag = false;
+    private boolean deleteFileFlag = false;
+    private boolean showOutputFlag = false;
     private Collection allEntries;
-    private OriginEntry eachEntryForManualEdit;
-    private OriginEntry newEntryForManualEdit;
+    private Collection matchingEntries;
+    private String entryUniversityFiscalYear;
+    private String entryFinancialDocumentReversalDate;
+    private String entryTransactionDate;
+    private String entryTransactionLedgerEntrySequenceNumber;
+    private String entryTransactionLedgerEntryAmount;
 
+    private OriginEntry entryForManualEdit;
 
-    /**
-     * 
-     * 
-     */
+    private List<GroupHolder> groups;
+
     public CorrectionForm() {
         super();
+
         setDocument(new CorrectionDocument());
-        newEntryForManualEdit = new OriginEntry();
-        eachEntryForManualEdit = new OriginEntry();
-
-        /*
-         * allEntriesForManualEdit = new ArrayList(); eachEntryForManualEdit = null; allEntriesForManualEditHashMap = new HashMap();
-         * updatedEntriesFromManualEdit = new ArrayList(); updatedEntriesFromManualEdit.clear();
-         */
-
 
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new TransactionalDocumentActionFlags());
 
+        // These are for the blank rows that are used to add criteria/changes
+        groups = new ArrayList<GroupHolder>();
+
+        // Sync up the groups
+        syncGroups();
+
+        entryForManualEdit = new OriginEntry();
+        entryForManualEdit.setEntryId(0);
     }
 
-
-    /**
-     * Bogus method for Apache PropertyUtils compliance.
-     * 
-     * @param dummy
-     */
-    public void setAllOriginEntryGroupSourceCodes(List dummy) {
+    public void syncGroups() {
+        int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
+        getGroupsItem(groupCount);
     }
 
-    /**
-     * No! I do not want this to be static. It might screw up PropertyUtils compliance by breaking the usual get/set pattern.
-     * 
-     * @return Returns the searchOperators.
-     */
-    public Map getSearchOperators() {
-        return searchOperators;
+    public GroupHolder getGroupsItem(int i) {
+        while ( i >= groups.size() ) {
+            groups.add(new GroupHolder());
+        }
+        return groups.get(i);
     }
 
-    /**
-     * Bogus method for Apache PropertyUtils compliance.
-     * 
-     * @param map
-     */
-    public void setSearchOperators(Map map) {
+    public void clearForm() {
+        chooseSystem = "";
+        editMethod = "";
+        inputFileName = "";
+        inputGroupId = null;
+        outputGroupId = null;
+        processInBatch = true;
+        matchCriteriaOnly = false;
+        dataLoadedFlag = false;
+        editableFlag = false;
+        manualEditFlag = false;
+        deleteFileFlag = false;
+        showOutputFlag = false;
+        allEntries = new ArrayList();
+        matchingEntries = new ArrayList();
+
+        setDocument(new CorrectionDocument());
+
+        // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
+        setDocumentActionFlags(new TransactionalDocumentActionFlags());
+
+        // These are for the blank rows that are used to add criteria/changes
+        groups = new ArrayList<GroupHolder>();
+
+        // Sync up the groups
+        syncGroups();
+
+        entryForManualEdit = new OriginEntry();
+        entryForManualEdit.setEntryId(0);
     }
 
-    /**
-     * No! I do not want this to be static. It might screw up PropertyUtils compliance by breaking the usual get/set pattern.
-     * 
-     * @return
-     */
-    public Map getFieldNames() {
-        return fieldNames;
+    public void updateEntryForManualEdit() {
+        entryForManualEdit.setFieldValue("universityFiscalYear", getEntryUniversityFiscalYear());
+        entryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber",getEntryTransactionLedgerEntrySequenceNumber());
+        entryForManualEdit.setFieldValue("transactionLedgerEntryAmount", getEntryTransactionLedgerEntryAmount());
+        entryForManualEdit.setFieldValue("transactionDate", getEntryTransactionDate());
+        entryForManualEdit.setFieldValue("financialDocumentReversalDate",getEntryFinancialDocumentReversalDate());
     }
 
-    /**
-     * Added just for Apache PropertyUtils compliance (finds property by looking for getX() setX() methods).
-     * 
-     * @param bogusFieldNames
-     */
-    public void setFieldNames(Map bogusFieldNames) {
+    public void clearEntryForManualEdit() {
+        OriginEntry oe = new OriginEntry();
+        oe.setEntryId(0);
+        oe.setSubAccountNumber("");
+        oe.setFinancialSubObjectCode("");
+        oe.setProjectCode("");
+        setEntryFinancialDocumentReversalDate("");
+        setEntryTransactionDate("");
+        setEntryTransactionLedgerEntryAmount("");
+        setEntryTransactionLedgerEntrySequenceNumber("");
+        setEntryUniversityFiscalYear("");
+        setEntryForManualEdit(oe);
     }
 
-    /**
-     * @return Returns the entriesThatMatchSearchCriteria.
-     */
-    public Collection getAllEntries() {
-        return allEntries;
+    public Integer getAllEntriesSize() {
+        return ( allEntries == null ) ? null : allEntries.size();
     }
 
-    /**
-     * @param entriesThatMatchSearchCriteria The entriesThatMatchSearchCriteria to set.
-     */
-    public void setAllEntries(Collection allEntriesForManualEdit) {
-        this.allEntries = allEntriesForManualEdit;
+    public void copy(CorrectionForm c) {
+        chooseSystem = c.chooseSystem;
+        editMethod = c.editMethod;
+        inputGroupId = c.inputGroupId;
+        outputGroupId = c.outputGroupId;
+        inputFileName = c.inputFileName;
+        matchCriteriaOnly = c.matchCriteriaOnly;
+        processInBatch = c.processInBatch;
+        dataLoadedFlag = c.dataLoadedFlag;
+        editableFlag = c.editableFlag;
+        manualEditFlag = c.manualEditFlag;
+        deleteFileFlag = c.deleteFileFlag;
+        showOutputFlag = c.showOutputFlag;
+        allEntries = c.allEntries;
+        matchingEntries = c.matchingEntries;
+        entryForManualEdit = c.entryForManualEdit;
+        groups = c.groups;
+        setDocument(c.getDocument());
+        setDocTypeName(c.getDocTypeName());
+        setDocumentActionFlags(c.getDocumentActionFlags());
+        setDocId(c.getDocId());
+    }
+
+    public CorrectionDocument getCorrectionDocument() {
+        return (CorrectionDocument)getDocument();
+    }
+
+    public String getEntryFinancialDocumentReversalDate() {
+        return entryFinancialDocumentReversalDate;
+    }
+
+    public Collection getMatchingEntries() {
+        return matchingEntries;
+    }
+
+    public void setMatchingEntries(Collection matchingEntries) {
+        this.matchingEntries = matchingEntries;
+    }
+
+    public void setEntryFinancialDocumentReversalDate(String entryFinancialDocumentReversalDate) {
+        this.entryFinancialDocumentReversalDate = entryFinancialDocumentReversalDate;
+    }
+
+    public String getEntryTransactionDate() {
+        return entryTransactionDate;
+    }
+
+    public void setEntryTransactionDate(String entryTransactionDate) {
+        this.entryTransactionDate = entryTransactionDate;
+    }
+
+    public String getEntryTransactionLedgerEntryAmount() {
+        return entryTransactionLedgerEntryAmount;
+    }
+
+    public void setEntryTransactionLedgerEntryAmount(String entryTransactionLedgerEntryAmount) {
+        this.entryTransactionLedgerEntryAmount = entryTransactionLedgerEntryAmount;
+    }
+
+    public String getEntryTransactionLedgerEntrySequenceNumber() {
+        return entryTransactionLedgerEntrySequenceNumber;
+    }
+
+    public void setEntryTransactionLedgerEntrySequenceNumber(String entryTransactionLedgerEntrySequenceNumber) {
+        this.entryTransactionLedgerEntrySequenceNumber = entryTransactionLedgerEntrySequenceNumber;
+    }
+
+    public String getEntryUniversityFiscalYear() {
+        return entryUniversityFiscalYear;
+    }
+
+    public void setEntryUniversityFiscalYear(String entryUniversityFiscalYear) {
+        this.entryUniversityFiscalYear = entryUniversityFiscalYear;
+    }
+
+    public boolean getShowOutputFlag() {
+        return showOutputFlag;
+    }
+
+    public void setShowOutputFlag(boolean showOutputFlag) {
+        this.showOutputFlag = showOutputFlag;
+    }
+
+    public String getInputFileName() {
+        return inputFileName;
+    }
+
+    public void setInputFileName(String inputFileName) {
+        this.inputFileName = inputFileName;
+    }
+
+    public Integer getOutputGroupId() {
+        return outputGroupId;
+    }
+
+    public void setOutputGroupId(Integer outputGroupId) {
+        this.outputGroupId = outputGroupId;
     }
 
     public String getChooseSystem() {
@@ -288,12 +277,36 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.editMethod = editMethod;
     }
 
-    public OriginEntry getEachEntryForManualEdit() {
-        return eachEntryForManualEdit;
+    public Integer getInputGroupId() {
+        return inputGroupId;
     }
 
-    public void setEachEntryForManualEdit(OriginEntry eachEntryForManualEdit) {
-        this.eachEntryForManualEdit = eachEntryForManualEdit;
+    public void setInputGroupId(Integer g) {
+        this.inputGroupId = g;
+    }
+
+    public boolean getProcessInBatch() {
+        return processInBatch;
+    }
+
+    public void setProcessInBatch(boolean processInBatch) {
+        this.processInBatch = processInBatch;
+    }
+
+    public Collection getAllEntries() {
+        return allEntries;
+    }
+
+    public void setAllEntries(Collection allEntriesForManualEdit) {
+        this.allEntries = allEntriesForManualEdit;
+    }
+
+    public OriginEntry getEntryForManualEdit() {
+        return entryForManualEdit;
+    }
+
+    public void setEntryForManualEdit(OriginEntry entryForManualEdit) {
+        this.entryForManualEdit = entryForManualEdit;
     }
 
     public FormFile getSourceFile() {
@@ -304,14 +317,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.sourceFile = sourceFile;
     }
 
-    public String[] getGroupIdList() {
-        return groupIdList;
-    }
-
-    public void setGroupIdList(String[] groupIdList) {
-        this.groupIdList = groupIdList;
-    }
-
     public boolean getMatchCriteriaOnly() {
         return matchCriteriaOnly;
     }
@@ -320,68 +325,35 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.matchCriteriaOnly = matchCriteriaOnly;
     }
 
-    public String getEditableFlag() {
-        return editableFlag;
+    public boolean getDataLoadedFlag() {
+        return dataLoadedFlag;
     }
 
-    public void setEditableFlag(String editableFlag) {
-        this.editableFlag = editableFlag;
+    public void setDataLoadedFlag(boolean dataLoadedFlag) {
+        this.dataLoadedFlag = dataLoadedFlag;
     }
 
-    public String getManualEditFlag() {
-        return manualEditFlag;
-    }
-
-    public void setManualEditFlag(String manualEditFlag) {
-        this.manualEditFlag = manualEditFlag;
-    }
-
-    public String getDeleteFileFlag() {
+    public boolean getDeleteFileFlag() {
         return deleteFileFlag;
     }
 
-    public void setDeleteFileFlag(String deleteFileFlag) {
+    public void setDeleteFileFlag(boolean deleteFileFlag) {
         this.deleteFileFlag = deleteFileFlag;
     }
 
-    public String getOriginEntryGroupDeletedMessage() {
-        return originEntryGroupDeletedMessage;
+    public boolean getEditableFlag() {
+        return editableFlag;
     }
 
-
-    public void setOriginEntryGroupDeletedMessage(String originEntryGroupDeletedMessage) {
-        this.originEntryGroupDeletedMessage = originEntryGroupDeletedMessage;
+    public void setEditableFlag(boolean editableFlag) {
+        this.editableFlag = editableFlag;
     }
 
-
-    public OriginEntry getNewEntryForManualEdit() {
-        return newEntryForManualEdit;
+    public boolean getManualEditFlag() {
+        return manualEditFlag;
     }
 
-
-    public void setNewEntryForManualEdit(OriginEntry newEntryForManualEdit) {
-        this.newEntryForManualEdit = newEntryForManualEdit;
+    public void setManualEditFlag(boolean manualEditFlag) {
+        this.manualEditFlag = manualEditFlag;
     }
-
-
-    public boolean isProcessInBatch() {
-        return processInBatch;
-    }
-
-
-    public void setProcessInBatch(boolean processInBatch) {
-        this.processInBatch = processInBatch;
-    }
-
-
-    public Integer getEditingEntryId() {
-        return editingEntryId;
-    }
-
-
-    public void setEditingEntryId(Integer editingEntryId) {
-        this.editingEntryId = editingEntryId;
-    }
-
-
 }

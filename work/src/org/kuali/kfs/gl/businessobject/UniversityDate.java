@@ -29,7 +29,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class UniversityDate extends BusinessObjectBase {

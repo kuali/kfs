@@ -29,7 +29,7 @@
 			        <![CDATA[&nbsp;]]>
 			    </summary>
 			    <description>
-			        <![CDATA[&nbsp;]]>
+			        The transaction number on the deposit slip assigned by the bank.
 			    </description>
 			</attribute>
 
@@ -51,7 +51,7 @@
 			        <![CDATA[&nbsp;]]>
 			    </summary>
 			    <description>
-			        <![CDATA[&nbsp;]]>
+			        The system code for the system from which the original encumbering transaction came, selected from a pulldown list.
 			    </description>
 			</attribute>
         </attributes>

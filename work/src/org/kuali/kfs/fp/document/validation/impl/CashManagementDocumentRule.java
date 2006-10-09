@@ -53,7 +53,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 /**
  * Business rule(s) applicable to Cash Management Document.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class CashManagementDocumentRule extends FinancialDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
     private static final Logger LOG = Logger.getLogger(CashManagementDocumentRule.class);

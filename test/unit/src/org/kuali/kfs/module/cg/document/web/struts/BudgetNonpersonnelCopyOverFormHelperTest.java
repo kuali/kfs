@@ -33,7 +33,7 @@ import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper.NonpersonnelCopyOverCategoryHelper;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -42,7 +42,7 @@ import org.kuali.test.WithTestSpringContext;
  * @author Kuali Research Administration Team ()
  */
 @WithTestSpringContext
-public class BudgetNonpersonnelCopyOverFormHelperTest extends KualiTestBaseWithSpring {
+public class BudgetNonpersonnelCopyOverFormHelperTest extends KualiTestBase {
 
     private BudgetNonpersonnelService budgetNonpersonnelService;
 

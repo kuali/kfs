@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public interface BalanceDao {

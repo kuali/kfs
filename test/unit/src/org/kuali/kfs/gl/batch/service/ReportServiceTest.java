@@ -22,19 +22,19 @@
  */
 package org.kuali.module.gl.service;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  */
-public class ReportServiceTest extends KualiTestBaseWithSpring {
+@WithTestSpringContext
+public class ReportServiceTest extends KualiTestBase {
 
     private NightlyOutService nightlyOutService;
     private ReportService reportService;

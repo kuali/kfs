@@ -33,7 +33,7 @@ import org.kuali.core.web.uidraw.AccountingLineDecorator;
 /**
  * This class handles Actions for <ocde>IndirectCostAdjustmentDocument</code>s
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class IndirectCostAdjustmentAction extends KualiTransactionalDocumentActionBase {
     /**

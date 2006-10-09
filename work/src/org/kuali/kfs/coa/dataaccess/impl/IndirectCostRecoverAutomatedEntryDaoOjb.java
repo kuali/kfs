@@ -32,7 +32,7 @@ import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class IcrAutomatedEntryDaoOjb extends PersistenceBrokerDaoSupport implements IcrAutomatedEntryDao {

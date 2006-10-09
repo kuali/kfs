@@ -22,7 +22,7 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
-import java.sql.Date;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,7 +33,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
@@ -62,12 +64,50 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     private static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
     private static final String TRANSACTION_DEBIT_CREDIT_CODE = "transactionDebitCreditCode";
 
-
-    /**
-     * 
-     */
     public OriginEntryDaoOjb() {
         super();
+    }
+
+    public KualiDecimal getGroupTotal(Integer groupId, boolean isCredit) {
+        LOG.debug("getGroupTotal() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo(OriginEntryDaoOjb.ENTRY_GROUP_ID, groupId);
+        if ( isCredit ) {
+            crit.addEqualTo(OriginEntryDaoOjb.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_CREDIT_CODE);
+        } else {
+            crit.addNotEqualTo(OriginEntryDaoOjb.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_CREDIT_CODE);
+        }
+
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(OriginEntry.class, crit);
+        q.setAttributes(new String[] { "SUM(" + OriginEntryDaoOjb.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+
+        Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        if ( i.hasNext() ) {
+            Object[] data = (Object[])i.next();
+            return (KualiDecimal)data[0];
+        } else {
+            return null;
+        }
+    }
+
+    public Integer getGroupCount(Integer groupId) {
+        LOG.debug("getGroupCount() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo(OriginEntryDaoOjb.ENTRY_GROUP_ID, groupId);
+
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(OriginEntry.class, crit);
+        q.setAttributes(new String[] { "count(*)" });
+
+        Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        if ( i.hasNext() ) {
+            Object[] data = (Object[])i.next();
+            BigDecimal d = (BigDecimal)data[0];
+            return d.intValue();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -135,7 +175,10 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     public Iterator<OriginEntry> getBadBalanceEntries(Collection groups) {
         LOG.debug("getBadBalanceEntries() started");
 
-
+        if(groups.size()<=0) {
+            return null;
+        }
+        
         Collection ids = new ArrayList();
         for (Iterator iter = groups.iterator(); iter.hasNext();) {
             OriginEntryGroup element = (OriginEntryGroup) iter.next();
@@ -156,9 +199,16 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         crit1.addAndCriteria(crit2);
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, crit1);
+        qbc.addOrderByAscending(UNIVERSITY_FISCAL_YEAR);
         qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
         qbc.addOrderByAscending(ACCOUNT_NUMBER);
-        qbc.addOrderByAscending(SUB_ACCOUNT_NUMBER);
+        qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+        qbc.addOrderByAscending(FINANCIAL_OBJECT_TYPE_CODE);
+        qbc.addOrderByAscending(FINANCIAL_BALANCE_TYPE_CODE);
+        qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
+        qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+        qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -209,10 +259,30 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
             qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(ACCOUNT_NUMBER);
             qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
-        } else {
+        } else if(sort == OriginEntryDao.SORT_LISTING_REPORT ) {
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_YEAR);
+            qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
+            qbc.addOrderByAscending(ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_BALANCE_TYPE_CODE);
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);            
+        }
+        else {
             qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(ACCOUNT_NUMBER);
             qbc.addOrderByAscending(SUB_ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_TYPE_CODE);
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         }
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
@@ -274,6 +344,10 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
      */
     public void deleteGroups(Collection<OriginEntryGroup> groups) {
         LOG.debug("deleteGroups() started");
+        
+        if(groups == null || groups.size()<=0) {
+            return;
+        }
 
         List ids = new ArrayList();
         for (Iterator iter = groups.iterator(); iter.hasNext();) {
@@ -316,6 +390,10 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
      */
     public Iterator getSummaryByGroupId(Collection groupIdList) {
         LOG.debug("getSummaryByGroupId() started");
+        
+        if(groupIdList == null || groupIdList.size()<=0) {
+            return null;
+        }
 
         Collection ids = new ArrayList();
         for (Iterator iter = groupIdList.iterator(); iter.hasNext();) {
@@ -328,7 +406,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(OriginEntry.class, criteria);
 
-        String attributeList[] = { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")", "count(" + PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE + ")" };
+        String attributeList[] = { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")", "count(*)" };
 
         String groupList[] = { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE };
 
@@ -355,5 +433,57 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         }
 
         return oe;
+    }
+
+    /**
+     * @see org.kuali.module.gl.dao.OriginEntryDao#getPosterOutputSummaryByGroupId(java.util.Collection)
+     */
+    public Iterator getPosterOutputSummaryByGroupId(Collection groups) {
+        LOG.debug("getPosterInputSummaryByGroupId() started");
+
+        if(groups == null || groups.size()<=0) {
+            return null;
+        }
+
+        Collection ids = new ArrayList();
+        for (Iterator iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup element = (OriginEntryGroup) iter.next();
+            ids.add(element.getId());
+        }
+
+        Criteria criteria = new Criteria();
+        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, ids);
+        String fundGroupCode = PropertyConstants.ACCOUNT + "." + PropertyConstants.SUB_FUND_GROUP + "." + PropertyConstants.FUND_GROUP_CODE;
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(OriginEntry.class, criteria);
+
+        String attributeList[] = {
+                PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE,
+                PropertyConstants.UNIVERSITY_FISCAL_YEAR, 
+                PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, 
+                fundGroupCode, 
+                PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, 
+                PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, 
+                "sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")"
+        };
+
+        String groupList[] = {
+                PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, 
+                PropertyConstants.UNIVERSITY_FISCAL_YEAR, 
+                PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, 
+                fundGroupCode, 
+                PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, 
+                PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE
+        };
+
+        query.setAttributes(attributeList);
+        query.addGroupBy(groupList);
+
+        // add the sorting criteria
+        for (int i = 0; i < groupList.length; i++) {
+            query.addOrderByAscending(groupList[i]);
+        }
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 }

@@ -38,7 +38,7 @@ import org.kuali.module.financial.bo.CreditCardVendor;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 

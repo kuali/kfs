@@ -43,7 +43,7 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 /**
  * This class is the action form for Cash Receipts.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 
 public class CashReceiptForm extends KualiTransactionalDocumentFormBase {

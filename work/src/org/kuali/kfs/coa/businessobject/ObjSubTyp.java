@@ -28,7 +28,7 @@ package org.kuali.module.chart.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class ObjSubTyp extends KualiCodeBase {
 

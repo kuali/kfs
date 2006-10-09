@@ -26,22 +26,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
-import org.kuali.test.KualiTestBaseWithSession;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.UserNameFixture;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-@WithTestSpringContext
-public class CashReceiptServiceTest extends KualiTestBaseWithSession {
+@WithTestSpringContext(session = KHUNTLEY)
+public class CashReceiptServiceTest extends KualiTestBase {
     private static final String TEST_CAMPUS_CD = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
     private static final String TEST_UNIT_NAME = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
 
@@ -198,7 +199,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser("INEFF");
+        changeCurrentUser(UserNameFixture.INEFF);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -223,7 +224,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser("INEFF");
+        changeCurrentUser(UserNameFixture.INEFF);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -248,7 +249,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser("INEFF");
+        changeCurrentUser(UserNameFixture.INEFF);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -357,7 +358,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser("INEFF");
+        changeCurrentUser(UserNameFixture.INEFF);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -382,7 +383,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser("INEFF");
+        changeCurrentUser(UserNameFixture.INEFF);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -407,7 +408,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser("INEFF");
+        changeCurrentUser(UserNameFixture.INEFF);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -447,13 +448,13 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
         crDoc.setTotalCashAmount(cashAmount);
         crDoc.setTotalCheckAmount(checkAmount);
-
+        
         crDoc.setCampusLocationCode(crService.getCampusCodeForCashReceiptVerificationUnit(workgroupName));
-
+        
         crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getFinancialDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
 
         try {
-        docService.saveDocument(crDoc);
+            docService.saveDocument(crDoc);
         }
         catch(ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.

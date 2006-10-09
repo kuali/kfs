@@ -40,7 +40,7 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.service.BudgetModularService;
 import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
-import org.kuali.test.KualiTestBaseWithSession;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -49,7 +49,7 @@ import org.kuali.test.WithTestSpringContext;
  * @author Kuali Research Administration Team ()
  */
 @WithTestSpringContext
-public class BudgetModularServiceTest extends KualiTestBaseWithSession {
+public class BudgetModularServiceTest extends KualiTestBase {
 
     private BudgetModularService budgetModularService;
     private BudgetNonpersonnelService budgetNonpersonnelService;

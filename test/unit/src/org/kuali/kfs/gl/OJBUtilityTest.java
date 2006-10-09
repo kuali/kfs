@@ -36,7 +36,7 @@ import org.kuali.test.WithTestSpringContext;
 /**
  * This class is the JUnit test case applied on the BusinessObjectHandler class
  * 
- * @author Bin Gao from Michigan State University
+ * 
  */
 @WithTestSpringContext
 public class OJBUtilityTest extends KualiTestBase {

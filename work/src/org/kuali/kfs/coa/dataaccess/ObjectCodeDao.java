@@ -30,7 +30,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * This interface defines basic methods that ObjectCode Dao's must provide
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public interface ObjectCodeDao {
 

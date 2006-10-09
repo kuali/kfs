@@ -36,7 +36,7 @@ import org.kuali.module.financial.document.CashManagementDocument;
 
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Deposit extends BusinessObjectBase {
     // primary key

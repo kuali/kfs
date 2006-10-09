@@ -29,6 +29,7 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.AccountService;
@@ -41,13 +42,12 @@ import org.kuali.module.gl.bo.OriginEntry;
 /**
  * This class implements FlexibleOffsetAccountService.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FlexibleOffsetAccountServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private KualiConfigurationService kualiConfigurationService;
     private AccountService accountService;
     private ObjectCodeService objectCodeService;
     private DateTimeService dateTimeService;
@@ -74,7 +74,8 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
     public boolean getEnabled() {
         LOG.debug("getEnabled() started");
 
-        return kualiConfigurationService.getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        // KualiConfigurationService needs to be gotten dynamically here so TransferOfFundsDocumentRuleTest can mock it.
+        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
     }
 
     /**
@@ -165,14 +166,5 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    // This shouldn't be here
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

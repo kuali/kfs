@@ -34,7 +34,7 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 /**
  * This class is the action form for the deposit document wizard.
  * 
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class DepositWizardForm extends KualiForm {
     private String cashDrawerVerificationUnit;

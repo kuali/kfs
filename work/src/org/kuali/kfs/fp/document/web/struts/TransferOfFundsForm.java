@@ -30,7 +30,7 @@ import org.kuali.module.financial.document.TransferOfFundsDocument;
  * KualiTransactionalDocumentFormBase class which contains all of the common form methods and form attributes needed by the Transfer
  * of Funds document. It adds a new method which is a convenience method for getting at the Transfer of Funds document easier.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class TransferOfFundsForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;

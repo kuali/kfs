@@ -52,7 +52,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This is the business object that represents the BudgetAdjustment document in Kuali.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
@@ -392,48 +392,11 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Retrieve the document total, using a sequence of logic checks to determine what value should represent the total.  
-     * Set that total to the document header and then return that value.
-     * 
-     * @returns A value representing the total of the given document.
+     * @see org.kuali.core.document.TransactionalDocumentBase#getTotalDollarAmount()
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        KualiDecimal total = new KualiDecimal(0);
-        if(getTargetBaseBudgetExpenseTotal().isGreaterThan(KualiInteger.ZERO)) {
-            total = new KualiDecimal(getTargetBaseBudgetExpenseTotal().bigDecimalValue());
-        }
-        else {
-            if(getTargetCurrentBudgetExpenseTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                total = getTargetCurrentBudgetExpenseTotal();
-            }
-            else {
-                if(getTargetBaseBudgetIncomeTotal().isGreaterThan(KualiInteger.ZERO)) {
-                    total = new KualiDecimal(getTargetBaseBudgetIncomeTotal().bigDecimalValue());
-                }
-                else {
-                    if(getTargetCurrentBudgetIncomeTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                        total = getTargetCurrentBudgetIncomeTotal();
-                    } 
-                    else {
-                        if(getSourceBaseBudgetExpenseTotal().isGreaterThan(KualiInteger.ZERO)) {
-                            total = new KualiDecimal(getSourceBaseBudgetExpenseTotal().bigDecimalValue());
-                        }
-                        else {
-                            if(getSourceCurrentBudgetExpenseTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                                total = getSourceCurrentBudgetExpenseTotal();
-                            }
-                            else {
-                                total = new KualiDecimal(0);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        this.getDocumentHeader().setFinancialDocumentTotalAmount(total);
-        
-        return total;
+        return super.getTotalDollarAmount();
     }
 
     /**

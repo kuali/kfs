@@ -43,7 +43,7 @@ import org.kuali.module.gl.service.IcrTransaction;
 import org.springframework.util.StringUtils;
 
 /**
- * @author jsissom
+ * 
  * 
  */
 public class PostExpenditureTransaction implements IcrTransaction, PostTransaction {

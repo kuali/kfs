@@ -34,11 +34,11 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext
-public class BudgetIndirectCostServiceTest extends KualiTestBaseWithSpring {
+public class BudgetIndirectCostServiceTest extends KualiTestBase {
 
     private BudgetIndirectCostService indirectCostService;
     private BudgetDocument budgetDocument;

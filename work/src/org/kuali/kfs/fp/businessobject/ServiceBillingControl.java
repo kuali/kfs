@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.Chart;
 /**
  * ServiceBillingControl Business Object
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ServiceBillingControl extends BusinessObjectBase {
     private static final long serialVersionUID = -615796117852059115L;

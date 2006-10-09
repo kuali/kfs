@@ -44,7 +44,7 @@ import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
  * document, but only target lines are displayed because source lines cannot be changed. Transaction, Card, and Vendor information
  * are associated with the document to help better distribute the expense.
  * 
- * @author Kuali Financial Transactions Team ()
+ * 
  */
 public class ProcurementCardDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);

@@ -64,7 +64,7 @@
                 <description>The code uniquely identifying a particular higher education function.</description>
             </attribute>
 
-            <attribute name="financialHigherEdFunctionNm" forceUppercase="false">
+            <attribute name="financialHigherEdFunctionNm" forceUppercase="true">
                 <label>Higher Education Function Name</label>
                 <shortLabel>Name</shortLabel>
 

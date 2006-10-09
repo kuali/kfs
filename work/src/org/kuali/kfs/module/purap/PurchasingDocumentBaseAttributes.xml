@@ -520,7 +520,7 @@
     </validationPattern>
 
     <control>
-        <text size="6" />
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder" />
     </control>
 
     <summary>fundingSourceCode</summary>

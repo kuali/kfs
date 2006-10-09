@@ -58,7 +58,7 @@
                 <description>Mandatory Transfer Elimination Code</description>
             </attribute>
 
-            <attribute name="name" forceUppercase="false">
+            <attribute name="name" forceUppercase="true">
                 <label>Mandatory Transfer Elimination Name</label>
                 <shortLabel>Name</shortLabel>
 

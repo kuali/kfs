@@ -57,7 +57,7 @@
                 <description>Indirect Cost Recovery Type Code</description>
             </attribute>
 
-            <attribute name="name" forceUppercase="false">
+            <attribute name="name" forceUppercase="true">
                 <label>Indirect Cost Recovery Type Name</label>
                 <shortLabel>Name</shortLabel>
 

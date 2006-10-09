@@ -22,57 +22,65 @@
  */
 package org.kuali.module.chart.bo;
 
+import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.Constants;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext
 public class OrganizationRoutingModelTest extends KualiTestBase {
 
-    OrganizationRoutingModel model = new OrganizationRoutingModel();
+    OrganizationRoutingModel model;
 
-    private final static String MODEL_NAME = "junit-test";
-
-    BusinessObjectService boService;
-
+    /**
+     * @see org.kuali.test.KualiTestBase#setUp()
+     */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
-        boService = SpringServiceLocator.getBusinessObjectService();
+        Map<String,String> fieldValues=new HashMap<String, String>();
+        fieldValues.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, "BL");
+        fieldValues.put(Constants.ORGANIZATION_CODE_PROPERTY_NAME,"CLAS");
+        List<OrganizationRoutingModel> results = (List<OrganizationRoutingModel>)getBusinessObjectService().findMatching(OrganizationRoutingModel.class, fieldValues);
+        assertFalse("no models found", results.isEmpty());
+
+        model=results.get(0);
     }
 
     public void testSaveModel() {
-        model.setOrganizationRoutingModelName(MODEL_NAME);
-        model.setChartOfAccountsCode("BL");
-        model.setOrganizationCode("AMUS");
-        model.setAccountDelegateUniversalId("12345");
-        model.setFinancialDocumentTypeCode("xx");
+        String name= model.getOrganizationRoutingModelName();
+        OrganizationRoutingModel routingModel = new OrganizationRoutingModel();
+        routingModel.setOrganizationRoutingModelName(name);
+        routingModel.setChartOfAccountsCode(model.getChartOfAccountsCode());
+        routingModel.setOrganizationCode(model.getOrganizationCode());
+        routingModel.setAccountDelegateUniversalId(model.getAccountDelegateUniversalId());
+        routingModel.setFinancialDocumentTypeCode("xx");
+        getBusinessObjectService().save(routingModel);
 
-        boService.save(model);
-        assertTrue(loadModel(MODEL_NAME));
+        assertTrue(loadModel(name, model.getClass()));
     }
 
-    public boolean loadModel(String name) {
+    private boolean loadModel(String name, Class clazz) {
 
-        Map fieldValues = new HashMap();
-        Collection<OrganizationRoutingModel> foundModel;
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("ORG_RTNG_MDL_NM", name);
 
-        foundModel = boService.findMatching(model.getClass(), fieldValues);
+        Collection<OrganizationRoutingModel> foundModel = getBusinessObjectService().findMatching(clazz, fieldValues);
 
-        List<DelegateChangeDocument> delegateChanges = new ArrayList();
+        List<DelegateChangeDocument> delegateChanges = new ArrayList<DelegateChangeDocument>();
 
         for (OrganizationRoutingModel model : foundModel) {
             delegateChanges.add(new DelegateChangeDocument(model));
         }
 
-        return foundModel != null && foundModel.size() > 0;
+        return (foundModel != null && !foundModel.isEmpty());
 
     }
 

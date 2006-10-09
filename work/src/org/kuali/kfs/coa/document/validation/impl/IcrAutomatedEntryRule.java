@@ -31,7 +31,12 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiPercent;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 
 
 /**
@@ -65,7 +70,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         setupConvenienceObjects(document);
-
+        Integer universityFiscalYear = newIcrAutomatedEntry.getUniversityFiscalYear();
         String chartOfAccountsCode = newIcrAutomatedEntry.getChartOfAccountsCode();
         String accountNumber = newIcrAutomatedEntry.getAccountNumber();
         String subAccountNumber = newIcrAutomatedEntry.getSubAccountNumber();
@@ -83,7 +88,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             else {
                 Map pkMap = new HashMap();
                 pkMap.put("chartOfAccountsCode", chartOfAccountsCode);
-                success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "chartOfAccountsCode", "Chart Code");
+                success &= checkExistenceFromTable(Chart.class, pkMap, "chartOfAccountsCode", "Chart Code");
             }
         }
 
@@ -96,7 +101,8 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             else {
                 Map pkMap = new HashMap();
                 pkMap.put("accountNumber", accountNumber);
-                success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "accountNumber", "Account");
+                pkMap.put("chartOfAccountsCode", chartOfAccountsCode);
+                success &= checkExistenceFromTable(Account.class, pkMap, "accountNumber", "Account");
             }
         }
 
@@ -108,8 +114,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             }
             else {
                 Map pkMap = new HashMap();
+                pkMap.put("chartOfAccountsCode", chartOfAccountsCode);
+                pkMap.put("accountNumber", accountNumber);
                 pkMap.put("subAccountNumber", subAccountNumber);
-                success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "subAccountNumber", "Sub-Account");
+                success &= checkExistenceFromTable(SubAccount.class, pkMap, "subAccountNumber", "Sub-Account");
             }
         }
 
@@ -120,8 +128,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             }
             else {
                 Map pkMap = new HashMap();
+                pkMap.put("universityFiscalYear", universityFiscalYear);
+                pkMap.put("chartOfAccountsCode", chartOfAccountsCode);
                 pkMap.put("financialObjectCode", financialObjectCode);
-                success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "financialObjectCode", "Object Code");
+                success &= checkExistenceFromTable(ObjectCode.class, pkMap, "financialObjectCode", "Object Code");
             }
         }
 
@@ -132,8 +142,12 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             }
             else {
                 Map pkMap = new HashMap();
-                pkMap.put("financialObjectCode", financialSubObjectCode);
-                success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "financialSubObjectCode", "SubObject Code");
+                pkMap.put("universityFiscalYear", universityFiscalYear);
+                pkMap.put("chartOfAccountsCode", chartOfAccountsCode);
+                pkMap.put("accountNumber", accountNumber);
+                pkMap.put("financialObjectCode", financialObjectCode);
+                pkMap.put("financialSubObjectCode", financialSubObjectCode);
+                success = checkExistenceFromTable(SubObjCd.class, pkMap, "financialSubObjectCode", "SubObject Code");
             }
         }
 

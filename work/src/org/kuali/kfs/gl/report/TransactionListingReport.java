@@ -213,7 +213,7 @@ public class TransactionListingReport {
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     transactionList.addCell(cell);
                     
-                    if (Constants.GL_BUDGET_CODE.equals(tran.getTransactionDebitCreditCode())) {
+                    if (!Constants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())){
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
                         budgetTotal = creditTotal.add(tran.getTransactionLedgerEntryAmount());
                     }

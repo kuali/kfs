@@ -369,6 +369,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                     // add the new explicit entry to the document now
                     transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
+                    customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+
                     // increment the sequence counter
                     sequenceHelper.increment();
 

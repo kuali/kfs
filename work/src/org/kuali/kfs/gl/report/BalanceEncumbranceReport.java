@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.GlSummary;
 
 import com.lowagie.text.Document;
@@ -154,20 +155,27 @@ public class BalanceEncumbranceReport {
             nf.applyPattern("###,###,###,##0.00");
 
             GlSummary totals = new GlSummary();
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
             for (Iterator iter = glBalances.iterator(); iter.hasNext();) {
                 GlSummary gls = (GlSummary) iter.next();
                 totals.add(gls);
 
                 cell = new PdfPCell(new Phrase(gls.getFundGroup(), textFont));
                 balances.addCell(cell);
-                cell = new PdfPCell(new Phrase(nf.format((gls.getBeginningBalance().add(gls.getCgBeginningBalance())).doubleValue()), textFont));
+                
+                totalAmount = gls.getBeginningBalance().add(gls.getAnnualBalance());
+                totalAmount = totalAmount.add(gls.getCgBeginningBalance());
+                cell = new PdfPCell(new Phrase(nf.format(totalAmount.doubleValue()), textFont));
                 balances.addCell(cell);
             }
 
             // Now add the total line
             cell = new PdfPCell(new Phrase("Total", textFont));
             balances.addCell(cell);
-            cell = new PdfPCell(new Phrase(nf.format((totals.getBeginningBalance().add(totals.getCgBeginningBalance())).doubleValue()), textFont));
+            
+            totalAmount = totals.getBeginningBalance().add(totals.getAnnualBalance());
+            totalAmount = totalAmount.add(totals.getCgBeginningBalance());
+            cell = new PdfPCell(new Phrase(nf.format(totalAmount.doubleValue()), textFont));
             balances.addCell(cell);
 
             document.add(balances);

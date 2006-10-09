@@ -154,11 +154,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
                 validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
                 invalidEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_ERROR;
                 reversalTransactions = reversalDao.getByDate(runDate);
-                
-                // TODO Reversal Report
-                // Where to get the groups from?
-                // reportService.generatePosterReversalLedgerSummaryReport(runDate, groups);
-                
+                reportService.generatePosterReversalLedgerSummaryReport(runDate, reversalTransactions);
                 break;
             case PosterService.MODE_ICR:
                 validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;
@@ -214,12 +210,16 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
                 postTransaction(tran, mode, reportSummary, reportError, invalidGroup, validGroup, runUniversityDate);
 
+                // Report Reversal poster valid transactions
+                reportService.generatePosterReversalTransactionsListing(runDate, validGroup);
+
                 LOG.info("postEntries() Posted Entry " + (++ecount));
             }
         }
 
-        // Generate the report
+        // Generate the reports
         reportService.generatePosterStatisticsReport(runDate, reportSummary, transactionPosters, reportError, mode);
+        reportService.generatePosterErrorTransactionListing(runDate, invalidGroup, mode);
     }
 
     private void postTransaction(Transaction tran, int mode, Map reportSummary, Map reportError, OriginEntryGroup invalidGroup, OriginEntryGroup validGroup, UniversityDate runUniversityDate) {
@@ -455,7 +455,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         }
         else if ("#".equals(icrEntry.getAccountNumber())) {
             e.setAccountNumber(et.getAccount().getIndirectCostRecoveryAcctNbr());
-            e.setChartOfAccountsCode(et.getAccount().getChartOfAccountsCode());
+            e.setChartOfAccountsCode(et.getAccount().getIndirectCostRcvyFinCoaCode());
             e.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         }
         else {

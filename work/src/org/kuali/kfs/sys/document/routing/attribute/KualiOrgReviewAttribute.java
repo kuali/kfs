@@ -292,7 +292,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
         if (this.overrideCd != null) {
             String docOverrideCd = getOverrideCd(documentType, docContent);
-            if (!docOverrideCd.equals(this.overrideCd)) {
+            if (!this.overrideCd.equalsIgnoreCase(docOverrideCd)) {
                 return false;
             }
         }

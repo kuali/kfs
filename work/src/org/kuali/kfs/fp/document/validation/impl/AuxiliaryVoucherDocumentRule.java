@@ -714,9 +714,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     private boolean isValidDocWithSubAndLevel(TransactionalDocument document, AccountingLine accountingLine) {
         boolean retval = true;
 
-        StringBuffer combinedCodes = new StringBuffer("objectType=").append(accountingLine.getObjectType().getCode())
-            .append(";objSubTyp=").append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode())
-            .append(";objLevel=").append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
+        StringBuffer combinedCodes = new StringBuffer("objectType=").append(accountingLine.getObjectType().getCode()).append(";objSubTyp=").append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode()).append(";objLevel=").append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
         
         retval = !getParameterRule(RESTRICTED_COMBINED_CODES).getParameterText().equals(combinedCodes.toString());
 

@@ -1257,16 +1257,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.chart.bo.ObjectCodeRestrictions" table="CA_OBJ_CD_RSTRC_T">
-    <field-descriptor name="finObjRestrictedGroupingName" column="FINOBJ_RSTRGRPG_NM" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="finObjRestrictedColumnName" column="FINOBJ_RSTR_COL_NM" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="finObjValueRestrictedCode" column="FINOBJ_VAL_RSTR_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="finObjRestrictionOperatorCd" column="FINOBJ_RSTR_OPR_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="finObjRestrictedGroupingCode" column="FINOBJ_RSTRGRPG_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount" table="CA_ICR_EXCL_ACCT_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />

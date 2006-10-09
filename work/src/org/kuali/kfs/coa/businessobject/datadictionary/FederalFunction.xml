@@ -59,7 +59,7 @@
                 <description>The code uniquely identifying a particular Federal Function.</description>
             </attribute>
 
-            <attribute name="financialFederalFunctionName" forceUppercase="false">
+            <attribute name="financialFederalFunctionName" forceUppercase="true">
                 <label>Federal Function Name</label>
                 <shortLabel>Name</shortLabel>
 

@@ -22,14 +22,16 @@
  */
 package org.kuali.module.chart.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
+import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
+
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.Constants;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -44,78 +46,53 @@ public class AccountingPeriodServiceTest extends KualiTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceTest.class);
 
-    private BusinessObjectService bos = null;
-    private AccountingPeriodService aps = null;
-    public static final boolean BUDGET_ROLLOVER_IND = true;
-    public static final String GUID = "123456789012345678901234567890123456";
-    public static final String UNIV_FISC_PERD_CODE = "01";
-    public static final Date UNIV_FISC_PERD_END_DATE = new java.sql.Date(System.currentTimeMillis());
-    public static final Integer UNIV_FISC_YEAR = new Integer(1776);
-    public static final String UNIV_FISC_PRD_NAME = "JUL. 1776";
-    public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
-    public static final Long VER_NBR = new Long(1);
-
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        bos = SpringServiceLocator.getBusinessObjectService();
-        aps = SpringServiceLocator.getAccountingPeriodService();
-    }
-
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testPersistence() {
-        AccountingPeriod ap = new AccountingPeriod();
-        ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
-        ap.setExtendedAttributeValues(new ArrayList());
-        ap.setObjectId(GUID);
-        ap.setUniversityFiscalPeriodCode(UNIV_FISC_PERD_CODE);
-        ap.setUniversityFiscalPeriodEndDate(UNIV_FISC_PERD_END_DATE);
-        ap.setUniversityFiscalPeriodName(UNIV_FISC_PRD_NAME);
-        ap.setUniversityFiscalPeriodStatusCode(UNIV_FISC_PRD_STATUS_CODE);
-        ap.setUniversityFiscalYear(UNIV_FISC_YEAR);
-        ap.setVersionNumber(VER_NBR);
+        Date date = getDateTimeService().getCurrentSqlDate();
+        AccountingPeriod period = getAccountingPeriodService().getByDate(date);
+        assertNotNull(period);
 
-        bos.save(ap);
-        assertNotNull(getAccountingPeriodByPrimaryKeys());
+        Integer year = period.getUniversityFiscalYear();
+        String universityFiscalPeriodCode = "UT";
+        String periodName = "unitTest";
 
-        AccountingPeriod ap2 = getAccountingPeriodByPrimaryKeys();
-        assertEquals(ap2.getUniversityFiscalPeriodName(), UNIV_FISC_PRD_NAME);
+        period.setUniversityFiscalPeriodCode(universityFiscalPeriodCode);
+        period.setUniversityFiscalPeriodName(periodName);
 
-        AccountingPeriod ap3 = getAccountingPeriodByPrimaryKeys();
-        bos.delete(ap3);
-        assertNull(getAccountingPeriodByPrimaryKeys());
+        getBusinessObjectService().save(period);
+
+        AccountingPeriod result = getAccountingPeriodByPrimaryKeys(year, universityFiscalPeriodCode);
+        assertNotNull(result);
+        assertEquals(periodName, result.getUniversityFiscalPeriodName());
+
+        getBusinessObjectService().delete(result);
+
+        result = getAccountingPeriodByPrimaryKeys(year, universityFiscalPeriodCode);
+        assertNull(result);
     }
 
-    private AccountingPeriod getAccountingPeriodByPrimaryKeys() {
-        HashMap h = new HashMap();
-        h.put("universityFiscalYear", UNIV_FISC_YEAR);
-        h.put("universityFiscalPeriodCode", UNIV_FISC_PERD_CODE);
-        AccountingPeriod ap2 = (AccountingPeriod) bos.findByPrimaryKey(AccountingPeriod.class, h);
+    private AccountingPeriod getAccountingPeriodByPrimaryKeys(Integer fiscalYear, String fiscalPeriodcode) {
+        Map<String, Object> h = new HashMap<String, Object>();
+        h.put("universityFiscalYear", fiscalYear);
+        h.put("universityFiscalPeriodCode", fiscalPeriodcode);
+        AccountingPeriod ap2 = (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, h);
         return ap2;
     }
 
     public void testGetAllAccountingPeriods() {
-        ArrayList acctPers = new ArrayList(aps.getAllAccountingPeriods());
-        assertNotNull(acctPers);
-        assertTrue(acctPers.size() > 0);
+        List<AccountingPeriod> accountingPeriods = (List<AccountingPeriod>) getAccountingPeriodService().getAllAccountingPeriods();
+        assertNotNull(accountingPeriods);
+        assertFalse(accountingPeriods.isEmpty());
     }
 
     public void testGetOpenAccountingPeriods() {
-        ArrayList acctPers = new ArrayList(aps.getOpenAccountingPeriods());
-        LOG.info("Number of OpenAccountingPeriods found: " + acctPers.size());
+        List<AccountingPeriod> accountingPeriods = (List<AccountingPeriod>) getAccountingPeriodService().getOpenAccountingPeriods();
+        LOG.info("Number of OpenAccountingPeriods found: " + accountingPeriods.size());
 
+        assertNotNull(accountingPeriods);
+        assertFalse(accountingPeriods.isEmpty());
         // all returned AccountingPeriod instances should be marked as OPEN
-        for (Iterator iter = acctPers.iterator(); iter.hasNext();) {
-            AccountingPeriod ap = (AccountingPeriod) iter.next();
-            String statusCode = ap.getUniversityFiscalPeriodStatusCode();
+        for (AccountingPeriod accountingPeriod : accountingPeriods) {
+            String statusCode = accountingPeriod.getUniversityFiscalPeriodStatusCode();
             assertTrue(statusCode.equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));
         }
     }

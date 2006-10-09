@@ -38,7 +38,7 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
     private MandatoryTransferEliminationCode knowGood;
     private static final String GOOD_CODE="N";
-    private static final String GOOD_NAME="Neither";
+    private static final String GOOD_NAME="None";
     private static final String BAD_CODE = "X";
     private static final String BAD_NAME = "BAD";
 
@@ -132,11 +132,11 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
     private void validateTestFixtures() {
         MandatoryTransferEliminationCode code = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
         assertEquals(GOOD_CODE,code.getCode());
-        assertNotNull(GOOD_NAME,code.getName());
+        assertEquals(GOOD_NAME,code.getName());
 
         code = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, GOOD_NAME);
         assertEquals(GOOD_CODE,code.getCode());
-        assertNotNull(GOOD_NAME,code.getName());
+        assertEquals(GOOD_NAME,code.getName());
         
         code = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, BAD_CODE);
         assertNull(code);

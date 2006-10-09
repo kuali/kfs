@@ -9,11 +9,12 @@
 	<kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
-    
-	<kul:documentOverview editingMode="${KualiForm.editingMode}"
-		includePostingYear="true" />
 
-	<!--  purap:requisitiondetail documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" /-->
+	<kul:documentOverview editingMode="${KualiForm.editingMode}"
+		includePostingYear="true" >
+    	<purap:requisitiondetail
+	    	documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+    </kul:documentOverview>
 
     <purap:vendor
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"

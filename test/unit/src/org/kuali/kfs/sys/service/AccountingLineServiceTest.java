@@ -22,6 +22,10 @@
  */
 package org.kuali.core.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getAccountingLineService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE2_TOF;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,31 +33,40 @@ import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.module.financial.document.InternalBillingDocument;
+import org.kuali.module.financial.document.JournalVoucherDocument;
+import org.kuali.module.financial.document.TransferOfFundsDocument;
+import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
+import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class tests the AccountingLine service.
  * 
  * 
  */
-@WithTestSpringContext
+@WithTestSpringContext(session = KHUNTLEY)
 public class AccountingLineServiceTest extends KualiTestBase {
 
-    private AccountingLineService accountingLineService;
     private SourceAccountingLine sline;
     private TargetAccountingLine tline;
+    private TransactionalDocument document;
 
+    @TestsWorkflowViaDatabase
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
-        accountingLineService = SpringServiceLocator.getAccountingLineService();
+        document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
+        getDocumentService().saveDocument(document);
+        LINE2_TOF.addAsSourceTo(document);
+        LINE2_TOF.addAsTargetTo(document);
 
-        // setup line
-        sline = LINE.createSourceAccountingLine();
-
-        tline = LINE.createTargetAccountingLine();
+        sline = document.getSourceAccountingLine(0);
+        tline = document.getTargetAccountingLine(0);
     }
 
     /**
@@ -63,21 +76,21 @@ public class AccountingLineServiceTest extends KualiTestBase {
      */
     public void testPersistence() throws Exception {
 
-        AccountingLine line = null;
-            accountingLineService.save(sline);
 
-            List sourceLines = accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class, LINE.financialDocumentNumber);
-            assertTrue(sourceLines.size() > 0);
+        getAccountingLineService().save(sline);
 
-            line = (AccountingLine) sourceLines.get(0);
+        List<? extends SourceAccountingLine> sourceLines = getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, document.getFinancialDocumentNumber());
+        assertTrue(sourceLines.size() > 0);
 
-            assertEquals(LINE.chartOfAccountsCode, line.getChartOfAccountsCode());
-            assertEquals(LINE.accountNumber, line.getAccountNumber());
-            assertEquals(LINE.subAccountNumber, line.getSubAccountNumber());
-            assertEquals(LINE.financialObjectCode, line.getFinancialObjectCode());
-            assertEquals(LINE.financialSubObjectCode, line.getFinancialSubObjectCode());
+        AccountingLine line = sourceLines.get(0);
 
-            accountingLineService.deleteAccountingLine((AccountingLineBase) line);
+        assertEquals(LINE2_TOF.chartOfAccountsCode, line.getChartOfAccountsCode());
+        assertEquals(LINE2_TOF.accountNumber, line.getAccountNumber());
+        assertEquals(LINE2_TOF.subAccountNumber, line.getSubAccountNumber());
+        assertEquals(LINE2_TOF.financialObjectCode, line.getFinancialObjectCode());
+        assertEquals(LINE2_TOF.financialSubObjectCode, line.getFinancialSubObjectCode());
+
+        getAccountingLineService().deleteAccountingLine((AccountingLineBase) line);
 
     }
 
@@ -86,13 +99,13 @@ public class AccountingLineServiceTest extends KualiTestBase {
      * Tests reference objects are being corrected refreshed from changed pritive values.
      */
     public void testRefresh() {
-        assertEquals(LINE.chartOfAccountsCode, sline.getAccount().getChartOfAccountsCode());
-        assertEquals(LINE.accountNumber, sline.getAccount().getAccountNumber());
+        assertEquals(LINE2_TOF.chartOfAccountsCode, sline.getAccount().getChartOfAccountsCode());
+        assertEquals(LINE2_TOF.accountNumber, sline.getAccount().getAccountNumber());
 
         sline.setAccountNumber(TestConstants.Data4.ACCOUNT2);
         sline.refresh();
 
-        assertEquals(LINE.chartOfAccountsCode, sline.getAccount().getChartOfAccountsCode());
+        assertEquals(LINE2_TOF.chartOfAccountsCode, sline.getAccount().getChartOfAccountsCode());
         assertEquals(TestConstants.Data4.ACCOUNT2, sline.getAccount().getAccountNumber());
 
         sline.setChartOfAccountsCode(TestConstants.Data4.CHART_CODE_BA);
@@ -108,36 +121,37 @@ public class AccountingLineServiceTest extends KualiTestBase {
     // no obvious way to test these separately, since we need to create to test save, need to save to (really) test get, and need
     // to delete so future test-runs can recreate
     public void testLifecycle() throws Exception {
+        String docNumber = document.getFinancialDocumentNumber();
         // make sure they dont' exist
-        assertFalse(accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class, LINE.financialDocumentNumber).size() > 0);
-        assertFalse(accountingLineService.getByDocumentHeaderId(TargetAccountingLine.class, LINE.financialDocumentNumber).size() > 0);
+        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, docNumber).size());
+        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());
         List sourceLines = null;
         List targetLines = null;
 
         // save 'em
-            accountingLineService.save(sline);
-            accountingLineService.save(tline);
+        getAccountingLineService().save(sline);
+        getAccountingLineService().save(tline);
 
-            sourceLines = accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class, LINE.financialDocumentNumber);
-            targetLines = accountingLineService.getByDocumentHeaderId(TargetAccountingLine.class, LINE.financialDocumentNumber);
+        sourceLines = getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, docNumber);
+        targetLines = getAccountingLineService().getByDocumentHeaderId(TargetAccountingLine.class, docNumber);
 
-            // make sure they got saved
-            assertTrue(sourceLines.size() > 0);
-            assertTrue(targetLines.size() > 0);
-            // delete 'em
-            if (sourceLines != null) {
-                for (Iterator i = sourceLines.iterator(); i.hasNext();) {
-                    accountingLineService.deleteAccountingLine((AccountingLineBase) i.next());
-                }
+        // make sure they got saved
+        assertTrue(sourceLines.size() > 0);
+        assertTrue(targetLines.size() > 0);
+        // delete 'em
+        if (sourceLines != null) {
+            for (Iterator i = sourceLines.iterator(); i.hasNext();) {
+                getAccountingLineService().deleteAccountingLine((AccountingLineBase) i.next());
             }
-            if (targetLines != null) {
-                for (Iterator i = targetLines.iterator(); i.hasNext();) {
-                    accountingLineService.deleteAccountingLine((AccountingLineBase) i.next());
-                }
+        }
+        if (targetLines != null) {
+            for (Iterator i = targetLines.iterator(); i.hasNext();) {
+                getAccountingLineService().deleteAccountingLine((AccountingLineBase) i.next());
             }
+        }
 
-            // make sure they got deleted
-            assertTrue(accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class, LINE.financialDocumentNumber).size() == 0);
-            assertTrue(accountingLineService.getByDocumentHeaderId(TargetAccountingLine.class, LINE.financialDocumentNumber).size() == 0);
+        // make sure they got deleted
+        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, docNumber).size());
+        assertEquals(0, getAccountingLineService().getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());
     }
 }

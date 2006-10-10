@@ -36,11 +36,6 @@ public class OrgRuleTest extends ChartRuleTestBase {
     private Org org;
     private MaintenanceDocument maintDoc;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        rule = new OrgRule();
-    }
-
     public void testDefaultExistenceChecks_chartOfAccounts_good() {
     }
 }

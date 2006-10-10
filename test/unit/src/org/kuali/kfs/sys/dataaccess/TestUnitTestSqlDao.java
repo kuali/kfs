@@ -40,6 +40,7 @@ public class TestUnitTestSqlDao extends KualiTestBase {
         super();
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

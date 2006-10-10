@@ -22,12 +22,14 @@
  */
 package org.kuali.module.kra.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getBudgetModularService;
+import static org.kuali.core.util.SpringServiceLocator.getBudgetNonpersonnelService;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiInteger;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
@@ -38,8 +40,6 @@ import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
-import org.kuali.module.kra.budget.service.BudgetModularService;
-import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
@@ -50,21 +50,6 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class BudgetModularServiceTest extends KualiTestBase {
-
-    private BudgetModularService budgetModularService;
-    private BudgetNonpersonnelService budgetNonpersonnelService;
-
-    private List nonpersonnelCategories;
-
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        budgetModularService = SpringServiceLocator.getBudgetModularService();
-        budgetNonpersonnelService = SpringServiceLocator.getBudgetNonpersonnelService();
-        nonpersonnelCategories = budgetNonpersonnelService.getAllNonpersonnelCategories();
-    }
 
     protected Budget setupBudget() {
         Budget budget = new Budget();
@@ -83,11 +68,12 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
 
     public void testGenerateModularBudget() {
+        List nonpersonnelCategories = getBudgetNonpersonnelService().getAllNonpersonnelCategories();
         KualiInteger zeroValue = new KualiInteger(0);
 
         // Case 1: Budget with no costs
         Budget budget = setupBudget();
-        budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
+        getBudgetModularService().generateModularBudget(budget, nonpersonnelCategories);
         BudgetModular modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -148,7 +134,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
+        getBudgetModularService().generateModularBudget(budget, nonpersonnelCategories);
         modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -187,7 +173,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
         userAppointmentTaskPeriods.add(taskPeriod4);
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
+        getBudgetModularService().generateModularBudget(budget, nonpersonnelCategories);
         modularBudget = budget.getModularBudget();
 
         assertTrue(modularBudget.isInvalidMode());
@@ -220,7 +206,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
         // Case 1: Budget with no costs
         Budget budget = setupBudget();
-        budgetModularService.resetModularBudget(budget);
+        getBudgetModularService().resetModularBudget(budget);
         BudgetModular modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -268,7 +254,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
 
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        budgetModularService.resetModularBudget(budget);
+        getBudgetModularService().resetModularBudget(budget);
         modularBudget = budget.getModularBudget();
 
         assertFalse(modularBudget.isInvalidMode());
@@ -291,7 +277,7 @@ public class BudgetModularServiceTest extends KualiTestBase {
         userAppointmentTaskPeriods.add(taskPeriod4);
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
 
-        budgetModularService.resetModularBudget(budget);
+        getBudgetModularService().resetModularBudget(budget);
         modularBudget = budget.getModularBudget();
 
         BudgetModularPeriod modularPeriodInvalid1 = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(0);
@@ -305,21 +291,21 @@ public class BudgetModularServiceTest extends KualiTestBase {
     public void testAgencySupportsModular() {
 
         // Case 1: Agency is null.
-        assertFalse(budgetModularService.agencySupportsModular(null));
+        assertFalse(getBudgetModularService().agencySupportsModular(null));
 
         // Case 2: Supports modular is true.
         Agency agency = new Agency();
         AgencyExtension agencyExtension = new AgencyExtension();
         agencyExtension.setAgencyModularIndicator(true);
         agency.setAgencyExtension(agencyExtension);
-        assertTrue(budgetModularService.agencySupportsModular(agency));
+        assertTrue(getBudgetModularService().agencySupportsModular(agency));
 
         // Case 3: Supports modular is false.
         agency.getAgencyExtension().setAgencyModularIndicator(false);
-        assertFalse(budgetModularService.agencySupportsModular(agency));
+        assertFalse(getBudgetModularService().agencySupportsModular(agency));
 
         // Case 5: Agency extension and reports to agency both null.
         agency.setAgencyExtension(null);
-        assertFalse(budgetModularService.agencySupportsModular(agency));
+        assertFalse(getBudgetModularService().agencySupportsModular(agency));
     }
 }

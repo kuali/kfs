@@ -22,10 +22,10 @@
  */
 package org.kuali.module.chart.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+
 import java.util.HashMap;
 
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -37,8 +37,6 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class BalanceTypServiceTest extends KualiTestBase {
-    BusinessObjectService businessObjectService;
-
     private static final boolean ACTIVE = true;
     private static final boolean BAL_TYPE_ENCUMB = true;
     private static final String BAL_TYPE_CODE = "ZZ";
@@ -49,19 +47,6 @@ public class BalanceTypServiceTest extends KualiTestBase {
     private static final String SHORT_NAME = "Z SHORT";
 
     private static final String ACTUAL_BAL_TYPE_CODE = "AC";
-
-    /**
-     * Performs setup operations before tests are executed.
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        businessObjectService = SpringServiceLocator.getBusinessObjectService();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        businessObjectService = null;
-    }
 
     public void testCreateLookupDelete1() {
         // create
@@ -75,22 +60,22 @@ public class BalanceTypServiceTest extends KualiTestBase {
         bal.setFinancialBalanceTypeShortNm(SHORT_NAME);
         bal.setVersionNumber(VER_NBR);
 
-        businessObjectService.save(bal);
+        getBusinessObjectService().save(bal);
 
         // lookup
         HashMap map = new HashMap();
         map.put("code", BAL_TYPE_CODE);
-        BalanceTyp bal2 = (BalanceTyp) businessObjectService.findByPrimaryKey(BalanceTyp.class, map);
+        BalanceTyp bal2 = (BalanceTyp) getBusinessObjectService().findByPrimaryKey(BalanceTyp.class, map);
         assertNotNull("Should be a valid object.", bal2);
         assertEquals("Known-good code results in expected returned Name.", BAL_TYPE_NAME, bal2.getName());
 
         // delete
-        businessObjectService.delete(bal2);
+        getBusinessObjectService().delete(bal2);
 
         // try to lookup again
         map = new HashMap();
         map.put("code", BAL_TYPE_CODE);
-        BalanceTyp bal3 = (BalanceTyp) businessObjectService.findByPrimaryKey(BalanceTyp.class, map);
+        BalanceTyp bal3 = (BalanceTyp) getBusinessObjectService().findByPrimaryKey(BalanceTyp.class, map);
         assertNull("Shouldn't be a valid object.", bal3);
     }
 

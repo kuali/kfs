@@ -22,11 +22,11 @@
  */
 package org.kuali.module.chart.bo;
 
+import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
@@ -50,18 +50,11 @@ public class AccountTest extends KualiTestBase {
     private static final String TEST_DATE_3_YESTERDAY = "2002-04-21 06:14:55";
     private static final String TEST_DATE_3_TOMORROW = "2002-04-23 06:14:55";
 
-    private DateTimeService dateTimeService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        dateTimeService = SpringServiceLocator.getDateTimeService();
-    }
-
     // pass this a name, and it returns a setup timestamp instance
     private Timestamp getNamedTimestamp(String timestampString) {
         Timestamp timestamp;
         try {
-            timestamp = dateTimeService.convertToSqlTimestamp(timestampString);
+            timestamp = getDateTimeService().convertToSqlTimestamp(timestampString);
         }
         catch (ParseException e) {
             assertNull("Timestamp String was not parseable", e);
@@ -81,7 +74,7 @@ public class AccountTest extends KualiTestBase {
         account.setAccountExpirationDate(expirationDate);
 
         // test against isExpired, and get the result
-        boolean actualResult = account.isExpired(dateTimeService.getCalendar(testDate));
+        boolean actualResult = account.isExpired(getDateTimeService().getCalendar(testDate));
 
         // compare the result to what was expected
         assertEquals(expectedResult, actualResult);

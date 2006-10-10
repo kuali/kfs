@@ -22,14 +22,14 @@
  */
 package org.kuali.module.financial.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getCashDetailTypeCodeService;
+
 import java.util.ArrayList;
 
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-
 /**
  * This class tests the CashDetailTypeCode service.
  * 
@@ -39,11 +39,9 @@ import org.kuali.test.WithTestSpringContext;
 public class CashDetailTypeCodeServiceTest extends KualiTestBase {
     private ArrayList validCashDetailTypeCodes;
 
-    private CashDetailTypeCodeService cashDetailTypeCodeService;
-
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
-        this.cashDetailTypeCodeService = SpringServiceLocator.getCashDetailTypeCodeService();
         // this.validCashDetailTypeCodes = (ArrayList)
         // SpringServiceLocator.getBusinessObjectService().findAll(CashDetailTypeCodeService.class);
         // TODO - uncomment the above line of code when the database table for cash detail type codes is put in place and populated;
@@ -51,15 +49,8 @@ public class CashDetailTypeCodeServiceTest extends KualiTestBase {
         populateValidCashDetailTypeCodes();
     }
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testGetCashReceiptTypeCode() {
-        assertEquals(true, validCashDetailTypeCodes.contains(cashDetailTypeCodeService.getCashReceiptCheckTypeCode()));
+        assertEquals(true, validCashDetailTypeCodes.contains(getCashDetailTypeCodeService().getCashReceiptCheckTypeCode()));
     }
 
     private CashDetailTypeCode getDummyInstance(String cashDetailTypeCodeCode) {

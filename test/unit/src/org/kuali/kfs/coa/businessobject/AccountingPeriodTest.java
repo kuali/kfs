@@ -34,7 +34,7 @@ import org.kuali.test.KualiTestBase;
  * 
  */
 public class AccountingPeriodTest extends KualiTestBase {
-    AccountingPeriod ap = null;
+    AccountingPeriod ap;
     public static final boolean BUDGET_ROLLOVER_IND = true;
     public static final String GUID = "123456789012345678901234567890123456";
     public static final String UNIV_FISC_PERD_CODE = "BB";
@@ -44,9 +44,7 @@ public class AccountingPeriodTest extends KualiTestBase {
     public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
     public static final Long VER_NBR = new Long(1);
 
-    /*
-     * @see TestCase#setUp()
-     */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         ap = new AccountingPeriod();
@@ -59,20 +57,6 @@ public class AccountingPeriodTest extends KualiTestBase {
         ap.setUniversityFiscalPeriodStatusCode(UNIV_FISC_PRD_STATUS_CODE);
         ap.setUniversityFiscalYear(UNIV_FISC_YEAR);
         ap.setVersionNumber(VER_NBR);
-    }
-
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        ap = null;
-    }
-
-    /**
-     * Constructor for AccountingPeriodTest.
-     */
-    public AccountingPeriodTest() {
     }
 
     public void testAccountingPeriodPojo() {

@@ -22,8 +22,9 @@
  */
 package org.kuali.module.chart.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getSubAccountService;
+
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.test.KualiTestBase;
@@ -38,21 +39,13 @@ import org.kuali.test.WithTestSpringContext;
 public class SubAccountServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 
-    private SubAccountService subAccountService;
     private final static String CHART = "BA";
     private final static String ACCOUNT = "6044900";
     private final static String SUB_ACCOUNT = "ARREC";
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        setSubAccountService((SubAccountService) SpringServiceLocator.getSubAccountService());
-    }
 
     public void testA21SubAccount() {
-        SubAccount sa;
-
-        sa = subAccountService.getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
+        SubAccount sa = getSubAccountService().getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
 
         assertTrue("expect to find this sub account: " + CHART + "/" + ACCOUNT + "/" + SUB_ACCOUNT, ObjectUtils.isNotNull(sa));
         A21SubAccount a21 = sa.getA21SubAccount();
@@ -67,20 +60,11 @@ public class SubAccountServiceTest extends KualiTestBase {
         sa.setSubAccountNumber(SUB_ACCOUNT);
 
 
-        SubAccount retrieved = subAccountService.getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
+        SubAccount retrieved = getSubAccountService().getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
         assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
         assertEquals("Wrong chart", CHART, retrieved.getChartOfAccountsCode());
         assertEquals("Wrong account", ACCOUNT, retrieved.getAccountNumber());
         assertEquals("Wrong Sub account number", SUB_ACCOUNT, retrieved.getSubAccountNumber());
-    }
-
-    /**
-     * Sets the subAccountService attribute value.
-     * 
-     * @param subAccountService The subAccountService to set.
-     */
-    public void setSubAccountService(SubAccountService subAccountService) {
-        this.subAccountService = subAccountService;
     }
 
 

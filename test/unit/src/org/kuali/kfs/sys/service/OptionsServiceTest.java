@@ -25,7 +25,7 @@ package org.kuali.core.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.user.Options;
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
@@ -38,16 +38,8 @@ import org.kuali.test.WithTestSpringContext;
 public class OptionsServiceTest extends KualiTestBase {
     private static final Log LOG = LogFactory.getLog(OptionsServiceTest.class);
 
-    OptionsService optionsService;
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        optionsService = SpringServiceLocator.getOptionsService();
-    }
-
     public void testGetOptions() {
-        Options options = optionsService.getCurrentYearOptions();
+        Options options = getOptionsService().getCurrentYearOptions();
 
         assertNotNull(options);
 

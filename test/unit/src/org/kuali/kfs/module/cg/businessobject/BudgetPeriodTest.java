@@ -40,10 +40,6 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class BudgetPeriodTest extends KualiTestBase {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     public void testBudgetPeriod() {
         assertTrue(true);
     }

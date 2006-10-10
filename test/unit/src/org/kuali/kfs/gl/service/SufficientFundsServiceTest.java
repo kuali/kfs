@@ -38,6 +38,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
     private SufficientFundsService sufficientFundsService = null;
     private UnitTestSqlDao unitTestSqlDao = null;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

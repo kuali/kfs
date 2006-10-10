@@ -40,6 +40,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private final String docHeaderId = "1003";
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

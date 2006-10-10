@@ -22,13 +22,14 @@
  */
 package org.kuali.module.chart.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getObjectCodeService;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -42,14 +43,6 @@ import org.kuali.test.WithTestSpringContext;
 public class ObjectCodeServiceTest extends KualiTestBase {
     public static final String CHART_CODE = TestConstants.Data4.CHART_CODE;
 
-    private ObjectCodeService objectCodeService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        objectCodeService = SpringServiceLocator.getObjectCodeService();
-    }
-
     public void testPropertyUtilsDescribe() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ObjectCode objectCode = new ObjectCode();
         Map boProps = PropertyUtils.describe(objectCode);
@@ -58,7 +51,7 @@ public class ObjectCodeServiceTest extends KualiTestBase {
     public void testGetYersList() {
         ObjectCode objectCode = new ObjectCode();
         // objectCode = ObjectCodeDao.
-        List list = objectCodeService.getYearList("BL", "5050");
+        List list = getObjectCodeService().getYearList("BL", "5050");
         assertNotNull("interface garuentee not returning Null", list);
 
         assertTrue("expect more than one result", list.size() > 0);
@@ -68,7 +61,7 @@ public class ObjectCodeServiceTest extends KualiTestBase {
     public void testGetYersListEmpty() {
         ObjectCode objectCode = new ObjectCode();
         // objectCode = ObjectCodeDao.
-        List list = objectCodeService.getYearList("BL", "asdfasdf");
+        List list = getObjectCodeService().getYearList("BL", "asdfasdf");
         assertNotNull("interface garuentee not returning Null", list);
         assertTrue("expect more than one result", list.size() == 0);
 
@@ -76,41 +69,41 @@ public class ObjectCodeServiceTest extends KualiTestBase {
 
 
     public void testFindById() {
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertNotNull(objectCode);
     }
 
     public void testFindById2() {
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2006), CHART_CODE, "none");
+        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2006), CHART_CODE, "none");
         assertNull(objectCode);
     }
 
     public void testObjectTypeRetrieval() {
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("ObjectType Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectType()));
         assertEquals("Object Type should be EE", objectCode.getFinancialObjectType().getCode(), "EX");
     }
 
     public void testObjectSubTypeRetrieval() {
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("ObjSubTyp Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectSubType()));
         assertEquals("Object Type", "NA", objectCode.getFinancialObjectSubType().getCode());
     }
 
     public void testBudgetAggregationCodeRetrieval() {
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("BudgetAggregationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialBudgetAggregation()));
         assertEquals("Budget Aggregation Code should be something", objectCode.getFinancialBudgetAggregation().getCode(), "O");
     }
 
     public void testMandatoryTransferEliminationCodeRetrieval() {
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("MandatoryTransferEliminationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinObjMandatoryTrnfrelim()));
         assertEquals("Mandatory Transfer Elimination Code should be something", objectCode.getFinObjMandatoryTrnfrelim().getCode(), "N");
     }
 
     public void testFederalFundedCodeRetrieval() {
-        ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
+        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
         assertTrue("FederalFundedCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialFederalFunded()));
         assertEquals("Federal Funded Code should be something", objectCode.getFinancialFederalFunded().getCode(), "N");
     }

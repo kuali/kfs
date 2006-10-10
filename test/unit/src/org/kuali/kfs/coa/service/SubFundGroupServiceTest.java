@@ -22,7 +22,8 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getSubFundGroupService;
+
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -35,35 +36,29 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class SubFundGroupServiceTest extends KualiTestBase {
 
-    SubFundGroupService subFundGroupService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        subFundGroupService = SpringServiceLocator.getSubFundGroupService();
-    }
 
     public final void testGetByCode_knownCode() {
         // known-good code
-        SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId("LOANFD");
+        SubFundGroup subFundGroup = getSubFundGroupService().getByPrimaryId("LOANFD");
         assertEquals("Known code does not produce expected name.", "LOAN FUNDS", subFundGroup.getSubFundGroupDescription());
     }
 
     public final void testGetByCode_knownCode2() {
         // known-good code
-        SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId("CLEAR");
+        SubFundGroup subFundGroup = getSubFundGroupService().getByPrimaryId("CLEAR");
         assertEquals("Known code does not produce expected name.", "CLEARING AND ROTATING FUNDS", subFundGroup.getSubFundGroupDescription());
     }
 
     public final void testGetByCode_unknownCode() {
         // known-bad code
-        SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId("SMELL");
+        SubFundGroup subFundGroup = getSubFundGroupService().getByPrimaryId("SMELL");
         assertNull("Known-bad code does not produce expected null object.", subFundGroup);
     }
 
     public final void testGetByChartAndAccount() {
         String chartCode = "BL";
         String accountNumber = "1031420";
-        SubFundGroup subFundGroup = subFundGroupService.getByChartAndAccount(chartCode, accountNumber);
+        SubFundGroup subFundGroup = getSubFundGroupService().getByChartAndAccount(chartCode, accountNumber);
         assertNotNull(subFundGroup);
         assertEquals("Foo", "GENFND", subFundGroup.getSubFundGroupCode());
     }

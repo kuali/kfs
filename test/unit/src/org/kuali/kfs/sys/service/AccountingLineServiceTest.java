@@ -25,6 +25,7 @@ package org.kuali.core.service;
 import static org.kuali.core.util.SpringServiceLocator.getAccountingLineService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2_TOF;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.Iterator;
 import java.util.List;
@@ -34,15 +35,11 @@ import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.exceptions.ValidationException;
-import org.kuali.module.financial.document.InternalBillingDocument;
-import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class tests the AccountingLine service.

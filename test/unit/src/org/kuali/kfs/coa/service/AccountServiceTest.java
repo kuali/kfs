@@ -22,7 +22,7 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -34,38 +34,32 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class AccountServiceTest extends KualiTestBase {
-    private AccountService accountService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        accountService = SpringServiceLocator.getAccountService();
-    }
 
     public void testValidateAccount() {
         Account account = null;
-        account = accountService.getByPrimaryId("BA", "6044900");
+        account = getAccountService().getByPrimaryId("BA", "6044900");
         assertNotNull(account);
         // assertNotNull(account.getSubAccounts());
         // assertEquals("sub account list should contain 27 subaccounts", 27, account.getSubAccounts().size());
 
         account = null;
-        account = accountService.getByPrimaryId("XX", "0000000");
+        account = getAccountService().getByPrimaryId("XX", "0000000");
         assertNull(account);
 
         account = null;
-        account = accountService.getByPrimaryId("KO", "");
+        account = getAccountService().getByPrimaryId("KO", "");
         assertNull(account);
 
         account = null;
-        account = accountService.getByPrimaryId("UA", null);
+        account = getAccountService().getByPrimaryId("UA", null);
         assertNull(account);
 
         account = null;
-        account = accountService.getByPrimaryId(null, "1912610");
+        account = getAccountService().getByPrimaryId(null, "1912610");
         assertNull(account);
 
         account = null;
-        account = accountService.getByPrimaryId(null, null);
+        account = getAccountService().getByPrimaryId(null, null);
         assertNull(account);
     }
 

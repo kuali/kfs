@@ -39,10 +39,6 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class BudgetNonpersonnelTest extends KualiTestBase {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     public void testBudgetNonpersonnel() {
         assertTrue(true);
     }

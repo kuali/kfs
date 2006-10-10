@@ -35,6 +35,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     private ScrubberService scrubberService = null;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

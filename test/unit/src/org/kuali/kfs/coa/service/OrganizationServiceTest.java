@@ -39,6 +39,7 @@ public class OrganizationServiceTest extends KualiTestBase {
     private OrganizationServiceImpl organizationService;
     private FakeOrganizationDao organizationDao;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

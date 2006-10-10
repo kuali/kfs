@@ -23,16 +23,18 @@
 package org.kuali.module.chart.rules;
 
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import org.kuali.KeyConstants;
-import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.UserNameFixture;
 
 @WithTestSpringContext(session = KHUNTLEY)
 public class SubAccountRuleTest extends ChartRuleTestBase {
@@ -62,13 +64,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
 
     SubAccount newSubAccount;
     SubAccount oldSubAccount;
-    SubAccountRule rule;
     MaintenanceDocument maintDoc;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        rule = new SubAccountRule();
-    }
 
     /**
      * 
@@ -175,6 +171,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckForPartiallyEnteredReportingFields_nullChartAndAccount() {
+        SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
         newSubAccount = newSubAccount(null, null, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
@@ -190,6 +187,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckForPartiallyEnteredReportingFields_goodChartNullAccount() {
+        SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, null, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
@@ -205,6 +203,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckForPartiallyEnteredReportingFields_nullChartGoodAccount() {
+        SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
         newSubAccount = newSubAccount(null, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
@@ -220,6 +219,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckForPartiallyEnteredReportingFields_goodChartAndAccount() {
+        SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
@@ -249,8 +249,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         assertEquals(false, result);
         assertErrorCount(1);
         assertGlobalErrorExists(KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS);
-        clearErrors();
-
+        GlobalVariables.getErrorMap().clear();
     }
 
     public void testCheckForPartiallyEnteredReportingFields_notAllFinReportCodesEntered() {
@@ -285,9 +284,8 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * 
      * This method simulates a user that has permission to deal with CG accounts
      */
-    public void testIsCgAuthorized_goodUser()
-        throws UserNotFoundException
-    {
+    public void testIsCgAuthorized_goodUser() throws UserNotFoundException {
+        SubAccountRule rule = new SubAccountRule();
         KualiUser user = GOOD_CG_USERID.getKualiUser();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
@@ -303,9 +301,8 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * 
      * This method simulates a user that does not have permission to deal with CG accounts
      */
-    public void testIsCgAuthorized_badUser()
-        throws UserNotFoundException
-    {
+    public void testIsCgAuthorized_badUser() throws UserNotFoundException {
+        SubAccountRule rule = new SubAccountRule();
         KualiUser user = BAD_CG_USERID.getKualiUser();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
@@ -317,6 +314,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckCgRules_badFundGroup() {
+        SubAccountRule rule = new SubAccountRule();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(BAD_FUND_GRP_CHART, BAD_FUND_GRP_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
@@ -327,6 +325,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckCgRules_badA21SubAccountAccountType() throws Exception {
+        SubAccountRule rule = new SubAccountRule();
         // setup rule, document, and bo
         // newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null,
         // null);

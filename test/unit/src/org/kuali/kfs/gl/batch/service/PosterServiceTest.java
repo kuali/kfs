@@ -38,11 +38,8 @@ public class PosterServiceTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 
     private PosterService posterService;
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.springframework.test.AbstractTransactionalSpringContextTests#onSetUpInTransaction()
-     */
+
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

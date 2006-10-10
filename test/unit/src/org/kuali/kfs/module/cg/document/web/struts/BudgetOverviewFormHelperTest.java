@@ -35,10 +35,6 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class BudgetOverviewFormHelperTest extends KualiTestBase {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     public void testBudgetOverviewFormHelper() {
         BudgetOverviewFormHelper budgetOverviewFormHelper1 = new BudgetOverviewFormHelper();
         assertNotNull("Shouldn't be null.", budgetOverviewFormHelper1);

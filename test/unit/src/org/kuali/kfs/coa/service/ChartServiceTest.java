@@ -22,7 +22,7 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -34,15 +34,9 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class ChartServiceTest extends KualiTestBase {
-    private ChartService chartService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        chartService = SpringServiceLocator.getChartService();
-    }
 
     public void testFindById() {
-        Chart chart = chartService.getByPrimaryId("UA");
+        Chart chart = getChartService().getByPrimaryId("UA");
         assertEquals("Chart Code should be UA", chart.getChartOfAccountsCode(), "UA");
     }
 }

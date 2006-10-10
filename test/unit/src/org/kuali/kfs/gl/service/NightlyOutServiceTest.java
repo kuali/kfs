@@ -42,6 +42,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
     private NightlyOutService nightlyOutService;
     private UnitTestSqlDao unitTestSqlDao;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

@@ -45,20 +45,6 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 @WithTestSpringContext
 public class KualiAccountAttributeTest extends KualiTestBase {
 
-    KualiAccountAttribute attribute;
-
-    /**
-     * Constructs a KualiAccountAttributeTest.java.
-     */
-    public KualiAccountAttributeTest() {
-        super();
-    }
-
-    public void setUp() throws Exception {
-        super.setUp();
-        attribute = new KualiAccountAttribute();
-    }
-
     public void testGetFiscalOfficerCriteria_TOFOneLiner() throws IOException, InvalidXmlException, XPathExpressionException {
 
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_FEMP_SUBCODE_ONELINER, "KualiTransferOfFundsDocument");

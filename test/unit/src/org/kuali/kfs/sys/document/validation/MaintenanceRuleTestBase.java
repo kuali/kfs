@@ -22,6 +22,9 @@
  */
 package org.kuali.core.maintenance;
 
+import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -32,10 +35,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -44,14 +45,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 @WithTestSpringContext
 public abstract class MaintenanceRuleTestBase extends KualiTestBase {
-        protected DictionaryValidationService dictionaryValidationService;
-
-        protected void setUp() throws Exception {
-            super.setUp();
-            clearErrors();
-            dictionaryValidationService = SpringServiceLocator.getDictionaryValidationService();
-        }
-
         /**
          * 
          * This method creates a minimal MaintenanceDocument instance, and populates it with the provided businessObject for the
@@ -85,7 +78,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             // get a new MaintenanceDocument from Spring
             MaintenanceDocument document = null;
             try {
-                document = (MaintenanceDocument) SpringServiceLocator.getDocumentService().getNewDocument(MaintenanceDocumentBase.class);
+                document = (MaintenanceDocument) getDocumentService().getNewDocument(MaintenanceDocumentBase.class);
             }
             catch (WorkflowException e) {
                 throw new RuntimeException(e);
@@ -177,7 +170,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
 
             // run the dataDictionary validation
-            dictionaryValidationService.validateDefaultExistenceChecks(bo);
+            getDictionaryValidationService().validateDefaultExistenceChecks(bo);
 
             // clear the error path
             GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
@@ -315,15 +308,5 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
             }
 
         }
-
-        /**
-         * 
-         * This method clears all errors out of the GlobalVariables.getErrorMap();
-         * 
-         */
-        protected void clearErrors() {
-            GlobalVariables.getErrorMap().clear();
-        }
-
     }
 

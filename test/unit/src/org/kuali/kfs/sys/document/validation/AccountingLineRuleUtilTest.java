@@ -22,17 +22,8 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.AccountingLineOverride;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
+import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_NON_PRESENCE_ACCOUNT;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED;
@@ -45,6 +36,16 @@ import static org.kuali.test.fixtures.AccountFixture.EXPIRIED_ACCOUNT_NO_CONTINU
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_OBJECT_CODE;
 
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.AccountingLineOverride;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
+
 /**
  * This class tests some methods of AccountingLineRuleUtil.
  * 
@@ -52,12 +53,6 @@ import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_O
  */
 @WithTestSpringContext
 public class AccountingLineRuleUtilTest extends KualiTestBase {
-    private BusinessObjectService businessObjectService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        businessObjectService = SpringServiceLocator.getBusinessObjectService();
-    }
 
     public void testLabelsAreInDataDictionary() {
         assertNotNull(AccountingLineRuleUtil.getChartLabel());
@@ -87,7 +82,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
 
     private void testIsValidAccount(Account account, String expectedErrorKey) {
         assertGlobalErrorMapEmpty();
-        boolean actual = AccountingLineRuleUtil.isValidAccount(account, SpringServiceLocator.getDataDictionaryService().getDataDictionary());
+        boolean actual = AccountingLineRuleUtil.isValidAccount(account, getDataDictionaryService().getDataDictionary());
         assertEquals("isValidAccount result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
             assertGlobalErrorMapEmpty();
@@ -149,20 +144,20 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     // }
 
     public void testHasRequiredOverrides_NoAccountPresenceBudgetedObject() {
-        testHasRequiredOverrides(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(businessObjectService), OBJECT_CODE_BUDGETED_OBJECT_CODE.createObjectCode(businessObjectService), AccountingLineOverride.CODE.NONE, null);
+        testHasRequiredOverrides(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(getBusinessObjectService()), OBJECT_CODE_BUDGETED_OBJECT_CODE.createObjectCode(getBusinessObjectService()), AccountingLineOverride.CODE.NONE, null);
     }
 
     public void testHasRequiredOverrides_NoAccountPresenceNonBudgetedObject() {
-        testHasRequiredOverrides(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(businessObjectService), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(businessObjectService), AccountingLineOverride.CODE.NONE, null);
+        testHasRequiredOverrides(ACCOUNT_NON_PRESENCE_ACCOUNT.createAccount(getBusinessObjectService()), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(getBusinessObjectService()), AccountingLineOverride.CODE.NONE, null);
     }
 
     public void testHasRequiredOverrides_NoAccountPresenceNonBudgetedObjectAccountExpired() {
-        testHasRequiredOverrides(ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED.createAccount(businessObjectService), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(businessObjectService), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, null);
+        testHasRequiredOverrides(ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED.createAccount(getBusinessObjectService()), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(getBusinessObjectService()), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, null);
     }
 
     public void testHasRequiredOverrides_closedAccountNonBudgetedObject() {
         // This account would require a non-budgeted override if it were not closed. But, the closed validation takes precedence.
-        testHasRequiredOverrides(ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED.createAccount(businessObjectService),OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(businessObjectService), AccountingLineOverride.CODE.NONE, null);
+        testHasRequiredOverrides(ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED.createAccount(getBusinessObjectService()),OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(getBusinessObjectService()), AccountingLineOverride.CODE.NONE, null);
     }
 
     @SuppressWarnings("deprecation")

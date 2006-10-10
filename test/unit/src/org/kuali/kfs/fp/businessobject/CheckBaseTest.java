@@ -35,19 +35,17 @@ import org.kuali.test.KualiTestBase;
  * 
  */
 public class CheckBaseTest extends KualiTestBase {
-    CheckBase crchk = null;
-    public static final KualiDecimal AMOUNT = new KualiDecimal("100.27");
-    public static final String GUID = "123456789012345678901234567890123456";
-    public static final Long VER_NBR = new Long(1);
-    public static final Date DATE = new Date(System.currentTimeMillis());
-    public static final String CHECK_NUMBER = "123456";
-    public static final String DESCRIPTION = "Description 123.";
-    public static final String DOC_HDR_ID = "999999";
-    public static final Integer SEQ_ID = new Integer(1);
+    private CheckBase crchk = null;
+    private static final KualiDecimal AMOUNT = new KualiDecimal("100.27");
+    private static final String GUID = "123456789012345678901234567890123456";
+    private static final Long VER_NBR = new Long(1);
+    private static final Date DATE = new Date(System.currentTimeMillis());
+    private static final String CHECK_NUMBER = "123456";
+    private static final String DESCRIPTION = "Description 123.";
+    private static final String DOC_HDR_ID = "999999";
+    private static final Integer SEQ_ID = new Integer(1);
 
-    /*
-     * @see TestCase#setUp()
-     */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         crchk = new CheckBase();
@@ -61,14 +59,6 @@ public class CheckBaseTest extends KualiTestBase {
         crchk.setObjectId(GUID);
         crchk.setSequenceId(SEQ_ID);
         crchk.setVersionNumber(VER_NBR);
-    }
-
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        crchk = null;
     }
 
     public void testCashReceiptCheckPojo() {

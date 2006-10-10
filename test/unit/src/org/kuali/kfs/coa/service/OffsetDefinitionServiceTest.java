@@ -22,7 +22,7 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -34,22 +34,15 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class OffsetDefinitionServiceTest extends KualiTestBase {
-    private OffsetDefinitionService offsetDefinitionService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        offsetDefinitionService = SpringServiceLocator.getOffsetDefinitionService();
-    }
 
     public void testValidateAccount() {
         OffsetDefinition offsetDefinition = null;
-        offsetDefinition = offsetDefinitionService.getByPrimaryId(new Integer(2004), "BA", "IB", "AC");
+        offsetDefinition = getOffsetDefinitionService().getByPrimaryId(new Integer(2004), "BA", "IB", "AC");
         assertNotNull("offset object code not found", offsetDefinition.getFinancialObject());
         assertEquals("offset object code should have been 8000", "8000", offsetDefinition.getFinancialObject().getFinancialObjectCode());
 
         offsetDefinition = null;
-        offsetDefinition = offsetDefinitionService.getByPrimaryId(new Integer(2004), "XX", "XX", "XX");
+        offsetDefinition = getOffsetDefinitionService().getByPrimaryId(new Integer(2004), "XX", "XX", "XX");
         assertNull(offsetDefinition);
     }
 }

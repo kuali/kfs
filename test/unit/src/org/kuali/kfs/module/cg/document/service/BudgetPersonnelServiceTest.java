@@ -26,10 +26,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
@@ -42,16 +40,6 @@ import org.kuali.test.WithTestSpringContext;
 public class BudgetPersonnelServiceTest extends KualiTestBase {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-
-    private BudgetPersonnelService budgetPersonnelService;
-
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        budgetPersonnelService = SpringServiceLocator.getBudgetPersonnelService();
-    }
 
     public void testPeriodFullFiscalYear() throws Exception {
         KualiDecimal periodSalary;

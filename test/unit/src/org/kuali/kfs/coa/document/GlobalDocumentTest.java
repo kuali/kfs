@@ -22,6 +22,9 @@
  */
 package org.kuali.module.chart.globals;
 
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,12 +33,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountChangeDetail;
 import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeContainer;
@@ -43,7 +43,6 @@ import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -57,19 +56,9 @@ public class GlobalDocumentTest extends KualiTestBase {
     private static final String GLOBAL_DELEGATE_TYPENAME = "KualiDelegateChangeDocument";
     private static final String GLOBAL_ACCOUNT_TYPENAME = "KualiAccountChangeDocument";
 
-    private DocumentService docService;
-
-    public GlobalDocumentTest() {
-        super();
-    }
-
-    public void setUp() throws Exception {
-        super.setUp();
-        docService = SpringServiceLocator.getDocumentService();
-    }
 
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {
-        MaintenanceDocument doc = (MaintenanceDocument) docService.getNewDocument(KNOWN_DOCUMENT_TYPENAME);
+        MaintenanceDocument doc = (MaintenanceDocument) getDocumentService().getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
         assertNotNull(doc.getNewMaintainableObject());
         assertEquals("org.kuali.module.chart.bo.DelegateChangeContainer", doc.getNewMaintainableObject().getBoClass().getName());
@@ -77,7 +66,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     public final void testGetNewDocument_globalDelegateMaintDoc() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // make sure the doc is setup
         assertNotNull(document);
@@ -99,7 +88,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     public final void testGetNewDocument_globalAccountMaintDoc() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_ACCOUNT_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_ACCOUNT_TYPENAME);
 
         // make sure the doc is setup
         assertNotNull(document);
@@ -121,7 +110,7 @@ public class GlobalDocumentTest extends KualiTestBase {
     @TestsWorkflowViaDatabase
     public final void testSaveDocument_globalDelegate() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -163,17 +152,17 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031467");
         bo.addAccount(account);
-        docService.saveDocument(document);
+        getDocumentService().saveDocument(document);
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
-        docService.cancelDocument(document, "cancelling test document");
+        getDocumentService().cancelDocument(document, "cancelling test document");
 
     }
 
     @TestsWorkflowViaDatabase
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
 
-        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -213,11 +202,11 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
 
-        docService.saveDocument(document);
+        getDocumentService().saveDocument(document);
 
         // clear the document, and re-load it from the DB
         document = null;
-        document = (MaintenanceDocument) docService.getByDocumentHeaderId(finDocNumber);
+        document = (MaintenanceDocument) getDocumentService().getByDocumentHeaderId(finDocNumber);
         assertNotNull("Document should not be null after loaded from the DB.", document);
         assertNotNull("Document Header should not be null after loaded from the DB.", document.getDocumentHeader());
         assertNotNull("Document FinDocNumber should not be null after loaded from the DB.", document.getDocumentHeader().getFinancialDocumentNumber());
@@ -252,14 +241,14 @@ public class GlobalDocumentTest extends KualiTestBase {
         }
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
-        docService.cancelDocument(document, "cancelling test document");
+        getDocumentService().cancelDocument(document, "cancelling test document");
 
     }
 
     @TestsWorkflowViaDatabase
     public void testLocking_Delegate_NoLocks() throws WorkflowException {
 
-        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document = (MaintenanceDocument) getDocumentService().getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
@@ -299,11 +288,11 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
 
-        docService.saveDocument(document);
+        getDocumentService().saveDocument(document);
 
         // clear the document, and re-load it from the DB
         document = null;
-        document = (MaintenanceDocument) docService.getByDocumentHeaderId(finDocNumber);
+        document = (MaintenanceDocument) getDocumentService().getByDocumentHeaderId(finDocNumber);
         assertNotNull("Document should not be null after loaded from the DB.", document);
         assertNotNull("Document Header should not be null after loaded from the DB.", document.getDocumentHeader());
         assertNotNull("Document FinDocNumber should not be null after loaded from the DB.", document.getDocumentHeader().getFinancialDocumentNumber());
@@ -338,7 +327,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         }
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
-        docService.cancelDocument(document, "cancelling test document");
+        getDocumentService().cancelDocument(document, "cancelling test document");
 
     }
 

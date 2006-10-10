@@ -40,6 +40,7 @@ public class ReportServiceTest extends KualiTestBase {
     private ReportService reportService;
     private UnitTestSqlDao unitTestSqlDao;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

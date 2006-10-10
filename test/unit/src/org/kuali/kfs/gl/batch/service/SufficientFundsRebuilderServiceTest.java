@@ -48,6 +48,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         LOG.debug("setUp() started");

@@ -57,11 +57,8 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
-     */
+
+    @Override
     protected void setUp() throws Exception {
 
         super.setUp();

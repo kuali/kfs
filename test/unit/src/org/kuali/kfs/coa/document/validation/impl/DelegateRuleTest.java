@@ -22,6 +22,8 @@
  */
 package org.kuali.module.chart.rules;
 
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -31,7 +33,6 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class...
@@ -89,18 +90,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     private static final String DOCTYPE_ALL = "ALL";
 
-    private DelegateRule rule;
     private Delegate newDelegate;
     private Delegate oldDelegate;
     private MaintenanceDocument maintDoc;
-
-    /*
-     * @see KualiTestBaseWithSpring#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        rule = new DelegateRule();
-    }
 
     /**
      * 
@@ -300,6 +292,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      * 
      */
     public void testCheckSimpleRules_validDelegate() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = goodDelegate1();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -318,6 +311,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_startDateToday() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = goodDelegate2();
 
         // new delegate with start-date same as today
@@ -339,6 +333,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_startDateTomorrow() {
+        DelegateRule rule = new DelegateRule();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
@@ -364,6 +359,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_startDateYesterday() {
+        DelegateRule rule = new DelegateRule();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
@@ -389,6 +385,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_invalidFromAmt() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate4();
 
         // new delegate with start-date same as today
@@ -409,6 +406,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_invalidToAmt() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate5();
 
         // new delegate with start-date same as today
@@ -429,6 +427,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_validFromAmtNullToAmt() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate6();
 
         // new delegate with start-date same as today
@@ -449,6 +448,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_nullFromAmtZeroPlusToAmt() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate7();
 
         // new delegate with start-date same as today
@@ -469,6 +469,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testCheckSimpleRulesStartDateRule_validFromAmtLessThanToAmt() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate8();
 
         // new delegate with start-date same as today
@@ -493,6 +494,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      * This test makes sure that a good user delegate passes the Delegate User Rules
      */
     public void testcheckDelegateUserRules_goodDelegate() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = goodDelegate1();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -509,6 +511,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testcheckDelegateUserRules_badDelegate1() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate1();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -524,6 +527,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testcheckDelegateUserRules_badDelegate2() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate2();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -540,6 +544,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     public void testcheckDelegateUserRules_badDelegate3() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate3();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -560,6 +565,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      * Documents for the doctype for the chart/account combo
      */
     public void testCheckOnlyOnePrimaryRoute_allPrimaryAlreadyExists() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithDocTypeAll();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -580,6 +586,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      */
 
     public void testCheckOnlyOnePrimaryRoute_specificPrimaryAlreadyExistsAllFails() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithSpecificTypeClosedAllSpecified();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -600,6 +607,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      */
 
     public void testCheckOnlyOnePrimaryRoute_specificPrimaryAlreadyExistsSpecificFails() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithSpecificTypeClosed();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -619,6 +627,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      */
 
     public void testCheckOnlyOnePrimaryRoute_allPrimaryDoesNotExist() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithAllDocTypeOpen();
         maintDoc = newMaintDoc(newDelegate);
 
@@ -638,6 +647,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      */
 
     public void testCheckOnlyOnePrimaryRoute_specificPrimaryDoesNotExist() {
+        DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithSpecificDocTypeOpen();
         maintDoc = newMaintDoc(newDelegate);
 

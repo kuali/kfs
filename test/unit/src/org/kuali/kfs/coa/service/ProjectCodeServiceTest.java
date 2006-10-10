@@ -38,6 +38,7 @@ public class ProjectCodeServiceTest extends KualiTestBase {
     private FakeProjectCodeDao projectCodeDao;
     private ProjectCodeServiceImpl projectCodeService;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

@@ -61,11 +61,7 @@ public class OriginEntryTestBase extends KualiTestBase {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.springframework.test.AbstractTransactionalSpringContextTests#onSetUpInTransaction()
-     */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

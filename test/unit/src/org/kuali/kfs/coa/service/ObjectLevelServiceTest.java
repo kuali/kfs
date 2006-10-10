@@ -22,7 +22,8 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getObjectLevelService;
+
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -34,16 +35,9 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class ObjectLevelServiceTest extends KualiTestBase {
-    private ObjectLevelService objectLevelService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        objectLevelService = SpringServiceLocator.getObjectLevelService();
-    }
 
     public void testFindById() {
-        ObjLevel objectLevel = objectLevelService.getByPrimaryId("UA", "BASE");
+        ObjLevel objectLevel = getObjectLevelService().getByPrimaryId("UA", "BASE");
         assertEquals("Object Level Code should be BASE", objectLevel.getFinancialObjectLevelCode(), "BASE");
     }
 }

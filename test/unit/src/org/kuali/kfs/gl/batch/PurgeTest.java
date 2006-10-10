@@ -39,6 +39,7 @@ public class PurgeTest extends KualiTestBase {
 
     private UnitTestSqlDao unitTestSqlDao;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

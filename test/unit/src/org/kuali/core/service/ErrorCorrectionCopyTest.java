@@ -32,12 +32,6 @@ import org.kuali.test.KualiTestBase;
 public class ErrorCorrectionCopyTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ErrorCorrectionCopyTest.class);
 
-    private DocumentService documentService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     /**
      * Testing OJB configuration's correctness vis loading documents with references to other documents:
      * <li>load doc C (5116), which is copied from B (5115)

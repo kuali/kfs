@@ -39,9 +39,6 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
 
     OrganizationRoutingModel model;
 
-    /**
-     * @see org.kuali.test.KualiTestBase#setUp()
-     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();

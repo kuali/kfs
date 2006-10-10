@@ -22,11 +22,13 @@
  */
 package org.kuali.module.financial.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getCheckService;
+import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
+
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.test.KualiTestBase;
@@ -40,20 +42,19 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class CheckServiceTest extends KualiTestBase {
 
-    private CheckService checkService;
     private Check check;
 
     private final String DOCUMENT_HEADER_ID = "-1";
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
-        checkService = SpringServiceLocator.getCheckService();
 
         // setup check
         check = new CheckBase();
         check.setFinancialDocumentNumber(DOCUMENT_HEADER_ID);
         check.setAmount(new KualiDecimal("314.15"));
-        check.setCheckDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        check.setCheckDate(getDateTimeService().getCurrentSqlDate());
         check.setCheckNumber("2112");
         check.setDescription("test check");
         check.setInterimDepositAmount(true);
@@ -67,17 +68,17 @@ public class CheckServiceTest extends KualiTestBase {
     public void testLifecycle() throws Exception {
         boolean deleteSucceeded = false;
 
-        List retrievedChecks = checkService.getByDocumentHeaderId(DOCUMENT_HEADER_ID);
+        List retrievedChecks = getCheckService().getByDocumentHeaderId(DOCUMENT_HEADER_ID);
         assertTrue(retrievedChecks.size() == 0);
 
         Check savedCheck = null;
         Check retrievedCheck = null;
         try {
             // save a check
-            savedCheck = checkService.save(check);
+            savedCheck = getCheckService().save(check);
 
             // retrieve it
-            retrievedChecks = checkService.getByDocumentHeaderId(DOCUMENT_HEADER_ID);
+            retrievedChecks = getCheckService().getByDocumentHeaderId(DOCUMENT_HEADER_ID);
             assertTrue(retrievedChecks.size() > 0);
             retrievedCheck = (Check) retrievedChecks.get(0);
 
@@ -87,21 +88,21 @@ public class CheckServiceTest extends KualiTestBase {
         }
         finally {
             // delete it
-            checkService.deleteCheck(savedCheck);
+            getCheckService().deleteCheck(savedCheck);
         }
 
         // verify that the delete succeeded
-        retrievedChecks = checkService.getByDocumentHeaderId(DOCUMENT_HEADER_ID);
+        retrievedChecks = getCheckService().getByDocumentHeaderId(DOCUMENT_HEADER_ID);
         assertTrue(retrievedChecks.size() == 0);
 
     }
 
 
     private void clearTestData() {
-        List retrievedChecks = checkService.getByDocumentHeaderId(DOCUMENT_HEADER_ID);
+        List retrievedChecks = getCheckService().getByDocumentHeaderId(DOCUMENT_HEADER_ID);
         if (retrievedChecks.size() > 0) {
             for (Iterator i = retrievedChecks.iterator(); i.hasNext();) {
-                checkService.deleteCheck((Check) i.next());
+                getCheckService().deleteCheck((Check) i.next());
             }
         }
     }

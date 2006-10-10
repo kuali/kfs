@@ -24,7 +24,7 @@ package org.kuali.module.financial.service;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.test.KualiTestBase;
 import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
@@ -38,16 +38,10 @@ import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
  */
 @WithTestSpringContext
 public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
-    private FlexibleOffsetAccountService service;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        service = SpringServiceLocator.getFlexibleOffsetAccountService();
-    }
 
     public void testGetByPrimaryId_valid() throws NoSuchMethodException, InvocationTargetException {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
-        OffsetAccount offsetAccount = service.getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);
+        OffsetAccount offsetAccount = getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);
         assertSparselyEqualBean(OFFSET_ACCOUNT1.createOffsetAccount(), offsetAccount);
         assertEquals(OFFSET_ACCOUNT1.chartOfAccountsCode, offsetAccount.getChart().getChartOfAccountsCode());
         assertEquals(OFFSET_ACCOUNT1.accountNumber, offsetAccount.getAccount().getAccountNumber());
@@ -57,21 +51,21 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
 
     public void testGetByPrimaryId_validDisabled() throws NoSuchMethodException, InvocationTargetException {
         mockConfigurationServiceForFlexibleOffsetEnabled(false);
-        assertNull(service.getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetAccountNumber));
+        assertNull(getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetAccountNumber));
     }
 
     public void testGetByPrimaryId_invalid() {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
-        assertNull(service.getByPrimaryIdIfEnabled("XX", "XX", "XX"));
+        assertNull(getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled("XX", "XX", "XX"));
     }
 
     public void testMockService() {
-        assertSame(service, SpringServiceLocator.getFlexibleOffsetAccountService());
+        assertSame(getFlexibleOffsetAccountService(), getFlexibleOffsetAccountService());
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
-        assertEquals(true, SpringServiceLocator.getFlexibleOffsetAccountService().getEnabled());
-        SpringServiceLocator.restoreServicesIfMocked();
+        assertEquals(true, getFlexibleOffsetAccountService().getEnabled());
+        restoreServicesIfMocked();
         mockConfigurationServiceForFlexibleOffsetEnabled(false);
-        assertEquals(false, SpringServiceLocator.getFlexibleOffsetAccountService().getEnabled());
+        assertEquals(false, getFlexibleOffsetAccountService().getEnabled());
     }
 
     /**
@@ -80,6 +74,6 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
     public void testGetEnabled() {
         // This tests that no RuntimeException is thrown because the parameter is missing from the database
         // or contains a value other than Y or N.
-        service.getEnabled();
+        getFlexibleOffsetAccountService().getEnabled();
     }
 }

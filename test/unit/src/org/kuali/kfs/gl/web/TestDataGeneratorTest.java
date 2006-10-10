@@ -44,6 +44,7 @@ public class TestDataGeneratorTest extends KualiTestBase {
     private GeneralLedgerPendingEntry pendingEntry;
     private AccountBalance accountBalance;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         testDataGenerator = new TestDataGenerator();

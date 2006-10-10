@@ -22,13 +22,14 @@
  */
 package org.kuali.module.financial.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.core.util.SpringServiceLocator.getCashDrawerService;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.Constants;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -46,23 +47,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
     private static final String VALID_DOC_ID = "1234";
     private static final String OTHER_DOC_ID = "4321";
 
-
-    private CashDrawerService cashDrawerService;
-    private BusinessObjectService boService;
-
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        cashDrawerService = SpringServiceLocator.getCashDrawerService();
-        boService = SpringServiceLocator.getBusinessObjectService();
-    }
-
     public final void testOpenCashDrawer_blankWorkgroup() {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.openCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
+            getCashDrawerService().openCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -75,7 +64,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.openCashDrawer(VALID_WORKGROUP_NAME, BLANK_DOC_ID);
+            getCashDrawerService().openCashDrawer(VALID_WORKGROUP_NAME, BLANK_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -92,10 +81,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         deleteCashDrawer(workgroup);
 
         // open it
-        cashDrawerService.openCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, VALID_DOC_ID);
 
         // verify that it is open
-        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
         assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -107,10 +96,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         createCashDrawer(workgroup);
 
         // open it
-        cashDrawerService.openCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, VALID_DOC_ID);
 
         // make sure it is open
-        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
         assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -120,7 +109,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.closeCashDrawer(BLANK_WORKGROUP_NAME);
+            getCashDrawerService().closeCashDrawer(BLANK_WORKGROUP_NAME);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -136,10 +125,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         deleteCashDrawer(workgroup);
 
         // close it
-        cashDrawerService.closeCashDrawer(workgroup);
+        getCashDrawerService().closeCashDrawer(workgroup);
 
         // verify that it is closed
-        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
         assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
@@ -151,10 +140,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         createCashDrawer(workgroup);
 
         // close it
-        cashDrawerService.closeCashDrawer(workgroup);
+        getCashDrawerService().closeCashDrawer(workgroup);
 
         // make sure it is closed
-        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
         assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
@@ -164,7 +153,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.lockCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
+            getCashDrawerService().lockCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -182,7 +171,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         // lock it
         boolean failedAsExpected = false;
         try {
-            cashDrawerService.lockCashDrawer(workgroup, VALID_DOC_ID);
+            getCashDrawerService().lockCashDrawer(workgroup, VALID_DOC_ID);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -195,12 +184,12 @@ public class CashDrawerServiceTest extends KualiTestBase {
         final String workgroup = VALID_WORKGROUP_NAME;
 
         // close it
-        cashDrawerService.closeCashDrawer(workgroup);
+        getCashDrawerService().closeCashDrawer(workgroup);
 
         // lock it
         boolean failedAsExpected = false;
         try {
-            cashDrawerService.lockCashDrawer(workgroup, VALID_DOC_ID);
+            getCashDrawerService().lockCashDrawer(workgroup, VALID_DOC_ID);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -213,14 +202,14 @@ public class CashDrawerServiceTest extends KualiTestBase {
         final String workgroup = VALID_WORKGROUP_NAME;
 
         // open it
-        cashDrawerService.openCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, VALID_DOC_ID);
 
         // lock it twice
-        cashDrawerService.lockCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().lockCashDrawer(workgroup, VALID_DOC_ID);
 
         boolean failedAsExpected = false;
         try {
-            cashDrawerService.lockCashDrawer(workgroup, VALID_DOC_ID);
+            getCashDrawerService().lockCashDrawer(workgroup, VALID_DOC_ID);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -233,12 +222,12 @@ public class CashDrawerServiceTest extends KualiTestBase {
         final String workgroup = VALID_WORKGROUP_NAME;
 
         // open it
-        cashDrawerService.openCashDrawer(workgroup, OTHER_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, OTHER_DOC_ID);
 
         // lock it
         boolean failedAsExpected = false;
         try {
-            cashDrawerService.lockCashDrawer(workgroup, VALID_DOC_ID);
+            getCashDrawerService().lockCashDrawer(workgroup, VALID_DOC_ID);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -252,13 +241,13 @@ public class CashDrawerServiceTest extends KualiTestBase {
         final String workgroup = VALID_WORKGROUP_NAME;
 
         // open it
-        cashDrawerService.openCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, VALID_DOC_ID);
 
         // lock it
-        cashDrawerService.lockCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().lockCashDrawer(workgroup, VALID_DOC_ID);
 
         // verify that it is locked
-        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
         assertEquals(Constants.CashDrawerConstants.STATUS_LOCKED, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -268,7 +257,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.unlockCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
+            getCashDrawerService().unlockCashDrawer(BLANK_WORKGROUP_NAME, VALID_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -286,7 +275,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         // lock it
         boolean failedAsExpected = false;
         try {
-            cashDrawerService.unlockCashDrawer(workgroup, VALID_DOC_ID);
+            getCashDrawerService().unlockCashDrawer(workgroup, VALID_DOC_ID);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -299,12 +288,12 @@ public class CashDrawerServiceTest extends KualiTestBase {
         final String workgroup = VALID_WORKGROUP_NAME;
 
         // open it
-        cashDrawerService.openCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, VALID_DOC_ID);
 
         // unlock it
         boolean failedAsExpected = false;
         try {
-            cashDrawerService.unlockCashDrawer(workgroup, VALID_DOC_ID);
+            getCashDrawerService().unlockCashDrawer(workgroup, VALID_DOC_ID);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -317,14 +306,14 @@ public class CashDrawerServiceTest extends KualiTestBase {
         final String workgroup = VALID_WORKGROUP_NAME;
 
         // lock it
-        cashDrawerService.openCashDrawer(workgroup, VALID_DOC_ID);
-        cashDrawerService.lockCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().lockCashDrawer(workgroup, VALID_DOC_ID);
 
         // unlock it
-        cashDrawerService.unlockCashDrawer(workgroup, VALID_DOC_ID);
+        getCashDrawerService().unlockCashDrawer(workgroup, VALID_DOC_ID);
 
         // verify that it is unlocked
-        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroup, false);
+        CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
         assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
@@ -334,13 +323,13 @@ public class CashDrawerServiceTest extends KualiTestBase {
         final String workgroup = VALID_WORKGROUP_NAME;
 
         // lock it
-        cashDrawerService.openCashDrawer(workgroup, OTHER_DOC_ID);
-        cashDrawerService.lockCashDrawer(workgroup, OTHER_DOC_ID);
+        getCashDrawerService().openCashDrawer(workgroup, OTHER_DOC_ID);
+        getCashDrawerService().lockCashDrawer(workgroup, OTHER_DOC_ID);
 
         // unlock it
         boolean failedAsExpected = false;
         try {
-            cashDrawerService.unlockCashDrawer(workgroup, VALID_DOC_ID);
+            getCashDrawerService().unlockCashDrawer(workgroup, VALID_DOC_ID);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -354,7 +343,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.getByWorkgroupName("  ", false);
+            getCashDrawerService().getByWorkgroupName("  ", false);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -364,7 +353,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
     }
 
     public final void testGetByWorkgroupName_nonexistentWorkgroup() {
-        CashDrawer d = cashDrawerService.getByWorkgroupName("foo", false);
+        CashDrawer d = getCashDrawerService().getByWorkgroupName("foo", false);
 
         assertNull(d);
     }
@@ -374,7 +363,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         createCashDrawer(VALID_WORKGROUP_NAME);
 
-        CashDrawer d = cashDrawerService.getByWorkgroupName(workgroup, false);
+        CashDrawer d = getCashDrawerService().getByWorkgroupName(workgroup, false);
 
         assertNotNull(d);
         assertEquals(workgroup, d.getWorkgroupName());
@@ -387,7 +376,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         boolean deleteSucceeded = false;
 
-        CashDrawer preExisting = cashDrawerService.getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
+        CashDrawer preExisting = getCashDrawerService().getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
         assertNull(preExisting);
 
         CashDrawer created = new CashDrawer();
@@ -396,9 +385,9 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         CashDrawer retrieved = null;
         try {
-            boService.save(created);
+            getBusinessObjectService().save(created);
 
-            retrieved = cashDrawerService.getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
+            retrieved = getCashDrawerService().getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
             assertNotNull(retrieved);
 
             // compare
@@ -409,12 +398,12 @@ public class CashDrawerServiceTest extends KualiTestBase {
         finally {
             // delete it
             if (retrieved != null) {
-                boService.delete(retrieved);
+                getBusinessObjectService().delete(retrieved);
             }
         }
 
         // verify that the delete succeeded
-        retrieved = cashDrawerService.getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
+        retrieved = getCashDrawerService().getByWorkgroupName(RANDOM_WORKGROUP_NAME, false);
         assertNull(retrieved);
     }
 
@@ -423,7 +412,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
     private void deleteCashDrawer(String workgroupName) {
         Map deleteCriteria = new HashMap();
         deleteCriteria.put("workgroupName", workgroupName);
-        boService.deleteMatching(CashDrawer.class, deleteCriteria);
+        getBusinessObjectService().deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
     private void createCashDrawer(String workgroupName) {
@@ -432,6 +421,6 @@ public class CashDrawerServiceTest extends KualiTestBase {
         CashDrawer cd = new CashDrawer();
         cd.setWorkgroupName(workgroupName);
         cd.setStatusCode(Constants.CashDrawerConstants.STATUS_CLOSED);
-        boService.save(cd);
+        getBusinessObjectService().save(cd);
     }
 }

@@ -37,13 +37,6 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBase {
 
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     public void testBudgetNonpersonnelCopyOverBoHelper() {
         // BudgetNonpersonnelCopyOverBoHelper()
         BudgetNonpersonnelCopyOverBoHelper budgetNonpersonnel = new BudgetNonpersonnelCopyOverBoHelper();

@@ -22,7 +22,8 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getSubObjectCodeService;
+
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -35,34 +36,23 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class SubObjectCodeServiceTest extends KualiTestBase {
 
-    private SubObjectCodeService subObjectCodeService;
-
-    /*
-     * @see KualiTestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        subObjectCodeService = SpringServiceLocator.getSubObjectCodeService();
-    }
-
     /**
      * Test that the service returns null if any of the parameters are empty.
      */
     public void testEmptyParam() {
-        SubObjCd resultSubObjectCode = subObjectCodeService.getByPrimaryId(new Integer(0), TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
+        SubObjCd resultSubObjectCode = getSubObjectCodeService().getByPrimaryId(new Integer(0), TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
         assertNull(resultSubObjectCode);
 
-        resultSubObjectCode = subObjectCodeService.getByPrimaryId(TestConstants.Data4.POSTING_YEAR, "", TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
+        resultSubObjectCode = getSubObjectCodeService().getByPrimaryId(TestConstants.Data4.POSTING_YEAR, "", TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
         assertNull(resultSubObjectCode);
 
-        resultSubObjectCode = subObjectCodeService.getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, "", TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
+        resultSubObjectCode = getSubObjectCodeService().getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, "", TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
         assertNull(resultSubObjectCode);
 
-        resultSubObjectCode = subObjectCodeService.getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, "", TestConstants.Data4.SUBOBJECT_CODE);
+        resultSubObjectCode = getSubObjectCodeService().getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, "", TestConstants.Data4.SUBOBJECT_CODE);
         assertNull(resultSubObjectCode);
 
-        resultSubObjectCode = subObjectCodeService.getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, "");
+        resultSubObjectCode = getSubObjectCodeService().getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, "");
         assertNull(resultSubObjectCode);
     }
 
@@ -72,7 +62,7 @@ public class SubObjectCodeServiceTest extends KualiTestBase {
     public void testService() {
         SubObjCd resultSubObjectCode = null;
 
-        resultSubObjectCode = subObjectCodeService.getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
+        resultSubObjectCode = getSubObjectCodeService().getByPrimaryId(TestConstants.Data4.POSTING_YEAR, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE);
         assertNotNull(resultSubObjectCode);
         assertTrue(resultSubObjectCode.isFinancialSubObjectActiveIndicator());
 

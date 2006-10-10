@@ -50,9 +50,7 @@ public class ConfigPropertiesTest extends KualiTestBase {
     private static boolean setUpOnce = false;
     private static ConfigProperties configConstants;
 
-    /*
-     * @see TestCase#setUp()
-     */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 

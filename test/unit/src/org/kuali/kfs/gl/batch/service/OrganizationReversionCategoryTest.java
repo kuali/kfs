@@ -42,6 +42,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
     private Map<String, OrganizationReversionCategoryLogic> categories;
     private ObjectCodeService objectCodeService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
 

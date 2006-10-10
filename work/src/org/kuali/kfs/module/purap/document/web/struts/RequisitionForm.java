@@ -79,20 +79,4 @@ public class RequisitionForm extends KualiTransactionalDocumentFormBase {
         }
     }
 
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#setAdditionalDocInfo1(org.kuali.core.web.uidraw.KeyLabelPair)
-     */
-    public void setAdditionalDocInfo1(KeyLabelPair additionalDocInfo1) {
-        // TODO Auto-generated method stub
-        super.setAdditionalDocInfo1(additionalDocInfo1);
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#setAdditionalDocInfo2(org.kuali.core.web.uidraw.KeyLabelPair)
-     */
-    public void setAdditionalDocInfo2(KeyLabelPair additionalDocInfo2) {
-        // TODO Auto-generated method stub
-        super.setAdditionalDocInfo2(additionalDocInfo2);
-    }
-
 }

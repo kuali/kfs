@@ -22,18 +22,17 @@
  */
 package org.kuali.test.util;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.ErrorMap;
@@ -42,8 +41,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 
 /**
+ * Contains assertion related convenience methods for testing (not for production use).
  * 
- * contains assertion related convenience methods
+ * @see org.kuali.core.util.AssertionUtils
  */
 public class KualiTestAssertionUtils {
 

@@ -179,20 +179,7 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
         assertFieldErrorExistence(fieldName, KeyConstants.ERROR_EXISTENCE, shouldFail);
 
     }
-
-    /**
-     * 
-     * This method tests whether the expected number of errors exists in the errorMap.
-     * 
-     * The assert will fail if this expected number isnt what is returned.
-     * 
-     * @param expectedErrorCount - the number of errors expected
-     * 
-     */
-    protected void assertErrorCount(int expectedErrorCount) {
-        assertEquals(expectedErrorCount, GlobalVariables.getErrorMap().getErrorCount());
-    }
-
+    
     /**
      * 
      * This method tests whether the field error exists and returns the result of this test.
@@ -268,43 +255,5 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
     protected void assertGlobalErrorExists(String errorKey) {
         boolean result = GlobalVariables.getErrorMap().fieldHasMessage(Constants.DOCUMENT_ERRORS, errorKey);
         assertTrue("Document should contain errorKey: " + errorKey, result);
-    }
-
-
-    /**
-     * 
-     * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
-     * application in normal circumstances at all.
-     * 
-     */
-    protected void showErrorMap() {
-
-        if (GlobalVariables.getErrorMap().isEmpty()) {
-            return;
-        }
-
-        for (Iterator i = GlobalVariables.getErrorMap().entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
-
-            TypedArrayList errorList = (TypedArrayList) e.getValue();
-            for (Iterator j = errorList.iterator(); j.hasNext();) {
-                ErrorMessage em = (ErrorMessage) j.next();
-
-                if (em.getMessageParameters() == null) {
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey());
-                }
-                else {
-                    StringBuffer messageParams = new StringBuffer();
-                    String delim = "";
-                    for (int k = 0; k < em.getMessageParameters().length; k++) {
-                        messageParams.append(delim + "'" + em.getMessageParameters()[k] + "'");
-                        if ("".equals(delim)) {
-                            delim = ", ";
-                        }
-                    }
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey() + " : " + messageParams.toString());
-                }
-            }
-        }
     }
 }

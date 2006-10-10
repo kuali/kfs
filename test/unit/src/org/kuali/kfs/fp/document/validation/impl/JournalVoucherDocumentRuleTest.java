@@ -21,30 +21,11 @@
  *
  */
 package org.kuali.module.financial.rules;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.kuali.Constants;
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.GlobalVariables;
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
-import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.WithTestSpringContext;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE2;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXTERNAL_ENCUMBRANCE_LINE;
@@ -61,6 +42,33 @@ import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
+import org.kuali.core.rule.event.AddAccountingLineEvent;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.module.financial.document.DisbursementVoucherDocumentTest;
+import org.kuali.module.financial.document.JournalVoucherDocument;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the JournalVoucherDocument's persistence, routing, and PE generation.

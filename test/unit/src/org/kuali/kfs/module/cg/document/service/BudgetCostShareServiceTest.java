@@ -23,6 +23,7 @@
 package org.kuali.module.kra.service;
 
 import static org.kuali.core.util.SpringServiceLocator.getBudgetCostShareService;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
 
 import java.util.ArrayList;
 import java.util.List;

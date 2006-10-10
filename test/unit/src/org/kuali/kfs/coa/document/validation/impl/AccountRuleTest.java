@@ -22,7 +22,10 @@
  */
 package org.kuali.module.chart.rules;
 
-import static org.kuali.core.util.SpringServiceLocator.getKualiUserService;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -38,7 +41,6 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 @WithTestSpringContext(session = KHUNTLEY)
 public class AccountRuleTest extends ChartRuleTestBase {

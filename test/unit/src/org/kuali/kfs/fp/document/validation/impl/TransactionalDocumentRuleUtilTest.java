@@ -22,16 +22,17 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
 import static org.kuali.core.util.SpringServiceLocator.getBalanceTypService;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+
+import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>
  * 

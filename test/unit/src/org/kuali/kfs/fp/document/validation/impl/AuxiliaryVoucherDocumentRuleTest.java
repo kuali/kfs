@@ -22,13 +22,26 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_INCOME_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_GEC_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.FUND_BALANCE_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE15;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.Constants;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -37,24 +50,13 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.SpringServiceLocator;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_INCOME_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_GEC_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.FUND_BALANCE_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE15;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class tests the <code>{@link AuxiliaryVoucherDocument}</code>'s rules and PE generation.

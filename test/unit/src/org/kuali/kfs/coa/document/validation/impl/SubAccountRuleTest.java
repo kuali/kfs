@@ -23,6 +23,8 @@
 package org.kuali.module.chart.rules;
 
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
@@ -178,11 +180,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
     }
 
@@ -194,11 +196,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
     }
 
@@ -210,11 +212,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
     }
 
@@ -226,11 +228,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
     }
 
@@ -241,13 +243,12 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
 
         // run the rule, should return true
         boolean result = rule.checkForPartiallyEnteredReportingFields();
-        showErrorMap();
         assertEquals(false, result);
-        assertErrorCount(1);
+        assertGlobalErrorMapSize(1);
         assertGlobalErrorExists(KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS);
         GlobalVariables.getErrorMap().clear();
     }
@@ -292,7 +293,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
         assertEquals(true, rule.isCgAuthorized(user));
 
     }
@@ -309,7 +310,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
         assertEquals(false, rule.isCgAuthorized(user));
     }
 
@@ -320,7 +321,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
         assertEquals(true, rule.checkCgRules(maintDoc));
     }
 
@@ -335,10 +336,10 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule.setCgAuthorized(true);
 
         // confirm that there are no errors to begin with
-        assertErrorCount(0);
+        assertGlobalErrorMapEmpty();
         assertEquals(false, rule.checkCgRules(maintDoc));
         assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES);
-        assertErrorCount(1);
+        assertGlobalErrorMapSize(1);
     }
 
     /**

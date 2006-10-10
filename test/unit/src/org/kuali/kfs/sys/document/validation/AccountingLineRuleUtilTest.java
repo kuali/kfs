@@ -35,6 +35,8 @@ import static org.kuali.test.fixtures.AccountFixture.EXPIRIED_ACCOUNT_EXPIRIED_A
 import static org.kuali.test.fixtures.AccountFixture.EXPIRIED_ACCOUNT_NO_CONTINUATION;
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_OBJECT_CODE;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;

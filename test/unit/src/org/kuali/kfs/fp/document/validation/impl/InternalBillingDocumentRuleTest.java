@@ -22,6 +22,19 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.PFIP_SUB_FUND_LINE;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
@@ -30,19 +43,9 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.financial.document.InternalBillingDocument;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.KualiTestBase;
-import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.PFIP_SUB_FUND_LINE;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend
  * TransactionalDocumentRuleTestBase. We'll fully implement this when we get to this document during development.

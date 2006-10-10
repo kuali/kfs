@@ -23,6 +23,8 @@
 package org.kuali.module.chart.rules;
 
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import java.sql.Timestamp;
 import java.util.Calendar;

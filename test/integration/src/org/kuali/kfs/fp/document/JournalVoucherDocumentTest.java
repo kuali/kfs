@@ -22,11 +22,16 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE5;
+import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertInequality;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.workflow.WorkflowTestUtils;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
@@ -35,17 +40,15 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE5;
 import org.kuali.test.fixtures.UserNameFixture;
-import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentStatusMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
+import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
 /**

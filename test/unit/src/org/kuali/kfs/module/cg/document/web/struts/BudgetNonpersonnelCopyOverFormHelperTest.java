@@ -23,6 +23,7 @@
 package org.kuali.module.kra.web.struts.form;
 
 import static org.kuali.core.util.SpringServiceLocator.getBudgetNonpersonnelService;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
 
 import java.util.List;
 

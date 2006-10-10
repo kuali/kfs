@@ -22,14 +22,17 @@
  */
 package org.kuali.module.financial.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getFlexibleOffsetAccountService;
+import static org.kuali.core.util.SpringServiceLocator.restoreServicesIfMocked;
+import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
+import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
+
 import java.lang.reflect.InvocationTargetException;
 
-import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.test.KualiTestBase;
-import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
 
 /**
  * This class...

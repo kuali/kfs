@@ -23,30 +23,12 @@
 package org.kuali.module.financial.rules;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
-import org.kuali.module.financial.document.TransferOfFundsDocument;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.test.DocumentTestUtils;
 import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
-import org.kuali.test.WithTestSpringContext;
 import static org.kuali.test.fixtures.AccountingLineFixture.FLEXIBLE_EXPENSE_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE11;
@@ -64,6 +46,26 @@ import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.financial.document.TransferOfFundsDocument;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests the Transfer of Funds Document's persistence, routing, and PE generation.
  * 

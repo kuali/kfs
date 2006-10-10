@@ -286,7 +286,7 @@
 	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="vendorTaxChangeDate" column="VNDR_TAX_CHG_DT" jdbc-type="DATE"/>
 	<field-descriptor name="vendorPreviousTaxNumber" column="VNDR_PREV_TAX_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorPreviousFeinSocialSecurityNumberIndicator" column="VNDR_PREV_FEIN_SSN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="vendorPreviousTaxTypeCode" column="VNDR_PREV_TAX_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorTaxChangePersonIdentifier" column="VNDR_TAX_CHG_PRSN_ID" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
@@ -1873,4 +1873,21 @@
 	<reference-descriptor name="campus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="campusCode" />
 	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.purap.bo.AssignContractManager" table="PUR_ASGN_CONTR_MGR_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
+	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="requisitionIdentifier" />
+	</reference-descriptor>
+	<reference-descriptor name="contractManager" class-ref="org.kuali.module.purap.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="contractManagerCode" />
+	</reference-descriptor>	
 </class-descriptor>

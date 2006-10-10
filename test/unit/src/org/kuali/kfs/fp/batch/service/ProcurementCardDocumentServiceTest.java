@@ -22,34 +22,23 @@
  */
 package org.kuali.module.financial.service;
 
+import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.core.util.SpringServiceLocator.getProcurementCardCreateDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getProcurementCardLoadTransactionsService;
+import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
+
 import java.util.List;
 
-import org.kuali.core.bo.user.KualiUser;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-
 /**
  * This class tests the services used to create ProcurementCard documents.
  * 
  * @author Kuali Financial Transactions ()
  */
-@WithTestSpringContext
+@WithTestSpringContext(session = KULUSER)
 public class ProcurementCardDocumentServiceTest extends KualiTestBase {
-    private ProcurementCardCreateDocumentService procurementCardCreateDocumentService;
-    private ProcurementCardLoadTransactionsService procurementCardLoadTransactionsService;
-    private static String PCDO_USER_NAME = KualiUser.SYSTEM_USER;
-
-    private static List documentsCreated;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        // TODO fix this
-        //changeCurrentUser(PCDO_USER_NAME);
-        procurementCardCreateDocumentService = SpringServiceLocator.getProcurementCardCreateDocumentService();
-        procurementCardLoadTransactionsService = SpringServiceLocator.getProcurementCardLoadTransactionsService();
-    }
 
     /**
      * Tests that the service is parsing the kuali xml files and loading into the transaction table correctly.
@@ -58,20 +47,22 @@ public class ProcurementCardDocumentServiceTest extends KualiTestBase {
      */
     public void testLoadKualiPCardFiles() throws Exception {
         // todo: load test files with known contents?
-        boolean loadSuccessful = procurementCardLoadTransactionsService.loadProcurementCardDataFile();
+        boolean loadSuccessful = getProcurementCardLoadTransactionsService().loadProcurementCardDataFile();
+        assertTrue("problem loading data file",loadSuccessful);
 
         // load transactions
-        List loadedTransactions = (List) SpringServiceLocator.getBusinessObjectService().findAll(ProcurementCardTransaction.class);
+        List<ProcurementCardTransaction> loadedTransactions = (List<ProcurementCardTransaction>) getBusinessObjectService().findAll(ProcurementCardTransaction.class);
         assertNotNull(loadedTransactions);
         assertEquals("Incorrect number of rows loaded ", 4, loadedTransactions.size());
     }
 
     public void testCreatePCardDocuments() throws Exception {
-        boolean documentsCreated = procurementCardCreateDocumentService.createProcurementCardDocuments();
+        boolean documentsCreated = getProcurementCardCreateDocumentService().createProcurementCardDocuments();
+        assertTrue("problem creating documents",documentsCreated);
     }
 
-    // public void testRoutePCardDocuments() throws Exception {
-    // boolean routeSuccessful = procurementCardCreateDocumentService.routeProcurementCardDocuments();
-    // }
+     public void testRoutePCardDocuments() throws Exception {
+        boolean routeSuccessful = getProcurementCardCreateDocumentService().routeProcurementCardDocuments();
+    }
 
 }

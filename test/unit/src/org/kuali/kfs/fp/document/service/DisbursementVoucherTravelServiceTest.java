@@ -25,7 +25,7 @@ package org.kuali.module.financial.service;
 import java.sql.Timestamp;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -37,13 +37,7 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
-    private DisbursementVoucherTravelService disbursementVoucherTravelService;
     private DisbursementVoucherDocument dvDocument;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        this.disbursementVoucherTravelService = SpringServiceLocator.getDisbursementVoucherTravelService();
-    }
 
     /**
      * Test calculation of per diem.
@@ -131,7 +125,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
     }
 
     private void runPerDiemTest(Timestamp startTime, Timestamp endTime, KualiDecimal perDiemRate, KualiDecimal expectedPerDiemAmount) {
-        assertEquals("Per diem amount not correct ", expectedPerDiemAmount, disbursementVoucherTravelService.calculatePerDiemAmount(startTime, endTime, perDiemRate));
+        assertEquals("Per diem amount not correct ", expectedPerDiemAmount, getDisbursementVoucherTravelService().calculatePerDiemAmount(startTime, endTime, perDiemRate));
     }
 
     /**
@@ -143,7 +137,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testCalculateMileageAmount() throws Exception {
-        Timestamp effectiveDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        Timestamp effectiveDate = getDateTimeService().getCurrentTimestamp();
 
         runMileageAmountTest(new Integer(0), new KualiDecimal(0), effectiveDate);
         runMileageAmountTest(new Integer(1), new KualiDecimal(.38), effectiveDate);
@@ -164,7 +158,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
     }
 
     private void runMileageAmountTest(Integer totalMiles, KualiDecimal expectedMileageAmount, Timestamp effectiveDate) {
-        assertEquals("Mileage amount not correct ", expectedMileageAmount, disbursementVoucherTravelService.calculateMileageAmount(totalMiles, effectiveDate));
+        assertEquals("Mileage amount not correct ", expectedMileageAmount, getDisbursementVoucherTravelService().calculateMileageAmount(totalMiles, effectiveDate));
     }
 
 

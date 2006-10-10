@@ -46,7 +46,6 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import static org.kuali.Constants.DOCUMENT_PROPERTY_NAME;
 import static org.kuali.KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
 import static org.kuali.PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.
@@ -82,9 +81,16 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-
+        
+        isValid &= isMinimumNumberOfCreditCardReceiptsMet(document);
+        
         if (isValid) {
-            isValid = isMinimumNumberOfCreditCardReceiptsMet(document);
+            isValid &= validateAccountingLineTotal((CashReceiptFamilyBase) document);
+            isValid &= !CreditCardReceiptDocumentRuleUtil.areCashTotalsInvalid((CreditCardReceiptDocument) document);
+        }
+        
+        if (isValid) {
+            isValid &= validateCreditCardReceipts((CreditCardReceiptDocument) document);
         }
 
         return isValid;
@@ -100,31 +106,10 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
 
         if (ccr.getCreditCardReceipts().size() == 0) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
             return false;
         }
         return true;
-    }
-
-    /**
-     * Overrides to call super and then to validate all of the credit card receipts associated with this document.
-     * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
-     */
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-
-        if (isValid) {
-            isValid &= validateAccountingLineTotal((CashReceiptFamilyBase) document);
-            isValid &= !CreditCardReceiptDocumentRuleUtil.areCashTotalsInvalid((CreditCardReceiptDocument) document);
-        }
-
-        if (isValid) {
-            isValid = validateCreditCardReceipts((CreditCardReceiptDocument) document);
-        }
-
-        return isValid;
     }
 
     /**

@@ -32,6 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.test.KualiTestBase;
+import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 
 /**
@@ -64,7 +65,7 @@ public class CheckServiceTest extends KualiTestBase {
         clearTestData();
     }
 
-
+    @TestsWorkflowViaDatabase
     public void testLifecycle() throws Exception {
         boolean deleteSucceeded = false;
 

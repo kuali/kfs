@@ -40,22 +40,6 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext(session = KULUSER)
 public class ProcurementCardDocumentServiceTest extends KualiTestBase {
 
-    /**
-     * Tests that the service is parsing the kuali xml files and loading into the transaction table correctly.
-     * 
-     * @throws Exception
-     */
-    public void testLoadKualiPCardFiles() throws Exception {
-        // todo: load test files with known contents?
-        boolean loadSuccessful = getProcurementCardLoadTransactionsService().loadProcurementCardDataFile();
-        assertTrue("problem loading data file",loadSuccessful);
-
-        // load transactions
-        List<ProcurementCardTransaction> loadedTransactions = (List<ProcurementCardTransaction>) getBusinessObjectService().findAll(ProcurementCardTransaction.class);
-        assertNotNull(loadedTransactions);
-        assertEquals("Incorrect number of rows loaded ", 4, loadedTransactions.size());
-    }
-
     public void testCreatePCardDocuments() throws Exception {
         boolean documentsCreated = getProcurementCardCreateDocumentService().createProcurementCardDocuments();
         assertTrue("problem creating documents",documentsCreated);

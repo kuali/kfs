@@ -27,6 +27,7 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 public class RoutingForm extends KualiDocumentFormBase {
     
@@ -38,6 +39,8 @@ public class RoutingForm extends KualiDocumentFormBase {
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
+        
+        setDocument(new RoutingFormDocument());
     }
 
     public boolean isAuditActivated() {

@@ -60,12 +60,19 @@
                 </summary>
                 <description>A brief description of the transaction. This field is for departmental use only, and does not appear on financial reports.</description>
             </attribute>
-            <attributeReference name="financialDocumentAdvanceDepositReferenceNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber">
+            <attribute name="financialDocumentAdvanceDepositReferenceNumber" forceUppercase="true">
                 <label>Reference Number</label>
                 <shortLabel>Reference Number</shortLabel>
                 <maxLength>10</maxLength>
-                <required>true</required>
-            </attributeReference>
+                <required>true</required>              
+                <control>
+                    <text size="16" />
+                </control>               
+                <summary>
+                	<![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Reference Number is used to record the bank's unique transaction number for the deposit.</description>              
+            </attribute>
 			 <attributeReference name="financialDocumentBankCode" sourceClassName="org.kuali.module.financial.bo.Bank" sourceAttributeName="financialDocumentBankCode">
                 <label>Bank</label>
                 <shortLabel>Bank</shortLabel>

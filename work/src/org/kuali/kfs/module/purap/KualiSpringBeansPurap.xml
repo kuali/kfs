@@ -38,10 +38,4 @@
         </property>
     </bean>
     
-    <bean id="vendorMaintainable" class="org.kuali.module.purap.maintenance.VendorMaintainableImpl" singleton="false">
-        <property name="vendorService">
-            <ref bean="vendorService" />
-        </property>
-    </bean>
-    
 </beans>

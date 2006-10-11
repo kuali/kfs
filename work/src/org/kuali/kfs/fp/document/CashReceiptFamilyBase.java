@@ -116,7 +116,7 @@ abstract public class CashReceiptFamilyBase extends TransactionalDocumentBase {
             al = (AccountingLineBase) iter.next();
 
             KualiDecimal amount = al.getAmount().abs();
-            if (amount != null) {
+            if (amount != null && amount.isNonZero()) {
                 if (crFamilyRule.isDebit(this, al)) {
                     total = total.subtract(amount);
                 }

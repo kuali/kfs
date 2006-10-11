@@ -22,6 +22,23 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_INCOME_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,418 +46,18 @@ import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.util.KualiDecimal;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.financial.document.NonCheckDisbursementDocument;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_INCOME_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_GEC_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
-
-/**
- * This class tests the <code>{@link NonCheckDisbursementDocument}</code>'s rules and PE generation. This is not currently
- * implemented properly. When we get to building this document, we would need to extend TransactionalDocumentRuleTestBase. For now
- * it contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
- * 
- * 
- */
 @WithTestSpringContext(session = KHUNTLEY)
-public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentRuleTestBase {
-
-    private static final String KNOWN_DOCUMENT_TYPENAME = "KualiNonCheckDisbursementDocument";
-
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Fixture methods start here //
-    // ////////////////////////////////////////////////////////////////////////
-
-    @Override
-    protected final String getDocumentTypeName() {
-        return KNOWN_DOCUMENT_TYPENAME;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetTargetLine()
-     */
-    @Override
-    public final TargetAccountingLine getAssetTargetLine() throws Exception {
-        return  getAccruedIncomeTargetLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeTargetLine()
-     */
-    @Override
-    protected final TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
-        return  getAccruedIncomeTargetLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeTargetLine()
-     */
-    @Override
-    protected final TargetAccountingLine getInvalidObjectSubTypeTargetLine() throws Exception {
-        return getAccruedSickPayTargetLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeSourceLines()
-     */
-    @Override
-    protected final List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
-        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
-        retval.add(getAccruedIncomeSourceLineParameter());
-        retval.add(getAccruedIncomeSourceLineParameter());
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeSourceLines()
-     */
-    @Override
-    protected final List<SourceAccountingLine> getInvalidObjectSubTypeSourceLines() throws Exception {
-        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
-        retval.add(getAccruedSickPaySourceLineParameter());
-        retval.add(getAccruedSickPaySourceLineParameter());
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeTargetLines()
-     */
-    @Override
-    protected final List<TargetAccountingLine> getInvalidObjectSubTypeTargetLines() throws Exception {
-        List<TargetAccountingLine> retval = new ArrayList<TargetAccountingLine>();
-        retval.add(getAccruedSickPayTargetLineParameter());
-        retval.add(getAccruedSickPayTargetLineParameter());
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeTargetLines()
-     */
-    @Override
-    protected final List<TargetAccountingLine> getValidObjectSubTypeTargetLines() throws Exception {
-        List<TargetAccountingLine> retval = new ArrayList<TargetAccountingLine>();
-        retval.add(getAccruedIncomeTargetLineParameter());
-        retval.add(getAccruedIncomeTargetLineParameter());
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectTypeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
-        return LINE8.createSourceAccountingLine();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectTypeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
-        return getAccruedSickPaySourceLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectCodeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getInvalidObjectCodeSourceLine() throws Exception {
-        return LINE10.createSourceAccountingLine();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectCodeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
-        return  getAccruedIncomeSourceLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetSourceLine()
-     */
-    @Override
-    public final SourceAccountingLine getAssetSourceLine()throws Exception {
-        return getAccruedIncomeSourceLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocument()
-     */
-    @Override
-    protected final Document createDocument() throws Exception {
-        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), NonCheckDisbursementDocument.class, 2007, "06");
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocument5()
-     */
-    @Override
-    protected final TransactionalDocument createDocument5() throws Exception {
-        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), NonCheckDisbursementDocument.class, 2007, "06");
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentValidForRouting()
-     */
-    @Override
-    protected final Document createDocumentValidForRouting() throws Exception {
-        return createDocumentWithValidObjectSubType();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentInvalidForSave()
-     */
-    @Override
-    protected final Document createDocumentInvalidForSave() throws Exception {
-        return getDocumentParameterNoDescription();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentWithInvalidObjectSubType()
-     */
-    @Override
-    protected final TransactionalDocument createDocumentWithInvalidObjectSubType() throws Exception {
-        NonCheckDisbursementDocument retval = (NonCheckDisbursementDocument) createDocument();
-        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
-        retval.setTargetAccountingLines(getInvalidObjectSubTypeTargetLines());
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentUnbalanced()
-     */
-    @Override
-    protected final TransactionalDocument createDocumentUnbalanced() throws Exception {
-        NonCheckDisbursementDocument retval = (NonCheckDisbursementDocument) createDocument();
-        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
-        retval.addTargetAccountingLine(getValidObjectSubTypeTargetLine());
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentInvalidDescription()
-     */
-    @Override
-    protected final Document createDocumentInvalidDescription() throws Exception {
-        return getDocumentParameterNoDescription();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentWithValidObjectSubType()
-     */
-    @Override
-    protected final TransactionalDocument createDocumentWithValidObjectSubType() throws Exception {
-        NonCheckDisbursementDocument retval = (NonCheckDisbursementDocument) createDocument();
-        retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
-        retval.setTargetAccountingLines(getValidObjectSubTypeTargetLines());
-        return retval;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine6'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final SourceAccountingLine getAccruedIncomeSourceLineParameter() throws Exception{
-        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine6'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final SourceAccountingLine getAccruedSickPaySourceLineParameter() throws Exception{
-        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-    /**
-     * Accessor for fixture 'targetLine2'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final TargetAccountingLine getAccruedIncomeTargetLineParameter()throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_CREDIT_CODE);
-    }
-
-    /**
-     * Accessor for fixture 'targetLine2'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final TargetAccountingLine getAccruedSickPayTargetLineParameter() throws Exception{
-        return ACCRUED_SICK_PAY_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-    public final Document getDocumentParameterNoDescription() throws Exception{
-       Document document =DocumentTestUtils.createTransactionalDocument(getDocumentService(), NonCheckDisbursementDocument.class, 2005, "01");
-       document.getDocumentHeader().setFinancialDocumentDescription(null);
-       return document;
-    }
-
-    /**
-     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
-        return EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * Accessor method for Explicit Target fixture used for testProcessGeneralLedgerPendingEntriese> test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntry() {
-        return EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return e pending entry fixture
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
-        return  EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
-        return EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
-        return EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
-        return EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-    }
+public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
+    public static final Class<NonCheckDisbursementDocument> DOCUMENT_CLASS = NonCheckDisbursementDocument.class;
 
 
-    /**
-     * @see TransactionalDocumentRuleTestBase#getExpenseSourceLine()
-     */
-    @Override
-    protected SourceAccountingLine getExpenseSourceLine()throws Exception {
-        return EXPENSE_GEC_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-    /**
-     * @see TransactionalDocumentRuleTestBase#getExpenseTargetLine()
-     */
-    @Override
-    protected TargetAccountingLine getExpenseTargetLine()throws Exception {
-        return EXPENSE_GEC_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_CREDIT_CODE);
-    }
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Fixture methods end here //
-    // ////////////////////////////////////////////////////////////////////////
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Test methods start here //
-    // ////////////////////////////////////////////////////////////////////////
-
-    // These methods will need to be fixed in the future to yield more meaningful
-    // results
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset()
-     */
-    @Override
-    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() {
-    }
-
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset()
-     */
-    @Override
-    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() {
-    }
-
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense()
-     */
-    @Override
-    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() {
-    }
-
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense()
-     */
-    @Override
-    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() {
-    }
-
-    /**
-     * tests true is returned for a positive income
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_income_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -448,11 +65,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateExcpetion</code> is thrown for a negative income
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_income_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -460,11 +72,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero income
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_income_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -472,11 +79,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests true is returned for a positive expense
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_expense_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -484,11 +86,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative expense
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_expense_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -496,11 +93,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero expense
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_expense_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -508,11 +100,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests true is returned for a positive asset
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_asset_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -520,11 +107,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_asset_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -532,11 +114,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero asset
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_asset_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -544,11 +121,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests true is returned for a positive liability
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_liability_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -556,11 +128,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative liability
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_liability_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -568,11 +135,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero liability
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_liability_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -580,11 +142,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests true is returned for a positive income
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_income_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -592,11 +149,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateExcpetion</code> is thrown for a negative income
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_income_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -605,11 +157,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
 
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero income
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_income_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -617,11 +164,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests true is returned for a positive expense
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_expense_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -629,11 +171,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative expense
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_expense_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -641,11 +178,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero expense
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_expense_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -653,11 +185,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests true is returned for a positive asset
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_asset_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -665,11 +192,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_asset_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -677,11 +199,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero asset
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_asset_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -689,11 +206,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests true is returned for a positive liability
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_liability_positveAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
@@ -701,11 +213,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative liability
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_liability_negativeAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
@@ -713,11 +220,6 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests an <code>IllegalStateException</code> is thrown for a zero liability
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_errorCorrection_liability_zeroAmount() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), NonCheckDisbursementDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
@@ -725,16 +227,167 @@ public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentR
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessRouteDocument_Unbalanced()
-     */
-    @Override
-    public void testProcessRouteDocument_Unbalanced() throws Exception {
-        //this tests doesnt apply to the NCD document
+    public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
     }
-    
-    
-    // ////////////////////////////////////////////////////////////////////////
-    // Test methods end here //
-    // ////////////////////////////////////////////////////////////////////////
+
+    public void testIsObjectTypeAllowed_Valid() throws Exception {
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
+    }
+
+    public void testIsObjectCodeAllowed_Valid() throws Exception {
+        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
+    }
+
+    public void testIsObjectCodeAllowed_InvalidObjectCode() throws Exception {
+        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getInvalidObjectCodeSourceLine(), false);
+    }
+
+    public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
+        TransactionalDocument doc = createDocumentWithInvalidObjectSubType();
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, false);
+    }
+
+    public void testAddAccountingLine_Valid() throws Exception {
+        TransactionalDocument doc = createDocumentWithValidObjectSubType();
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true);
+    }
+
+    public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getInvalidObjectSubTypeTargetLine(), false);
+    }
+
+    public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
+    }
+
+    public void testProcessSaveDocument_Valid() throws Exception {
+        testSaveDocumentRule_ProcessSaveDocument(createDocument(), true);
+    }
+
+    public void testProcessSaveDocument_Invalid() throws Exception {
+        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false);
+    }
+
+    public void testProcessSaveDocument_Invalid1() throws Exception {
+        try {
+            testSaveDocumentRule_ProcessSaveDocument(null, false);
+            fail("validated null doc");
+        }
+        catch (Exception e) {
+            assertTrue(true);
+        }
+    }
+
+    public void testProcessRouteDocument_Valid() throws Exception {
+        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true);
+    }
+
+    public void testProcessRouteDocument_Invalid() throws Exception {
+        testRouteDocumentRule_processRouteDocument(createDocument(), false);
+    }
+
+    public void testProcessRouteDocument_NoAccountingLines() throws Exception {
+        testRouteDocumentRule_processRouteDocument(createDocument(), false);
+    }
+
+    private NonCheckDisbursementDocument createDocument() throws Exception {
+        return DocumentTestUtils.createDocument(getDocumentService(), NonCheckDisbursementDocument.class);
+    }
+
+    private NonCheckDisbursementDocument createDocumentValidForRouting() throws Exception {
+        return createDocumentWithValidObjectSubType();
+    }
+
+    private NonCheckDisbursementDocument createDocumentInvalidForSave() throws Exception {
+        return getDocumentParameterNoDescription();
+    }
+
+    private NonCheckDisbursementDocument createDocumentWithValidObjectSubType() throws Exception {
+        NonCheckDisbursementDocument retval = createDocument();
+        retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
+        retval.setTargetAccountingLines(getValidObjectSubTypeTargetLines());
+        return retval;
+    }
+
+    private NonCheckDisbursementDocument getDocumentParameterNoDescription() throws Exception {
+        NonCheckDisbursementDocument document = DocumentTestUtils.createDocument(getDocumentService(), NonCheckDisbursementDocument.class);
+        document.getDocumentHeader().setFinancialDocumentDescription(null);
+        return document;
+    }
+
+    private TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
+        return getAccruedIncomeTargetLineParameter();
+    }
+
+    private TargetAccountingLine getInvalidObjectSubTypeTargetLine() throws Exception {
+        return getAccruedSickPayTargetLineParameter();
+    }
+
+    private List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
+        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
+        retval.add(getAccruedIncomeSourceLineParameter());
+        retval.add(getAccruedIncomeSourceLineParameter());
+        return retval;
+    }
+
+    private List<SourceAccountingLine> getInvalidObjectSubTypeSourceLines() throws Exception {
+        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
+        retval.add(getAccruedSickPaySourceLineParameter());
+        retval.add(getAccruedSickPaySourceLineParameter());
+        return retval;
+    }
+
+    private List<TargetAccountingLine> getInvalidObjectSubTypeTargetLines() throws Exception {
+        List<TargetAccountingLine> retval = new ArrayList<TargetAccountingLine>();
+        retval.add(getAccruedSickPayTargetLineParameter());
+        retval.add(getAccruedSickPayTargetLineParameter());
+        return retval;
+    }
+
+    private List<TargetAccountingLine> getValidObjectSubTypeTargetLines() throws Exception {
+        List<TargetAccountingLine> retval = new ArrayList<TargetAccountingLine>();
+        retval.add(getAccruedIncomeTargetLineParameter());
+        retval.add(getAccruedIncomeTargetLineParameter());
+        return retval;
+    }
+
+    private SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
+        return LINE8.createSourceAccountingLine();
+    }
+
+    private SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
+        return getAccruedSickPaySourceLineParameter();
+    }
+
+    private SourceAccountingLine getInvalidObjectCodeSourceLine() throws Exception {
+        return LINE10.createSourceAccountingLine();
+    }
+
+    private SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
+        return getAccruedIncomeSourceLineParameter();
+    }
+
+    private NonCheckDisbursementDocument createDocumentWithInvalidObjectSubType() throws Exception {
+        NonCheckDisbursementDocument retval = createDocument();
+        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
+        retval.setTargetAccountingLines(getInvalidObjectSubTypeTargetLines());
+        return retval;
+    }
+
+    private SourceAccountingLine getAccruedIncomeSourceLineParameter() throws Exception {
+        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+    }
+
+    private SourceAccountingLine getAccruedSickPaySourceLineParameter() throws Exception {
+        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+    }
+
+    private TargetAccountingLine getAccruedIncomeTargetLineParameter() throws Exception {
+        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_CREDIT_CODE);
+    }
+
+    private TargetAccountingLine getAccruedSickPayTargetLineParameter() throws Exception {
+        return ACCRUED_SICK_PAY_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_DEBIT_CODE);
+    }
 }

@@ -27,17 +27,22 @@ import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_INCOME_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_GEC_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.FUND_BALANCE_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE15;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,342 +50,20 @@ import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
 
-/**
- * This class tests the <code>{@link AuxiliaryVoucherDocument}</code>'s rules and PE generation.
- * 
- * 
- */
 @WithTestSpringContext(session = KHUNTLEY)
-public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleTestBase {
+public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
 
-    private static final String KNOWN_DOCUMENT_TYPENAME = "KualiAuxiliaryVoucherDocument";
+    public static final Class<AuxiliaryVoucherDocument> DOCUMENT_CLASS = AuxiliaryVoucherDocument.class;
 
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Fixture methods start here //
-    // ////////////////////////////////////////////////////////////////////////
-
-    @Override
-    protected final String getDocumentTypeName() {
-        return KNOWN_DOCUMENT_TYPENAME;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetTargetLine()
-     */
-    @Override
-    public final TargetAccountingLine getAssetTargetLine() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeTargetLine()
-     */
-    @Override
-    protected final TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
-        return new TargetAccountingLine();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeTargetLine()
-     */
-    @Override
-    protected final TargetAccountingLine getInvalidObjectSubTypeTargetLine() throws Exception {
-        return  new TargetAccountingLine();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeSourceLines()
-     */
-    @Override
-    protected final List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
-        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
-        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, Constants.GL_CREDIT_CODE));
-        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE));
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeSourceLines()
-     */
-    @Override
-    protected final List<SourceAccountingLine> getInvalidObjectSubTypeSourceLines() throws Exception {
-        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
-        retval.add(getAccruedSickPaySourceLineParameter());
-        retval.add(getAccruedSickPaySourceLineParameter());
-        return retval;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectSubTypeTargetLines()
-     */
-    @Override
-    protected final List<TargetAccountingLine> getInvalidObjectSubTypeTargetLines() throws Exception {
-        return new ArrayList();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectSubTypeTargetLines()
-     */
-    @Override
-    protected final List<TargetAccountingLine> getValidObjectSubTypeTargetLines() throws Exception {
-        return new ArrayList();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectTypeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
-        return LINE8.createSourceAccountingLine();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectTypeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
-        return FUND_BALANCE_LINE.createSourceAccountingLine();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getInvalidObjectCodeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getInvalidObjectCodeSourceLine() throws Exception {
-        return LINE10.createSourceAccountingLine();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getValidObjectCodeSourceLine()
-     */
-    @Override
-    protected final SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
-        return getAccruedIncomeSourceLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getAssetSourceLine()
-     */
-    @Override
-    public final SourceAccountingLine getAssetSourceLine()throws Exception {
-        return getAccruedIncomeSourceLineParameter();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocument()
-     */
-    @Override
-    protected final Document createDocument() throws Exception {
-        //AV document has a restriction on accounting period cannot be more than 2 periods behind current
-        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
-        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), AuxiliaryVoucherDocument.class, accountingPeriod.getUniversityFiscalYear(), accountingPeriod.getUniversityFiscalPeriodCode());
-
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocument5()
-     */
-    @Override
-    protected final TransactionalDocument createDocument5() throws Exception {   //AV document has a restriction on accounting period cannot be more than 2 periods behind current
-        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
-        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), AuxiliaryVoucherDocument.class, accountingPeriod.getUniversityFiscalYear(), accountingPeriod.getUniversityFiscalPeriodCode());
-
-    }
-
-    /**
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentValidForRouting()
-     */
-    @Override
-    protected final Document createDocumentValidForRouting() throws Exception {
-        return createDocumentWithValidObjectSubType();
-    }
-
-    /**
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentInvalidForSave()
-     */
-    @Override
-    protected final Document createDocumentInvalidForSave() throws Exception {
-        return createDocumentInvalidDescription();
-    }
-
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentWithInvalidObjectSubType()
-     */
-    @Override
-    protected final TransactionalDocument createDocumentWithInvalidObjectSubType() throws Exception {
-        AuxiliaryVoucherDocument retval = (AuxiliaryVoucherDocument) createDocument();
-        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
-        return retval;
-    }
-
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentUnbalanced()
-     */
-    @Override
-    protected final TransactionalDocument createDocumentUnbalanced() throws Exception {
-        AuxiliaryVoucherDocument retval = (AuxiliaryVoucherDocument) createDocument();
-        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
-        return retval;
-    }
-
-    /**
-     * @see org.kuali.core.rule.DocumentRuleTestBase#createDocumentInvalidDescription()
-     */
-    @Override
-    protected final Document createDocumentInvalidDescription() throws Exception {
-        //AV document has a restriction on accounting period cannot be more than 2 periods behind current
-        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
-        Document document= DocumentTestUtils.createTransactionalDocument(getDocumentService(), AuxiliaryVoucherDocument.class, accountingPeriod.getUniversityFiscalYear(), accountingPeriod.getUniversityFiscalPeriodCode());
-
-        document.getDocumentHeader().setFinancialDocumentDescription(null);
-        return document;
-    }
-
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#createDocumentWithValidObjectSubType()
-     */
-    @Override
-    protected final TransactionalDocument createDocumentWithValidObjectSubType() throws Exception {
-        AuxiliaryVoucherDocument retval = (AuxiliaryVoucherDocument) createDocument();
-        retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
-        return retval;
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine6'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final SourceAccountingLine getAccruedIncomeSourceLineParameter()throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-    /**
-     * Accessor for fixture 'sourceLine6'
-     * 
-     * @return AccountingLineParameter
-     */
-    public final SourceAccountingLine getAccruedSickPaySourceLineParameter() throws Exception {
-        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-
-
-    /**
-     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
-        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getExpectedExplicitTargetPendingEntry()
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntry() {
-        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * AV doesnt create offsets
-     * Accessor method for Offset Target fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
-        return new GeneralLedgerPendingEntry();
-    }
-
-    /**
-     * AV doesnt create offset
-     * Accessor method for Offset Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public final GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
-        return new GeneralLedgerPendingEntry();
-    }
-
-    /**
-     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
-        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-    }
-
-    /**
-     * Accessor method for Explicit Source fixture used for testProcessGeneralLedgerPendingEntries test methods.
-     * 
-     * @return GeneralLedgerPendingEntry pending entry fixture
-     */
-    @Override
-    public GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
-        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-    }
-
-
-    /**
-     * 
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#getExpenseSourceLine()
-     */
-    @Override
-    protected SourceAccountingLine getExpenseSourceLine() throws Exception{
-        return EXPENSE_GEC_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
-    }
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Fixture methods end here //
-    // ////////////////////////////////////////////////////////////////////////
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Test methods start here //
-    // ////////////////////////////////////////////////////////////////////////
-
-    /**
-     * tests that true is returned for a debit code
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_debitCode() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
@@ -389,11 +72,6 @@ public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleT
         assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests that false is retured for a credit code
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_creditCode() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
@@ -402,11 +80,6 @@ public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleT
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
 
-    /**
-     * tests that an <code>IllegalStateException</code> is thrown for a blank value
-     * 
-     * @throws Exception
-     */
     public void testIsDebit_blankValue() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
@@ -431,7 +104,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleT
 
         assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
-    
+
     public void testIsDebit_errorCorrection_blankValue() throws Exception {
         TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
         AccountingLine accountingLine = (AccountingLine) transactionalDocument.getSourceAccountingLineClass().newInstance();
@@ -439,40 +112,213 @@ public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleT
 
         assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
     }
-    // ////////////////////////////////////////////////////////////////////////
-    // Test methods end here //
-    // ////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testIsObjectSubTypeAllowed_InvalidSubType()
-     */
-    @Override
+
+    public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
+    }
+
+    public void testIsObjectTypeAllowed_Valid() throws Exception {
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
+    }
+
+    public void testIsObjectCodeAllowed_Valid() throws Exception {
+        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
+    }
+
+    public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
+        TransactionalDocument doc = createDocumentWithInvalidObjectSubType();
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, false);
+    }
+
+    public void testAddAccountingLine_Valid() throws Exception {
+        TransactionalDocument doc = createDocumentWithValidObjectSubType();
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true);
+    }
+
     public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
-        testIsObjectSubTypeAllowed(AccountingLineFixture.LINE17.createSourceAccountingLine(), false);
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, AccountingLineFixture.LINE17.createSourceAccountingLine(), false);
     }
 
-    /**
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testIsObjectCodeAllowed_InvalidObjectCode()
-     */
-    @Override
-    public void testIsObjectCodeAllowed_InvalidObjectCode() throws Exception {
-        //the way this tests works is not valid because of the way that the AV implements the object code restriction
+    public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
     }
 
-    /**
-     * overriden because the AV doesnt create offset entries
-     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries(org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected void testProcessGenerateGeneralLedgerPendingEntries(AccountingLine line, GeneralLedgerPendingEntry expectedExplicitEntry, GeneralLedgerPendingEntry expectedOffsetEntry) throws Exception {
-        TransactionalDocument document = createDocument5();
-        assertEquals(0, document.getGeneralLedgerPendingEntries().size());
-        getGenerateGeneralLedgerPendingEntriesRule().processGenerateGeneralLedgerPendingEntries(document, line, new GeneralLedgerPendingEntrySequenceHelper());
-        assertEquals(1, document.getGeneralLedgerPendingEntries().size());
-        assertSparselyEqualBean(expectedExplicitEntry, document.getGeneralLedgerPendingEntry(0));
-        assertSparselyEqualBean(expectedOffsetEntry, document.getGeneralLedgerPendingEntry(1));
+    public void testProcessSaveDocument_Valid() throws Exception {
+        testSaveDocumentRule_ProcessSaveDocument(createDocument(), true);
+    }
+
+    public void testProcessSaveDocument_Invalid() throws Exception {
+        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false);
+    }
+
+    public void testProcessSaveDocument_Invalid1() throws Exception {
+        try {
+            testSaveDocumentRule_ProcessSaveDocument(null, false);
+            fail("validated null doc");
+        }
+        catch (Exception e) {
+            assertTrue(true);
+        }
+    }
+
+    public void testProcessRouteDocument_Valid() throws Exception {
+        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true);
+    }
+
+    public void testProcessRouteDocument_Invalid() throws Exception {
+        testRouteDocumentRule_processRouteDocument(createDocument(), false);
+    }
+
+    public void testProcessRouteDocument_NoAccountingLines() throws Exception {
+        testRouteDocumentRule_processRouteDocument(createDocument(), false);
+    }
+
+    public void testProcessRouteDocument_Unbalanced() throws Exception {
+        testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseTargetLine(), getExpectedExplicitTargetPendingEntryForExpense(), getExpectedOffsetTargetPendingEntry(), 1);
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
+
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseSourceLine(), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry(), 1);
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetSourceLine(), getExpectedExplicitSourcePendingEntry(), getExpectedOffsetSourcePendingEntry(), 1);
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() throws Exception {
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetTargetLine(), getExpectedExplicitTargetPendingEntry(), getExpectedOffsetTargetPendingEntryForTargetAsset(), 1);
+    }
+
+    private AuxiliaryVoucherDocument createDocument() throws Exception {
+        // AV document has a restriction on accounting period cannot be more than 2 periods behind current
+        return DocumentTestUtils.createDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
 
     }
 
+    private AuxiliaryVoucherDocument createDocumentValidForRouting() throws Exception {
+        return createDocumentWithValidObjectSubType();
+    }
 
+    private AuxiliaryVoucherDocument createDocumentInvalidForSave() throws Exception {
+        return createDocumentInvalidDescription();
+    }
+
+    private AuxiliaryVoucherDocument createDocumentInvalidDescription() throws Exception {
+        AuxiliaryVoucherDocument document = DocumentTestUtils.createDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
+
+        document.getDocumentHeader().setFinancialDocumentDescription(null);
+        return document;
+    }
+
+    private AuxiliaryVoucherDocument createDocumentWithValidObjectSubType() throws Exception {
+        AuxiliaryVoucherDocument retval = createDocument();
+        retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
+        return retval;
+    }
+
+    private SourceAccountingLine getExpenseSourceLine() throws Exception {
+        return EXPENSE_GEC_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+    }
+
+    private TargetAccountingLine getExpenseTargetLine() throws Exception {
+        return EXPENSE_LINE.createTargetAccountingLine();
+    }
+
+    private GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntryForTargetAsset() {
+        return getExpectedOffsetTargetPendingEntry();
+    }
+
+    private TargetAccountingLine getAssetTargetLine() throws Exception {
+        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_DEBIT_CODE);
+    }
+
+    private TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
+        return new TargetAccountingLine();
+    }
+
+    private List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
+        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
+        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, Constants.GL_CREDIT_CODE));
+        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE));
+        return retval;
+    }
+
+    private List<SourceAccountingLine> getInvalidObjectSubTypeSourceLines() throws Exception {
+        List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
+        retval.add(getAccruedSickPaySourceLineParameter());
+        retval.add(getAccruedSickPaySourceLineParameter());
+        return retval;
+    }
+
+
+    private SourceAccountingLine getValidObjectTypeSourceLine() throws Exception {
+        return LINE8.createSourceAccountingLine();
+    }
+
+    private SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
+        return FUND_BALANCE_LINE.createSourceAccountingLine();
+    }
+
+    private SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
+        return getAccruedIncomeSourceLineParameter();
+    }
+
+    private SourceAccountingLine getAssetSourceLine() throws Exception {
+        return getAccruedIncomeSourceLineParameter();
+    }
+
+    private TransactionalDocument createDocument5() throws Exception { // AV document has a restriction on accounting
+        return DocumentTestUtils.createDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
+
+    }
+
+    private AuxiliaryVoucherDocument createDocumentWithInvalidObjectSubType() throws Exception {
+        AuxiliaryVoucherDocument retval = createDocument();
+        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
+        return retval;
+    }
+
+    private AuxiliaryVoucherDocument createDocumentUnbalanced() throws Exception {
+        AuxiliaryVoucherDocument retval = createDocument();
+        retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
+        return retval;
+    }
+
+    private SourceAccountingLine getAccruedIncomeSourceLineParameter() throws Exception {
+        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+    }
+
+    private SourceAccountingLine getAccruedSickPaySourceLineParameter() throws Exception {
+        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+    }
+
+    private GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
+        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
+    }
+
+    private GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntry() {
+        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY.createGeneralLedgerPendingEntry();
+    }
+
+    private GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
+        return new GeneralLedgerPendingEntry();
+    }
+
+    private GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
+        return new GeneralLedgerPendingEntry();
+    }
+
+    private GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
+        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
+    }
+
+    private GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
+        return GeneralLedgerPendingEntryFixture.EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
+    }
 }

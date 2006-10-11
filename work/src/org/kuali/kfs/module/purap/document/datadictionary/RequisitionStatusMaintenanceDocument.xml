@@ -27,14 +27,14 @@
         <description>Document used to create or update Requisition Status objects</description>
 
         <lockingKeys>
-            <field attributeName="requisitionStatusCode" />
+            <field attributeName="statusCode" />
         </lockingKeys>
 
         <maintainableSections>
             <maintainableSection title="Edit Requisition Status">
                 <maintainableItems>
-                    <maintainableField name="requisitionStatusCode" required="true" />
-                    <maintainableField name="requisitionStatusDescription" required="true" />
+                    <maintainableField name="statusCode" required="true" />
+                    <maintainableField name="statusDescription" required="true" />
                     <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
                     <maintainableField name="versionNumber" required="true"/>
                     

@@ -55,8 +55,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class RequisitionDocument extends PurchasingDocumentBase {
 
-	private Integer requisitionIdentifier;
-	private String requisitionStatusCode;
 	private String requisitionOrganizationReference1Text;
 	private String requisitionOrganizationReference2Text;
 	private String requisitionOrganizationReference3Text;
@@ -67,11 +65,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	private String alternate5VendorName;
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
 
-    private RequisitionStatusHistory requisition;
-	private RequisitionStatus requisitionStatus;
     private DateTimeService dateTimeService;
     private VendorService vendorService;
-
+    
 	/**
 	 * Default constructor.
 	 */
@@ -81,7 +77,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
     public void refreshAllReferences() {
         super.refreshAllReferences();
-        this.refreshReferenceObject("requisitionStatus");
     }
     
     /**
@@ -90,7 +85,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     public void initiateDocument() {
 
         this.setRequisitionSourceCode(PurapConstants.REQ_SOURCE_STANDARD_ORDER);
-        this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
+        this.setStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
         this.setFundingSourceCode("IUAC");
@@ -225,11 +220,11 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     @Override
     public void convertIntoCopy() throws WorkflowException {
       super.convertIntoCopy();
-      
+        
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
       
       //Set req status to INPR.
-      this.setRequisitionStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
+      this.setStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
 
       //Set fields from the user.
       this.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
@@ -264,12 +259,12 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       if(this.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_B2B)) {
           if( !activeContract ) {
               GlobalVariables.getErrorMap().putError(this.getVendorContractGeneratedIdentifier().toString(),
-                      PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT,this.getRequisitionIdentifier().toString());
+                      PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT,this.getIdentifier().toString());
               return;
           }
           if( !activeVendor ) {
               GlobalVariables.getErrorMap().putError(this.getVendorHeaderGeneratedIdentifier().toString(),
-                      PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR,this.getRequisitionIdentifier().toString());
+                      PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR,this.getIdentifier().toString());
               return;
           }
       }
@@ -283,6 +278,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
 //        }
 //      }
+
 //DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
 //      if (activeVendor) {
 //        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
@@ -342,51 +338,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       // get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
       
+        
     }
     
-    /**
-     * Gets the requisitionIdentifier attribute.
-     * 
-     * @return - Returns the requisitionIdentifier
-     * 
-     */
-	public Integer getRequisitionIdentifier() { 
-		return requisitionIdentifier;
-	}
-
-	/**
-	 * Sets the requisitionIdentifier attribute.
-	 * 
-	 * @param - requisitionIdentifier The requisitionIdentifier to set.
-	 * 
-	 */
-	public void setRequisitionIdentifier(Integer requisitionIdentifier) {
-		this.requisitionIdentifier = requisitionIdentifier;
-	}
-
-
-	/**
-	 * Gets the requisitionStatusCode attribute.
-	 * 
-	 * @return - Returns the requisitionStatusCode
-	 * 
-	 */
-	public String getRequisitionStatusCode() { 
-		return requisitionStatusCode;
-	}
-
-	/**
-	 * Sets the requisitionStatusCode attribute.
-	 * 
-	 * @param - requisitionStatusCode The requisitionStatusCode to set.
-	 * 
-	 */
-	public void setRequisitionStatusCode(String requisitionStatusCode) {
-		this.requisitionStatusCode = requisitionStatusCode;
-	}
-
-
-
 	/**
 	 * Gets the requisitionOrganizationReference1Text attribute.
 	 * 
@@ -577,27 +531,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	}
 
 
-
-	/**
-	 * Gets the requisition attribute.
-	 * 
-	 * @return - Returns the requisition
-	 * 
-	 */
-	public RequisitionStatusHistory getRequisition() { 
-		return requisition;
-	}
-
-	/**
-	 * Sets the requisition attribute.
-	 * 
-	 * @param - requisition The requisition to set.
-	 * @deprecated
-	 */
-	public void setRequisition(RequisitionStatusHistory requisition) {
-		this.requisition = requisition;
-	}
-
 	/**
 	 * Gets the documentHeader attribute.
 	 * 
@@ -620,32 +553,12 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
 
 	/**
-	 * Gets the requisitionStatus attribute.
-	 * 
-	 * @return - Returns the requisitionStatus
-	 * 
-	 */
-	public RequisitionStatus getRequisitionStatus() { 
-		return requisitionStatus;
-	}
-
-	/**
-	 * Sets the requisitionStatus attribute.
-	 * 
-	 * @param - requisitionStatus The requisitionStatus to set.
-	 * @deprecated
-	 */
-	public void setRequisitionStatus(RequisitionStatus requisitionStatus) {
-		this.requisitionStatus = requisitionStatus;
-	}
-
-	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.requisitionIdentifier != null) {
-            m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
+        if (getIdentifier() != null) {
+            m.put("identifier", getIdentifier().toString());
         }
 	    return m;
     }

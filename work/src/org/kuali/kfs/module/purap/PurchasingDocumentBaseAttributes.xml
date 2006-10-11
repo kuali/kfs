@@ -879,40 +879,6 @@
     <description>vendorCountryCode description...</description>
 </attribute>
 
-<attribute name="vendorCustomerNumber" forceUppercase="true">
-    <label>Customer Number</label>
-    <shortLabel>Number</shortLabel>
-
-    <maxLength>30</maxLength>
-    <validationPattern>
-        <anyCharacter allowWhitespace="true"/>
-    </validationPattern>
-
-    <control>
-        <text size="32" />
-    </control>
-
-    <summary>vendorCustomerNumber</summary>
-    <description>vendorCustomerNumber description...</description>
-</attribute>
-
-<attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
-    <label>Vendor Detail Assigned Identifier</label>
-    <shortLabel>Identifier</shortLabel>
-
-    <maxLength>10</maxLength>
-    <validationPattern>
-        <numeric />
-    </validationPattern>
-
-    <control>
-        <text size="12" />
-    </control>
-
-    <summary>vendorDetailAssignedIdentifier</summary>
-    <description>vendorDetailAssignedIdentifier description...</description>
-</attribute>
-
 <attribute name="vendorFaxNumber" forceUppercase="true">
     <label>Fax Number</label>
     <shortLabel>Number</shortLabel>
@@ -928,23 +894,6 @@
 
     <summary>vendorFaxNumber</summary>
     <description>vendorFaxNumber description...</description>
-</attribute>
-
-<attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
-    <label>Vendor Header Generated Identifier</label>
-    <shortLabel>Identifier</shortLabel>
-
-    <maxLength>10</maxLength>
-    <validationPattern>
-        <numeric />
-    </validationPattern>
-
-    <control>
-        <text size="12" />
-    </control>
-
-    <summary>vendorHeaderGeneratedIdentifier</summary>
-    <description>vendorHeaderGeneratedIdentifier description...</description>
 </attribute>
 
 <attribute name="vendorLine1Address" forceUppercase="true">

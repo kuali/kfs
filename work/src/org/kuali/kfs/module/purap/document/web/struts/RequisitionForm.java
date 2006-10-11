@@ -61,10 +61,10 @@ public class RequisitionForm extends KualiTransactionalDocumentFormBase {
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
     public KeyLabelPair getAdditionalDocInfo1() {
-        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getRequisitionIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionIdentifier", ((RequisitionDocument)this.getDocument()).getRequisitionIdentifier().toString());
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getIdentifier())) {
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.identifier", ((RequisitionDocument)this.getDocument()).getIdentifier().toString());
         } else {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionIdentifier", "Not Available");
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.identifier", "Not Available");
         }
     }
 
@@ -72,11 +72,10 @@ public class RequisitionForm extends KualiTransactionalDocumentFormBase {
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
      */
     public KeyLabelPair getAdditionalDocInfo2() {
-        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getRequisitionStatus())) {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionStatusCode", ((RequisitionDocument)this.getDocument()).getRequisitionStatus().getRequisitionStatusDescription());
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.statusCode", ((RequisitionDocument)this.getDocument()).getStatus().getStatusDescription());
         } else {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.requisitionStatusCode", "Not Available");
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.statusCode", "Not Available");
         }
     }
-
 }

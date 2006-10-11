@@ -22,12 +22,13 @@
  */
 package org.kuali.module.purap.document;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.purap.bo.Status;
+import org.kuali.module.purap.bo.StatusHistory;
 
 /**
  * Purchasing-Accounts Payable Document Base
@@ -37,21 +38,33 @@ import org.kuali.core.util.SpringServiceLocator;
 public abstract class PurchasingAccountsPayableDocumentBase extends TransactionalDocumentBase implements PurchasingAccountsPayableDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
 
+    // SHARED FIELDS BETWEEN REQUISITION, PURCHASE ORDER, PAYMENT REQUEST, AND CREDIT MEMO
+    private Integer identifier;
+    private String statusCode;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
     private String vendorCustomerNumber;
 
-    /**
-     * Retrieve all references common to purchasing and ap
-     */
-    public void refreshAllReferences() {
-    }
+    // COMMON ELEMENTS
+    private List statusHistory;
 
+    // REFERENCE OBJECTS
+    private Status status;
+
+    // OVERRIDEN METHODS
     @Override
     public KualiDecimal getTotalDollarAmount() {
         return Constants.ZERO;
     }
 
+    /**
+     * Retrieve all references common to purchasing and ap
+     */
+    public void refreshAllReferences() {
+        this.refreshReferenceObject("status");
+    }
+
+    // GETTERS AND SETTERS
     /**
      * Gets the vendorHeaderGeneratedIdentifier attribute.
      * 
@@ -111,6 +124,38 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
      */
     public void setVendorCustomerNumber(String vendorCustomerNumber) {
         this.vendorCustomerNumber = vendorCustomerNumber;
+    }
+
+    public Integer getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(Integer identifier) {
+        this.identifier = identifier;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public List getStatusHistory() {
+        return statusHistory;
+    }
+
+    public void setStatusHistory(List statusHistory) {
+        this.statusHistory = statusHistory;
     }
 
 }

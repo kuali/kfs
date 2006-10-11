@@ -38,10 +38,9 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
     private MandatoryTransferEliminationCode knowGood;
     private static final String GOOD_CODE="N";
-    private static final String GOOD_NAME="None";
+    private static final String GOOD_NAME="NONE";
     private static final String BAD_CODE = "X";
     private static final String BAD_NAME = "BAD";
-
 
     /**
      * @see org.kuali.test.KualiTestBase#setUp()

@@ -32,7 +32,7 @@ public class PurapKeyConstants {
     public static final String PURAP_GENERAL_POTENTIAL_DUPLICATE = "error.document.purap.potentialDuplicate";
     
     //Vendor Maintenance
-    public static final String ERROR_OWNERSHIP_REQUIRES_TAX_NUMBER = "error.vendorMaint.OwnershipRequiresTaxNumber";
+    public static final String ERROR_VENDOR_TYPE_REQUIRES_TAX_NUMBER = "error.vendorMaint.VendorTypeRequiresTaxNumber";
     public static final String ERROR_VENDOR_TAX_TYPE_AND_NUMBER_COMBO_EXISTS = "error.vendorMaint.addVendor.vendor.exists";
     public static final String ERROR_VENDOR_NAME_REQUIRED = "error.vendorMaint.vendorName.required";
     public static final String ERROR_VENDOR_BOTH_NAME_REQUIRED = "error.vendorMaint.bothNameRequired";

@@ -37,6 +37,7 @@ public class PurapConstants {
     public static final String NAME_DELIM = ", ";
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String DASH = "-";
+    public static final String VENDOR_HEADER_ATTR = "vendorHeader";
     public static int VNDR_MIN_NUM_LOOKUP_CRITERIA = 1;
     public static int VNDR_LOOKUP_MIN_NAME_LENGTH = 2;
 

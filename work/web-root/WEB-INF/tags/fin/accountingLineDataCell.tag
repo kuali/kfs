@@ -89,8 +89,11 @@
 <%@ attribute name="rowSpan" required="false"
               description="row span for the data cell" %>
 <%@ attribute name="anchor" required="false" description="adds a named anchor inside the header cell" %>
-              
-           
+<%@ attribute name="detailFields" required="false"
+              description="The name of multiple fields in the business object containing details to be display.
+			  Any supplied field that starts with a semicolon will be treated as a text field, rather 
+			  than a database field. The semicolon will be ignored in the output." %>
+                         
 
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">
@@ -205,5 +208,6 @@
 <fin:accountingLineDataCellDetail
     detailField="${detailField}"
     accountingLine="${accountingLine}"
+    detailFields="${detailFields}"
     />
 </td>

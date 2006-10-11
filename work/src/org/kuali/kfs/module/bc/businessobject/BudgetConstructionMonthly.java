@@ -63,7 +63,7 @@ public class BudgetConstructionMonthly extends BusinessObjectBase {
     private KualiDecimal financialDocumentMonth11LineAmount;
     private KualiDecimal financialDocumentMonth12LineAmount;
 
-    private PendingBudgetConstructionGl pendingBudgetConstructionGl;
+    private PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger;
     private Balance financialBalanceType;
     private ObjectCode financialObject;
     private Account account;
@@ -520,23 +520,23 @@ public class BudgetConstructionMonthly extends BusinessObjectBase {
 
 
     /**
-     * Gets the pendingBudgetConstructionGl attribute.
+     * Gets the pendingBudgetConstructionGeneralLedger attribute.
      * 
-     * @return - Returns the pendingBudgetConstructionGl
+     * @return - Returns the pendingBudgetConstructionGeneralLedger
      * 
      */
-    public PendingBudgetConstructionGl getPendingBudgetConstructionGl() {
-        return pendingBudgetConstructionGl;
+    public PendingBudgetConstructionGeneralLedger getPendingBudgetConstructionGeneralLedger() {
+        return pendingBudgetConstructionGeneralLedger;
     }
 
     /**
-     * Sets the pendingBudgetConstructionGl attribute.
+     * Sets the pendingBudgetConstructionGeneralLedger attribute.
      * 
-     * @param - pendingBudgetConstructionGl The pendingBudgetConstructionGl to set.
+     * @param - pendingBudgetConstructionGeneralLedger The pendingBudgetConstructionGeneralLedger to set.
      * @deprecated
      */
-    public void setPendingBudgetConstructionGl(PendingBudgetConstructionGl pendingBudgetConstructionGl) {
-        this.pendingBudgetConstructionGl = pendingBudgetConstructionGl;
+    public void setPendingBudgetConstructionGeneralLedger(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger) {
+        this.pendingBudgetConstructionGeneralLedger = pendingBudgetConstructionGeneralLedger;
     }
 
     /**

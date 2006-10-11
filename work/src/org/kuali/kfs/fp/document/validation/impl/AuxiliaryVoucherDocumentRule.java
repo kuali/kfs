@@ -60,6 +60,7 @@ import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConst
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -69,6 +70,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.bo.user.Options;
@@ -138,7 +141,20 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         }
         return IsDebitUtils.isDebitCode(debitCreditCode);
     }
-
+    /**
+     * overrides the parent to display correct error message for a single sided document
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     */
+    @Override
+    protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+        if (0 == transactionalDocument.getSourceAccountingLines().size()) {
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     /**
      * Overrides the parent to return true, because Auxiliary Voucher documents only use the SourceAccountingLines data structures.
      * The list that holds TargetAccountingLines should be empty. This will be checked when the document is "routed" or submitted to

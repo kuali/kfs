@@ -59,7 +59,7 @@
                 <description>The code uniquely identifying a particular AICPA Function.</description>
             </attribute>
 
-            <attribute name="financialAicpaFunctionName" forceUppercase="false">
+            <attribute name="financialAicpaFunctionName" forceUppercase="true">
                 <label>AICPA Function Name</label>
                 <shortLabel>Name</shortLabel>
 

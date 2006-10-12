@@ -356,7 +356,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     /**
      * 
      */
-    public boolean isValidYear(Integer year) { 
+    public boolean isValidYear(Integer year) {
+        if (year==null) return false;
         int enteredYear = year.intValue();
         int currentYear = dateTimeService.getCurrentFiscalYear().intValue();
         if ((enteredYear-currentYear) == 0 || (enteredYear-currentYear) == 1)

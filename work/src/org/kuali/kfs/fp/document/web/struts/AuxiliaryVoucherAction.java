@@ -98,4 +98,20 @@ public class AuxiliaryVoucherAction extends VoucherAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        
+        // Fix for KULEDOCS-1701, update the original voucher type so that the execute method in
+        // this class will call the right block of code
+        AuxiliaryVoucherForm avForm = (AuxiliaryVoucherForm) form;
+        AuxiliaryVoucherDocument avDoc = avForm.getAuxiliaryVoucherDocument();
+        avForm.setOriginalVoucherType(avDoc.getTypeCode());
+        
+        return forward;
+    }
 }

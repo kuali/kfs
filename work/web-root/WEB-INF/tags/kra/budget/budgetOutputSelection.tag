@@ -14,7 +14,6 @@
             <tr>
               <td colspan=3 class="subhead">
                 <span class="subhead-left"> Select Report Type </span>
-                <span class="subhead-right"> <span class="subhead"><kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.OUTPUT_HEADER_TAB}" altText="help"/></span> </span>
               </td>
             </tr>
             <tr align="center" valign="top">

@@ -18,7 +18,7 @@
 
   <html:hidden property="document.budget.universityCostShareIndicator" />
   <html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />
-
+  
   <logic:iterate id="person" name="KualiForm" property="document.budget.personnel" indexId="listIndex">
 
       <kra-b:budgetPersonnelIndividualDetail person="${person}" firstInList="${firstItemNotDisplayed}" listIndex="${listIndex}" />

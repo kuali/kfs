@@ -8,11 +8,11 @@
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
 <%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
 
-  <kra-b:budgetDetailSelection includeSummary="true" />
+<div align="right">
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.OVERVIEW_HEADER_TAB}" altText="page help"/>
+</div>
 
-        <div align="right">
-          <kul:help securityGroupName="${KraConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${KraConstants.BUDGET_OVERVIEW_HELP_PARAMETER_NAME}" altText="help"/>
-        </div>
+  <kra-b:budgetDetailSelection includeSummary="true" />
 
         <div align="center">
           <table class="t3" border="0" cellpadding="0" cellspacing="0" width="100%">

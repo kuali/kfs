@@ -30,34 +30,42 @@
         	<headerNavigationTab>
         		<navigateTo>parameters</navigateTo>
         		<displayName>Parameters</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetParametersHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>overview</navigateTo>
         		<displayName>Overview</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetOverviewHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>personnel</navigateTo>
         		<displayName>Personnel</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetPersonnelHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>nonpersonnel</navigateTo>
         		<displayName>Nonpersonnel</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetNonpersonnelHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>costshare</navigateTo>
         		<displayName>Cost Share</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetCostShareHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>modular</navigateTo>
         		<displayName>Modular</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetModularHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>indirectcost</navigateTo>
         		<displayName>Indirect Cost</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetIndirectCostHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>permissions</navigateTo>
         		<displayName>Permissions</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetPermissionsHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>output</navigateTo>
@@ -67,14 +75,17 @@
         	<headerNavigationTab>
         		<navigateTo>template</navigateTo>
         		<displayName>Template</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetTemplateHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>auditmode</navigateTo>
         		<displayName>Audit Mode</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetAuditModeHelp"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>notes</navigateTo>
         		<displayName>Notes</displayName>
+        		<pageHelp securityGroupName="KraAdminGroup" parameterName="budgetNotesHelp"/>
         	</headerNavigationTab>
         </headerNavigation>
         

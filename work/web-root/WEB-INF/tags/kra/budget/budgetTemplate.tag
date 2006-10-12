@@ -10,6 +10,10 @@
 
 <kul:errors />
 
+<div align="right">
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.TEMPLATE_HEADER_TAB}" altText="page help"/>
+</div>
+
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">
 	<tbody>
 		<tr>
@@ -25,8 +29,7 @@
 			<tbody>
 				<tr>
 					<td colspan=5 class="subhead">
-						<span class="subhead-left"> Template</span> 
-						<span class="subhead-right"><kul:help securityGroupName="${KraConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${KraConstants.BUDGET_TEMPLATE_HELP_PARAMETER_NAME}" altText="help"/></span>
+						<span class="subhead-left"> Template</span>
 					</td>
 				</tr>
 				<tr>

@@ -8,6 +8,10 @@
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
 <%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
 
+<div align="right">
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.OUTPUT_HEADER_TAB}" altText="page help"/>
+</div>
+
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">
 
         <tbody>

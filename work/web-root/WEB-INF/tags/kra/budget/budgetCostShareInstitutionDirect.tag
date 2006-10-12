@@ -23,16 +23,16 @@
 </c:set>
 
 <kul:tab tabTitle="Cost Share - Institution Direct" tabDescription="${tabDescription}" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.universityCostShareItem*" tabAuditKey="document.budget.audit.costShare.institution*">
+	
 	<c:if test="${!KualiForm.document.budget.universityCostShareIndicator}">
 		<div class="tab-container" align="center">
-			<div class="h2-container">
-				<span class="subhead-left">
-					<h2>
-						Institution Cost Share
-					</h2> </span>
-					<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetUniversityCostShare.businessObjectClass}" altText="help"/></span> </span>
-			</div>
-			<table cellpadding=0 summary="view/edit document overview information">
+			<table class="datatable" cellpadding="0">
+				<tr>
+					<td class="subhead" colspan="${KualiForm.document.periodListSize+7}">
+						<span class="subhead-left">Institution Cost Share</span>
+						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetUniversityCostShare.businessObjectClass}" altText="help"/></span> </span>
+					</td>
+				</tr>
 				<tr>
 					<td height="70" align=left valign=middle class="datacell">
 						<div align="center">

@@ -34,6 +34,10 @@
 		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSequenceNumber" />
 		<html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" />
 	</logic:iterate>
+	
+	<div align="right">
+		<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.COST_SHARE_HEADER_TAB}" altText="page help"/>
+	</div>
 
 	<div id="workarea"><kra-b:budgetCostShareInstitutionDirect /> <kra-b:budgetCostShareIndirect />
 	<kra-b:budgetCostShare3rdPartyDirect /> <kra-b:budgetCostShareTotals /></div>

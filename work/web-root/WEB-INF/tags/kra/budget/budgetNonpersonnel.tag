@@ -17,6 +17,10 @@
 <c:set var="budgetNonpersonnelSubCategory" value="${DataDictionary.NonpersonnelSubCategory.attributes}" />
 <c:set var="budgetNonpersonnelObjectCode" value="${DataDictionary.NonpersonnelObjectCode.attributes}" />
 
+<div align="right">
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.NONPERSONNEL_HEADER_TAB}" altText="page help"/>
+</div>
+
   <kra-b:budgetDetailSelection includeSummary="false" />
   <html:hidden property="document.budget.universityCostShareIndicator" />
   <html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />

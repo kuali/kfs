@@ -43,6 +43,10 @@
 	<fmt:formatNumber value="${KualiForm.document.budget.modularBudget.totalDirectCostAmount}" type="currency" currencySymbol="$" maxFractionDigits="0" /> 
 </c:set>
 
+<div align="right">
+  	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.MODULAR_HEADER_TAB}" altText="page help"/>
+</div>
+
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">
 	<tbody>
 		<tr>
@@ -55,10 +59,12 @@
 <div id="workarea">
 	<div class="tab-container" align="center"> 
 		<div class="left-errmsg-tab"><kul:errors keyMatch="document.budget.modular.tooLarge" /></div>
-		<div class="h2-container">
-			<span class="subhead-left"><h2>Overview</h2></span>
-		</div>
-		<table align=center cellspacing=0  summary="">
+		<table align="center" cellspacing="0">
+			<tr>
+				<td class="subhead" colspan=3>
+					<span class="subhead-left"><h2>Overview</h2></span>
+				</td>
+			</tr>
 			<tr>
 				<th width="35%" class="bord-l-b"><br/></th>
 				<logic:iterate id="modularPeriod" indexId="i" name="KualiForm" property="document.budget.modularBudget.budgetModularPeriods">

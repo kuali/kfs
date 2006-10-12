@@ -11,6 +11,10 @@
 
 <c:set var="KraConstants" value="${KraConstants}" />
 
+<div align="right">
+  <kul:help securityGroupName="${KraConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${KraConstants.BUDGET_NONPERSONNEL_COPY_OVER_HELP_PARAMETER_NAME}" altText="page help"/>
+</div>
+
   <!-- A bonanza of hidden variables from nonpersonnel & copy over to assure non-saved items are retained. -->
   <html:hidden property="document.budget.universityCostShareIndicator" />
   <html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />
@@ -124,11 +128,6 @@
             </tr>
           </table>
         </div>
-
-
-<div align="right">
-  <kul:help securityGroupName="${KraConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${KraConstants.BUDGET_NONPERSONNEL_COPY_OVER_HELP_PARAMETER_NAME}" altText="help"/>
-</div>
 
 <div id="workarea">
 

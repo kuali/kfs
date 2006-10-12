@@ -19,7 +19,9 @@
 <kul:htmlControlAttribute property="document.budget.indirectCost.versionNumber" attributeEntry="${budgetIndirectCostAttributes.versionNumber}"/>
 <html:hidden property="document.budget.universityCostShareIndicator"/>
 
-
+<div align="right">
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.INDIRECT_COST_HEADER_TAB}" altText="page help"/>
+</div>
 
 <!--  Spacer and styles.  -->
       	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="t3" summary="">

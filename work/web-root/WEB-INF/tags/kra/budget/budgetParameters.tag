@@ -12,6 +12,10 @@
   <c:set var="budgetPeriodAttributes" value="${DataDictionary.BudgetPeriod.attributes}" />
   <c:set var="supportsModular" value="${KualiForm.supportsModular}" />
   <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+  
+<div align="right">
+	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.PARAMETERS_HEADER_TAB}" altText="page help"/>
+</div>
 
        	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 

@@ -47,6 +47,7 @@ import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.service.VendorService;
+import org.kuali.module.purap.service.RequisitionService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -66,14 +67,13 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
 
     private DateTimeService dateTimeService;
-    private VendorService vendorService;
-    
+
 	/**
 	 * Default constructor.
 	 */
 	public RequisitionDocument() {
 
-	}
+    }
 
     public void refreshAllReferences() {
         super.refreshAllReferences();
@@ -98,10 +98,18 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setOrganizationCode(currentUser.getOrganization().getOrganizationCode());
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
 
-        // TODO wait to code this until we have the new table created
-//        Integer contractId = this.getVendorContractGeneratedIdentifier();
-//        vendorService.getApoLimitFromContract(contractId, this.getChartOfAccountsCode(), this.getOrganizationCode());
-//        updateOrganizationAndAPOLimit(r);// this must be done after the chart/org has been set on the req (do not move this line)
+        // Set the purchaseOrderTotalLimit
+        KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getVendorService().getApoLimitFromContract(
+          this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()) ;
+
+        if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
+            purchaseOrderTotalLimit = SpringServiceLocator.getRequisitionService().getApoLimit(this.getChartOfAccountsCode(), 
+              this.getOrganizationCode());
+        }
+        if (ObjectUtils.isNotNull(purchaseOrderTotalLimit)) {
+            this.setPurchaseOrderTotalLimit(purchaseOrderTotalLimit);
+        }
+
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
@@ -220,7 +228,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     @Override
     public void convertIntoCopy() throws WorkflowException {
       super.convertIntoCopy();
-        
+      
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
       
       //Set req status to INPR.
@@ -248,8 +256,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         activeContract = false;
       }     
 
-      this.vendorService = SpringServiceLocator.getVendorService();
-      VendorDetail vendorDetail = vendorService.getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), 
+      VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), 
           this.getVendorDetailAssignedIdentifier());
       if(!(vendorDetail != null && vendorDetail.isDataObjectMaintenanceCodeActiveIndicator() )) {
           activeVendor = false;
@@ -278,7 +285,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
 //        }
 //      }
-
 //DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
 //      if (activeVendor) {
 //        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
@@ -338,9 +344,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       // get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
       
-        
-    }
     
+	}
+
 	/**
 	 * Gets the requisitionOrganizationReference1Text attribute.
 	 * 
@@ -529,6 +535,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
+
 
 
 	/**

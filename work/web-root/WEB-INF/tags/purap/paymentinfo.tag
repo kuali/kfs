@@ -39,7 +39,7 @@
 		<div class="h2-container">
            	<h2>Billing Address</h2>
         </div> 
-		<table cellpadding=0 class="datatable" summary="Payment Info Section">	 
+		<table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">	 
 			<tr>
                 <th align=right valign=top  class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.billingName}" /></div>

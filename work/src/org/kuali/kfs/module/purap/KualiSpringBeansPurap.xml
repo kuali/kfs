@@ -11,6 +11,12 @@
         </property>
     </bean>
 
+    <bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
     <bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>

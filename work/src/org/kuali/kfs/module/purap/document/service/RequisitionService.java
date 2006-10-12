@@ -22,7 +22,11 @@
  */
 package org.kuali.module.purap.service;
 
+import org.kuali.core.util.KualiDecimal;
+
 
 public interface RequisitionService {
 
+    public KualiDecimal getApoLimit(String chart, String org);
+    
 }

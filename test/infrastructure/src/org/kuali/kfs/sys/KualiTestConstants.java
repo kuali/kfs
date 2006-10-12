@@ -122,9 +122,9 @@ public interface KualiTestConstants {
 
         public static class Data5 {
             public static final String BUDGET_AGGREGATION_CODE1 = "O";
-            public static final String BUDGET_AGGREGATION_NAME1 = "Object";
+            public static final String BUDGET_AGGREGATION_NAME1 = "OBJECT";
             public static final String BUDGET_AGGREGATION_CODE2 = "L";
-            public static final String BUDGET_AGGREGATION_NAME2 = "Object Level";
+            public static final String BUDGET_AGGREGATION_NAME2 = "OBJECT LEVEL";
 
             public static final String FEDERAL_FUNDED_CODE1 = "F";
             public static final String FEDERAL_FUNDED_NAME1 = "Federally funded and owned";

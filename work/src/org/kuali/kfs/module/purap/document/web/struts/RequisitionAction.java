@@ -34,6 +34,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.financial.bo.InternalBillingItem;
+import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -47,7 +49,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  * @author Kuali PURAP Team (kualidev@oncourse.iu.edu)
  */
-public class RequisitionAction extends KualiTransactionalDocumentActionBase {
+public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
 
     /**
@@ -103,4 +105,5 @@ public class RequisitionAction extends KualiTransactionalDocumentActionBase {
         //TODO add code to retrieve new building list        
         return super.refresh(mapping, form, request, response);
     }
+    
 }

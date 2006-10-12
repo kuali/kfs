@@ -23,8 +23,9 @@
 package org.kuali.module.purap.web.struts.form;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.module.purap.bo.PurchasingItem;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
@@ -33,7 +34,7 @@ import org.kuali.module.purap.document.RequisitionDocument;
  * 
  * @author Kuali PURAP Team (kualidev@oncourse.iu.edu)
  */
-public class RequisitionForm extends KualiTransactionalDocumentFormBase {
+public class RequisitionForm extends PurchasingFormBase {
 
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
@@ -41,6 +42,7 @@ public class RequisitionForm extends KualiTransactionalDocumentFormBase {
     public RequisitionForm() {
         super();
         setDocument(new RequisitionDocument());
+        this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
     }
 
     /**
@@ -78,4 +80,14 @@ public class RequisitionForm extends KualiTransactionalDocumentFormBase {
             return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.statusCode", "Not Available");
         }
     }
+
+    /**
+     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingItemLine()
+     */
+    @Override
+    public PurchasingItem setupNewPurchasingItemLine() {
+        return new RequisitionItem();
+    }
+    
+    
 }

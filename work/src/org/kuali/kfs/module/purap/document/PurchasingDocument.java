@@ -23,6 +23,7 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -33,6 +34,7 @@ import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
+import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 
@@ -1212,4 +1214,9 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      * @deprecated
      */
     public void setNonInstitutionFundChartOfAccounts(Chart nonInstitutionFundChartOfAccounts);
+    
+    public List<PurchasingItem> getItems();
+    public void setItems(List<PurchasingItem> items);
+    public void addItem(PurchasingItem item);
+    public PurchasingItem getItem(int pos);
 }

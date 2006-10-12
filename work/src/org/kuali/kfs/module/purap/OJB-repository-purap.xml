@@ -453,7 +453,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderItem" table="PUR_PO_ITM_T">
-	<field-descriptor name="purchaseOrderItemIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ITM_ID"/>
+	<field-descriptor name="itemIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
@@ -557,7 +557,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.RequisitionItem" table="PUR_REQS_ITM_T">
-	<field-descriptor name="requisitionItemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ITM_ID"/>
+	<field-descriptor name="itemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER" index="true"/>
@@ -722,6 +722,10 @@
 	</reference-descriptor>
     <collection-descriptor name="statusHistory" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="true">
         <orderby name="statusHistoryIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="identifier" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
 </class-descriptor>

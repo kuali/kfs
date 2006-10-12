@@ -32,7 +32,7 @@
                 <field attributeName="itemUnitPrice" />
                 <field attributeName="purchaseOrderCommodityCd" />
                 <field attributeName="purchaseOrderIdentifier" />
-                <field attributeName="purchaseOrderItemIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="requisitionLineIdentifier" />
             </inquiryFields>
         </inquiry>
@@ -73,7 +73,7 @@
                 <lookupField attributeName="itemUnitPrice" required="false" />
                 <lookupField attributeName="purchaseOrderCommodityCd" required="false" />
                 <lookupField attributeName="purchaseOrderIdentifier" required="false" />
-                <lookupField attributeName="purchaseOrderItemIdentifier" required="false" />
+                <lookupField attributeName="itemIdentifier" required="false" />
                 <lookupField attributeName="requisitionLineIdentifier" required="false" />
             </lookupFields>
 
@@ -100,7 +100,7 @@
                 <field attributeName="itemUnitPrice" />
                 <field attributeName="purchaseOrderCommodityCd" />
                 <field attributeName="purchaseOrderIdentifier" />
-                <field attributeName="purchaseOrderItemIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="requisitionLineIdentifier" />
             </resultFields>
         </lookup>
@@ -435,7 +435,7 @@
                 <description>purchaseOrderIdentifier description...</description>
 			</attribute>
 
-            <attribute name="purchaseOrderItemIdentifier" forceUppercase="true">
+            <attribute name="itemIdentifier" forceUppercase="true">
                 <label>Purchase Order Item Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -446,8 +446,8 @@
                     <text size="12" />
                 </control>
 
-                <summary>purchaseOrderItemIdentifier</summary>
-                <description>purchaseOrderItemIdentifier description...</description>
+                <summary>itemIdentifier</summary>
+                <description>itemIdentifier description...</description>
 			</attribute>
 
             <attribute name="requisitionLineIdentifier" forceUppercase="true">

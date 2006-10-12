@@ -23,6 +23,8 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -33,6 +35,7 @@ import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
+import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.purap.bo.VendorContract;
@@ -130,8 +133,19 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorDetail vendorDetail;
     private VendorContract vendorContract;
-
     
+    //COLLECTIONS
+    private List items;
+    
+    
+    
+    
+    public PurchasingDocumentBase() {
+        super();
+        items = new ArrayList();
+    }
+
+
     /**
      * Retrieve all references common to purchasing
      */
@@ -1655,6 +1669,44 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setVendorContract(VendorContract vendorContract) {
         this.vendorContract = vendorContract;
+    }
+
+
+    /**
+     * Gets the items attribute. 
+     * @return Returns the items.
+     */
+    public List getItems() {
+        return items;
+    }
+
+
+    /**
+     * Sets the items attribute value.
+     * @param items The items to set.
+     */
+    public void setItems(List items) {
+        this.items = items;
+    }
+
+    public void addItem(PurchasingItem item) {
+        //for now set the line number to the position
+        item.setItemLineNumber(items.size());
+        items.add(item);
+    }
+    //TODO: this may run into struts problems, look at accountingline or intbilling (but watch for inheritance) to fix
+    public PurchasingItem getItem(int pos) {
+        return (PurchasingItem)items.get(pos);
+    }
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getItems());
+        return managedLists;
     }
 
     

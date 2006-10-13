@@ -30,24 +30,20 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.financial.bo.InternalBillingItem;
-import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.web.struts.form.RequisitionForm;
 import org.kuali.module.purap.util.PhoneNumberUtils;
+import org.kuali.module.purap.web.struts.form.RequisitionForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles specific Actions requests for the Requisition.
  * 
- * @author Kuali PURAP Team (kualidev@oncourse.iu.edu)
  */
 public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
@@ -105,5 +101,21 @@ public class RequisitionAction extends PurchasingActionBase {
         //TODO add code to retrieve new building list        
         return super.refresh(mapping, form, request, response);
     }
-    
+
+    public ActionForward viewRelatedDocuments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("viewRelatedDocuments() enter action");
+
+        //TODO add code
+
+        return mapping.findForward("viewRelatedDocuments");
+    }
+
+    public ActionForward viewPaymentHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("viewPaymentHistory() enter action");
+
+        //TODO add code
+
+        return mapping.findForward("viewPaymentHistory");
+    }
+
 }

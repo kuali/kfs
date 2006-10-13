@@ -232,6 +232,8 @@
 
         <action path="/purap*" name="{1}Form" input="/jsp/modules/purap/{1}.jsp" type="org.kuali.module.purap.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/jsp/modules/purap/{1}.jsp" />
+            <forward name="viewRelatedDocuments" path="/jsp/modules/purap/ViewRelatedDocuments.jsp" redirect="false" />
+            <forward name="viewPaymentHistory" path="/jsp/modules/purap/ViewPaymentHistory.jsp" redirect="false" />
         </action>
 
     </action-mappings>

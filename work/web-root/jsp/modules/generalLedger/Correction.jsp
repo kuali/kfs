@@ -15,6 +15,8 @@
   <html:hidden property="deleteFileFlag"/>
   <html:hidden property="showOutputFlag"/>
   <html:hidden property="inputFileName"/>
+  <html:hidden property="showSummaryOutputFlag"/>
+ 
 
   <c:if test="${debug == true}">
     <kul:tab tabTitle="Debug" defaultOpen="true" tabErrorKey="debug">
@@ -51,10 +53,10 @@
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
           <tr>
-            <c:if test="${KualiForm.showOutputFlag == true}">
+            <c:if test="${KualiForm.showOutputFlag == true or KualiForm.showSummaryOutputFlag == true}">
               <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Output Group</span></td>
             </c:if>
-            <c:if test="${KualiForm.showOutputFlag == false}">
+            <c:if test="${KualiForm.showOutputFlag == false or KualiForm.showSummaryOutputFlag == true}">
               <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Input Group</span></td>
             </c:if>
           </tr>

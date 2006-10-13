@@ -223,6 +223,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         if ( CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod()) ) {
             loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
             updateEntriesFromCriteria(correctionForm);
+            correctionForm.setShowOutputFlag(true);
         } else {
             // If it is manual edit, we don't need to save any correction groups
             document.getCorrectionChangeGroup().clear();
@@ -736,6 +737,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         document.setCorrectionDebitTotalAmount(oes.getDebitTotalAmount());
         document.setCorrectionRowCount(oes.getRowCount());
         
+        correctionForm.setShowSummaryOutputFlag(true);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -766,7 +768,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
         document.setCorrectionDebitTotalAmount(oes.getDebitTotalAmount());
         document.setCorrectionRowCount(oes.getRowCount());
         
-
+        correctionForm.setShowSummaryOutputFlag(true);
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -795,7 +798,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
             }
         }
         
-       
+        correctionForm.setShowSummaryOutputFlag(true);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

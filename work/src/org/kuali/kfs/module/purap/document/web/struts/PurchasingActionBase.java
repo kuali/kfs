@@ -37,7 +37,6 @@ import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 /**
  * This class handles specific Actions requests for the Purchasing Ap.
  * 
- * @author Kuali PURAP Team (kualidev@oncourse.iu.edu)
  */
 public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);

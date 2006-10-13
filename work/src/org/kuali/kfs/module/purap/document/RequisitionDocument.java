@@ -52,7 +52,7 @@ import org.kuali.module.purap.service.RequisitionService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * @author PURAP (kualidev@oncourse.iu.edu)
+ * Requisition Document
  */
 public class RequisitionDocument extends PurchasingDocumentBase {
 

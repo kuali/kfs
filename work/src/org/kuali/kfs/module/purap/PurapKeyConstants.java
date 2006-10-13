@@ -25,7 +25,6 @@ package org.kuali.module.purap;
 /**
  * Holds error key constants for PURAP.
  * 
- * @author PURAP Development Team (kualidev@oncourse.iu.edu)
  */
 public class PurapKeyConstants {
 

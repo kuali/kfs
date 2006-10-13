@@ -28,7 +28,6 @@ import org.kuali.core.document.TransactionalDocument;
 /**
  * Purchasing-Accounts Payable Document Interface
  * 
- * @author PURAP (kualidev@oncourse.iu.edu)
  */
 public interface PurchasingAccountsPayableDocument extends TransactionalDocument {
     

@@ -36,7 +36,6 @@ import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class PurchaseOrderTransmissionMethodValuesFinder extends KeyValuesBase {
 

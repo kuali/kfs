@@ -29,7 +29,6 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * Accounts Payable Document Base
  * 
- * @author PURAP (kualidev@oncourse.iu.edu)
  */
 public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements PurchasingDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);

@@ -27,7 +27,6 @@ package org.kuali.module.purap.document;
 /**
  * Accounts Payable Document Interface
  * 
- * @author PURAP (kualidev@oncourse.iu.edu)
  */
 public interface AccountsPayableDocument extends PurchasingAccountsPayableDocument {
     

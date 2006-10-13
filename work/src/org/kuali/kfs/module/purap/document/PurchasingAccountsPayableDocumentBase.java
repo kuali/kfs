@@ -33,7 +33,6 @@ import org.kuali.module.purap.bo.StatusHistory;
 /**
  * Purchasing-Accounts Payable Document Base
  * 
- * @author PURAP (kualidev@oncourse.iu.edu)
  */
 public abstract class PurchasingAccountsPayableDocumentBase extends TransactionalDocumentBase implements PurchasingAccountsPayableDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);

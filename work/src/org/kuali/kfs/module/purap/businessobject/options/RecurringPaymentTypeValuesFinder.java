@@ -36,7 +36,6 @@ import org.kuali.module.purap.bo.RecurringPaymentType;
 /**
  * This class returns list containg A = Active or I = Inactive
  * 
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class RecurringPaymentTypeValuesFinder extends KeyValuesBase {
 

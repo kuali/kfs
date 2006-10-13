@@ -29,7 +29,6 @@ import org.kuali.module.purap.bo.PurchasingItem;
  * This class is the form class for the Purchasing documents. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Purchasing documents.
  * 
- * @author Kuali PURAP Team (kualidev@oncourse.iu.edu)
  */
 public class PurchasingFormBase extends KualiTransactionalDocumentFormBase {
     private PurchasingItem newPurchasingItemLine;

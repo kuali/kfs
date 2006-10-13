@@ -27,7 +27,6 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Holds constants for PURAP.
  * 
- * @author PURAP Development Team (kualidev@oncourse.iu.edu)
  */
 public class PurapConstants {
 

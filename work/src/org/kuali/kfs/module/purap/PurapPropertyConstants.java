@@ -25,7 +25,6 @@ package org.kuali.module.purap;
 /**
  * Property name constants.
  * 
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class PurapPropertyConstants {
     

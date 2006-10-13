@@ -44,7 +44,6 @@ import org.kuali.module.purap.bo.VendorDetail;
 /**
  * Purchasing Document Base
  * 
- * @author PURAP (kualidev@oncourse.iu.edu)
  */
 public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDocumentBase implements PurchasingDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingDocumentBase.class);

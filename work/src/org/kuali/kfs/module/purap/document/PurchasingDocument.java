@@ -43,7 +43,6 @@ import org.kuali.module.purap.bo.RequisitionSource;
 /**
  * Purchasing Document Interface
  * 
- * @author PURAP (kualidev@oncourse.iu.edu)
  */
 public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     

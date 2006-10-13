@@ -30,7 +30,6 @@ import org.kuali.core.web.struts.form.KualiForm;
 /**
  * This class is the form class for the assign a contract manager.
  * 
- * @author Kuali PURAP Team (kualidev@oncourse.iu.edu)
  */
 public class AssignContractManagerForm extends KualiForm {
 

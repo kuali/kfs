@@ -32,7 +32,6 @@ import org.kuali.module.purap.document.RequisitionDocument;
  * This class is the form class for the Requisition document. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Requisition document.
  * 
- * @author Kuali PURAP Team (kualidev@oncourse.iu.edu)
  */
 public class RequisitionForm extends PurchasingFormBase {
 

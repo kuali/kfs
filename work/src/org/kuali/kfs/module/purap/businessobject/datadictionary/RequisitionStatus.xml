@@ -59,7 +59,7 @@
                 <description>requisitionStatusCode description...</description>
 			</attribute>
 
-            <attribute name="statusDescription" forceUppercase="true">
+            <attribute name="statusDescription">
                 <label>Requisition Status Description</label>
                 <shortLabel>Description</shortLabel>
 

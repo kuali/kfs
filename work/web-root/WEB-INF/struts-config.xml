@@ -209,7 +209,7 @@
             <forward name="notes" path="/jsp/modules/research/budget/BudgetNotes.jsp" redirect="false" />
         </action>
 
-        <action path="/researchRf*" name="Rf{1}Form" input="/jsp/modules/research/routingform/{1}.jsp" type="org.kuali.module.kra.routingform.web.struts.action.Rf{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <action path="/researchRf*" name="Rf{1}Form" input="/jsp/modules/research/routingform/Rf{1}.jsp" type="org.kuali.module.kra.routingform.web.struts.action.Rf{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/jsp/modules/research/routingform/Rf{1}.jsp" />
             <forward name="mainpage" path="/jsp/modules/research/routingform/RfMainPage.jsp" redirect="false" />
             <forward name="personnel" path="/jsp/modules/research/routingform/RfPersonnel.jsp" redirect="false" />

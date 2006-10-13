@@ -1,3 +1,7 @@
+<%@ tag description="A source or target group of accounting line rows.
+The first row is for adding a new accounting line (if not read-only).
+It's followed by 0 or more rows for the accounting lines that have already been added." %>
+
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 
 <%@ attribute name="isSource" required="true"

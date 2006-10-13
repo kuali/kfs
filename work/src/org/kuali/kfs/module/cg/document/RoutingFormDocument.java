@@ -27,11 +27,10 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
-import org.kuali.module.kra.routingform.bo.RoutingForm;
 
 public class RoutingFormDocument extends ResearchDocumentBase {
     
-    private RoutingForm routingForm;
+    private RoutingFormDocument routingFormDocument;
     
     public RoutingFormDocument() {
         super();
@@ -83,12 +82,12 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         super.validate();
     }
 
-    public RoutingForm getRoutingForm() {
-        return routingForm;
+    public RoutingFormDocument getRoutingFormDocument() {
+        return routingFormDocument;
     }
 
-    public void setRoutingForm(RoutingForm routingForm) {
-        this.routingForm = routingForm;
+    public void setRoutingFormDocument(RoutingFormDocument routingFormDocument) {
+        this.routingFormDocument = routingFormDocument;
     }
 
 }

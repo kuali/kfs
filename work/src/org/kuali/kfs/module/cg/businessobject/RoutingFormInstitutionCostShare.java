@@ -1,0 +1,277 @@
+/*
+ * Copyright (c) 2004, 2005 The National Association of College and University 
+ * Business Officers, Cornell University, Trustees of Indiana University, 
+ * Michigan State University Board of Trustees, Trustees of San Joaquin Delta 
+ * College, University of Hawai'i, The Arizona Board of Regents on behalf of the 
+ * University of Arizona, and the r*smart group.
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License"); 
+ * By obtaining, using and/or copying this Original Work, you agree that you 
+ * have read, understand, and will comply with the terms and conditions of the 
+ * Educational Community License.
+ * 
+ * You may obtain a copy of the License at:
+ * 
+ * http://kualiproject.org/license.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ * THE SOFTWARE.
+ */
+
+package org.kuali.module.kra.routingform.bo;
+
+import java.math.BigDecimal;
+import java.util.LinkedHashMap;
+
+import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.Org;
+
+/**
+ * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ */
+public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
+
+	private Integer proposalCostShareSequenceNumber;
+	private String researchDocumentNumber;
+	private String accountNumber;
+	private String chartOfAccountsCode;
+	private String organizationCode;
+	private BigDecimal proposalCostShareAmount;
+	private String proposalCostShareDescription;
+
+    private Account account;
+	private Chart chartOfAccounts;
+	private Org organization;
+
+	/**
+	 * Default constructor.
+	 */
+	public RoutingFormInstitutionCostShare() {
+
+	}
+
+	/**
+	 * Gets the proposalCostShareSequenceNumber attribute.
+	 * 
+	 * @return - Returns the proposalCostShareSequenceNumber
+	 * 
+	 */
+	public Integer getProposalCostShareSequenceNumber() { 
+		return proposalCostShareSequenceNumber;
+	}
+
+	/**
+	 * Sets the proposalCostShareSequenceNumber attribute.
+	 * 
+	 * @param - proposalCostShareSequenceNumber The proposalCostShareSequenceNumber to set.
+	 * 
+	 */
+	public void setProposalCostShareSequenceNumber(Integer proposalCostShareSequenceNumber) {
+		this.proposalCostShareSequenceNumber = proposalCostShareSequenceNumber;
+	}
+
+
+	/**
+	 * Gets the researchDocumentNumber attribute.
+	 * 
+	 * @return - Returns the researchDocumentNumber
+	 * 
+	 */
+	public String getResearchDocumentNumber() { 
+		return researchDocumentNumber;
+	}
+
+	/**
+	 * Sets the researchDocumentNumber attribute.
+	 * 
+	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * 
+	 */
+	public void setResearchDocumentNumber(String researchDocumentNumber) {
+		this.researchDocumentNumber = researchDocumentNumber;
+	}
+
+
+	/**
+	 * Gets the accountNumber attribute.
+	 * 
+	 * @return - Returns the accountNumber
+	 * 
+	 */
+	public String getAccountNumber() { 
+		return accountNumber;
+	}
+
+	/**
+	 * Sets the accountNumber attribute.
+	 * 
+	 * @param - accountNumber The accountNumber to set.
+	 * 
+	 */
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+
+	/**
+	 * Gets the chartOfAccountsCode attribute.
+	 * 
+	 * @return - Returns the chartOfAccountsCode
+	 * 
+	 */
+	public String getChartOfAccountsCode() { 
+		return chartOfAccountsCode;
+	}
+
+	/**
+	 * Sets the chartOfAccountsCode attribute.
+	 * 
+	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * 
+	 */
+	public void setChartOfAccountsCode(String chartOfAccountsCode) {
+		this.chartOfAccountsCode = chartOfAccountsCode;
+	}
+
+
+	/**
+	 * Gets the organizationCode attribute.
+	 * 
+	 * @return - Returns the organizationCode
+	 * 
+	 */
+	public String getOrganizationCode() { 
+		return organizationCode;
+	}
+
+	/**
+	 * Sets the organizationCode attribute.
+	 * 
+	 * @param - organizationCode The organizationCode to set.
+	 * 
+	 */
+	public void setOrganizationCode(String organizationCode) {
+		this.organizationCode = organizationCode;
+	}
+
+
+	/**
+	 * Gets the proposalCostShareAmount attribute.
+	 * 
+	 * @return - Returns the proposalCostShareAmount
+	 * 
+	 */
+	public BigDecimal getProposalCostShareAmount() { 
+		return proposalCostShareAmount;
+	}
+
+	/**
+	 * Sets the proposalCostShareAmount attribute.
+	 * 
+	 * @param - proposalCostShareAmount The proposalCostShareAmount to set.
+	 * 
+	 */
+	public void setProposalCostShareAmount(BigDecimal proposalCostShareAmount) {
+		this.proposalCostShareAmount = proposalCostShareAmount;
+	}
+
+
+	/**
+	 * Gets the proposalCostShareDescription attribute.
+	 * 
+	 * @return - Returns the proposalCostShareDescription
+	 * 
+	 */
+	public String getProposalCostShareDescription() { 
+		return proposalCostShareDescription;
+	}
+
+	/**
+	 * Sets the proposalCostShareDescription attribute.
+	 * 
+	 * @param - proposalCostShareDescription The proposalCostShareDescription to set.
+	 * 
+	 */
+	public void setProposalCostShareDescription(String proposalCostShareDescription) {
+		this.proposalCostShareDescription = proposalCostShareDescription;
+	}
+
+	/**
+	 * Gets the account attribute.
+	 * 
+	 * @return - Returns the account
+	 * 
+	 */
+	public Account getAccount() { 
+		return account;
+	}
+
+	/**
+	 * Sets the account attribute.
+	 * 
+	 * @param - account The account to set.
+	 * @deprecated
+	 */
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	/**
+	 * Gets the chartOfAccounts attribute.
+	 * 
+	 * @return - Returns the chartOfAccounts
+	 * 
+	 */
+	public Chart getChartOfAccounts() { 
+		return chartOfAccounts;
+	}
+
+	/**
+	 * Sets the chartOfAccounts attribute.
+	 * 
+	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @deprecated
+	 */
+	public void setChartOfAccounts(Chart chartOfAccounts) {
+		this.chartOfAccounts = chartOfAccounts;
+	}
+
+	/**
+	 * Gets the organization attribute.
+	 * 
+	 * @return - Returns the organization
+	 * 
+	 */
+	public Org getOrganization() { 
+		return organization;
+	}
+
+	/**
+	 * Sets the organization attribute.
+	 * 
+	 * @param - organization The organization to set.
+	 * @deprecated
+	 */
+	public void setOrganization(Org organization) {
+		this.organization = organization;
+	}
+
+	/**
+	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 */
+	protected LinkedHashMap toStringMapper() {
+	    LinkedHashMap m = new LinkedHashMap();	    
+        if (this.proposalCostShareSequenceNumber != null) {
+            m.put("proposalCostShareSequenceNumber", this.proposalCostShareSequenceNumber.toString());
+        }
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
+	    return m;
+    }
+}

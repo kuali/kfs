@@ -127,7 +127,7 @@ public interface KualiTestConstants {
             public static final String BUDGET_AGGREGATION_NAME2 = "OBJECT LEVEL";
 
             public static final String FEDERAL_FUNDED_CODE1 = "F";
-            public static final String FEDERAL_FUNDED_NAME1 = "Federally funded and owned";
+            public static final String FEDERAL_FUNDED_NAME1 = "FEDERALLY FUNDED AND OWNED";
             public static final String FEDERAL_FUNDED_CODE_BAD = "A";
             public static final String FEDERAL_FUNDED_NAME_BAD = "This is a bad code name";
         }

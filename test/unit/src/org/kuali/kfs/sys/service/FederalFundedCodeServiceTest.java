@@ -49,7 +49,7 @@ public class FederalFundedCodeServiceTest extends KualiTestBase {
         assertEquals("Known-good code results in expected returned Name.", TestConstants.Data5.FEDERAL_FUNDED_NAME1, ffc.getName());
     }
 
-    public void testGeyByName_valid_name() {
+    public void testGetByName_valid_name() {
         ffc = null;
         ffc = (FederalFundedCode) getKualiCodeService().getByName(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_NAME1);
         assertEquals("Known-good name results in expected returned code.", TestConstants.Data5.FEDERAL_FUNDED_CODE1, ffc.getCode());
@@ -64,7 +64,7 @@ public class FederalFundedCodeServiceTest extends KualiTestBase {
     public void testGetByName_invalid_name() {
         ffc = null;
         ffc = (FederalFundedCode) getKualiCodeService().getByName(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_NAME_BAD);
-        assertNull("Known-bad code returns null object.", ffc);
+        assertNull("Known-bad name returns null object.", ffc);
     }
 
     public void testGetByCode_blank_code() {

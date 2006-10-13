@@ -176,9 +176,6 @@
 	<reference-descriptor name="vendorContactType" class-ref="org.kuali.module.purap.bo.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorContactTypeCode" />
 	</reference-descriptor>
-    <reference-descriptor name="vendorAddress" class-ref="org.kuali.module.purap.bo.VendorAddress" auto-retrieve="true" auto-update="true" auto-delete="true">
-        <foreignkey field-ref="vendorContactGeneratedIdentifier" />
-    </reference-descriptor>
 	<reference-descriptor name="vendorState" class-ref="org.kuali.core.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorStateCode" />
 	</reference-descriptor>

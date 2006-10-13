@@ -791,6 +791,8 @@
 	<field-descriptor name="oldStatusCode" column="OLD_REQS_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="newStatusCode" column="NEW_REQS_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="noteIdentifier" column="DOC_NTE_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="requisitionStatusHistoryTimestamp" column="REQS_STATHST_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="requisitionStatusHistoryUserIdentifier" column="REQS_STATHST_USR_ID" jdbc-type="VARCHAR"/>
     <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
@@ -1131,6 +1133,8 @@
 	<field-descriptor name="oldPaymentRequestStatusCode" column="OLD_PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="newPaymentRequestStatusCode" column="NEW_PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="documentNoteIdentifier" column="DOC_NTE_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="paymentRequestStatusHistoryTimestamp" column="PMT_RQST_STATHST_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="paymentRequestStatusHistoryUserIdentifier" column="PMT_RQST_STATHST_USR_ID" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="oldPaymentRequestStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="oldPaymentRequestStatusCode" />
 	</reference-descriptor>
@@ -1178,6 +1182,8 @@
 	<field-descriptor name="creditMemoOldStatusCode" column="CRDT_MEMO_OLD_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="creditMemoNewStatusCode" column="CRDT_MEMO_NEW_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="documentNoteIdentifier" column="DOC_NTE_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="creditMemoStatusHistoryTimestamp" column="CRDT_MEMO_STATHST_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="creditMemoStatusHistoryUserIdentifier" column="CRDT_MEMO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
     <reference-descriptor name="oldCreditMemoStatus" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="creditMemoOldStatusCode" />
     </reference-descriptor>
@@ -1457,6 +1463,8 @@
 	<field-descriptor name="oldPurchaseOrderStatusCode" column="OLD_PO_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="newPurchaseOrderStatusCode" column="NEW_PO_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchaseOrderNoteIdentifier" column="PO_NTE_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="purchaseOrderStatusHistoryTimestamp" column="PO_STATHST_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="purchaseOrderStatusHistoryUserIdentifier" column="PO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
     <reference-descriptor name="oldPurchaseOrderStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldPurchaseOrderStatusCode" />
     </reference-descriptor>

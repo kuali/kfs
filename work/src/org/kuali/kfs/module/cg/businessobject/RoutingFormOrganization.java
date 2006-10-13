@@ -40,7 +40,6 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	private String organizationCode;
 	private String researchDocumentNumber;
 	private boolean budgetIndicator;
-	private Integer proposalOrganizationSequenceNumber;
 	private boolean proposalPrimaryOrganizationIndicator;
 
     private Chart chartOfAccounts;
@@ -135,28 +134,6 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	public void setBudgetIndicator(boolean budgetIndicator) {
 		this.budgetIndicator = budgetIndicator;
 	}
-
-
-	/**
-	 * Gets the proposalOrganizationSequenceNumber attribute.
-	 * 
-	 * @return - Returns the proposalOrganizationSequenceNumber
-	 * 
-	 */
-	public Integer getProposalOrganizationSequenceNumber() { 
-		return proposalOrganizationSequenceNumber;
-	}
-
-	/**
-	 * Sets the proposalOrganizationSequenceNumber attribute.
-	 * 
-	 * @param - proposalOrganizationSequenceNumber The proposalOrganizationSequenceNumber to set.
-	 * 
-	 */
-	public void setProposalOrganizationSequenceNumber(Integer proposalOrganizationSequenceNumber) {
-		this.proposalOrganizationSequenceNumber = proposalOrganizationSequenceNumber;
-	}
-
 
 	/**
 	 * Gets the proposalPrimaryOrganizationIndicator attribute.

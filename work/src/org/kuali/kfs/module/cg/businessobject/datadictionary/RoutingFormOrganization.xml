@@ -13,7 +13,6 @@
                 <field attributeName="budgetIndicator" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="proposalOrganizationSequenceNumber" />
                 <field attributeName="proposalPrimaryOrganizationIndicator" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
@@ -38,7 +37,6 @@
                 <lookupField attributeName="budgetIndicator" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="proposalOrganizationSequenceNumber" required="false" />
                 <lookupField attributeName="proposalPrimaryOrganizationIndicator" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
@@ -47,7 +45,6 @@
                 <field attributeName="budgetIndicator" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="proposalOrganizationSequenceNumber" />
                 <field attributeName="proposalPrimaryOrganizationIndicator" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
@@ -97,21 +94,6 @@
 
                 <summary>organizationCode</summary>
                 <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="proposalOrganizationSequenceNumber" forceUppercase="true">
-                <label>Proposal Organization Sequence Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>proposalOrganizationSequenceNumber</summary>
-                <description>proposalOrganizationSequenceNumber description...</description>
 			</attribute>
 
             <attribute name="proposalPrimaryOrganizationIndicator" forceUppercase="true">

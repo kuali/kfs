@@ -22,17 +22,35 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_invalidYear;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE1;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocumentTestBase;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE1;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class is used to test YearEndTransferOfFundsDocument. Note that structurally, there is no difference between a
@@ -42,37 +60,116 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
  * 
  */
 @WithTestSpringContext(session = KHUNTLEY)
-public class YearEndTransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
+public class YearEndTransferOfFundsDocumentTest extends KualiTestBase {
+    public static final Class<YearEndTransferOfFundsDocument> DOCUMENT_CLASS = YearEndTransferOfFundsDocument.class;
 
-
-    /**
-     * 
-     * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
-     */
-    public Document getDocumentParameterFixture() throws Exception{
-        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), YearEndTransferOfFundsDocument.class, 2007, "07");
+    private Document getDocumentParameterFixture() throws Exception {
+        return DocumentTestUtils.createDocument(getDocumentService(), YearEndTransferOfFundsDocument.class);
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
-     */
-    @Override
-    public List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
+    private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE1);
         return list;
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
-     */
-    @Override
-    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+    private List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE1);
         return list;
     }
 
+
+    public final void testAddAccountingLine() throws Exception {
+        List<SourceAccountingLine> sourceLines = generateSouceAccountingLines();
+        List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
+        int expectedSourceTotal = sourceLines.size();
+        int expectedTargetTotal = targetLines.size();
+        testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+    }
+
+    public final void testGetNewDocument() throws Exception {
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+    }
+
+    public final void testConvertIntoCopy_invalidYear() throws Exception {
+        testConvertIntoCopy_invalidYear(buildDocument(), getAccountingPeriodService());
+    }
+
+    public final void testConvertIntoCopy_copyDisallowed() throws Exception {
+        testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+
+    }
+
+    public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
+        testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+    }
+
+    public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
+        testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+    }
+
+    public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
+        testConvertIntoErrorCorrection_invalidYear(buildDocument(), getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testConvertIntoErrorCorrection() throws Exception {
+        testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testRouteDocument() throws Exception {
+        testRouteDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testSaveDocument() throws Exception {
+        testSaveDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testConvertIntoCopy() throws Exception {
+        testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+    }
+
+    // test util methods
+    private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
+        List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            sourceLines.add(sourceFixture.createSourceAccountingLine());
+        }
+
+        return sourceLines;
+    }
+
+    private List<TargetAccountingLine> generateTargetAccountingLines() throws Exception {
+        List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
+        for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
+            targetLines.add(targetFixture.createTargetAccountingLine());
+        }
+
+        return targetLines;
+    }
+
+    private YearEndTransferOfFundsDocument buildDocument() throws Exception {
+        // put accounting lines into document parameter for later
+        YearEndTransferOfFundsDocument document = (YearEndTransferOfFundsDocument) getDocumentParameterFixture();
+
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            sourceFixture.addAsSourceTo(document);
+        }
+
+        for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
+            targetFixture.addAsTargetTo(document);
+        }
+
+        return document;
+    }
+
+    private int getExpectedPrePeCount() {
+        return 4;
+    }
 }

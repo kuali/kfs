@@ -115,46 +115,46 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
 
 
     public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false, getDataDictionaryService());
     }
 
     public void testIsObjectTypeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true, getDataDictionaryService());
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
+        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true, getDataDictionaryService());
     }
 
     public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
         TransactionalDocument doc = createDocumentWithInvalidObjectSubType();
-        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, false);
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, false, getDataDictionaryService());
     }
 
     public void testAddAccountingLine_Valid() throws Exception {
         TransactionalDocument doc = createDocumentWithValidObjectSubType();
-        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true);
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true, getDataDictionaryService());
     }
 
     public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, AccountingLineFixture.LINE17.createSourceAccountingLine(), false);
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, AccountingLineFixture.LINE17.createSourceAccountingLine(), false, getDataDictionaryService());
     }
 
     public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true, getDataDictionaryService());
     }
 
     public void testProcessSaveDocument_Valid() throws Exception {
-        testSaveDocumentRule_ProcessSaveDocument(createDocument(), true);
+        testSaveDocumentRule_ProcessSaveDocument(createDocument(), true, getDataDictionaryService());
     }
 
     public void testProcessSaveDocument_Invalid() throws Exception {
-        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false);
+        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false, getDataDictionaryService());
     }
 
     public void testProcessSaveDocument_Invalid1() throws Exception {
         try {
-            testSaveDocumentRule_ProcessSaveDocument(null, false);
+            testSaveDocumentRule_ProcessSaveDocument(null, false, getDataDictionaryService());
             fail("validated null doc");
         }
         catch (Exception e) {
@@ -163,36 +163,36 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testProcessRouteDocument_Valid() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true);
+        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true, getDataDictionaryService());
     }
 
     public void testProcessRouteDocument_Invalid() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocument(), false);
+        testRouteDocumentRule_processRouteDocument(createDocument(), false, getDataDictionaryService());
     }
 
     public void testProcessRouteDocument_NoAccountingLines() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocument(), false);
+        testRouteDocumentRule_processRouteDocument(createDocument(), false, getDataDictionaryService());
     }
 
     public void testProcessRouteDocument_Unbalanced() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
+        testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false, getDataDictionaryService());
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseTargetLine(), getExpectedExplicitTargetPendingEntryForExpense(), getExpectedOffsetTargetPendingEntry(), 1);
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseTargetLine(), getExpectedExplicitTargetPendingEntryForExpense(), getExpectedOffsetTargetPendingEntry(), 1, getDataDictionaryService());
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseSourceLine(), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry(), 1);
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseSourceLine(), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry(), 1, getDataDictionaryService());
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetSourceLine(), getExpectedExplicitSourcePendingEntry(), getExpectedOffsetSourcePendingEntry(), 1);
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetSourceLine(), getExpectedExplicitSourcePendingEntry(), getExpectedOffsetSourcePendingEntry(), 1, getDataDictionaryService());
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() throws Exception {
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetTargetLine(), getExpectedExplicitTargetPendingEntry(), getExpectedOffsetTargetPendingEntryForTargetAsset(), 1);
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetTargetLine(), getExpectedExplicitTargetPendingEntry(), getExpectedOffsetTargetPendingEntryForTargetAsset(), 1, getDataDictionaryService());
     }
 
     private AuxiliaryVoucherDocument createDocument() throws Exception {

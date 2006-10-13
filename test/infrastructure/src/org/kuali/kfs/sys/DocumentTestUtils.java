@@ -26,7 +26,6 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.DocumentNote;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.InternalBillingItem;
@@ -83,13 +82,6 @@ public class DocumentTestUtils {
 
         DocumentHeader documentHeader = document.getDocumentHeader();
         documentHeader.setFinancialDocumentDescription("unit test created document");
-
-        return document;
-    }
-    public static <T extends TransactionalDocument> T createTransactionalDocument(DocumentService documentService,Class<T> docmentClass,Integer postingYear,String postingPeriodCode) throws WorkflowException {
-        T document = createDocument(documentService, docmentClass);
-        document.setPostingPeriodCode(postingPeriodCode);
-        document.setPostingYear(postingYear);
 
         return document;
     }

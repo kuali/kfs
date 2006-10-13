@@ -21,24 +21,34 @@
  *
  */
 package org.kuali.module.financial.document;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.TransactionalDocumentTestBase;
-import org.kuali.core.util.SpringServiceLocator;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE15;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
+import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.TestsWorkflowViaDatabase;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.AccountingLineFixture;
 
 /**
  * This class is used to test NonCheckDisbursementDocumentTest.
@@ -46,94 +56,94 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
  * 
  */
 @WithTestSpringContext(session = KHUNTLEY)
-public class AuxiliaryVoucherDocumentTest extends TransactionalDocumentTestBase {
+public class AuxiliaryVoucherDocumentTest extends KualiTestBase {
 
-    /**
-     * 
-     * @see org.kuali.core.document.DocumentTestCase#getDocumentParameterFixture()
-     */
-    public Document getDocumentParameterFixture() throws Exception {
-        //AV document has a restriction on accounting period cannot be more than 2 periods behind current
-        Date date = SpringServiceLocator.getDateTimeService().getCurrentSqlDate();
-        AccountingPeriod accountingPeriod = SpringServiceLocator.getAccountingPeriodService().getByDate(date);
-        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), AuxiliaryVoucherDocument.class, accountingPeriod.getUniversityFiscalYear(), accountingPeriod.getUniversityFiscalPeriodCode());
+    public static final Class<AuxiliaryVoucherDocument> DOCUMENT_CLASS = AuxiliaryVoucherDocument.class;
+
+    private Document getDocumentParameterFixture() throws Exception {
+        // AV document has a restriction on accounting period cannot be more than 2 periods behind current
+        return DocumentTestUtils.createDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
-     */
-    @Override
-    public List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
-return  new ArrayList<AccountingLineFixture>();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
-     */
-    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
-    List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+    private List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+        List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE15);
         return list;
     }
 
-    /**
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#buildDocument()
-     */
-    @Override
-    protected Document buildDocument() throws Exception {
-            // put accounting lines into document parameter for later
-            TransactionalDocument document = (TransactionalDocument) getDocumentParameterFixture();
+    private AuxiliaryVoucherDocument buildDocument() throws Exception {
+        // put accounting lines into document parameter for later
+        AuxiliaryVoucherDocument document = (AuxiliaryVoucherDocument) getDocumentParameterFixture();
 
-            // set accountinglines to document
-            for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
-                SourceAccountingLine line=sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
-                SourceAccountingLine balance=sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
-                balance.setDebitCreditCode(GL_DEBIT_CODE.equals(line.getDebitCreditCode())?GL_CREDIT_CODE:GL_DEBIT_CODE);
-                document.addSourceAccountingLine(line);
-                document.addSourceAccountingLine(balance);
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            SourceAccountingLine line = sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
+            SourceAccountingLine balance = sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
+            balance.setDebitCreditCode(GL_DEBIT_CODE.equals(line.getDebitCreditCode()) ? GL_CREDIT_CODE : GL_DEBIT_CODE);
+            document.addSourceAccountingLine(line);
+            document.addSourceAccountingLine(balance);
 
-            }
+        }
 
-            return document;
+        return document;
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoErrorCorrection()
-     */
-    public void testConvertIntoErrorCorrection() throws Exception {
-        // for now we just want this to run without problems, so we are overriding the parent's
-        // and leaving blank to run successfully
-        // when we get to this document, we'll fix the problem with blanket approving non check
-        // disbursement document test
-    }
 
-    /**
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoCopy_invalidYear()
-     * @see AuxiliaryVoucherDocument#getNullOrReasonNotToCopy(String, boolean)
-     */
-    @Override
-    public void testConvertIntoCopy_invalidYear() throws Exception {
-//      this test is not valid for the AV
-    }
-
-    /**
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoErrorCorrection_invalidYear()
-     * @see AuxiliaryVoucherDocument#getNullOrReasonNotToCopy(String, boolean)
-     */
-    @Override
-    public void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-       //this test is not valid for the AV
-    }
-
-    /**
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getExpectedPrePeCount()
-     */
-    @Override
-    protected int getExpectedPrePeCount() {
+    private int getExpectedPrePeCount() {
         return 2;
+    }
+
+
+    public final void testAddAccountingLine() throws Exception {
+        List<SourceAccountingLine> sourceLines = generateSouceAccountingLines();
+        List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
+        int expectedSourceTotal = sourceLines.size();
+        int expectedTargetTotal = targetLines.size();
+        testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+    }
+
+    public final void testGetNewDocument() throws Exception {
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+    }
+
+    public final void testConvertIntoCopy_copyDisallowed() throws Exception {
+        testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+
+    }
+
+    public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
+        testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+    }
+
+    public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
+        testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testRouteDocument() throws Exception {
+        testRouteDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public void testSaveDocument() throws Exception {
+        testSaveDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public void testConvertIntoCopy() throws Exception {
+        testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+    }
+
+    // test util mehtods
+    private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
+        List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            sourceLines.add(sourceFixture.createSourceAccountingLine());
+            sourceLines.add(sourceFixture.createAccountingLine(SourceAccountingLine.class, GL_DEBIT_CODE.equals(sourceFixture.debitCreditCode) ? GL_CREDIT_CODE : GL_DEBIT_CODE));
+        }
+
+        return sourceLines;
     }
 
 }

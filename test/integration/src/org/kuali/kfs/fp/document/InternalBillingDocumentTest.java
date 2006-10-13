@@ -22,6 +22,26 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.approveDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.routeDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE3;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
+import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +50,16 @@ import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE3;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import org.kuali.test.fixtures.UserNameFixture;
 
 /**
  * This class is used to test InternalBillingDocument.
@@ -50,34 +67,23 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
  * 
  */
 @WithTestSpringContext(session = KHUNTLEY)
-public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
+public class InternalBillingDocumentTest extends KualiTestBase {
+    public static final Class<InternalBillingDocument> DOCUMENT_CLASS = InternalBillingDocument.class;
 
-    /**
-     * 
-     * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
-     */
-    public Document getDocumentParameterFixture() throws Exception {
+    private Document getDocumentParameterFixture() throws Exception {
         return DocumentTestUtils.createDocument(getDocumentService(), InternalBillingDocument.class);
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
-     */
-    public List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
-    List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+    private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
+        List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE2);
         list.add(LINE3);
         list.add(LINE2);
         return list;
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
-     */
-    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
-    List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
+    private List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+        List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE2);
         list.add(LINE3);
         list.add(LINE2);
@@ -85,41 +91,10 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
     }
 
 
-    /**
-     * provides default count for Pending entry count.
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getExpectedPrePeCount()
-     * @return int
-     */
-    protected int getExpectedPrePeCount() {
+    private int getExpectedPrePeCount() {
         return 12;
     }
 
-    // /////////////////////////////////////////////////////////////////////////
-    // Start of Test Methods //
-    // /////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Overrides the parent to do nothing since the IB doesn't set the posting period in the record it stores. This test doesn't
-     * apply to this type of document.
-     */
-    public final void testConvertIntoCopy_invalidYear() throws Exception {
-        // do nothing to pass
-    }
-
-    /**
-     * Overrides the parent to do nothing since the IB doesn't set the posting period in the record it stores. This test doesn't
-     * apply to this type of document.
-     */
-    public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        // do nothing to pass
-    }
-
-    /**
-     * Tests authoriation by trying to approve a <code>{@link Document}</code>
-     * 
-     * @exception Exception
-     */
     @TestsWorkflowViaDatabase
     public final void testApprove_addAccessibleAccount_ChangingTotals() throws Exception {
         TransactionalDocument retrieved;
@@ -129,8 +104,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // switch user to WESPRICE, build and route document with
         // accountingLines
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to another user, add accountingLines for accounts not
@@ -142,7 +117,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
 
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = true;
@@ -155,12 +130,6 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
-    /**
-     * Tests adding a <code>{@link SourceAccountingLine}</code> instance with inaccessible account characteristics after approving
-     * the <code>{@link TransactionalDocument}</code>
-     * 
-     * @exception Exception
-     */
     @TestsWorkflowViaDatabase
     public final void testApprove_addInaccessibleAccount_sourceLine() throws Exception {
         // switch user to WESPRICE, build and route document with
@@ -170,8 +139,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         String docId;
 
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, add sourceAccountingLine for account not controlled by this user
@@ -184,7 +153,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure b/c totals have changed
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = true;
@@ -206,8 +175,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // switch user to WESPRICE, build and route document with
         // accountingLines
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, add targetAccountingLine for accounts not
@@ -221,7 +190,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = true;
@@ -243,8 +212,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         String docId;
 
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, delete sourceAccountingLine for accounts
@@ -258,7 +227,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure b/c totals have changed
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = true;
@@ -280,8 +249,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         String docId;
 
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, delete sourceAccountingLines for accounts
@@ -295,7 +264,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
@@ -317,8 +286,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // switch user to WESPRICE, build and route document with
         // accountingLines
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, delete targetAccountingLine for accounts not controlled by this user
@@ -331,7 +300,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
@@ -353,8 +322,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         String docId;
 
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, delete all accountingLines for that user
@@ -369,7 +338,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE);
@@ -392,8 +361,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         String docId;
 
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, update sourceAccountingLine for accounts
@@ -421,7 +390,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         retrieved.addSourceAccountingLine(newSourceLine);
 
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
@@ -438,8 +407,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // switch user to WESPRICE, build and route document with
         // accountingLines
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, update sourceAccountingLines for accounts
@@ -453,7 +422,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
@@ -475,8 +444,8 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         String docId;
 
         changeCurrentUser(getInitialUserName());
-        original = (TransactionalDocument) buildDocument();
-        routeDocument(original);
+        original = buildDocument();
+        routeDocument(original, getDocumentService());
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, update targetAccountingLine for accounts
@@ -490,7 +459,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument(retrieved);
+            approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
@@ -502,7 +471,136 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         }
         assertTrue(failedAsExpected);
     }
-    // /////////////////////////////////////////////////////////////////////////
-    // End of Test Methods //
-    // /////////////////////////////////////////////////////////////////////////
+
+
+    public final void testAddAccountingLine() throws Exception {
+        List<SourceAccountingLine> sourceLines = generateSouceAccountingLines();
+        List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
+        int expectedSourceTotal = sourceLines.size();
+        int expectedTargetTotal = targetLines.size();
+        testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+    }
+
+
+    public final void testGetNewDocument() throws Exception {
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+    }
+
+    public final void testConvertIntoCopy_copyDisallowed() throws Exception {
+        testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+
+    }
+
+    public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
+        testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+    }
+
+    public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
+        testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testConvertIntoErrorCorrection() throws Exception {
+        testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testRouteDocument() throws Exception {
+        testRouteDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testSaveDocument() throws Exception {
+        testSaveDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testConvertIntoCopy() throws Exception {
+        testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+    }
+
+
+    // test util methods
+    private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
+        List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            sourceLines.add(sourceFixture.createSourceAccountingLine());
+        }
+
+        return sourceLines;
+    }
+
+    private List<TargetAccountingLine> generateTargetAccountingLines() throws Exception {
+        List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
+        for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
+            targetLines.add(targetFixture.createTargetAccountingLine());
+        }
+
+        return targetLines;
+    }
+
+    private InternalBillingDocument buildDocument() throws Exception {
+        // put accounting lines into document parameter for later
+        InternalBillingDocument document = (InternalBillingDocument) getDocumentParameterFixture();
+
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            sourceFixture.addAsSourceTo(document);
+        }
+
+        for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
+            targetFixture.addAsTargetTo(document);
+        }
+
+        return document;
+    }
+
+    private void updateSourceAccountingLine(TransactionalDocument document, int index, String newAmount) {
+        SourceAccountingLine sourceLine = document.getSourceAccountingLine(index);
+        sourceLine.setAmount(new KualiDecimal(newAmount));
+    }
+
+    private void updateTargetAccountingLine(TransactionalDocument document, int index, String newAmount) {
+        TargetAccountingLine targetLine = document.getTargetAccountingLine(index);
+        targetLine.setAmount(new KualiDecimal(newAmount));
+    }
+
+
+    private void deleteSourceAccountingLine(TransactionalDocument document, int index) {
+        List sourceLines = document.getSourceAccountingLines();
+        sourceLines.remove(index);
+        document.setSourceAccountingLines(sourceLines);
+    }
+
+    private void deleteTargetAccountingLine(TransactionalDocument document, int index) {
+        List targetLines = document.getTargetAccountingLines();
+        targetLines.remove(index);
+        document.setTargetAccountingLines(targetLines);
+    }
+
+    private UserNameFixture getInitialUserName() {
+        return RJWEISS;
+    }
+
+    protected UserNameFixture getTestUserName() {
+        return RORENFRO;
+    }
+
+    private SourceAccountingLine getSourceAccountingLineAccessibleAccount() throws Exception {
+        return LINE2.createSourceAccountingLine();
+    }
+
+    private TargetAccountingLine getTargetAccountingLineInaccessibleAccount() throws Exception {
+        return LINE3.createTargetAccountingLine();
+    }
+
+    private TargetAccountingLine getTargetAccountingLineAccessibleAccount() throws Exception {
+        return LINE2.createTargetAccountingLine();
+    }
+
+    private SourceAccountingLine getSourceAccountingLineInaccessibleAccount() throws Exception {
+        return LINE3.createSourceAccountingLine();
+    }
+
 }

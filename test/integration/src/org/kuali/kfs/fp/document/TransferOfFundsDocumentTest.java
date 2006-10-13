@@ -22,20 +22,23 @@
  */
 package org.kuali.module.financial.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.document.TransactionalDocumentTestBase;
+import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.TestsWorkflowViaDatabase;
-import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.routeDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_invalidYear;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE1;
-import org.kuali.test.fixtures.UserNameFixture;
 import static org.kuali.test.fixtures.UserNameFixture.CSWINSON;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
@@ -43,42 +46,43 @@ import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
 import static org.kuali.test.fixtures.UserNameFixture.RRUFFNER;
 import static org.kuali.test.fixtures.UserNameFixture.SEASON;
 import static org.kuali.test.fixtures.UserNameFixture.VPUTMAN;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.TestsWorkflowViaDatabase;
+import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.fixtures.AccountingLineFixture;
+import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
+
 /**
  * This class is used to test TransferOfFundsDocument.
  * 
  * 
  */
 @WithTestSpringContext(session = KHUNTLEY)
-public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
+public class TransferOfFundsDocumentTest extends KualiTestBase {
+    public static final Class<TransferOfFundsDocument> DOCUMENT_CLASS = TransferOfFundsDocument.class;
 
     // The set of Route Nodes that the test document will progress through
-
     private static final String ACCOUNT_REVIEW = "Account Review";
     private static final String ORG_REVIEW = "Org Review";
 
 
-
-    // /////////////////////////////////////////////////////////////////////////
-    // Fixture Methods Start Here //
-    // /////////////////////////////////////////////////////////////////////////
-
-    /**
-     * 
-     * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
-     */
-    public Document getDocumentParameterFixture() throws Exception{
-        return DocumentTestUtils.createTransactionalDocument(getDocumentService(), TransferOfFundsDocument.class, 2007, "06");
+    private Document getDocumentParameterFixture() throws Exception {
+        return DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getTargetAccountingLineParametersFromFixtures()
-     */
-    @Override
-    public List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
+    private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE1);
         // list.add( LINE2 );
@@ -86,12 +90,7 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
         return list;
     }
 
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentTestBase#getSourceAccountingLineParametersFromFixtures()
-     */
-    @Override
-    public List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+    private List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE1);
         // list.add( LINE2 );
@@ -99,24 +98,13 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
         return list;
     }
 
-    /**
-     * User name fixture to be used for this test.
-     */
-    protected UserNameFixture getTestUserName() {
-        return getUserName();
-    }
-
-
-    // /////////////////////////////////////////////////////////////////////////
-    // Fixture Methods End Here //
-    // /////////////////////////////////////////////////////////////////////////
 
     @TestsWorkflowViaDatabase
     public void testWorkflowRouting() throws Exception {
         // save and route the document
-        Document document = buildDocumentForWorkflowRoutingTest();
+        TransactionalDocument document = (TransactionalDocument) buildDocumentForWorkflowRoutingTest();
         final String docHeaderId = document.getFinancialDocumentNumber();
-        routeDocument(document);
+        routeDocument(document, getDocumentService());
 
         // the document should now be routed to VPUTMAN and RORENFRO as Fiscal Officers
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
@@ -135,28 +123,113 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 
         changeCurrentUser(VPUTMAN);
-        document = getDocumentService().getByDocumentHeaderId(docHeaderId);
+        document = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docHeaderId);
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
 
-    private void approve(String docHeaderId, UserNameFixture user, String expectedNode)
-        throws Exception
-    {
+    private void approve(String docHeaderId, UserNameFixture user, String expectedNode) throws Exception {
         changeCurrentUser(user);
-        WorkflowTestUtils.waitForApproveRequest(Long.valueOf(docHeaderId), GlobalVariables.getUserSession().getKualiUser());
-        Document document = getDocumentService().getByDocumentHeaderId(docHeaderId);
-        assertTrue("Document should be at routing node " + expectedNode, WorkflowTestUtils.isAtNode(document, expectedNode));
-        assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
-        assertTrue(user + " should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        getDocumentService().approveDocument(document, "Test approving as " + user, null);
+        TransactionalDocumentTestUtils.approve(docHeaderId, user, expectedNode, getDocumentService());
     }
 
-    private Document buildDocumentForWorkflowRoutingTest()
-        throws Exception
-    {
-        TransactionalDocument document = (TransactionalDocument) buildDocument();
+    private Document buildDocumentForWorkflowRoutingTest() throws Exception {
+        TransactionalDocument document = buildDocument();
         AccountingLineFixture.LINE2_TOF.addAsSourceTo(document);
         AccountingLineFixture.LINE2_TOF.addAsTargetTo(document);
         return document;
-    } 
+    }
+
+
+    public final void testAddAccountingLine() throws Exception {
+        List<SourceAccountingLine> sourceLines = generateSouceAccountingLines();
+        List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
+        int expectedSourceTotal = sourceLines.size();
+        int expectedTargetTotal = targetLines.size();
+        testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+    }
+
+    public final void testGetNewDocument() throws Exception {
+        testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
+    }
+
+    public final void testConvertIntoCopy_invalidYear() throws Exception {
+        testConvertIntoCopy_invalidYear(buildDocument(), getAccountingPeriodService());
+    }
+
+    public final void testConvertIntoCopy_copyDisallowed() throws Exception {
+        testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+
+    }
+
+    public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
+        testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+    }
+
+    public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
+        testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+    }
+
+    public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
+        testConvertIntoErrorCorrection_invalidYear(buildDocument(), getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testConvertIntoErrorCorrection() throws Exception {
+        testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testRouteDocument() throws Exception {
+        testRouteDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testSaveDocument() throws Exception {
+        testSaveDocument(buildDocument(), getDocumentService());
+    }
+
+    @TestsWorkflowViaDatabase
+    public final void testConvertIntoCopy() throws Exception {
+        testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+    }
+
+    // test util methods
+    private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
+        List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            sourceLines.add(sourceFixture.createSourceAccountingLine());
+        }
+
+        return sourceLines;
+    }
+
+    private List<TargetAccountingLine> generateTargetAccountingLines() throws Exception {
+        List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
+        for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
+            targetLines.add(targetFixture.createTargetAccountingLine());
+        }
+
+        return targetLines;
+    }
+
+    private TransferOfFundsDocument buildDocument() throws Exception {
+        // put accounting lines into document parameter for later
+        TransferOfFundsDocument document = (TransferOfFundsDocument) getDocumentParameterFixture();
+
+        // set accountinglines to document
+        for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
+            sourceFixture.addAsSourceTo(document);
+        }
+
+        for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
+            targetFixture.addAsTargetTo(document);
+        }
+
+        return document;
+    }
+
+    private int getExpectedPrePeCount() {
+        return 4;
+    }
 }

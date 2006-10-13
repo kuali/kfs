@@ -22,7 +22,6 @@
  */
 package org.kuali.module.kra.budget.web.struts.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +56,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 public class BudgetPermissionsAction extends BudgetAction {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetPermissionsAction.class);
-    
     
     /**
      * This method will insert the new ad hoc person from the from into the list of ad hoc person recipients, put a new new record
@@ -208,5 +206,4 @@ public class BudgetPermissionsAction extends BudgetAction {
         
         return forward;
     }
-    
 }

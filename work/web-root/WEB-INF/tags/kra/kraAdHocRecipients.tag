@@ -7,6 +7,7 @@
 
 <%-- derive displayReadOnly value --%>
 <c:set var="displayReadOnly" value="false" />
+<c:set var="budgetAdHocPermissionAttributes" value="${DataDictionary.BudgetAdHocPermission.attributes}" />
 
 <c:if test="${!empty editingMode['viewOnly']}" >
     <c:set var="displayReadOnly" value="true" />
@@ -65,7 +66,7 @@
                     	<td class="infoline">
                     		<div align=center>
                         		<html:hidden property="newAdHocRoutePerson.type"/>
-                        		<html:select property="newAdHocRoutePerson.actionRequested" value="F" disabled="true">
+                        		<html:select property="newAdHocRoutePerson.actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select> (upon completion)
@@ -79,10 +80,7 @@
                     	<td class="infoline"><div align=center>--</div></td>
                     	<td class="infoline">
 							<div align="left">
-								<html:select value="${KualiForm.newAdHocOrg.budgetPermissionCode}" property="newAdHocOrg.budgetPermissionCode">
-									<html:option value="R">READ</html:option>
-									<html:option value="M">MOD</html:option>
-								</html:select>
+								<kul:htmlControlAttribute property="newAdHocPermission.budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
 							</div>
 						</td>
 						<c:if test="${not displayReadOnly}">
@@ -96,7 +94,7 @@
 					<tr>
 	                    <td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="person.actionRequested" value="F" disabled="true">
+	                    		<html:select property="document.budget.budgetAdHocPermissionItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -111,10 +109,7 @@
 	                    <td>${person.orgCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.deptid" /></td>
 	                    <td>
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" /></c:if>
-	                    	<html:select value="${person.budgetPermissionCode}" property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" disabled="${displayReadOnly}">
-								<html:option value="R">READ</html:option>
-								<html:option value="M">MOD</html:option>
-							</html:select>
+	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
 							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].personUniversalIdentifier" />
 							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].addedByPerson" />
 							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].personAddedTimestamp" />
@@ -161,7 +156,7 @@
 				<tr>
 					<td class="infoline">
 	                    <div align=center>
-	                    	<html:select property="newAdHocRoutePerson.actionRequested" value="F" disabled="true">
+	                    	<html:select property="newAdHocRouteOrg.actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    	<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            	<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        	</html:select>
@@ -183,10 +178,7 @@
 					</td>
 					<td class="infoline">
 						<div align="left">
-							<html:select value="${KualiForm.newAdHocOrg.budgetPermissionCode}" property="newAdHocOrg.budgetPermissionCode">
-								<html:option value="R">READ</html:option>
-								<html:option value="M">MOD</html:option>
-							</html:select>
+							<kul:htmlControlAttribute property="newAdHocOrg.budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
 						</div>
 					</td>
 					<td class="infoline">
@@ -201,7 +193,7 @@
 					<tr>
 						<td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="newAdHocRoutePerson.actionRequested" value="F" disabled="true">
+	                    		<html:select property="newAdHocRouteOrg.actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -217,10 +209,7 @@
 						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
 						<td>
 							<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" /></c:if>
-							<html:select value="${org.budgetPermissionCode}" property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" disabled="${displayReadOnly}">
-								<html:option value="R">READ</html:option>
-								<html:option value="M">MOD</html:option>
-							</html:select>
+							<kul:htmlControlAttribute property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
 						</td>
 						<c:if test="${not displayReadOnly}">
 						<td>
@@ -268,7 +257,7 @@
                     	<td class="infoline">
                     		<div align=center>
                         		<html:hidden property="newAdHocRouteWorkgroup.type"/>
-                        		<html:select property="newAdHocRouteWorkgroup.actionRequested" value="F" disabled="true">
+                        		<html:select property="newAdHocRouteWorkgroup.actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
     		                		<html:options collection="actionRequestCodes" property="key" labelProperty="value"/>
   			            		</html:select> (upon completion)
@@ -280,10 +269,7 @@
                     	</td>
                     	<td class="infoline">
                     		<div align="left">
-								<html:select value="${KualiForm.newAdHocWorkgroupPermissionCode}" property="newAdHocWorkgroupPermissionCode">
-									<html:option value="R">READ</html:option>
-									<html:option value="M">MOD</html:option>
-								</html:select>
+                    			<kul:htmlControlAttribute property="newAdHocWorkgroupPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
 							</div>
 						</td>
 						<c:if test="${not displayReadOnly}">
@@ -293,36 +279,11 @@
                     	</c:if>
                 	</tr>
 				</c:if>
-				<%-- %>
-                <logic:iterate name="KualiForm" id="workgroup" property="adHocRouteWorkgroups" indexId="ctr">
-                    <tr>
-                        <td class="datacell center">
-                        	<div align=center>
-                            	<html:hidden property="adHocRouteWorkgroup[${ctr}].type"/>
-                            	<html:select property="adHocRouteWorkgroup[${ctr}].type" value="${workgroup.actionRequested}" disabled="true">
-  		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
-	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
-	  			        		</html:select>
-	  			        		(upon completion)
-  			                </div>
-                        </td>
-                        <td class="datacell center" colspan="4"><div align=center>
-                            <kul:htmlControlAttribute property="adHocRouteWorkgroup[${ctr}].id" attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}" readOnly="${displayReadOnly}" />
-                            <kul:workflowWorkgroupLookup fieldConversions="workgroupId:adHocRouteWorkgroup[${ctr}].id" /></div>
-                        </td>
-                        <c:if test="${not displayReadOnly}">
-                        	<td class="datacell center" ><div align=center>
-                            	<html:image property="methodToCall.deleteAdHocRouteWorkgroup.line${ctr}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
-                        	</td>
-                        </c:if>
-                    </tr>
-                </logic:iterate>
-                --%>
                 <c:forEach items="${KualiForm.document.budget.adHocWorkgroups}" var="workgroup" varStatus="status">
 					<tr>
 	                    <td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="workgroup.actionRequested" value="F" disabled="true">
+	                    		<html:select property="document.budget.budgetAdHocWorkgroupItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -335,11 +296,8 @@
 	                    </td>
 	                    <td>
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" /></c:if>
-	                    	<html:select value="${workgroup.budgetPermissionCode}" property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" disabled="${displayReadOnly}">
-								<html:option value="R">READ</html:option>
-								<html:option value="M">MOD</html:option>
-							</html:select>
-							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].addedByPerson" />
+	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
+	                    	<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].addedByPerson" />
 							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].personAddedTimestamp" />
 							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].objectId" />
 							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].versionNumber" />

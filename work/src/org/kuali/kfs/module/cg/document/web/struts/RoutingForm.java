@@ -27,11 +27,13 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 public class RoutingForm extends KualiDocumentFormBase {
     
     private boolean auditActivated;
+    private RoutingFormProtocol newRoutingFormProtocol;
     
     public RoutingForm() {
         super();
@@ -49,5 +51,13 @@ public class RoutingForm extends KualiDocumentFormBase {
 
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
+    }
+
+    public RoutingFormProtocol getNewRoutingFormProtocol() {
+        return newRoutingFormProtocol;
+    }
+
+    public void setNewRoutingFormProtocol(RoutingFormProtocol newRoutingFormProtocol) {
+        this.newRoutingFormProtocol = newRoutingFormProtocol;
     }
 }

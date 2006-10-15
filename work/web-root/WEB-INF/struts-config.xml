@@ -72,19 +72,19 @@
         <form-bean name="BudgetNotesForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
 
         <form-bean name="RoutingForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfMainPageForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfPersonnelForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfResearchRisksForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfProjectDetailsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfAgencySpecificForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfSF424Form" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfLinkForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfNotesForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfOutputForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfTemplateForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfAuditModeForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfPermissionsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RfApprovalsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormMainPageForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormPersonnelForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormResearchRisksForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormProjectDetailsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormAgencySpecificForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormSF424Form" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormLinkForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormNotesForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormOutputForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormTemplateForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormAuditModeForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormPermissionsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
+        <form-bean name="RoutingFormApprovalsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
 
         <!-- General Ledger Bean Definitions -->
         <form-bean name="CorrectionForm" type="org.kuali.module.gl.web.struts.form.CorrectionForm" />
@@ -226,21 +226,21 @@
             <forward name="notes" path="/jsp/modules/research/budget/BudgetNotes.jsp" redirect="false" />
         </action>
 
-        <action path="/researchRf*" name="Rf{1}Form" input="/jsp/modules/research/routingform/Rf{1}.jsp" type="org.kuali.module.kra.routingform.web.struts.action.Rf{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-            <forward name="basic" path="/jsp/modules/research/routingform/Rf{1}.jsp" />
-            <forward name="mainpage" path="/jsp/modules/research/routingform/RfMainPage.jsp" redirect="false" />
-            <forward name="personnel" path="/jsp/modules/research/routingform/RfPersonnel.jsp" redirect="false" />
-            <forward name="researchrisks" path="/jsp/modules/research/routingform/RfResearchRisks.jsp" redirect="false" />
-            <forward name="projectdetails" path="/jsp/modules/research/routingform/RfProjectDetails.jsp" redirect="false" />       
-            <forward name="agencyspecific" path="/jsp/modules/research/routingform/RfAgencySpecific.jsp" redirect="false" />       
-            <forward name="sf424" path="/jsp/modules/research/routingform/RfSF424.jsp" redirect="false" />       
-            <forward name="link" path="/jsp/modules/research/routingform/RfLink.jsp" redirect="false" />       
-            <forward name="notes" path="/jsp/modules/research/routingform/RfNotes.jsp" redirect="false" />       
-            <forward name="output" path="/jsp/modules/research/routingform/RfOutput.jsp" redirect="false" />       
-            <forward name="template" path="/jsp/modules/research/routingform/RfTemplate.jsp" redirect="false" />       
-            <forward name="auditmode" path="/jsp/modules/research/routingform/RfAuditMode.jsp" redirect="false" />
-            <forward name="permissions" path="/jsp/modules/research/routingform/RfPermissions.jsp" redirect="false" />
-            <forward name="approvals" path="/jsp/modules/research/routingform/RfApprovals.jsp" redirect="false" />
+        <action path="/researchRoutingForm*" name="RoutingForm{1}Form" input="/jsp/modules/research/routingform/RoutingForm{1}.jsp" type="org.kuali.module.kra.routingform.web.struts.action.RoutingForm{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/jsp/modules/research/routingform/RoutingForm{1}.jsp" />
+            <forward name="mainpage" path="/jsp/modules/research/routingform/RoutingFormMainPage.jsp" redirect="false" />
+            <forward name="personnel" path="/jsp/modules/research/routingform/RoutingFormPersonnel.jsp" redirect="false" />
+            <forward name="researchrisks" path="/jsp/modules/research/routingform/RoutingFormResearchRisks.jsp" redirect="false" />
+            <forward name="projectdetails" path="/jsp/modules/research/routingform/RoutingFormProjectDetails.jsp" redirect="false" />       
+            <forward name="agencyspecific" path="/jsp/modules/research/routingform/RoutingFormAgencySpecific.jsp" redirect="false" />       
+            <forward name="sf424" path="/jsp/modules/research/routingform/RoutingFormSF424.jsp" redirect="false" />       
+            <forward name="link" path="/jsp/modules/research/routingform/RoutingFormLink.jsp" redirect="false" />       
+            <forward name="notes" path="/jsp/modules/research/routingform/RoutingFormNotes.jsp" redirect="false" />       
+            <forward name="output" path="/jsp/modules/research/routingform/RoutingFormOutput.jsp" redirect="false" />       
+            <forward name="template" path="/jsp/modules/research/routingform/RoutingFormTemplate.jsp" redirect="false" />       
+            <forward name="auditmode" path="/jsp/modules/research/routingform/RoutingFormAuditMode.jsp" redirect="false" />
+            <forward name="permissions" path="/jsp/modules/research/routingform/RoutingFormPermissions.jsp" redirect="false" />
+            <forward name="approvals" path="/jsp/modules/research/routingform/RoutingFormApprovals.jsp" redirect="false" />
         </action>
 
         <action path="/cashManagementStatus" name="CashManagementStatusForm" type="org.kuali.module.financial.web.struts.action.CashManagementStatusAction" scope="request" attribute="KualiForm">

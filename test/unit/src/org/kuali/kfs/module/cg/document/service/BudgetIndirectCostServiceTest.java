@@ -134,6 +134,14 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
     public void testRefreshIndirectCost() {
         BudgetDocument budgetDocument = new BudgetDocument();
         Budget budget = budgetDocument.getBudget();
+        
+        List periods = BudgetPeriodTest.createBudgetPeriods(2);
+        for (int i = 0; i < periods.size(); i++) {
+            BudgetPeriod period = (BudgetPeriod) periods.get(i);
+            period.setDocumentHeaderId("1234");
+            period.setBudgetPeriodSequenceNumber(i);
+        }
+        budget.setPeriods(periods);
 
         String[] categories = { "CO", "CO", "FL", "SC" };
         String[] subCategories = { "C1", "C1", "F5", "R2" };

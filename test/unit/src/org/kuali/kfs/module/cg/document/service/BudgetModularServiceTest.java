@@ -20,6 +20,9 @@ package org.kuali.module.kra.service;
 import static org.kuali.core.util.SpringServiceLocator.getBudgetModularService;
 import static org.kuali.core.util.SpringServiceLocator.getBudgetNonpersonnelService;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +48,7 @@ import org.kuali.test.WithTestSpringContext;
  */
 @WithTestSpringContext
 public class BudgetModularServiceTest extends KualiTestBase {
-
+    
     protected Budget setupBudget() {
         Budget budget = new Budget();
 
@@ -55,10 +58,32 @@ public class BudgetModularServiceTest extends KualiTestBase {
         agency.getAgencyExtension().setBudgetModularIncrementAmount(new KualiInteger(25000));
         agency.getAgencyExtension().setBudgetPeriodMaximumAmount(new KualiInteger(250000));
 
-        budget.setPeriods(BudgetPeriodTest.createBudgetPeriods(2));
+        budget.setPeriods(createBudgetPeriods(2));
 
         budget.setBudgetAgency(agency);
         return budget;
+    }
+    
+    
+    public static List createBudgetPeriods(int numberOfPeriods) {
+        List budgetPeriods = new ArrayList();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+        for (int i = 0; i < numberOfPeriods; i++) {
+            BudgetPeriod budgetPeriod = new BudgetPeriod();
+            budgetPeriod.setBudgetPeriodSequenceNumber(new Integer(i + 1));
+            try {
+                budgetPeriod.setBudgetPeriodBeginDate(new Date(sdf.parse("07/01/" + 2000 + i).getTime()));
+                budgetPeriod.setBudgetPeriodEndDate(new Date(sdf.parse("06/30/" + 2001 + i).getTime()));
+            }
+            catch (ParseException e) {
+                throw new NullPointerException();
+            }
+            budgetPeriods.add(budgetPeriod);
+        }
+
+        return budgetPeriods;
     }
 
 

@@ -64,8 +64,14 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingName}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingName}" 
-                    	property="document.deliveryBuildingName" readOnly="${readOnly}"/>
+                    <kul:htmlControlAttribute 
+                    	attributeEntry="${documentAttributes.deliveryBuildingName}" 
+                    	property="document.deliveryBuildingName"
+                    	onchange="submitForm()"
+                    	readOnly="${readOnly}"/>&nbsp;
+                    <c:if test="${!readOnly}">
+                    	<html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+                    </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToEmailAddress}"/></div>

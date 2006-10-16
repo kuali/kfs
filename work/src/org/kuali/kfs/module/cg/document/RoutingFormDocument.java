@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.exceptions.IllegalObjectStateException;
+import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
@@ -94,6 +95,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormStatus proposalStatus;
     private RoutingFormPurpose proposalPurpose;
     private RoutingFormAgency routingFormAgency;
+    private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
     
 	/**
 	 * Default constructor.
@@ -1330,6 +1332,14 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void setRoutingFormAgency(RoutingFormAgency routingFormAgency) {
         this.routingFormAgency = routingFormAgency;
+    }
+
+    public CatalogOfFederalDomesticAssistanceReference getCatalogOfFederalDomesticAssistanceReference() {
+        return catalogOfFederalDomesticAssistanceReference;
+    }
+
+    public void setCatalogOfFederalDomesticAssistanceReference(CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference) {
+        this.catalogOfFederalDomesticAssistanceReference = catalogOfFederalDomesticAssistanceReference;
     }
 
 

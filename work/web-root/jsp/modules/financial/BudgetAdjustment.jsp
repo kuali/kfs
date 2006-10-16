@@ -24,7 +24,10 @@
 	<kul:hiddenDocumentFields excludePostingYear="true" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
-		includePostingYear="true" />
+		includePostingYear="true"
+        postingYearOnChange="submitForm()"
+        includePostingYearRefresh="true"
+        postingYearAttributes="${DataDictionary.KualiBudgetAdjustmentDocument.attributes}" />
 
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"

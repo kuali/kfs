@@ -15,6 +15,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+    <required>true</required>
+    <control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FiscalYearValuesFinder" />
+    </control>
+</attributeReference>
+
 <attributeReference name="vendorName" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorName">
     <label>Suggested Vendor</label>
     <shortLabel>Vendor</shortLabel>

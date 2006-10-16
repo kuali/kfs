@@ -135,7 +135,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <textarea rows="5" cols="80"/>
+                    <textarea rows="3" cols="20"/>
                 </control>
 
                 <summary>agencyAddressDescription</summary>
@@ -358,7 +358,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <textarea rows="5" cols="80"/>
+                    <textarea rows="3" cols="20"/>
                 </control>
 
                 <summary>agencyShippingInstructionsDescription</summary>
@@ -399,11 +399,11 @@
                 <label>Proposal Due Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="10" />
                 </control>
 
                 <summary>proposalDueDate</summary>
@@ -418,7 +418,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormDueDateTypeValuesFinder" />
                 </control>
 
                 <summary>proposalDueDateTypeCode</summary>

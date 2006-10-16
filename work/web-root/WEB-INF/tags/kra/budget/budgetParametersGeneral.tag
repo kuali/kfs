@@ -45,15 +45,15 @@
 	}
 </script>
 
-         <kul:tab tabTitle="General" defaultOpen="true" tabErrorKey="document.budget.parameters*,document.budget.budgetAgency*,document.budget.budgetProject*,document.budget.university*,document.budget.electronic*,document.budget.federal*,document.budget.modular*,document.budget.budgetPersonnelInflationRate,document.budget.budgetNonpersonnelInflationRate" tabAuditKey="document.budget.audit.parameters.pd*">
+<kul:tab 
+	tabTitle="General" 
+	defaultOpen="true" 
+	tabErrorKey="document.budget.parameters*,document.budget.budgetAgency*,document.budget.budgetProject*,document.budget.university*,document.budget.electronic*,document.budget.federal*,document.budget.modular*,document.budget.budgetPersonnelInflationRate,document.budget.budgetNonpersonnelInflationRate" 
+	auditCluster="parametersAuditErrors" 
+	tabAuditKey="document.budget.audit.parameters.pd*">
 
-
-        
-              <div class="tab-container" id="G02" style="" align="center">
-        <div class="left-errmsg-tab" style="padding-bottom: 10px;">
-        	<kra-b:auditErrors cluster="parametersAuditErrors" keyMatch="document.budget.audit.parameters.pd*" isLink="false" includesTitle="true"/>
-        </div>
-
+    <div class="tab-container" id="G02" style="" align="center">
+              
 <div class="h2-container"> <span class="subhead-left">
   <a name="General"></a><h2>General</h2>
   </span><span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </span> </div>

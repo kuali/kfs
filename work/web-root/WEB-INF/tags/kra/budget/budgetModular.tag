@@ -194,8 +194,13 @@
       	</div>
     </kul:tabTop>
       
-	<kul:tab tabTitle="${budgetModularAttributes.budgetModularConsortiumDescription.label}" defaultOpen="false" tabErrorKey="document.budget.modularBudget.budgetModularConsortiumDescription*" tabAuditKey="document.budget.audit.modular.consortium*">
-      	<div class="tab-container-error"><div class="left-errmsg-tab"><kra-b:auditErrors cluster="modularSoftAuditErrors" keyMatch="document.budget.audit.modular.consortium*" isLink="false" includesTitle="true"/></div></div>
+	<kul:tab 
+		tabTitle="${budgetModularAttributes.budgetModularConsortiumDescription.label}" 
+		defaultOpen="false" 
+		tabErrorKey="document.budget.modularBudget.budgetModularConsortiumDescription*" 
+		tabAuditKey="document.budget.audit.modular.consortium*"
+		auditCluster="modularSoftAuditErrors">
+      	
       	<div class="tab-container" align="center">
 			<div class="h2-container">
 				<span class="subhead-left"><h2>${budgetModularAttributes.budgetModularConsortiumDescription.label}</h2></span>

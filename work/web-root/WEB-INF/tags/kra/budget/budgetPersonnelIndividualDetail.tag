@@ -39,15 +39,25 @@
               <c:choose>
 	              <c:when test="${empty person.personUniversalIdentifier}">
 	                <c:set var="personName" value="TO BE NAMED" />
+	                <c:set var="personId" value="-1" />
 	              </c:when>
 	              <c:otherwise>
 	                <c:set var="personName" value="${person.user.personName}" />
+	                <c:set var="personId" value="${person.personUniversalIdentifier }"/>
 	              </c:otherwise>
               </c:choose>
 		    <c:set var="transparentBackground" value="false" />
 			  <c:if test="${listIndex eq 0}"><c:set var="transparentBackground" value="true" /></c:if>
-	          <kul:tab tabTitle="${fn:substring(personName, 0, 22)}" tabDescription="${(not empty person.role) ? fn:substring(person.role, 0, 16) : ' '}" leftSideMultiboxPropertyName="${!viewOnly ? 'deleteValues' : null}" leftSideMultiboxPropertyValue="${listIndex}" leftSideMultiboxDisabled="${person.personProjectDirectorIndicator}" defaultOpen="false" transparentBackground="${firstInList}" tabErrorKey="document.budget.personFromList[${listIndex}]*" tabAuditKey="document.budget.audit.personnel.${person.personUniversalIdentifier}*">
-              <c:if test="${!empty person.personUniversalIdentifier}"><div class="tab-container-error"><div class="left-errmsg-tab"><kra-b:auditErrors cluster="personnelAuditErrors" keyMatch="document.budget.audit.personnel.${person.personUniversalIdentifier}*" isLink="false" includesTitle="true"/></div></div></c:if>
+	          <kul:tab 
+	          	tabTitle="${fn:substring(personName, 0, 22)}" 
+	          	tabDescription="${(not empty person.role) ? fn:substring(person.role, 0, 16) : ' '}" 
+	          	leftSideMultiboxPropertyName="${!viewOnly ? 'deleteValues' : null}" 
+	          	leftSideMultiboxPropertyValue="${listIndex}" 
+	          	leftSideMultiboxDisabled="${person.personProjectDirectorIndicator}" 
+	          	defaultOpen="false" transparentBackground="${firstInList}" 
+	          	tabErrorKey="document.budget.personFromList[${listIndex}]*" 
+	          	auditCluster="personnelAuditErrors"
+	          	tabAuditKey="document.budget.audit.personnel.${personId}*">
               <div class="tab-container" id="G02" style="" align="center">
                 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                   <tbody>

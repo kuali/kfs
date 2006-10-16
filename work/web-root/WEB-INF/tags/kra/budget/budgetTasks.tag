@@ -29,15 +29,15 @@
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
 
-        <kul:tab tabTitle="Tasks/Components" defaultOpen="true" tabErrorKey="document.budget.task*,newTask*"  tabAuditKey="document.budget.audit.parameters.tasks.negativeIdc*">
+<kul:tab 
+	tabTitle="Tasks/Components" 
+	defaultOpen="true" 
+	tabErrorKey="document.budget.task*,newTask*" 
+	auditCluster="parametersSoftAuditErrors" 
+	tabAuditKey="document.budget.audit.parameters.tasks.negativeIdc*">
         
-
-        
-              <div class="tab-container" id="G02" style="" align="center">
-        <div class="left-errmsg-tab" style="padding-bottom: 10px;">
-        	<kra-b:auditErrors cluster="parametersSoftAuditErrors" keyMatch="document.budget.audit.parameters.tasks.negativeIdc*" isLink="false" includesTitle="true"/>
-        </div>
-
+<div class="tab-container" id="G02" style="" align="center">
+              
 <div class="h2-container"> <span class="subhead-left">
   <a name="Tasks"></a><h2>Tasks/Components</h2>
   </span><span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </span> </div>

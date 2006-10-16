@@ -60,13 +60,16 @@
     <c:set var="transparentBackground" value="false" />
     <c:if test="${i eq 0}"><c:set var="transparentBackground" value="true" /></c:if>
 
-    <kul:tab tabTitle="${nonpersonnelCategory.name}" tabItemCount="${KualiForm.budgetNonpersonnelFormHelper.nonpersonnelCategoryHelperMap[nonpersonnelCategory.code].numItems}" transparentBackground="${transparentBackground}" defaultOpen="false" tabErrorKey="${categoryItemErrors}" tabAuditKey="document.budget.audit.nonpersonnelItem.category.${nonpersonnelCategory.code}">
-			<div class="tab-container-error">
-				<div class="left-errmsg-tab">
-					<kra-b:auditErrors cluster="nonpersonnelAuditErrors" keyMatch="document.budget.audit.nonpersonnelItem.category.${nonpersonnelCategory.code}" isLink="false" includesTitle="true" />
-				</div>
-			</div>
-            <div class="tab-container" id="G02" style="" align="center">
+    <kul:tab 
+    	tabTitle="${nonpersonnelCategory.name}" 
+    	tabItemCount="${KualiForm.budgetNonpersonnelFormHelper.nonpersonnelCategoryHelperMap[nonpersonnelCategory.code].numItems}" 
+    	transparentBackground="${transparentBackground}" 
+    	defaultOpen="false" 
+    	tabErrorKey="${categoryItemErrors}" 
+    	auditCluster="nonpersonnelAuditErrors" 
+    	tabAuditKey="document.budget.audit.nonpersonnelItem.category.${nonpersonnelCategory.code}">
+    	
+        <div class="tab-container" id="G02" style="" align="center">
             
             <c:if test="${KraConstants.SUBCONTRACTOR_CATEGORY_CODE eq nonpersonnelCategory.code}">
             	<div class="message-container"><bean:message bundle="kraResources" key="message.kra.subcontractorReminder" /></div>

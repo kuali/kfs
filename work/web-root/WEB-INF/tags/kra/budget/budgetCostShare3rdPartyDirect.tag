@@ -38,7 +38,7 @@
 	</c:choose>
 </c:set>
 
-<kul:tab tabTitle="Cost Share - 3rd Party Direct" tabDescription="${tabDescription}" defaultOpen="false" transparentBackground="false" tabErrorKey="document.budget.thirdPartyCostShareItem*" tabAuditKey="document.budget.audit.costShare.3rdParty*">
+<kul:tab tabTitle="Cost Share - 3rd Party Direct" tabDescription="${tabDescription}" defaultOpen="false" transparentBackground="false" tabErrorKey="document.budget.thirdPartyCostShareItem*" auditCluster="costShareAuditErrors" tabAuditKey="document.budget.audit.costShare.3rdParty*">
 	<c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">
 		<div class="tab-container" align="center">
 			<div class="h2-container">
@@ -61,13 +61,7 @@
 	</c:if>
 
 	<c:if test="${KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">
-		<div class="tab-container-error">
-			<div class="left-errmsg-tab">
-				<kra-b:auditErrors cluster="costShareAuditErrors" keyMatch="document.budget.audit.costShare.3rdParty*" isLink="false" includesTitle="true" />
-			</div>
-		</div>
 		<div class="tab-container" align=center>
-
 			<table class="datatable" cellpadding="0">
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+6}">

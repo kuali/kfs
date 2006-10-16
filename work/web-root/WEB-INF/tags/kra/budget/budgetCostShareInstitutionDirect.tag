@@ -39,7 +39,7 @@
 	</c:choose>
 </c:set>
 
-<kul:tab tabTitle="Cost Share - Institution Direct" tabDescription="${tabDescription}" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.universityCostShareItem*" tabAuditKey="document.budget.audit.costShare.institution*">
+<kul:tab tabTitle="Cost Share - Institution Direct" tabDescription="${tabDescription}" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.universityCostShareItem*" auditCluster="costShareAuditErrors" tabAuditKey="document.budget.audit.costShare.institution*">
 	
 	<c:if test="${!KualiForm.document.budget.universityCostShareIndicator}">
 		<div class="tab-container" align="center">
@@ -62,11 +62,6 @@
 	</c:if>
 
 	<c:if test="${KualiForm.document.budget.universityCostShareIndicator}">
-		<div class="tab-container-error">
-			<div class="left-errmsg-tab">
-				<kra-b:auditErrors cluster="costShareAuditErrors" keyMatch="document.budget.audit.costShare.institution*" isLink="false" includesTitle="true" />
-			</div>
-		</div>
 		<div class="tab-container" align=center>
 			<table class="datatable" cellpadding="0">
 				<tr>

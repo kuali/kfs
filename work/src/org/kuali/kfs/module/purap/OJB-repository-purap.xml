@@ -808,8 +808,8 @@
 	<field-descriptor name="oldStatusCode" column="OLD_REQS_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="newStatusCode" column="NEW_REQS_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="noteIdentifier" column="DOC_NTE_ID" jdbc-type="INTEGER"/>
-	<field-descriptor name="requisitionStatusHistoryTimestamp" column="REQS_STATHST_TS" jdbc-type="TIMESTAMP"/>
-	<field-descriptor name="requisitionStatusHistoryUserIdentifier" column="REQS_STATHST_USR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="statusHistoryTimestamp" column="REQS_STATHST_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="statusHistoryUserIdentifier" column="REQS_STATHST_USR_ID" jdbc-type="VARCHAR"/>
     <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>

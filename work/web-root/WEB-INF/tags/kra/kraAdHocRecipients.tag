@@ -97,7 +97,7 @@
                     	<td class="infoline"><div align=center>--</div></td>
                     	<td class="infoline">
 							<div align="left">
-								<kul:htmlControlAttribute property="newAdHocPermission.budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
+								<kul:htmlControlAttribute property="newAdHocPermission.budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}"/>
 							</div>
 						</td>
 						<c:if test="${not displayReadOnly}">
@@ -126,7 +126,7 @@
 	                    <td>${person.orgCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.deptid" /></td>
 	                    <td>
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" /></c:if>
-	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
+	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
 							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].personUniversalIdentifier" />
 							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].addedByPerson" />
 							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].personAddedTimestamp" />
@@ -195,7 +195,7 @@
 					</td>
 					<td class="infoline">
 						<div align="left">
-							<kul:htmlControlAttribute property="newAdHocOrg.budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
+							<kul:htmlControlAttribute property="newAdHocOrg.budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}"/>
 						</div>
 					</td>
 					<td class="infoline">
@@ -226,7 +226,7 @@
 						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
 						<td>
 							<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" /></c:if>
-							<kul:htmlControlAttribute property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
+							<kul:htmlControlAttribute property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
 						</td>
 						<c:if test="${not displayReadOnly}">
 						<td>
@@ -286,7 +286,7 @@
                     	</td>
                     	<td class="infoline">
                     		<div align="left">
-                    			<kul:htmlControlAttribute property="newAdHocWorkgroupPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
+                    			<kul:htmlControlAttribute property="newAdHocWorkgroupPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}"/>
 							</div>
 						</td>
 						<c:if test="${not displayReadOnly}">
@@ -313,7 +313,7 @@
 	                    </td>
 	                    <td>
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" /></c:if>
-	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${viewOnly}"/>
+	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
 	                    	<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].addedByPerson" />
 							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].personAddedTimestamp" />
 							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].objectId" />

@@ -76,9 +76,6 @@
 	<reference-descriptor name="vendorHeader" class-ref="org.kuali.module.purap.bo.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
 		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="vendorTaxChange" class-ref="org.kuali.module.purap.bo.VendorTaxChange" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
-	</reference-descriptor>
     <reference-descriptor name="soldToVendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="vendorSoldToGeneratedIdentifier" />
 		<foreignkey field-ref="vendorSoldToAssignedIdentifier" />
@@ -133,6 +130,9 @@
     <collection-descriptor name="vendorSupplierDiversities" element-class-ref="org.kuali.module.purap.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </collection-descriptor>
+   	<collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.module.purap.bo.VendorTaxChange" auto-retrieve="false" auto-update="object" auto-delete="false" proxy="false">
+		<inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorAddress" table="PUR_VNDR_ADDR_T">

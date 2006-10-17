@@ -37,6 +37,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.service.BalanceService;
@@ -686,6 +687,17 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), "When Fund Group is CG, Contract Control Account Number");
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "When Fund Group is CG, ICR Type Code");
                 result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "When Fund Group is CG, ICR Series Identifier");
+                
+                // Validation for financialIcrSeriesIdentifier
+                if (checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "When Fund Group is CG, ICR Series Identifier")){
+                    Map pkMap = new HashMap();
+                    pkMap.put("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier());
+                    if (getBoService().findByPrimaryKey(IcrAutomatedEntry.class, pkMap) == null){
+                        putFieldError("financialIcrSeriesIdentifier", KeyConstants.ERROR_EXISTENCE, "financialIcrSeriesIdentifier");
+                        result &= false;
+                    }
+                }
+                
                 result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
                 result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), "When Fund Group is CG, ICR Cost Recovery Account");
                 result &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), "When Fund Group is CG, C&G Domestic Assistance Number");

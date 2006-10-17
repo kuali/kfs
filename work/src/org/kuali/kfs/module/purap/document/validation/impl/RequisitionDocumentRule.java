@@ -39,21 +39,21 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        boolean isValid = true;
         RequisitionDocument reqDocument = (RequisitionDocument) document;
         return isValid &= processValidation(reqDocument);
     }
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        boolean isValid = true;
         RequisitionDocument reqDocument = (RequisitionDocument) document;
         return isValid &= processValidation(reqDocument);
     }
 
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
+        boolean isValid = true;
         RequisitionDocument reqDocument = (RequisitionDocument) approveEvent.getDocument();
         return isValid &= processValidation(reqDocument);
     }

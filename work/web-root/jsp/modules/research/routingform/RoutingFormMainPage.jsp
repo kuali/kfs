@@ -49,7 +49,7 @@
 
     <!-- TAB -->
 
-	<kra-rf:routingFormMainPageSummary editingMode="${KualiForm.editingMode}" />
+	<kra-rf:routingFormMainPageSubmissionDetails editingMode="${KualiForm.editingMode}" />
 
     <!-- TAB -->
 

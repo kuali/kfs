@@ -153,6 +153,7 @@
     <field-descriptor name="vendorAddressEmailAddress" column="VNDR_ADDR_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorBusinessToBusinessUrlAddress" column="VNDR_B2B_URL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorFaxNumber" column="VNDR_FAX_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorDefaultAddressIndicator" column="VNDR_DFLT_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="vendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
 		<foreignkey field-ref="vendorDetailAssignedIdentifier" />

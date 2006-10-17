@@ -372,7 +372,7 @@
                 they need to be made to both documents
             -->
             <attribute name="financialFederalFundedCode" forceUppercase="true">
-                <label>Federally Funded Code</label>
+                <label>Federal Funded Code</label>
                 <shortLabel>FedFundCd</shortLabel>
 
                 <maxLength>1</maxLength>

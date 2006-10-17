@@ -19,6 +19,7 @@
 package org.kuali.module.kra.routingform.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -103,7 +104,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * Default constructor.
 	 */
 	public RoutingFormDocument() {
-
+        routingFormProtocols = new ArrayList<RoutingFormProtocol>();
 	}
 
 	/**

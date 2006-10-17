@@ -19,23 +19,30 @@ package org.kuali.module.chart.rules;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ChartService;
+import org.kuali.module.chart.service.ObjectLevelService;
 
 
 public class ObjectCodePreRules extends PreRulesContinuationBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodePreRules.class);
 
     private ChartService chartService;
+    private ObjectLevelService objectLevelService;
     private Map reportsTo;
 
     public ObjectCodePreRules() {
         this.setChartService(SpringServiceLocator.getChartService());
         reportsTo = chartService.getReportsToHierarchy();
+        this.setObjectLevelService(SpringServiceLocator.getObjectLevelService());
     }
 
 
@@ -51,7 +58,7 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
 
         String chart = newObjectCode.getChartOfAccountsCode();
         String reportsToChart = (String) reportsTo.get(chart);
-
+        ObjLevel financialObjectLevel = objectLevelService.getByPrimaryId(chart, newObjectCode.getFinancialObjectLevelCode());
         if (LOG.isDebugEnabled()) {
             LOG.debug("Chart: " + chart);
             LOG.debug("reportsTo: " + reportsToChart);
@@ -65,6 +72,26 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
         if (newObjectCode.getFinObjMandatoryTrnfrelimCd() == null) {
             newObjectCode.setFinObjMandatoryTrnfrelimCd("N");
         }
+        
+        // If Object Level is inactive, ask user confirmation question
+         
+        if (!(financialObjectLevel == null)) {
+            if (!financialObjectLevel.isFinancialObjectLevelActiveIndicator()){
+                String objectLevelChartOfAccountCode = financialObjectLevel.getChartOfAccountsCode();
+                String objectLevelFinancialObjectLevelCode = financialObjectLevel.getFinancialObjectLevelCode();
+                String objectLevelFinancialObjectLevelName = financialObjectLevel.getFinancialObjectLevelName();
+                String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
+                questionText = StringUtils.replace(questionText, "{0}", objectLevelChartOfAccountCode);
+                questionText = StringUtils.replace(questionText, "{1}", objectLevelFinancialObjectLevelCode);
+                questionText = StringUtils.replace(questionText, "{2}", objectLevelFinancialObjectLevelName);
+                boolean useInactiveObjectLevel = super.askOrAnalyzeYesNoQuestion(Constants.ObjectCodeConstants.INACTIVE_OBJECT_LEVEL_QUESTION_ID, questionText);
+                if (!useInactiveObjectLevel) {
+                    event.setActionForwardName(Constants.MAPPING_BASIC);
+                    return false;
+                }                                     
+            }
+        }
 
         return true;
 
@@ -72,5 +99,8 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
 
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
+    }  
+    public void setObjectLevelService(ObjectLevelService objectLevelService) {
+         this.objectLevelService = objectLevelService;
     }
 }

@@ -31,6 +31,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
@@ -57,7 +58,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     final static String OBJECT_CODE_ILLEGAL_VALUES = "ObjectCodeIllegalValues";
     final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES = "ObjectCodeValidBudgetAggregationCodes";
     final static String OBJECT_CODE_VALID_YEAR_CODE_EXCEPTIONS = "ObjectCodeValidYearCodeExceptions";
-    final static String OBJECT_CODE_VALID_MANDATORY_TRANSFER_ELIMINATION_CODES = "ObjectCodeValidMandatoryTransferEliminationCodes";
     final static String OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES = "ObjectCodeValidFederalFundedCodes";
 
 
@@ -67,7 +67,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     private static Set illegalValues;
     private static Set validYearCodeExceptions;
     private static Set validBudgetAggregationCodes;
-    private static Set validMandatoryTransferEliminationCodes;
     private static Set validFederalFundedCodes;
 
     private final static int CHART_CODE = 1;
@@ -82,7 +81,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         illegalValues = retrieveParameterSet(OBJECT_CODE_ILLEGAL_VALUES);
         validYearCodeExceptions = retrieveParameterSet(OBJECT_CODE_VALID_YEAR_CODE_EXCEPTIONS);
         validBudgetAggregationCodes = retrieveParameterSet(OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES);
-        validMandatoryTransferEliminationCodes = retrieveParameterSet(OBJECT_CODE_VALID_MANDATORY_TRANSFER_ELIMINATION_CODES);
         validFederalFundedCodes = retrieveParameterSet(OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES);
 
         dateTimeService = SpringServiceLocator.getDateTimeService();
@@ -166,13 +164,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         if (!isLegalBudgetAggregationCode(budgetAggregationCode)) {
             this.putFieldError("financialBudgetAggregationCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Budget Aggregation Code");
-            result = false;
-        }
-
-        String mandatoryTransferEliminationCode = objectCode.getFinObjMandatoryTrnfrelimCd();
-
-        if (mandatoryTransferEliminationCode != null && !isLegalMandatoryTransferEliminationCode(mandatoryTransferEliminationCode)) {
-            this.putFieldError("finObjMandatoryTrnfrelimCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Mandatory Transfer Or Eliminations Code");
             result = false;
         }
 
@@ -412,8 +403,14 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         return result;
     }
 
+    /**
+     * 
+     * @deprecated KULCOA-1245 - This check for existence of a mandatory transfer elimination code has been moved to the ObjectCode Document xml.
+     * @param mandatoryTransferEliminationCode 
+     * @return
+     */
     protected boolean isLegalMandatoryTransferEliminationCode(String mandatoryTransferEliminationCode) {
-        boolean result = permitted(validMandatoryTransferEliminationCodes, mandatoryTransferEliminationCode);
+        boolean result = false;
         return result;
     }
 

@@ -56,6 +56,7 @@
         <defaultExistenceChecks>
             <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
             <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />            
+            <reference attributeName="finObjMandatoryTrnfrelim" attributeToHighlightOnFail="finObjMandatoryTrnfrelimCd" />
         </defaultExistenceChecks>
 
         <maintainableSections>

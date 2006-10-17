@@ -356,7 +356,7 @@
                 <maxLength>1</maxLength>
 
                 <control>
-                    <text size="1" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.MandatoryTransferEliminationCodeValuesFinder" />
                 </control>
 
                 <summary>

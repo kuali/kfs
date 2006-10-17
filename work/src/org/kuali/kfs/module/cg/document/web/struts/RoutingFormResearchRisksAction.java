@@ -40,7 +40,7 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         RoutingFormProtocol routingFormProtocol = routingForm.getNewRoutingFormProtocol();
         routingFormDocument.addRoutingFormProtocol(routingFormProtocol);
         
-        // use the getters and setters on the form to reinitialize the properties on the form.                
+        // use getters and setters on the form to reinitialize the properties on the form.                
         routingForm.setNewRoutingFormProtocol(new RoutingFormProtocol());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -51,7 +51,6 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();               
         routingForm.getRoutingFormDocument().getRoutingFormProtocols().remove(lineToDelete);        
         
         return mapping.findForward(Constants.MAPPING_BASIC);

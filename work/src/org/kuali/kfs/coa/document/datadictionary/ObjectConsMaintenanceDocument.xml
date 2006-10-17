@@ -30,7 +30,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -41,7 +41,8 @@
         <shortLabel>ObjConsMaintDoc</shortLabel>
         <summary>Object Consolidation Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_CONSOLIDATION" />
+        
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="finConsolidationObjectCode" />

@@ -30,7 +30,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -41,7 +41,8 @@
         <shortLabel>OffsetDefMaintDoc</shortLabel>
         <summary>Offset Definition Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Offset Definitions, remove exsiting Offset Definitions, or modify existing Offset Definitions.</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OFFSET_DEFINITION" />
+        
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="chartOfAccountsCode" />

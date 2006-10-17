@@ -30,7 +30,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -41,7 +41,8 @@
         <shortLabel>MandTransferElimCodeMaintDoc</shortLabel>
         <summary>Mandatory Transfer EliminationCode Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Mandatory Transfer Elimination Codes, or modify existing Mandatory Transfer Elimination Codes.</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_MANDATORY_TRANSFER_ELIMINATION_CODE" />
+        
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

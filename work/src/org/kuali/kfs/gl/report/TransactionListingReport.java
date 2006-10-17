@@ -210,7 +210,7 @@ public class TransactionListingReport {
                     
                     if (!Constants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())){
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
-                        budgetTotal = creditTotal.add(tran.getTransactionLedgerEntryAmount());
+                        budgetTotal = budgetTotal.add(tran.getTransactionLedgerEntryAmount());
                     }
                     else {
                         cell = new PdfPCell(new Phrase(nf.format(0), textFont));

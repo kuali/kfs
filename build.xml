@@ -153,7 +153,10 @@
 			<filter token="encryption-key" value="${encryption.key}" />
 		</filterset>
 		<condition property="batch.program.directory" value="/home/kultstb/batch/${build.environment}">
-			<equals arg1="${build.environment}" arg2="gl" />
+			<or>
+				<equals arg1="${build.environment}" arg2="ptd" />
+				<equals arg1="${build.environment}" arg2="gl" />
+			</or>
 		</condition>
 		<property name="batch.program.directory" value="/home/kuldevb/batch/${build.environment}" />
 		<filterset id="batch.filterset">
@@ -161,7 +164,7 @@
 			<filter token="batch-program-directory" value="${batch.program.directory}" />
 			<filter token="batch-classes-directory" value="${batch.program.directory}/classes" />
 			<filter token="batch-lib-directory" value="${batch.program.directory}/lib" />
-			<filter token="batch-command-prefix" value="$JAVA_HOME/bin/java org.kuali.core.batch.BrteStepRunner" />
+			<filter token="batch-command-prefix" value="$JAVA_HOME/bin/java org.kuali.core.batch.BatchStepRunner" />
 			<filter token="batch-script-prefix" value="${batch.script.prefix}" />
 			<filter token="batch-script-suffix" value="${batch.script.suffix}" />
 		</filterset>
@@ -171,7 +174,7 @@
 		</filterset>
 	</target>
 	
-	<target name="init-make-references" depends="filter-project">
+	<target name="init-make-references" depends="init-filter-sets">
 		<path id="compile.source.classpath">
 			<fileset dir="${appserver.lib.dir}" includes="*.jar" />
 			<fileset dir="${lib.directory}" includes="*.jar" />
@@ -352,7 +355,7 @@
 		</copy>
 	</target>
 
-	<target name="make-source" depends="init-make-references">
+	<target name="make-source" depends="init-make-references,filter-project">
 		<mkdir dir="${make-source.target.directory}" />
 		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true">
 			<classpath refid="compile.source.classpath" />
@@ -364,7 +367,7 @@
 		</copy>
 	</target>
 
-	<target name="make-tests" depends="init-make-references">
+	<target name="make-tests" depends="init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
 		<javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true" fork="true" memoryinitialsize="40m" memorymaximumsize="128m">
 			<classpath refid="compile.tests.classpath" />
@@ -384,7 +387,7 @@
 		</copy>
 	</target>
 	
-	<target name="make-plugin-remote" depends="init-make-references">
+	<target name="make-plugin-remote" depends="init-make-references,filter-project">
 		<copy todir="${plugin.classes.directory}">
 			<fileset dir="${war.classes.directory}" />
 		</copy>
@@ -419,8 +422,18 @@
 			<fileset dir="${basedir}" excludes="**/*.class,${packaged.build.properties.files}" />
 		</copy>
 	</target>
+	
+	<target name="make-javadoc" depends="init-project-properties">
+		<mkdir dir="${packaging.javadoc.directory}"/>
+	    <javadoc destdir="${packaging.javadoc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
+	        <sourcepath>
+	        		<pathelement location="${source.directory}"/>
+	        </sourcepath>
+	    		<classpath refid="compile.source.classpath"/>
+	    </javadoc>
+	</target>
 
-	<target name="make-binary-only-package" depends="init-package-directories,dist">
+	<target name="make-binary-only-package" depends="init-package-directories,dist,make-javadoc">
 		<copy file="${ant.project.name}-${build.environment}.war" todir="${build.appserver.directory}" />
 		<ant target="clean-project" />
 		<copy todir="${packaging.distribution.directory}" includeemptydirs="false">
@@ -458,7 +471,18 @@
 		</junitreport>
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 	</target>
-
+	
+	<target name="batch" depends="init-make-references">
+		<delete file="${batch.results.file}" failonerror="false" />
+		<path id="batch.classpath">
+			<path refid="compile.source.classpath" />
+			<pathelement location="${classes.directory}" />
+		</path>
+		<ant target="pcdo-batch-job"><property name="job.name" value="ProcurementCard" /></ant>
+		<ant target="gl-batch-job"><property name="job.name" value="GeneralLedger" /></ant>
+		<ant target="core-batch-job"><property name="job.name" value="Core" /></ant>
+	</target>
+		
 	<target name="dist" depends="make-source">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
@@ -466,7 +490,7 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-	<target name="dist-plugin" depends="make-source,make-plugin-remote,make-plugin" description="Build plugin zip for remote deployment">
+	<target name="dist-plugin" depends="make-source,make-plugin-remote,make-plugin">
 		<zip destfile="en-plugins.zip" basedir="${plugin.directory}" />
 	</target>
 
@@ -521,7 +545,7 @@
 	<target name="dist-binary-only-package" depends="init-binary-only-package,make-binary-only-package,dist-package"/>
 	
 	<target name="dist-binary-and-source-package" depends="init-binary-and-source-package,make-binary-and-source-package,dist-package" />
-	
+		
 	<target name="continuous-integration" depends="make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
@@ -545,7 +569,7 @@
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
 		<copy file="${workflow.project.directory}/dist/workflow-client-${workflow.version}.jar" todir="${lib.directory}" overwrite="true" />
-		<ant dir="${workflow.project.directory}" target="bundle-workflow" inheritall="false">
+		<!--<ant dir="${workflow.project.directory}" target="bundle-workflow" inheritall="false">
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
 		<copy file="${workflow.project.directory}/dist/workflow_${workflow.version}.zip" tofile="${dependencies.project.directory}/workflow-${workflow.version}-src.zip" overwrite="true"/>
@@ -553,7 +577,7 @@
 		<ant dir="${workflow.project.directory}" target="javadoc" inheritall="false">
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
-		<zip destfile="${dependencies.project.directory}/workflow-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />
+		<zip destfile="${dependencies.project.directory}/workflow-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
 	</target>
 	
 	<target name="update-cas" depends="init-project-properties">
@@ -573,7 +597,68 @@
 		<jar jarfile="${appserver.deploy.dir}/${application}-${build.environment}.war" basedir="${temp.directory}"  />
 		<delete dir="${temp.directory}" />
 	</target>
+	
+	<target name="pcdo-batch-job" depends="batch-step-init">
+		<ant target="batch-step"><property name="step.name" value="loadDataFileStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="createDocumentsStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="routeDocumentsStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="autoApproveDocumentsStep" /></ant>
+	</target>
+	
+	<target name="gl-batch-job" unless="ProcurementCard.failed" depends="batch-step-init">
+		<ant target="batch-step"><property name="step.name" value="glClearPendingEntriesForCancelledOrDisapprovedDocumentsStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glCollectorStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glNightlyOutStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glCreateBackupGroupStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glScrubberStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glPosterEntriesStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glPosterReversalStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glPosterIcrGenerationStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glPosterIcrEntriesStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glSufficientFundsSyncStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glSufficientFundsRebuilderStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glGlSummaryReportStep" /></ant>
+		<ant target="batch-step"><property name="step.name" value="glClearPendingStep" /></ant>
+	</target>
+	
+	<target name="core-batch-job" depends="batch-step-init">
+		<ant target="batch-step"><property name="step.name" value="corePurgeDocumentContentsStep" /></ant>
+	</target>
+	
+	<target name="batch-step" depends="batch-job-failed" />
 
+	<target name="batch-step-init">
+		<property file="${batch.results.file}" />
+		<echo message="Checking ${job.name} Job - ${step.name} dependencies" />
+	</target>
+
+	<target name="batch-step-execution" unless="${job.name}.step.failed" depends="batch-step-init">
+		<echo message="Running ${job.name} Job - ${step.name}" />
+		<java classname="${batch.step.runner}" classpathref="batch.classpath" fork="true" errorproperty="step.failed">
+			<arg value="${step.name}" />
+		</java>
+		<condition property="${job.name}.step.failed">
+			<and>
+				<equals arg1="${respect.batch.step.dependencies}" arg2="true" />
+				<length string="${step.failed}" when="greater" length="0" trim="true"/>
+			</and>
+		</condition>
+		<condition property="${job.name}.failed">
+			<and>
+				<equals arg1="${respect.batch.job.dependencies}" arg2="true" />
+				<length string="${step.failed}" when="greater" length="0" trim="true"/>
+			</and>
+		</condition>
+	</target>
+
+	<target name="batch-step-failed" if="${job.name}.step.failed" depends="batch-step-execution">
+		<propertyfile file="${batch.results.file}" ><entry key="${job.name}.step.failed" value="true" operation="=" /></propertyfile>
+	</target>
+		
+	<target name="batch-job-failed" if="${job.name}.failed" depends="batch-step-failed">
+		<propertyfile file="${batch.results.file}" ><entry key="${job.name}.failed" value="true" operation="=" /></propertyfile>
+	</target>
+	
 	<target name="help" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 			 
@@ -617,8 +702,8 @@
 			are running in tomcat locally
 			
 			test-local: runs all project tests and generates results
-			- you should run dist-tests-local before running this target, if the criteria listed above for runinng dist-local are met
-			- if you are running cas or workflow locally, you need to start tomcat after running dist-tests-local and before running this target
+			- you should run dist-test-local before running this target, if the criteria listed above for runinng dist-local are met
+			- if you are running cas or workflow locally, you need to start tomcat after running dist-test-local and before running this target
 			
 			clean: removes all build output
 		</echo>

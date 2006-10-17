@@ -30,7 +30,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -43,6 +43,7 @@
 
         <summary>Service Billing Control maintenance document</summary>
         <description>Document used to create or update Service Billing Control objects</description>
+        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_SERVICE_BILLING_CONTROL" />
 
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />

@@ -29,7 +29,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -40,7 +40,8 @@
         <shortLabel>OrgTypeMaintDoc</shortLabel>
         <summary>Organization Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Organization Types, or modify existing Organization Types.</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ORGANIZATION_TYPE" />
+        
         <lockingKeys>
             <field attributeName="organizationTypeCode" />
         </lockingKeys>

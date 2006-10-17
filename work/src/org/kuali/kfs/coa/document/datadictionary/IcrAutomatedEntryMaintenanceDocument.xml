@@ -31,7 +31,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -42,7 +42,8 @@
         <shortLabel>ICRAutotomatedEntryMaintenanceDoc</shortLabel>
         <summary>Indirect Cost Recovery Automated Entry Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Indirect Cost Recovery Automated Entries, or modify existing Indirect Cost Recovery Automated Entries.</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_INDIRECT_COST_RECOVERY_AUTOMATED_ENTRY" />
+        
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="financialIcrSeriesIdentifier" />

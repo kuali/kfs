@@ -29,7 +29,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -40,6 +40,7 @@
         <shortLabel>AccountTypeMaintDoc</shortLabel>
         <summary>Account Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Account Types, or modify existing Account Types.</description>
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT_TYPE" />
 
         <lockingKeys>
             <field attributeName="accountTypeCode" />

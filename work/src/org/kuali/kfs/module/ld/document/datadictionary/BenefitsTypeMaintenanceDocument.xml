@@ -42,6 +42,7 @@
 		
 		<summary>Benefits Type Maintenance Document</summary>
 		<description>Document used to create or update Benefit type codes.</description>
+        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_BENEFITS_TYPE" />
 
         <lockingKeys>
 			<field attributeName="positionBenefitTypeCode" />

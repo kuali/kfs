@@ -28,7 +28,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -41,6 +41,7 @@
 
         <summary>Credit Card Type Maintenance Document</summary>
         <description>Document used to create or update a credit card type.</description>
+        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_CREDIT_CARD_TYPE" />
 
         <lockingKeys>
             <field attributeName="financialDocumentCreditCardTypeCode" />

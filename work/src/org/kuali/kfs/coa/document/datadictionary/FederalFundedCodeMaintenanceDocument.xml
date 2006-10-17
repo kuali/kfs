@@ -30,7 +30,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -41,7 +41,8 @@
         <shortLabel>FederalFundedCodeMaintDoc</shortLabel>
         <summary>Federal Funded Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Federal Funded Codes, or modify existing Federal Funded Codes.</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_FEDERAL_FUNDED_CODE" />
+        
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

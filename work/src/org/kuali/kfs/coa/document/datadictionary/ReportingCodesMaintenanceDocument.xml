@@ -30,7 +30,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -41,7 +41,8 @@
         <shortLabel>FinRptCdMaintDoc</shortLabel>
         <summary>Financial Reporting Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create, remove or modify Financial Reporting Codes.</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_FINANCIAL_REPORTING_CODE" />
+        
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="organizationCode" />

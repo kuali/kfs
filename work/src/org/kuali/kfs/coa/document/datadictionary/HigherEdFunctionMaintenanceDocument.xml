@@ -29,7 +29,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -42,7 +42,8 @@
 
         <summary>Higher Education Function maintenance document</summary>
         <description>Document used to create or update Higher Education Function objects</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_HIGHER_EDUCATION_FUNCTION" />
+        
         <lockingKeys>
             <field attributeName="financialHigherEdFunctionCd" />
         </lockingKeys>

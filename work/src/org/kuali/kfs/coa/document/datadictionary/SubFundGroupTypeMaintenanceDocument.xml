@@ -28,7 +28,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -41,6 +41,7 @@
 
         <summary>Sub-Fund Group Type Maintenance Document</summary>
         <description>Document used to create or update Sub Fund Group Type objects</description>
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_SUB_FUND_GROUP_TYPE" />
 
         <lockingKeys>
             <field attributeName="subFundGroupTypeCode" />

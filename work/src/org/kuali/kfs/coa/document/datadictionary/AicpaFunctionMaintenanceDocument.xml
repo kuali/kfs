@@ -29,7 +29,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -42,7 +42,7 @@
 
         <summary>AICPA Function Maintenance Document</summary>
         <description>Document used to create or update AICPA Function Maintenance Document objects</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_AICPA_FUNCTION" />
         <lockingKeys>
             <field attributeName="financialAicpaFunctionCode" />
         </lockingKeys>

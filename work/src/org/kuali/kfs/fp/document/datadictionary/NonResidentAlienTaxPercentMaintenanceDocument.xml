@@ -29,7 +29,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -42,6 +42,7 @@
 
         <summary>Non resident alien tax percent</summary>
         <description>Document used to create or update Tax Percent objects</description>
+        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_NON_RESIDENT_ALIEN_TAX_PERCENT" />
 
         <lockingKeys>
             <field attributeName="incomeClassCode" />

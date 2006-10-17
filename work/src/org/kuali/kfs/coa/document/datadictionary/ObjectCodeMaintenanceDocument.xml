@@ -45,7 +45,8 @@
 
         <summary>Object Code maintenance document</summary>
         <description>Document used to create or update Object Code objects</description>
-
+        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_CODE" />
+        
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="chartOfAccountsCode" />

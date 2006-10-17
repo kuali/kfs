@@ -72,7 +72,7 @@
                 //-->
             </SCRIPT>
             <NOSCRIPT>
-                Import lines <a href="html/help/AccountingLineImport.html" target="helpWindow"><img src="images/my_cp_inf.gif" title="${altText}" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
+                Import lines <a href="<bean:message key="url.accountingLineImport.instructions" />" target="helpWindow"><img src="images/my_cp_inf.gif" title="${altText}" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
                 <html:file size="30" property="${file}" style="font:10px;height:16px;"/>
                 <html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
                             alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines"/>

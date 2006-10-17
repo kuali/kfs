@@ -29,7 +29,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_TABLE_MAINTAINERS</workgroup>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -42,6 +42,7 @@
 
         <summary>Function Control Code Maintenance Document</summary>
         <description>Document used to create or update Function Control Code objects</description>
+        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_FUNCTION_CONTROL_CODE" />
 
         <lockingKeys>
             <field attributeName="financialSystemFunctionControlCode" />

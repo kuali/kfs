@@ -36,8 +36,11 @@
                 <summary>Category Code</summary>
                 <description>Category Code</description>
             </attribute>
+            
             <attribute name="budgetNonpersonnelSubCategoryCode" forceUppercase="true">
-                <label>Sub Category Code</label>
+                <label>Sub-category code</label>
+                <shortLabel>Sub-category</shortLabel>
+                
                 <maxLength>3</maxLength>
                 <required>true</required>
                 <control>
@@ -66,7 +69,7 @@
             </attribute>
 
             <attribute name="budgetNonpersonnelDescription" forceUppercase="true">
-                <label>Description</label>
+                <label>Nonpersonnel Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>50</maxLength>
@@ -84,8 +87,8 @@
             </attribute>
 
             <attribute name="agencyRequestAmount" forceUppercase="true">
-                <label>Requested Amount</label>
-                <shortLabel>Requested Amount</shortLabel>
+                <label>Agency Amount Requested</label>
+                <shortLabel>Amount</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern>
@@ -102,8 +105,8 @@
             </attribute>
 
             <attribute name="budgetThirdPartyCostShareAmount" forceUppercase="true">
-                <label>Third Party Cost Share Amount</label>
-                <shortLabel>Third Party Cost Share Amount</shortLabel>
+                <label>3rd Party Cost Share</label>
+                <shortLabel>3rd Party</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern>
@@ -120,8 +123,8 @@
             </attribute>
 
             <attribute name="budgetUniversityCostShareAmount" forceUppercase="true">
-                <label>University Cost Share Amount</label>
-                <shortLabel>University Cost Share Amount</shortLabel>
+                <label>Institution Cost Share</label>
+                <shortLabel>Institution</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern>

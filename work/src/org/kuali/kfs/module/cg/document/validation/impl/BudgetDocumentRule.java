@@ -24,21 +24,17 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
-import org.kuali.module.kra.budget.bo.BudgetModular;
-import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.document.ResearchDocument;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
-import org.kuali.module.kra.budget.util.AuditCluster;
-import org.kuali.module.kra.budget.util.AuditError;
 
 /**
  * This class...
@@ -74,25 +70,27 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
 
         for (Iterator iter = nonpersonnelItems.iterator(); iter.hasNext(); i++) {
             BudgetNonpersonnel budgetNonpersonnel = (BudgetNonpersonnel) iter.next();
+            
+            DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
 
             if (StringUtils.isEmpty(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelSubCategoryCode", KeyConstants.ERROR_REQUIRED, "Sub-category");
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelSubCategoryCode", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetNonpersonnelSubCategoryCode"));
                 valid = false;
             }
             if (budgetNonpersonnel.getBudgetNonpersonnelCategoryCode().equals("SC") && budgetNonpersonnel.getBudgetNonpersonnelDescription() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelDescription", KeyConstants.ERROR_REQUIRED, "Description");
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelDescription", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetNonpersonnelDescription"));
                 valid = false;
             }
             if (budgetNonpersonnel.getAgencyRequestAmount() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].agencyRequestAmount", KeyConstants.ERROR_REQUIRED, "Agency Amount Requested");
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].agencyRequestAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "agencyRequestAmount"));
                 valid = false;
             }
             if (budget.isUniversityCostShareIndicator() && budgetNonpersonnel.getBudgetUniversityCostShareAmount() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetUniversityCostShareAmount", KeyConstants.ERROR_REQUIRED, "Institution Cost Share");
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetUniversityCostShareAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetUniversityCostShareAmount"));
                 valid = false;
             }
             if (budget.isBudgetThirdPartyCostShareIndicator() && budgetNonpersonnel.getBudgetThirdPartyCostShareAmount() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetThirdPartyCostShareAmount", KeyConstants.ERROR_REQUIRED, "3rd Party Cost Share");
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetThirdPartyCostShareAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetThirdPartyCostShareAmount"));
                 valid = false;
             }
         }

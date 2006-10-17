@@ -20,12 +20,14 @@ package org.kuali.module.kra.routingform.document;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
+import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 
@@ -96,7 +98,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormPurpose proposalPurpose;
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
-    
+    private List<RoutingFormProtocol> routingFormProtocols;
 	/**
 	 * Default constructor.
 	 */
@@ -1340,6 +1342,25 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void setCatalogOfFederalDomesticAssistanceReference(CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference) {
         this.catalogOfFederalDomesticAssistanceReference = catalogOfFederalDomesticAssistanceReference;
+    }
+    
+    public List<RoutingFormProtocol> getRoutingFormProtocols() {
+        return routingFormProtocols;
+    }
+
+    public RoutingFormProtocol getRoutingFormProtocol(int index) {
+        while (getRoutingFormProtocols().size() <= index) {
+            getRoutingFormProtocols().add(new RoutingFormProtocol());
+        }
+        return (RoutingFormProtocol) getRoutingFormProtocols().get(index);
+    }
+    
+    public void setRoutingFormProtocols(List<RoutingFormProtocol> routingFormProtocols) {
+        this.routingFormProtocols = routingFormProtocols;
+    }
+
+    public void addRoutingFormProtocol(RoutingFormProtocol routingFormProtocol) {
+        getRoutingFormProtocols().add(routingFormProtocol);
     }
 
 

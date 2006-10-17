@@ -39,7 +39,11 @@ public class RoutingForm extends KualiDocumentFormBase {
         
         setDocument(new RoutingFormDocument());
     }
-
+    
+    public RoutingFormDocument getRoutingFormDocument(){
+        return (RoutingFormDocument)this.getDocument();
+    }
+    
     public boolean isAuditActivated() {
         return auditActivated;
     }

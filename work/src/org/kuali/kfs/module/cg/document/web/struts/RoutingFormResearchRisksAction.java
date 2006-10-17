@@ -17,6 +17,27 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
+import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+
 public class RoutingFormResearchRisksAction extends RoutingFormAction {
 
+    public ActionForward insertRoutingFormProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        super.save(mapping, form, request, response);
+        RoutingForm routingForm = (RoutingForm) form;
+         
+//document.routingFormProtocol[${status.index}].protocolApprovalPendingIndicator" attributeEntry="${routingFormProtocolAttributes.protocolApprovalPendingIndicator}" />
+
+//        routingForm.getRoutingFormDocument().getRoutingFormProtocol().setRoutingFormProtocols(RoutingFormProtocol);
+        
+//        RoutingFormProtocol routingFormProtocol = (RoutingFormProtocol) routingFormProtocol.add().routingForm.getNewRoutingFormProtocol();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

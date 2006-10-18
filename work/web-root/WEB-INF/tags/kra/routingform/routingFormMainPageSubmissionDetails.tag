@@ -28,10 +28,11 @@
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
+<c:set var="routingFormBudgetAttributes" value="${DataDictionary.RoutingFormBudget.attributes}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
-<kul:tab tabTitle="Submission Details" defaultOpen="false" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
 
           <div class="tab-container" align="center">
             <div class="h2-container">
@@ -105,16 +106,40 @@
               </tr>
               <tr>
                 <th align=right valign=middle>Prior Agency Grant #:</th>
-                <td align=left valign=middle ><input name="textfield" type="text" size="12"></td>
+                <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.proposalPriorGrantNumber" attributeEntry="${documentAttributes.proposalPriorGrantNumber}"  />
+
+<!--
+                	<input name="textfield" type="text" size="12">
+-->
+               	</td>
                 <th align=right valign=middle>Institution Account #:</th>
-                <td align=left valign=middle ><input name="textfield" type="text" size="12"></td>
+                <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.institutionAccountNumber" attributeEntry="${documentAttributes.institutionAccountNumber}"  />
+
+<!--
+                	<input name="textfield" type="text" size="12">
+-->
+                </td>
               </tr>
               <tr>
 
                 <th align=right valign=middle>Current Agency Grant #:</th>
-                <td align=left valign=middle ><input name="textfield" type="text" size="12"></td>
+                <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.grantNumber" attributeEntry="${documentAttributes.grantNumber}"  />
+
+<!--
+                	<input name="textfield" type="text" size="12">
+-->
+                </td>
                 <th align=right valign=middle>Current Institution Proposal #:</th>
-                <td align=left valign=middle ><input name="textfield" type="text" size="12"></td>
+                <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.proposalBudgetNumber" attributeEntry="${documentAttributes.proposalBudgetNumber}"  />
+
+<!--
+                	<input name="textfield" type="text" size="12">
+-->
+                </td>
               </tr>
               <tr>
                 <td colspan=4 class="tab-subhead"><span class="left">Project Purpose </span> </td>
@@ -152,7 +177,12 @@
               <tr>
                 <th align=right valign=middle>Title:</th>
 
-                <td colspan="3" align=left valign=middle nowrap ><textarea name="textfield" cols="60" rows="3"></textarea></td>
+                <td colspan="3" align=left valign=middle nowrap >
+                	<kul:htmlControlAttribute property="document.proposalProjectTitle" attributeEntry="${documentAttributes.proposalProjectTitle}"  />
+<!--                 
+                	<textarea name="textfield" cols="60" rows="3"></textarea>
+-->
+                </td>
               </tr>
               <tr>
                 <th align=right valign=middle>Keywords:</th>
@@ -190,18 +220,38 @@
               </tr>
               <tr>
                 <th width="20%" align=right valign=middle>Direct Costs:</th>
-                <td width="30%" align=left valign=middle ><input name="textfield" type="text" size="12"></td>
+                <td width="30%" align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.proposalBudgetDirectAmount}"  />
+<!-- 
+                	<input name="textfield" type="text" size="12">
+-->
+                </td>
                 <th width="20%" align=right valign=middle>Start Date:</th>
-                <td width="30%" align=left valign=middle ><input name="date1" size=10 value="01/01/2005 " type=text>
-                  <a href="#" onclick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor1"><img src="images/cal.gif" alt="date selector" width=16 height=16 border=0></a></td>
+                <td width="30%" align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.proposalBudgetStartDate}" datePicker="true" />
+<!--
+                	<input name="date1" size=10 value="01/01/2005 " type=text>
+                  	<a href="#" onclick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor1"><img src="images/cal.gif" alt="date selector" width=16 height=16 border=0></a>
+-->
+                </td>
               </tr>
 
               <tr>
                 <th align=right valign=middle>Indirect Costs:</th>
-                <td align=left valign=middle ><input name="textfield" type="text" size="12"></td>
+                <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.proposalBudgetIndirectCostAmount}"  />
+<!--
+                	<input name="textfield" type="text" size="12">
+-->
+                </td>
                 <th align=right valign=middle>End Date:</th>
-                <td align=left valign=middle ><input name="date1" size=10 value="01/01/2005 " type=text>
-                  <a href="#" onclick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor1"><img src="images/cal.gif" alt="date selector" width=16 height=16 border=0></a></td>
+                <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.proposalBudgetEndDate}" datePicker="true" />
+<!-- 
+                	<input name="date1" size=10 value="01/01/2005 " type=text>
+                  	<a href="#" onclick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor1"><img src="images/cal.gif" alt="date selector" width=16 height=16 border=0></a>
+-->
+                </td>
               </tr>
               <tr>
 

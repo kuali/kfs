@@ -20,9 +20,10 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Audit Mode"
-	htmlFormAction="researchBudgetAuditMode" headerDispatch="auditmode"
+	htmlFormAction="researchBudgetAuditMode" 
+	headerDispatch="auditmode"
 	headerTabActive="auditmode"
-	showTabButtons="${KualiForm.auditActivated}"
+	showTabButtons="${!empty AuditErrors}"
 	feedbackKey="app.krafeedback.link">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

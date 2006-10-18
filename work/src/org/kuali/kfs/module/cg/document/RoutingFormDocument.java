@@ -28,6 +28,7 @@ import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
+import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
@@ -100,6 +101,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
     private List<RoutingFormProtocol> routingFormProtocols;
+    private RoutingFormBudget routingFormBudget;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -1362,6 +1365,14 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void addRoutingFormProtocol(RoutingFormProtocol routingFormProtocol) {
         getRoutingFormProtocols().add(routingFormProtocol);
+    }
+
+    public RoutingFormBudget getRoutingFormBudget() {
+        return routingFormBudget;
+    }
+
+    public void setRoutingFormBudget(RoutingFormBudget routingFormBudget) {
+        this.routingFormBudget = routingFormBudget;
     }
 
 

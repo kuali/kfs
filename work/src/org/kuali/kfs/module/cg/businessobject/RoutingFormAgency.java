@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.cg.bo.Agency;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -55,6 +56,8 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	private Date proposalSubmitDate;
 
     private RoutingFormDueDateType proposalDueDateType;
+    private Agency routingFormAgency;
+    private Agency federalPassThroughAgency;
     
 	/**
 	 * Default constructor.
@@ -611,6 +614,22 @@ public class RoutingFormAgency extends BusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("researchDocumentNumber", this.researchDocumentNumber);
         return m;
+    }
+
+    public Agency getRoutingFormAgency() {
+        return routingFormAgency;
+    }
+
+    public void setRoutingFormAgency(Agency routingFormAgency) {
+        this.routingFormAgency = routingFormAgency;
+    }
+
+    public Agency getFederalPassThroughAgency() {
+        return federalPassThroughAgency;
+    }
+
+    public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
+        this.federalPassThroughAgency = federalPassThroughAgency;
     }
 
 }

@@ -129,7 +129,7 @@
 
             <attribute name="agencyAddressDescription" forceUppercase="true">
                 <label>Agency Address Description</label>
-                <shortLabel>Description</shortLabel>
+                <shortLabel>Address Description</shortLabel>
 
                 <maxLength>500</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -188,8 +188,8 @@
 			</attribute>
 
             <attribute name="agencyDiskAccompanyIndicator" forceUppercase="true">
-                <label>Agency Disk Accompany Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <label>Disk to Accompany Proposal</label>
+                <shortLabel>Accompany</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -202,8 +202,8 @@
 			</attribute>
 
             <attribute name="agencyElectronicSubmissionIndicator" forceUppercase="true">
-                <label>Agency Electronic Submission Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <label>Electronic Submission Required</label>
+                <shortLabel>Electronic Submission</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -352,7 +352,7 @@
 
             <attribute name="agencyShippingInstructionsDescription" forceUppercase="true">
                 <label>Agency Shipping Instructions Description</label>
-                <shortLabel>Description</shortLabel>
+                <shortLabel>Delivery Instructions</shortLabel>
 
                 <maxLength>1000</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -396,7 +396,7 @@
 			</attribute>
 
             <attribute name="proposalDueDate" forceUppercase="true">
-                <label>Proposal Due Date</label>
+                <label>Due Date</label>
                 <shortLabel>Date</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -411,7 +411,7 @@
 			</attribute>
 
             <attribute name="proposalDueDateTypeCode" forceUppercase="true">
-                <label>Proposal Due Date Type Code</label>
+                <label>Due Date Type</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -442,7 +442,7 @@
 
             <attribute name="proposalRequiredCopyNumber" forceUppercase="true">
                 <label>Proposal Required Copy Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Copies to Agency</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><numeric /></validationPattern>

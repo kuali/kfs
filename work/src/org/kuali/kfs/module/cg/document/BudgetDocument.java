@@ -74,7 +74,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     public BudgetDocument() {
         super();
         budget = new Budget();
-        budget.setDocumentHeaderId(this.financialDocumentNumber);
+        budget.setResearchDocumentNumber(this.financialDocumentNumber);
         budgetTaskNextSequenceNumber = new Integer(1);
         budgetPeriodNextSequenceNumber = new Integer(1);
         personnelNextSequenceNumber = new Integer(1);
@@ -96,7 +96,7 @@ public class BudgetDocument extends ResearchDocumentBase {
 //        try {
 //            SpringServiceLocator.getBudgetService().prepareBudgetForSave(this);
 //        } catch (WorkflowException e) {
-//            throw new RuntimeException("no document found for documentHeaderId '" + this.documentHeader + "'", e);
+//            throw new RuntimeException("no document found for researchDocumentNumber '" + this.documentHeader + "'", e);
 //        }
 //    }
     
@@ -166,7 +166,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("documentHeaderId", this.financialDocumentNumber);
+        m.put("researchDocumentNumber", this.financialDocumentNumber);
 
         return m;
     }
@@ -202,7 +202,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         }
 
         budgetPeriod.setBudgetPeriodSequenceNumber(getBudgetPeriodNextSequenceNumber());
-        budgetPeriod.setDocumentHeaderId(this.getFinancialDocumentNumber());
+        budgetPeriod.setResearchDocumentNumber(this.getFinancialDocumentNumber());
         this.budget.getPeriods().add(budgetPeriod);
 
         setBudgetPeriodNextSequenceNumber(new Integer(getBudgetPeriodNextSequenceNumber().intValue() + 1));
@@ -210,7 +210,7 @@ public class BudgetDocument extends ResearchDocumentBase {
 
     public void addTask(BudgetTask budgetTask) {
         budgetTask.setBudgetTaskSequenceNumber(getBudgetTaskNextSequenceNumber());
-        budgetTask.setDocumentHeaderId(this.getFinancialDocumentNumber());
+        budgetTask.setResearchDocumentNumber(this.getFinancialDocumentNumber());
         if (this.budget.isAgencyModularIndicator() && this.budget.getTasks().size() == 0) {
             this.budget.getModularBudget().setBudgetModularTaskNumber(budgetTask.getBudgetTaskSequenceNumber());
         }
@@ -285,7 +285,7 @@ public class BudgetDocument extends ResearchDocumentBase {
      */
     public Document copy() throws WorkflowException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Document copyDoc = super.copy();
-        ObjectUtils.setObjectPropertyDeep(((BudgetDocument) copyDoc).getBudget(), "documentHeaderId", String.class, copyDoc.getFinancialDocumentNumber());
+        ObjectUtils.setObjectPropertyDeep(((BudgetDocument) copyDoc).getBudget(), "researchDocumentNumber", String.class, copyDoc.getFinancialDocumentNumber());
         return copyDoc;
     }
 

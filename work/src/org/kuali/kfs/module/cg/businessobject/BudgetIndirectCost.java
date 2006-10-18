@@ -32,7 +32,7 @@ import org.kuali.module.kra.budget.KraConstants;
  */
 public class BudgetIndirectCost extends BusinessObjectBase {
 
-    private String documentHeaderId; // ER_REF_TRACK_NBR
+    private String researchDocumentNumber;
 
     /**
      * This is the top left of the IDC parameters form.
@@ -78,13 +78,13 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     }
 
     /**
-     * Constructor with documentHeaderId.
+     * Constructor with researchDocumentNumber.
      * 
-     * @param String documentHeaderId
+     * @param String researchDocumentNumber
      */
-    public BudgetIndirectCost(String documentHeaderId) {
+    public BudgetIndirectCost(String researchDocumentNumber) {
         this();
-        this.setDocumentHeaderId(documentHeaderId);
+        this.setResearchDocumentNumber(researchDocumentNumber);
     }
 
     /**
@@ -96,7 +96,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
         // First call default constructor.
         this();
 
-        this.setDocumentHeaderId(idc.getDocumentHeaderId());
+        this.setResearchDocumentNumber(idc.getResearchDocumentNumber());
         this.setVersionNumber(idc.getVersionNumber());
         this.setObjectId(idc.getObjectId());
 
@@ -111,23 +111,23 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     }
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**

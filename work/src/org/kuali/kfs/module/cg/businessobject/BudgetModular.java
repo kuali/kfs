@@ -33,7 +33,7 @@ import org.kuali.core.util.KualiInteger;
 public class BudgetModular extends BusinessObjectBase {
 
     // Stored values - Budget Modular table
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private KualiInteger budgetModularIncrementAmount;
     private Integer budgetModularTaskNumber;
     private String budgetModularConsortiumDescription;
@@ -63,29 +63,29 @@ public class BudgetModular extends BusinessObjectBase {
         this.increments = new ArrayList();
     }
 
-    public BudgetModular(String documentHeaderId) {
+    public BudgetModular(String researchDocumentNumber) {
         this();
-        this.documentHeaderId = documentHeaderId;
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**

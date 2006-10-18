@@ -34,7 +34,7 @@ import org.kuali.core.util.ObjectUtils;
 public class BudgetFringeRate extends BusinessObjectBase {
 
     private static final long serialVersionUID = -1305514388024735249L;
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private String universityAppointmentTypeCode;
     private KualiDecimal contractsAndGrantsFringeRateAmount;
     private KualiDecimal universityCostShareFringeRateAmount;
@@ -51,24 +51,24 @@ public class BudgetFringeRate extends BusinessObjectBase {
         appointmentType = new AppointmentType();
     }
     
-    public BudgetFringeRate(String documentHeaderId, String universityAppointmentTypeCode) {
+    public BudgetFringeRate(String researchDocumentNumber, String universityAppointmentTypeCode) {
         this();
-        this.documentHeaderId = documentHeaderId;
+        this.researchDocumentNumber = researchDocumentNumber;
         this.universityAppointmentTypeCode = universityAppointmentTypeCode;
     }
 
-    public BudgetFringeRate(String documentHeaderId, String universityAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal universityCostShareFringeRateAmount, AppointmentType appointmentType) {
-        this(documentHeaderId, universityAppointmentTypeCode, contractsAndGrantsFringeRateAmount, universityCostShareFringeRateAmount, appointmentType, null, null);
+    public BudgetFringeRate(String researchDocumentNumber, String universityAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal universityCostShareFringeRateAmount, AppointmentType appointmentType) {
+        this(researchDocumentNumber, universityAppointmentTypeCode, contractsAndGrantsFringeRateAmount, universityCostShareFringeRateAmount, appointmentType, null, null);
     }
 
-    public BudgetFringeRate(String documentHeaderId, AppointmentType appointmentType) {
-        this(documentHeaderId, appointmentType.getAppointmentTypeCode(), appointmentType.getFringeRateAmount(), appointmentType.getCostShareFringeRateAmount(), appointmentType, null, null);
+    public BudgetFringeRate(String researchDocumentNumber, AppointmentType appointmentType) {
+        this(researchDocumentNumber, appointmentType.getAppointmentTypeCode(), appointmentType.getFringeRateAmount(), appointmentType.getCostShareFringeRateAmount(), appointmentType, null, null);
     }
 
 
-    public BudgetFringeRate(String documentHeaderId, String universityAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal universityCostShareFringeRateAmount, AppointmentType appointmentType, String objectId, Long versionNumber) {
+    public BudgetFringeRate(String researchDocumentNumber, String universityAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal universityCostShareFringeRateAmount, AppointmentType appointmentType, String objectId, Long versionNumber) {
         super();
-        this.documentHeaderId = documentHeaderId;
+        this.researchDocumentNumber = researchDocumentNumber;
         this.universityAppointmentTypeCode = universityAppointmentTypeCode;
         this.contractsAndGrantsFringeRateAmount = contractsAndGrantsFringeRateAmount;
         this.universityCostShareFringeRateAmount = universityCostShareFringeRateAmount;
@@ -165,7 +165,7 @@ public class BudgetFringeRate extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("documentHeaderId", this.documentHeaderId);
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
         m.put("universityAppointmentTypeCode", this.universityAppointmentTypeCode);
         return m;
     }
@@ -186,7 +186,7 @@ public class BudgetFringeRate extends BusinessObjectBase {
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getDocumentHeaderId() + "|" + this.getUniversityAppointmentTypeCode() + "|" + this.getAppointmentType().toString() + "|" + this.getAppointmentTypeCostShareFringeRateAmount().toString() + "|" + this.getAppointmentTypeFringeRateAmount().toString() + "|" + this.getBudgetLastUpdateTimestamp().toString() + "|" + this.getContractsAndGrantsFringeRateAmount().toString() + "|" + this.getUniversityCostShareFringeRateAmount().toString();
+        String hashString = this.getResearchDocumentNumber() + "|" + this.getUniversityAppointmentTypeCode() + "|" + this.getAppointmentType().toString() + "|" + this.getAppointmentTypeCostShareFringeRateAmount().toString() + "|" + this.getAppointmentTypeFringeRateAmount().toString() + "|" + this.getBudgetLastUpdateTimestamp().toString() + "|" + this.getContractsAndGrantsFringeRateAmount().toString() + "|" + this.getUniversityCostShareFringeRateAmount().toString();
         return hashString.hashCode();
     }
 
@@ -220,7 +220,7 @@ public class BudgetFringeRate extends BusinessObjectBase {
 
         if (ObjectUtils.isNotNull(obj) && obj instanceof BudgetFringeRate) {
             BudgetFringeRate objCompare = (BudgetFringeRate) obj;
-            equals &= this.documentHeaderId.equals(objCompare.getDocumentHeaderId());
+            equals &= this.researchDocumentNumber.equals(objCompare.getResearchDocumentNumber());
             equals &= this.universityAppointmentTypeCode.equals(objCompare.getUniversityAppointmentTypeCode());
             if (this.budgetLastUpdateTimestamp == null && objCompare.getBudgetLastUpdateTimestamp() == null) {
             }
@@ -257,17 +257,17 @@ public class BudgetFringeRate extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the documentHeaderId.
+     * @return Returns the researchDocumentNumber.
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**

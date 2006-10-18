@@ -101,7 +101,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         UserAppointmentTask userAppointmentTask = new UserAppointmentTask();
         userAppointmentTask.setBudgetTaskSequenceNumber(budgetTaskSequenceNumber);
         userAppointmentTask.setBudgetUserSequenceNumber(budgetUser.getBudgetUserSequenceNumber());
-        userAppointmentTask.setDocumentHeaderId(budgetUser.getDocumentHeaderId());
+        userAppointmentTask.setResearchDocumentNumber(budgetUser.getResearchDocumentNumber());
         userAppointmentTask.setUniversityAppointmentTypeCode(budgetFringeRate.getUniversityAppointmentTypeCode());
         userAppointmentTask.setBudgetFringeRate(budgetFringeRate);
         userAppointmentTask.setSecondaryAppointment(isSecondaryAppointment);
@@ -122,7 +122,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         UserAppointmentTaskPeriod userAppointmentTaskPeriod;
 
         userAppointmentTaskPeriod = new UserAppointmentTaskPeriod();
-        userAppointmentTaskPeriod.setDocumentHeaderId(budgetUser.getDocumentHeaderId());
+        userAppointmentTaskPeriod.setResearchDocumentNumber(budgetUser.getResearchDocumentNumber());
         userAppointmentTaskPeriod.setBudgetUserSequenceNumber(budgetUser.getBudgetUserSequenceNumber());
         userAppointmentTaskPeriod.setBudgetTaskSequenceNumber(task.getBudgetTaskSequenceNumber());
         userAppointmentTaskPeriod.setBudgetPeriodSequenceNumber(budgetPeriodSequenceNumber);
@@ -259,7 +259,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
             for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
                 BudgetPeriod budgetPeriod = new BudgetPeriod();
-                budgetPeriod.setDocumentHeaderId(userAppointmentTaskPeriod.getDocumentHeaderId());
+                budgetPeriod.setResearchDocumentNumber(userAppointmentTaskPeriod.getResearchDocumentNumber());
                 budgetPeriod.setBudgetPeriodSequenceNumber(userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber());
 
                 BudgetPeriod period = (BudgetPeriod) (ObjectUtils.retrieveObjectWithIdentitcalKey(budgetDocument.getBudget().getPeriods(), budgetPeriod));
@@ -269,7 +269,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
                     // the following should ensure that we have up to date fringe rates in the case of modification from Parameters
                     BudgetFringeRate budgetFringeRate = new BudgetFringeRate();
-                    budgetFringeRate.setDocumentHeaderId(userAppointmentTaskPeriod.getDocumentHeaderId());
+                    budgetFringeRate.setResearchDocumentNumber(userAppointmentTaskPeriod.getResearchDocumentNumber());
                     budgetFringeRate.setUniversityAppointmentTypeCode(userAppointmentTaskPeriod.getUniversityAppointmentTypeCode());
 
                     budgetFringeRate = (BudgetFringeRate) (ObjectUtils.retrieveObjectWithIdentitcalKey(budgetDocument.getBudget().getFringeRates(), budgetFringeRate));
@@ -306,7 +306,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                 budgetFringeRate = budgetFringeRateFromList;
             }
             else {
-                budgetFringeRate = budgetFringeRateService.getBudgetFringeRate(userAppointmentTask.getDocumentHeaderId(), userAppointmentTask.getUniversityAppointmentTypeCode());
+                budgetFringeRate = budgetFringeRateService.getBudgetFringeRate(userAppointmentTask.getResearchDocumentNumber(), userAppointmentTask.getUniversityAppointmentTypeCode());
             }
 
             // Zero out the totals
@@ -624,7 +624,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                 // loop through usreAppointmentTasks and check that the associated exists in the Task list
                 UserAppointmentTask userAppointmentTask = (UserAppointmentTask) userAppointmentTaskIter.next();
                 userAppointments.add(userAppointmentTask.getUniversityAppointmentTypeCode());
-                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(userAppointmentTask.getDocumentHeaderId(), userAppointmentTask.getBudgetTaskSequenceNumber()));
+                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(userAppointmentTask.getResearchDocumentNumber(), userAppointmentTask.getBudgetTaskSequenceNumber()));
                 if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetTasks, budgetTask)) {
                     userAppointmentTaskIter.remove();
                 }
@@ -632,7 +632,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                     // loop through userAppointmentTaskPeriods and check each period.
                     for (Iterator userAppointmentTaskPeriodIter = userAppointmentTask.getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext();) {
                         UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
-                        BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(userAppointmentTaskPeriod.getDocumentHeaderId(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber()));
+                        BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(userAppointmentTaskPeriod.getResearchDocumentNumber(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber()));
                         if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                             userAppointmentTaskPeriodIter.remove();
                         }
@@ -700,7 +700,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             projectDirector = new BudgetUser();
             if (!budget.isProjectDirectorToBeNamedIndicator()) {
                 // PD is a real person (not TBN)
-                projectDirector.setPersonUniversalIdentifier(budget.getBudgetProjectDirectorSystemId());
+                projectDirector.setPersonSystemIdentifier(budget.getBudgetProjectDirectorSystemId());
                 projectDirector.refresh();
             }
             budgetDocument.addPersonnel(projectDirector);
@@ -708,8 +708,8 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         else {
             // PD does exist in Personnel List already
             String paramsPdUid = budget.getBudgetProjectDirectorSystemId() != null ? budget.getBudgetProjectDirectorSystemId() : "";
-            String personnelPdUid = projectDirector.getPersonUniversalIdentifier() != null ? projectDirector.getPersonUniversalIdentifier() : "";
-            if (!(budget.isProjectDirectorToBeNamedIndicator() && StringUtils.isEmpty(personnelPdUid)) && !paramsPdUid.equals(personnelPdUid)) {
+            String personnelSysId = projectDirector.getPersonSystemIdentifier() != null ? projectDirector.getPersonSystemIdentifier() : "";
+            if (!(budget.isProjectDirectorToBeNamedIndicator() && StringUtils.isEmpty(personnelSysId)) && !paramsPdUid.equals(personnelSysId)) {
                 // PD from params is not the same as the PD from the Personnel List
 
                 boolean projectDirectorFound = false;
@@ -721,7 +721,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                     // PD from Params is not TBN
                     for (Iterator i = budget.getPersonnel().iterator(); i.hasNext() && !projectDirectorFound;) {
                         BudgetUser budgetUser = (BudgetUser) i.next();
-                        if (budgetUser.getPersonUniversalIdentifier() != null && budgetUser.getPersonUniversalIdentifier().equals(paramsPdUid)) {
+                        if (budgetUser.getPersonSystemIdentifier() != null && budgetUser.getPersonSystemIdentifier().equals(paramsPdUid)) {
                             projectDirector = budgetUser;
                             projectDirectorFound = true;
                         }
@@ -730,7 +730,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                     if (!projectDirectorFound) {
                         // PD from params was not found in the existing Personnel list; need to create a new personnel entry
                         projectDirector = new BudgetUser();
-                        projectDirector.setPersonUniversalIdentifier(paramsPdUid);
+                        projectDirector.setPersonSystemIdentifier(paramsPdUid);
                         projectDirector.refresh();
                         budgetDocument.addPersonnel(projectDirector);
                     }

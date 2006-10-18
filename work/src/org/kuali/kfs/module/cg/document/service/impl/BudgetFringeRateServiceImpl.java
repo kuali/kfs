@@ -41,14 +41,14 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
 
-    public BudgetFringeRate getBudgetFringeRate(String documentHeaderId, String universityAppointmentTypeCode) {
+    public BudgetFringeRate getBudgetFringeRate(String researchDocumentNumber, String universityAppointmentTypeCode) {
         
         BudgetFringeRate budgetFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
-                new BudgetFringeRate(documentHeaderId, universityAppointmentTypeCode));
+                new BudgetFringeRate(researchDocumentNumber, universityAppointmentTypeCode));
         
         if (budgetFringeRate == null) {
             AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(universityAppointmentTypeCode));
-            budgetFringeRate = new BudgetFringeRate(documentHeaderId, appointmentType);
+            budgetFringeRate = new BudgetFringeRate(researchDocumentNumber, appointmentType);
         }
         
         return budgetFringeRate;
@@ -61,31 +61,31 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
         return businessObjectService.findAll(AppointmentType.class);
     }
 
-    public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentHeaderId) {
+    public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String researchDocumentNumber) {
         
         AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(
                 new AppointmentType(kualiConfigurationService.getApplicationParameterValue("KraDevelopmentGroup", "defaultAppointmentType")));
         
         BudgetFringeRate defaultFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
-                new BudgetFringeRate(documentHeaderId, appointmentType.getAppointmentTypeCode()));
+                new BudgetFringeRate(researchDocumentNumber, appointmentType.getAppointmentTypeCode()));
         
         if (defaultFringeRate != null) {
             return defaultFringeRate;
         }
         else {
-            return new BudgetFringeRate(documentHeaderId, appointmentType);
+            return new BudgetFringeRate(researchDocumentNumber, appointmentType);
         }
     }
 
     public BudgetFringeRate getBudgetFringeRateForPerson(BudgetUser budgetUser) {
         if (StringUtils.isNotEmpty(budgetUser.getAppointmentTypeCode())) {
-            return this.getBudgetFringeRate(budgetUser.getDocumentHeaderId(), budgetUser.getAppointmentTypeCode());
+            return this.getBudgetFringeRate(budgetUser.getResearchDocumentNumber(), budgetUser.getAppointmentTypeCode());
         }
         else if (budgetUser.getUserAppointmentTasks().size() > 0 && StringUtils.isNotEmpty(budgetUser.getUserAppointmentTask(0).getUniversityAppointmentTypeCode())) {
-            return this.getBudgetFringeRate(budgetUser.getDocumentHeaderId(), budgetUser.getUserAppointmentTask(0).getUniversityAppointmentTypeCode());
+            return this.getBudgetFringeRate(budgetUser.getResearchDocumentNumber(), budgetUser.getUserAppointmentTask(0).getUniversityAppointmentTypeCode());
         }
         else {
-            return this.getBudgetFringeRateForDefaultAppointmentType(budgetUser.getDocumentHeaderId());
+            return this.getBudgetFringeRateForDefaultAppointmentType(budgetUser.getResearchDocumentNumber());
         }
     }
 
@@ -110,7 +110,7 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     public void setupDefaultFringeRates(Budget budget) {
         for (Iterator iter = getDefaultFringeRates().iterator(); iter.hasNext();) {
             AppointmentType appType = (AppointmentType) iter.next();
-            BudgetFringeRate bfr = new BudgetFringeRate(budget.getDocumentHeaderId(), appType.getAppointmentTypeCode(), appType.getFringeRateAmount(), appType.getCostShareFringeRateAmount(), appType);
+            BudgetFringeRate bfr = new BudgetFringeRate(budget.getResearchDocumentNumber(), appType.getAppointmentTypeCode(), appType.getFringeRateAmount(), appType.getCostShareFringeRateAmount(), appType);
             budget.getFringeRates().add(bfr);
         }
     }

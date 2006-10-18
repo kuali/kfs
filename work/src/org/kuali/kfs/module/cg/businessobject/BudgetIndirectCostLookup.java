@@ -28,7 +28,7 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class BudgetIndirectCostLookup extends BusinessObjectBase {
 
-    private String documentHeaderId;
+    private String researchDocumentNumber;
 	private boolean budgetOnCampusIndicator;
 	private String budgetPurposeCode;
 	private KualiDecimal budgetIndirectCostRate;
@@ -43,7 +43,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
 	}
 
     public BudgetIndirectCostLookup(Budget budget, IndirectCostLookup indirectCostLookup) {
-        this.documentHeaderId = budget.getDocumentHeaderId();
+        this.researchDocumentNumber = budget.getResearchDocumentNumber();
         this.budgetOnCampusIndicator = indirectCostLookup.getBudgetOnCampusIndicator();
         this.budgetPurposeCode = indirectCostLookup.getBudgetPurposeCode();
         this.budgetIndirectCostRate = indirectCostLookup.getBudgetIndirectCostRate();
@@ -51,12 +51,12 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
         this.indirectCostLookup = indirectCostLookup;
     }
 
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
 	/**

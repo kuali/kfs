@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiInteger;
  */
 public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements Comparable {
 
-    private String documentHeaderId; // ER_REF_TRACK_NBR
+    private String researchDocumentNumber; // RDOC_NBR
     private Integer budgetTaskSequenceNumber; // BDGT_TSK_SEQ_NBR
     private Integer budgetPeriodSequenceNumber; // BDGT_PRD_SEQ_NBR
     private KualiDecimal budgetManualIndirectCostRate; // BDGT_MAN_IDC_RT
@@ -78,7 +78,7 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     public BudgetTaskPeriodIndirectCost(BudgetTaskPeriodIndirectCost template) {
         this();
      
-        this.documentHeaderId = template.getDocumentHeaderId();
+        this.researchDocumentNumber = template.getResearchDocumentNumber();
         this.budgetTaskSequenceNumber = template.getBudgetTaskSequenceNumber();
         this.budgetPeriodSequenceNumber = template.getBudgetPeriodSequenceNumber();
         this.budgetManualIndirectCostRate = template.getBudgetManualIndirectCostRate();
@@ -89,23 +89,23 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     }
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**

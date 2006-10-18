@@ -33,7 +33,7 @@ import org.kuali.module.kra.budget.service.impl.BudgetPersonnelServiceImpl.Perio
  */
 public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Comparable {
 
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private Integer budgetTaskSequenceNumber;
     private Integer budgetPeriodSequenceNumber;
     private Integer budgetUserSequenceNumber;
@@ -116,23 +116,23 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     }
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**
@@ -762,7 +762,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("documentHeaderId", this.getDocumentHeaderId());
+        m.put("researchDocumentNumber", this.getResearchDocumentNumber());
         m.put("budgetUserSequenceNumber", this.getBudgetUserSequenceNumber());
         m.put("universityAppointmentTypeCode", this.getUniversityAppointmentTypeCode());
         m.put("budgetTaskSequenceNumber", this.getBudgetTaskSequenceNumber());
@@ -883,7 +883,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
 
         if (ObjectUtils.isNotNull(obj) && obj instanceof UserAppointmentTaskPeriod) {
             UserAppointmentTaskPeriod objCompare = (UserAppointmentTaskPeriod) obj;
-            equals &= this.documentHeaderId.equals(objCompare.getDocumentHeaderId());
+            equals &= this.researchDocumentNumber.equals(objCompare.getResearchDocumentNumber());
             if (this.getAgencyFringeBenefitTotalAmount() == null && objCompare.getAgencyFringeBenefitTotalAmount() == null) {
             }
             else {
@@ -1064,7 +1064,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getDocumentHeaderId() + "|" + this.getPersonWeeksJustificationText() + "|" + this.getUniversityAppointmentTypeCode() + "|" + this.getAgencyFringeBenefitTotalAmount().toString() + "|" + this.getAgencyFullTimeEquivalentPercent().toString() + "|" + this.getAgencyHealthInsuranceAmount().toString() + "|" + this.getAgencyPercentEffortAmount().toString() + "|" + this.getAgencyRequestedFeesAmount().toString() + "|" + this.getAgencySalaryAmount().toString() + "|" + this.getBudgetFringeRate().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetUserSequenceNumber().toString() + "|" + this.getPeriod().toString() + "|" + this.getPeriodSalary().toString() + "|" + this.getPersonWeeksAmount().toString() + "|" + this.getTask().toString() + "|" + this.getTotalFeeRemissionsAmount().toString() + "|" + this.getTotalFringeAmount().toString() + "|" + this.getTotalFteAmount().toString()
+        String hashString = this.getResearchDocumentNumber() + "|" + this.getPersonWeeksJustificationText() + "|" + this.getUniversityAppointmentTypeCode() + "|" + this.getAgencyFringeBenefitTotalAmount().toString() + "|" + this.getAgencyFullTimeEquivalentPercent().toString() + "|" + this.getAgencyHealthInsuranceAmount().toString() + "|" + this.getAgencyPercentEffortAmount().toString() + "|" + this.getAgencyRequestedFeesAmount().toString() + "|" + this.getAgencySalaryAmount().toString() + "|" + this.getBudgetFringeRate().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetUserSequenceNumber().toString() + "|" + this.getPeriod().toString() + "|" + this.getPeriodSalary().toString() + "|" + this.getPersonWeeksAmount().toString() + "|" + this.getTask().toString() + "|" + this.getTotalFeeRemissionsAmount().toString() + "|" + this.getTotalFringeAmount().toString() + "|" + this.getTotalFteAmount().toString()
                 + "|" + this.getTotalGradAsstSalaryAmount().toString() + "|" + this.getTotalHealthInsuranceAmount().toString() + "|" + this.getTotalPercentEffort().toString() + "|" + this.getTotalSalaryAmount().toString() + "|" + this.getUniversityCostShareFringeBenefitTotalAmount().toString() + "|" + this.getUniversityCostSharePercentEffortAmount().toString() + "|" + this.getUniversityCostShareRequestTotalAmount().toString() + "|" + this.getUniversityFullTimeEquivalentPercent().toString() + "|" + this.getUniversityHealthInsuranceAmount().toString() + "|" + this.getUniversityRequestedFeesAmount().toString() + "|" + this.getUniversitySalaryAmount().toString() + "|" + this.getUserAgencyHours().toString() + "|" + this.getUserBudgetPeriodSalaryAmount().toString() + "|" + this.getUserCreditHourAmount().toString() + "|" + this.getUserCreditHoursNumber().toString() + "|" + this.getUserHourlyRate().toString() + "|" + this.getUserMiscellaneousFeeAmount().toString() + "|"
                 + this.getUserUniversityHours().toString();
         return hashString.hashCode();

@@ -29,9 +29,9 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
  */
 public interface BudgetPeriodService {
 
-    public BudgetPeriod getBudgetPeriod(String documentHeaderId, Integer budgetPeriodSequenceNumber);
+    public BudgetPeriod getBudgetPeriod(String researchDocumentNumber, Integer budgetPeriodSequenceNumber);
 
-    public BudgetPeriod getFirstBudgetPeriod(String documentHeaderId);
+    public BudgetPeriod getFirstBudgetPeriod(String researchDocumentNumber);
 
     /**
      * Returns the index (zero based) of a BudgetPeriod per the passed in budgetPeriodSequenceNumber.

@@ -387,7 +387,7 @@
 
 		<!-- Hiddens for existing personnel items -->
 		<logic:iterate id="universityCostSharePerson" name="KualiForm" property="document.budget.universityCostSharePersonnelItems" indexId="ctr">
-			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].documentHeaderId" />
+			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].researchDocumentNumber" />
 			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].organizationCode" />
 			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].chartOfAccountsCode" />
 			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].versionNumber" />
@@ -399,14 +399,14 @@
 
 		<!-- Hiddens for added cost share direct items, including for it's budgetPeriodCostShareItem objects -->
 		<logic:iterate id="sources" name="KualiForm" property="document.budget.universityCostShareItems" indexId="rowctr">
-			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].documentHeaderId" />
+			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].researchDocumentNumber" />
 			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetCostShareSequenceNumber" />
 			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].organizationCode" />
 			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].chartOfAccountsCode" />
 			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].versionNumber" />
 
 			<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="colctr">
-				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].documentHeaderId" />
+				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].researchDocumentNumber" />
 				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetCostShareSequenceNumber" />
 				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetPeriodSequenceNumber" />
 				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].versionNumber" />

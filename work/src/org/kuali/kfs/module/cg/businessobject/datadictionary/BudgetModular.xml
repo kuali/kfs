@@ -28,13 +28,13 @@
             <title>Modular Budget Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="documentHeaderId" />
+                <field attributeName="researchDocumentNumber" />
                 <!-- field attributeName="budgetAgency.agencyName" / -->
             </inquiryFields>
         </inquiry>
 
         <attributes>
-            <attribute name="documentHeaderId" forceUppercase="true">
+            <attribute name="researchDocumentNumber" forceUppercase="true">
                 <label>Document Header ID</label>
                 <shortLabel>Doc Header ID</shortLabel>
 

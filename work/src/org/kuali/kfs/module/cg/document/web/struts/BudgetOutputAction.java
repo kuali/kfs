@@ -128,7 +128,7 @@ public class BudgetOutputAction extends BudgetAction {
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
         String env = kualiConfigurationService.getPropertyString("environment");
 
-        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentHeaderId() + ".pdf");
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, "kraBudget-" + env + budgetDoc.getBudget().getResearchDocumentNumber() + ".pdf");
 
         return null; // because saveMimeOutputStreamAsFile commits the response
     }
@@ -169,7 +169,7 @@ public class BudgetOutputAction extends BudgetAction {
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
         String env = kualiConfigurationService.getPropertyString("environment");
 
-        WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentHeaderId() + ".xml");
+        WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraBudget-" + env + budgetDoc.getBudget().getResearchDocumentNumber() + ".xml");
 
         return null; // because saveMimeOutputStreamAsFile commits the response
     }

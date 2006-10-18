@@ -41,13 +41,13 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
         graduateAssistantRate = new GraduateAssistantRate();
     }
 
-    public BudgetGraduateAssistantRate(String documentHeaderId, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate) {
-        this(documentHeaderId, campusCode, campusMaximumPeriod1Rate, campusMaximumPeriod2Rate, campusMaximumPeriod3Rate, campusMaximumPeriod4Rate, campusMaximumPeriod5Rate, campusMaximumPeriod3Rate, graduateAssistantRate, null, null);
+    public BudgetGraduateAssistantRate(String researchDocumentNumber, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate) {
+        this(researchDocumentNumber, campusCode, campusMaximumPeriod1Rate, campusMaximumPeriod2Rate, campusMaximumPeriod3Rate, campusMaximumPeriod4Rate, campusMaximumPeriod5Rate, campusMaximumPeriod3Rate, graduateAssistantRate, null, null);
     }
 
-    public BudgetGraduateAssistantRate(String documentHeaderId, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate, String objectId, Long versionNumber) {
+    public BudgetGraduateAssistantRate(String researchDocumentNumber, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate, String objectId, Long versionNumber) {
         super();
-        this.documentHeaderId = documentHeaderId;
+        this.researchDocumentNumber = researchDocumentNumber;
         this.campusCode = campusCode;
         this.campusMaximumPeriod1Rate = campusMaximumPeriod1Rate;
         this.campusMaximumPeriod2Rate = campusMaximumPeriod2Rate;
@@ -61,7 +61,7 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
     }
 
 
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private String campusCode;
     private KualiDecimal campusMaximumPeriod1Rate;
     private KualiDecimal campusMaximumPeriod2Rate;
@@ -181,12 +181,12 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
         }
     }
 
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     public void afterDelete(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
@@ -242,7 +242,7 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("documentHeaderId", this.documentHeaderId);
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
         m.put("campusCode", this.campusCode);
         return m;
     }

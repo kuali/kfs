@@ -55,7 +55,7 @@
   <c:if test="${KualiForm.document.taskListSize lt KraConstants.maximumNumberOfTasks && not viewOnly}">
   <tr>
     <th width="50" align="right" scope="row"><div align="right">add:</div></th>
-    <td class="infoline"><html:hidden property="newTask.documentHeaderId" /> <html:hidden property="newTask.budgetTaskSequenceNumber" /> <html:hidden property="newTask.objectId"/> <html:hidden property="newTask.versionNumber" /> <span> <kul:htmlControlAttribute property="newTask.budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}"/> </span> </td>
+    <td class="infoline"><html:hidden property="newTask.researchDocumentNumber" /> <html:hidden property="newTask.budgetTaskSequenceNumber" /> <html:hidden property="newTask.objectId"/> <html:hidden property="newTask.versionNumber" /> <span> <kul:htmlControlAttribute property="newTask.budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}"/> </span> </td>
     <td class="infoline"><div align="center"> <kul:htmlControlAttribute property="newTask.budgetTaskOnCampus" attributeEntry="${budgetTaskAttributes.budgetTaskOnCampus}"/> </div></td>
     <td class="infoline"><div align="center">
         <label><input type="radio" name="document.budget.modularBudget.budgetModularTaskNumber" disabled="true" value="-1" /></label>
@@ -67,7 +67,7 @@
   <logic:iterate id="taskLine" name="KualiForm" property="document.budget.tasks" indexId="ctr">
   <tr>
     <th width="50" scope="row"><div align="right">${ctr+1}:</div></th>
-    <td><kul:htmlControlAttribute property="document.budget.task[${ctr}].budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}" readOnly="${viewOnly}"/> <html:hidden property="document.budget.task[${ctr}].documentHeaderId" /> <html:hidden property="document.budget.task[${ctr}].budgetTaskSequenceNumber" /> <html:hidden property="document.budget.task[${ctr}].objectId"/> <html:hidden property="document.budget.task[${ctr}].versionNumber" /> </td>
+    <td><kul:htmlControlAttribute property="document.budget.task[${ctr}].budgetTaskName" attributeEntry="${budgetTaskAttributes.budgetTaskName}" readOnly="${viewOnly}"/> <html:hidden property="document.budget.task[${ctr}].researchDocumentNumber" /> <html:hidden property="document.budget.task[${ctr}].budgetTaskSequenceNumber" /> <html:hidden property="document.budget.task[${ctr}].objectId"/> <html:hidden property="document.budget.task[${ctr}].versionNumber" /> </td>
     <td><div align="center">
         <label> <kul:htmlControlAttribute property="document.budget.task[${ctr}].budgetTaskOnCampus" attributeEntry="${budgetTaskAttributes.budgetTaskOnCampus}" readOnly="${viewOnly}"/> </label>
       </div></td>

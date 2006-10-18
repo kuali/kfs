@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiInteger;
  */
 public class UserAppointmentTask extends BusinessObjectBase implements Comparable {
 
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private Integer budgetTaskSequenceNumber;
     private Integer budgetUserSequenceNumber;
     private String universityAppointmentTypeCode;
@@ -63,7 +63,7 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
 
     public UserAppointmentTask(UserAppointmentTask userAppointmentTask) {
         super();
-        this.documentHeaderId = userAppointmentTask.getDocumentHeaderId();
+        this.researchDocumentNumber = userAppointmentTask.getResearchDocumentNumber();
         this.budgetTaskSequenceNumber = userAppointmentTask.getBudgetTaskSequenceNumber();
         this.budgetUserSequenceNumber = userAppointmentTask.getBudgetUserSequenceNumber();
         this.universityAppointmentTypeCode = userAppointmentTask.getUniversityAppointmentTypeCode();
@@ -73,23 +73,23 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
 
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**

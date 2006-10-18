@@ -63,13 +63,13 @@ public class BudgetPeriodServiceImpl implements BudgetPeriodService {
      * 
      * @see org.kuali.service.BudgetPeriodService#getBudgetPeriod(java.lang.Long, java.lang.Integer)
      */
-    public BudgetPeriod getBudgetPeriod(String documentHeaderId, Integer budgetPeriodSequenceNumber) {
-        return (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(documentHeaderId, budgetPeriodSequenceNumber));
+    public BudgetPeriod getBudgetPeriod(String researchDocumentNumber, Integer budgetPeriodSequenceNumber) {
+        return (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(researchDocumentNumber, budgetPeriodSequenceNumber));
     }
 
-    public BudgetPeriod getFirstBudgetPeriod(String documentHeaderId) {
+    public BudgetPeriod getFirstBudgetPeriod(String researchDocumentNumber) {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DOCUMENT_HEADER_ID, documentHeaderId);
+        fieldValues.put(PropertyConstants.RESEARCH_DOCUMENT_NUMBER, researchDocumentNumber);
         List budgetPeriodList = new ArrayList(businessObjectService.findMatchingOrderBy(BudgetPeriod.class, fieldValues, PropertyConstants.BUDGET_PERIOD_BEGIN_DATE, true));
         return (BudgetPeriod) budgetPeriodList.get(0);
     }

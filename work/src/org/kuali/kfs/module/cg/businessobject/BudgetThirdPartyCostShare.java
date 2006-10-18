@@ -39,7 +39,7 @@ public class BudgetThirdPartyCostShare extends BudgetAbstractCostShare {
     }
 
     public BudgetThirdPartyCostShare(BudgetThirdPartyCostShare budgetThirdPartyCostShare) {
-        this.documentHeaderId = budgetThirdPartyCostShare.getDocumentHeaderId();
+        this.researchDocumentNumber = budgetThirdPartyCostShare.getResearchDocumentNumber();
         this.budgetCostShareSequenceNumber = budgetThirdPartyCostShare.getBudgetCostShareSequenceNumber();
         this.budgetCostShareDescription = budgetThirdPartyCostShare.getBudgetCostShareDescription();
         this.budgetPeriodCostShare = budgetThirdPartyCostShare.getBudgetPeriodCostShare();

@@ -41,7 +41,7 @@
 
         <attributes>
 
-            <attribute name="documentHeaderId" forceUppercase="false">
+            <attribute name="researchDocumentNumber" forceUppercase="false">
                 <label>Document Header Id</label>
                 <shortLabel>Document Id</shortLabel>
 

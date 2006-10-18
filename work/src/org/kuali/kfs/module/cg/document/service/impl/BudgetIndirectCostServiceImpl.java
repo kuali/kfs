@@ -67,7 +67,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
         // Get our idc object from the budget as well.
         BudgetIndirectCost idc = budgetDocument.getBudget().getIndirectCost();
         if (idc == null) {
-            idc = new BudgetIndirectCost(budgetDocument.getBudget().getDocumentHeaderId());
+            idc = new BudgetIndirectCost(budgetDocument.getBudget().getResearchDocumentNumber());
             budgetDocument.getBudget().setIndirectCost(idc);
         }
 
@@ -83,7 +83,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
                 BudgetTaskPeriodIndirectCost taskPeriod = new BudgetTaskPeriodIndirectCost();
 
                 // Set our parameters.
-                taskPeriod.setDocumentHeaderId(idc.getDocumentHeaderId() != null ? idc.getDocumentHeaderId() : null);
+                taskPeriod.setResearchDocumentNumber(idc.getResearchDocumentNumber() != null ? idc.getResearchDocumentNumber() : null);
                 taskPeriod.setBudgetTaskSequenceNumber(task.getBudgetTaskSequenceNumber());
                 taskPeriod.setBudgetPeriodSequenceNumber(period.getBudgetPeriodSequenceNumber());
                 taskPeriod.setTask(task);
@@ -293,7 +293,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
         // The corresponding table is ER_IDC_LU_T.
         if (overrideManualRateIndicator || "N".equals(budgetDocument.getBudget().getIndirectCost().getBudgetManualRateIndicator())) {
             BudgetIndirectCostLookup tempBicl = new BudgetIndirectCostLookup();
-            tempBicl.setDocumentHeaderId(budgetDocument.getBudget().getDocumentHeaderId());
+            tempBicl.setResearchDocumentNumber(budgetDocument.getBudget().getResearchDocumentNumber());
             tempBicl.setBudgetOnCampusIndicator(taskPeriod.getTask().isBudgetTaskOnCampus());
             tempBicl.setBudgetPurposeCode(budgetDocument.getBudget().getIndirectCost().getBudgetPurposeCode());
            
@@ -509,10 +509,10 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
             for (Iterator i = taskPeriodItems.iterator(); i.hasNext();) {
                 BudgetTaskPeriodIndirectCost taskPeriod = (BudgetTaskPeriodIndirectCost) i.next();
 
-                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(taskPeriod.getDocumentHeaderId(), taskPeriod.getBudgetTaskSequenceNumber()));
+                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(taskPeriod.getResearchDocumentNumber(), taskPeriod.getBudgetTaskSequenceNumber()));
                 
                 BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(
-                        new BudgetPeriod(taskPeriod.getDocumentHeaderId(), taskPeriod.getBudgetPeriodSequenceNumber()));
+                        new BudgetPeriod(taskPeriod.getResearchDocumentNumber(), taskPeriod.getBudgetPeriodSequenceNumber()));
 
                 if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetTasks, budgetTask) || !ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                     i.remove();

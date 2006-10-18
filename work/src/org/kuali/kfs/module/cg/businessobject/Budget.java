@@ -40,7 +40,7 @@ import org.kuali.module.cg.bo.ProjectDirector;
 public class Budget extends BusinessObjectBase {
 
     private static final long serialVersionUID = 8113894775967293272L;
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private Long budgetParentTrackNumber;
     private String budgetName;
     private boolean universityCostShareIndicator;
@@ -111,9 +111,9 @@ public class Budget extends BusinessObjectBase {
 
     }
 
-    public Budget(String documentHeaderId) {
+    public Budget(String researchDocumentNumber) {
         this();
-        this.documentHeaderId = documentHeaderId;
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**
@@ -409,7 +409,7 @@ public class Budget extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         LinkedHashMap map = new LinkedHashMap();
-        map.put("documentHeaderId", this.documentHeaderId);
+        map.put("researchDocumentNumber", this.researchDocumentNumber);
         return map;
     }
 
@@ -434,17 +434,17 @@ public class Budget extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the documentHeaderId.
+     * @return Returns the researchDocumentNumber.
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     // /**

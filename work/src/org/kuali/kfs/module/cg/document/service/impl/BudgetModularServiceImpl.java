@@ -153,7 +153,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             }
         }
         else { // First visit to Modular page - get a new Modular Budget.
-            modularBudget = new BudgetModular(budget.getDocumentHeaderId());
+            modularBudget = new BudgetModular(budget.getResearchDocumentNumber());
             // This is stored, b/c if agency info changes, we still have to use the "legacy" increments if modular budget was
             // created using those values
             modularBudget.setBudgetModularIncrementAmount(modularAgencyHelper.getBudgetModularIncrementAmount());
@@ -304,7 +304,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 currentModularPeriod = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(i);
             }
             else {
-                currentModularPeriod = new BudgetModularPeriod(modularBudget.getDocumentHeaderId(), period.getBudgetPeriodSequenceNumber());
+                currentModularPeriod = new BudgetModularPeriod(modularBudget.getResearchDocumentNumber(), period.getBudgetPeriodSequenceNumber());
                 modularBudget.getBudgetModularPeriods().add(currentModularPeriod);
             }
 

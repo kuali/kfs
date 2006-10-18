@@ -27,7 +27,7 @@
             <title>Budget Fringe Rate</title>
 
             <inquiryFields>
-                <field attributeName="documentHeaderId" />
+                <field attributeName="researchDocumentNumber" />
                 <field attributeName="universityAppointmentTypeCode" />
                 <field attributeName="contractsAndGrantsFringeRateAmount" />
                 <field attributeName="universityCostShareFringeRateAmount" />
@@ -46,14 +46,14 @@
 
             <instructions>Lookup a Budget Fringe Rate</instructions>
 
-            <defaultSort attributeName="documentHeaderId" sortAscending="true" />
+            <defaultSort attributeName="researchDocumentNumber" sortAscending="true" />
 
             <lookupFields>
                 <lookupField attributeName="universityAppointmentTypeCode" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="documentHeaderId" />
+                <field attributeName="researchDocumentNumber" />
                 <field attributeName="universityAppointmentTypeCode" />
                 <field attributeName="contractsAndGrantsFringeRateAmount" />
                 <field attributeName="universityCostShareFringeRateAmount" />
@@ -65,7 +65,7 @@
 
         <attributes>
 
-            <attribute name="documentHeaderId" forceUppercase="true">
+            <attribute name="researchDocumentNumber" forceUppercase="true">
                 <label>Budget Number</label>
                 <shortLabel>Budget Number</shortLabel>
 

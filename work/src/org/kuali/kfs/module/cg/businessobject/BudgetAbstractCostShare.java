@@ -29,7 +29,7 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
 
-    protected String documentHeaderId;
+    protected String researchDocumentNumber;
     protected Integer budgetCostShareSequenceNumber;
     protected String budgetCostShareDescription;
     protected List budgetPeriodCostShare;
@@ -46,18 +46,18 @@ public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
      * Populates the key fields for BudgetAbstractPeriodCostShare object. This could be done on object creation, unfortunatly at that time
      * we don't have budgetCostShareSequenceNumber set yet (object is created on page load, while sequence number is set on pressing "add"
      * on the page). Thus we opted for this solution.
-     * @param documentHeaderId
+     * @param researchDocumentNumber
      * @param periods
      * @param budgetAbstractCostShare
      */
-    public void populateKeyFields(String documentHeaderId, List<BudgetPeriod> periods) {
-        this.setDocumentHeaderId(documentHeaderId);
+    public void populateKeyFields(String researchDocumentNumber, List<BudgetPeriod> periods) {
+        this.setResearchDocumentNumber(researchDocumentNumber);
 
         for (int i = 0; i < periods.size(); i++) {
             BudgetPeriod period = periods.get(i);
             BudgetAbstractPeriodCostShare budgetAbstractPeriodCostShare = this.getBudgetPeriodCostShareItem(i);
 
-            budgetAbstractPeriodCostShare.setDocumentHeaderId(documentHeaderId);
+            budgetAbstractPeriodCostShare.setResearchDocumentNumber(researchDocumentNumber);
             budgetAbstractPeriodCostShare.setBudgetCostShareSequenceNumber(this.getBudgetCostShareSequenceNumber());
             budgetAbstractPeriodCostShare.setBudgetPeriodSequenceNumber(period.getBudgetPeriodSequenceNumber());
         }
@@ -68,23 +68,23 @@ public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
     public abstract BudgetAbstractPeriodCostShare getBudgetPeriodCostShareItem(int index);
     
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("documentHeaderId", this.documentHeaderId);
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
         m.put("budgetCostShareSequenceNumber", this.budgetCostShareSequenceNumber);
 
         return m;

@@ -49,7 +49,7 @@ public class BudgetPersonnelRule {
         for (Iterator iter = personnel.iterator(); iter.hasNext();) {
             BudgetUser person = (BudgetUser) iter.next();
             if (ObjectUtils.isNotNull(person.getUser()) && person.getUser().getEmployeeStatusCode() != null && StringUtils.contains(INVALID_STATUSES, person.getUser().getEmployeeStatusCode())) {
-                personnelAuditErrors.add(new AuditError("document.budget.audit.personnel." + person.getPersonUniversalIdentifier() + ".status", KraKeyConstants.AUDIT_PERSONNEL_STATUS, "personnel", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
+                personnelAuditErrors.add(new AuditError("document.budget.audit.personnel." + person.getPersonSystemIdentifier() + ".status", KraKeyConstants.AUDIT_PERSONNEL_STATUS, "personnel", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
                 if (person.isPersonProjectDirectorIndicator()) {
                     List<AuditError> parametersAuditErrors = new ArrayList<AuditError>();
                     parametersAuditErrors.add(new AuditError("document.budget.audit.parameters.pd.status", KraKeyConstants.AUDIT_PERSONNEL_STATUS, "parameters", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
@@ -168,9 +168,9 @@ public class BudgetPersonnelRule {
     protected boolean processInsertPersonnelBusinessRules(List personnelList, BudgetUser newBudgetUser) {
         boolean valid = true;
 
-        if (StringUtils.isNotEmpty(newBudgetUser.getPersonUniversalIdentifier())) {
+        if (StringUtils.isNotEmpty(newBudgetUser.getPersonSystemIdentifier())) {
             for (Iterator budgetUserIter = personnelList.iterator(); budgetUserIter.hasNext();) {
-                if (StringUtils.equals(newBudgetUser.getPersonUniversalIdentifier(), ((BudgetUser) budgetUserIter.next()).getPersonUniversalIdentifier())) {
+                if (StringUtils.equals(newBudgetUser.getPersonSystemIdentifier(), ((BudgetUser) budgetUserIter.next()).getPersonSystemIdentifier())) {
                     GlobalVariables.getErrorMap().putError("newPersonnel", KeyConstants.ERROR_PERSON_ALREADY_EXISTS_ON_BUDGET, new String[] {});
                     valid = false;
                     break;

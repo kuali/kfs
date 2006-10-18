@@ -320,14 +320,14 @@ public class BudgetParametersAction extends BudgetAction {
                     // coming back from Agency lookup - To Be Named selected
                     budget.setBudgetAgency(null);
                     budget.setBudgetAgencyNumber(null);
-                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getDocumentHeaderId());
+                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getResearchDocumentNumber());
                     resetModularBudget(budget, modularBudget);
                     budget.setModularBudget(modularBudget);
                 }
                 else if (request.getParameter("document.budget.budgetAgencyNumber") != null) {
                     // coming back from an Agnecy lookup - Agency selected
                     budget.setAgencyToBeNamedIndicator(false);
-                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getDocumentHeaderId());
+                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getResearchDocumentNumber());
                     budget.refreshReferenceObject("budgetAgency");
                     budget.getBudgetAgency().refresh();
                     if (budget.getBudgetAgency().getAgencyExtension() != null) {

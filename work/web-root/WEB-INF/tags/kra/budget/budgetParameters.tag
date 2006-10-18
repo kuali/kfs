@@ -80,14 +80,14 @@
   <c:if test="${supportsModular}">
 	  <html:hidden property="document.budget.budgetAgency.agencyExtension.agencyNumber" />
 	  <html:hidden property="document.budget.budgetAgency.agencyExtension.agencyModularIndicator" />
-	  <html:hidden property="document.budget.modularBudget.documentHeaderId" />
+	  <html:hidden property="document.budget.modularBudget.researchDocumentNumber" />
 	  <html:hidden property="document.budget.modularBudget.budgetModularIncrementAmount" />
 	  <html:hidden property="document.budget.modularBudget.budgetPeriodMaximumAmount" />
 	  <html:hidden property="document.budget.modularBudget.versionNumber" />
   </c:if>
   
   <logic:iterate id="budgetIndirectCostLookup" name="KualiForm" property="document.budget.budgetIndirectCostLookups" indexId="i">
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].documentHeaderId" />
+      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].researchDocumentNumber" />
       <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetOnCampusIndicator" />
       <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetPurposeCode" />
       <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetIndirectCostRate" />

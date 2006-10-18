@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiInteger;
 public class BudgetModularPeriod extends BusinessObjectBase {
 
     // Stored values
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private Integer budgetPeriodSequenceNumber;
     private KualiInteger budgetAdjustedModularDirectCostAmount;
 
@@ -44,29 +44,29 @@ public class BudgetModularPeriod extends BusinessObjectBase {
     public BudgetModularPeriod() {
     }
 
-    public BudgetModularPeriod(String documentHeaderId, Integer budgetPeriodSequenceNumber) {
-        this.documentHeaderId = documentHeaderId;
+    public BudgetModularPeriod(String researchDocumentNumber, Integer budgetPeriodSequenceNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
         this.budgetPeriodSequenceNumber = budgetPeriodSequenceNumber;
     }
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**

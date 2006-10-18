@@ -48,21 +48,21 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
         budgetPersonnelService = SpringServiceLocator.getBudgetPersonnelService();
     }
     
-    public BudgetUser(String documentHeaderId, Integer budgetUserSequenceNumber) {
+    public BudgetUser(String researchDocumentNumber, Integer budgetUserSequenceNumber) {
         this();
-        this.documentHeaderId = documentHeaderId;
+        this.researchDocumentNumber = researchDocumentNumber;
         this.budgetUserSequenceNumber = budgetUserSequenceNumber;
     }
 
     public BudgetUser(BudgetUser budgetUser) {
         this();
-        this.documentHeaderId = budgetUser.getDocumentHeaderId();
+        this.researchDocumentNumber = budgetUser.getResearchDocumentNumber();
         this.budgetUserSequenceNumber = budgetUser.getBudgetUserSequenceNumber();
         this.fiscalCampusCode = budgetUser.getFiscalCampusCode();
         this.primaryDepartmentCode = budgetUser.getPrimaryDepartmentCode();
         this.baseSalary = budgetUser.getBaseSalary();
         this.role = budgetUser.getRole();
-        this.personUniversalIdentifier = budgetUser.getPersonUniversalIdentifier();
+        this.personSystemIdentifier = budgetUser.getPersonSystemIdentifier();
         this.personNamePrefixText = budgetUser.getPersonNamePrefixText();
         this.personNameSuffixText = budgetUser.getPersonNameSuffixText();
         this.personSalaryJustificationText = budgetUser.getPersonSalaryJustificationText();
@@ -75,15 +75,15 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
         this.userAppointmentTasks = new ArrayList(budgetUser.getUserAppointmentTasks());
     }
 
-    private String documentHeaderId; // ER_REF_TRACK_NBR
+    private String researchDocumentNumber; // RDOC_NBR
     private Integer budgetUserSequenceNumber; // BDGT_USR_SEQ_NBR
     private String fiscalCampusCode; // EMP_FSCL_CMP_CD
     private String primaryDepartmentCode; // EMP_PRM_DEPT_CD
     private KualiDecimal baseSalary; // PRSN_BASE_SLRY
     private Integer budgetSalaryFiscalYear;
     private String role; //
-    private String personUniversalIdentifier; // PERSON_UNVL_ID
-    private UniversalUser user; // referenced object for PERSON_UNVL_ID
+    private String personSystemIdentifier; // PERSON_SYS_ID
+    private UniversalUser user; // referenced object for PERSON_SYS_ID
     private String appointmentTypeCode; // Not present in the database - only for the convenience of the user interface
     private boolean personSeniorKeyIndicator;
     private boolean personSecretarialClericalIndicator;
@@ -105,7 +105,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
 
     public void initializeBudgetUser(BudgetDocument budgetDocument) {
         this.setBudgetUserSequenceNumber(budgetDocument.getPersonnelNextSequenceNumber());
-        this.setDocumentHeaderId(budgetDocument.getFinancialDocumentNumber());
+        this.setResearchDocumentNumber(budgetDocument.getFinancialDocumentNumber());
         this.synchronizeUserObject();
         this.createUserAppointmentTasks(budgetDocument);
     }
@@ -119,7 +119,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("documentHeaderId", this.documentHeaderId);
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
         m.put("userSequenceNumber", this.budgetUserSequenceNumber);
         return m;
     }
@@ -146,22 +146,22 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
 
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return Returns the documentHeaderId.
+     * @return Returns the researchDocumentNumber.
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
 
     /**
-     * Sets the documentHeaderId attribute value.
+     * Sets the researchDocumentNumber attribute value.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
 
@@ -225,22 +225,22 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
 
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the personSystemIdentifier attribute.
      * 
-     * @return Returns the personUniversalIdentifier.
+     * @return Returns the personSystemIdentifier.
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPersonSystemIdentifier() {
+        return personSystemIdentifier;
     }
 
 
     /**
-     * Sets the personUniversalIdentifier attribute value.
+     * Sets the personSystemIdentifier attribute value.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param personSystemIdentifier The personSystemIdentifier to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPersonSystemIdentifier(String personSystemIdentifier) {
+        this.personSystemIdentifier = personSystemIdentifier;
     }
 
 
@@ -388,7 +388,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
      * Makes sure that copied fields between the referenced UniversalUser object and this object are properly synchronized.
      */
     public void synchronizeUserObject() {
-        if (this.getPersonUniversalIdentifier() != null) {
+        if (this.getPersonSystemIdentifier() != null) {
             this.refreshReferenceObject("user");
             if (this.user.getPersonBaseSalaryAmount() != null) {
                 this.baseSalary = this.user.getPersonBaseSalaryAmount();
@@ -436,12 +436,12 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     public void logState() {
         LOG.info("userSequenceNumber: (" + this.budgetUserSequenceNumber + ")");
         /* LOG.info(" version: (" + this.getVersion() +")"); */
-        LOG.info("  documentHeaderId: (" + this.documentHeaderId + ")");
+        LOG.info("  researchDocumentNumber: (" + this.researchDocumentNumber + ")");
         LOG.info("  fiscalCampusCode: (" + this.fiscalCampusCode + ")");
         LOG.info("  primaryDepartmentCode: (" + this.primaryDepartmentCode + ")");
         LOG.info("  baseSalary: (" + this.baseSalary + ")");
         LOG.info("  role: (" + this.role + ")");
-        LOG.info("  personUniversalIdentifier: (" + this.personUniversalIdentifier + ")");
+        LOG.info("  personSystemIdentifier: (" + this.personSystemIdentifier + ")");
         LOG.info("  appointmentTypeCode: (" + this.appointmentTypeCode + ")");
         LOG.info("  personSeniorKeyIndicator: (" + this.personSeniorKeyIndicator + ")");
         LOG.info("  personSecretarialClericalIndicator: (" + this.personSecretarialClericalIndicator + ")");

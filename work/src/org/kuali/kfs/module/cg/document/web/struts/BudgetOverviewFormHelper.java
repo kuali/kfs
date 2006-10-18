@@ -225,7 +225,7 @@ public class BudgetOverviewFormHelper {
                             // if it was not found for aggregation, just add it
                             if (!itemAdded) {
                                 // Handle display of to be nameds' properly
-                                if (budgetUser.getPersonUniversalIdentifier() == null) {
+                                if (budgetUser.getPersonSystemIdentifier() == null) {
                                     budgetUserLabel = this.TO_BE_NAMED;
                                 }
                                 else {

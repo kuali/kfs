@@ -33,7 +33,7 @@
 
         <attributes>
 
-            <attribute name="documentHeaderId" forceUppercase="true">
+            <attribute name="researchDocumentNumber" forceUppercase="true">
                 <label>Budget Number</label>
                 <shortLabel>Budget Number</shortLabel>
 

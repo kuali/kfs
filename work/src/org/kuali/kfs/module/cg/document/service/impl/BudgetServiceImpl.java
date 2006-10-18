@@ -102,7 +102,7 @@ public class BudgetServiceImpl implements BudgetService {
         Document databaseDocument = documentService.getByDocumentHeaderId(budgetDocument.getFinancialDocumentNumber());
 
         Budget budget = budgetDocument.getBudget();
-        String documentHeaderId = budget.getDocumentHeaderId();
+        String researchDocumentNumber = budget.getResearchDocumentNumber();
         List personnel = budget.getPersonnel();
         List universityCostSharePersonnelItems = budget.getUniversityCostSharePersonnelItems();
 
@@ -154,7 +154,7 @@ public class BudgetServiceImpl implements BudgetService {
             budgetPersonnelService.reconcileProjectDirector(budgetDocument);
 
             // Add new Cost Share data based on personnel
-            budgetCostShareService.reconcileCostShare(documentHeaderId, personnel, universityCostSharePersonnelItems);
+            budgetCostShareService.reconcileCostShare(researchDocumentNumber, personnel, universityCostSharePersonnelItems);
 
             // Clean up indirect cost and task/period items.
             budgetIndirectCostService.reconcileIndirectCost(budgetDocument);
@@ -389,10 +389,10 @@ public class BudgetServiceImpl implements BudgetService {
         for (Iterator i = budgetNonpersonnelItems.iterator(); i.hasNext();) {
             BudgetNonpersonnel budgetNonpersonnel = (BudgetNonpersonnel) i.next();
 
-            BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(budgetNonpersonnel.getDocumentHeaderId(), budgetNonpersonnel.getBudgetTaskSequenceNumber()));
+            BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(budgetNonpersonnel.getResearchDocumentNumber(), budgetNonpersonnel.getBudgetTaskSequenceNumber()));
             
             BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(
-                    new BudgetPeriod(budgetNonpersonnel.getDocumentHeaderId(), budgetNonpersonnel.getBudgetPeriodSequenceNumber()));
+                    new BudgetPeriod(budgetNonpersonnel.getResearchDocumentNumber(), budgetNonpersonnel.getBudgetPeriodSequenceNumber()));
 
             if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetTasks, budgetTask) || !ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                 i.remove();
@@ -414,7 +414,7 @@ public class BudgetServiceImpl implements BudgetService {
             if (ObjectUtils.isNotNull(budget.getModularBudget())) {
                 versionNumber = budget.getModularBudget().getVersionNumber();
             }
-            budget.setModularBudget(new BudgetModular(budget.getDocumentHeaderId()));
+            budget.setModularBudget(new BudgetModular(budget.getResearchDocumentNumber()));
             if (versionNumber != null) {
                 budget.getModularBudget().setVersionNumber(versionNumber);
             }
@@ -427,7 +427,7 @@ public class BudgetServiceImpl implements BudgetService {
                 BudgetModularPeriod currentModularPeriod = (BudgetModularPeriod) i.next();
                 
                 BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(
-                        new BudgetPeriod(currentModularPeriod.getDocumentHeaderId(), currentModularPeriod.getBudgetPeriodSequenceNumber()));
+                        new BudgetPeriod(currentModularPeriod.getResearchDocumentNumber(), currentModularPeriod.getBudgetPeriodSequenceNumber()));
 
                 if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                     i.remove();

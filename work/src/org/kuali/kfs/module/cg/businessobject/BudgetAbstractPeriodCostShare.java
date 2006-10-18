@@ -28,7 +28,7 @@ import org.kuali.core.util.KualiInteger;
  */
 public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
 
-    protected String documentHeaderId;
+    protected String researchDocumentNumber;
     protected Integer budgetPeriodSequenceNumber;
     protected Integer budgetCostShareSequenceNumber;
     protected KualiInteger budgetCostShareAmount;
@@ -41,23 +41,23 @@ public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
     }
 
     /**
-     * Gets the documentHeaderId attribute.
+     * Gets the researchDocumentNumber attribute.
      * 
-     * @return - Returns the documentHeaderId
+     * @return - Returns the researchDocumentNumber
      * 
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
-     * Sets the documentHeaderId attribute.
+     * Sets the researchDocumentNumber attribute.
      * 
-     * @param documentHeaderId The documentHeaderId to set.
+     * @param researchDocumentNumber The researchDocumentNumber to set.
      * 
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("documentHeaderId", this.documentHeaderId);
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
         m.put("budgetPeriodSequenceNumber", this.budgetPeriodSequenceNumber);
         m.put("budgetCostShareSequenceNumber", this.budgetCostShareSequenceNumber);
 

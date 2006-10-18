@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class BudgetPeriod extends BusinessObjectBase implements Comparable {
     private static final long serialVersionUID = -479888264761887048L;
 
-    private String documentHeaderId;
+    private String researchDocumentNumber;
     private Integer budgetPeriodSequenceNumber;
     private Date budgetPeriodBeginDate;
     private Date budgetPeriodEndDate;
@@ -44,15 +44,15 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
         super();
     }
     
-    public BudgetPeriod(String documentHeaderId, Integer budgetPeriodSequenceNumber) {
+    public BudgetPeriod(String researchDocumentNumber, Integer budgetPeriodSequenceNumber) {
         this();
-        this.documentHeaderId = documentHeaderId;
+        this.researchDocumentNumber = researchDocumentNumber;
         this.budgetPeriodSequenceNumber = budgetPeriodSequenceNumber;
     }
     
     public BudgetPeriod(BudgetPeriod template) {
         this();
-        this.documentHeaderId = template.getDocumentHeaderId();
+        this.researchDocumentNumber = template.getResearchDocumentNumber();
         this.budgetPeriodSequenceNumber = template.getBudgetPeriodSequenceNumber();
         this.budgetPeriodBeginDate = template.getBudgetPeriodBeginDate();
         this.budgetPeriodEndDate = template.getBudgetPeriodEndDate();
@@ -62,15 +62,15 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
     /**
      * @return Returns the budgetNumber.
      */
-    public String getDocumentHeaderId() {
-        return documentHeaderId;
+    public String getResearchDocumentNumber() {
+        return researchDocumentNumber;
     }
 
     /**
      * @param budgetNumber The budgetNumber to set.
      */
-    public void setDocumentHeaderId(String documentHeaderId) {
-        this.documentHeaderId = documentHeaderId;
+    public void setResearchDocumentNumber(String researchDocumentNumber) {
+        this.researchDocumentNumber = researchDocumentNumber;
     }
 
     /**
@@ -135,7 +135,7 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("documentHeaderId", this.documentHeaderId);
+        m.put("researchDocumentNumber", this.researchDocumentNumber);
         m.put("budgetPeriodSequenceNumber", this.budgetPeriodSequenceNumber);
         return m;
     }
@@ -169,7 +169,7 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
             if (this.getClass().equals(obj.getClass())) {
                 BudgetPeriod other = (BudgetPeriod) obj;
 
-                if (this.getDocumentHeaderId().equals(other.getDocumentHeaderId()) && this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate()) && this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate())) {
+                if (this.getResearchDocumentNumber().equals(other.getResearchDocumentNumber()) && this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate()) && this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate())) {
                     equal = true;
                 }
             }
@@ -179,14 +179,14 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
     }
 
     /**
-     * Calcluates hashCode based on current values of documentHeaderId and budgetPeriodSequenceNumber fields. Somewhat dangerous,
+     * Calcluates hashCode based on current values of researchDocumentNumber and budgetPeriodSequenceNumber fields. Somewhat dangerous,
      * since those fields are mutable, but I don't expect people to be editing those values directly for Periods stored in hashed
      * datastructures. (this is based on Account.hashCode()) - TAD
      * 
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = getDocumentHeaderId() + "|" + getBudgetPeriodSequenceNumber() + getBudgetPeriodBeginDate() + "|" + getBudgetPeriodEndDate();
+        String hashString = getResearchDocumentNumber() + "|" + getBudgetPeriodSequenceNumber() + getBudgetPeriodBeginDate() + "|" + getBudgetPeriodEndDate();
 
         return hashString.hashCode();
     }

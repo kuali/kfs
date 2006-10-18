@@ -66,7 +66,8 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.vendorLine1Address" />
                     <c:if test="${not empty KualiForm.document.vendorDetail}">
-                        <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorAddress" fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
+                        <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorAddress" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" 
+                        lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">

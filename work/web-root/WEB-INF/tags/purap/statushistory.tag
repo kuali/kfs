@@ -32,33 +32,44 @@
         <div class="h2-container">
             <h2>Status History</h2>
         </div>
-	</div>
-	
-	<table cellpadding="0" cellspacing="0" class="datatable" summary="Status History Section">
-		<tr>
-        	<th align=center valign=middle class="bord-l-b">
-            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.statusHistory.oldStatusCode}" /></div>
-            </th>
-            <th align=center valign=middle class="bord-l-b">
-            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.statusHistory.newStatusCode}" /></div>
-            </th>
-            <th align=center valign=middle class="bord-l-b">
-            	<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.statusHistory.noteIdentifier}" /></div>
-            </th>
-        </tr>
-        <c:forEach items="${documentAttributes.statusHistory}">
-        	<td align=left valign=middle class="datacell">
-        		<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistory.oldStatusCode}" 
-                	property="document.statusHistory.oldStatusCode" readOnly="${readOnly}"/>
-        	</td>
-        	<td align=left valign=middle class="datacell">
-        		<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistory.newStatusCode}" 
-                    property="document.statusHistory.newStatusCode" readOnly="${readOnly}"/>
-        	</td>
-        	<td align=left valign=middle class="datacell">
-        		<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistory.noteIdentifier}" 
-                    property="document.statusHistory.noteIdentifier" readOnly="${readOnly}"/>
-        	</td>
-        </c:forEach>
-    </table>
+		<table cellpadding="0" cellspacing="0" class="datatable" summary="Status History Section">
+			<tr>
+            	<td colspan=4 class="tab-subhead">This Document:</td>
+        	</tr>
+			<tr>
+				<kul:htmlAttributeHeaderCell
+                	attributeEntry="${documentAttributes.statusHistoryTimestamp}"
+                	scope="col" />
+				<kul:htmlAttributeHeaderCell
+                	attributeEntry="${documentAttributes.oldStatusCode}"
+                	scope="col" />
+    			<kul:htmlAttributeHeaderCell
+                	attributeEntry="${documentAttributes.newStatusCode}"
+                	scope="col" />
+            	<kul:htmlAttributeHeaderCell
+                	attributeEntry="${documentAttributes.noteIdentifier}"
+                	scope="col" />
+        	</tr>
+        	<%-- <logic:iterate name="KualiForm" id="histEntry" property="document.statusHistory" indexId="i">
+        		<tr>
+        			<td align=left valign=middle class="datacell">
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryTimestamp}" 
+	                		property="statusHistoryTimestamp" readOnly="${readOnly}"/>
+	        		</td>
+	        		<td align=left valign=middle class="datacell">
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.oldStatusCode}" 
+	                		property="oldStatusCode" readOnly="${readOnly}"/>
+	        		</td>
+	        		<td align=left valign=middle class="datacell">
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.newStatusCode}" 
+	                    	property="newStatusCode" readOnly="${readOnly}"/>
+	        		</td>
+	        		<td align=left valign=middle class="datacell">
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.noteIdentifier}" 
+	                    	property="noteIdentifier" readOnly="${readOnly}"/>
+	        		</td>
+	        	</tr>
+        	</logic:iterate>--%>
+    	</table>
+    </div>
 </kul:tab>

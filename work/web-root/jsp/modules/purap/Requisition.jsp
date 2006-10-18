@@ -33,7 +33,6 @@
 
     	<purap:requisitiondetail
 	    	documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
-
     </kul:documentOverview>
 
     <purap:vendor
@@ -55,6 +54,9 @@
 	<kul:notes />
 
 	<kul:adHocRecipients />
+	
+	<purap:statushistory 
+		documentAttributes="${DataDictionary.RequisitionStatusHistory.attributes}" />
 
 	<kul:routeLog />
 

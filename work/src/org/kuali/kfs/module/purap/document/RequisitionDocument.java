@@ -35,12 +35,8 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
-import org.kuali.module.purap.bo.RequisitionStatus;
-import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
-import org.kuali.module.purap.service.VendorService;
-import org.kuali.module.purap.service.RequisitionService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -65,7 +61,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	 * Default constructor.
 	 */
 	public RequisitionDocument() {
-
+        
     }
 
     public void refreshAllReferences() {

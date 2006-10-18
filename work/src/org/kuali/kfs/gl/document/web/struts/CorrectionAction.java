@@ -839,19 +839,23 @@ public class CorrectionAction extends KualiDocumentActionBase {
      */
     public ActionForward showOutputGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         LOG.debug("showOutputGroup() started");
-
+        
         CorrectionForm correctionForm = (CorrectionForm) form;
         CorrectionDocument document = correctionForm.getCorrectionDocument();
+        
+        if (validChangeGroups(correctionForm)){
+            
+            loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
 
-        loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
+            if ( ! correctionForm.getShowOutputFlag() ) {
+                LOG.debug("showOutputGroup() Changing to output group");
 
-        if ( ! correctionForm.getShowOutputFlag() ) {
-            LOG.debug("showOutputGroup() Changing to output group");
+                updateEntriesFromCriteria(correctionForm);
+            }
+            correctionForm.setShowOutputFlag(! correctionForm.getShowOutputFlag());
 
-            updateEntriesFromCriteria(correctionForm);
         }
-        correctionForm.setShowOutputFlag(! correctionForm.getShowOutputFlag());
-
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

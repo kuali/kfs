@@ -30,6 +30,7 @@
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
+<c:set var="cfdaAttributes" value="${DataDictionary.CatalogOfFederalDomesticAssistanceReference.attributes}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
@@ -43,7 +44,7 @@
             
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
               <tr>
-                <th width="20%" align=right valign=middle>Agency:</th>
+                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyNumber}" skipHelpUrl="true" /></th>
                 <td width="30%">
 			    	<html:hidden write="true" property="document.routingFormAgency.agencyNumber" /> 
 			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber}">(select)</c:if>
@@ -54,18 +55,21 @@
 					(select) <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a> 
 -->
                 </td>
-                <th align=right valign=middle>Due Date: </th>
-                <td colspan="2" align=left valign=middle ><kul:htmlControlAttribute property="document.routingFormAgency.proposalDueDate" attributeEntry="${routingFormAgencyAttributes.proposalDueDate}" datePicker="true" /></td>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalDueDate}" skipHelpUrl="true" /></th>
+                <td colspan="2" align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.routingFormAgency.proposalDueDate" attributeEntry="${routingFormAgencyAttributes.proposalDueDate}" datePicker="true" />
+                </td>
               </tr>
               <tr>
-                <th width="20%" align=right valign=middle>Federal Pass Through: </th>
+                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.agencyFederalPassThroughNumber}" skipHelpUrl="true" /></th>
 
                 <td width="30%" align=left valign=middle >
 <!-- 
 NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
  -->                
                 
-			    	<html:hidden write="true" property="document.agencyFederalPassThroughNumber" /> 
+			    	<html:hidden property="document.agencyFederalPassThroughNumber" /> 
+			    	<html:hidden write="true" property="document.routingFormAgency.federalPassThroughAgency.fullName" /> 
 	    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber}">(select)</c:if>
 	    			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber" tabindexOverride="5110" anchor="${currentTabIndex}" />
                 
@@ -73,10 +77,10 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
                 	(select) <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a> 
 -->
                 </td>
-                <th align=right valign=middle>Due Date Type: </th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalDueDateTypeCode}" skipHelpUrl="true" /></th>
 
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.proposalDueDateType" attributeEntry="${routingFormAgencyAttributes.proposalDueDateType}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.proposalDueDateTypeCode" attributeEntry="${routingFormAgencyAttributes.proposalDueDateTypeCode}"  />
 
 
 <!-- 
@@ -91,14 +95,14 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
 
               </tr>
               <tr>
-                <th align=right valign=middle>Delivery Address: </th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyAddressDescription}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyAddressDescription" attributeEntry="${routingFormAgencyAttributes.agencyAddressDescription}"  />
 <!-- 
                     <textarea name="textfield" cols="20" rows="3"></textarea>
 -->
                 </td>
-                <th align=right valign=middle>Delivery Instructions: </th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyShippingInstructionsDescription" attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}"  />
 <!--             
@@ -107,9 +111,10 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
                 </td>
                 <td nowrap >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyDiskAccompanyIndicator" attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}"  />
-                  	Disk to Accompany Proposal<br>
+                	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyDiskAccompanyIndicator" noColon="true" />
+                  	<br>
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyElectronicSubmissionIndicator" attributeEntry="${routingFormAgencyAttributes.agencyElectronicSubmissionIndicator}"  />
-                  	Electronic Submision Required
+                	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyElectronicSubmissionIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyElectronicSubmissionIndicator" noColon="true" />
 <!-- 
                   <input name="checkbox" type="checkbox" class="radio" value="checkbox">
                   Disk to Accompany Proposal<br>
@@ -119,7 +124,7 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
                   </td>
               </tr>
               <tr>
-                <th align=right valign=middle>CFDA:</th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${cfdaAttributes.cfdaNumber}" skipHelpUrl="true" /></th>
 
                 <td align=left valign=middle >
 			    	<html:hidden property="document.catalogOfFederalDomesticAssistanceReference.cfdaNumber" /> 
@@ -133,7 +138,7 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
                   	(select) <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a> 
 -->
 				</td>
-                <th align=right valign=middle>Copies to Agency: </th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalRequiredCopyNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="2" align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.proposalRequiredCopyNumber" attributeEntry="${routingFormAgencyAttributes.proposalRequiredCopyNumber}"  />
                 	Submit 2 additional copies plus the number of required by your department and school.
@@ -144,10 +149,13 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
                 </td>
               </tr>
               <tr>
-                <th align=right valign=middle>Program Announcement: </th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.proposalAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="4" align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.proposalAnnouncementNumber" attributeEntry="${documentAttributes.proposalAnnouncementNumber}"  />
+<!-- 
                   <textarea name="textfield" cols="60" rows="3"></textarea>
+-->
                 </td>
               </tr>
             </table>

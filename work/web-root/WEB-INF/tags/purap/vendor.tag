@@ -30,6 +30,7 @@
 
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 <c:set var="vendorReadOnly" value="${readOnly or not empty KualiForm.document.vendorNumber}" />
+<c:set var="currentUserCampusCode" value="${UserSession.kualiUser.universalUser.campusCode}" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${Constants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
@@ -105,7 +106,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContractName}" property="document.vendorContractName" readOnly="true"/>
-                    <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorContract" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
+                    <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorContract" readOnlyFields="vendorCampusCode" lookupParameters="'${currentUserCampusCode}':vendorCampusCode" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
                 </td>
             </tr>            
             

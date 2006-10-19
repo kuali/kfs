@@ -21,8 +21,6 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.KualiConfigurationService;
@@ -97,36 +95,13 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         }
         SubFundGroup subFundGroup = copyAccount.getSubFundGroup();
 
-        boolean useSubFundGroup = false;
+        // KULCOA-1112 : if the sub fund group has a restriction code, override whatever the user selected
         if (StringUtils.isNotBlank(subFundGroup.getAccountRestrictedStatusCode())) {
             restrictedStatusCode = subFundGroup.getAccountRestrictedStatusCode().trim();
             String subFundGroupCd = subFundGroup.getSubFundGroupCode();
-            useSubFundGroup = askOrAnalyzeYesNoQuestion("SubFundGroup" + subFundGroupCd, buildSubFundGroupConfirmationQuestion(subFundGroupCd, restrictedStatusCode));
-            if (useSubFundGroup) {
-                // then set defaults for account based on this
-                newAccount.setAccountRestrictedStatusCode(restrictedStatusCode);
-            }
-            else {
-                // the user did not want to use this sub fund group so we wipe it out
-                newAccount.setSubFundGroupCode(Constants.EMPTY_STRING);
-            }
+            newAccount.setAccountRestrictedStatusCode(restrictedStatusCode);
         }
 
-    }
-
-    /**
-     * 
-     * This method builds up the message string that gets sent to the user regarding using this SubFundGroup
-     * 
-     * @param subFundGroupCd
-     * @param restrictedStatusCd
-     * @return
-     */
-    protected String buildSubFundGroupConfirmationQuestion(String subFundGroupCd, String restrictedStatusCd) {
-        String result = configService.getPropertyString(KeyConstants.QUESTION_ACCT_SUB_FUND_RESTRICTED_STATUS);
-        result = StringUtils.replace(result, "{0}", subFundGroupCd);
-        result = StringUtils.replace(result, "{1}", restrictedStatusCd);
-        return result;
     }
 
     /**

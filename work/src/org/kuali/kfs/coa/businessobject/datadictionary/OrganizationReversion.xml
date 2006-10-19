@@ -86,11 +86,7 @@
             </attributeReference>
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-
                 <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-                </control>
             </attributeReference>
 
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
@@ -101,9 +97,6 @@
                 <label>Budget Reversion Chart</label>
                 <shortLabel>Budget Reversion Chart</shortLabel>
                 <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-                </control>
             </attributeReference>
 
             <attributeReference name="budgetReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
@@ -117,9 +110,6 @@
                 <label>Cash Reversion Chart</label>
                 <shortLabel>Cash Reversion Chart</shortLabel>
                 <required>true</required>
-                <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-                </control>
             </attributeReference>
 
             <attributeReference name="cashReversionAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">

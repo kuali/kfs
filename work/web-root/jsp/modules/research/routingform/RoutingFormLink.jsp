@@ -23,6 +23,6 @@
 	headerDispatch="save" feedbackKey="app.krafeedback.link"
 	headerTabActive="link">
 	
-	<center>Link - Under Construction</center>
+	<center>Module Links - Under Construction</center>
 	
 </kul:documentPage>

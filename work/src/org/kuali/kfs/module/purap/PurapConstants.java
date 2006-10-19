@@ -75,10 +75,6 @@ public class PurapConstants {
     
     public static final KualiDecimal VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(100000);
     
-    //Payment Terms  Types
-    public static final String PAYMENT_TERMS_TYPE_DAYS = "Days";
-    public static final String PAYMENT_TERMS_TYPE_DATE = "Date";
-    
     //Requisition Statuses
     public static String REQ_STAT_IN_PROCESS = "INPR";
     public static String REQ_STAT_CANCELLED = "CANC";

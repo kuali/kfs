@@ -30,7 +30,7 @@ import org.kuali.core.web.uidraw.Section;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 
 /**
- * This class is the Maintainable implementation for support of Kuali User.
+ * 
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -42,7 +42,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
     public static final String KUALI_ORG_SECTION = "Edit Organization Code";
 
     /**
-     * Overrides super so we can display user lookup only on new user.
+     *
      * 
      * @see org.kuali.core.maintenance.Maintainable#getCoreSections()
      */

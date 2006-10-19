@@ -174,8 +174,8 @@
 
 
             <attribute name="codeAndDescription" forceUppercase="false">
-                <label>Organization Code</label>
-                <shortLabel>Org Code</shortLabel>
+                <label>Organization Code and Description</label>
+                <shortLabel>Org Code and Des</shortLabel>
 
                 <maxLength>45</maxLength>
 
@@ -183,8 +183,8 @@
                     <text size="45" />
                 </control>
 
-                <summary>Organization Code</summary>
-                <description>Organization Code</description>
+                <summary>Organization Code and Des</summary>
+                <description>Organization Code and Description</description>
 
             </attribute>
 

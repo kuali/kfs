@@ -946,7 +946,7 @@ public class Org extends BusinessObjectBase {
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */
     public String getCodeAndDescription() {
-        String theString = getOrganizationCode() + " - " + getOrganizationName();
+        String theString = getOrganizationCode() + "-" + getOrganizationName();
         return theString;
     }
 

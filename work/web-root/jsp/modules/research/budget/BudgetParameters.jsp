@@ -25,7 +25,7 @@
 	showTabButtons="true"
 	auditCount="${AuditErrors['parametersAuditErrors'].size}">
 
-	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
+	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
 
 	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="false"
 		excludeBudgetParameteres="true" />

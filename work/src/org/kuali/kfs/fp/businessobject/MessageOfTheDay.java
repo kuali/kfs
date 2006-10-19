@@ -21,6 +21,7 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.OriginationCode;
 
 /**
  * 
@@ -30,6 +31,8 @@ public class MessageOfTheDay extends BusinessObjectBase {
     private String financialSystemOriginationCode;
     private String financialSystemMessageOfTheDayText;
 
+    private OriginationCode financialSystemOrigination;
+    
     /**
      * Default constructor.
      */
@@ -78,6 +81,22 @@ public class MessageOfTheDay extends BusinessObjectBase {
         this.financialSystemMessageOfTheDayText = financialSystemMessageOfTheDayText;
     }
 
+    /**
+     * Gets the financialSystemOrigination attribute. 
+     * @return Returns the financialSystemOrigination.
+     */
+    public OriginationCode getFinancialSystemOrigination() {
+        return financialSystemOrigination;
+    }
+
+    /**
+     * Sets the financialSystemOrigination attribute value.
+     * @param financialSystemOrigination The financialSystemOrigination to set.
+     * @deprecated
+     */
+    public void setFinancialSystemOrigination(OriginationCode financialSystemOrigination) {
+        this.financialSystemOrigination = financialSystemOrigination;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -87,4 +106,5 @@ public class MessageOfTheDay extends BusinessObjectBase {
         m.put("financialSystemOriginationCode", this.financialSystemOriginationCode);
         return m;
     }
+
 }

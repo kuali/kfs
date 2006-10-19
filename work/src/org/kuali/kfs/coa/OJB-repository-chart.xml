@@ -1401,6 +1401,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="organizationReversionCategoryName" column="ORG_RVRSN_CTGRY_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="organizationReversionSortCode" column="ORG_RVRSN_SORT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="organizationReversionCategoryActiveIndicator" column="ORG_RVRSN_CTGRY_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.AccountingPeriod" table="SH_ACCT_PERIOD_T">

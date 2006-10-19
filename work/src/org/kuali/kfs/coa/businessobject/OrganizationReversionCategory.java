@@ -30,7 +30,8 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
     private String organizationReversionCategoryCode;
     private String organizationReversionCategoryName;
     private String organizationReversionSortCode;
-
+    private boolean organizationReversionCategoryActiveIndicator;
+    
     /**
      * Default constructor.
      */
@@ -100,6 +101,21 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
         this.organizationReversionSortCode = organizationReversionSortCode;
     }
 
+    /**
+     * Gets the organizationReversionCategoryActiveIndicator attribute. 
+     * @return Returns the organizationReversionCategoryActiveIndicator.
+     */
+    public boolean isOrganizationReversionCategoryActiveIndicator() {
+        return organizationReversionCategoryActiveIndicator;
+    }
+
+    /**
+     * Sets the organizationReversionCategoryActiveIndicator attribute value.
+     * @param organizationReversionCategoryActiveIndicator The organizationReversionCategoryActiveIndicator to set.
+     */
+    public void setOrganizationReversionCategoryActiveIndicator(boolean organizationReversionCategoryActiveIndicator) {
+        this.organizationReversionCategoryActiveIndicator = organizationReversionCategoryActiveIndicator;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -108,4 +124,5 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         return m;
     }
+
 }

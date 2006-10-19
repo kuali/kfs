@@ -82,7 +82,7 @@
 
             <attribute name="proposalBudgetDirectAmount" forceUppercase="true">
                 <label>Proposal Budget Direct Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Direct Costs</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -97,13 +97,13 @@
 
             <attribute name="proposalBudgetEndDate" forceUppercase="true">
                 <label>Proposal Budget End Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>End Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="10" />
                 </control>
 
                 <summary>proposalBudgetEndDate</summary>
@@ -112,7 +112,7 @@
 
             <attribute name="proposalBudgetIndirectCostAmount" forceUppercase="true">
                 <label>Proposal Budget Indirect Cost Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Indirect Costs</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -172,13 +172,13 @@
 
             <attribute name="proposalBudgetStartDate" forceUppercase="true">
                 <label>Proposal Budget Start Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Start Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="10" />
                 </control>
 
                 <summary>proposalBudgetStartDate</summary>

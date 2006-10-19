@@ -29,6 +29,7 @@ import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
+import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
@@ -101,6 +102,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
     private List<RoutingFormProtocol> routingFormProtocols;
+    private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
     
 	/**
@@ -1373,6 +1375,25 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void setRoutingFormBudget(RoutingFormBudget routingFormBudget) {
         this.routingFormBudget = routingFormBudget;
+    }
+
+    public List<RoutingFormKeyword> getRoutingFormKeywords() {
+        return routingFormKeywords;
+    }
+
+    public RoutingFormKeyword getRoutingFormKeyword(int index) {
+        while (getRoutingFormKeywords().size() <= index) {
+            getRoutingFormKeywords().add(new RoutingFormKeyword());
+        }
+        return (RoutingFormKeyword) getRoutingFormKeywords().get(index);
+    }
+    
+    public void setRoutingFormKeywords(List<RoutingFormKeyword> routingFormKeywords) {
+        this.routingFormKeywords = routingFormKeywords;
+    }
+
+    public void addRoutingFormKeyword(RoutingFormKeyword routingFormKeyword) {
+        getRoutingFormKeywords().add(routingFormKeyword);
     }
 
 

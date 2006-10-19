@@ -40,7 +40,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     private String vendorCustomerNumber;
 
     // COMMON ELEMENTS
-    private List<StatusHistory> statusHistory;
+    protected List<StatusHistory> statusHistories;
 
     // REFERENCE OBJECTS
     private Status status;
@@ -144,12 +144,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
         this.statusCode = statusCode;
     }
 
-    public List<StatusHistory> getStatusHistory() {
-        return statusHistory;
+    public List<StatusHistory> getStatusHistories() {
+        return statusHistories;
     }
 
-    public void setStatusHistory(List<StatusHistory> statusHistory) {
-        this.statusHistory = statusHistory;
+    public void setStatusHistories(List<StatusHistory> statusHistories) {
+        this.statusHistories = statusHistories;
     }
 
 }

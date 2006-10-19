@@ -50,26 +50,26 @@
                 	attributeEntry="${documentAttributes.noteIdentifier}"
                 	scope="col" />
         	</tr>
-        	<%-- <logic:iterate name="KualiForm" id="histEntry" property="document.statusHistory" indexId="i">
+        	<c:forEach var="statusChange" items="${document.statusHistories}">
         		<tr>
         			<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryTimestamp}" 
-	                		property="statusHistoryTimestamp" readOnly="${readOnly}"/>
+	                		property="statusChange.statusHistoryTimestamp" readOnly="${readOnly}"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.oldStatusCode}" 
-	                		property="oldStatusCode" readOnly="${readOnly}"/>
+	                		property="statusChange.oldStatusCode" readOnly="${readOnly}"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.newStatusCode}" 
-	                    	property="newStatusCode" readOnly="${readOnly}"/>
+	                    	property="statusChange.newStatusCode" readOnly="${readOnly}"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.noteIdentifier}" 
-	                    	property="noteIdentifier" readOnly="${readOnly}"/>
+	                    	property="statusChange.noteIdentifier" readOnly="${readOnly}"/>
 	        		</td>
 	        	</tr>
-        	</logic:iterate>--%>
+        	</c:forEach>
     	</table>
     </div>
 </kul:tab>

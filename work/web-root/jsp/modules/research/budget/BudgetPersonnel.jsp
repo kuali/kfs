@@ -44,10 +44,21 @@
 	<kra-b:budgetPersonnel />
 
   <c:if test="${! viewOnly}">
-    <html:image src="images/buttonsmall_deletesel.gif" property="methodToCall.deletePersonnel" alt="delete" styleClass="tinybutton" />
+  	<c:set var="extraButtonSource" value="images/buttonsmall_deletesel.gif"/>
+  	<c:set var="extraButtonProperty" value="methodToCall.deletePersonnel"/>
+  	<c:set var="extraButtonAlt" value="delete"/>
   </c:if>  
-    
-	<kul:documentControls transactionalDocument="false" saveButtonOverride="savePersonnel" suppressRoutingControls="true" />
+  
+  	<p>
+	<kul:documentControls 
+		transactionalDocument="false" 
+		saveButtonOverride="savePersonnel" 
+		suppressRoutingControls="true"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
+		/>
+	</p>
 
 
 </kul:documentPage>

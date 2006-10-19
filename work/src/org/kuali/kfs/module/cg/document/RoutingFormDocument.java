@@ -32,7 +32,9 @@ import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
+import org.kuali.module.kra.routingform.bo.SubmissionType;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -45,7 +47,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private String agencyFederalPassThroughNumber;
 	private String grantNumber;
 	private String proposalAnnouncementNumber;
-	private Long proposalBudgetNumber;
+    private String proposalBudgetNumber;
 	private boolean proposalConflictOfInterestCurrentIndicator;
 	private boolean proposalConflictOfInterestExistsIndicator;
 	private String proposalContactFaxNumber;
@@ -73,7 +75,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private boolean proposalOtherOrganizationIndicator;
 	private String proposalOtherPurposeDescription;
 	private String proposalOtherTypeDescription;
-	private Long proposalParentNumber;
+    private String proposalParentNumber;
 	private String proposalPhysicalCampusCode;
 	private String proposalPriorGrantNumber;
 	private String proposalProjectTitle;
@@ -90,6 +92,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private String protocolHumanTissueFluidDescription;
 	private boolean protocolHumanTissueFluidIndicator;
 	private String institutionAccountNumber;
+    private String researchTypeCode;
+    private String submissionTypeCode;
+    private String previousFederalIdentifier;
     private Integer creditPercentNextSequenceNumber;
     private Integer institutionCostShareNextSequenceNumber;
     private Integer otherCostShareNextSequenceNumber;
@@ -104,7 +109,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormProtocol> routingFormProtocols;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
-    
+    private RoutingFormResearchType researchType;
+    private SubmissionType submissionType;
+   
 	/**
 	 * Default constructor.
 	 */
@@ -244,7 +251,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * @return - Returns the proposalBudgetNumber
 	 * 
 	 */
-	public Long getProposalBudgetNumber() { 
+	public String getProposalBudgetNumber() { 
 		return proposalBudgetNumber;
 	}
 
@@ -254,7 +261,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * @param - proposalBudgetNumber The proposalBudgetNumber to set.
 	 * 
 	 */
-	public void setProposalBudgetNumber(Long proposalBudgetNumber) {
+	public void setProposalBudgetNumber(String proposalBudgetNumber) {
 		this.proposalBudgetNumber = proposalBudgetNumber;
 	}
 
@@ -832,7 +839,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * @return - Returns the proposalParentNumber
 	 * 
 	 */
-	public Long getProposalParentNumber() { 
+	public String getProposalParentNumber() { 
 		return proposalParentNumber;
 	}
 
@@ -842,7 +849,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * @param - proposalParentNumber The proposalParentNumber to set.
 	 * 
 	 */
-	public void setProposalParentNumber(Long proposalParentNumber) {
+	public void setProposalParentNumber(String proposalParentNumber) {
 		this.proposalParentNumber = proposalParentNumber;
 	}
 
@@ -1180,7 +1187,70 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 		this.institutionAccountNumber = institutionAccountNumber;
 	}
 
+    
+    /**
+     * Gets the researchTypeCode attribute.
+     * 
+     * @return - Returns the researchTypeCode
+     * 
+     */
+    public String getResearchTypeCode() { 
+        return researchTypeCode;
+    }
 
+    /**
+     * Sets the researchTypeCode attribute.
+     * 
+     * @param - researchTypeCode The researchTypeCode to set.
+     * 
+     */
+    public void setResearchTypeCode(String researchTypeCode) {
+        this.researchTypeCode = researchTypeCode;
+    }
+
+
+    /**
+     * Gets the submissionTypeCode attribute.
+     * 
+     * @return - Returns the submissionTypeCode
+     * 
+     */
+    public String getSubmissionTypeCode() { 
+        return submissionTypeCode;
+    }
+
+    /**
+     * Sets the submissionTypeCode attribute.
+     * 
+     * @param - submissionTypeCode The submissionTypeCode to set.
+     * 
+     */
+    public void setSubmissionTypeCode(String submissionTypeCode) {
+        this.submissionTypeCode = submissionTypeCode;
+    }
+
+
+    /**
+     * Gets the previousFederalIdentifier attribute.
+     * 
+     * @return - Returns the previousFederalIdentifier
+     * 
+     */
+    public String getPreviousFederalIdentifier() { 
+        return previousFederalIdentifier;
+    }
+
+    /**
+     * Sets the previousFederalIdentifier attribute.
+     * 
+     * @param - previousFederalIdentifier The previousFederalIdentifier to set.
+     * 
+     */
+    public void setPreviousFederalIdentifier(String previousFederalIdentifier) {
+        this.previousFederalIdentifier = previousFederalIdentifier;
+    }    
+
+    
 	/**
 	 * Gets the proposalPhysicalCampus attribute.
 	 * 
@@ -1394,6 +1464,41 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void addRoutingFormKeyword(RoutingFormKeyword routingFormKeyword) {
         getRoutingFormKeywords().add(routingFormKeyword);
+    }
+
+
+    /**
+     * Gets the researchType attribute. 
+     * @return Returns the researchType.
+     */
+    public RoutingFormResearchType getResearchType() {
+        return researchType;
+    }
+
+    /**
+     * Sets the researchType attribute value.
+     * @param researchType The researchType to set.
+     * @deprecated
+     */
+    public void setResearchType(RoutingFormResearchType researchType) {
+        this.researchType = researchType;
+    }
+
+    /**
+     * Gets the submissionType attribute. 
+     * @return Returns the submissionType.
+     */
+    public SubmissionType getSubmissionType() {
+        return submissionType;
+    }
+
+    /**
+     * Sets the submissionType attribute value.
+     * @param submissionType The submissionType to set.
+     * @deprecated
+     */
+    public void setSubmissionType(SubmissionType submissionType) {
+        this.submissionType = submissionType;
     }
 
 

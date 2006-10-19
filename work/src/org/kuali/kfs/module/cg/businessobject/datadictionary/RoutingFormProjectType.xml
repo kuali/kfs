@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormProjectType.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormProjectType">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Project Type Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="projectTypeCode" />
+                <field attributeName="projectTypeDescription" />
+                <field attributeName="researchDocumentNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Project Type Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormProjectType">Create New</a>]]></menubar>
+
+            <instructions>Look up a Routing Form Project Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="projectTypeCode" />
+                    <sortAttribute attributeName="researchDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="projectTypeCode" required="false" />
+                <lookupField attributeName="projectTypeDescription" required="false" />
+                <lookupField attributeName="researchDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="projectTypeCode" />
+                <field attributeName="projectTypeDescription" />
+                <field attributeName="researchDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="projectTypeCode" forceUppercase="true">
+                <label>Project Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>70</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="72" />
+                </control>
+
+                <summary>projectTypeCode</summary>
+                <description>projectTypeCode description...</description>
+			</attribute>
+
+            <attribute name="projectTypeDescription" forceUppercase="true">
+                <label>Project Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>75</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="77" />
+                </control>
+
+                <summary>projectTypeDescription</summary>
+                <description>projectTypeDescription description...</description>
+			</attribute>
+
+            <attribute name="researchDocumentNumber" forceUppercase="true">
+                <label>Research Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>researchDocumentNumber</summary>
+                <description>researchDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

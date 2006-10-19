@@ -541,7 +541,7 @@
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="actualFinancialBalanceTypeCd" column="ACT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="budgetCheckingBalanceTypeCd" column="BDGT_CHK_BALTYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="budgetCheckingOptionsCode" column="BDGT_CHK_OPTN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="budgetCheckingOptionsCode" column="BDGT_CHK_OPTN_CD" jdbc-type="VARCHAR"  conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="universityFiscalYearStartYr" column="UNIV_FSCYR_STRT_YR" jdbc-type="INTEGER" />
     <field-descriptor name="universityFiscalYearStartMo" column="UNIV_FSCYR_STRT_MO" jdbc-type="VARCHAR" />
     <field-descriptor name="finObjectTypeIncomecashCode" column="FOBJTP_INC_CSH_CD" jdbc-type="VARCHAR" />

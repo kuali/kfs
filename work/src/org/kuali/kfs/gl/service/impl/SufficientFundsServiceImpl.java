@@ -185,7 +185,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             return true;
         }
         
-        if (!StringUtils.equals(Constants.BUDGET_CHECKING_OPTIONS_CD_ACTIVE, item.getYear().getBudgetCheckingOptionsCode())) {
+        if ( item.getYear().isBudgetCheckingOptionsCode()) {
             LOG.debug("hasSufficientFundsOnItem() No sufficient funds checking");
             return true;
         }

@@ -57,6 +57,9 @@
             <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
             <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />            
             <reference attributeName="finObjMandatoryTrnfrelim" attributeToHighlightOnFail="finObjMandatoryTrnfrelimCd" />
+            <reference attributeName="financialObjectLevel" attributeToHighlightOnFail="financialObjectLevelCode" />
+            <reference attributeName="financialObjectType" attributeToHighlightOnFail="financialObjectTypeCode" />
+			<reference attributeName="financialObjectSubType" attributeToHighlightOnFail="financialObjectSubTypeCode" />            
         </defaultExistenceChecks>
 
         <maintainableSections>

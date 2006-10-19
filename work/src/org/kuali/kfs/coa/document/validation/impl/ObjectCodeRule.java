@@ -171,25 +171,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         // Chart code (fin_coa_cd) must be valid - handled by dd
 
-        // Object level (obj_level_code) must be valid
-        if (!isValid(objectCode, OBJECT_LEVEL)) {
-            this.putFieldError("financialObjectLevelCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Level Code");
-            result = false;
-        }
-
-        // Object Type must be valid
-        if (!isValid(objectCode, OBJECT_TYPE)) {
-            this.putFieldError("financialObjectTypeCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Type Code");
-
-            result = false;
-        }
-
-        // Sub type must be valid
-        if (!isValid(objectCode, SUB_TYPE)) {
-            this.putFieldError("financialObjectSubTypeCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Sub Type Code");
-            result = false;
-        }
-
         if (!this.consolidationTableDoesNotHave(chartCode, objCode)) {
             this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, chartCode+"-"+objCode);
             result = false;
@@ -296,48 +277,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
-
-
-    /**
-     * 
-     * This is just a guess of how to do this.
-     * 
-     * If OJB gives us back a solid object, then it seems the mapping validates the current value, but we must beware of proxy
-     * related exceptions that occur upon calling the nested object's methods.
-     * 
-     * @param objectCode
-     * @param field
-     * @return
-     */
-    // See Aaron's notes here: http://fms.dfa.cornell.edu:8080/confluence/display/KULEDOCS/Notes+on+Existence+Checking
-    // and here: http://fms.dfa.cornell.edu:8080/confluence/display/KULEDOCS/Notes+on+Null+Checking+within+Business+Rule+Classes
-    protected boolean isValid(ObjectCode objectCode, int field) {
-        try {
-            switch (field) {
-                case CHART_CODE:
-                    return objectCode.getChartOfAccounts().getChartOfAccountsCode().equals(objectCode.getChartOfAccountsCode());
-                case OBJECT_LEVEL:
-                    return objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode().equals(objectCode.getFinancialObjectLevelCode());
-                case OBJECT_TYPE:
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("isValid: " + objectCode.getFinancialObjectType().getCode());
-                        LOG.debug("isValid: " + objectCode.getFinancialObjectTypeCode());
-                    }
-                    return objectCode.getFinancialObjectType().getCode().equals(objectCode.getFinancialObjectTypeCode());
-                case SUB_TYPE:
-                    return objectCode.getFinancialObjectSubType().getCode().equals(objectCode.getFinancialObjectSubTypeCode());
-            }
-        }
-        catch (PersistenceBrokerException e) {
-            return false;
-        }
-        catch (NullPointerException e) {
-            return false;
-        }
-
-        return true;
-    }
-
 
     /**
      * 

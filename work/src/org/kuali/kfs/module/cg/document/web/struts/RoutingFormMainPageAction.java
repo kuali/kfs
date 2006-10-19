@@ -20,13 +20,35 @@ package org.kuali.module.kra.routingform.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
     
+    public ActionForward insertRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.getRoutingFormDocument().addRoutingFormKeyword(routingForm.getNewRoutingFormKeyword());
+        
+        // use getters and setters on the form to reinitialize the properties on the form.                
+        routingForm.setNewRoutingFormKeyword(new RoutingFormKeyword());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RoutingForm routingForm = (RoutingForm) form;
+
+        // Remove the item from the list.
+        int lineToDelete = super.getLineToDelete(request);
+        routingForm.getRoutingFormDocument().getRoutingFormKeywords().remove(lineToDelete);        
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }

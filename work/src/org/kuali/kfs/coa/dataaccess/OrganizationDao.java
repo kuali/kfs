@@ -34,4 +34,13 @@ public interface OrganizationDao {
     public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
 
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * 
+     * Returns a list of active organizations with the given organization type code.
+     * 
+     * @param organizationType
+     * @return
+     */
+    public List<Org> getActiveOrgsByType( String organizationTypeCode );
 }

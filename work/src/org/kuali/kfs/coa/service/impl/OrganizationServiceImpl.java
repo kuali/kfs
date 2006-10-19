@@ -114,4 +114,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         return organizationDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
     }
+
+    public List<Org> getActiveOrgsByType(String organizationTypeCode) {
+        if (StringUtils.isBlank(organizationTypeCode)) {
+            throw new IllegalArgumentException("String parameter organizationTypeCode was null or blank.");
+        }
+        
+        return organizationDao.getActiveOrgsByType( organizationTypeCode );
+    }
+    
+    
 }

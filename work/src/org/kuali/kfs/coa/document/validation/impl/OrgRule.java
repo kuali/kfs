@@ -31,6 +31,7 @@ import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -371,53 +372,89 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 success &= false;
             }
         }
-
-
+        
+        boolean orgMustReportToSelf = false;
+        if (applyApcRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
+            orgMustReportToSelf = true;
+        }
+        
         // Reports To Chart/Org should not be same as this Chart/Org
-        // However, allow special case where organizationCode = "UNIV"
-        if ((ObjectUtils.isNotNull(newOrg.getReportsToChartOfAccountsCode())) && (ObjectUtils.isNotNull(newOrg.getReportsToOrganizationCode())) && (ObjectUtils.isNotNull(newOrg.getChartOfAccountsCode())) && (ObjectUtils.isNotNull(newOrg.getOrganizationCode())) && (!(newOrg.getOrganizationCode().equals("UNIV")))) {
-
-            if ((newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) && (newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode())))
-
-            {
-                putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
-                success &= false;
-            }
-            else
-
-            // Dont't allow a circular reference on Reports to Chart/Org
-            // However, do allow special case where organizationCode = "UNIV"
-            {
-                lastReportsToChartOfAccountsCode = newOrg.getReportsToChartOfAccountsCode();
-                lastReportsToOrganizationCode = newOrg.getReportsToOrganizationCode();
-                continueSearch = true;
-                loopCount = 0;
-                do {
-                    tempOrg = orgService.getByPrimaryId(lastReportsToChartOfAccountsCode, lastReportsToOrganizationCode);
-                    loopCount = loopCount + 1;
-                    if (ObjectUtils.isNull(tempOrg)) {
-                        continueSearch = false;
-                    }
-                    else {
-                        // LOG.info("Found Org = " + lastReportsToChartOfAccountsCode + "/" + lastReportsToOrganizationCode);
-                        lastReportsToChartOfAccountsCode = tempOrg.getReportsToChartOfAccountsCode();
-                        lastReportsToOrganizationCode = tempOrg.getReportsToOrganizationCode();
-
-                        if ((tempOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) && (tempOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode())) && (!tempOrg.getReportsToOrganizationCode().equals("UNIV"))) {
-                            putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
-                            success &= false;
+        // However, allow special case where organization type is listed in the business rules
+        if ( ObjectUtils.isNotNull(newOrg.getReportsToChartOfAccountsCode()) 
+                && ObjectUtils.isNotNull(newOrg.getReportsToOrganizationCode()) 
+                && ObjectUtils.isNotNull(newOrg.getChartOfAccountsCode())
+                && ObjectUtils.isNotNull(newOrg.getOrganizationCode()) ) {
+            if ( !orgMustReportToSelf ) {
+                
+                if ((newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) 
+                        && (newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()))) {
+                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
+                    success = false;
+                } else {
+                    // Don't allow a circular reference on Reports to Chart/Org
+                    // terminate the search when a top-level org is found                    
+                    lastReportsToChartOfAccountsCode = newOrg.getReportsToChartOfAccountsCode();
+                    lastReportsToOrganizationCode = newOrg.getReportsToOrganizationCode();
+                    continueSearch = true;
+                    loopCount = 0;
+                    do {
+                        tempOrg = orgService.getByPrimaryId(lastReportsToChartOfAccountsCode, lastReportsToOrganizationCode);
+                        loopCount++;;
+                        if (ObjectUtils.isNull(tempOrg)) {
+                            continueSearch = false;
+                            // if a null is returned on the first iteration, then the reports-to org does not exist
+                            // fail the validation
+                            if ( loopCount == 1 ) {
+                                putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
+                                success = false;
+                            }
+                        } else {
+                            // on the first iteration, check whether the reports-to organization is active
+                            if ( loopCount == 1 && !tempOrg.isOrganizationActiveIndicator() ) {
+                                putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
+                                success = false;
+                                continueSearch = false;
+                            } else {
+                                // LOG.info("Found Org = " + lastReportsToChartOfAccountsCode + "/" + lastReportsToOrganizationCode);
+                                lastReportsToChartOfAccountsCode = tempOrg.getReportsToChartOfAccountsCode();
+                                lastReportsToOrganizationCode = tempOrg.getReportsToOrganizationCode();
+        
+                                if ((tempOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) 
+                                        && (tempOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode())) ) {
+                                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
+                                    success = false;
+                                    continueSearch = false;
+                                }
+                            }
+                        }
+                        if (loopCount > maxLoopCount) {
                             continueSearch = false;
                         }
-                    }
-                    if (loopCount > maxLoopCount) {
-                        continueSearch = false;
-                    }
-                    if (lastReportsToOrganizationCode.equals("UNIV")) {
-                        continueSearch = false;
-                    }
-
-                } while (continueSearch == true);
-            } // end else
+                        // stop the search if we reach an org that must report to itself 
+                        if ( continueSearch 
+                                && applyApcRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()) ) {
+                            continueSearch = false;
+                        }
+    
+                    } while (continueSearch == true);
+                } // end else (checking for circular ref)
+            } else { // org must report to self (university level organization)
+                if ( !(newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode()) 
+                        && newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()) ) ) {
+                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_BE_SAME_ORG);
+                    success = false;
+                }
+                // org must be the only one of that type
+                KualiParameterRule rule = configService.getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+                String topLevelOrgTypeCode = rule.getParameterText();
+                List<Org> topLevelOrgs = orgService.getActiveOrgsByType( topLevelOrgTypeCode );
+                if ( !topLevelOrgs.isEmpty() ) {
+                    putFieldError( "organizationTypeCode", 
+                            KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG,
+                            topLevelOrgs.get(0).getChartOfAccountsCode()+"-"+topLevelOrgs.get(0).getOrganizationCode() );
+                    success = false;
+                }
+            }
         }
 
 
@@ -434,8 +471,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         boolean exemptOrganizationTypeCode = false;
         String organizationTypeCode;
 
-        // begin date must be greater than or equal to end date
-
         missingDefaultAccountNumber = StringUtils.isBlank(newOrg.getOrganizationDefaultAccountNumber());
 
         if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
@@ -444,7 +479,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 exemptOrganizationTypeCode = true;
             }
         }
-        if (missingDefaultAccountNumber && (!exemptOrganizationTypeCode | !document.isNew())) {
+        if (missingDefaultAccountNumber && (!exemptOrganizationTypeCode || !document.isNew())) {
             putFieldError("organizationDefaultAccountNumber", KeyConstants.ERROR_DOCUMENT_ORGMAINT_DEFAULT_ACCOUNT_NUMBER_REQUIRED);
             success &= false;
         }

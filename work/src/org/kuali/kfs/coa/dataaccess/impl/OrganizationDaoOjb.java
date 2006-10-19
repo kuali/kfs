@@ -100,4 +100,23 @@ public class OrganizationDaoOjb extends PersistenceBrokerDaoSupport implements O
         return orgs;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.OrganizationDao#getActiveOrgsByType(java.lang.String)
+     */
+    public List<Org> getActiveOrgsByType(String organizationTypeCode) {
+        List<Org> orgs = new ArrayList<Org>();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("organizationTypeCode", organizationTypeCode);
+        criteria.addEqualTo("organizationActiveIndicator", Boolean.TRUE);
+
+        orgs = (List<Org>)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Org.class, criteria));
+
+        if (orgs.isEmpty() || orgs.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return orgs;
+    }
+
 }

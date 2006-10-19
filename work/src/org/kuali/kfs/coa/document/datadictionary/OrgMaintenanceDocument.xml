@@ -62,7 +62,9 @@
             <reference attributeName="organizationDefaultAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="organizationDefaultAccountNumber" />
             <reference attributeName="postalZip" attributeToHighlightOnFail="organizationZipCode" />
             <reference attributeName="organizationCountry" attributeToHighlightOnFail="organizationCountryCode" />
+            <!-- need to prevent validation for case where reports-to org cites the current organization
             <reference attributeName="reportsToOrganization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="reportsToOrganizationCode" />
+            -->
         </defaultExistenceChecks>
 
         <maintainableSections>

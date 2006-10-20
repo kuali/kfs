@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/AssignContractManagerDetail.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.AssignContractManagerDetail">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Assign Contract Manager Detail Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="contractManagerCode" />
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="requisitionIdentifier" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Assign Contract Manager Detail Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.AssignContractManagerDetail">Create New</a>]]></menubar>
+
+            <instructions>Look up an Assign Contract Manager Detail</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="financialDocumentNumber" />
+                    <sortAttribute attributeName="requisitionIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="contractManagerCode" required="false" />
+                <lookupField attributeName="financialDocumentNumber" required="false" />
+                <lookupField attributeName="requisitionIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="contractManagerCode" />
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="requisitionIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="contractManagerCode" forceUppercase="true">
+                <label>Contract Manager Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>contractManagerCode</summary>
+                <description>contractManagerCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentNumber" forceUppercase="true">
+                <label>Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>financialDocumentNumber</summary>
+                <description>financialDocumentNumber description...</description>
+			</attribute>
+
+            <attribute name="requisitionIdentifier" forceUppercase="true">
+                <label>Requisition Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>requisitionIdentifier</summary>
+                <description>requisitionIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

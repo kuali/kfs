@@ -93,8 +93,7 @@ public class OrganizationServiceTest extends KualiTestBase {
         public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
             return Collections.EMPTY_LIST;
         }
-
-        public List<Org> getActiveOrgsByType(String organizationTypeCode) {
+        public List<Org> getActiveOrgsByType(String organizationTypeCode){
             return Collections.EMPTY_LIST;
         }
         

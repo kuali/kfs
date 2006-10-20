@@ -22,12 +22,15 @@ import static org.kuali.core.util.SpringServiceLocator.getKualiCodeService;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.CrossSectionSuite;
 
 /**
  * This class tests the MandatoryTransferEliminationCode service.
  * 
  * 
  */
+@AnnotationTestSuite(CrossSectionSuite.class)
 @WithTestSpringContext
 public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 

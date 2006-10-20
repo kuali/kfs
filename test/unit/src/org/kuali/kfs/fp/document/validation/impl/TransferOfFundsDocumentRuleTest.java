@@ -18,9 +18,24 @@
 package org.kuali.module.financial.rules;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import org.kuali.module.financial.document.TransferOfFundsDocument;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
@@ -28,9 +43,11 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtil
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
 import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
+import org.kuali.test.WithTestSpringContext;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.FLEXIBLE_EXPENSE_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
@@ -48,25 +65,9 @@ import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.CrossSectionSuite;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.financial.document.TransferOfFundsDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext(session = KHUNTLEY)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
@@ -75,6 +76,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     private static final String NON_MANDATORY_TRANSFER_OBJECT_CODE = "1669";
 
 
+    @AnnotationTestSuite(CrossSectionSuite.class)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2.createGeneralLedgerPendingEntry(), EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry(), 2, getDataDictionaryService());

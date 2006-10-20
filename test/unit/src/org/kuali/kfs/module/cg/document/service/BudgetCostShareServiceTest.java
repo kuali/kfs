@@ -17,25 +17,27 @@
  */
 package org.kuali.module.kra.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getBudgetCostShareService;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
+import static org.kuali.core.util.SpringServiceLocator.getBudgetCostShareService;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UniversityCostSharePersonnel;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.CrossSectionSuite;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
 
 /**
  * This class tests service methods in BudgetCostShareService.
  * 
  * @author Kuali Research Administration Team ()
  */
+@AnnotationTestSuite(CrossSectionSuite.class)
 @WithTestSpringContext
 public class BudgetCostShareServiceTest extends KualiTestBase {
 

@@ -17,9 +17,6 @@
  */
 package org.kuali.module.chart.globals;
 
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +28,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import org.kuali.module.chart.bo.AccountChangeDetail;
 import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeContainer;
@@ -38,6 +36,9 @@ import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.CrossSectionSuite;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -154,6 +155,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     }
 
+    @AnnotationTestSuite(CrossSectionSuite.class)
     @TestsWorkflowViaDatabase
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
 

@@ -17,26 +17,6 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.approveDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.routeDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE3;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
-import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,12 +29,25 @@ import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.approveDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.routeDocument;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE3;
 import org.kuali.test.fixtures.UserNameFixture;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
+import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.CrossSectionSuite;
 
 /**
  * This class is used to test InternalBillingDocument.
@@ -347,6 +340,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     }
 
 
+    @AnnotationTestSuite(CrossSectionSuite.class)
     @TestsWorkflowViaDatabase
     public final void testApprove_updateAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with

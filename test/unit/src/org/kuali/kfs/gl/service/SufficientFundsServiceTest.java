@@ -26,6 +26,8 @@ import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.module.gl.util.SufficientFundsItem;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.CrossSectionSuite;
+import org.kuali.test.suite.AnnotationTestSuite;
 
 @WithTestSpringContext
 public class SufficientFundsServiceTest extends KualiTestBase {
@@ -829,6 +831,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    @AnnotationTestSuite(CrossSectionSuite.class)
     public void testSufficientFunds_AccountNegativeBalanceCreditExpense() throws Exception {
 
         prepareSufficientFundsData("0211901","A", "    ", 100, 300, 200, false);

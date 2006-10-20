@@ -17,21 +17,6 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +25,19 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.OftenUsefulSuite;
 import org.kuali.test.fixtures.AccountingLineFixture;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 /**
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
@@ -74,8 +67,9 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
 
 
     /*
-     * Removing this test until the following Phase 2 issue is closed. https://test.kuali.org/jira/browse/KULEDOCS-1662
+     * This test fails related to https://test.kuali.org/jira/browse/KULEDOCS-1662
      */
+    @AnnotationTestSuite(OftenUsefulSuite.class)
     @TestsWorkflowViaDatabase
     public final void testKULEDOCS_1401() throws Exception {
         String testDocId = null;

@@ -17,6 +17,8 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,8 +26,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
@@ -34,12 +36,20 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
     public ActionForward insertRoutingFormResearchRisk(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
+        
+        int addLineIndex = super.getSelectedLine(request);
+        
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-//        RoutingFormResearchRisk routingFormResearchRisk = routingForm.getNewRoutingFormResearchRisk();
-//        routingFormDocument.addRoutingFormResearchRisk(routingFormResearchRisk);
+        
+        RoutingFormResearchRisk[] newRoutingFormResearchRisksArray = routingForm.getNewRoutingFormResearchRisks().toArray(new RoutingFormResearchRisk[routingForm.getNewRoutingFormResearchRisks().size()]);
+        
+        RoutingFormResearchRisk routingFormResearchRisk = routingForm.getNewRoutingFormResearchRisk(addLineIndex);
+        routingFormDocument.addRoutingFormResearchRisk(routingFormResearchRisk);
+        
+        newRoutingFormResearchRisksArray[addLineIndex] = new RoutingFormResearchRisk();
         
         // use getters and setters on the form to reinitialize the properties on the form.                
-//        routingForm.setNewRoutingFormResearchRisk(new RoutingFormResearchRisk());
+        routingForm.setNewRoutingFormResearchRisks(Arrays.asList(newRoutingFormResearchRisksArray));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

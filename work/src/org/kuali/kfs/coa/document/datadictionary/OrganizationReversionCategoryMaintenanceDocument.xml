@@ -53,6 +53,9 @@
                     <maintainableField name="organizationReversionCategoryCode" required="true" />
                     <maintainableField name="organizationReversionCategoryName" required="true" />
                     <maintainableField name="organizationReversionSortCode" required="true" />
+                    <maintainableField name="organizationReversionCategoryActiveIndicator" required="true">         
+                    <defaultValue>true</defaultValue>
+                    </maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

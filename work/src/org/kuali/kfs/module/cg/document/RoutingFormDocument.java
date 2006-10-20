@@ -30,7 +30,7 @@ import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
-import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
@@ -84,13 +84,13 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private boolean proposalSpaceRequiredIndicator;
 	private String proposalStatusCode;
 	private boolean proposalSubcontractorIndicator;
-	private boolean protocolAnimalIndicator;
-	private boolean protocolHumanIndicator;
-	private String protocolPathogenicAgentDescription;
-	private boolean protocolPathogenicAgentIndicator;
-	private boolean protocolRecombinantDnaIndicator;
-	private String protocolHumanTissueFluidDescription;
-	private boolean protocolHumanTissueFluidIndicator;
+	private boolean researchRiskAnimalIndicator;
+	private boolean researchRiskHumanIndicator;
+	private String researchRiskPathogenicAgentDescription;
+	private boolean researchRiskPathogenicAgentIndicator;
+	private boolean researchRiskRecombinantDnaIndicator;
+	private String researchRiskHumanTissueFluidDescription;
+	private boolean researchRiskHumanTissueFluidIndicator;
 	private String institutionAccountNumber;
     private String researchTypeCode;
     private String submissionTypeCode;
@@ -106,7 +106,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormPurpose proposalPurpose;
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
-    private List<RoutingFormProtocol> routingFormProtocols;
+    private List<RoutingFormResearchRisk> routingFormResearchRisks;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
     private RoutingFormResearchType researchType;
@@ -116,7 +116,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * Default constructor.
 	 */
 	public RoutingFormDocument() {
-        routingFormProtocols = new ArrayList<RoutingFormProtocol>();
+        routingFormResearchRisks = new ArrayList<RoutingFormResearchRisk>();
 	}
 
 	/**
@@ -1021,149 +1021,149 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	}
 
 	/**
-	 * Gets the protocolAnimalIndicator attribute.
+	 * Gets the researchRiskAnimalIndicator attribute.
 	 * 
-	 * @return - Returns the protocolAnimalIndicator
+	 * @return - Returns the researchRiskAnimalIndicator
 	 * 
 	 */
-	public boolean getProtocolAnimalIndicator() { 
-		return protocolAnimalIndicator;
+	public boolean getResearchRiskAnimalIndicator() { 
+		return researchRiskAnimalIndicator;
 	}
 
 	/**
-	 * Sets the protocolAnimalIndicator attribute.
+	 * Sets the researchRiskAnimalIndicator attribute.
 	 * 
-	 * @param - protocolAnimalIndicator The protocolAnimalIndicator to set.
-	 * 
-	 */
-	public void setProtocolAnimalIndicator(boolean protocolAnimalIndicator) {
-		this.protocolAnimalIndicator = protocolAnimalIndicator;
-	}
-
-
-	/**
-	 * Gets the protocolHumanIndicator attribute.
-	 * 
-	 * @return - Returns the protocolHumanIndicator
+	 * @param - researchRiskAnimalIndicator The researchRiskAnimalIndicator to set.
 	 * 
 	 */
-	public boolean getProtocolHumanIndicator() { 
-		return protocolHumanIndicator;
-	}
-
-	/**
-	 * Sets the protocolHumanIndicator attribute.
-	 * 
-	 * @param - protocolHumanIndicator The protocolHumanIndicator to set.
-	 * 
-	 */
-	public void setProtocolHumanIndicator(boolean protocolHumanIndicator) {
-		this.protocolHumanIndicator = protocolHumanIndicator;
+	public void setResearchRiskAnimalIndicator(boolean researchRiskAnimalIndicator) {
+		this.researchRiskAnimalIndicator = researchRiskAnimalIndicator;
 	}
 
 
 	/**
-	 * Gets the protocolPathogenicAgentDescription attribute.
+	 * Gets the researchRiskHumanIndicator attribute.
 	 * 
-	 * @return - Returns the protocolPathogenicAgentDescription
+	 * @return - Returns the researchRiskHumanIndicator
 	 * 
 	 */
-	public String getProtocolPathogenicAgentDescription() { 
-		return protocolPathogenicAgentDescription;
+	public boolean getResearchRiskHumanIndicator() { 
+		return researchRiskHumanIndicator;
 	}
 
 	/**
-	 * Sets the protocolPathogenicAgentDescription attribute.
+	 * Sets the researchRiskHumanIndicator attribute.
 	 * 
-	 * @param - protocolPathogenicAgentDescription The protocolPathogenicAgentDescription to set.
-	 * 
-	 */
-	public void setProtocolPathogenicAgentDescription(String protocolPathogenicAgentDescription) {
-		this.protocolPathogenicAgentDescription = protocolPathogenicAgentDescription;
-	}
-
-
-	/**
-	 * Gets the protocolPathogenicAgentIndicator attribute.
-	 * 
-	 * @return - Returns the protocolPathogenicAgentIndicator
+	 * @param - researchRiskHumanIndicator The researchRiskHumanIndicator to set.
 	 * 
 	 */
-	public boolean getProtocolPathogenicAgentIndicator() { 
-		return protocolPathogenicAgentIndicator;
-	}
-
-	/**
-	 * Sets the protocolPathogenicAgentIndicator attribute.
-	 * 
-	 * @param - protocolPathogenicAgentIndicator The protocolPathogenicAgentIndicator to set.
-	 * 
-	 */
-	public void setProtocolPathogenicAgentIndicator(boolean protocolPathogenicAgentIndicator) {
-		this.protocolPathogenicAgentIndicator = protocolPathogenicAgentIndicator;
+	public void setResearchRiskHumanIndicator(boolean researchRiskHumanIndicator) {
+		this.researchRiskHumanIndicator = researchRiskHumanIndicator;
 	}
 
 
 	/**
-	 * Gets the protocolRecombinantDnaIndicator attribute.
+	 * Gets the researchRiskPathogenicAgentDescription attribute.
 	 * 
-	 * @return - Returns the protocolRecombinantDnaIndicator
+	 * @return - Returns the researchRiskPathogenicAgentDescription
 	 * 
 	 */
-	public boolean getProtocolRecombinantDnaIndicator() { 
-		return protocolRecombinantDnaIndicator;
+	public String getResearchRiskPathogenicAgentDescription() { 
+		return researchRiskPathogenicAgentDescription;
 	}
 
 	/**
-	 * Sets the protocolRecombinantDnaIndicator attribute.
+	 * Sets the researchRiskPathogenicAgentDescription attribute.
 	 * 
-	 * @param - protocolRecombinantDnaIndicator The protocolRecombinantDnaIndicator to set.
-	 * 
-	 */
-	public void setProtocolRecombinantDnaIndicator(boolean protocolRecombinantDnaIndicator) {
-		this.protocolRecombinantDnaIndicator = protocolRecombinantDnaIndicator;
-	}
-
-
-	/**
-	 * Gets the protocolHumanTissueFluidDescription attribute.
-	 * 
-	 * @return - Returns the protocolHumanTissueFluidDescription
+	 * @param - researchRiskPathogenicAgentDescription The researchRiskPathogenicAgentDescription to set.
 	 * 
 	 */
-	public String getProtocolHumanTissueFluidDescription() { 
-		return protocolHumanTissueFluidDescription;
-	}
-
-	/**
-	 * Sets the protocolHumanTissueFluidDescription attribute.
-	 * 
-	 * @param - protocolHumanTissueFluidDescription The protocolHumanTissueFluidDescription to set.
-	 * 
-	 */
-	public void setProtocolHumanTissueFluidDescription(String protocolHumanTissueFluidDescription) {
-		this.protocolHumanTissueFluidDescription = protocolHumanTissueFluidDescription;
+	public void setResearchRiskPathogenicAgentDescription(String researchRiskPathogenicAgentDescription) {
+		this.researchRiskPathogenicAgentDescription = researchRiskPathogenicAgentDescription;
 	}
 
 
 	/**
-	 * Gets the protocolHumanTissueFluidIndicator attribute.
+	 * Gets the researchRiskPathogenicAgentIndicator attribute.
 	 * 
-	 * @return - Returns the protocolHumanTissueFluidIndicator
+	 * @return - Returns the researchRiskPathogenicAgentIndicator
 	 * 
 	 */
-	public boolean getProtocolHumanTissueFluidIndicator() { 
-		return protocolHumanTissueFluidIndicator;
+	public boolean getResearchRiskPathogenicAgentIndicator() { 
+		return researchRiskPathogenicAgentIndicator;
 	}
 
 	/**
-	 * Sets the protocolHumanTissueFluidIndicator attribute.
+	 * Sets the researchRiskPathogenicAgentIndicator attribute.
 	 * 
-	 * @param - protocolHumanTissueFluidIndicator The protocolHumanTissueFluidIndicator to set.
+	 * @param - researchRiskPathogenicAgentIndicator The researchRiskPathogenicAgentIndicator to set.
 	 * 
 	 */
-	public void setProtocolHumanTissueFluidIndicator(boolean protocolHumanTissueFluidIndicator) {
-		this.protocolHumanTissueFluidIndicator = protocolHumanTissueFluidIndicator;
+	public void setResearchRiskPathogenicAgentIndicator(boolean researchRiskPathogenicAgentIndicator) {
+		this.researchRiskPathogenicAgentIndicator = researchRiskPathogenicAgentIndicator;
+	}
+
+
+	/**
+	 * Gets the researchRiskRecombinantDnaIndicator attribute.
+	 * 
+	 * @return - Returns the researchRiskRecombinantDnaIndicator
+	 * 
+	 */
+	public boolean getResearchRiskRecombinantDnaIndicator() { 
+		return researchRiskRecombinantDnaIndicator;
+	}
+
+	/**
+	 * Sets the researchRiskRecombinantDnaIndicator attribute.
+	 * 
+	 * @param - researchRiskRecombinantDnaIndicator The researchRiskRecombinantDnaIndicator to set.
+	 * 
+	 */
+	public void setResearchRiskRecombinantDnaIndicator(boolean researchRiskRecombinantDnaIndicator) {
+		this.researchRiskRecombinantDnaIndicator = researchRiskRecombinantDnaIndicator;
+	}
+
+
+	/**
+	 * Gets the researchRiskHumanTissueFluidDescription attribute.
+	 * 
+	 * @return - Returns the researchRiskHumanTissueFluidDescription
+	 * 
+	 */
+	public String getResearchRiskHumanTissueFluidDescription() { 
+		return researchRiskHumanTissueFluidDescription;
+	}
+
+	/**
+	 * Sets the researchRiskHumanTissueFluidDescription attribute.
+	 * 
+	 * @param - researchRiskHumanTissueFluidDescription The researchRiskHumanTissueFluidDescription to set.
+	 * 
+	 */
+	public void setResearchRiskHumanTissueFluidDescription(String researchRiskHumanTissueFluidDescription) {
+		this.researchRiskHumanTissueFluidDescription = researchRiskHumanTissueFluidDescription;
+	}
+
+
+	/**
+	 * Gets the researchRiskHumanTissueFluidIndicator attribute.
+	 * 
+	 * @return - Returns the researchRiskHumanTissueFluidIndicator
+	 * 
+	 */
+	public boolean getResearchRiskHumanTissueFluidIndicator() { 
+		return researchRiskHumanTissueFluidIndicator;
+	}
+
+	/**
+	 * Sets the researchRiskHumanTissueFluidIndicator attribute.
+	 * 
+	 * @param - researchRiskHumanTissueFluidIndicator The researchRiskHumanTissueFluidIndicator to set.
+	 * 
+	 */
+	public void setResearchRiskHumanTissueFluidIndicator(boolean researchRiskHumanTissueFluidIndicator) {
+		this.researchRiskHumanTissueFluidIndicator = researchRiskHumanTissueFluidIndicator;
 	}
 
 
@@ -1420,23 +1420,23 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.catalogOfFederalDomesticAssistanceReference = catalogOfFederalDomesticAssistanceReference;
     }
     
-    public List<RoutingFormProtocol> getRoutingFormProtocols() {
-        return routingFormProtocols;
+    public List<RoutingFormResearchRisk> getRoutingFormResearchRisks() {
+        return routingFormResearchRisks;
     }
 
-    public RoutingFormProtocol getRoutingFormProtocol(int index) {
-        while (getRoutingFormProtocols().size() <= index) {
-            getRoutingFormProtocols().add(new RoutingFormProtocol());
+    public RoutingFormResearchRisk getRoutingFormResearchRisk(int index) {
+        while (getRoutingFormResearchRisks().size() <= index) {
+            getRoutingFormResearchRisks().add(new RoutingFormResearchRisk());
         }
-        return (RoutingFormProtocol) getRoutingFormProtocols().get(index);
+        return (RoutingFormResearchRisk) getRoutingFormResearchRisks().get(index);
     }
     
-    public void setRoutingFormProtocols(List<RoutingFormProtocol> routingFormProtocols) {
-        this.routingFormProtocols = routingFormProtocols;
+    public void setRoutingFormResearchRisks(List<RoutingFormResearchRisk> routingFormResearchRisks) {
+        this.routingFormResearchRisks = routingFormResearchRisks;
     }
 
-    public void addRoutingFormProtocol(RoutingFormProtocol routingFormProtocol) {
-        getRoutingFormProtocols().add(routingFormProtocol);
+    public void addRoutingFormResearchRisk(RoutingFormResearchRisk routingFormResearchRisk) {
+        getRoutingFormResearchRisks().add(routingFormResearchRisk);
     }
 
     public RoutingFormBudget getRoutingFormBudget() {

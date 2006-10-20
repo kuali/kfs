@@ -24,21 +24,21 @@ import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.kra.routingform.bo.ProtocolType;
+import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
-import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 public class RoutingForm extends KualiDocumentFormBase {
     
     private boolean auditActivated;
-    private List<RoutingFormProtocol> newRoutingFormProtocols;
-    private List<ProtocolType> protocolTypes;
+    private List<RoutingFormResearchRisk> newRoutingFormResearchRisks;
+    private List<ResearchRiskType> researchRiskTypes;
     private RoutingFormKeyword newRoutingFormKeyword;
     
     public RoutingForm() {
         super();
-        newRoutingFormProtocols = new ArrayList<RoutingFormProtocol>();
+        newRoutingFormResearchRisks = new ArrayList<RoutingFormResearchRisk>();
        
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
@@ -59,30 +59,30 @@ public class RoutingForm extends KualiDocumentFormBase {
         this.auditActivated = auditActivated;
     }
 
-    public List<RoutingFormProtocol> getNewRoutingFormProtocols() {
-        return newRoutingFormProtocols;
+    public List<RoutingFormResearchRisk> getNewRoutingFormResearchRisks() {
+        return newRoutingFormResearchRisks;
     }
 
-    public void setNewRoutingFormProtocols(List<RoutingFormProtocol> newRoutingFormProtocols) {
-        this.newRoutingFormProtocols = newRoutingFormProtocols;
+    public void setNewRoutingFormResearchRisks(List<RoutingFormResearchRisk> newRoutingFormResearchRisks) {
+        this.newRoutingFormResearchRisks = newRoutingFormResearchRisks;
     }
 
-    public List<ProtocolType> getProtocolTypes() {
-        return protocolTypes;
+    public List<ResearchRiskType> getResearchRiskTypes() {
+        return researchRiskTypes;
     }
     public RoutingFormKeyword getNewRoutingFormKeyword() {
         return newRoutingFormKeyword;
     }
 
-    public void setProtocolTypes(List<ProtocolType> protocolTypes) {
-        this.protocolTypes = protocolTypes;
+    public void setResearchRiskTypes(List<ResearchRiskType> researchRiskTypes) {
+        this.researchRiskTypes = researchRiskTypes;
     }
     
-    public RoutingFormProtocol getNewRoutingFormProtocol(int index) {
-        while (getNewRoutingFormProtocols().size() <= index) {
-            getNewRoutingFormProtocols().add(new RoutingFormProtocol());
+    public RoutingFormResearchRisk getNewRoutingFormResearchRisk(int index) {
+        while (getNewRoutingFormResearchRisks().size() <= index) {
+            getNewRoutingFormResearchRisks().add(new RoutingFormResearchRisk());
         }
-        return (RoutingFormProtocol) getNewRoutingFormProtocols().get(index);
+        return (RoutingFormResearchRisk) getNewRoutingFormResearchRisks().get(index);
     }
 
     public void setNewRoutingFormKeyword(RoutingFormKeyword newRoutingFormKeyword) {

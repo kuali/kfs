@@ -200,7 +200,7 @@
 		                <td class="infoline"> <div align="center">
 		                  <kul:htmlControlAttribute property="document.routingFormKeyword[${status.index}].proposalKeywordDescription" attributeEntry="${routingFormKeywordAttributes.proposalKeywordDescription}" />
 		                </div></td>
-		                <td class="infoline"><div align=center><html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete protocol"/></div></td>
+		                <td class="infoline"><div align=center><html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div></td>
 		              </tr>   
 		              </c:forEach>
 		            </table>

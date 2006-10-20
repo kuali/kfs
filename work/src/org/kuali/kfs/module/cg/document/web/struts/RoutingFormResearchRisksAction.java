@@ -24,31 +24,32 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormResearchRisksAction extends RoutingFormAction {
 
-    public ActionForward insertRoutingFormProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward insertRoutingFormResearchRisk(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-//        RoutingFormProtocol routingFormProtocol = routingForm.getNewRoutingFormProtocol();
-    //    routingFormDocument.addRoutingFormProtocol(routingFormProtocol);
+//        RoutingFormResearchRisk routingFormResearchRisk = routingForm.getNewRoutingFormResearchRisk();
+//        routingFormDocument.addRoutingFormResearchRisk(routingFormResearchRisk);
         
         // use getters and setters on the form to reinitialize the properties on the form.                
-  //      routingForm.setNewRoutingFormProtocol(new RoutingFormProtocol());
+//        routingForm.setNewRoutingFormResearchRisk(new RoutingFormResearchRisk());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward deleteRoutingFormProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteRoutingFormResearchRisk(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormProtocols().remove(lineToDelete);        
+        routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().remove(lineToDelete);        
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -56,7 +57,7 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.setProtocolTypes(SpringServiceLocator.getRoutingFormProtocolService().getAllProtocolTypes());
+        routingForm.setResearchRiskTypes(SpringServiceLocator.getRoutingFormResearchRiskService().getAllResearchRiskTypes());
         return super.execute(mapping, form, request, response);
     }
     

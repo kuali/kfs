@@ -24,8 +24,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormAction extends KualiDocumentActionBase {
     
@@ -38,6 +40,8 @@ public class RoutingFormAction extends KualiDocumentActionBase {
     }
     
     public ActionForward researchrisks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.setResearchRiskTypes(SpringServiceLocator.getRoutingFormResearchRiskService().getAllResearchRiskTypes());
         return mapping.findForward("researchrisks");
     }
     

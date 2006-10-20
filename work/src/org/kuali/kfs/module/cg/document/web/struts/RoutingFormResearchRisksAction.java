@@ -33,6 +33,14 @@ import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormResearchRisksAction extends RoutingFormAction {
 
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.setResearchRiskTypes(SpringServiceLocator.getRoutingFormResearchRiskService().getAllResearchRiskTypes());
+        return super.execute(mapping, form, request, response);
+    }
+    
+    
     public ActionForward insertRoutingFormResearchRisk(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
@@ -63,12 +71,4 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm) form;
-        routingForm.setResearchRiskTypes(SpringServiceLocator.getRoutingFormResearchRiskService().getAllResearchRiskTypes());
-        return super.execute(mapping, form, request, response);
-    }
-    
 }

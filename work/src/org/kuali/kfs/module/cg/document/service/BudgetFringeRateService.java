@@ -45,5 +45,5 @@ public interface BudgetFringeRateService {
 
     public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String researchDocumentNumber);
 
-    public BudgetFringeRate getBudgetFringeRate(String researchDocumentNumber, String universityAppointmentTypeCode);
+    public BudgetFringeRate getBudgetFringeRate(String researchDocumentNumber, String institutionAppointmentTypeCode);
 }

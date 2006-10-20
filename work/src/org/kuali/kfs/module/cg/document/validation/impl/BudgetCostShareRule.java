@@ -27,7 +27,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.kra.budget.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.util.AuditCluster;
 import org.kuali.module.kra.budget.util.AuditError;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
@@ -42,11 +42,11 @@ public class BudgetCostShareRule {
     protected boolean isCostShareValid(Budget budget) {
         boolean valid = true;
 
-        for (Iterator universityCostShareIter = budget.getUniversityCostShareItems().iterator(); universityCostShareIter.hasNext();) {
-            BudgetUniversityCostShare budgetCostShare = (BudgetUniversityCostShare) universityCostShareIter.next();
+        for (Iterator institutionCostShareIter = budget.getInstitutionCostShareItems().iterator(); institutionCostShareIter.hasNext();) {
+            BudgetInstitutionCostShare budgetCostShare = (BudgetInstitutionCostShare) institutionCostShareIter.next();
 
             if (!StringUtils.isNotBlank(budgetCostShare.getChartOfAccountsCode()) && !StringUtils.isNotBlank(budgetCostShare.getOrganizationCode())) {
-                GlobalVariables.getErrorMap().putError("budget.universityCostShareItem.chartOrg.required", KeyConstants.ERROR_REQUIRED, "Institution Direct Source");
+                GlobalVariables.getErrorMap().putError("budget.institutionCostShareItem.chartOrg.required", KeyConstants.ERROR_REQUIRED, "Institution Direct Source");
                 valid = false;
             }
         }
@@ -61,7 +61,7 @@ public class BudgetCostShareRule {
      */
     protected boolean runCostShareAuditErrors(Budget budget) {
         List<AuditError> costShareAuditErrors = new ArrayList<AuditError>();
-        BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getUniversityCostSharePersonnelItems(), budget.getUniversityCostShareItems(), budget.getThirdPartyCostShareItems());
+        BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems());
 
         if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
             costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed",

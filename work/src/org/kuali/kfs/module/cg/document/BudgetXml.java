@@ -37,11 +37,11 @@ import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetPeriodUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetPeriodInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
@@ -261,7 +261,7 @@ public class BudgetXml {
 
         BudgetCostShareFormHelper budgetCostShareFormHelper =
             new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(),
-                    budget.getUniversityCostSharePersonnelItems(), budget.getUniversityCostShareItems(), budget.getThirdPartyCostShareItems(),
+                    budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems(),
                     budgetIndirectCostFormHelper);
 
         costShareElement.appendChild(createInstitutionCostShareElement(budgetCostShareFormHelper, budget, xmlDoc));
@@ -309,17 +309,17 @@ public class BudgetXml {
         institutionCostShareElement.appendChild(institutionCostSharePeriodsElement);
 
         Element institutionCostShareChartOrgsElement = xmlDoc.createElement("INSTITUTION_COST_SHARE_CHART_ORGS");
-        for (int i = 0; i < budget.getUniversityCostShareItems().size(); i++) {
-            BudgetUniversityCostShare budgetUniversityCostShare = budget.getUniversityCostShareItem(i);
+        for (int i = 0; i < budget.getInstitutionCostShareItems().size(); i++) {
+            BudgetInstitutionCostShare budgetInstitutionCostShare = budget.getInstitutionCostShareItem(i);
 
             Element institutionCostShareChartOrgElement = xmlDoc.createElement("INSTITUTION_COST_SHARE_CHART_ORG");
-            institutionCostShareChartOrgElement.setAttribute("CHART", budgetUniversityCostShare.getChartOfAccountsCode());
-            institutionCostShareChartOrgElement.setAttribute("ORG", budgetUniversityCostShare.getOrganizationCode());
+            institutionCostShareChartOrgElement.setAttribute("CHART", budgetInstitutionCostShare.getChartOfAccountsCode());
+            institutionCostShareChartOrgElement.setAttribute("ORG", budgetInstitutionCostShare.getOrganizationCode());
             institutionCostShareChartOrgElement.setAttribute("TOTAL", budgetCostShareFormHelper.getInstitutionDirect().getTotalSource()[i].toString());
 
-            Iterator innerIter = budgetUniversityCostShare.getBudgetPeriodCostShare().iterator();
+            Iterator innerIter = budgetInstitutionCostShare.getBudgetPeriodCostShare().iterator();
             for (int j = 0; innerIter.hasNext(); j++) {
-                BudgetPeriodUniversityCostShare periodInstitutionCostShare = (BudgetPeriodUniversityCostShare) innerIter.next();
+                BudgetPeriodInstitutionCostShare periodInstitutionCostShare = (BudgetPeriodInstitutionCostShare) innerIter.next();
 
                 Element institutionCostShareChartOrgPeriodElement = xmlDoc.createElement("INSTITUTION_COST_SHARE_CHART_ORG_PERIOD");
                 institutionCostShareChartOrgPeriodElement.setAttribute("PERIOD_NUMBER", Integer.toString(j + 1));
@@ -561,7 +561,7 @@ public class BudgetXml {
 
             Element appointmentElement = xmlDoc.createElement("APPOINTMENT");
             appointmentElement.setAttribute("APPOINTMENT_TYPE", budgetOverviewPersonnelHelper.getAppointmentTypeDescription());
-            appointmentElement.setAttribute("APPOINTMENT_CODE", budgetOverviewPersonnelHelper.getUniversityAppointmentTypeCode());
+            appointmentElement.setAttribute("APPOINTMENT_CODE", budgetOverviewPersonnelHelper.getInstitutionAppointmentTypeCode());
             personElement.appendChild(appointmentElement);
 
             personElement.setAttribute("PROJECT_DIRECTOR", ObjectUtils.toString(budgetOverviewPersonnelHelper.isPersonProjectDirectorIndicator()).toUpperCase());
@@ -575,39 +575,39 @@ public class BudgetXml {
             personElement.setAttribute("AGENCY_PERCENT_SALARY", ObjectUtils.toString(budgetOverviewPersonnelHelper.getAgencyPercentEffortAmount()) + OUTPUT_PERCENT_SYMBOL);
             personElement.setAttribute("AGENCY_HOURS", ObjectUtils.toString(budgetOverviewPersonnelHelper.getUserAgencyHours()));
             personElement.setAttribute("AGENCY_AMOUNT_SALARY", ObjectUtils.toString(budgetOverviewPersonnelHelper.getAgencyRequestTotalAmount()));
-            personElement.setAttribute("INSTITUTION_PERCENT_SALARY", ObjectUtils.toString(budgetOverviewPersonnelHelper.getUniversityCostSharePercentEffortAmount()) + OUTPUT_PERCENT_SYMBOL);
-            personElement.setAttribute("INSTITUTION_HOURS", ObjectUtils.toString(budgetOverviewPersonnelHelper.getUserUniversityHours()));
-            personElement.setAttribute("INSTITUTION_AMOUNT_SALARY", ObjectUtils.toString(budgetOverviewPersonnelHelper.getUniversityCostShareRequestTotalAmount()));
+            personElement.setAttribute("INSTITUTION_PERCENT_SALARY", ObjectUtils.toString(budgetOverviewPersonnelHelper.getInstitutionCostSharePercentEffortAmount()) + OUTPUT_PERCENT_SYMBOL);
+            personElement.setAttribute("INSTITUTION_HOURS", ObjectUtils.toString(budgetOverviewPersonnelHelper.getUserInstitutionHours()));
+            personElement.setAttribute("INSTITUTION_AMOUNT_SALARY", ObjectUtils.toString(budgetOverviewPersonnelHelper.getInstitutionCostShareRequestTotalAmount()));
             personElement.setAttribute("AGENCY_FRINGE_BENEFIT_RATE", ObjectUtils.toString(budgetOverviewPersonnelHelper.getContractsAndGrantsFringeRateAmount()) + OUTPUT_PERCENT_SYMBOL);
             personElement.setAttribute("AGENCY_FRINGE_BENEFIT_AMOUNT", ObjectUtils.toString(budgetOverviewPersonnelHelper.getAgencyFringeBenefitTotalAmount()));
-            personElement.setAttribute("INSTITUTION_FRINGE_BENEFIT_RATE", ObjectUtils.toString(budgetOverviewPersonnelHelper.getUniversityCostShareFringeRateAmount()) + OUTPUT_PERCENT_SYMBOL);
-            personElement.setAttribute("INSTITUTION_FRINGE_BENEFIT_AMOUNT", ObjectUtils.toString(budgetOverviewPersonnelHelper.getUniversityCostShareFringeBenefitTotalAmount()));
+            personElement.setAttribute("INSTITUTION_FRINGE_BENEFIT_RATE", ObjectUtils.toString(budgetOverviewPersonnelHelper.getInstitutionCostShareFringeRateAmount()) + OUTPUT_PERCENT_SYMBOL);
+            personElement.setAttribute("INSTITUTION_FRINGE_BENEFIT_AMOUNT", ObjectUtils.toString(budgetOverviewPersonnelHelper.getInstitutionCostShareFringeBenefitTotalAmount()));
 
             // Following calculation should probably be somewhere else.
             /** TODO Create App Constants for the below or move into Personnel? Does it already exist there? */
             KualiInteger agencyPercentEffortAmount = budgetOverviewPersonnelHelper.getAgencyPercentEffortAmount() == null ? new KualiInteger(0) : budgetOverviewPersonnelHelper.getAgencyPercentEffortAmount();
-            KualiInteger universityCostSharePercentEffortAmount = budgetOverviewPersonnelHelper.getUniversityCostSharePercentEffortAmount() == null ? new KualiInteger(0) : budgetOverviewPersonnelHelper.getUniversityCostSharePercentEffortAmount();
-            BigDecimal combinedPercentEffort = agencyPercentEffortAmount.add(universityCostSharePercentEffortAmount).divide(new KualiInteger(100));
+            KualiInteger institutionCostSharePercentEffortAmount = budgetOverviewPersonnelHelper.getInstitutionCostSharePercentEffortAmount() == null ? new KualiInteger(0) : budgetOverviewPersonnelHelper.getInstitutionCostSharePercentEffortAmount();
+            BigDecimal combinedPercentEffort = agencyPercentEffortAmount.add(institutionCostSharePercentEffortAmount).divide(new KualiInteger(100));
             String calendarMonths = "";
             String academicMonths = "";
             String summerMonths = "";
-            if (budgetOverviewFormHelper.FULL_YEAR_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getUniversityAppointmentTypeCode()) || budgetOverviewFormHelper.GRADUATE_RA_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getUniversityAppointmentTypeCode())) {
+            if (budgetOverviewFormHelper.FULL_YEAR_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getInstitutionAppointmentTypeCode()) || budgetOverviewFormHelper.GRADUATE_RA_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getInstitutionAppointmentTypeCode())) {
                 BigDecimal personMonths = new BigDecimal(12 * combinedPercentEffort.doubleValue()).setScale(1, BigDecimal.ROUND_HALF_DOWN);
                 calendarMonths = personMonths.toString();
             }
-            else if (budgetOverviewFormHelper.SUMMER_GRID_APPOINTMENT.contains(budgetOverviewPersonnelHelper.getUniversityAppointmentTypeCode())) {
+            else if (budgetOverviewFormHelper.SUMMER_GRID_APPOINTMENT.contains(budgetOverviewPersonnelHelper.getInstitutionAppointmentTypeCode())) {
                 // AS
                 BigDecimal personMonths = new BigDecimal(3 * combinedPercentEffort.doubleValue()).setScale(1, BigDecimal.ROUND_HALF_DOWN);
                 summerMonths = personMonths.toString();
             }
-            else if (budgetOverviewFormHelper.SUMMER_GRID_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getUniversityAppointmentTypeCode())) {
+            else if (budgetOverviewFormHelper.SUMMER_GRID_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getInstitutionAppointmentTypeCode())) {
                 // A2 & AS, note that AS got caught above though and it should. Just trying to avoid creating another application constant
                 // as personnel already uses this one.
                 BigDecimal personMonths = new BigDecimal(9 * combinedPercentEffort.doubleValue()).setScale(1, BigDecimal.ROUND_HALF_DOWN);
                 academicMonths = personMonths.toString();
             }
-            else if (budgetOverviewFormHelper.HOURLY_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getUniversityAppointmentTypeCode())) {
-                KualiInteger totalsHours = budgetOverviewPersonnelHelper.getUserAgencyHours().add(budgetOverviewPersonnelHelper.getUserUniversityHours());
+            else if (budgetOverviewFormHelper.HOURLY_APPOINTMENTS.contains(budgetOverviewPersonnelHelper.getInstitutionAppointmentTypeCode())) {
+                KualiInteger totalsHours = budgetOverviewPersonnelHelper.getUserAgencyHours().add(budgetOverviewPersonnelHelper.getUserInstitutionHours());
                 
                 // 173.33 = 2080 hours per year / 12 months
                 calendarMonths = "" + totalsHours.divide(new BigDecimal(173.33)).setScale(1, BigDecimal.ROUND_HALF_DOWN);
@@ -668,7 +668,7 @@ public class BudgetXml {
                 nonpersonnelItemElement.appendChild(agencyRequestAmountElement);
 
                 Element institutionCostShareAmountElement = xmlDoc.createElement("INSTITUTION_COST_SHARE_AMOUNT");
-                institutionCostShareAmountElement.appendChild(xmlDoc.createTextNode(currentItem.getBudgetUniversityCostShareAmount().toString()));
+                institutionCostShareAmountElement.appendChild(xmlDoc.createTextNode(currentItem.getBudgetInstitutionCostShareAmount().toString()));
                 nonpersonnelItemElement.appendChild(institutionCostShareAmountElement);
 
                 Element thirdPartyCostShareAmountElement = xmlDoc.createElement("THIRD_PARTY_COST_SHARE_AMOUNT");

@@ -62,7 +62,7 @@
               </tr>
               
               <logic:iterate id="userAppointmentTask" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTasks" indexId="userAppointmentTaskIndex">
-                <c:if test="${userAppointmentTask.budgetTaskSequenceNumber eq person.currentTaskNumber  and userAppointmentTask.universityAppointmentTypeCode eq matchAppointmentType}">
+                <c:if test="${userAppointmentTask.budgetTaskSequenceNumber eq person.currentTaskNumber  and userAppointmentTask.institutionAppointmentTypeCode eq matchAppointmentType}">
 	                <logic:iterate id="userAppointmentTaskPeriod" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriods" indexId="userAppointmentTaskPeriodIndex">
 			              <tr>
 			                <td class="datacell"><div class="nowrap" align="center"><strong>${userAppointmentTaskPeriodIndex + 1}</strong><span class="fineprint"><br />
@@ -87,25 +87,25 @@
 			                
 	                    <td class="datacell"><div align="right">
 	                        <fmt:formatNumber value="${userAppointmentTaskPeriod.agencyFringeBenefitTotalAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
-	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyFringeBenefitTotalAmount" disabled="${! KualiForm.document.budget.universityCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyFringeBenefitTotalAmount}" />
+	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyFringeBenefitTotalAmount" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyFringeBenefitTotalAmount}" />
 	                    </div></td>
 	
 			                <td class="datacell"><div align="right">
-	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userUniversityHours" disabled="${! KualiForm.document.budget.universityCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.userUniversityHours}" readOnly="${viewOnly}" />
+	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userInstitutionHours" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.userInstitutionHours}" readOnly="${viewOnly}" />
 	                    </div></td>
 			                
 	                    <td class="datacell"><div align="right">
-	                        <fmt:formatNumber value="${userAppointmentTaskPeriod.universityCostShareRequestTotalAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
-	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].universityCostShareRequestTotalAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.universityCostShareRequestTotalAmount}" />
+	                        <fmt:formatNumber value="${userAppointmentTaskPeriod.institutionCostShareRequestTotalAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
+	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionCostShareRequestTotalAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionCostShareRequestTotalAmount}" />
 	                    </div></td>
 			                
 	                    <td class="datacell"><div align="right">
-	                        <html:hidden property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].budgetFringeRate.universityCostShareFringeRateAmount" write="true" />%
+	                        <html:hidden property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].budgetFringeRate.institutionCostShareFringeRateAmount" write="true" />%
 	                    </div></td>
 			                
 	                    <td class="datacell"><div align="right">
-	                        <fmt:formatNumber value="${userAppointmentTaskPeriod.universityCostShareFringeBenefitTotalAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
-	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].universityCostShareFringeBenefitTotalAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.universityCostShareFringeBenefitTotalAmount}" />
+	                        <fmt:formatNumber value="${userAppointmentTaskPeriod.institutionCostShareFringeBenefitTotalAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
+	                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionCostShareFringeBenefitTotalAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionCostShareFringeBenefitTotalAmount}" />
 	                    </div></td>
 	
 			                <td class="datacell"><div align="right"><fmt:formatNumber value="${userAppointmentTaskPeriod.totalPercentEffort}"maxFractionDigits="0" /></div></td>
@@ -121,9 +121,9 @@
 		                <td class="infoline">&nbsp;</td>
 		                <td class="infoline"><div align="right"><b><fmt:formatNumber value="${userAppointmentTask.agencyFringeBenefitTotalAmountTask}" type="currency" currencySymbol="$" maxFractionDigits="0" /></b> </div></td>
 		                <td class="infoline">&nbsp;</td>
-		                <td class="infoline"><div align="right"><b><fmt:formatNumber value="${userAppointmentTask.universityCostShareRequestTotalAmountTask}" type="currency" currencySymbol="$" maxFractionDigits="0" /></b> </div></td>
+		                <td class="infoline"><div align="right"><b><fmt:formatNumber value="${userAppointmentTask.institutionCostShareRequestTotalAmountTask}" type="currency" currencySymbol="$" maxFractionDigits="0" /></b> </div></td>
 		                <td class="infoline">&nbsp;</td>
-		                <td class="infoline"><div align="right"><b><fmt:formatNumber value="${userAppointmentTask.universityCostShareFringeBenefitTotalAmountTask}" type="currency" currencySymbol="$" maxFractionDigits="0" /></b> </div></td>
+		                <td class="infoline"><div align="right"><b><fmt:formatNumber value="${userAppointmentTask.institutionCostShareFringeBenefitTotalAmountTask}" type="currency" currencySymbol="$" maxFractionDigits="0" /></b> </div></td>
 		
 		                <td colspan="3" class="infoline">&nbsp;</td>
 		

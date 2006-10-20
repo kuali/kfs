@@ -24,7 +24,7 @@
 <%@ taglib uri="/tlds/fmt.tld" prefix="fmt"%>
 
 <c:set var="KraConstants" value="${KraConstants}" />
-<c:set var="showCostShareIndirect" value="${KualiForm.document.budget.universityCostShareIndicator && KualiForm.document.budget.indirectCost.budgetIndirectCostCostShareIndicator}"/>
+<c:set var="showCostShareIndirect" value="${KualiForm.document.budget.institutionCostShareIndicator && KualiForm.document.budget.indirectCost.budgetIndirectCostCostShareIndicator}"/>
 
 <c:set var="tabDescription">
 	<c:choose>

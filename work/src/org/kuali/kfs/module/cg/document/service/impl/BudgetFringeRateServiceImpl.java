@@ -41,13 +41,13 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
 
-    public BudgetFringeRate getBudgetFringeRate(String researchDocumentNumber, String universityAppointmentTypeCode) {
+    public BudgetFringeRate getBudgetFringeRate(String researchDocumentNumber, String institutionAppointmentTypeCode) {
         
         BudgetFringeRate budgetFringeRate = (BudgetFringeRate) businessObjectService.retrieve(
-                new BudgetFringeRate(researchDocumentNumber, universityAppointmentTypeCode));
+                new BudgetFringeRate(researchDocumentNumber, institutionAppointmentTypeCode));
         
         if (budgetFringeRate == null) {
-            AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(universityAppointmentTypeCode));
+            AppointmentType appointmentType = (AppointmentType) businessObjectService.retrieve(new AppointmentType(institutionAppointmentTypeCode));
             budgetFringeRate = new BudgetFringeRate(researchDocumentNumber, appointmentType);
         }
         
@@ -81,8 +81,8 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
         if (StringUtils.isNotEmpty(budgetUser.getAppointmentTypeCode())) {
             return this.getBudgetFringeRate(budgetUser.getResearchDocumentNumber(), budgetUser.getAppointmentTypeCode());
         }
-        else if (budgetUser.getUserAppointmentTasks().size() > 0 && StringUtils.isNotEmpty(budgetUser.getUserAppointmentTask(0).getUniversityAppointmentTypeCode())) {
-            return this.getBudgetFringeRate(budgetUser.getResearchDocumentNumber(), budgetUser.getUserAppointmentTask(0).getUniversityAppointmentTypeCode());
+        else if (budgetUser.getUserAppointmentTasks().size() > 0 && StringUtils.isNotEmpty(budgetUser.getUserAppointmentTask(0).getInstitutionAppointmentTypeCode())) {
+            return this.getBudgetFringeRate(budgetUser.getResearchDocumentNumber(), budgetUser.getUserAppointmentTask(0).getInstitutionAppointmentTypeCode());
         }
         else {
             return this.getBudgetFringeRateForDefaultAppointmentType(budgetUser.getResearchDocumentNumber());

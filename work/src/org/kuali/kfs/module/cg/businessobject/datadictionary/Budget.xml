@@ -104,7 +104,7 @@
                 <description>Budget Name</description>
             </attribute>
 
-            <attribute name="universityCostShareIndicator" forceUppercase="true">
+            <attribute name="institutionCostShareIndicator" forceUppercase="true">
                 <label>Institution Cost Share</label>
                 <shortLabel>Univ C.S.</shortLabel>
 
@@ -114,8 +114,8 @@
                     <checkbox />
                 </control>
 
-                <summary>University Cost Share</summary>
-                <description>Indicates whether the current budget has university cost share</description>
+                <summary>Institution Cost Share</summary>
+                <description>Indicates whether the current budget has institution cost share</description>
             </attribute>
 
             <attribute name="budgetThirdPartyCostShareIndicator" forceUppercase="true">

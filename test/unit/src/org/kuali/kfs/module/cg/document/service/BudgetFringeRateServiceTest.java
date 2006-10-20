@@ -63,8 +63,8 @@ public class BudgetFringeRateServiceTest extends KualiTestBase {
     public void testValidContractsAndGrantsCostShare() throws Exception {
         BudgetFringeRate budgetFringeRate = new BudgetFringeRate();
 
-        budgetFringeRate.setUniversityCostShareFringeRateAmount(GOOD_COST_SHARE);
-        assertTrue(getBudgetFringeRateService().isValidCostShare(budgetFringeRate.getUniversityCostShareFringeRateAmount()));
+        budgetFringeRate.setInstitutionCostShareFringeRateAmount(GOOD_COST_SHARE);
+        assertTrue(getBudgetFringeRateService().isValidCostShare(budgetFringeRate.getInstitutionCostShareFringeRateAmount()));
     }
 
     public void testInvalidContractsAndGrantsFringeRate() throws Exception {
@@ -77,7 +77,7 @@ public class BudgetFringeRateServiceTest extends KualiTestBase {
     public void testInvalidContractsAndGrantsCostShare() throws Exception {
         BudgetFringeRate budgetFringeRate = new BudgetFringeRate();
 
-        budgetFringeRate.setUniversityCostShareFringeRateAmount(BAD_COST_SHARE);
-        assertTrue(getBudgetFringeRateService().isValidCostShare(budgetFringeRate.getUniversityCostShareFringeRateAmount()));
+        budgetFringeRate.setInstitutionCostShareFringeRateAmount(BAD_COST_SHARE);
+        assertTrue(getBudgetFringeRateService().isValidCostShare(budgetFringeRate.getInstitutionCostShareFringeRateAmount()));
     }
 }

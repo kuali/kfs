@@ -110,8 +110,8 @@ public class BudgetParametersAction extends BudgetAction {
         referenceObjects.add("modularBudget");
         referenceObjects.add("indirectCost");
         referenceObjects.add("thirdPartyCostShareItems");
-        referenceObjects.add("universityCostShareItems");
-        referenceObjects.add("universityCostSharePersonnelItems");
+        referenceObjects.add("institutionCostShareItems");
+        referenceObjects.add("institutionCostSharePersonnelItems");
         referenceObjects.add("adHocPermissions");
         referenceObjects.add("adHocOrgs");
 
@@ -157,7 +157,7 @@ public class BudgetParametersAction extends BudgetAction {
             AppointmentType appType = (AppointmentType) iter.next();
 
             BudgetFringeRate currentFringeRate = budgetForm.getBudgetDocument().getBudget().getFringeRate(i);
-            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getFinancialDocumentNumber(), appType.getAppointmentTypeCode(), appType.getFringeRateAmount(), currentFringeRate.getUniversityCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
+            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getFinancialDocumentNumber(), appType.getAppointmentTypeCode(), appType.getFringeRateAmount(), currentFringeRate.getInstitutionCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
 
             budgetFringeRate.set(i, bfr);
             i++;
@@ -165,7 +165,7 @@ public class BudgetParametersAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward copyUniversityCostShareLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward copyInstitutionCostShareLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
         // get the fringe rate list

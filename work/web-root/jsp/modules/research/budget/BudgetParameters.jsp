@@ -34,7 +34,7 @@
 	<html:hidden property="document.budgetPeriodNextSequenceNumber" />
 	<html:hidden property="document.personnelNextSequenceNumber" />
 	<html:hidden property="document.nonpersonnelNextSequenceNumber" />
-	<html:hidden property="document.universityCostShareNextSequenceNumber" />
+	<html:hidden property="document.institutionCostShareNextSequenceNumber" />
 	<html:hidden property="document.thirdPartyCostShareNextSequenceNumber" />
 	
 	<kra-b:budgetParameters />

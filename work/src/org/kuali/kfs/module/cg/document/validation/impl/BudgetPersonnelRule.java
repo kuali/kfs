@@ -150,7 +150,7 @@ public class BudgetPersonnelRule {
 
                     UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
 
-                    if (userAppointmentTaskPeriod.getTotalFeeRemissionsAmount().compareTo(userAppointmentTaskPeriod.getAgencyRequestedFeesAmount().add(userAppointmentTaskPeriod.getUniversityRequestedFeesAmount())) != 0) {
+                    if (userAppointmentTaskPeriod.getTotalFeeRemissionsAmount().compareTo(userAppointmentTaskPeriod.getAgencyRequestedFeesAmount().add(userAppointmentTaskPeriod.getInstitutionRequestedFeesAmount())) != 0) {
                         GlobalVariables.getErrorMap().putError("feeRemissions", KeyConstants.ERROR_FEE_REMISSION_DISTRIBUTION);
                         valid = false;
                     }
@@ -200,7 +200,7 @@ public class BudgetPersonnelRule {
                     GlobalVariables.getErrorMap().addToErrorPath("userAppointmentTask[" + userAppointmentTaskListIndex + "].userAppointmentTaskPeriod[" + userAppointmentTaskPeriodIndex + "]");
 
                     UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
-                    if (StringUtils.equals(userAppointmentTaskPeriod.getUniversityAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString())) {
+                    if (StringUtils.equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString())) {
                         if (userAppointmentTaskPeriod.getPersonWeeksAmount().compareTo(new Integer(13)) == 1) {
                             GlobalVariables.getErrorMap().putError("personWeeksAmount", KeyConstants.ERROR_PERSONNEL_SUMMER_WEEKS_TOO_MUCH, new String[] { "Period " + (userAppointmentTaskPeriodIndex + 1), "13" });
                             valid = false;
@@ -262,22 +262,22 @@ public class BudgetPersonnelRule {
                         Integer periodNumber = new Integer(userAppointmentTaskPeriodIndex + 1);
 
                         UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
-                        if (!StringUtils.equals(userAppointmentTaskPeriod.getUniversityAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString()) &&
-                                !StringUtils.contains(appointmentTypeMappings.get("gradResAssistant").toString(), userAppointmentTaskPeriod.getUniversityAppointmentTypeCode()) &&
-                                !StringUtils.contains(appointmentTypeMappings.get("hourly").toString(), userAppointmentTaskPeriod.getUniversityAppointmentTypeCode())) {
+                        if (!StringUtils.equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString()) &&
+                                !StringUtils.contains(appointmentTypeMappings.get("gradResAssistant").toString(), userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode()) &&
+                                !StringUtils.contains(appointmentTypeMappings.get("hourly").toString(), userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode())) {
                             if (periodEffortMap.get(periodNumber) == null) {
-                                periodEffortMap.put(periodNumber, userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount()));
+                                periodEffortMap.put(periodNumber, userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount()));
                             }
                             else {
-                                periodEffortMap.put(periodNumber, ((KualiInteger) periodEffortMap.get(periodNumber)).add(userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount())));
+                                periodEffortMap.put(periodNumber, ((KualiInteger) periodEffortMap.get(periodNumber)).add(userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount())));
                             }
                         }
-                        else if (StringUtils.equals(userAppointmentTaskPeriod.getUniversityAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString())) {
+                        else if (StringUtils.equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString())) {
                             if (summerPeriodEffortMap.get(periodNumber) == null) {
-                                summerPeriodEffortMap.put(periodNumber, userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount()));
+                                summerPeriodEffortMap.put(periodNumber, userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount()));
                             }
                             else {
-                                summerPeriodEffortMap.put(periodNumber, ((KualiInteger) summerPeriodEffortMap.get(periodNumber)).add(userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount())));
+                                summerPeriodEffortMap.put(periodNumber, ((KualiInteger) summerPeriodEffortMap.get(periodNumber)).add(userAppointmentTaskPeriod.getAgencyPercentEffortAmount().add(userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount())));
                             }
                         }
                     }
@@ -326,18 +326,18 @@ public class BudgetPersonnelRule {
                 for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
                     GlobalVariables.getErrorMap().addToErrorPath("userAppointmentTaskPeriod[" + period + "]");
                     
-                    if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.FULL_YEAR).toString(), userAppointmentTask.getUniversityAppointmentTypeCode())) { //Salary
+                    if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.FULL_YEAR).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { //Salary
                         if (userAppointmentTaskPeriod.getAgencyPercentEffortAmount() == null) {
                             GlobalVariables.getErrorMap().putError("agencyPercentEffortAmount", KeyConstants.ERROR_REQUIRED, "Agency Percent Effort Amount");
                             valid = false;
                         }
                         
-                        if (userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount() == null) {
-                            GlobalVariables.getErrorMap().putError("universityCostSharePercentEffortAmount", KeyConstants.ERROR_REQUIRED, "Institution Cost Share Percent Effort Amount");
+                        if (userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount() == null) {
+                            GlobalVariables.getErrorMap().putError("institutionCostSharePercentEffortAmount", KeyConstants.ERROR_REQUIRED, "Institution Cost Share Percent Effort Amount");
                             valid = false;
                         }
                         
-                    } else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.ACADEMIC_YEAR_SUMMER).toString(), userAppointmentTask.getUniversityAppointmentTypeCode())) { //Academic 9/Summer
+                    } else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.ACADEMIC_YEAR_SUMMER).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { //Academic 9/Summer
                         if (userAppointmentTaskPeriod.getPersonWeeksAmount() == null) {
                             GlobalVariables.getErrorMap().putError("personWeeksAmount", KeyConstants.ERROR_REQUIRED, "Number of Weeks");
                             valid = false;
@@ -348,11 +348,11 @@ public class BudgetPersonnelRule {
                             valid = false;
                         }
                         
-                        if (userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount() == null) {
-                            GlobalVariables.getErrorMap().putError("universityCostSharePercentEffortAmount", KeyConstants.ERROR_REQUIRED, "Institution Cost Share Percent Effort Amount");
+                        if (userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount() == null) {
+                            GlobalVariables.getErrorMap().putError("institutionCostSharePercentEffortAmount", KeyConstants.ERROR_REQUIRED, "Institution Cost Share Percent Effort Amount");
                             valid = false;
                         }
-                    } else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.HOURLY).toString(), userAppointmentTask.getUniversityAppointmentTypeCode())) { //Hourly
+                    } else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.HOURLY).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { //Hourly
                         if (userAppointmentTaskPeriod.getUserHourlyRate() == null) {
                             GlobalVariables.getErrorMap().putError("userHourlyRate", KeyConstants.ERROR_REQUIRED, "Hourly Rate");
                             valid = false;
@@ -363,11 +363,11 @@ public class BudgetPersonnelRule {
                             valid = false;
                         }
                         
-                        if (userAppointmentTaskPeriod.getUserUniversityHours() == null) {
-                            GlobalVariables.getErrorMap().putError("userUniversityHours", KeyConstants.ERROR_REQUIRED, "Institution Request Number of Hours");
+                        if (userAppointmentTaskPeriod.getUserInstitutionHours() == null) {
+                            GlobalVariables.getErrorMap().putError("userInstitutionHours", KeyConstants.ERROR_REQUIRED, "Institution Request Number of Hours");
                             valid = false;
                         }
-                    } else if(StringUtils.contains(appointmentTypeMappings.get(KraConstants.GRADUATE_ASSISTANT).toString(), userAppointmentTask.getUniversityAppointmentTypeCode())) { //Grad Asst
+                    } else if(StringUtils.contains(appointmentTypeMappings.get(KraConstants.GRADUATE_ASSISTANT).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { //Grad Asst
                         if (userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent() == null) {
                             GlobalVariables.getErrorMap().putError("agencyFullTimeEquivalentPercent", KeyConstants.ERROR_REQUIRED, "Agency Percent Effort");
                             valid = false;
@@ -403,23 +403,23 @@ public class BudgetPersonnelRule {
                             valid = false;
                         }
                         
-                        if (userAppointmentTaskPeriod.getUniversityRequestedFeesAmount() == null) {
-                            GlobalVariables.getErrorMap().putError("universityRequestedFeesAmount", KeyConstants.ERROR_REQUIRED, "Institution Requested Fees");
+                        if (userAppointmentTaskPeriod.getInstitutionRequestedFeesAmount() == null) {
+                            GlobalVariables.getErrorMap().putError("institutionRequestedFeesAmount", KeyConstants.ERROR_REQUIRED, "Institution Requested Fees");
                             valid = false;
                         }
                         
-                        if (userAppointmentTaskPeriod.getUniversityFullTimeEquivalentPercent() == null) {
-                            GlobalVariables.getErrorMap().putError("universityFullTimeEquivalentPercent", KeyConstants.ERROR_REQUIRED, "Institution Percent Effort");
+                        if (userAppointmentTaskPeriod.getInstitutionFullTimeEquivalentPercent() == null) {
+                            GlobalVariables.getErrorMap().putError("institutionFullTimeEquivalentPercent", KeyConstants.ERROR_REQUIRED, "Institution Percent Effort");
                             valid = false;
                         }
 
-                        if (userAppointmentTaskPeriod.getUniversitySalaryAmount() == null) {
-                            GlobalVariables.getErrorMap().putError("universitySalaryAmount", KeyConstants.ERROR_REQUIRED, "Institution Salary Amount");
+                        if (userAppointmentTaskPeriod.getInstitutionSalaryAmount() == null) {
+                            GlobalVariables.getErrorMap().putError("institutionSalaryAmount", KeyConstants.ERROR_REQUIRED, "Institution Salary Amount");
                             valid = false;
                         }
                         
-                        if (userAppointmentTaskPeriod.getUniversityHealthInsuranceAmount() == null) {
-                            GlobalVariables.getErrorMap().putError("universityHealthInsuranceAmount", KeyConstants.ERROR_REQUIRED, "Institution Health Insurance Amount");
+                        if (userAppointmentTaskPeriod.getInstitutionHealthInsuranceAmount() == null) {
+                            GlobalVariables.getErrorMap().putError("institutionHealthInsuranceAmount", KeyConstants.ERROR_REQUIRED, "Institution Health Insurance Amount");
                             valid = false;
                         }
                         

@@ -29,7 +29,7 @@
 
             <attributeReference name="budgetTaskSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetTask" sourceAttributeName="budgetTaskSequenceNumber" />
 
-            <attributeReference name="universityAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="appointmentTypeCode">
+            <attributeReference name="institutionAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="appointmentTypeCode">
                 <control>
                     <hidden />
                 </control>

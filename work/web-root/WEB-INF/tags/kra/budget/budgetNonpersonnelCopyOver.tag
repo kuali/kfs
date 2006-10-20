@@ -32,7 +32,7 @@
 </div>
 
   <!-- A bonanza of hidden variables from nonpersonnel & copy over to assure non-saved items are retained. -->
-  <html:hidden property="document.budget.universityCostShareIndicator" />
+  <html:hidden property="document.budget.institutionCostShareIndicator" />
   <html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />
   <html:hidden property="document.nonpersonnelNextSequenceNumber" />
 
@@ -46,13 +46,13 @@
 	  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmount" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmount" />
-    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetUniversityCostShareAmount" />
+    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmount" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginSequenceNumber" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyCopyIndicator" />
-    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetUniversityCostShareCopyIndicator" />
+    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareCopyIndicator" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareCopyIndicator" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginAgencyAmount" />
-    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginUniversityCostShareAmount" />
+    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginInstitutionCostShareAmount" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginThirdPartyCostShareAmount" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />
     <html:hidden property="document.budget.nonpersonnelItem[${ctr}].versionNumber" />
@@ -76,22 +76,22 @@
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetNonpersonnelDescription" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].agencyRequestAmount" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetThirdPartyCostShareAmount" />
-		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetUniversityCostShareAmount" />
+		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetInstitutionCostShareAmount" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetOriginSequenceNumber" />
 	
 		      <!-- currentNonpersonnelCategoryCode is displayed on this page, these fields are user interactible. Don't put as hiddens. -->
 		      <c:if test="${nonpersonnelCategory.code ne KualiForm.currentNonpersonnelCategoryCode}">
 		        <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].agencyCopyIndicator" />
-		        <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetUniversityCostShareCopyIndicator" />
+		        <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetInstitutionCostShareCopyIndicator" />
 		        <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetThirdPartyCostShareCopyIndicator" />
 		      </c:if>
 	
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetOriginAgencyAmount" />
-		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetOriginUniversityCostShareAmount" />
+		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetOriginInstitutionCostShareAmount" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetOriginThirdPartyCostShareAmount" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].subcontractorNumber" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetInflatedAgencyAmount" />
-		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetInflatedUniversityCostShareAmount" />
+		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetInflatedInstitutionCostShareAmount" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetInflatedThirdPartyCostShareAmount" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].versionNumber" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].nonpersonnelObjectCode.nonpersonnelSubCategory.name" />
@@ -151,7 +151,7 @@
   <kra-b:budgetNonpersonnelCopyOverAmountTab tabTitle="Agency Amount Requested" copyIndicatorLabel="agencyCopyIndicator" amountType="agency" transparentBackground="true"/>
     
   <!-- "Institution Cost Share" tab -->
-  <c:if test="${!KualiForm.document.budget.universityCostShareIndicator}">
+  <c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">
 	<kul:tab tabTitle="Institution Cost Share" tabDescription="None" defaultOpen="false" transparentBackground="false">
       <div class="tab-container" align="center">
           <div class="h2-container"> <span class="subhead-left">
@@ -167,8 +167,8 @@
       </div>
 	</kul:tab>
   </c:if>
-  <c:if test="${KualiForm.document.budget.universityCostShareIndicator}">
-    <kra-b:budgetNonpersonnelCopyOverAmountTab tabTitle="Institution Cost Share" copyIndicatorLabel="budgetUniversityCostShareCopyIndicator" amountType="institution" transparentBackground="false"/>
+  <c:if test="${KualiForm.document.budget.institutionCostShareIndicator}">
+    <kra-b:budgetNonpersonnelCopyOverAmountTab tabTitle="Institution Cost Share" copyIndicatorLabel="budgetInstitutionCostShareCopyIndicator" amountType="institution" transparentBackground="false"/>
   </c:if>
 
   <!-- "3rd Party Cost Share" tab -->

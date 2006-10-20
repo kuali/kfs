@@ -122,7 +122,7 @@
                 <description>Third Party Cost Share Amount</description>
             </attribute>
 
-            <attribute name="budgetUniversityCostShareAmount" forceUppercase="true">
+            <attribute name="budgetInstitutionCostShareAmount" forceUppercase="true">
                 <label>Institution Cost Share</label>
                 <shortLabel>Institution</shortLabel>
 
@@ -136,8 +136,8 @@
                     <text size="10" />
                 </control>
 
-                <summary>University Cost Share Amount</summary>
-                <description>University Cost Share Amount</description>
+                <summary>Institution Cost Share Amount</summary>
+                <description>Institution Cost Share Amount</description>
             </attribute>
 
             <attribute name="budgetOriginSequenceNumber" forceUppercase="true">
@@ -174,9 +174,9 @@
                 <description>Copy Indicator</description>
             </attribute>
 
-            <attribute name="budgetUniversityCostShareCopyIndicator" forceUppercase="true">
-                <label>University Cost Share Copy Indicator</label>
-                <shortLabel>University Cost Share Copy Indicator</shortLabel>
+            <attribute name="budgetInstitutionCostShareCopyIndicator" forceUppercase="true">
+                <label>Institution Cost Share Copy Indicator</label>
+                <shortLabel>Institution Cost Share Copy Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern>
@@ -187,8 +187,8 @@
                     <checkbox />
                 </control>
 
-                <summary>University Cost Share Copy Indicator</summary>
-                <description>University Cost Share Copy Indicator</description>
+                <summary>Institution Cost Share Copy Indicator</summary>
+                <description>Institution Cost Share Copy Indicator</description>
             </attribute>
 
             <attribute name="budgetThirdPartyCostShareCopyIndicator" forceUppercase="true">
@@ -225,9 +225,9 @@
                 <description>Origin Agency Amount</description>
             </attribute>
 
-            <attribute name="budgetOriginUniversityCostShareAmount" forceUppercase="true">
-                <label>Origin University Cost Share Amount</label>
-                <shortLabel>Origin University Cost Share Amount</shortLabel>
+            <attribute name="budgetOriginInstitutionCostShareAmount" forceUppercase="true">
+                <label>Origin Institution Cost Share Amount</label>
+                <shortLabel>Origin Institution Cost Share Amount</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern>
@@ -238,8 +238,8 @@
                     <text size="10" />
                 </control>
 
-                <summary>Origin University Cost Share Amount</summary>
-                <description>Origin University Cost Share Amount</description>
+                <summary>Origin Institution Cost Share Amount</summary>
+                <description>Origin Institution Cost Share Amount</description>
             </attribute>
 
             <attribute name="budgetOriginThirdPartyCostShareAmount" forceUppercase="true">

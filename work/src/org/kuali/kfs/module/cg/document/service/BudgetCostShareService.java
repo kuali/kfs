@@ -20,9 +20,9 @@ package org.kuali.module.kra.budget.service;
 import java.util.List;
 
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.UniversityCostSharePersonnel;
+import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
 
 /**
  * 
@@ -33,26 +33,26 @@ import org.kuali.module.kra.budget.bo.UniversityCostSharePersonnel;
 public interface BudgetCostShareService {
 
     /**
-     * This method will remove universityCostSharePersonnel entries that no longer have a personnel entry. It will also remove the
-     * entire budgetUniversityCostShare list if universityCostShareIndicator is not set anymore. The same goes for
+     * This method will remove institutionCostSharePersonnel entries that no longer have a personnel entry. It will also remove the
+     * entire budgetInstitutionCostShare list if institutionCostShareIndicator is not set anymore. The same goes for
      * budgetThirdPartyCostShare and budgetThirdPartyCostShareIndicator.
      * 
-     * @param universityCostShareIndicator if budgetUniversityCostShare should be removed
-     * @param budgetUniversityCostShare
+     * @param institutionCostShareIndicator if budgetInstitutionCostShare should be removed
+     * @param budgetInstitutionCostShare
      * @param budgetThirdPartyCostShareIndicator if budgetThirdPartyCostShare should be removed
      * @param budgetThirdPartyCostShare
      * @param personnel list of personnel to check for chart / orgs
-     * @param universityCostSharePersonnel chart / orgs to be removed if they arn't present in personnel list
+     * @param institutionCostSharePersonnel chart / orgs to be removed if they arn't present in personnel list
      */
-    public void cleanseCostShare(boolean universityCostShareIndicator, List<BudgetUniversityCostShare> budgetUniversityCostShare, boolean budgetThirdPartyCostShareIndicator, List<BudgetThirdPartyCostShare> budgetThirdPartyCostShare, List<BudgetUser> personnel, List<UniversityCostSharePersonnel> universityCostSharePersonnel);
+    public void cleanseCostShare(boolean institutionCostShareIndicator, List<BudgetInstitutionCostShare> budgetInstitutionCostShare, boolean budgetThirdPartyCostShareIndicator, List<BudgetThirdPartyCostShare> budgetThirdPartyCostShare, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel);
 
     /**
-     * This method will add University Cost Share Personnel entries that have personnel entries if they don't already exist. It does
+     * This method will add Institution Cost Share Personnel entries that have personnel entries if they don't already exist. It does
      * not add entries that don't have a chart or org set (this happens for TO BE NAMEDs).
      * 
      * @param researchDocumentNumber
      * @param personnel
-     * @param universityCostSharePersonnel
+     * @param institutionCostSharePersonnel
      */
-    public void reconcileCostShare(String researchDocumentNumber, List<BudgetUser> personnel, List<UniversityCostSharePersonnel> universityCostSharePersonnel);
+    public void reconcileCostShare(String researchDocumentNumber, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel);
 }

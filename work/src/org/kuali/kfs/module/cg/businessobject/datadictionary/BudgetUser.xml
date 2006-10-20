@@ -303,10 +303,10 @@
             </attribute>
 
             <attributeReference name="user.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
-                <label>University ID</label>
+                <label>Institution ID</label>
                 <shortLabel>Univ ID</shortLabel>
-                <summary>University ID</summary>
-                <description>University ID</description>
+                <summary>Institution ID</summary>
+                <description>Institution ID</description>
             </attributeReference>
 
             <attributeReference name="user.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">

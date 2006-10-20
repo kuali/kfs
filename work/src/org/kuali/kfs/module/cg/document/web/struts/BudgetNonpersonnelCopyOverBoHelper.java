@@ -33,7 +33,7 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
     private static final long serialVersionUID = -4975734069081678964L;
 
     private KualiInteger budgetInflatedAgencyAmount;
-    private KualiInteger budgetInflatedUniversityCostShareAmount;
+    private KualiInteger budgetInflatedInstitutionCostShareAmount;
     private KualiInteger budgetInflatedThirdPartyCostShareAmount;
 
     /**
@@ -66,13 +66,13 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         // copyToFuturePeriods set.
         if (budgetNonpersonnel.getCopyToFuturePeriods()) {
             this.setAgencyCopyIndicator(true);
-            this.setBudgetUniversityCostShareCopyIndicator(true);
+            this.setBudgetInstitutionCostShareCopyIndicator(true);
             this.setBudgetThirdPartyCostShareCopyIndicator(true);
         }
 
         // 2.
         this.setBudgetInflatedAgencyAmount(budgetNonpersonnel.getAgencyRequestAmount());
-        this.setBudgetInflatedUniversityCostShareAmount(budgetNonpersonnel.getBudgetUniversityCostShareAmount());
+        this.setBudgetInflatedInstitutionCostShareAmount(budgetNonpersonnel.getBudgetInstitutionCostShareAmount());
         this.setBudgetInflatedThirdPartyCostShareAmount(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount());
     }
 
@@ -99,11 +99,11 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         if (budgetNonpersonnel.getAgencyCopyIndicator()) {
             this.setAgencyRequestAmount(new KualiInteger(0));
         }
-        if (budgetNonpersonnel.getBudgetUniversityCostShareCopyIndicator()) {
+        if (budgetNonpersonnel.getBudgetInstitutionCostShareCopyIndicator()) {
             this.setBudgetThirdPartyCostShareAmount(new KualiInteger(0));
         }
         if (budgetNonpersonnel.getBudgetThirdPartyCostShareCopyIndicator()) {
-            this.setBudgetUniversityCostShareAmount(new KualiInteger(0));
+            this.setBudgetInstitutionCostShareAmount(new KualiInteger(0));
         }
 
         // calculate inflation based on origin amounts per method specification.
@@ -114,8 +114,8 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         KualiInteger tmpBudgetAgencyAmount = this.getBudgetOriginAgencyAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
         this.setBudgetInflatedAgencyAmount(tmpBudgetAgencyAmount);
 
-        KualiInteger tmpBudgetUniversityCostShareAmount = this.getBudgetOriginUniversityCostShareAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
-        this.setBudgetInflatedUniversityCostShareAmount(tmpBudgetUniversityCostShareAmount);
+        KualiInteger tmpBudgetInstitutionCostShareAmount = this.getBudgetOriginInstitutionCostShareAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
+        this.setBudgetInflatedInstitutionCostShareAmount(tmpBudgetInstitutionCostShareAmount);
 
         KualiInteger tmpBudgetThirdPartyCostShareAmount = this.getBudgetOriginThirdPartyCostShareAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
         this.setBudgetInflatedThirdPartyCostShareAmount(tmpBudgetThirdPartyCostShareAmount);
@@ -151,14 +151,14 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         // 2.
         this.setAgencyRequestAmount(new KualiInteger(0));
         this.setBudgetThirdPartyCostShareAmount(new KualiInteger(0));
-        this.setBudgetUniversityCostShareAmount(new KualiInteger(0));
+        this.setBudgetInstitutionCostShareAmount(new KualiInteger(0));
 
         // 3.
         this.setBudgetOriginSequenceNumber(originBudgetNonpersonnel.getBudgetNonpersonnelSequenceNumber());
 
         // 4.
         this.setBudgetOriginAgencyAmount(originBudgetNonpersonnel.getAgencyRequestAmount());
-        this.setBudgetOriginUniversityCostShareAmount(originBudgetNonpersonnel.getBudgetUniversityCostShareAmount());
+        this.setBudgetOriginInstitutionCostShareAmount(originBudgetNonpersonnel.getBudgetInstitutionCostShareAmount());
         this.setBudgetOriginThirdPartyCostShareAmount(originBudgetNonpersonnel.getBudgetThirdPartyCostShareAmount());
 
         // 5. set the three amount indicators if copyToFuturePeriods is set. This is to accomondate
@@ -167,7 +167,7 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         // copyToFuturePeriods set.
         if (originBudgetNonpersonnel.getCopyToFuturePeriods()) {
             this.setAgencyCopyIndicator(true);
-            this.setBudgetUniversityCostShareCopyIndicator(true);
+            this.setBudgetInstitutionCostShareCopyIndicator(true);
             this.setBudgetThirdPartyCostShareCopyIndicator(true);
         }
 
@@ -182,8 +182,8 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         KualiInteger tmpBudgetAgencyAmount = this.getBudgetOriginAgencyAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
         this.setBudgetInflatedAgencyAmount(tmpBudgetAgencyAmount);
 
-        KualiInteger tmpBudgetUniversityCostShareAmount = this.getBudgetOriginUniversityCostShareAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
-        this.setBudgetInflatedUniversityCostShareAmount(tmpBudgetUniversityCostShareAmount);
+        KualiInteger tmpBudgetInstitutionCostShareAmount = this.getBudgetOriginInstitutionCostShareAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
+        this.setBudgetInflatedInstitutionCostShareAmount(tmpBudgetInstitutionCostShareAmount);
 
         KualiInteger tmpBudgetThirdPartyCostShareAmount = this.getBudgetOriginThirdPartyCostShareAmount().multiply(new BigDecimal(Math.pow(inflationFactor.doubleValue(), inflationLength)));
         this.setBudgetInflatedThirdPartyCostShareAmount(tmpBudgetThirdPartyCostShareAmount);
@@ -199,8 +199,8 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         if (this.getAgencyCopyIndicator()) {
             this.setAgencyRequestAmount(budgetInflatedAgencyAmount);
         }
-        if (this.getBudgetUniversityCostShareCopyIndicator()) {
-            this.setBudgetUniversityCostShareAmount(budgetInflatedUniversityCostShareAmount);
+        if (this.getBudgetInstitutionCostShareCopyIndicator()) {
+            this.setBudgetInstitutionCostShareAmount(budgetInflatedInstitutionCostShareAmount);
         }
         if (this.getBudgetThirdPartyCostShareCopyIndicator()) {
             this.setBudgetThirdPartyCostShareAmount(budgetInflatedThirdPartyCostShareAmount);
@@ -223,13 +223,13 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
     }
 
     /**
-     * Gets the budgetUniversityCostShareAmount or budgetUniversityCostShareAmount attribute based on if
-     * budgetUniversityCostShareCopyIndicator is set or not.
+     * Gets the budgetInstitutionCostShareAmount or budgetInstitutionCostShareAmount attribute based on if
+     * budgetInstitutionCostShareCopyIndicator is set or not.
      * 
      * @return amount per logic.
      */
-    public KualiDecimal getDisplayBudgetUniversityCostShareAmount() {
-        return this.getBudgetUniversityCostShareCopyIndicator() ? new KualiDecimal(this.getBudgetInflatedUniversityCostShareAmount().longValue()) : new KualiDecimal(this.getBudgetUniversityCostShareAmount().longValue());
+    public KualiDecimal getDisplayBudgetInstitutionCostShareAmount() {
+        return this.getBudgetInstitutionCostShareCopyIndicator() ? new KualiDecimal(this.getBudgetInflatedInstitutionCostShareAmount().longValue()) : new KualiDecimal(this.getBudgetInstitutionCostShareAmount().longValue());
     }
 
     /**
@@ -261,21 +261,21 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
     }
 
     /**
-     * Sets the budgetInflatedUniversityCostShareAmount attribute value.
+     * Sets the budgetInflatedInstitutionCostShareAmount attribute value.
      * 
-     * @param budgetInflatedUniversityCostShareAmount The budgetInflatedUniversityCostShareAmount to set.
+     * @param budgetInflatedInstitutionCostShareAmount The budgetInflatedInstitutionCostShareAmount to set.
      */
-    public void setBudgetInflatedUniversityCostShareAmount(KualiInteger o) {
-        budgetInflatedUniversityCostShareAmount = o;
+    public void setBudgetInflatedInstitutionCostShareAmount(KualiInteger o) {
+        budgetInflatedInstitutionCostShareAmount = o;
     }
 
     /**
-     * Gets the budgetInflatedUniversityCostShareAmount attribute.
+     * Gets the budgetInflatedInstitutionCostShareAmount attribute.
      * 
-     * @return Returns the budgetInflatedUniversityCostShareAmount.
+     * @return Returns the budgetInflatedInstitutionCostShareAmount.
      */
-    public KualiInteger getBudgetInflatedUniversityCostShareAmount() {
-        return budgetInflatedUniversityCostShareAmount;
+    public KualiInteger getBudgetInflatedInstitutionCostShareAmount() {
+        return budgetInflatedInstitutionCostShareAmount;
     }
 
     /**

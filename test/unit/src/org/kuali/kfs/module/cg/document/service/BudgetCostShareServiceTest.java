@@ -23,9 +23,9 @@ import java.util.List;
 import org.kuali.core.util.ObjectUtils;
 import static org.kuali.core.util.SpringServiceLocator.getBudgetCostShareService;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.UniversityCostSharePersonnel;
+import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.AnnotationTestSuite;
@@ -45,59 +45,59 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         String documentHeaderId = "160642";
 
         boolean universityCostShareIndicator = true;
-        List<BudgetUniversityCostShare> budgetUniversityCostShare = new ArrayList();
+        List<BudgetInstitutionCostShare> budgetInstitutionCostShare = new ArrayList();
         boolean budgetThirdPartyCostShareIndicator = true;
         List<BudgetThirdPartyCostShare> budgetThirdPartyCostShare = new ArrayList();
         List<BudgetUser> personnel = new ArrayList();
-        List<UniversityCostSharePersonnel> universityCostSharePersonnel = new ArrayList();
+        List<InstitutionCostSharePersonnel> institutionCostSharePersonnel = new ArrayList();
 
         // CONDITION: cost share TRUE, all empty lists
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
         // RESULT: no data change, but no crashes either
         assertTrue("universityCostShareIndicator should never be changed", universityCostShareIndicator);
-        assertTrue("budgetUniversityCostShare should still be empty", budgetUniversityCostShare.size() == 0);
+        assertTrue("budgetInstitutionCostShare should still be empty", budgetInstitutionCostShare.size() == 0);
         assertTrue("budgetThirdPartyCostShareIndicator should never be changed", budgetThirdPartyCostShareIndicator);
         assertTrue("budgetThirdPartyCostShare should still be empty", budgetThirdPartyCostShare.size() == 0);
 
-        budgetUniversityCostShare.add(new BudgetUniversityCostShare());
+        budgetInstitutionCostShare.add(new BudgetInstitutionCostShare());
         budgetThirdPartyCostShare.add(new BudgetThirdPartyCostShare());
 
         // CONDITION: cost share TRUE, lists have values
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
         // RESULT: no data change
         assertTrue("universityCostShareIndicator should never be changed", universityCostShareIndicator);
-        assertTrue("budgetUniversityCostShare should still contain 1 item", budgetUniversityCostShare.size() == 1);
+        assertTrue("budgetInstitutionCostShare should still contain 1 item", budgetInstitutionCostShare.size() == 1);
         assertTrue("budgetThirdPartyCostShareIndicator should never be changed", budgetThirdPartyCostShareIndicator);
-        assertTrue("budgetUniversityCostShare should still contain 1 item", budgetThirdPartyCostShare.size() == 1);
+        assertTrue("budgetInstitutionCostShare should still contain 1 item", budgetThirdPartyCostShare.size() == 1);
 
         universityCostShareIndicator = false;
 
         // CONDITION: cost share TRUE, lists have values
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
         // RESULT: no data change
         assertFalse("universityCostShareIndicator should never be changed", universityCostShareIndicator);
-        assertTrue("budgetUniversityCostShare should now be empty", budgetUniversityCostShare.size() == 0);
+        assertTrue("budgetInstitutionCostShare should now be empty", budgetInstitutionCostShare.size() == 0);
         assertTrue("budgetThirdPartyCostShareIndicator should never be changed", budgetThirdPartyCostShareIndicator);
-        assertTrue("budgetUniversityCostShare should still contain 1 item", budgetThirdPartyCostShare.size() == 1);
+        assertTrue("budgetInstitutionCostShare should still contain 1 item", budgetThirdPartyCostShare.size() == 1);
 
         universityCostShareIndicator = true;
-        budgetUniversityCostShare.add(new BudgetUniversityCostShare());
+        budgetInstitutionCostShare.add(new BudgetInstitutionCostShare());
         budgetThirdPartyCostShareIndicator = false;
 
         // CONDITION: cost share TRUE, lists have values
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
         // RESULT: no data change
         assertTrue("universityCostShareIndicator should never be changed", universityCostShareIndicator);
-        assertTrue("budgetUniversityCostShare should still contain 1 item", budgetUniversityCostShare.size() == 1);
+        assertTrue("budgetInstitutionCostShare should still contain 1 item", budgetInstitutionCostShare.size() == 1);
         assertFalse("budgetThirdPartyCostShareIndicator should never be changed", budgetThirdPartyCostShareIndicator);
         assertTrue("budgetThirdPartyCostShare should now be empty", budgetThirdPartyCostShare.size() == 0);
 
 
         // CONDITION: cost share TRUE, all empty lists
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
         // RESULT: no data change, but no crashes either
         assertTrue("personnel should never be changed", personnel.size() == 0);
-        assertTrue("universityCostSharePersonnel should still be empty", universityCostSharePersonnel.size() == 0);
+        assertTrue("institutionCostSharePersonnel should still be empty", institutionCostSharePersonnel.size() == 0);
 
         // Create a but if data
         BudgetUser budgetUser1 = new BudgetUser();
@@ -105,7 +105,7 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         budgetUser1.setPrimaryDepartmentCode("CSCI");
         personnel.add(budgetUser1);
 
-        UniversityCostSharePersonnel universityCostSharePerson1 = new UniversityCostSharePersonnel();
+        InstitutionCostSharePersonnel universityCostSharePerson1 = new InstitutionCostSharePersonnel();
         universityCostSharePerson1.setResearchDocumentNumber("160642");
         universityCostSharePerson1.setChartOfAccountsCode("BL");
         universityCostSharePerson1.setOrganizationCode("CSCI");
@@ -115,19 +115,19 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         budgetUser2.setPrimaryDepartmentCode("CARD");
         personnel.add(budgetUser2);
 
-        UniversityCostSharePersonnel universityCostSharePerson2 = new UniversityCostSharePersonnel();
+        InstitutionCostSharePersonnel universityCostSharePerson2 = new InstitutionCostSharePersonnel();
         universityCostSharePerson2.setResearchDocumentNumber("160642");
         universityCostSharePerson2.setChartOfAccountsCode("IN");
         universityCostSharePerson2.setOrganizationCode("CARD");
 
-        // Add data to universityCostSharePersonnel (this assumes testReconcileCostShare runs clean).
-        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, universityCostSharePersonnel);
+        // Add data to institutionCostSharePersonnel (this assumes testReconcileCostShare runs clean).
+        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, institutionCostSharePersonnel);
 
-        // CONDITION: cost share TRUE, personnel 2 items, universityCostSharePersonnel same 2 items
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
+        // CONDITION: cost share TRUE, personnel 2 items, institutionCostSharePersonnel same 2 items
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
         // RESULT: no data change
         assertTrue("personnel should never be changed", personnel.size() == 2);
-        assertTrue("universityCostSharePersonnel should still contain 2 items", universityCostSharePersonnel.size() == 2);
+        assertTrue("institutionCostSharePersonnel should still contain 2 items", institutionCostSharePersonnel.size() == 2);
 
         BudgetUser budgetUser3 = new BudgetUser();
         budgetUser3.setFiscalCampusCode(null);
@@ -140,80 +140,80 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         personnel.add(budgetUser4);
 
         // CONDITION: Same as above but null / empty data was introduced.
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
         // RESULT: Same as above, no crash should occur.
         assertTrue("personnel should never be changed", personnel.size() == 4);
-        assertTrue("universityCostSharePersonnel should still contain 2 items", universityCostSharePersonnel.size() == 2);
+        assertTrue("institutionCostSharePersonnel should still contain 2 items", institutionCostSharePersonnel.size() == 2);
 
         personnel.remove(0);
 
         // CONDITION: The BL/CSCI entry was removed.
-        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetUniversityCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, universityCostSharePersonnel);
-        // RESULT: The BL/CSCI entry shouldn't be in universityCostSharePersonnel anymore
+        getBudgetCostShareService().cleanseCostShare(universityCostShareIndicator, budgetInstitutionCostShare, budgetThirdPartyCostShareIndicator, budgetThirdPartyCostShare, personnel, institutionCostSharePersonnel);
+        // RESULT: The BL/CSCI entry shouldn't be in institutionCostSharePersonnel anymore
         assertTrue("personnel should never be changed", personnel.size() == 3);
-        assertTrue("universityCostSharePersonnel should only contain 1 item now", universityCostSharePersonnel.size() == 1);
-        assertFalse("BL/CSCI entry should not be in universityCostSharePersonnel anymore.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson1));
-        assertTrue("IN/CARD entry should still be in universityCostSharePersonnel.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson2));
+        assertTrue("institutionCostSharePersonnel should only contain 1 item now", institutionCostSharePersonnel.size() == 1);
+        assertFalse("BL/CSCI entry should not be in institutionCostSharePersonnel anymore.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson1));
+        assertTrue("IN/CARD entry should still be in institutionCostSharePersonnel.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson2));
     }
 
     public void testReconcileCostShare() {
         String documentHeaderId = "160642";
         List<BudgetUser> personnel = new ArrayList();
-        List<UniversityCostSharePersonnel> universityCostSharePersonnel = new ArrayList();
+        List<InstitutionCostSharePersonnel> institutionCostSharePersonnel = new ArrayList();
 
         // CONDITION: no personnel, no cost share
-        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, institutionCostSharePersonnel);
         // RESULT: no personnel, no cost share
         assertEquality(documentHeaderId, "160642");
         assertTrue("Should still be empty.", personnel.isEmpty());
-        assertTrue("Should still be empty.", universityCostSharePersonnel.isEmpty());
+        assertTrue("Should still be empty.", institutionCostSharePersonnel.isEmpty());
 
         BudgetUser budgetUser1 = new BudgetUser();
         budgetUser1.setFiscalCampusCode("BL");
         budgetUser1.setPrimaryDepartmentCode("CSCI");
         personnel.add(budgetUser1);
 
-        UniversityCostSharePersonnel universityCostSharePerson1 = new UniversityCostSharePersonnel();
+        InstitutionCostSharePersonnel universityCostSharePerson1 = new InstitutionCostSharePersonnel();
         universityCostSharePerson1.setResearchDocumentNumber("160642");
         universityCostSharePerson1.setChartOfAccountsCode("BL");
         universityCostSharePerson1.setOrganizationCode("CSCI");
 
         // CONDITION: 1 person, no cost share
-        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, institutionCostSharePersonnel);
         // RESULT: 1 person, 1 cost share with identical keys
         assertEquality(documentHeaderId, "160642");
         assertTrue("Person list should not be changed.", personnel.size() == 1);
-        assertTrue("Person's chart/org should have been added.", universityCostSharePersonnel.size() == 1);
-        assertTrue("Identical chart/org should have been found.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson1));
+        assertTrue("Person's chart/org should have been added.", institutionCostSharePersonnel.size() == 1);
+        assertTrue("Identical chart/org should have been found.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson1));
 
         personnel.add(budgetUser1);
 
         // CONDITION: 2 person, 1 cost share (same keys)
-        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, institutionCostSharePersonnel);
         // RESULT: 2 person, 1 cost share with identical keys (ie. item not added again)
         assertEquality(documentHeaderId, "160642");
         assertTrue("Person list should not be changed.", personnel.size() == 2);
-        assertTrue("Since the second person's chart/org was identical, it should not be added again.", universityCostSharePersonnel.size() == 1);
-        assertTrue("Identical chart/org should have been found.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson1));
+        assertTrue("Since the second person's chart/org was identical, it should not be added again.", institutionCostSharePersonnel.size() == 1);
+        assertTrue("Identical chart/org should have been found.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson1));
 
         BudgetUser budgetUser2 = new BudgetUser();
         budgetUser2.setFiscalCampusCode("IN");
         budgetUser2.setPrimaryDepartmentCode("CARD");
         personnel.add(budgetUser2);
 
-        UniversityCostSharePersonnel universityCostSharePerson2 = new UniversityCostSharePersonnel();
+        InstitutionCostSharePersonnel universityCostSharePerson2 = new InstitutionCostSharePersonnel();
         universityCostSharePerson2.setResearchDocumentNumber("160642");
         universityCostSharePerson2.setChartOfAccountsCode("IN");
         universityCostSharePerson2.setOrganizationCode("CARD");
 
         // CONDITION: 3 people, 1 cost share (one key same)
-        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, institutionCostSharePersonnel);
         // RESULT: 3 people, 2 cost share with identical keys
         assertEquality(documentHeaderId, "160642");
         assertTrue("Person list should not be changed.", personnel.size() == 3);
-        assertTrue("Person had new chart/org, should have been added.", universityCostSharePersonnel.size() == 2);
-        assertTrue("Original person's chart/org should still be there.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson1));
-        assertTrue("New person's chart/org should have been added.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson2));
+        assertTrue("Person had new chart/org, should have been added.", institutionCostSharePersonnel.size() == 2);
+        assertTrue("Original person's chart/org should still be there.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson1));
+        assertTrue("New person's chart/org should have been added.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson2));
 
         BudgetUser budgetUser3 = new BudgetUser();
         budgetUser3.setFiscalCampusCode(null);
@@ -226,12 +226,12 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         personnel.add(budgetUser4);
 
         // CONDITION: 5 people, 2 cost share (two keys same)
-        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, universityCostSharePersonnel);
+        getBudgetCostShareService().reconcileCostShare(documentHeaderId, personnel, institutionCostSharePersonnel);
         // RESULT: 5 people, 2 cost share with identical keys
         assertEquality(documentHeaderId, "160642");
         assertTrue("Person list should not be changed.", personnel.size() == 5);
-        assertTrue("There should have been no change to chart/org since people added were null org empty string.", universityCostSharePersonnel.size() == 2);
-        assertTrue("Original person's chart/org should still be there.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson1));
-        assertTrue("Second original person's chart/org should have been added.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson2));
+        assertTrue("There should have been no change to chart/org since people added were null org empty string.", institutionCostSharePersonnel.size() == 2);
+        assertTrue("Original person's chart/org should still be there.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson1));
+        assertTrue("Second original person's chart/org should have been added.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(institutionCostSharePersonnel, universityCostSharePerson2));
     }
 }

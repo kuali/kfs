@@ -26,12 +26,12 @@ import org.kuali.module.kra.bo.BudgetPeriodTest;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetPeriodUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetPeriodInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.bo.UniversityCostSharePersonnel;
+import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
@@ -50,8 +50,8 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
     List<BudgetPeriod> periods;
     List<BudgetUser> personnel;
     List<BudgetNonpersonnel> budgetNonpersonnelItems;
-    List<UniversityCostSharePersonnel> universityCostSharePersonnel;
-    List<BudgetUniversityCostShare> budgetUniversityCostShare;
+    List<InstitutionCostSharePersonnel> institutionCostSharePersonnel;
+    List<BudgetInstitutionCostShare> budgetInstitutionCostShare;
     List<BudgetThirdPartyCostShare> budgetThirdPartyCostShare;
     BudgetIndirectCostFormHelper budgetIndirectCostFormHelper;
     
@@ -69,12 +69,12 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         budgetUser1.setPrimaryDepartmentCode("CHEM");
         UserAppointmentTask userAppointmentTask = new UserAppointmentTask();
         UserAppointmentTaskPeriod userAppointmentTaskPeriod1 = new UserAppointmentTaskPeriod();
-        userAppointmentTaskPeriod1.setUniversityCostShareFringeBenefitTotalAmount(new KualiInteger(2500));
-        userAppointmentTaskPeriod1.setUniversityCostShareRequestTotalAmount(new KualiInteger(1500));
+        userAppointmentTaskPeriod1.setInstitutionCostShareFringeBenefitTotalAmount(new KualiInteger(2500));
+        userAppointmentTaskPeriod1.setInstitutionCostShareRequestTotalAmount(new KualiInteger(1500));
         userAppointmentTaskPeriod1.setBudgetPeriodSequenceNumber(new Integer(0));
         UserAppointmentTaskPeriod userAppointmentTaskPeriod2 = new UserAppointmentTaskPeriod();
-        userAppointmentTaskPeriod2.setUniversityCostShareFringeBenefitTotalAmount(new KualiInteger(3500));
-        userAppointmentTaskPeriod2.setUniversityCostShareRequestTotalAmount(new KualiInteger(4500));
+        userAppointmentTaskPeriod2.setInstitutionCostShareFringeBenefitTotalAmount(new KualiInteger(3500));
+        userAppointmentTaskPeriod2.setInstitutionCostShareRequestTotalAmount(new KualiInteger(4500));
         userAppointmentTaskPeriod2.setBudgetPeriodSequenceNumber(new Integer(1));
         List userAppointmentTaskPeriod = new ArrayList();
         userAppointmentTaskPeriod.add(userAppointmentTaskPeriod1);
@@ -86,11 +86,11 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         personnel.add(budgetUser1);
         
         // University Cost Share Personnel
-        universityCostSharePersonnel = new ArrayList();
-        UniversityCostSharePersonnel universityCostSharePersonnel1 = new UniversityCostSharePersonnel();
+        institutionCostSharePersonnel = new ArrayList();
+        InstitutionCostSharePersonnel universityCostSharePersonnel1 = new InstitutionCostSharePersonnel();
         universityCostSharePersonnel1.setChartOfAccountsCode("BL");
         universityCostSharePersonnel1.setOrganizationCode("CHEM");
-        universityCostSharePersonnel.add(universityCostSharePersonnel1);
+        institutionCostSharePersonnel.add(universityCostSharePersonnel1);
         
         // Nonpersonnel
         String[] categories = { "CO", "CO", "SC", "SC" };
@@ -99,17 +99,17 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         budgetNonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories, subcontractorNumber);
         
         // Budget University Cost Share
-        budgetUniversityCostShare = new ArrayList();
-        BudgetUniversityCostShare budgetUniversityCostShare1 = new BudgetUniversityCostShare();
+        budgetInstitutionCostShare = new ArrayList();
+        BudgetInstitutionCostShare budgetUniversityCostShare1 = new BudgetInstitutionCostShare();
         List budgetPeriodUniversityCostShare = new ArrayList();
-        BudgetPeriodUniversityCostShare budgetPeriodUniversityCostShare1 = new BudgetPeriodUniversityCostShare();
+        BudgetPeriodInstitutionCostShare budgetPeriodUniversityCostShare1 = new BudgetPeriodInstitutionCostShare();
         budgetPeriodUniversityCostShare1.setBudgetCostShareAmount(new KualiInteger(1000));
         budgetPeriodUniversityCostShare.add(budgetPeriodUniversityCostShare1);
-        BudgetPeriodUniversityCostShare budgetPeriodUniversityCostShare2 = new BudgetPeriodUniversityCostShare();
+        BudgetPeriodInstitutionCostShare budgetPeriodUniversityCostShare2 = new BudgetPeriodInstitutionCostShare();
         budgetPeriodUniversityCostShare2.setBudgetCostShareAmount(new KualiInteger(2000));
         budgetPeriodUniversityCostShare.add(budgetPeriodUniversityCostShare2);
         budgetUniversityCostShare1.setBudgetPeriodCostShare(budgetPeriodUniversityCostShare);
-        budgetUniversityCostShare.add(budgetUniversityCostShare1);
+        budgetInstitutionCostShare.add(budgetUniversityCostShare1);
         
         // Budget Third Party Cost Share
         budgetThirdPartyCostShare = new ArrayList();
@@ -139,7 +139,7 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
     }
 
     public void testBudgetCostShareFormHelper() {
-        BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(periods, personnel, budgetNonpersonnelItems, universityCostSharePersonnel, budgetUniversityCostShare, budgetThirdPartyCostShare, budgetIndirectCostFormHelper);
+        BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(periods, personnel, budgetNonpersonnelItems, institutionCostSharePersonnel, budgetInstitutionCostShare, budgetThirdPartyCostShare, budgetIndirectCostFormHelper);
         
         testSetupInstitutionDirect(budgetCostShareFormHelper.getInstitutionDirect());
         

@@ -23,14 +23,14 @@
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra"%>
 
-<c:set var="universityCostSharePersonnelAttributes" value="${DataDictionary.UniversityCostSharePersonnel.attributes}" />
-<c:set var="budgetUniversityCostShareAttributes" value="${DataDictionary.BudgetUniversityCostShare.attributes}" />
-<c:set var="budgetPeriodUniversityCostShareAttributes" value="${DataDictionary.BudgetPeriodUniversityCostShare.attributes}" />
+<c:set var="institutionCostSharePersonnelAttributes" value="${DataDictionary.InstitutionCostSharePersonnel.attributes}" />
+<c:set var="budgetInstitutionCostShareAttributes" value="${DataDictionary.BudgetInstitutionCostShare.attributes}" />
+<c:set var="budgetPeriodInstitutionCostShareAttributes" value="${DataDictionary.BudgetPeriodInstitutionCostShare.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
 <c:set var="tabDescription">
 	<c:choose>
-		<c:when test="${KualiForm.document.budget.universityCostShareIndicator}">
+		<c:when test="${KualiForm.document.budget.institutionCostShareIndicator}">
 			balance: <fmt:formatNumber value="${KualiForm.budgetCostShareFormHelper.institutionDirect.totalBalanceToBeDistributed}" type="currency" currencySymbol="$" maxFractionDigits="0" />
 		</c:when>
 		<c:otherwise>
@@ -39,15 +39,15 @@
 	</c:choose>
 </c:set>
 
-<kul:tab tabTitle="Cost Share - Institution Direct" tabDescription="${tabDescription}" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.universityCostShareItem*" auditCluster="costShareAuditErrors" tabAuditKey="document.budget.audit.costShare.institution*">
+<kul:tab tabTitle="Cost Share - Institution Direct" tabDescription="${tabDescription}" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.institutionCostShareItem*" auditCluster="costShareAuditErrors" tabAuditKey="document.budget.audit.costShare.institution*">
 	
-	<c:if test="${!KualiForm.document.budget.universityCostShareIndicator}">
+	<c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">
 		<div class="tab-container" align="center">
 			<table class="datatable" cellpadding="0">
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+7}">
 						<span class="subhead-left">Institution Cost Share</span>
-						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetUniversityCostShare.businessObjectClass}" altText="help"/></span> </span>
+						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetInstitutionCostShare.businessObjectClass}" altText="help"/></span> </span>
 					</td>
 				</tr>
 				<tr>
@@ -61,13 +61,13 @@
 		</div>
 	</c:if>
 
-	<c:if test="${KualiForm.document.budget.universityCostShareIndicator}">
+	<c:if test="${KualiForm.document.budget.institutionCostShareIndicator}">
 		<div class="tab-container" align=center>
 			<table class="datatable" cellpadding="0">
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+7}">
 						<span class="subhead-left">Cost Share - Institution Direct</span>
-						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetUniversityCostShare.businessObjectClass}" altText="help"/></span> </span>
+						<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetInstitutionCostShare.businessObjectClass}" altText="help"/></span> </span>
 					</td>
 				</tr>
 				<tr>
@@ -188,7 +188,7 @@
 					</c:if>
 				</tr>
 
-				<logic:iterate id="universityCostSharePersonnel" name="KualiForm" property="document.budget.universityCostSharePersonnelItems" indexId="rowctr">
+				<logic:iterate id="institutionCostSharePersonnel" name="KualiForm" property="document.budget.institutionCostSharePersonnelItems" indexId="rowctr">
 					<tr>
 						<th rowspan="2" class="bord-l-b">
 							<div align="center">
@@ -202,7 +202,7 @@
 						</th>
 						<td class="datacell">
 							<div align="left">
-								${universityCostSharePersonnel.chartOfAccountsCode}/${universityCostSharePersonnel.organizationCode}
+								${institutionCostSharePersonnel.chartOfAccountsCode}/${institutionCostSharePersonnel.organizationCode}
 							</div>
 						</td>
 
@@ -237,7 +237,7 @@
 						</th>
 						<td colspan="${KualiForm.document.periodListSize+2}" class="datacell">
 							<div align="left">
-								<kul:htmlControlAttribute property="document.budget.universityCostSharePersonnelItem[${rowctr}].budgetUniversityCostSharePersonnelDescription" attributeEntry="${universityCostSharePersonnelAttributes.budgetUniversityCostSharePersonnelDescription}" readOnly="${viewOnly}" />
+								<kul:htmlControlAttribute property="document.budget.institutionCostSharePersonnelItem[${rowctr}].budgetInstitutionCostSharePersonnelDescription" attributeEntry="${institutionCostSharePersonnelAttributes.budgetInstitutionCostSharePersonnelDescription}" readOnly="${viewOnly}" />
 							</div>
 						</td>
 					</tr>
@@ -283,9 +283,9 @@
 
 					<td class="infoline">
 						<div align="left">
-							<c:if test="${empty KualiForm.newUniversityCostShare.chartOfAccountsCode}">none selected</c:if>
-							<c:if test="${!empty KualiForm.newUniversityCostShare.chartOfAccountsCode}">${KualiForm.newUniversityCostShare.chartOfAccountsCode}/${KualiForm.newUniversityCostShare.organizationCode}</c:if>
-							<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:newUniversityCostShare.organizationCode,chartOfAccountsCode:newUniversityCostShare.chartOfAccountsCode" anchor="${currentTabIndex}"/>
+							<c:if test="${empty KualiForm.newInstitutionCostShare.chartOfAccountsCode}">none selected</c:if>
+							<c:if test="${!empty KualiForm.newInstitutionCostShare.chartOfAccountsCode}">${KualiForm.newInstitutionCostShare.chartOfAccountsCode}/${KualiForm.newInstitutionCostShare.organizationCode}</c:if>
+							<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:newInstitutionCostShare.organizationCode,chartOfAccountsCode:newInstitutionCostShare.chartOfAccountsCode" anchor="${currentTabIndex}"/>
 						</div>
 					</td>
 
@@ -293,7 +293,7 @@
 					<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="ctr">
 						<td class="infoline">
 							<div align="center">
-								<html:text property="newUniversityCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" />
+								<html:text property="newInstitutionCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" />
 							</div>
 						</td>
 					</logic:iterate>
@@ -304,7 +304,7 @@
 					</td>
 					<td rowspan="2" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.insertUniversityCostShareDirect.anchor${currentTabIndex}" src="./images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
+							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="./images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
 						</div>
 					</td>
 				</tr>
@@ -316,14 +316,14 @@
 					</th>
 					<td colspan="${KualiForm.document.periodListSize+2}" class="infoline">
 						<div align="left">
-							<html:text property="newUniversityCostShare.budgetCostShareDescription" styleClass="datacell" size="40" />
+							<html:text property="newInstitutionCostShare.budgetCostShareDescription" styleClass="datacell" size="40" />
 						</div>
 					</td>
 				</tr>
 				</c:if>
 
 				<!--------- Show added Sources ------------------------------------------------------------------->
-				<logic:iterate id="sources" name="KualiForm" property="document.budget.universityCostShareItems" indexId="rowctr">
+				<logic:iterate id="sources" name="KualiForm" property="document.budget.institutionCostShareItems" indexId="rowctr">
 					<tr>
 						<th rowspan="2" class="bord-l-b">
 							${rowctr+1}
@@ -336,10 +336,10 @@
 
 						<td class="datacell">
 							<div align="left">
-								<c:if test="${empty KualiForm.document.budget.universityCostShareItems[rowctr].chartOfAccountsCode}">none selected</c:if>
-								<c:if test="${!empty KualiForm.document.budget.universityCostShareItems[rowctr].chartOfAccountsCode}">${KualiForm.document.budget.universityCostShareItems[rowctr].chartOfAccountsCode}/${KualiForm.document.budget.universityCostShareItems[rowctr].organizationCode}</c:if>
+								<c:if test="${empty KualiForm.document.budget.institutionCostShareItems[rowctr].chartOfAccountsCode}">none selected</c:if>
+								<c:if test="${!empty KualiForm.document.budget.institutionCostShareItems[rowctr].chartOfAccountsCode}">${KualiForm.document.budget.institutionCostShareItems[rowctr].chartOfAccountsCode}/${KualiForm.document.budget.institutionCostShareItems[rowctr].organizationCode}</c:if>
 								<c:if test="${!viewOnly}">
-									<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.budget.universityCostShareItems[${rowctr}].organizationCode,chartOfAccountsCode:document.budget.universityCostShareItems[${rowctr}].chartOfAccountsCode" anchor="${currentTabIndex}"/>
+									<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.budget.institutionCostShareItems[${rowctr}].organizationCode,chartOfAccountsCode:document.budget.institutionCostShareItems[${rowctr}].chartOfAccountsCode" anchor="${currentTabIndex}"/>
 								</c:if>
 							</div>
 						</td>
@@ -348,8 +348,8 @@
 						<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="colctr">
 							<td class="datacell">
 								<div align="center">
-									<kul:htmlControlAttribute property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetCostShareAmount"
-										attributeEntry="${budgetPeriodUniversityCostShareAttributes.budgetCostShareAmount}" readOnly="${viewOnly}" />
+									<kul:htmlControlAttribute property="document.budget.institutionCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetCostShareAmount"
+										attributeEntry="${budgetPeriodInstitutionCostShareAttributes.budgetCostShareAmount}" readOnly="${viewOnly}" />
 								</div>
 							</td>
 						</logic:iterate>
@@ -361,7 +361,7 @@
 						<c:if test="${!viewOnly}">
 						<td rowspan="2" class="datacell">
 							<div align="center">
-								<html:image property="methodToCall.deleteUniversityCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="./images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="./images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
 							</div>
 						</td>
 						</c:if>
@@ -374,7 +374,7 @@
 						</th>
 						<td colspan="${KualiForm.document.periodListSize+2}" class="datacell">
 							<div align="left">
-								<kul:htmlControlAttribute property="document.budget.universityCostShareItem[${rowctr}].budgetCostShareDescription" attributeEntry="${budgetUniversityCostShareAttributes.budgetCostShareDescription}" readOnly="${viewOnly}" />
+								<kul:htmlControlAttribute property="document.budget.institutionCostShareItem[${rowctr}].budgetCostShareDescription" attributeEntry="${budgetInstitutionCostShareAttributes.budgetCostShareDescription}" readOnly="${viewOnly}" />
 							</div>
 						</td>
 					</tr>
@@ -382,34 +382,34 @@
 			</table>
 		</div>
 
-        <html:hidden property="document.universityCostShareNextSequenceNumber" />
-		<html:hidden property="document.budget.universityCostShareIndicator" />
+        <html:hidden property="document.institutionCostShareNextSequenceNumber" />
+		<html:hidden property="document.budget.institutionCostShareIndicator" />
 
 		<!-- Hiddens for existing personnel items -->
-		<logic:iterate id="universityCostSharePerson" name="KualiForm" property="document.budget.universityCostSharePersonnelItems" indexId="ctr">
-			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].researchDocumentNumber" />
-			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].organizationCode" />
-			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].chartOfAccountsCode" />
-			<html:hidden property="document.budget.universityCostSharePersonnelItem[${ctr}].versionNumber" />
+		<logic:iterate id="institutionCostSharePerson" name="KualiForm" property="document.budget.institutionCostSharePersonnelItems" indexId="ctr">
+			<html:hidden property="document.budget.institutionCostSharePersonnelItem[${ctr}].researchDocumentNumber" />
+			<html:hidden property="document.budget.institutionCostSharePersonnelItem[${ctr}].organizationCode" />
+			<html:hidden property="document.budget.institutionCostSharePersonnelItem[${ctr}].chartOfAccountsCode" />
+			<html:hidden property="document.budget.institutionCostSharePersonnelItem[${ctr}].versionNumber" />
 		</logic:iterate>
 
 		<!-- Hidden for new item -->
-		<html:hidden property="newUniversityCostShare.chartOfAccountsCode" />
-		<html:hidden property="newUniversityCostShare.organizationCode" />
+		<html:hidden property="newInstitutionCostShare.chartOfAccountsCode" />
+		<html:hidden property="newInstitutionCostShare.organizationCode" />
 
 		<!-- Hiddens for added cost share direct items, including for it's budgetPeriodCostShareItem objects -->
-		<logic:iterate id="sources" name="KualiForm" property="document.budget.universityCostShareItems" indexId="rowctr">
-			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].researchDocumentNumber" />
-			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetCostShareSequenceNumber" />
-			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].organizationCode" />
-			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].chartOfAccountsCode" />
-			<html:hidden property="document.budget.universityCostShareItem[${rowctr}].versionNumber" />
+		<logic:iterate id="sources" name="KualiForm" property="document.budget.institutionCostShareItems" indexId="rowctr">
+			<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].researchDocumentNumber" />
+			<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].budgetCostShareSequenceNumber" />
+			<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].organizationCode" />
+			<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].chartOfAccountsCode" />
+			<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].versionNumber" />
 
 			<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="colctr">
-				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].researchDocumentNumber" />
-				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetCostShareSequenceNumber" />
-				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetPeriodSequenceNumber" />
-				<html:hidden property="document.budget.universityCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].versionNumber" />
+				<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].researchDocumentNumber" />
+				<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetCostShareSequenceNumber" />
+				<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetPeriodSequenceNumber" />
+				<html:hidden property="document.budget.institutionCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].versionNumber" />
 			</logic:iterate>
 		</logic:iterate>
 

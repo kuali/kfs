@@ -42,7 +42,7 @@ import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -59,7 +59,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     private Integer budgetPeriodNextSequenceNumber;
     private Integer personnelNextSequenceNumber;
     private Integer nonpersonnelNextSequenceNumber;
-    private Integer universityCostShareNextSequenceNumber;
+    private Integer institutionCostShareNextSequenceNumber;
     private Integer thirdPartyCostShareNextSequenceNumber;
     boolean forceRefreshOfBOSubListsForSave = true;
     boolean cleanseBudgetOnSave = true;
@@ -80,7 +80,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         personnelNextSequenceNumber = new Integer(1);
         nonpersonnelNextSequenceNumber = new Integer(1);
 
-        universityCostShareNextSequenceNumber = new Integer(1);
+        institutionCostShareNextSequenceNumber = new Integer(1);
         thirdPartyCostShareNextSequenceNumber = new Integer(1);
     }
 
@@ -232,13 +232,13 @@ public class BudgetDocument extends ResearchDocumentBase {
         setNonpersonnelNextSequenceNumber(new Integer(getNonpersonnelNextSequenceNumber().intValue() + 1));
     }
 
-    public void addUniversityCostShare(List<BudgetPeriod> periods, BudgetUniversityCostShare budgetUniversityCostShare) {
-        budgetUniversityCostShare.setBudgetCostShareSequenceNumber(this.getUniversityCostShareNextSequenceNumber());
-        budgetUniversityCostShare.populateKeyFields(this.getFinancialDocumentNumber(), periods);
+    public void addInstitutionCostShare(List<BudgetPeriod> periods, BudgetInstitutionCostShare budgetInstitutionCostShare) {
+        budgetInstitutionCostShare.setBudgetCostShareSequenceNumber(this.getInstitutionCostShareNextSequenceNumber());
+        budgetInstitutionCostShare.populateKeyFields(this.getFinancialDocumentNumber(), periods);
         
-        this.budget.getUniversityCostShareItems().add(budgetUniversityCostShare);
+        this.budget.getInstitutionCostShareItems().add(budgetInstitutionCostShare);
         
-        setUniversityCostShareNextSequenceNumber(new Integer(getUniversityCostShareNextSequenceNumber().intValue() + 1));
+        setInstitutionCostShareNextSequenceNumber(new Integer(getInstitutionCostShareNextSequenceNumber().intValue() + 1));
     }
 
     public void addThirdPartyCostShare(List<BudgetPeriod> periods, BudgetThirdPartyCostShare budgetThirdPartyCostShare) {
@@ -308,17 +308,17 @@ public class BudgetDocument extends ResearchDocumentBase {
     }
 
     /**
-     * @return Returns the budgetUniversityCostShareNextSequenceNumber.
+     * @return Returns the budgetInstitutionCostShareNextSequenceNumber.
      */
-    public Integer getUniversityCostShareNextSequenceNumber() {
-        return universityCostShareNextSequenceNumber;
+    public Integer getInstitutionCostShareNextSequenceNumber() {
+        return institutionCostShareNextSequenceNumber;
     }
 
     /**
-     * @param budgetUniversityCostShareNextSequenceNumber The budgetUniversityCostShareNextSequenceNumber to set.
+     * @param budgetInstitutionCostShareNextSequenceNumber The budgetInstitutionCostShareNextSequenceNumber to set.
      */
-    public void setUniversityCostShareNextSequenceNumber(Integer budgetUniversityCostShareNextSequenceNumber) {
-        this.universityCostShareNextSequenceNumber = budgetUniversityCostShareNextSequenceNumber;
+    public void setInstitutionCostShareNextSequenceNumber(Integer budgetInstitutionCostShareNextSequenceNumber) {
+        this.institutionCostShareNextSequenceNumber = budgetInstitutionCostShareNextSequenceNumber;
     }
 
     public boolean isCleanseBudgetOnSave() {
@@ -374,10 +374,10 @@ public class BudgetDocument extends ResearchDocumentBase {
             list.add(budget.getAllThirdPartyCostSharePeriods(this.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getThirdPartyCostShareItems());
 
-            list.add(budget.getAllUniversityCostSharePeriods(this.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getUniversityCostShareItems());
+            list.add(budget.getAllInstitutionCostSharePeriods(this.isForceRefreshOfBOSubListsForSave()));
+            list.add(budget.getInstitutionCostShareItems());
 
-            list.add(budget.getUniversityCostSharePersonnelItems());
+            list.add(budget.getInstitutionCostSharePersonnelItems());
             list.add(budget.getAdHocPermissions());
             list.add(budget.getAdHocOrgs()); 
             list.add(budget.getAdHocWorkgroups());

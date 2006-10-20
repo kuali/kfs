@@ -59,11 +59,11 @@ public class BudgetNonpersonnelTest extends KualiTestBase {
 
             budgetNonpersonnel.setCopyToFuturePeriods(false);
             budgetNonpersonnel.setAgencyCopyIndicator(false);
-            budgetNonpersonnel.setBudgetUniversityCostShareCopyIndicator(false);
+            budgetNonpersonnel.setBudgetInstitutionCostShareCopyIndicator(false);
             budgetNonpersonnel.setBudgetThirdPartyCostShareCopyIndicator(false);
 
             budgetNonpersonnel.setAgencyRequestAmount(new KualiInteger(1000));
-            budgetNonpersonnel.setBudgetUniversityCostShareAmount(new KualiInteger(2000));
+            budgetNonpersonnel.setBudgetInstitutionCostShareAmount(new KualiInteger(2000));
             budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(new KualiInteger(3000));
 
             budgetNonpersonnel.setBudgetOriginSequenceNumber(null);

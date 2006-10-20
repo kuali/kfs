@@ -85,8 +85,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].agencyRequestAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "agencyRequestAmount"));
                 valid = false;
             }
-            if (budget.isUniversityCostShareIndicator() && budgetNonpersonnel.getBudgetUniversityCostShareAmount() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetUniversityCostShareAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetUniversityCostShareAmount"));
+            if (budget.isInstitutionCostShareIndicator() && budgetNonpersonnel.getBudgetInstitutionCostShareAmount() == null) {
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetInstitutionCostShareAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetInstitutionCostShareAmount"));
                 valid = false;
             }
             if (budget.isBudgetThirdPartyCostShareIndicator() && budgetNonpersonnel.getBudgetThirdPartyCostShareAmount() == null) {

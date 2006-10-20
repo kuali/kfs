@@ -185,13 +185,13 @@ public class BudgetPersonnelAction extends BudgetAction {
                 budgetUser.setCurrentTaskNumber(budgetUser.getPreviousTaskNumber());
 
                 for (UserAppointmentTask userAppointmentTask : budgetUser.getUserAppointmentTasks()) {
-                    if (userAppointmentTask.getUniversityAppointmentTypeCode().equals(budgetUser.getAppointmentTypeCode())) {
-                        userAppointmentTask.setUniversityAppointmentTypeCode(budgetUser.getPreviousAppointmentTypeCode());
-                    } else if (userAppointmentTask.getUniversityAppointmentTypeCode().equals(budgetUser.getSecondaryAppointmentTypeCode())) {
-                        userAppointmentTask.setUniversityAppointmentTypeCode(budgetUser.getPreviousSecondaryAppointmentTypeCode());
+                    if (userAppointmentTask.getInstitutionAppointmentTypeCode().equals(budgetUser.getAppointmentTypeCode())) {
+                        userAppointmentTask.setInstitutionAppointmentTypeCode(budgetUser.getPreviousAppointmentTypeCode());
+                    } else if (userAppointmentTask.getInstitutionAppointmentTypeCode().equals(budgetUser.getSecondaryAppointmentTypeCode())) {
+                        userAppointmentTask.setInstitutionAppointmentTypeCode(budgetUser.getPreviousSecondaryAppointmentTypeCode());
                     }
                     for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
-                        userAppointmentTaskPeriod.setUniversityAppointmentTypeCode(userAppointmentTask.getUniversityAppointmentTypeCode());
+                        userAppointmentTaskPeriod.setInstitutionAppointmentTypeCode(userAppointmentTask.getInstitutionAppointmentTypeCode());
                     }
                 }
 

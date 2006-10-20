@@ -35,17 +35,17 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
     private String researchDocumentNumber;
     private Integer budgetTaskSequenceNumber;
     private Integer budgetUserSequenceNumber;
-    private String universityAppointmentTypeCode;
+    private String institutionAppointmentTypeCode;
 
     private KualiInteger agencyFringeBenefitTotalAmountTask = new KualiInteger(0); 
     private KualiInteger agencyRequestTotalAmountTask = new KualiInteger(0); 
-    private KualiInteger universityCostShareFringeBenefitTotalAmountTask = new KualiInteger(0);
-    private KualiInteger universityCostShareRequestTotalAmountTask = new KualiInteger(0);
+    private KualiInteger institutionCostShareFringeBenefitTotalAmountTask = new KualiInteger(0);
+    private KualiInteger institutionCostShareRequestTotalAmountTask = new KualiInteger(0);
     
     private KualiInteger gradAsstAgencySalaryTotal = new KualiInteger(0);
     private KualiInteger gradAsstAgencyHealthInsuranceTotal = new KualiInteger(0);
-    private KualiInteger gradAsstUnivSalaryTotal = new KualiInteger(0);
-    private KualiInteger gradAsstUnivHealthInsuranceTotal = new KualiInteger(0);
+    private KualiInteger gradAsstInstSalaryTotal = new KualiInteger(0);
+    private KualiInteger gradAsstInstHealthInsuranceTotal = new KualiInteger(0);
 
     private List userAppointmentTaskPeriods = new ArrayList();
 
@@ -66,7 +66,7 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
         this.researchDocumentNumber = userAppointmentTask.getResearchDocumentNumber();
         this.budgetTaskSequenceNumber = userAppointmentTask.getBudgetTaskSequenceNumber();
         this.budgetUserSequenceNumber = userAppointmentTask.getBudgetUserSequenceNumber();
-        this.universityAppointmentTypeCode = userAppointmentTask.getUniversityAppointmentTypeCode();
+        this.institutionAppointmentTypeCode = userAppointmentTask.getInstitutionAppointmentTypeCode();
 
         this.userAppointmentTaskPeriods = new ArrayList(userAppointmentTask.getUserAppointmentTaskPeriods() != null ? userAppointmentTask.getUserAppointmentTaskPeriods() : null);
     }
@@ -133,29 +133,29 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
     }
 
     /**
-     * Sets the universityAppointmentTypeCode attribute.
+     * Sets the institutionAppointmentTypeCode attribute.
      * 
-     * @param universityAppointmentTypeCode The universityAppointmentTypeCode to set.
+     * @param institutionAppointmentTypeCode The institutionAppointmentTypeCode to set.
      * 
      */
-    public String getUniversityAppointmentTypeCode() {
-        return universityAppointmentTypeCode;
+    public String getInstitutionAppointmentTypeCode() {
+        return institutionAppointmentTypeCode;
     }
 
     /**
-     * Gets the universityAppointmentTypeCode attribute.
+     * Gets the institutionAppointmentTypeCode attribute.
      * 
-     * @return - Returns the universityAppointmentTypeCode
+     * @return - Returns the institutionAppointmentTypeCode
      * 
      */
-    public void setUniversityAppointmentTypeCode(String universityAppointmentTypeCode) {
-        this.universityAppointmentTypeCode = universityAppointmentTypeCode;
+    public void setInstitutionAppointmentTypeCode(String institutionAppointmentTypeCode) {
+        this.institutionAppointmentTypeCode = institutionAppointmentTypeCode;
     }
 
     /**
-     * Gets the universityAppointmentType attribute.
+     * Gets the institutionAppointmentType attribute.
      * 
-     * @return - Returns the universityAppointmentType
+     * @return - Returns the institutionAppointmentType
      * 
      */
     public BudgetFringeRate getBudgetFringeRate() {
@@ -163,9 +163,9 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
     }
 
     /**
-     * Sets the universityAppointmentType attribute.
+     * Sets the institutionAppointmentType attribute.
      * 
-     * @param universityAppointmentType The universityAppointmentType to set.
+     * @param institutionAppointmentType The institutionAppointmentType to set.
      * 
      */
     public void setBudgetFringeRate(BudgetFringeRate budgetFringeRate) {
@@ -296,39 +296,39 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
     }
 
     /**
-     * Gets the universityCostShareFringeBenefitTotalAmountTask attribute.
+     * Gets the institutionCostShareFringeBenefitTotalAmountTask attribute.
      * 
-     * @return Returns the universityCostShareFringeBenefitTotalAmountTask.
+     * @return Returns the institutionCostShareFringeBenefitTotalAmountTask.
      */
-    public KualiInteger getUniversityCostShareFringeBenefitTotalAmountTask() {
-        return universityCostShareFringeBenefitTotalAmountTask;
+    public KualiInteger getInstitutionCostShareFringeBenefitTotalAmountTask() {
+        return institutionCostShareFringeBenefitTotalAmountTask;
     }
 
     /**
-     * Sets the universityCostShareFringeBenefitTotalAmountTask attribute value.
+     * Sets the institutionCostShareFringeBenefitTotalAmountTask attribute value.
      * 
-     * @param universityCostShareFringeBenefitTotalAmountTask The universityCostShareFringeBenefitTotalAmountTask to set.
+     * @param institutionCostShareFringeBenefitTotalAmountTask The institutionCostShareFringeBenefitTotalAmountTask to set.
      */
-    public void setUniversityCostShareFringeBenefitTotalAmountTask(KualiInteger universityCostShareFringeBenefitTotalAmountTask) {
-        this.universityCostShareFringeBenefitTotalAmountTask = universityCostShareFringeBenefitTotalAmountTask;
+    public void setInstitutionCostShareFringeBenefitTotalAmountTask(KualiInteger institutionCostShareFringeBenefitTotalAmountTask) {
+        this.institutionCostShareFringeBenefitTotalAmountTask = institutionCostShareFringeBenefitTotalAmountTask;
     }
 
     /**
-     * Gets the universityCostShareRequestTotalAmountTask attribute.
+     * Gets the institutionCostShareRequestTotalAmountTask attribute.
      * 
-     * @return Returns the universityCostShareRequestTotalAmountTask.
+     * @return Returns the institutionCostShareRequestTotalAmountTask.
      */
-    public KualiInteger getUniversityCostShareRequestTotalAmountTask() {
-        return universityCostShareRequestTotalAmountTask;
+    public KualiInteger getInstitutionCostShareRequestTotalAmountTask() {
+        return institutionCostShareRequestTotalAmountTask;
     }
 
     /**
-     * Sets the universityCostShareRequestTotalAmountTask attribute value.
+     * Sets the institutionCostShareRequestTotalAmountTask attribute value.
      * 
-     * @param universityCostShareRequestTotalAmountTask The universityCostShareRequestTotalAmountTask to set.
+     * @param institutionCostShareRequestTotalAmountTask The institutionCostShareRequestTotalAmountTask to set.
      */
-    public void setUniversityCostShareRequestTotalAmountTask(KualiInteger universityCostShareRequestTotalAmountTask) {
-        this.universityCostShareRequestTotalAmountTask = universityCostShareRequestTotalAmountTask;
+    public void setInstitutionCostShareRequestTotalAmountTask(KualiInteger institutionCostShareRequestTotalAmountTask) {
+        this.institutionCostShareRequestTotalAmountTask = institutionCostShareRequestTotalAmountTask;
     }
 
     /**
@@ -372,8 +372,8 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
      * 
      * @return Returns the gradAsstUnivHealthInsurance.
      */
-    public KualiInteger getGradAsstUnivHealthInsuranceTotal() {
-        return gradAsstUnivHealthInsuranceTotal;
+    public KualiInteger getGradAsstInstHealthInsuranceTotal() {
+        return gradAsstInstHealthInsuranceTotal;
     }
 
     /**
@@ -381,8 +381,8 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
      * 
      * @param gradAsstUnivHealthInsurance The gradAsstUnivHealthInsurance to set.
      */
-    public void setGradAsstUnivHealthInsuranceTotal(KualiInteger gradAsstUnivHealthInsuranceTotal) {
-        this.gradAsstUnivHealthInsuranceTotal = gradAsstUnivHealthInsuranceTotal;
+    public void setGradAsstInstHealthInsuranceTotal(KualiInteger gradAsstInstHealthInsuranceTotal) {
+        this.gradAsstInstHealthInsuranceTotal = gradAsstInstHealthInsuranceTotal;
     }
 
     /**
@@ -390,8 +390,8 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
      * 
      * @return Returns the gradAsstUnivSalary.
      */
-    public KualiInteger getGradAsstUnivSalaryTotal() {
-        return gradAsstUnivSalaryTotal;
+    public KualiInteger getGradAsstInstSalaryTotal() {
+        return gradAsstInstSalaryTotal;
     }
 
     /**
@@ -399,8 +399,8 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
      * 
      * @param gradAsstUnivSalary The gradAsstUnivSalary to set.
      */
-    public void setGradAsstUnivSalaryTotal(KualiInteger gradAsstUnivSalaryTotal) {
-        this.gradAsstUnivSalaryTotal = gradAsstUnivSalaryTotal;
+    public void setGradAsstInstSalaryTotal(KualiInteger gradAsstInstSalaryTotal) {
+        this.gradAsstInstSalaryTotal = gradAsstInstSalaryTotal;
     }
 
     public boolean isSecondaryAppointment() {

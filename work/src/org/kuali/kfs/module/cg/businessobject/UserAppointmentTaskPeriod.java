@@ -37,27 +37,27 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     private Integer budgetTaskSequenceNumber;
     private Integer budgetPeriodSequenceNumber;
     private Integer budgetUserSequenceNumber;
-    private String universityAppointmentTypeCode;
+    private String institutionAppointmentTypeCode;
     private KualiInteger agencyFringeBenefitTotalAmount;
     private KualiInteger agencyPercentEffortAmount;
     private KualiInteger agencyRequestTotalAmount;
     private Integer personWeeksAmount;
     private String personWeeksJustificationText;
-    private KualiInteger universityCostShareFringeBenefitTotalAmount;
-    private KualiInteger universityCostSharePercentEffortAmount;
-    private KualiInteger universityCostShareRequestTotalAmount;
+    private KualiInteger institutionCostShareFringeBenefitTotalAmount;
+    private KualiInteger institutionCostSharePercentEffortAmount;
+    private KualiInteger institutionCostShareRequestTotalAmount;
     private KualiInteger userBudgetPeriodSalaryAmount;
     private KualiInteger userAgencyHours;
     private KualiDecimal userHourlyRate;
-    private KualiInteger userUniversityHours;
+    private KualiInteger userInstitutionHours;
     private KualiInteger agencyFullTimeEquivalentPercent;
     private KualiInteger agencyHealthInsuranceAmount;
     private KualiInteger agencyRequestedFeesAmount;
     private KualiInteger agencySalaryAmount;
-    private KualiInteger universityFullTimeEquivalentPercent;
-    private KualiInteger universityHealthInsuranceAmount;
-    private KualiInteger universityRequestedFeesAmount;
-    private KualiInteger universitySalaryAmount;
+    private KualiInteger institutionFullTimeEquivalentPercent;
+    private KualiInteger institutionHealthInsuranceAmount;
+    private KualiInteger institutionRequestedFeesAmount;
+    private KualiInteger institutionSalaryAmount;
     private KualiInteger userCreditHoursNumber;
     private KualiDecimal userCreditHourAmount;
     private KualiInteger userMiscellaneousFeeAmount;
@@ -86,22 +86,22 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
         agencyPercentEffortAmount = new KualiInteger(0);
         agencyRequestTotalAmount = new KualiInteger(0);
         personWeeksAmount = new Integer(0);
-        universityCostShareFringeBenefitTotalAmount = new KualiInteger(0);
-        universityCostSharePercentEffortAmount = new KualiInteger(0);
-        universityCostShareRequestTotalAmount = new KualiInteger(0);
+        institutionCostShareFringeBenefitTotalAmount = new KualiInteger(0);
+        institutionCostSharePercentEffortAmount = new KualiInteger(0);
+        institutionCostShareRequestTotalAmount = new KualiInteger(0);
         userBudgetPeriodSalaryAmount = new KualiInteger(0);
         userAgencyHours = new KualiInteger(0);
         userHourlyRate = new KualiDecimal(0);
-        userUniversityHours = new KualiInteger(0);
+        userInstitutionHours = new KualiInteger(0);
 
         agencyFullTimeEquivalentPercent = new KualiInteger(0);
         agencyHealthInsuranceAmount = new KualiInteger(0);
         agencyRequestedFeesAmount = new KualiInteger(0);
         agencySalaryAmount = new KualiInteger(0);
-        universityFullTimeEquivalentPercent = new KualiInteger(0);
-        universityHealthInsuranceAmount = new KualiInteger(0);
-        universityRequestedFeesAmount = new KualiInteger(0);
-        universitySalaryAmount = new KualiInteger(0);
+        institutionFullTimeEquivalentPercent = new KualiInteger(0);
+        institutionHealthInsuranceAmount = new KualiInteger(0);
+        institutionRequestedFeesAmount = new KualiInteger(0);
+        institutionSalaryAmount = new KualiInteger(0);
         userCreditHoursNumber = new KualiInteger(0);
         userCreditHourAmount = new KualiDecimal(0);
         userMiscellaneousFeeAmount = new KualiInteger(0);
@@ -196,23 +196,23 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     }
 
     /**
-     * Sets the universityAppointmentTypeCode attribute.
+     * Sets the institutionAppointmentTypeCode attribute.
      * 
-     * @param universityAppointmentTypeCode The universityAppointmentTypeCode to set.
+     * @param institutionAppointmentTypeCode The institutionAppointmentTypeCode to set.
      * 
      */
-    public String getUniversityAppointmentTypeCode() {
-        return universityAppointmentTypeCode;
+    public String getInstitutionAppointmentTypeCode() {
+        return institutionAppointmentTypeCode;
     }
 
     /**
-     * Gets the universityAppointmentTypeCode attribute.
+     * Gets the institutionAppointmentTypeCode attribute.
      * 
-     * @return - Returns the universityAppointmentTypeCode
+     * @return - Returns the institutionAppointmentTypeCode
      * 
      */
-    public void setUniversityAppointmentTypeCode(String universityAppointmentTypeCode) {
-        this.universityAppointmentTypeCode = universityAppointmentTypeCode;
+    public void setInstitutionAppointmentTypeCode(String institutionAppointmentTypeCode) {
+        this.institutionAppointmentTypeCode = institutionAppointmentTypeCode;
     }
 
     /**
@@ -316,63 +316,63 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     }
 
     /**
-     * Gets the universityCostShareFringeBenefitTotalAmount attribute.
+     * Gets the institutionCostShareFringeBenefitTotalAmount attribute.
      * 
-     * @return - Returns the universityCostShareFringeBenefitTotalAmount
+     * @return - Returns the institutionCostShareFringeBenefitTotalAmount
      * 
      */
-    public KualiInteger getUniversityCostShareFringeBenefitTotalAmount() {
-        return universityCostShareFringeBenefitTotalAmount;
+    public KualiInteger getInstitutionCostShareFringeBenefitTotalAmount() {
+        return institutionCostShareFringeBenefitTotalAmount;
     }
 
     /**
-     * Sets the universityCostShareFringeBenefitTotalAmount attribute.
+     * Sets the institutionCostShareFringeBenefitTotalAmount attribute.
      * 
-     * @param universityCostShareFringeBenefitTotalAmount The universityCostShareFringeBenefitTotalAmount to set.
+     * @param institutionCostShareFringeBenefitTotalAmount The institutionCostShareFringeBenefitTotalAmount to set.
      * 
      */
-    public void setUniversityCostShareFringeBenefitTotalAmount(KualiInteger universityCostShareFringeBenefitTotalAmount) {
-        this.universityCostShareFringeBenefitTotalAmount = universityCostShareFringeBenefitTotalAmount;
+    public void setInstitutionCostShareFringeBenefitTotalAmount(KualiInteger institutionCostShareFringeBenefitTotalAmount) {
+        this.institutionCostShareFringeBenefitTotalAmount = institutionCostShareFringeBenefitTotalAmount;
     }
 
     /**
-     * Gets the universityCostSharePercentEffortAmount attribute.
+     * Gets the institutionCostSharePercentEffortAmount attribute.
      * 
-     * @return - Returns the universityCostSharePercentEffortAmount
+     * @return - Returns the institutionCostSharePercentEffortAmount
      * 
      */
-    public KualiInteger getUniversityCostSharePercentEffortAmount() {
-        return universityCostSharePercentEffortAmount;
+    public KualiInteger getInstitutionCostSharePercentEffortAmount() {
+        return institutionCostSharePercentEffortAmount;
     }
 
     /**
-     * Sets the universityCostSharePercentEffortAmount attribute.
+     * Sets the institutionCostSharePercentEffortAmount attribute.
      * 
-     * @param universityCostSharePercentEffortAmount The universityCostSharePercentEffortAmount to set.
+     * @param institutionCostSharePercentEffortAmount The institutionCostSharePercentEffortAmount to set.
      * 
      */
-    public void setUniversityCostSharePercentEffortAmount(KualiInteger universityCostSharePercentEffortAmount) {
-        this.universityCostSharePercentEffortAmount = universityCostSharePercentEffortAmount;
+    public void setInstitutionCostSharePercentEffortAmount(KualiInteger institutionCostSharePercentEffortAmount) {
+        this.institutionCostSharePercentEffortAmount = institutionCostSharePercentEffortAmount;
     }
 
     /**
-     * Gets the universityCostShareRequestTotalAmount attribute.
+     * Gets the institutionCostShareRequestTotalAmount attribute.
      * 
-     * @return - Returns the universityCostShareRequestTotalAmount
+     * @return - Returns the institutionCostShareRequestTotalAmount
      * 
      */
-    public KualiInteger getUniversityCostShareRequestTotalAmount() {
-        return universityCostShareRequestTotalAmount;
+    public KualiInteger getInstitutionCostShareRequestTotalAmount() {
+        return institutionCostShareRequestTotalAmount;
     }
 
     /**
-     * Sets the universityCostShareRequestTotalAmount attribute.
+     * Sets the institutionCostShareRequestTotalAmount attribute.
      * 
-     * @param universityCostShareRequestTotalAmount The universityCostShareRequestTotalAmount to set.
+     * @param institutionCostShareRequestTotalAmount The institutionCostShareRequestTotalAmount to set.
      * 
      */
-    public void setUniversityCostShareRequestTotalAmount(KualiInteger universityCostShareRequestTotalAmount) {
-        this.universityCostShareRequestTotalAmount = universityCostShareRequestTotalAmount;
+    public void setInstitutionCostShareRequestTotalAmount(KualiInteger institutionCostShareRequestTotalAmount) {
+        this.institutionCostShareRequestTotalAmount = institutionCostShareRequestTotalAmount;
     }
 
     /**
@@ -436,23 +436,23 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     }
 
     /**
-     * Gets the userUniversityHours attribute.
+     * Gets the userInstitutionHours attribute.
      * 
-     * @return - Returns the userUniversityHours
+     * @return - Returns the userInstitutionHours
      * 
      */
-    public KualiInteger getUserUniversityHours() {
-        return userUniversityHours;
+    public KualiInteger getUserInstitutionHours() {
+        return userInstitutionHours;
     }
 
     /**
-     * Sets the userUniversityHours attribute.
+     * Sets the userInstitutionHours attribute.
      * 
-     * @param userUniversityHours The userUniversityHours to set.
+     * @param userInstitutionHours The userInstitutionHours to set.
      * 
      */
-    public void setUserUniversityHours(KualiInteger userUniversityHours) {
-        this.userUniversityHours = userUniversityHours;
+    public void setUserInstitutionHours(KualiInteger userInstitutionHours) {
+        this.userInstitutionHours = userInstitutionHours;
     }
 
     /**
@@ -548,83 +548,83 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     }
 
     /**
-     * Gets the universityFullTimeEquivalentPercent attribute.
+     * Gets the institutionFullTimeEquivalentPercent attribute.
      * 
-     * @return - Returns the universityFullTimeEquivalentPercent
+     * @return - Returns the institutionFullTimeEquivalentPercent
      * 
      */
-    public KualiInteger getUniversityFullTimeEquivalentPercent() {
-        return universityFullTimeEquivalentPercent;
+    public KualiInteger getInstitutionFullTimeEquivalentPercent() {
+        return institutionFullTimeEquivalentPercent;
     }
 
     /**
-     * Sets the universityFullTimeEquivalentPercent attribute.
+     * Sets the institutionFullTimeEquivalentPercent attribute.
      * 
-     * @param universityFullTimeEquivalentPercent The universityFullTimeEquivalentPercent to set.
+     * @param institutionFullTimeEquivalentPercent The institutionFullTimeEquivalentPercent to set.
      * 
      */
-    public void setUniversityFullTimeEquivalentPercent(KualiInteger universityFullTimeEquivalentPercent) {
-        this.universityFullTimeEquivalentPercent = universityFullTimeEquivalentPercent;
+    public void setInstitutionFullTimeEquivalentPercent(KualiInteger institutionFullTimeEquivalentPercent) {
+        this.institutionFullTimeEquivalentPercent = institutionFullTimeEquivalentPercent;
     }
 
     /**
-     * Gets the universityHealthInsuranceAmount attribute.
+     * Gets the institutionHealthInsuranceAmount attribute.
      * 
-     * @return - Returns the universityHealthInsuranceAmount
+     * @return - Returns the institutionHealthInsuranceAmount
      * 
      */
-    public KualiInteger getUniversityHealthInsuranceAmount() {
-        return universityHealthInsuranceAmount;
+    public KualiInteger getInstitutionHealthInsuranceAmount() {
+        return institutionHealthInsuranceAmount;
     }
 
     /**
-     * Sets the universityHealthInsuranceAmount attribute.
+     * Sets the institutionHealthInsuranceAmount attribute.
      * 
-     * @param universityHealthInsuranceAmount The universityHealthInsuranceAmount to set.
+     * @param institutionHealthInsuranceAmount The institutionHealthInsuranceAmount to set.
      * 
      */
-    public void setUniversityHealthInsuranceAmount(KualiInteger universityHealthInsuranceAmount) {
-        this.universityHealthInsuranceAmount = universityHealthInsuranceAmount;
+    public void setInstitutionHealthInsuranceAmount(KualiInteger institutionHealthInsuranceAmount) {
+        this.institutionHealthInsuranceAmount = institutionHealthInsuranceAmount;
     }
 
     /**
-     * Gets the universityRequestedFeesAmount attribute.
+     * Gets the institutionRequestedFeesAmount attribute.
      * 
-     * @return - Returns the universityRequestedFeesAmount
+     * @return - Returns the institutionRequestedFeesAmount
      * 
      */
-    public KualiInteger getUniversityRequestedFeesAmount() {
-        return universityRequestedFeesAmount;
+    public KualiInteger getInstitutionRequestedFeesAmount() {
+        return institutionRequestedFeesAmount;
     }
 
     /**
-     * Sets the universityRequestedFeesAmount attribute.
+     * Sets the institutionRequestedFeesAmount attribute.
      * 
-     * @param universityRequestedFeesAmount The universityRequestedFeesAmount to set.
+     * @param institutionRequestedFeesAmount The institutionRequestedFeesAmount to set.
      * 
      */
-    public void setUniversityRequestedFeesAmount(KualiInteger universityRequestedFeesAmount) {
-        this.universityRequestedFeesAmount = universityRequestedFeesAmount;
+    public void setInstitutionRequestedFeesAmount(KualiInteger institutionRequestedFeesAmount) {
+        this.institutionRequestedFeesAmount = institutionRequestedFeesAmount;
     }
 
     /**
-     * Gets the universitySalaryAmount attribute.
+     * Gets the institutionSalaryAmount attribute.
      * 
-     * @return - Returns the universitySalaryAmount
+     * @return - Returns the institutionSalaryAmount
      * 
      */
-    public KualiInteger getUniversitySalaryAmount() {
-        return universitySalaryAmount;
+    public KualiInteger getInstitutionSalaryAmount() {
+        return institutionSalaryAmount;
     }
 
     /**
-     * Sets the universitySalaryAmount attribute.
+     * Sets the institutionSalaryAmount attribute.
      * 
-     * @param universitySalaryAmount The universitySalaryAmount to set.
+     * @param institutionSalaryAmount The institutionSalaryAmount to set.
      * 
      */
-    public void setUniversitySalaryAmount(KualiInteger universitySalaryAmount) {
-        this.universitySalaryAmount = universitySalaryAmount;
+    public void setInstitutionSalaryAmount(KualiInteger institutionSalaryAmount) {
+        this.institutionSalaryAmount = institutionSalaryAmount;
     }
 
     /**
@@ -701,9 +701,9 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
 
 
     /**
-     * Gets the universityAppointmentType attribute.
+     * Gets the institutionAppointmentType attribute.
      * 
-     * @return - Returns the universityAppointmentType
+     * @return - Returns the institutionAppointmentType
      * 
      */
     public BudgetFringeRate getBudgetFringeRate() {
@@ -711,9 +711,9 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     }
 
     /**
-     * Sets the universityAppointmentType attribute.
+     * Sets the institutionAppointmentType attribute.
      * 
-     * @param universityAppointmentType The universityAppointmentType to set.
+     * @param institutionAppointmentType The institutionAppointmentType to set.
      * 
      */
     public void setBudgetFringeRate(BudgetFringeRate budgetFringeRate) {
@@ -764,7 +764,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
 
         m.put("researchDocumentNumber", this.getResearchDocumentNumber());
         m.put("budgetUserSequenceNumber", this.getBudgetUserSequenceNumber());
-        m.put("universityAppointmentTypeCode", this.getUniversityAppointmentTypeCode());
+        m.put("institutionAppointmentTypeCode", this.getInstitutionAppointmentTypeCode());
         m.put("budgetTaskSequenceNumber", this.getBudgetTaskSequenceNumber());
         m.put("budgetPeriodSequenceNumber", this.getBudgetPeriodSequenceNumber());
 
@@ -979,45 +979,45 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
             else {
                 equals &= this.totalHealthInsuranceAmount != null && objCompare.getTotalHealthInsuranceAmount() != null && this.totalHealthInsuranceAmount.equals(objCompare.getTotalHealthInsuranceAmount());
             }
-            if (this.universityAppointmentTypeCode == null && objCompare.getUniversityAppointmentTypeCode() == null) {
+            if (this.institutionAppointmentTypeCode == null && objCompare.getInstitutionAppointmentTypeCode() == null) {
             }
             else {
-                equals &= this.universityAppointmentTypeCode != null && objCompare.getUniversityAppointmentTypeCode() != null && this.universityAppointmentTypeCode.equals(objCompare.getUniversityAppointmentTypeCode());
+                equals &= this.institutionAppointmentTypeCode != null && objCompare.getInstitutionAppointmentTypeCode() != null && this.institutionAppointmentTypeCode.equals(objCompare.getInstitutionAppointmentTypeCode());
             }
-            if (this.universityCostShareFringeBenefitTotalAmount == null && objCompare.getUniversityCostShareFringeBenefitTotalAmount() == null) {
-            }
-            else {
-                equals &= this.universityCostShareFringeBenefitTotalAmount != null && objCompare.getUniversityCostShareFringeBenefitTotalAmount() != null && this.universityCostShareFringeBenefitTotalAmount.equals(objCompare.getUniversityCostShareFringeBenefitTotalAmount());
-            }
-            if (this.universityCostSharePercentEffortAmount == null && objCompare.getUniversityCostSharePercentEffortAmount() == null) {
+            if (this.institutionCostShareFringeBenefitTotalAmount == null && objCompare.getInstitutionCostShareFringeBenefitTotalAmount() == null) {
             }
             else {
-                equals &= this.universityCostSharePercentEffortAmount != null && objCompare.getUniversityCostSharePercentEffortAmount() != null && this.universityCostSharePercentEffortAmount.equals(objCompare.getUniversityCostSharePercentEffortAmount());
+                equals &= this.institutionCostShareFringeBenefitTotalAmount != null && objCompare.getInstitutionCostShareFringeBenefitTotalAmount() != null && this.institutionCostShareFringeBenefitTotalAmount.equals(objCompare.getInstitutionCostShareFringeBenefitTotalAmount());
             }
-            if (this.universityCostShareRequestTotalAmount == null && objCompare.getUniversityCostShareRequestTotalAmount() == null) {
-            }
-            else {
-                equals &= this.universityCostShareRequestTotalAmount != null && objCompare.getUniversityCostShareRequestTotalAmount() != null && this.universityCostShareRequestTotalAmount.equals(objCompare.getUniversityCostShareRequestTotalAmount());
-            }
-            if (this.universityFullTimeEquivalentPercent == null && objCompare.getUniversityFullTimeEquivalentPercent() == null) {
+            if (this.institutionCostSharePercentEffortAmount == null && objCompare.getInstitutionCostSharePercentEffortAmount() == null) {
             }
             else {
-                equals &= this.universityFullTimeEquivalentPercent != null && objCompare.getUniversityFullTimeEquivalentPercent() != null && this.universityFullTimeEquivalentPercent.equals(objCompare.getUniversityFullTimeEquivalentPercent());
+                equals &= this.institutionCostSharePercentEffortAmount != null && objCompare.getInstitutionCostSharePercentEffortAmount() != null && this.institutionCostSharePercentEffortAmount.equals(objCompare.getInstitutionCostSharePercentEffortAmount());
             }
-            if (this.universityHealthInsuranceAmount == null && objCompare.getUniversityHealthInsuranceAmount() == null) {
-            }
-            else {
-                equals &= this.universityHealthInsuranceAmount != null && objCompare.getUniversityHealthInsuranceAmount() != null && this.universityHealthInsuranceAmount.equals(objCompare.getUniversityHealthInsuranceAmount());
-            }
-            if (this.universityRequestedFeesAmount == null && objCompare.getUniversityRequestedFeesAmount() == null) {
+            if (this.institutionCostShareRequestTotalAmount == null && objCompare.getInstitutionCostShareRequestTotalAmount() == null) {
             }
             else {
-                equals &= this.universityRequestedFeesAmount != null && objCompare.getUniversityRequestedFeesAmount() != null && this.universityRequestedFeesAmount.equals(objCompare.getUniversityRequestedFeesAmount());
+                equals &= this.institutionCostShareRequestTotalAmount != null && objCompare.getInstitutionCostShareRequestTotalAmount() != null && this.institutionCostShareRequestTotalAmount.equals(objCompare.getInstitutionCostShareRequestTotalAmount());
             }
-            if (this.universitySalaryAmount == null && objCompare.getUniversitySalaryAmount() == null) {
+            if (this.institutionFullTimeEquivalentPercent == null && objCompare.getInstitutionFullTimeEquivalentPercent() == null) {
             }
             else {
-                equals &= this.universitySalaryAmount != null && objCompare.getUniversitySalaryAmount() != null && this.universitySalaryAmount.equals(objCompare.getUniversitySalaryAmount());
+                equals &= this.institutionFullTimeEquivalentPercent != null && objCompare.getInstitutionFullTimeEquivalentPercent() != null && this.institutionFullTimeEquivalentPercent.equals(objCompare.getInstitutionFullTimeEquivalentPercent());
+            }
+            if (this.institutionHealthInsuranceAmount == null && objCompare.getInstitutionHealthInsuranceAmount() == null) {
+            }
+            else {
+                equals &= this.institutionHealthInsuranceAmount != null && objCompare.getInstitutionHealthInsuranceAmount() != null && this.institutionHealthInsuranceAmount.equals(objCompare.getInstitutionHealthInsuranceAmount());
+            }
+            if (this.institutionRequestedFeesAmount == null && objCompare.getInstitutionRequestedFeesAmount() == null) {
+            }
+            else {
+                equals &= this.institutionRequestedFeesAmount != null && objCompare.getInstitutionRequestedFeesAmount() != null && this.institutionRequestedFeesAmount.equals(objCompare.getInstitutionRequestedFeesAmount());
+            }
+            if (this.institutionSalaryAmount == null && objCompare.getInstitutionSalaryAmount() == null) {
+            }
+            else {
+                equals &= this.institutionSalaryAmount != null && objCompare.getInstitutionSalaryAmount() != null && this.institutionSalaryAmount.equals(objCompare.getInstitutionSalaryAmount());
             }
             if (this.userAgencyHours == null && objCompare.getUserAgencyHours() == null) {
             }
@@ -1049,10 +1049,10 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
             else {
                 equals &= this.userMiscellaneousFeeAmount != null && objCompare.getUserMiscellaneousFeeAmount() != null && this.userMiscellaneousFeeAmount.equals(objCompare.getUserMiscellaneousFeeAmount());
             }
-            if (this.userUniversityHours == null && objCompare.getUserUniversityHours() == null) {
+            if (this.userInstitutionHours == null && objCompare.getUserInstitutionHours() == null) {
             }
             else {
-                equals &= this.userUniversityHours != null && objCompare.getUserUniversityHours() != null && this.userUniversityHours.equals(objCompare.getUserUniversityHours());
+                equals &= this.userInstitutionHours != null && objCompare.getUserInstitutionHours() != null && this.userInstitutionHours.equals(objCompare.getUserInstitutionHours());
             }
         }
 
@@ -1064,9 +1064,9 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getResearchDocumentNumber() + "|" + this.getPersonWeeksJustificationText() + "|" + this.getUniversityAppointmentTypeCode() + "|" + this.getAgencyFringeBenefitTotalAmount().toString() + "|" + this.getAgencyFullTimeEquivalentPercent().toString() + "|" + this.getAgencyHealthInsuranceAmount().toString() + "|" + this.getAgencyPercentEffortAmount().toString() + "|" + this.getAgencyRequestedFeesAmount().toString() + "|" + this.getAgencySalaryAmount().toString() + "|" + this.getBudgetFringeRate().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetUserSequenceNumber().toString() + "|" + this.getPeriod().toString() + "|" + this.getPeriodSalary().toString() + "|" + this.getPersonWeeksAmount().toString() + "|" + this.getTask().toString() + "|" + this.getTotalFeeRemissionsAmount().toString() + "|" + this.getTotalFringeAmount().toString() + "|" + this.getTotalFteAmount().toString()
-                + "|" + this.getTotalGradAsstSalaryAmount().toString() + "|" + this.getTotalHealthInsuranceAmount().toString() + "|" + this.getTotalPercentEffort().toString() + "|" + this.getTotalSalaryAmount().toString() + "|" + this.getUniversityCostShareFringeBenefitTotalAmount().toString() + "|" + this.getUniversityCostSharePercentEffortAmount().toString() + "|" + this.getUniversityCostShareRequestTotalAmount().toString() + "|" + this.getUniversityFullTimeEquivalentPercent().toString() + "|" + this.getUniversityHealthInsuranceAmount().toString() + "|" + this.getUniversityRequestedFeesAmount().toString() + "|" + this.getUniversitySalaryAmount().toString() + "|" + this.getUserAgencyHours().toString() + "|" + this.getUserBudgetPeriodSalaryAmount().toString() + "|" + this.getUserCreditHourAmount().toString() + "|" + this.getUserCreditHoursNumber().toString() + "|" + this.getUserHourlyRate().toString() + "|" + this.getUserMiscellaneousFeeAmount().toString() + "|"
-                + this.getUserUniversityHours().toString();
+        String hashString = this.getResearchDocumentNumber() + "|" + this.getPersonWeeksJustificationText() + "|" + this.getInstitutionAppointmentTypeCode() + "|" + this.getAgencyFringeBenefitTotalAmount().toString() + "|" + this.getAgencyFullTimeEquivalentPercent().toString() + "|" + this.getAgencyHealthInsuranceAmount().toString() + "|" + this.getAgencyPercentEffortAmount().toString() + "|" + this.getAgencyRequestedFeesAmount().toString() + "|" + this.getAgencySalaryAmount().toString() + "|" + this.getBudgetFringeRate().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetUserSequenceNumber().toString() + "|" + this.getPeriod().toString() + "|" + this.getPeriodSalary().toString() + "|" + this.getPersonWeeksAmount().toString() + "|" + this.getTask().toString() + "|" + this.getTotalFeeRemissionsAmount().toString() + "|" + this.getTotalFringeAmount().toString() + "|" + this.getTotalFteAmount().toString()
+                + "|" + this.getTotalGradAsstSalaryAmount().toString() + "|" + this.getTotalHealthInsuranceAmount().toString() + "|" + this.getTotalPercentEffort().toString() + "|" + this.getTotalSalaryAmount().toString() + "|" + this.getInstitutionCostShareFringeBenefitTotalAmount().toString() + "|" + this.getInstitutionCostSharePercentEffortAmount().toString() + "|" + this.getInstitutionCostShareRequestTotalAmount().toString() + "|" + this.getInstitutionFullTimeEquivalentPercent().toString() + "|" + this.getInstitutionHealthInsuranceAmount().toString() + "|" + this.getInstitutionRequestedFeesAmount().toString() + "|" + this.getInstitutionSalaryAmount().toString() + "|" + this.getUserAgencyHours().toString() + "|" + this.getUserBudgetPeriodSalaryAmount().toString() + "|" + this.getUserCreditHourAmount().toString() + "|" + this.getUserCreditHoursNumber().toString() + "|" + this.getUserHourlyRate().toString() + "|" + this.getUserMiscellaneousFeeAmount().toString() + "|"
+                + this.getUserInstitutionHours().toString();
         return hashString.hashCode();
     }
 }

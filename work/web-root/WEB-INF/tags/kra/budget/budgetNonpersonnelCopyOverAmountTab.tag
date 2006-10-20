@@ -73,7 +73,7 @@
       		                <fmt:formatNumber value="${periodAmount.displayAgencyRequestAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
       		              </c:when>
       		              <c:when test="${amountType == 'institution'}">
-      		                <fmt:formatNumber value="${periodAmount.displayBudgetUniversityCostShareAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
+      		                <fmt:formatNumber value="${periodAmount.displayBudgetInstitutionCostShareAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
       		              </c:when>
       		              <c:when test="${amountType == 'third'}">
       		                <fmt:formatNumber value="${periodAmount.displayBudgetThirdPartyCostShareAmount}" type="currency" currencySymbol="" maxFractionDigits="0" />
@@ -99,7 +99,7 @@
                         <fmt:formatNumber value="${KualiForm.budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelpers[KualiForm.currentNonpersonnelCategoryCode].agencyRequestAmountTotal[status.index]}" type="currency" currencySymbol="" maxFractionDigits="0" />
   		              </c:when>
   		              <c:when test="${amountType == 'institution'}">
-                        <fmt:formatNumber value="${KualiForm.budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelpers[KualiForm.currentNonpersonnelCategoryCode].budgetUniversityCostShareAmountTotal[status.index]}" type="currency" currencySymbol="" maxFractionDigits="0" />
+                        <fmt:formatNumber value="${KualiForm.budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelpers[KualiForm.currentNonpersonnelCategoryCode].budgetInstitutionCostShareAmountTotal[status.index]}" type="currency" currencySymbol="" maxFractionDigits="0" />
   		              </c:when>
   		              <c:when test="${amountType == 'third'}">
                         <fmt:formatNumber value="${KualiForm.budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelpers[KualiForm.currentNonpersonnelCategoryCode].budgetThirdPartyCostShareAmountTotal[status.index]}" type="currency" currencySymbol="" maxFractionDigits="0" />

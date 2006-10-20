@@ -39,13 +39,13 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     private String budgetNonpersonnelDescription;
     private KualiInteger agencyRequestAmount;
     private KualiInteger budgetThirdPartyCostShareAmount;
-    private KualiInteger budgetUniversityCostShareAmount;
+    private KualiInteger budgetInstitutionCostShareAmount;
     private Integer budgetOriginSequenceNumber;
     private boolean agencyCopyIndicator;
-    private boolean budgetUniversityCostShareCopyIndicator;
+    private boolean budgetInstitutionCostShareCopyIndicator;
     private boolean budgetThirdPartyCostShareCopyIndicator;
     private KualiInteger budgetOriginAgencyAmount;
-    private KualiInteger budgetOriginUniversityCostShareAmount;
+    private KualiInteger budgetOriginInstitutionCostShareAmount;
     private KualiInteger budgetOriginThirdPartyCostShareAmount;
     private String subcontractorNumber;
 
@@ -56,7 +56,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     // the indicator should be dropped).
     private KualiInteger agencyRequestAmountBackup;
     private KualiInteger budgetThirdPartyCostShareAmountBackup;
-    private KualiInteger budgetUniversityCostShareAmountBackup;
+    private KualiInteger budgetInstitutionCostShareAmountBackup;
 
     private NonpersonnelObjectCode nonpersonnelObjectCode;
 
@@ -66,7 +66,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     public BudgetNonpersonnel() {
         agencyRequestAmount = new KualiInteger(0);
         budgetThirdPartyCostShareAmount = new KualiInteger(0);
-        budgetUniversityCostShareAmount = new KualiInteger(0);
+        budgetInstitutionCostShareAmount = new KualiInteger(0);
     }
 
     /**
@@ -84,13 +84,13 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
         budgetNonpersonnelDescription = budgetNonpersonnel.getBudgetNonpersonnelDescription();
         agencyRequestAmount = budgetNonpersonnel.getAgencyRequestAmount();
         budgetThirdPartyCostShareAmount = budgetNonpersonnel.getBudgetThirdPartyCostShareAmount();
-        budgetUniversityCostShareAmount = budgetNonpersonnel.getBudgetUniversityCostShareAmount();
+        budgetInstitutionCostShareAmount = budgetNonpersonnel.getBudgetInstitutionCostShareAmount();
         budgetOriginSequenceNumber = budgetNonpersonnel.getBudgetOriginSequenceNumber();
         agencyCopyIndicator = budgetNonpersonnel.getAgencyCopyIndicator();
-        budgetUniversityCostShareCopyIndicator = budgetNonpersonnel.getBudgetUniversityCostShareCopyIndicator();
+        budgetInstitutionCostShareCopyIndicator = budgetNonpersonnel.getBudgetInstitutionCostShareCopyIndicator();
         budgetThirdPartyCostShareCopyIndicator = budgetNonpersonnel.getBudgetThirdPartyCostShareCopyIndicator();
         budgetOriginAgencyAmount = budgetNonpersonnel.getBudgetOriginAgencyAmount();
-        budgetOriginUniversityCostShareAmount = budgetNonpersonnel.getBudgetOriginUniversityCostShareAmount();
+        budgetOriginInstitutionCostShareAmount = budgetNonpersonnel.getBudgetOriginInstitutionCostShareAmount();
         budgetOriginThirdPartyCostShareAmount = budgetNonpersonnel.getBudgetOriginThirdPartyCostShareAmount();
         subcontractorNumber = budgetNonpersonnel.getSubcontractorNumber();
 
@@ -107,9 +107,9 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
      * @param budgetNonpersonnelSubCategoryCode
      * @param budgetNonpersonnelDescription
      * @param agencyRequestAmount
-     * @param budgetUniversityCostShareAmount
+     * @param budgetInstitutionCostShareAmount
      */
-    public BudgetNonpersonnel(Integer budgetTaskSequenceNumber, Integer budgetPeriodSequenceNumber, String budgetNonpersonnelCategoryCode, String budgetNonpersonnelSubCategoryCode, String budgetNonpersonnelDescription, KualiInteger agencyRequestAmount, KualiInteger budgetUniversityCostShareAmount) {
+    public BudgetNonpersonnel(Integer budgetTaskSequenceNumber, Integer budgetPeriodSequenceNumber, String budgetNonpersonnelCategoryCode, String budgetNonpersonnelSubCategoryCode, String budgetNonpersonnelDescription, KualiInteger agencyRequestAmount, KualiInteger budgetInstitutionCostShareAmount) {
         this();
 
         this.budgetTaskSequenceNumber = budgetTaskSequenceNumber;
@@ -118,7 +118,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
         this.budgetNonpersonnelSubCategoryCode = budgetNonpersonnelSubCategoryCode;
         this.budgetNonpersonnelDescription = budgetNonpersonnelDescription;
         this.agencyRequestAmount = agencyRequestAmount;
-        this.budgetUniversityCostShareAmount = budgetUniversityCostShareAmount;
+        this.budgetInstitutionCostShareAmount = budgetInstitutionCostShareAmount;
     }
 
     /**
@@ -277,21 +277,21 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     }
 
     /**
-     * Gets the budgetUniversityCostShareAmount attribute.
+     * Gets the budgetInstitutionCostShareAmount attribute.
      * 
-     * @return Returns the budgetUniversityCostShareAmount.
+     * @return Returns the budgetInstitutionCostShareAmount.
      */
-    public KualiInteger getBudgetUniversityCostShareAmount() {
-        return budgetUniversityCostShareAmount;
+    public KualiInteger getBudgetInstitutionCostShareAmount() {
+        return budgetInstitutionCostShareAmount;
     }
 
     /**
-     * Sets the budgetUniversityCostShareAmount attribute value.
+     * Sets the budgetInstitutionCostShareAmount attribute value.
      * 
-     * @param budgetUniversityCostShareAmount The budgetUniversityCostShareAmount to set.
+     * @param budgetInstitutionCostShareAmount The budgetInstitutionCostShareAmount to set.
      */
-    public void setBudgetUniversityCostShareAmount(KualiInteger budgetUniversityCostShareAmount) {
-        this.budgetUniversityCostShareAmount = budgetUniversityCostShareAmount;
+    public void setBudgetInstitutionCostShareAmount(KualiInteger budgetInstitutionCostShareAmount) {
+        this.budgetInstitutionCostShareAmount = budgetInstitutionCostShareAmount;
     }
 
     /**
@@ -325,15 +325,15 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     /**
      * o
      */
-    public void setBudgetUniversityCostShareCopyIndicator(boolean o) {
-        budgetUniversityCostShareCopyIndicator = o;
+    public void setBudgetInstitutionCostShareCopyIndicator(boolean o) {
+        budgetInstitutionCostShareCopyIndicator = o;
     }
 
     /**
-     * budgetUniversityCostShareCopyIndicator
+     * budgetInstitutionCostShareCopyIndicator
      */
-    public boolean getBudgetUniversityCostShareCopyIndicator() {
-        return budgetUniversityCostShareCopyIndicator;
+    public boolean getBudgetInstitutionCostShareCopyIndicator() {
+        return budgetInstitutionCostShareCopyIndicator;
     }
 
     /**
@@ -367,15 +367,15 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     /**
      * o
      */
-    public void setBudgetOriginUniversityCostShareAmount(KualiInteger o) {
-        budgetOriginUniversityCostShareAmount = o;
+    public void setBudgetOriginInstitutionCostShareAmount(KualiInteger o) {
+        budgetOriginInstitutionCostShareAmount = o;
     }
 
     /**
-     * budgetOriginUniversityCostShareAmount
+     * budgetOriginInstitutionCostShareAmount
      */
-    public KualiInteger getBudgetOriginUniversityCostShareAmount() {
-        return budgetOriginUniversityCostShareAmount;
+    public KualiInteger getBudgetOriginInstitutionCostShareAmount() {
+        return budgetOriginInstitutionCostShareAmount;
     }
 
     /**
@@ -531,21 +531,21 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     }
 
     /**
-     * Gets the budgetUniversityCostShareAmountBackup attribute.
+     * Gets the budgetInstitutionCostShareAmountBackup attribute.
      * 
-     * @return Returns the budgetUniversityCostShareAmountBackup.
+     * @return Returns the budgetInstitutionCostShareAmountBackup.
      */
-    public KualiInteger getBudgetUniversityCostShareAmountBackup() {
-        return budgetUniversityCostShareAmountBackup;
+    public KualiInteger getBudgetInstitutionCostShareAmountBackup() {
+        return budgetInstitutionCostShareAmountBackup;
     }
 
     /**
-     * Sets the budgetUniversityCostShareAmountBackup attribute value.
+     * Sets the budgetInstitutionCostShareAmountBackup attribute value.
      * 
-     * @param budgetUniversityCostShareAmountBackup The budgetUniversityCostShareAmountBackup to set.
+     * @param budgetInstitutionCostShareAmountBackup The budgetInstitutionCostShareAmountBackup to set.
      */
-    public void setBudgetUniversityCostShareAmountBackup(KualiInteger budgetUniversityCostShareAmountDuplicate) {
-        this.budgetUniversityCostShareAmountBackup = budgetUniversityCostShareAmountDuplicate;
+    public void setBudgetInstitutionCostShareAmountBackup(KualiInteger budgetInstitutionCostShareAmountDuplicate) {
+        this.budgetInstitutionCostShareAmountBackup = budgetInstitutionCostShareAmountDuplicate;
     }
 
     /**
@@ -567,7 +567,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
             equals &= this.researchDocumentNumber.equals(objCompare.getResearchDocumentNumber());
             equals &= this.agencyCopyIndicator == objCompare.getAgencyCopyIndicator();
             equals &= this.budgetThirdPartyCostShareCopyIndicator == objCompare.getBudgetThirdPartyCostShareCopyIndicator();
-            equals &= this.budgetUniversityCostShareCopyIndicator == objCompare.getBudgetUniversityCostShareCopyIndicator();
+            equals &= this.budgetInstitutionCostShareCopyIndicator == objCompare.getBudgetInstitutionCostShareCopyIndicator();
 
             if (this.agencyRequestAmount == null && objCompare.getAgencyRequestAmount() == null) {
             }
@@ -609,10 +609,10 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
             else {
                 equals &= this.budgetOriginThirdPartyCostShareAmount != null && objCompare.getBudgetOriginThirdPartyCostShareAmount() != null && this.budgetOriginThirdPartyCostShareAmount.equals(objCompare.getBudgetOriginThirdPartyCostShareAmount());
             }
-            if (this.budgetOriginUniversityCostShareAmount == null && objCompare.getBudgetOriginUniversityCostShareAmount() == null) {
+            if (this.budgetOriginInstitutionCostShareAmount == null && objCompare.getBudgetOriginInstitutionCostShareAmount() == null) {
             }
             else {
-                equals &= this.budgetOriginUniversityCostShareAmount != null && objCompare.getBudgetOriginUniversityCostShareAmount() != null && this.budgetOriginUniversityCostShareAmount.equals(objCompare.getBudgetOriginUniversityCostShareAmount());
+                equals &= this.budgetOriginInstitutionCostShareAmount != null && objCompare.getBudgetOriginInstitutionCostShareAmount() != null && this.budgetOriginInstitutionCostShareAmount.equals(objCompare.getBudgetOriginInstitutionCostShareAmount());
             }
             if (this.budgetPeriodSequenceNumber == null && objCompare.getBudgetPeriodSequenceNumber() == null) {
             }
@@ -629,10 +629,10 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
             else {
                 equals &= this.budgetThirdPartyCostShareAmount != null && objCompare.getBudgetThirdPartyCostShareAmount() != null && this.budgetThirdPartyCostShareAmount.equals(objCompare.getBudgetThirdPartyCostShareAmount());
             }
-            if (this.budgetUniversityCostShareAmount == null && objCompare.getBudgetUniversityCostShareAmount() == null) {
+            if (this.budgetInstitutionCostShareAmount == null && objCompare.getBudgetInstitutionCostShareAmount() == null) {
             }
             else {
-                equals &= this.budgetUniversityCostShareAmount != null && objCompare.getBudgetUniversityCostShareAmount() != null && this.budgetUniversityCostShareAmount.equals(objCompare.getBudgetUniversityCostShareAmount());
+                equals &= this.budgetInstitutionCostShareAmount != null && objCompare.getBudgetInstitutionCostShareAmount() != null && this.budgetInstitutionCostShareAmount.equals(objCompare.getBudgetInstitutionCostShareAmount());
             }
             if (this.subcontractorNumber == null && objCompare.getSubcontractorNumber() == null) {
             }
@@ -649,7 +649,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getResearchDocumentNumber() + "|" + this.getBudgetNonpersonnelCategoryCode() + "|" + this.getBudgetNonpersonnelDescription() + "|" + this.getBudgetNonpersonnelSubCategoryCode() + "|" + this.getResearchDocumentNumber() + "|" + this.getSubcontractorNumber() + "|" + this.getAgencyRequestAmount().toString() + "|" + this.getAgencyRequestAmountBackup().toString() + "|" + this.getBudgetNonpersonnelSequenceNumber().toString() + "|" + this.getBudgetOriginAgencyAmount().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetOriginSequenceNumber().toString() + "|" + this.getBudgetOriginThirdPartyCostShareAmount().toString() + "|" + this.getBudgetOriginUniversityCostShareAmount().toString() + "|" + this.getBudgetUniversityCostShareAmountBackup().toString() + "|" + this.getNonpersonnelObjectCode().toString();
+        String hashString = this.getResearchDocumentNumber() + "|" + this.getBudgetNonpersonnelCategoryCode() + "|" + this.getBudgetNonpersonnelDescription() + "|" + this.getBudgetNonpersonnelSubCategoryCode() + "|" + this.getResearchDocumentNumber() + "|" + this.getSubcontractorNumber() + "|" + this.getAgencyRequestAmount().toString() + "|" + this.getAgencyRequestAmountBackup().toString() + "|" + this.getBudgetNonpersonnelSequenceNumber().toString() + "|" + this.getBudgetOriginAgencyAmount().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetOriginSequenceNumber().toString() + "|" + this.getBudgetOriginThirdPartyCostShareAmount().toString() + "|" + this.getBudgetOriginInstitutionCostShareAmount().toString() + "|" + this.getBudgetInstitutionCostShareAmountBackup().toString() + "|" + this.getNonpersonnelObjectCode().toString();
         return hashString.hashCode();
     }
 }

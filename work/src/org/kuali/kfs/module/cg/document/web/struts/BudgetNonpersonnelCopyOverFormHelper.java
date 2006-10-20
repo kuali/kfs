@@ -155,7 +155,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
     public class NonpersonnelCopyOverCategoryHelper {
         private String nonpersonnelCategoryCode; // this field isn't critical, but it is helpful
         private List agencyRequestAmountTotal;
-        private List budgetUniversityCostShareAmountTotal;
+        private List budgetInstitutionCostShareAmountTotal;
         private List budgetThirdPartyCostShareAmountTotal;
         private List nprsItems;
 
@@ -204,13 +204,13 @@ public class BudgetNonpersonnelCopyOverFormHelper {
          */
         public void refresh(int periodsSize) {
             KualiDecimal agencyRequestAmountTotalArr[] = new KualiDecimal[periodsSize];
-            KualiDecimal budgetUniversityCostShareAmountTotalArr[] = new KualiDecimal[periodsSize];
+            KualiDecimal budgetInstitutionCostShareAmountTotalArr[] = new KualiDecimal[periodsSize];
             KualiDecimal budgetThirdPartyCostShareAmountTotalArr[] = new KualiDecimal[periodsSize];
 
             // initialize the arrays with 0 values
             for (int i = 0; i < periodsSize; i++) {
                 agencyRequestAmountTotalArr[i] = new KualiDecimal(0);
-                budgetUniversityCostShareAmountTotalArr[i] = new KualiDecimal(0);
+                budgetInstitutionCostShareAmountTotalArr[i] = new KualiDecimal(0);
                 budgetThirdPartyCostShareAmountTotalArr[i] = new KualiDecimal(0);
             }
 
@@ -225,14 +225,14 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                     // add value to the total
                     BudgetNonpersonnelCopyOverBoHelper periodAmount = nonpersonnelCopyOverLineItemHelper.getPeriodAmount(i);
                     agencyRequestAmountTotalArr[i] = agencyRequestAmountTotalArr[i].add(periodAmount.getDisplayAgencyRequestAmount());
-                    budgetUniversityCostShareAmountTotalArr[i] = budgetUniversityCostShareAmountTotalArr[i].add(periodAmount.getDisplayBudgetUniversityCostShareAmount());
+                    budgetInstitutionCostShareAmountTotalArr[i] = budgetInstitutionCostShareAmountTotalArr[i].add(periodAmount.getDisplayBudgetInstitutionCostShareAmount());
                     budgetThirdPartyCostShareAmountTotalArr[i] = budgetThirdPartyCostShareAmountTotalArr[i].add(periodAmount.getDisplayBudgetThirdPartyCostShareAmount());
                 }
             }
 
             // convert array to the list
             agencyRequestAmountTotal = Arrays.asList(agencyRequestAmountTotalArr);
-            budgetUniversityCostShareAmountTotal = Arrays.asList(budgetUniversityCostShareAmountTotalArr);
+            budgetInstitutionCostShareAmountTotal = Arrays.asList(budgetInstitutionCostShareAmountTotalArr);
             budgetThirdPartyCostShareAmountTotal = Arrays.asList(budgetThirdPartyCostShareAmountTotalArr);
         }
 
@@ -339,21 +339,21 @@ public class BudgetNonpersonnelCopyOverFormHelper {
         }
 
         /**
-         * Gets the budgetUniversityCostShareAmountTotal attribute.
+         * Gets the budgetInstitutionCostShareAmountTotal attribute.
          * 
-         * @return Returns the budgetUniversityCostShareAmountTotal.
+         * @return Returns the budgetInstitutionCostShareAmountTotal.
          */
-        public List getBudgetUniversityCostShareAmountTotal() {
-            return budgetUniversityCostShareAmountTotal;
+        public List getBudgetInstitutionCostShareAmountTotal() {
+            return budgetInstitutionCostShareAmountTotal;
         }
 
         /**
-         * Sets the budgetUniversityCostShareAmountTotal attribute value.
+         * Sets the budgetInstitutionCostShareAmountTotal attribute value.
          * 
-         * @param budgetUniversityCostShareAmountTotal The budgetUniversityCostShareAmountTotal to set.
+         * @param budgetInstitutionCostShareAmountTotal The budgetInstitutionCostShareAmountTotal to set.
          */
-        public void setBudgetUniversityCostShareAmountTotal(List budgetUniversityCostShareAmountTotal) {
-            this.budgetUniversityCostShareAmountTotal = budgetUniversityCostShareAmountTotal;
+        public void setBudgetInstitutionCostShareAmountTotal(List budgetInstitutionCostShareAmountTotal) {
+            this.budgetInstitutionCostShareAmountTotal = budgetInstitutionCostShareAmountTotal;
         }
 
         /**
@@ -472,7 +472,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
 
                             // update indicators
                             budgetNonpersonnel.setAgencyCopyIndicator(budgetNonpersonnelCopyOverBoHelper.getAgencyCopyIndicator());
-                            budgetNonpersonnel.setBudgetUniversityCostShareCopyIndicator(budgetNonpersonnelCopyOverBoHelper.getBudgetUniversityCostShareCopyIndicator());
+                            budgetNonpersonnel.setBudgetInstitutionCostShareCopyIndicator(budgetNonpersonnelCopyOverBoHelper.getBudgetInstitutionCostShareCopyIndicator());
                             budgetNonpersonnel.setBudgetThirdPartyCostShareCopyIndicator(budgetNonpersonnelCopyOverBoHelper.getBudgetThirdPartyCostShareCopyIndicator());
 
                             budgetNonpersonnel.setCopyToFuturePeriods(false); // nothing to do with copy over, just make sure the
@@ -487,11 +487,11 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                             else {
                                 budgetNonpersonnel.setAgencyRequestAmount(budgetNonpersonnelCopyOverBoHelper.getAgencyRequestAmount());
                             }
-                            if (budgetNonpersonnelCopyOverBoHelper.getBudgetUniversityCostShareCopyIndicator()) {
-                                budgetNonpersonnel.setBudgetUniversityCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInflatedUniversityCostShareAmount());
+                            if (budgetNonpersonnelCopyOverBoHelper.getBudgetInstitutionCostShareCopyIndicator()) {
+                                budgetNonpersonnel.setBudgetInstitutionCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInflatedInstitutionCostShareAmount());
                             }
                             else {
-                                budgetNonpersonnel.setBudgetUniversityCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetUniversityCostShareAmount());
+                                budgetNonpersonnel.setBudgetInstitutionCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInstitutionCostShareAmount());
                             }
                             if (budgetNonpersonnelCopyOverBoHelper.getBudgetThirdPartyCostShareCopyIndicator()) {
                                 budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInflatedThirdPartyCostShareAmount());
@@ -524,8 +524,8 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                     if (budgetNonpersonnelCopyOverBoHelper.getAgencyCopyIndicator()) {
                         originItem.setAgencyCopyIndicator(true);
                     }
-                    if (budgetNonpersonnelCopyOverBoHelper.getBudgetUniversityCostShareCopyIndicator()) {
-                        originItem.setBudgetUniversityCostShareCopyIndicator(true);
+                    if (budgetNonpersonnelCopyOverBoHelper.getBudgetInstitutionCostShareCopyIndicator()) {
+                        originItem.setBudgetInstitutionCostShareCopyIndicator(true);
                     }
                     if (budgetNonpersonnelCopyOverBoHelper.getBudgetThirdPartyCostShareCopyIndicator()) {
                         originItem.setBudgetThirdPartyCostShareCopyIndicator(true);
@@ -607,7 +607,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                 for (int i = 0; i < periodAmounts.size(); i++) {
                     BudgetNonpersonnelCopyOverBoHelper budgetNonpersonnelCopyOverBoHelper = (BudgetNonpersonnelCopyOverBoHelper) periodAmounts.get(i);
 
-                    if (budgetNonpersonnelCopyOverBoHelper.getAgencyCopyIndicator() || budgetNonpersonnelCopyOverBoHelper.getBudgetUniversityCostShareCopyIndicator() || budgetNonpersonnelCopyOverBoHelper.getBudgetThirdPartyCostShareCopyIndicator()) {
+                    if (budgetNonpersonnelCopyOverBoHelper.getAgencyCopyIndicator() || budgetNonpersonnelCopyOverBoHelper.getBudgetInstitutionCostShareCopyIndicator() || budgetNonpersonnelCopyOverBoHelper.getBudgetThirdPartyCostShareCopyIndicator()) {
                         return true;
                     }
                 }

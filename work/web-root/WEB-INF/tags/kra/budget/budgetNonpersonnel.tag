@@ -39,7 +39,7 @@
 </div>
 
   <kra-b:budgetDetailSelection includeSummary="false" />
-  <html:hidden property="document.budget.universityCostShareIndicator" />
+  <html:hidden property="document.budget.institutionCostShareIndicator" />
   <html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />
   <html:hidden property="document.nonpersonnelNextSequenceNumber" />
   
@@ -132,7 +132,7 @@
                     <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].agencyRequestAmount" attributeEntry="${budgetNonpersonnel.agencyRequestAmount}" />
                   </div></td>
                   <td class="infoline" align="right">
-                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetUniversityCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetUniversityCostShareAmount}" disabled="${! KualiForm.document.budget.universityCostShareIndicator}" />
+                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetInstitutionCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetInstitutionCostShareAmount}" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" />
                     </div></td>
                   <td class="infoline" align="right">
                     <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}" />
@@ -162,14 +162,14 @@
                         <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelSequenceNumber" />
 									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginSequenceNumber" />
 									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyCopyIndicator" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetUniversityCostShareCopyIndicator" />
+									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareCopyIndicator" />
 									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareCopyIndicator" />
 									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginAgencyAmount" />
-									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginUniversityCostShareAmount" />
+									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginInstitutionCostShareAmount" />
 									      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginThirdPartyCostShareAmount" />
   					            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmountBackup" />
                         <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmountBackup" />
-                        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetUniversityCostShareAmountBackup" />
+                        <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmountBackup" />
                         <html:hidden property="document.budget.nonpersonnelItem[${ctr}].versionNumber" />
                         <html:hidden property="document.budget.nonpersonnelItem[${ctr}].objectId" />
 
@@ -221,7 +221,7 @@
                             <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmount" attributeEntry="${budgetNonpersonnel.agencyRequestAmount}" readOnly="${viewOnly}" />
                           </div></td>
                           <td class="datacell">
-                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetUniversityCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetUniversityCostShareAmount}" disabled="${! KualiForm.document.budget.universityCostShareIndicator}"  readOnly="${viewOnly}"/>
+                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetInstitutionCostShareAmount}" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}"  readOnly="${viewOnly}"/>
                           </div></td>
                           <td class="datacell">
                             <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}"  readOnly="${viewOnly}"/>
@@ -271,13 +271,13 @@
 	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelDescription" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmount" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetUniversityCostShareAmount" />
+      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmount" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginSequenceNumber" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].agencyCopyIndicator" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetUniversityCostShareCopyIndicator" />
+      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareCopyIndicator" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareCopyIndicator" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginAgencyAmount" />
-      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginUniversityCostShareAmount" />
+      <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginInstitutionCostShareAmount" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetOriginThirdPartyCostShareAmount" />
       <html:hidden property="document.budget.nonpersonnelItem[${ctr}].versionNumber" />
       <c:if test="${viewOnly}">

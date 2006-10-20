@@ -31,7 +31,7 @@
 
             <attributeReference name="budgetPeriodSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetPeriod" sourceAttributeName="budgetPeriodSequenceNumber" />
 
-            <attributeReference name="universityAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="appointmentTypeCode">
+            <attributeReference name="institutionAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="appointmentTypeCode">
                 <control>
                     <hidden />
                 </control>
@@ -55,13 +55,13 @@
                 </control>
             </attributeReference>
 
-            <attributeReference name="universityCostShareRequestTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="institutionCostShareRequestTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <control>
                     <hidden />
                 </control>
             </attributeReference>
 
-            <attributeReference name="universityCostShareFringeBenefitTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="institutionCostShareFringeBenefitTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <control>
                     <hidden />
                 </control>
@@ -84,8 +84,8 @@
                 <description>The percent of effort that will determine the salary amount being requested of the Agency.</description>
             </attribute>
 
-            <attribute name="universityCostSharePercentEffortAmount">
-                <label>University Cost Share Percent Effort</label>
+            <attribute name="institutionCostSharePercentEffortAmount">
+                <label>Institution Cost Share Percent Effort</label>
                 <shortLabel>Univ Cost Share % Effort</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -97,7 +97,7 @@
                     <text size="2" />
                 </control>
 
-                <summary>University Cost Share Percent Effort</summary>
+                <summary>Institution Cost Share Percent Effort</summary>
                 <description>The percent of effort that will determine the salary amount being Cost Shared.</description>
             </attribute>
 
@@ -135,7 +135,7 @@
                 <description>The number of hours in the period that will be paid for by the agency.</description>
             </attribute>
 
-            <attribute name="userUniversityHours">
+            <attribute name="userInstitutionHours">
                 <label>Hours Per Period</label>
                 <shortLabel>Hours/Period</shortLabel>
 
@@ -188,19 +188,19 @@
                 </control>
             </attributeReference>
 
-            <attributeReference name="universityHealthInsuranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="institutionHealthInsuranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <control>
                     <text size="8" />
                 </control>
             </attributeReference>
 
-            <attributeReference name="universityRequestedFeesAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="institutionRequestedFeesAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <control>
                     <text size="8" />
                 </control>
             </attributeReference>
 
-            <attributeReference name="universitySalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="institutionSalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <control>
                     <text size="8" />
                 </control>
@@ -236,7 +236,7 @@
                 <description>The percent of FTE.</description>
             </attribute>
 
-            <attribute name="universityFullTimeEquivalentPercent">
+            <attribute name="institutionFullTimeEquivalentPercent">
                 <label>FTE</label>
                 <shortLabel>FTE</shortLabel>
 
@@ -249,7 +249,7 @@
                     <text size="4" />
                 </control>
 
-                <summary>University Cost Share FTE</summary>
+                <summary>Institution Cost Share FTE</summary>
                 <description>The percent of FTE.</description>
             </attribute>
 

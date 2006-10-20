@@ -203,9 +203,9 @@ public class BudgetOverviewFormHelper {
                         // check if this is part of the
                         // 1. Current Period (if 0 it's summary, take it all)
                         // 2. Has positive %-effort
-                        // 2.1. Or has an hourly rate and # of hours (either agency or university)
+                        // 2.1. Or has an hourly rate and # of hours (either agency or institution)
                         // Ignore person if any condition not met.
-                        if ((currentPeriodNumber.equals(KraConstants.PERIOD_SUMMATION) || userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber().equals(currentPeriodNumber)) && (userAppointmentTaskPeriod.getAgencyPercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent().isNonZero() || userAppointmentTaskPeriod.getUniversityFullTimeEquivalentPercent().isNonZero() || (userAppointmentTaskPeriod.getUserHourlyRate().isNonZero() && (userAppointmentTaskPeriod.getUserAgencyHours().isNonZero() || userAppointmentTaskPeriod.getUserUniversityHours().isNonZero())))) {
+                        if ((currentPeriodNumber.equals(KraConstants.PERIOD_SUMMATION) || userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber().equals(currentPeriodNumber)) && (userAppointmentTaskPeriod.getAgencyPercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount().isNonZero() || userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent().isNonZero() || userAppointmentTaskPeriod.getInstitutionFullTimeEquivalentPercent().isNonZero() || (userAppointmentTaskPeriod.getUserHourlyRate().isNonZero() && (userAppointmentTaskPeriod.getUserAgencyHours().isNonZero() || userAppointmentTaskPeriod.getUserInstitutionHours().isNonZero())))) {
                             boolean itemAdded = false;
                             String budgetUserLabel = "";
 
@@ -214,7 +214,7 @@ public class BudgetOverviewFormHelper {
                                 // check if already exists (uuid & role equals) and do aggregation if it does
                                 for (Iterator lineItemsIter = budgetOverviewPersonnelHelpers.iterator(); !itemAdded && lineItemsIter.hasNext();) {
                                     BudgetOverviewPersonnelHelper budgetOverviewBoHelper = (BudgetOverviewPersonnelHelper) lineItemsIter.next();
-                                    if (budgetOverviewBoHelper.getBudgetUserSequenceNumber().equals(userAppointmentTaskPeriod.getBudgetUserSequenceNumber()) && budgetOverviewBoHelper.getUniversityAppointmentTypeCode().equals(userAppointmentTaskPeriod.getUniversityAppointmentTypeCode())) {
+                                    if (budgetOverviewBoHelper.getBudgetUserSequenceNumber().equals(userAppointmentTaskPeriod.getBudgetUserSequenceNumber()) && budgetOverviewBoHelper.getInstitutionAppointmentTypeCode().equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode())) {
                                         budgetOverviewBoHelper.aggregation(userAppointmentTaskPeriod);
                                         itemAdded = true;
                                         budgetUserLabel = budgetOverviewBoHelper.getPersonName();
@@ -240,16 +240,16 @@ public class BudgetOverviewFormHelper {
                             // is already twice done in the inner class. Unfortunatly there it's different checks and by the time
                             // the code reaches this place it's either an aggregation or an individual amount. Aggregation can't be
                             // used at this point. Thus the check is re-done. :(
-                            if (GRADUATE_RA_APPOINTMENTS.contains(userAppointmentTaskPeriod.getUniversityAppointmentTypeCode())) {
+                            if (GRADUATE_RA_APPOINTMENTS.contains(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode())) {
                                 this.personnelSalaryAgencyRequest = this.personnelSalaryAgencyRequest.add(userAppointmentTaskPeriod.getAgencySalaryAmount());
-                                this.personnelSalaryInstitutionCostShare = this.personnelSalaryInstitutionCostShare.add(userAppointmentTaskPeriod.getUniversitySalaryAmount());
+                                this.personnelSalaryInstitutionCostShare = this.personnelSalaryInstitutionCostShare.add(userAppointmentTaskPeriod.getInstitutionSalaryAmount());
                                 this.personnelFringeBenefitsAgencyRequest = this.personnelFringeBenefitsAgencyRequest.add(userAppointmentTaskPeriod.getAgencyHealthInsuranceAmount());
-                                this.personnelFringeBenefitsInstitutionCostShare = this.personnelFringeBenefitsInstitutionCostShare.add(userAppointmentTaskPeriod.getUniversityHealthInsuranceAmount());
+                                this.personnelFringeBenefitsInstitutionCostShare = this.personnelFringeBenefitsInstitutionCostShare.add(userAppointmentTaskPeriod.getInstitutionHealthInsuranceAmount());
 
                                 // If it is a GA, we need to add Nonpersonnel Fee Remission (this is done always, even if the values
                                 // are 0).
                                 String budgetNonpersonnelDescription = String.format(this.GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION, budgetUserLabel, userAppointmentTaskPeriod.getUserCreditHoursNumber().doubleValue(), userAppointmentTaskPeriod.getUserCreditHourAmount().doubleValue(), userAppointmentTaskPeriod.getUserMiscellaneousFeeAmount().intValue());
-                                BudgetNonpersonnel budgetNonpersonnel = new BudgetNonpersonnel(userAppointmentTaskPeriod.getBudgetTaskSequenceNumber(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber(), this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE, this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE, budgetNonpersonnelDescription, userAppointmentTaskPeriod.getAgencyRequestedFeesAmount(), userAppointmentTaskPeriod.getUniversityRequestedFeesAmount());
+                                BudgetNonpersonnel budgetNonpersonnel = new BudgetNonpersonnel(userAppointmentTaskPeriod.getBudgetTaskSequenceNumber(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber(), this.GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE, this.GRADUATE_ASSISTANT_NONPERSONNEL_SUBCATEGORY_CODE, budgetNonpersonnelDescription, userAppointmentTaskPeriod.getAgencyRequestedFeesAmount(), userAppointmentTaskPeriod.getInstitutionRequestedFeesAmount());
                                 budgetNonpersonnel.refreshReferenceObject("nonpersonnelObjectCode");
                                 budgetNonpersonnel.getNonpersonnelObjectCode().refreshReferenceObject("nonpersonnelSubCategory");
 
@@ -257,9 +257,9 @@ public class BudgetOverviewFormHelper {
                             }
                             else {
                                 this.personnelSalaryAgencyRequest = this.personnelSalaryAgencyRequest.add(userAppointmentTaskPeriod.getAgencyRequestTotalAmount());
-                                this.personnelSalaryInstitutionCostShare = this.personnelSalaryInstitutionCostShare.add(userAppointmentTaskPeriod.getUniversityCostShareRequestTotalAmount());
+                                this.personnelSalaryInstitutionCostShare = this.personnelSalaryInstitutionCostShare.add(userAppointmentTaskPeriod.getInstitutionCostShareRequestTotalAmount());
                                 this.personnelFringeBenefitsAgencyRequest = this.personnelFringeBenefitsAgencyRequest.add(userAppointmentTaskPeriod.getAgencyFringeBenefitTotalAmount());
-                                this.personnelFringeBenefitsInstitutionCostShare = this.personnelFringeBenefitsInstitutionCostShare.add(userAppointmentTaskPeriod.getUniversityCostShareFringeBenefitTotalAmount());
+                                this.personnelFringeBenefitsInstitutionCostShare = this.personnelFringeBenefitsInstitutionCostShare.add(userAppointmentTaskPeriod.getInstitutionCostShareFringeBenefitTotalAmount());
                             }
                         }
                     }
@@ -461,8 +461,8 @@ public class BudgetOverviewFormHelper {
     /**
      * @param personnelFringeBenefitsInstitutionCostShare The personnelFringeBenefitsInstitutionCostShare to set.
      */
-    public void setPersonnelFringeBenefitsInstitutionCostShare(KualiInteger universityCostShareFringeBenefitTotalAmount) {
-        this.personnelFringeBenefitsInstitutionCostShare = universityCostShareFringeBenefitTotalAmount;
+    public void setPersonnelFringeBenefitsInstitutionCostShare(KualiInteger institutionCostShareFringeBenefitTotalAmount) {
+        this.personnelFringeBenefitsInstitutionCostShare = institutionCostShareFringeBenefitTotalAmount;
     }
 
     /**
@@ -475,8 +475,8 @@ public class BudgetOverviewFormHelper {
     /**
      * @param personnelSalaryInstitutionCostShare The personnelSalaryInstitutionCostShare to set.
      */
-    public void setPersonnelSalaryInstitutionCostShare(KualiInteger universityCostShareRequestTotalAmount) {
-        this.personnelSalaryInstitutionCostShare = universityCostShareRequestTotalAmount;
+    public void setPersonnelSalaryInstitutionCostShare(KualiInteger institutionCostShareRequestTotalAmount) {
+        this.personnelSalaryInstitutionCostShare = institutionCostShareRequestTotalAmount;
     }
 
     /**
@@ -612,7 +612,7 @@ public class BudgetOverviewFormHelper {
     public class BudgetOverviewPersonnelHelper {
         // Following two are used for unique identifier (for aggregation), not used on display
         private Integer budgetUserSequenceNumber;
-        private String universityAppointmentTypeCode;
+        private String institutionAppointmentTypeCode;
 
         // A convenient helper to properly display hrs. for hourly employees.
         private boolean hourlyAppointmentType = false;
@@ -625,13 +625,13 @@ public class BudgetOverviewFormHelper {
         private KualiInteger agencyPercentEffortAmount;
         private KualiInteger userAgencyHours;
         private KualiInteger agencyRequestTotalAmount;
-        private KualiInteger universityCostSharePercentEffortAmount;
-        private KualiInteger userUniversityHours;
-        private KualiInteger universityCostShareRequestTotalAmount;
+        private KualiInteger institutionCostSharePercentEffortAmount;
+        private KualiInteger userInstitutionHours;
+        private KualiInteger institutionCostShareRequestTotalAmount;
         private KualiDecimal contractsAndGrantsFringeRateAmount; // from budgetFringeRate
         private KualiInteger agencyFringeBenefitTotalAmount;
-        private KualiDecimal universityCostShareFringeRateAmount; // from budgetFringeRate
-        private KualiInteger universityCostShareFringeBenefitTotalAmount;
+        private KualiDecimal institutionCostShareFringeRateAmount; // from budgetFringeRate
+        private KualiInteger institutionCostShareFringeBenefitTotalAmount;
 
         // Not used on overview interface but useful for BudgetXml.
         private boolean personProjectDirectorIndicator;
@@ -648,7 +648,7 @@ public class BudgetOverviewFormHelper {
          */
         public BudgetOverviewPersonnelHelper(String personName, String role, boolean isPersonProjectDirectorIndicator, UserAppointmentTaskPeriod userAppointmentTaskPeriod) {
             this.budgetUserSequenceNumber = userAppointmentTaskPeriod.getBudgetUserSequenceNumber();
-            this.universityAppointmentTypeCode = userAppointmentTaskPeriod.getUniversityAppointmentTypeCode();
+            this.institutionAppointmentTypeCode = userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode();
 
             this.personName = personName;
             this.role = role;
@@ -658,29 +658,29 @@ public class BudgetOverviewFormHelper {
             this.personWeeksAmount = userAppointmentTaskPeriod.getPersonWeeksAmount();
 
             // Following is for proper display of "hrs." on hourly appointments.
-            if (HOURLY_APPOINTMENTS.contains(universityAppointmentTypeCode)) {
+            if (HOURLY_APPOINTMENTS.contains(institutionAppointmentTypeCode)) {
                 // Hourly Appointment
                 this.hourlyAppointmentType = true;
                 
                 this.userBudgetPeriodSalaryAmount = ObjectUtils.toString(userAppointmentTaskPeriod.getUserHourlyRate());
                 
                 this.userAgencyHours = userAppointmentTaskPeriod.getUserAgencyHours();
-                this.userUniversityHours = userAppointmentTaskPeriod.getUserUniversityHours();
+                this.userInstitutionHours = userAppointmentTaskPeriod.getUserInstitutionHours();
             }
-            else if (GRADUATE_RA_APPOINTMENTS.contains(universityAppointmentTypeCode)) {
+            else if (GRADUATE_RA_APPOINTMENTS.contains(institutionAppointmentTypeCode)) {
                 // Graduate Research Assistant
                 this.userBudgetPeriodSalaryAmount = ObjectUtils.toString(userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount());
                 
                 this.agencyPercentEffortAmount = userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent();
-                this.universityCostSharePercentEffortAmount = userAppointmentTaskPeriod.getUniversityFullTimeEquivalentPercent();
+                this.institutionCostSharePercentEffortAmount = userAppointmentTaskPeriod.getInstitutionFullTimeEquivalentPercent();
 
                 // Rates are not to exceed 100%. This check is specifically present for GAs because GAs can have a %-effort
                 // above 100%.
                 if (this.agencyPercentEffortAmount.isGreaterEqual(KraConstants.PERSONNEL_MAX_PERCENTAGE)) {
                     this.agencyPercentEffortAmount = KraConstants.PERSONNEL_MAX_PERCENTAGE;
                 }
-                if (this.universityCostSharePercentEffortAmount.isGreaterEqual(KraConstants.PERSONNEL_MAX_PERCENTAGE)) {
-                    this.universityCostSharePercentEffortAmount = KraConstants.PERSONNEL_MAX_PERCENTAGE;
+                if (this.institutionCostSharePercentEffortAmount.isGreaterEqual(KraConstants.PERSONNEL_MAX_PERCENTAGE)) {
+                    this.institutionCostSharePercentEffortAmount = KraConstants.PERSONNEL_MAX_PERCENTAGE;
                 }
             }
             else {
@@ -688,29 +688,29 @@ public class BudgetOverviewFormHelper {
                 this.userBudgetPeriodSalaryAmount = ObjectUtils.toString(userAppointmentTaskPeriod.getUserBudgetPeriodSalaryAmount());
                 
                 this.agencyPercentEffortAmount = userAppointmentTaskPeriod.getAgencyPercentEffortAmount();
-                this.universityCostSharePercentEffortAmount = userAppointmentTaskPeriod.getUniversityCostSharePercentEffortAmount();
+                this.institutionCostSharePercentEffortAmount = userAppointmentTaskPeriod.getInstitutionCostSharePercentEffortAmount();
             }
 
             // Following is for proper display of Graduate Research Assistants Appointments.
-            if (GRADUATE_RA_APPOINTMENTS.contains(universityAppointmentTypeCode)) {
+            if (GRADUATE_RA_APPOINTMENTS.contains(institutionAppointmentTypeCode)) {
                 this.agencyRequestTotalAmount = userAppointmentTaskPeriod.getAgencySalaryAmount();
-                this.universityCostShareRequestTotalAmount = userAppointmentTaskPeriod.getUniversitySalaryAmount();
+                this.institutionCostShareRequestTotalAmount = userAppointmentTaskPeriod.getInstitutionSalaryAmount();
                 this.agencyFringeBenefitTotalAmount = userAppointmentTaskPeriod.getAgencyHealthInsuranceAmount();
-                this.universityCostShareFringeBenefitTotalAmount = userAppointmentTaskPeriod.getUniversityHealthInsuranceAmount();
+                this.institutionCostShareFringeBenefitTotalAmount = userAppointmentTaskPeriod.getInstitutionHealthInsuranceAmount();
 
                 // %-effort for Fringe Rate are always 0 for GAs
                 this.contractsAndGrantsFringeRateAmount = new KualiDecimal(0);
-                this.universityCostShareFringeRateAmount = new KualiDecimal(0);
+                this.institutionCostShareFringeRateAmount = new KualiDecimal(0);
             }
             else {
                 this.agencyRequestTotalAmount = userAppointmentTaskPeriod.getAgencyRequestTotalAmount();
-                this.universityCostShareRequestTotalAmount = userAppointmentTaskPeriod.getUniversityCostShareRequestTotalAmount();
+                this.institutionCostShareRequestTotalAmount = userAppointmentTaskPeriod.getInstitutionCostShareRequestTotalAmount();
                 this.agencyFringeBenefitTotalAmount = userAppointmentTaskPeriod.getAgencyFringeBenefitTotalAmount();
-                this.universityCostShareFringeBenefitTotalAmount = userAppointmentTaskPeriod.getUniversityCostShareFringeBenefitTotalAmount();
+                this.institutionCostShareFringeBenefitTotalAmount = userAppointmentTaskPeriod.getInstitutionCostShareFringeBenefitTotalAmount();
 
                 // %-effort for Fringe Rate
                 this.contractsAndGrantsFringeRateAmount = userAppointmentTaskPeriod.getBudgetFringeRate().getContractsAndGrantsFringeRateAmount();
-                this.universityCostShareFringeRateAmount = userAppointmentTaskPeriod.getBudgetFringeRate().getUniversityCostShareFringeRateAmount();
+                this.institutionCostShareFringeRateAmount = userAppointmentTaskPeriod.getBudgetFringeRate().getInstitutionCostShareFringeRateAmount();
             }
         }
 
@@ -719,36 +719,36 @@ public class BudgetOverviewFormHelper {
          * percentages, hours, and amounts. It caps percentage at 100%. Fringe rate percentages are not touched.
          * 
          * @param userAppointmentTaskPeriod to be added into the current item. It is assumed that item passed in have equal
-         *        budgetUserSequenceNumber and universityAppointmentTypeCode.
+         *        budgetUserSequenceNumber and institutionAppointmentTypeCode.
          */
         public void aggregation(UserAppointmentTaskPeriod userAppointmentTaskPeriod) {
-            if (!this.getBudgetUserSequenceNumber().equals(userAppointmentTaskPeriod.getBudgetUserSequenceNumber()) && !this.getUniversityAppointmentTypeCode().equals(userAppointmentTaskPeriod.getUniversityAppointmentTypeCode())) {
-                throw new IllegalArgumentException("BudgetUserSequenceNumber or UniversityAppointmentTypeCode does not match for aggregation.");
+            if (!this.getBudgetUserSequenceNumber().equals(userAppointmentTaskPeriod.getBudgetUserSequenceNumber()) && !this.getInstitutionAppointmentTypeCode().equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode())) {
+                throw new IllegalArgumentException("BudgetUserSequenceNumber or InstitutionAppointmentTypeCode does not match for aggregation.");
             }
 
             // Following is for proper display of "hrs." on hourly appointments.
             if (this.hourlyAppointmentType) {
                 this.userAgencyHours = this.userAgencyHours.add(userAppointmentTaskPeriod.getUserAgencyHours());
-                this.userUniversityHours = this.userUniversityHours.add(userAppointmentTaskPeriod.getUserUniversityHours());
+                this.userInstitutionHours = this.userInstitutionHours.add(userAppointmentTaskPeriod.getUserInstitutionHours());
             }
             else {
                 // %-effort does not display on summaries per KULERA-514.
                 this.agencyPercentEffortAmount = null;
-                this.universityCostSharePercentEffortAmount = null;
+                this.institutionCostSharePercentEffortAmount = null;
             }
 
             // Following is for proper display of Graduate Research Assistants Appointments.
-            if (GRADUATE_RA_APPOINTMENTS.contains(universityAppointmentTypeCode)) {
+            if (GRADUATE_RA_APPOINTMENTS.contains(institutionAppointmentTypeCode)) {
                 this.agencyRequestTotalAmount = this.agencyRequestTotalAmount.add(userAppointmentTaskPeriod.getAgencySalaryAmount());
-                this.universityCostShareRequestTotalAmount = this.universityCostShareRequestTotalAmount.add(userAppointmentTaskPeriod.getUniversitySalaryAmount());
+                this.institutionCostShareRequestTotalAmount = this.institutionCostShareRequestTotalAmount.add(userAppointmentTaskPeriod.getInstitutionSalaryAmount());
                 this.agencyFringeBenefitTotalAmount = this.agencyFringeBenefitTotalAmount.add(userAppointmentTaskPeriod.getAgencyHealthInsuranceAmount());
-                this.universityCostShareFringeBenefitTotalAmount = this.universityCostShareFringeBenefitTotalAmount.add(userAppointmentTaskPeriod.getUniversityHealthInsuranceAmount());
+                this.institutionCostShareFringeBenefitTotalAmount = this.institutionCostShareFringeBenefitTotalAmount.add(userAppointmentTaskPeriod.getInstitutionHealthInsuranceAmount());
             }
             else {
                 this.agencyRequestTotalAmount = this.agencyRequestTotalAmount.add(userAppointmentTaskPeriod.getAgencyRequestTotalAmount());
-                this.universityCostShareRequestTotalAmount = this.universityCostShareRequestTotalAmount.add(userAppointmentTaskPeriod.getUniversityCostShareRequestTotalAmount());
+                this.institutionCostShareRequestTotalAmount = this.institutionCostShareRequestTotalAmount.add(userAppointmentTaskPeriod.getInstitutionCostShareRequestTotalAmount());
                 this.agencyFringeBenefitTotalAmount = this.agencyFringeBenefitTotalAmount.add(userAppointmentTaskPeriod.getAgencyFringeBenefitTotalAmount());
-                this.universityCostShareFringeBenefitTotalAmount = this.universityCostShareFringeBenefitTotalAmount.add(userAppointmentTaskPeriod.getUniversityCostShareFringeBenefitTotalAmount());
+                this.institutionCostShareFringeBenefitTotalAmount = this.institutionCostShareFringeBenefitTotalAmount.add(userAppointmentTaskPeriod.getInstitutionCostShareFringeBenefitTotalAmount());
             }
 
             // % effort for fringe rates are not affected by aggregation.
@@ -867,73 +867,73 @@ public class BudgetOverviewFormHelper {
         }
 
         /**
-         * @return Returns the universityAppointmentTypeCode.
+         * @return Returns the institutionAppointmentTypeCode.
          */
-        public String getUniversityAppointmentTypeCode() {
-            return universityAppointmentTypeCode;
+        public String getInstitutionAppointmentTypeCode() {
+            return institutionAppointmentTypeCode;
         }
 
         /**
-         * @param universityAppointmentTypeCode The universityAppointmentTypeCode to set.
+         * @param institutionAppointmentTypeCode The institutionAppointmentTypeCode to set.
          */
-        public void setUniversityAppointmentTypeCode(String universityAppointmentTypeCode) {
-            this.universityAppointmentTypeCode = universityAppointmentTypeCode;
+        public void setInstitutionAppointmentTypeCode(String institutionAppointmentTypeCode) {
+            this.institutionAppointmentTypeCode = institutionAppointmentTypeCode;
         }
 
         /**
-         * @return Returns the universityCostShareFringeBenefitTotalAmount.
+         * @return Returns the institutionCostShareFringeBenefitTotalAmount.
          */
-        public KualiInteger getUniversityCostShareFringeBenefitTotalAmount() {
-            return universityCostShareFringeBenefitTotalAmount;
+        public KualiInteger getInstitutionCostShareFringeBenefitTotalAmount() {
+            return institutionCostShareFringeBenefitTotalAmount;
         }
 
         /**
-         * @param universityCostShareFringeBenefitTotalAmount The universityCostShareFringeBenefitTotalAmount to set.
+         * @param institutionCostShareFringeBenefitTotalAmount The institutionCostShareFringeBenefitTotalAmount to set.
          */
-        public void setUniversityCostShareFringeBenefitTotalAmount(KualiInteger universityCostShareFringeBenefitTotalAmount) {
-            this.universityCostShareFringeBenefitTotalAmount = universityCostShareFringeBenefitTotalAmount;
+        public void setInstitutionCostShareFringeBenefitTotalAmount(KualiInteger institutionCostShareFringeBenefitTotalAmount) {
+            this.institutionCostShareFringeBenefitTotalAmount = institutionCostShareFringeBenefitTotalAmount;
         }
 
         /**
-         * @return Returns the universityCostShareFringeRateAmount.
+         * @return Returns the institutionCostShareFringeRateAmount.
          */
-        public KualiDecimal getUniversityCostShareFringeRateAmount() {
-            return universityCostShareFringeRateAmount;
+        public KualiDecimal getInstitutionCostShareFringeRateAmount() {
+            return institutionCostShareFringeRateAmount;
         }
 
         /**
-         * @param universityCostShareFringeRateAmount The universityCostShareFringeRateAmount to set.
+         * @param institutionCostShareFringeRateAmount The institutionCostShareFringeRateAmount to set.
          */
-        public void setUniversityCostShareFringeRateAmount(KualiDecimal universityCostShareFringeRateAmount) {
-            this.universityCostShareFringeRateAmount = universityCostShareFringeRateAmount;
+        public void setInstitutionCostShareFringeRateAmount(KualiDecimal institutionCostShareFringeRateAmount) {
+            this.institutionCostShareFringeRateAmount = institutionCostShareFringeRateAmount;
         }
 
         /**
-         * @return Returns the universityCostSharePercentEffortAmount.
+         * @return Returns the institutionCostSharePercentEffortAmount.
          */
-        public KualiInteger getUniversityCostSharePercentEffortAmount() {
-            return universityCostSharePercentEffortAmount;
+        public KualiInteger getInstitutionCostSharePercentEffortAmount() {
+            return institutionCostSharePercentEffortAmount;
         }
 
         /**
-         * @param universityCostSharePercentEffortAmount The universityCostSharePercentEffortAmount to set.
+         * @param institutionCostSharePercentEffortAmount The institutionCostSharePercentEffortAmount to set.
          */
-        public void setUniversityCostSharePercentEffortAmount(KualiInteger universityCostSharePercentEffortAmount) {
-            this.universityCostSharePercentEffortAmount = universityCostSharePercentEffortAmount;
+        public void setInstitutionCostSharePercentEffortAmount(KualiInteger institutionCostSharePercentEffortAmount) {
+            this.institutionCostSharePercentEffortAmount = institutionCostSharePercentEffortAmount;
         }
 
         /**
-         * @return Returns the universityCostShareRequestTotalAmount.
+         * @return Returns the institutionCostShareRequestTotalAmount.
          */
-        public KualiInteger getUniversityCostShareRequestTotalAmount() {
-            return universityCostShareRequestTotalAmount;
+        public KualiInteger getInstitutionCostShareRequestTotalAmount() {
+            return institutionCostShareRequestTotalAmount;
         }
 
         /**
-         * @param universityCostShareRequestTotalAmount The universityCostShareRequestTotalAmount to set.
+         * @param institutionCostShareRequestTotalAmount The institutionCostShareRequestTotalAmount to set.
          */
-        public void setUniversityCostShareRequestTotalAmount(KualiInteger universityCostShareRequestTotalAmount) {
-            this.universityCostShareRequestTotalAmount = universityCostShareRequestTotalAmount;
+        public void setInstitutionCostShareRequestTotalAmount(KualiInteger institutionCostShareRequestTotalAmount) {
+            this.institutionCostShareRequestTotalAmount = institutionCostShareRequestTotalAmount;
         }
 
         /**
@@ -951,17 +951,17 @@ public class BudgetOverviewFormHelper {
         }
 
         /**
-         * @return Returns the userUniversityHours.
+         * @return Returns the userInstitutionHours.
          */
-        public KualiInteger getUserUniversityHours() {
-            return userUniversityHours;
+        public KualiInteger getUserInstitutionHours() {
+            return userInstitutionHours;
         }
 
         /**
-         * @param userUniversityHours The userUniversityHours to set.
+         * @param userInstitutionHours The userInstitutionHours to set.
          */
-        public void setUserUniversityHours(KualiInteger userUniversityHours) {
-            this.userUniversityHours = userUniversityHours;
+        public void setUserInstitutionHours(KualiInteger userInstitutionHours) {
+            this.userInstitutionHours = userInstitutionHours;
         }
 
         /**

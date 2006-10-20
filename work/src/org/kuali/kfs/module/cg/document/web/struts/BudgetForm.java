@@ -47,7 +47,7 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetTypeCode;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 import org.kuali.module.kra.budget.document.BudgetDocument;
@@ -93,7 +93,7 @@ public class BudgetForm extends KualiDocumentFormBase {
     private BudgetNonpersonnelCopyOverFormHelper budgetNonpersonnelCopyOverFormHelper;
     private BudgetIndirectCostFormHelper budgetIndirectCostFormHelper;
 
-    private BudgetUniversityCostShare newUniversityCostShare;
+    private BudgetInstitutionCostShare newInstitutionCostShare;
     private BudgetThirdPartyCostShare newThirdPartyCostShare;
     private BudgetCostShareFormHelper budgetCostShareFormHelper;
 
@@ -130,7 +130,7 @@ public class BudgetForm extends KualiDocumentFormBase {
         newAdHocOrg = new BudgetAdHocOrg();
         initiator = new KualiUser();
         setDocument(new BudgetDocument());
-        newUniversityCostShare = new BudgetUniversityCostShare();
+        newInstitutionCostShare = new BudgetInstitutionCostShare();
         newThirdPartyCostShare = new BudgetThirdPartyCostShare();
         budgetTypeCodes = new ArrayList();
         nonpersonnelCategories = new ArrayList();
@@ -443,17 +443,17 @@ public class BudgetForm extends KualiDocumentFormBase {
     }
 
     /**
-     * @return Returns the newUniversityCostShare.
+     * @return Returns the newInstitutionCostShare.
      */
-    public BudgetUniversityCostShare getNewUniversityCostShare() {
-        return newUniversityCostShare;
+    public BudgetInstitutionCostShare getNewInstitutionCostShare() {
+        return newInstitutionCostShare;
     }
 
     /**
-     * @param newUniversityCostShareList The newUniversityCostShareList to set.
+     * @param newInstitutionCostShare The newInstitutionCostShare to set.
      */
-    public void setNewUniversityCostShare(BudgetUniversityCostShare newUniversityCostShare) {
-        this.newUniversityCostShare = newUniversityCostShare;
+    public void setNewInstitutionCostShare(BudgetInstitutionCostShare newInstitutionCostShare) {
+        this.newInstitutionCostShare = newInstitutionCostShare;
     }
 
     /**

@@ -34,7 +34,7 @@
 <kul:htmlControlAttribute property="document.budget.indirectCost.researchDocumentNumber" attributeEntry="${budgetIndirectCostAttributes.researchDocumentNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.objectId" attributeEntry="${budgetIndirectCostAttributes.objectId}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.versionNumber" attributeEntry="${budgetIndirectCostAttributes.versionNumber}"/>
-<html:hidden property="document.budget.universityCostShareIndicator"/>
+<html:hidden property="document.budget.institutionCostShareIndicator"/>
 
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.INDIRECT_COST_HEADER_TAB}" altText="page help"/>
@@ -79,9 +79,9 @@
               <th width="20%" rowspan="2" align="right"  >Indirect Cost on Institution Cost Share:</th>
 
               <td width="30%" rowspan="2"   >
-                <kul:htmlControlAttribute property="document.budget.indirectCost.budgetIndirectCostCostShareIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetIndirectCostCostShareIndicator}" disabled="${!KualiForm.document.budget.universityCostShareIndicator}" readOnly="${viewOnly}"/>
+                <kul:htmlControlAttribute property="document.budget.indirectCost.budgetIndirectCostCostShareIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetIndirectCostCostShareIndicator}" disabled="${!KualiForm.document.budget.institutionCostShareIndicator}" readOnly="${viewOnly}"/>
                 Include Indirect Cost<br/>
-                <kul:htmlControlAttribute property="document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetUnrecoveredIndirectCostIndicator}" disabled="${!KualiForm.document.budget.universityCostShareIndicator}" readOnly="${viewOnly}"/>
+                <kul:htmlControlAttribute property="document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetUnrecoveredIndirectCostIndicator}" disabled="${!KualiForm.document.budget.institutionCostShareIndicator}" readOnly="${viewOnly}"/>
                 Include Unrecovered Indirect Cost</td>
             </tr>
             <tr>

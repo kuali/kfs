@@ -345,11 +345,11 @@ public class BudgetParametersRule {
             // extract the fringe rate from the budgetFringeRate object
             KualiDecimal contractsAndGrantsFringeRate = budgetFringeRate.getContractsAndGrantsFringeRateAmount();
 
-            // extract the university cost share object from the budgetFringeRate object
-            KualiDecimal universityCostShare = budgetFringeRate.getUniversityCostShareFringeRateAmount();
+            // extract the institution cost share object from the budgetFringeRate object
+            KualiDecimal institutionCostShare = budgetFringeRate.getInstitutionCostShareFringeRateAmount();
 
             // check to see if the system value is different than the user input value
-            if ((contractsAndGrantsFringeRate != null && budgetFringeRate.getAppointmentTypeFringeRateAmount().compareTo(contractsAndGrantsFringeRate) != 0) || (universityCostShare != null && budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount().compareTo(universityCostShare) != 0)) {
+            if ((contractsAndGrantsFringeRate != null && budgetFringeRate.getAppointmentTypeFringeRateAmount().compareTo(contractsAndGrantsFringeRate) != 0) || (institutionCostShare != null && budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount().compareTo(institutionCostShare) != 0)) {
                 isRateChanged = (isRateChanged | true);
             }
         }

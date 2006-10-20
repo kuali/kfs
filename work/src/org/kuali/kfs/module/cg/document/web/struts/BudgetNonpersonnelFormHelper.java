@@ -80,8 +80,8 @@ public class BudgetNonpersonnelFormHelper {
                 budgetNonpersonnel.setAgencyCopyIndicator(false);
             }
 
-            if (budgetNonpersonnel.getBudgetUniversityCostShareAmountBackup() != null && !budgetNonpersonnel.getBudgetUniversityCostShareAmountBackup().equals(budgetNonpersonnel.getBudgetUniversityCostShareAmount())) {
-                budgetNonpersonnel.setBudgetUniversityCostShareCopyIndicator(false);
+            if (budgetNonpersonnel.getBudgetInstitutionCostShareAmountBackup() != null && !budgetNonpersonnel.getBudgetInstitutionCostShareAmountBackup().equals(budgetNonpersonnel.getBudgetInstitutionCostShareAmount())) {
+                budgetNonpersonnel.setBudgetInstitutionCostShareCopyIndicator(false);
             }
 
             if (budgetNonpersonnel.getBudgetThirdPartyCostShareAmountBackup() != null && !budgetNonpersonnel.getBudgetThirdPartyCostShareAmountBackup().equals(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount())) {
@@ -91,7 +91,7 @@ public class BudgetNonpersonnelFormHelper {
             // Set the duplicate amounts to what we currently have so that the comparision can take place again
             // next request.
             budgetNonpersonnel.setAgencyRequestAmountBackup(budgetNonpersonnel.getAgencyRequestAmount());
-            budgetNonpersonnel.setBudgetUniversityCostShareAmountBackup(budgetNonpersonnel.getBudgetUniversityCostShareAmount());
+            budgetNonpersonnel.setBudgetInstitutionCostShareAmountBackup(budgetNonpersonnel.getBudgetInstitutionCostShareAmount());
             budgetNonpersonnel.setBudgetThirdPartyCostShareAmountBackup(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount());
         }
     }
@@ -253,8 +253,8 @@ public class BudgetNonpersonnelFormHelper {
             if (nonpersonnelItem.getAgencyRequestAmount() != null)
                 agencyTotal = agencyTotal.add(nonpersonnelItem.getAgencyRequestAmount());
 
-            if (nonpersonnelItem.getBudgetUniversityCostShareAmount() != null)
-                univCostShareTotal = univCostShareTotal.add(nonpersonnelItem.getBudgetUniversityCostShareAmount());
+            if (nonpersonnelItem.getBudgetInstitutionCostShareAmount() != null)
+                univCostShareTotal = univCostShareTotal.add(nonpersonnelItem.getBudgetInstitutionCostShareAmount());
 
             if (nonpersonnelItem.getBudgetThirdPartyCostShareAmount() != null)
                 thirdPartyCostShareTotal = thirdPartyCostShareTotal.add(nonpersonnelItem.getBudgetThirdPartyCostShareAmount());

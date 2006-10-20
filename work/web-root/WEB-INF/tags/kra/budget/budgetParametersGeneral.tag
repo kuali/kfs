@@ -48,7 +48,7 @@
 <kul:tab 
 	tabTitle="General" 
 	defaultOpen="true" 
-	tabErrorKey="document.budget.parameters*,document.budget.budgetAgency*,document.budget.budgetProject*,document.budget.university*,document.budget.electronic*,document.budget.federal*,document.budget.modular*,document.budget.budgetPersonnelInflationRate,document.budget.budgetNonpersonnelInflationRate" 
+	tabErrorKey="document.budget.parameters*,document.budget.budgetAgency*,document.budget.budgetProject*,document.budget.institution*,document.budget.electronic*,document.budget.federal*,document.budget.modular*,document.budget.budgetPersonnelInflationRate,document.budget.budgetNonpersonnelInflationRate" 
 	auditCluster="parametersAuditErrors" 
 	tabAuditKey="document.budget.audit.parameters.pd*">
 
@@ -120,9 +120,9 @@
   <tr>
     <th scope="row" ><div align="right">${budgetAttributes.electronicResearchAdministrationGrantNumber.label}:</div></th>
     <td><kul:htmlControlAttribute property="document.budget.electronicResearchAdministrationGrantNumber" attributeEntry="${budgetAttributes.electronicResearchAdministrationGrantNumber}" readOnly="${viewOnly}" tabindexOverride="5040" /></td>
-    <th scope="row" ><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.universityCostShareIndicator}" labelFor="document.budget.universityCostShareIndicator" skipHelpUrl="true" /></div></th>
-    <td><kul:htmlControlAttribute property="document.budget.universityCostShareIndicator" attributeEntry="${budgetAttributes.universityCostShareIndicator}" readOnly="${viewOnly}" tabindexOverride="5120"/>
-      <label for="document.budget.universityCostShareIndicator"> include</label></td>
+    <th scope="row" ><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.institutionCostShareIndicator}" labelFor="document.budget.institutionCostShareIndicator" skipHelpUrl="true" /></div></th>
+    <td><kul:htmlControlAttribute property="document.budget.institutionCostShareIndicator" attributeEntry="${budgetAttributes.institutionCostShareIndicator}" readOnly="${viewOnly}" tabindexOverride="5120"/>
+      <label for="document.budget.institutionCostShareIndicator"> include</label></td>
   </tr>
   
   <tr>

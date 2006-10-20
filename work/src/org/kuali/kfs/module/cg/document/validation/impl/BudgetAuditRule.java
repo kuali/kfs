@@ -101,7 +101,7 @@ public class BudgetAuditRule {
 
     private boolean runCostShareAuditErrors(Budget budget) {
         List<AuditError> costShareAuditErrors = new ArrayList<AuditError>();
-        BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getUniversityCostSharePersonnelItems(), budget.getUniversityCostShareItems(), budget.getThirdPartyCostShareItems());
+        BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems());
 
         if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
             costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed",
@@ -136,7 +136,7 @@ public class BudgetAuditRule {
                     BudgetNonpersonnel matchedBudgetNonpersonnel = hashMap.get(key);
                     
                     matchedBudgetNonpersonnel.setAgencyRequestAmount(matchedBudgetNonpersonnel.getAgencyRequestAmount().add(budgetNonpersonnel.getAgencyRequestAmount()));
-                    matchedBudgetNonpersonnel.setBudgetUniversityCostShareAmount(matchedBudgetNonpersonnel.getBudgetUniversityCostShareAmount().add(budgetNonpersonnel.getBudgetUniversityCostShareAmount()));
+                    matchedBudgetNonpersonnel.setBudgetInstitutionCostShareAmount(matchedBudgetNonpersonnel.getBudgetInstitutionCostShareAmount().add(budgetNonpersonnel.getBudgetInstitutionCostShareAmount()));
                     matchedBudgetNonpersonnel.setBudgetThirdPartyCostShareAmount(matchedBudgetNonpersonnel.getBudgetThirdPartyCostShareAmount().add(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount()));
                 } else {
                     // create a new one so to avoid messing with the interface values
@@ -147,7 +147,7 @@ public class BudgetAuditRule {
         
         // Second step is to look over the aggregated items and decide if they need audit errors (sum(amounts) > 25K).
         for (BudgetNonpersonnel budgetNonpersonnel : hashMap.values()) {
-            if (budgetNonpersonnel.getAgencyRequestAmount().add(budgetNonpersonnel.getBudgetUniversityCostShareAmount().add(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount())).isGreaterThan(new KualiInteger(25000))) {
+            if (budgetNonpersonnel.getAgencyRequestAmount().add(budgetNonpersonnel.getBudgetInstitutionCostShareAmount().add(budgetNonpersonnel.getBudgetThirdPartyCostShareAmount())).isGreaterThan(new KualiInteger(25000))) {
                 // Necessary because the nonpersonnel page doesn't have all the required hidden variables for this. This should only happen
                 // for the first one found that has null values, after that it will be set for all others.
                 if (budgetNonpersonnel.getNonpersonnelObjectCode() == null) {

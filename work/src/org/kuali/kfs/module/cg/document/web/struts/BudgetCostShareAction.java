@@ -30,7 +30,7 @@ import org.kuali.Constants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetUniversityCostShare;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
@@ -85,7 +85,7 @@ public class BudgetCostShareAction extends BudgetAction {
     }
 
     /**
-     * Insert University Cost Share button.
+     * Insert Institution Cost Share button.
      * 
      * @param mapping
      * @param form
@@ -94,12 +94,12 @@ public class BudgetCostShareAction extends BudgetAction {
      * @return
      * @throws Exception
      */
-    public ActionForward insertUniversityCostShareDirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward insertInstitutionCostShareDirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
 
-        // Add the new university cost share item and create a new one
-        budgetForm.getBudgetDocument().addUniversityCostShare(budgetForm.getBudgetDocument().getBudget().getPeriods(), budgetForm.getNewUniversityCostShare());
-        budgetForm.setNewUniversityCostShare(new BudgetUniversityCostShare());
+        // Add the new institution cost share item and create a new one
+        budgetForm.getBudgetDocument().addInstitutionCostShare(budgetForm.getBudgetDocument().getBudget().getPeriods(), budgetForm.getNewInstitutionCostShare());
+        budgetForm.setNewInstitutionCostShare(new BudgetInstitutionCostShare());
 
         // Make sure new values are taken into account for calculations.
         budgetForm.setBudgetCostShareFormHelper(new BudgetCostShareFormHelper(budgetForm));
@@ -108,7 +108,7 @@ public class BudgetCostShareAction extends BudgetAction {
     }
 
     /**
-     * Delete University Cost Share button.
+     * Delete Institution Cost Share button.
      * 
      * @param mapping
      * @param form
@@ -117,10 +117,10 @@ public class BudgetCostShareAction extends BudgetAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteUniversityCostShareDirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteInstitutionCostShareDirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
 
-        budgetForm.getBudgetDocument().getBudget().getUniversityCostShareItems().remove(getLineToDelete(request));
+        budgetForm.getBudgetDocument().getBudget().getInstitutionCostShareItems().remove(getLineToDelete(request));
 
         // Make sure new values are taken into account for calculations.
         budgetForm.setBudgetCostShareFormHelper(new BudgetCostShareFormHelper(budgetForm));
@@ -187,20 +187,20 @@ public class BudgetCostShareAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         List<BudgetPeriod> periods = budgetForm.getBudgetDocument().getBudget().getPeriods();
 
-        Integer universityCostShareNextSequenceNumber = budgetForm.getBudgetDocument().getUniversityCostShareNextSequenceNumber();
+        Integer institutionCostShareNextSequenceNumber = budgetForm.getBudgetDocument().getInstitutionCostShareNextSequenceNumber();
         Integer thirdPartyCostShareNextSequenceNumber = budgetForm.getBudgetDocument().getThirdPartyCostShareNextSequenceNumber();
-        List universityCostShare = new ArrayList(budget.getUniversityCostShareItems());
-        List universityCostSharePersonnel = new ArrayList(budget.getUniversityCostSharePersonnelItems());
+        List institutionCostShare = new ArrayList(budget.getInstitutionCostShareItems());
+        List institutionCostSharePersonnel = new ArrayList(budget.getInstitutionCostSharePersonnelItems());
         List thirdPartyCostShare = new ArrayList(budget.getThirdPartyCostShareItems());
 
         this.load(mapping, form, request, response);
 
         // Only set the objects that potentially changed. The interface doesn't keep hiddens for fields that arn't used. Careful
         // not to use "budget" variable above, that doesn't effect budgetForm.
-        if (budget.isUniversityCostShareIndicator()) {
-            budgetForm.getBudgetDocument().setUniversityCostShareNextSequenceNumber(universityCostShareNextSequenceNumber);
-            budgetForm.getBudgetDocument().getBudget().setUniversityCostShareItems(universityCostShare);
-            budgetForm.getBudgetDocument().getBudget().setUniversityCostSharePersonnelItems(universityCostSharePersonnel);
+        if (budget.isInstitutionCostShareIndicator()) {
+            budgetForm.getBudgetDocument().setInstitutionCostShareNextSequenceNumber(institutionCostShareNextSequenceNumber);
+            budgetForm.getBudgetDocument().getBudget().setInstitutionCostShareItems(institutionCostShare);
+            budgetForm.getBudgetDocument().getBudget().setInstitutionCostSharePersonnelItems(institutionCostSharePersonnel);
         }
         if (budget.isBudgetThirdPartyCostShareIndicator()) {
             budgetForm.getBudgetDocument().setThirdPartyCostShareNextSequenceNumber(thirdPartyCostShareNextSequenceNumber);

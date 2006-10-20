@@ -28,9 +28,9 @@
 
             <inquiryFields>
                 <field attributeName="researchDocumentNumber" />
-                <field attributeName="universityAppointmentTypeCode" />
+                <field attributeName="institutionAppointmentTypeCode" />
                 <field attributeName="contractsAndGrantsFringeRateAmount" />
-                <field attributeName="universityCostShareFringeRateAmount" />
+                <field attributeName="institutionCostShareFringeRateAmount" />
                 <field attributeName="budgetLastUpdateTimestamp" />
                 <field attributeName="objectId" />
                 <field attributeName="versionNumber" />
@@ -49,14 +49,14 @@
             <defaultSort attributeName="researchDocumentNumber" sortAscending="true" />
 
             <lookupFields>
-                <lookupField attributeName="universityAppointmentTypeCode" required="false" />
+                <lookupField attributeName="institutionAppointmentTypeCode" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="researchDocumentNumber" />
-                <field attributeName="universityAppointmentTypeCode" />
+                <field attributeName="institutionAppointmentTypeCode" />
                 <field attributeName="contractsAndGrantsFringeRateAmount" />
-                <field attributeName="universityCostShareFringeRateAmount" />
+                <field attributeName="institutionCostShareFringeRateAmount" />
                 <field attributeName="budgetLastUpdateTimestamp" />
                 <field attributeName="objectId" />
                 <field attributeName="versionNumber" />
@@ -82,7 +82,7 @@
                 <description>Budget Number...</description>
             </attribute>
 
-            <attribute name="universityAppointmentTypeCode" forceUppercase="false">
+            <attribute name="institutionAppointmentTypeCode" forceUppercase="false">
                 <label>Appointment Type Code</label>
                 <shortLabel>Appointment Type Code</shortLabel>
 
@@ -118,7 +118,7 @@
                 <description>Cost Share Fringe Rate Amount...</description>
             </attribute>
 
-            <attribute name="universityCostShareFringeRateAmount" forceUppercase="false">
+            <attribute name="institutionCostShareFringeRateAmount" forceUppercase="false">
                 <label>Cost Share Fringe Rate Amount</label>
                 <shortLabel>Cost Share</shortLabel>
 

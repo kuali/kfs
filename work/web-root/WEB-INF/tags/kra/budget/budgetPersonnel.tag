@@ -33,7 +33,7 @@
 <c:set var="budgetPersonnelAttributes" value="${DataDictionary.BudgetUser.attributes}" />
 <c:set var="firstItemNotDisplayed" value="true" />
 
-  <html:hidden property="document.budget.universityCostShareIndicator" />
+  <html:hidden property="document.budget.institutionCostShareIndicator" />
   <html:hidden property="document.budget.budgetThirdPartyCostShareIndicator" />
   
   <logic:iterate id="person" name="KualiForm" property="document.budget.personnel" indexId="listIndex">

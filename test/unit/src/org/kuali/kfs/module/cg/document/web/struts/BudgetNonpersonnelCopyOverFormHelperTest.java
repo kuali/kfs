@@ -102,11 +102,11 @@ public class BudgetNonpersonnelCopyOverFormHelperTest extends KualiTestBase {
         assertEquality(new KualiDecimal(1331), nonpersonnelCopyOverCategoryHelper.getAgencyRequestAmountTotal().get(3));
         assertEquality(new KualiDecimal(1464), nonpersonnelCopyOverCategoryHelper.getAgencyRequestAmountTotal().get(4));
 
-        assertEquality(new KualiDecimal(4000), nonpersonnelCopyOverCategoryHelper.getBudgetUniversityCostShareAmountTotal().get(0));
-        assertEquality(new KualiDecimal(2200), nonpersonnelCopyOverCategoryHelper.getBudgetUniversityCostShareAmountTotal().get(1));
-        assertEquality(new KualiDecimal(2420), nonpersonnelCopyOverCategoryHelper.getBudgetUniversityCostShareAmountTotal().get(2));
-        assertEquality(new KualiDecimal(2662), nonpersonnelCopyOverCategoryHelper.getBudgetUniversityCostShareAmountTotal().get(3));
-        assertEquality(new KualiDecimal(2928), nonpersonnelCopyOverCategoryHelper.getBudgetUniversityCostShareAmountTotal().get(4));
+        assertEquality(new KualiDecimal(4000), nonpersonnelCopyOverCategoryHelper.getBudgetInstitutionCostShareAmountTotal().get(0));
+        assertEquality(new KualiDecimal(2200), nonpersonnelCopyOverCategoryHelper.getBudgetInstitutionCostShareAmountTotal().get(1));
+        assertEquality(new KualiDecimal(2420), nonpersonnelCopyOverCategoryHelper.getBudgetInstitutionCostShareAmountTotal().get(2));
+        assertEquality(new KualiDecimal(2662), nonpersonnelCopyOverCategoryHelper.getBudgetInstitutionCostShareAmountTotal().get(3));
+        assertEquality(new KualiDecimal(2928), nonpersonnelCopyOverCategoryHelper.getBudgetInstitutionCostShareAmountTotal().get(4));
 
         assertEquality(new KualiDecimal(6000), nonpersonnelCopyOverCategoryHelper.getBudgetThirdPartyCostShareAmountTotal().get(0));
         assertEquality(new KualiDecimal(3300), nonpersonnelCopyOverCategoryHelper.getBudgetThirdPartyCostShareAmountTotal().get(1));

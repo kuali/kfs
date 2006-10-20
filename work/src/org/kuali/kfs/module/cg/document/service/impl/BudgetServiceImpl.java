@@ -104,7 +104,7 @@ public class BudgetServiceImpl implements BudgetService {
         Budget budget = budgetDocument.getBudget();
         String researchDocumentNumber = budget.getResearchDocumentNumber();
         List personnel = budget.getPersonnel();
-        List universityCostSharePersonnelItems = budget.getUniversityCostSharePersonnelItems();
+        List institutionCostSharePersonnelItems = budget.getInstitutionCostSharePersonnelItems();
 
         if (budgetDocument.isCleanseBudgetOnSave()) {
             if (databaseDocument != null) {
@@ -114,7 +114,7 @@ public class BudgetServiceImpl implements BudgetService {
                 // associated task/period are no longer in the list.
                 cleanseNonpersonnel(budgetDocument);
                 budgetPersonnelService.cleansePersonnel(budgetDocument);
-                budgetCostShareService.cleanseCostShare(budget.isUniversityCostShareIndicator(), budget.getUniversityCostShareItems(), budget.isBudgetThirdPartyCostShareIndicator(), budget.getThirdPartyCostShareItems(), personnel, budget.getUniversityCostSharePersonnelItems());
+                budgetCostShareService.cleanseCostShare(budget.isInstitutionCostShareIndicator(), budget.getInstitutionCostShareItems(), budget.isBudgetThirdPartyCostShareIndicator(), budget.getThirdPartyCostShareItems(), personnel, budget.getInstitutionCostSharePersonnelItems());
                 cleanseModular(budgetDocument);
 
                 // Find what's changed that has a down-stream effect on other parts of the Budget, if anything, since the last save
@@ -154,7 +154,7 @@ public class BudgetServiceImpl implements BudgetService {
             budgetPersonnelService.reconcileProjectDirector(budgetDocument);
 
             // Add new Cost Share data based on personnel
-            budgetCostShareService.reconcileCostShare(researchDocumentNumber, personnel, universityCostSharePersonnelItems);
+            budgetCostShareService.reconcileCostShare(researchDocumentNumber, personnel, institutionCostSharePersonnelItems);
 
             // Clean up indirect cost and task/period items.
             budgetIndirectCostService.reconcileIndirectCost(budgetDocument);
@@ -177,7 +177,7 @@ public class BudgetServiceImpl implements BudgetService {
         }
 
         StringBuffer codes = new StringBuffer();
-        if (databaseBudgetDocument.getBudget().isUniversityCostShareIndicator() && !budgetDocument.getBudget().isUniversityCostShareIndicator()) {
+        if (databaseBudgetDocument.getBudget().isInstitutionCostShareIndicator() && !budgetDocument.getBudget().isInstitutionCostShareIndicator()) {
             codes.append(KraConstants.INSTITUTION_COST_SHARE_CODE);
         }
         if (databaseBudgetDocument.getBudget().isBudgetThirdPartyCostShareIndicator() && !budgetDocument.getBudget().isBudgetThirdPartyCostShareIndicator()) {
@@ -204,7 +204,7 @@ public class BudgetServiceImpl implements BudgetService {
      * @return
      */
     private boolean isInstitutionCostShareInclusionModified(BudgetDocument budgetDocument, BudgetDocument databaseBudgetDocument) {
-        return !(budgetDocument.getBudget().isUniversityCostShareIndicator() == databaseBudgetDocument.getBudget().isUniversityCostShareIndicator());
+        return !(budgetDocument.getBudget().isInstitutionCostShareIndicator() == databaseBudgetDocument.getBudget().isInstitutionCostShareIndicator());
     }
 
     /**
@@ -214,7 +214,7 @@ public class BudgetServiceImpl implements BudgetService {
      * @return
      */
     private boolean isInstitutionCostShareIncludeBoxChecked(BudgetDocument budgetDocument) {
-        return budgetDocument.getBudget().isUniversityCostShareIndicator();
+        return budgetDocument.getBudget().isInstitutionCostShareIndicator();
     }
 
     /**
@@ -255,7 +255,7 @@ public class BudgetServiceImpl implements BudgetService {
             // if Institution Cost Share check box or Third Party Cost share check boxes are un-checked,
             // set the corresponding amounts to zero.
             if (!(isInstitutionCostShareCheckBoxChecked)) {
-                budgetNonpersonnel.setBudgetUniversityCostShareAmount(new KualiInteger(0));
+                budgetNonpersonnel.setBudgetInstitutionCostShareAmount(new KualiInteger(0));
             }
             if (!(isThirdPartyCostShareCheckBoxChecked)) {
                 budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(new KualiInteger(0));
@@ -276,7 +276,7 @@ public class BudgetServiceImpl implements BudgetService {
 
                         // indicators should always be false for these "new period" items
                         budgetNonpersonnelCopyOverBoHelper.setAgencyCopyIndicator(false);
-                        budgetNonpersonnelCopyOverBoHelper.setBudgetUniversityCostShareCopyIndicator(false);
+                        budgetNonpersonnelCopyOverBoHelper.setBudgetInstitutionCostShareCopyIndicator(false);
                         budgetNonpersonnelCopyOverBoHelper.setBudgetThirdPartyCostShareCopyIndicator(false);
 
                         // add it to the Budget Document per the standard methods provided.
@@ -298,8 +298,8 @@ public class BudgetServiceImpl implements BudgetService {
                 if (budgetNonpersonnel.getAgencyCopyIndicator()) {
                     budgetNonpersonnel.setAgencyRequestAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInflatedAgencyAmount());
                 }
-                if (budgetNonpersonnel.getBudgetUniversityCostShareCopyIndicator()) {
-                    budgetNonpersonnel.setBudgetUniversityCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInflatedUniversityCostShareAmount());
+                if (budgetNonpersonnel.getBudgetInstitutionCostShareCopyIndicator()) {
+                    budgetNonpersonnel.setBudgetInstitutionCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInflatedInstitutionCostShareAmount());
                 }
                 if (budgetNonpersonnel.getBudgetThirdPartyCostShareCopyIndicator()) {
                     budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(budgetNonpersonnelCopyOverBoHelper.getBudgetInflatedThirdPartyCostShareAmount());
@@ -329,14 +329,14 @@ public class BudgetServiceImpl implements BudgetService {
                 UserAppointmentTask userAppointmentTask = (UserAppointmentTask) userAppointmentTaskIter.next();
                 for (Iterator userAppointmentTaskPeriodIter = userAppointmentTask.getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext();) {
                     UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
-                    userAppointmentTaskPeriod.setUniversityCostSharePercentEffortAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUserUniversityHours(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUniversityFullTimeEquivalentPercent(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUniversityHealthInsuranceAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUniversityRequestedFeesAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUniversitySalaryAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUniversityCostShareFringeBenefitTotalAmount(new KualiInteger(0));
-                    userAppointmentTaskPeriod.setUniversityCostShareRequestTotalAmount(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionCostSharePercentEffortAmount(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setUserInstitutionHours(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionFullTimeEquivalentPercent(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionHealthInsuranceAmount(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionRequestedFeesAmount(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionSalaryAmount(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionCostShareFringeBenefitTotalAmount(new KualiInteger(0));
+                    userAppointmentTaskPeriod.setInstitutionCostShareRequestTotalAmount(new KualiInteger(0));
                 }
             }
         }

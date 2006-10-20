@@ -43,7 +43,7 @@ public class Budget extends BusinessObjectBase {
     private String researchDocumentNumber;
     private Long budgetParentTrackNumber;
     private String budgetName;
-    private boolean universityCostShareIndicator;
+    private boolean institutionCostShareIndicator;
     private String budgetProgramAnnouncementNumber;
     private String budgetProjectDirectorSystemId;
     private boolean budgetThirdPartyCostShareIndicator;
@@ -74,9 +74,9 @@ public class Budget extends BusinessObjectBase {
     private List graduateAssistantRates;
     private List nonpersonnelItems;
     private List personnel;
-    private List universityCostShareItems;
+    private List institutionCostShareItems;
     private List thirdPartyCostShareItems;
-    private List universityCostSharePersonnelItems;
+    private List institutionCostSharePersonnelItems;
     private List<BudgetAdHocPermission> adHocPermissions;
     private List<BudgetAdHocOrg> adHocOrgs;
     private List<BudgetAdHocWorkgroup> adHocWorkgroups;
@@ -85,7 +85,7 @@ public class Budget extends BusinessObjectBase {
 
     private List allUserAppointmentTasks;
     private List allUserAppointmentTaskPeriods;
-    private List allUniversityCostSharePeriods;
+    private List allInstitutionCostSharePeriods;
     private List allThirdPartyCostSharePeriods;
     private List<BudgetIndirectCostLookup> budgetIndirectCostLookups;
     
@@ -101,9 +101,9 @@ public class Budget extends BusinessObjectBase {
         graduateAssistantRates = new ArrayList();
         nonpersonnelItems = new ArrayList();
         personnel = new ArrayList();
-        universityCostShareItems = new ArrayList();
+        institutionCostShareItems = new ArrayList();
         thirdPartyCostShareItems = new ArrayList();
-        universityCostSharePersonnelItems = new ArrayList();
+        institutionCostSharePersonnelItems = new ArrayList();
         adHocPermissions = new ArrayList<BudgetAdHocPermission>();
         adHocOrgs = new ArrayList<BudgetAdHocOrg>();
         adHocWorkgroups = new ArrayList<BudgetAdHocWorkgroup>();
@@ -292,17 +292,17 @@ public class Budget extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the universityCostShareIndicator.
+     * @return Returns the institutionCostShareIndicator.
      */
-    public boolean isUniversityCostShareIndicator() {
-        return universityCostShareIndicator;
+    public boolean isInstitutionCostShareIndicator() {
+        return institutionCostShareIndicator;
     }
 
     /**
-     * @param universityCostShareIndicator The universityCostShareIndicator to set.
+     * @param institutionCostShareIndicator The institutionCostShareIndicator to set.
      */
-    public void setUniversityCostShareIndicator(boolean universityCostShareIndicator) {
-        this.universityCostShareIndicator = universityCostShareIndicator;
+    public void setInstitutionCostShareIndicator(boolean institutionCostShareIndicator) {
+        this.institutionCostShareIndicator = institutionCostShareIndicator;
     }
 
     /**
@@ -714,24 +714,24 @@ public class Budget extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the universityCostShareItems.
+     * @return Returns the institutionCostShareItems.
      */
-    public List getUniversityCostShareItems() {
-        return universityCostShareItems;
+    public List getInstitutionCostShareItems() {
+        return institutionCostShareItems;
     }
 
-    public BudgetUniversityCostShare getUniversityCostShareItem(int index) {
-        while (getUniversityCostShareItems().size() <= index) {
-            getUniversityCostShareItems().add(new BudgetUniversityCostShare());
+    public BudgetInstitutionCostShare getInstitutionCostShareItem(int index) {
+        while (getInstitutionCostShareItems().size() <= index) {
+            getInstitutionCostShareItems().add(new BudgetInstitutionCostShare());
         }
-        return (BudgetUniversityCostShare) getUniversityCostShareItems().get(index);
+        return (BudgetInstitutionCostShare) getInstitutionCostShareItems().get(index);
     }
 
     /**
-     * @param universityCostShareItems The universityCostShareItems to set.
+     * @param institutionCostShareItems The institutionCostShareItems to set.
      */
-    public void setUniversityCostShareItems(List universityCostShareItems) {
-        this.universityCostShareItems = universityCostShareItems;
+    public void setInstitutionCostShareItems(List institutionCostShareItems) {
+        this.institutionCostShareItems = institutionCostShareItems;
     }
 
     /**
@@ -884,27 +884,27 @@ public class Budget extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the allUniversityCostSharePeriods.
+     * @return Returns the allInstitutionCostSharePeriods.
      */
-    public List getAllUniversityCostSharePeriods() {
-        return allUniversityCostSharePeriods;
+    public List getAllInstitutionCostSharePeriods() {
+        return allInstitutionCostSharePeriods;
     }
 
     /**
-     * @param allUniversityCostSharePeriods The allUniversityCostSharePeriods to set.
+     * @param allInstitutionCostSharePeriods The allInstitutionCostSharePeriods to set.
      */
-    public void setAllUniversityCostSharePeriods(List allUniversityCostSharePeriods) {
-        this.allUniversityCostSharePeriods = allUniversityCostSharePeriods;
+    public void setAllInstitutionCostSharePeriods(List allInstitutionCostSharePeriods) {
+        this.allInstitutionCostSharePeriods = allInstitutionCostSharePeriods;
     }
 
 
-    public List getAllUniversityCostSharePeriods(boolean forceRefreshPriorToSave) {
-        if (allUniversityCostSharePeriods == null) {
+    public List getAllInstitutionCostSharePeriods(boolean forceRefreshPriorToSave) {
+        if (allInstitutionCostSharePeriods == null) {
             List list = new ArrayList();
-            for (Iterator i = universityCostShareItems.iterator(); i.hasNext();) {
-                BudgetUniversityCostShare costShareItem = (BudgetUniversityCostShare) i.next();
+            for (Iterator i = institutionCostShareItems.iterator(); i.hasNext();) {
+                BudgetInstitutionCostShare costShareItem = (BudgetInstitutionCostShare) i.next();
                 if (forceRefreshPriorToSave) {
-                    costShareItem = new BudgetUniversityCostShare(costShareItem);
+                    costShareItem = new BudgetInstitutionCostShare(costShareItem);
                     costShareItem.refreshReferenceObject("budgetPeriodCostShare");
                 }
                 list.addAll(costShareItem.getBudgetPeriodCostShare());
@@ -912,29 +912,29 @@ public class Budget extends BusinessObjectBase {
             return list;
         }
         else {
-            return allUniversityCostSharePeriods;
+            return allInstitutionCostSharePeriods;
         }
     }
 
     /**
-     * @return Returns the universityCostSharePersonnelItems.
+     * @return Returns the institutionCostSharePersonnelItems.
      */
-    public List getUniversityCostSharePersonnelItems() {
-        return universityCostSharePersonnelItems;
+    public List getInstitutionCostSharePersonnelItems() {
+        return institutionCostSharePersonnelItems;
     }
 
-    public UniversityCostSharePersonnel getUniversityCostSharePersonnelItem(int index) {
-        while (getUniversityCostSharePersonnelItems().size() <= index) {
-            getUniversityCostSharePersonnelItems().add(new UniversityCostSharePersonnel());
+    public InstitutionCostSharePersonnel getInstitutionCostSharePersonnelItem(int index) {
+        while (getInstitutionCostSharePersonnelItems().size() <= index) {
+            getInstitutionCostSharePersonnelItems().add(new InstitutionCostSharePersonnel());
         }
-        return (UniversityCostSharePersonnel) getUniversityCostSharePersonnelItems().get(index);
+        return (InstitutionCostSharePersonnel) getInstitutionCostSharePersonnelItems().get(index);
     }
 
     /**
-     * @param universityCostSharePersonnelItems The universityCostSharePersonnelItems to set.
+     * @param institutionCostSharePersonnelItems The institutionCostSharePersonnelItems to set.
      */
-    public void setUniversityCostSharePersonnelItems(List universityCostSharePersonnelItems) {
-        this.universityCostSharePersonnelItems = universityCostSharePersonnelItems;
+    public void setInstitutionCostSharePersonnelItems(List institutionCostSharePersonnelItems) {
+        this.institutionCostSharePersonnelItems = institutionCostSharePersonnelItems;
     }
 
 

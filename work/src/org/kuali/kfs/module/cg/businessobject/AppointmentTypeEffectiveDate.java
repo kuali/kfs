@@ -29,7 +29,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
 
     private String appointmentTypeCode;
-    private Integer universityFiscalYear;
+    private Integer institutionFiscalYear;
     private Date appointmentTypeBeginDate;
     private Date appointmentTypeEndDate;
 
@@ -40,10 +40,10 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
 
     }
     
-    public AppointmentTypeEffectiveDate(String appointmentTypeCode, Integer universityFiscalYear) {
+    public AppointmentTypeEffectiveDate(String appointmentTypeCode, Integer institutionFiscalYear) {
         this();
         this.appointmentTypeCode = appointmentTypeCode;
-        this.universityFiscalYear = universityFiscalYear;
+        this.institutionFiscalYear = institutionFiscalYear;
     }
 
     /**
@@ -57,9 +57,9 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
     }
 
     /**
-     * Sets the universityAppointmentTypeCode attribute.
+     * Sets the institutionAppointmentTypeCode attribute.
      * 
-     * @param universityAppointmentTypeCode The universityAppointmentTypeCode to set.
+     * @param institutionAppointmentTypeCode The institutionAppointmentTypeCode to set.
      * 
      */
     public void setAppointmentTypeCode(String appointmentTypeCode) {
@@ -68,23 +68,23 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
 
 
     /**
-     * Gets the universityFiscalYear attribute.
+     * Gets the institutionFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return - Returns the institutionFiscalYear
      * 
      */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
+    public Integer getInstitutionFiscalYear() {
+        return institutionFiscalYear;
     }
 
     /**
-     * Sets the universityFiscalYear attribute.
+     * Sets the institutionFiscalYear attribute.
      * 
-     * @param universityFiscalYear The universityFiscalYear to set.
+     * @param institutionFiscalYear The institutionFiscalYear to set.
      * 
      */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
+    public void setInstitutionFiscalYear(Integer institutionFiscalYear) {
+        this.institutionFiscalYear = institutionFiscalYear;
     }
 
 

@@ -33,12 +33,12 @@
 
             <inquiryFields>
                 <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccounts" />
+                <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectCodeName" />
                 <field attributeName="financialObjectCodeShortName" />
                 <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToFinancialObject" />
+                <field attributeName="reportsToFinancialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialObjectLevelCode" />
                 <field attributeName="financialObjectSubTypeCode" />

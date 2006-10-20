@@ -649,7 +649,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     }
 
     public String getCode() {
-        return this.chartOfAccountsCode;
+        return this.financialObjectCode;
     }
 
     public String getName() {

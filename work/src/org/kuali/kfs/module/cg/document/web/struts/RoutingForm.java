@@ -17,11 +17,14 @@
  */
 package org.kuali.module.kra.routingform.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.kra.routingform.bo.ProtocolType;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -29,12 +32,14 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 public class RoutingForm extends KualiDocumentFormBase {
     
     private boolean auditActivated;
-    private RoutingFormProtocol newRoutingFormProtocol;
+    private List<RoutingFormProtocol> newRoutingFormProtocols;
+    private List<ProtocolType> protocolTypes;
     private RoutingFormKeyword newRoutingFormKeyword;
     
     public RoutingForm() {
         super();
-        
+        newRoutingFormProtocols = new ArrayList<RoutingFormProtocol>();
+       
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
@@ -54,16 +59,30 @@ public class RoutingForm extends KualiDocumentFormBase {
         this.auditActivated = auditActivated;
     }
 
-    public RoutingFormProtocol getNewRoutingFormProtocol() {
-        return newRoutingFormProtocol;
+    public List<RoutingFormProtocol> getNewRoutingFormProtocols() {
+        return newRoutingFormProtocols;
     }
 
-    public void setNewRoutingFormProtocol(RoutingFormProtocol newRoutingFormProtocol) {
-        this.newRoutingFormProtocol = newRoutingFormProtocol;
+    public void setNewRoutingFormProtocols(List<RoutingFormProtocol> newRoutingFormProtocols) {
+        this.newRoutingFormProtocols = newRoutingFormProtocols;
     }
 
+    public List<ProtocolType> getProtocolTypes() {
+        return protocolTypes;
+    }
     public RoutingFormKeyword getNewRoutingFormKeyword() {
         return newRoutingFormKeyword;
+    }
+
+    public void setProtocolTypes(List<ProtocolType> protocolTypes) {
+        this.protocolTypes = protocolTypes;
+    }
+    
+    public RoutingFormProtocol getNewRoutingFormProtocol(int index) {
+        while (getNewRoutingFormProtocols().size() <= index) {
+            getNewRoutingFormProtocols().add(new RoutingFormProtocol());
+        }
+        return (RoutingFormProtocol) getNewRoutingFormProtocols().get(index);
     }
 
     public void setNewRoutingFormKeyword(RoutingFormKeyword newRoutingFormKeyword) {

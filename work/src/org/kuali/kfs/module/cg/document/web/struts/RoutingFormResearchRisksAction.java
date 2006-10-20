@@ -17,9 +17,6 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.module.kra.routingform.bo.RoutingFormProtocol;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
@@ -37,11 +34,11 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
 
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-        RoutingFormProtocol routingFormProtocol = routingForm.getNewRoutingFormProtocol();
-        routingFormDocument.addRoutingFormProtocol(routingFormProtocol);
+//        RoutingFormProtocol routingFormProtocol = routingForm.getNewRoutingFormProtocol();
+    //    routingFormDocument.addRoutingFormProtocol(routingFormProtocol);
         
         // use getters and setters on the form to reinitialize the properties on the form.                
-        routingForm.setNewRoutingFormProtocol(new RoutingFormProtocol());
+  //      routingForm.setNewRoutingFormProtocol(new RoutingFormProtocol());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -55,4 +52,12 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.setProtocolTypes(SpringServiceLocator.getRoutingFormProtocolService().getAllProtocolTypes());
+        return super.execute(mapping, form, request, response);
+    }
+    
 }

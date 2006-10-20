@@ -20,6 +20,7 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.Summarizable;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.SpringServiceLocator;
@@ -27,7 +28,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * 
  */
-public class Chart extends BusinessObjectBase {
+public class Chart extends BusinessObjectBase implements Summarizable {
 
     private static final long serialVersionUID = 4129020803214027609L;
 
@@ -623,6 +624,14 @@ public class Chart extends BusinessObjectBase {
     public String getCodeAndDescription() {
         String theString = getChartOfAccountsCode() + " - " + getFinChartOfAccountDescription();
         return theString;
+    }
+
+    public String getCode() {
+        return this.chartOfAccountsCode;
+    }
+
+    public String getName() {
+        return this.finChartOfAccountDescription;
     }
 
 }

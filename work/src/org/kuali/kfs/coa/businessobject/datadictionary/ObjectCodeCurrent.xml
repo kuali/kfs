@@ -38,7 +38,7 @@
                 <field attributeName="financialObjectCodeName" />
                 <field attributeName="financialObjectCodeShortName" />
                 <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToFinancialObjectCode" />
+                <field attributeName="reportsToFinancialObject" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialObjectLevelCode" />
                 <field attributeName="financialObjectSubTypeCode" />
@@ -339,10 +339,11 @@
 
                 <maxLength>1</maxLength>
                 <required>true</required>
-                <control>
-                	<select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAggregationCodeValuesFinder" />
-				</control>
-                <summary>
+                <control><text size="1"/>
+                <!-- 
+                        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAggregationCodeValuesFinder" />
+                -->
+				</control>                <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>The code that indicates at what level the Object Code can be used for budgeting, expressed as a 1-character code, where O = Object Code level, C = consolidation level, and L = the level itself.</description>

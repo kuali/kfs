@@ -33,12 +33,12 @@
 
             <inquiryFields>
                 <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="chartOfAccounts" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectCodeName" />
                 <field attributeName="financialObjectCodeShortName" />
                 <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToFinancialObjectCode" />
+                <field attributeName="reportsToFinancialObject" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialObjectLevelCode" />
                 <field attributeName="financialObjectSubTypeCode" />
@@ -126,9 +126,11 @@
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <required>true</required>
+                <!-- 
                 <control>
 				    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartCode();" /> 
                 </control>
+                -->
             </attributeReference>
 
             <attribute name="financialObjectCode" forceUppercase="true">
@@ -340,8 +342,10 @@
 
                 <maxLength>1</maxLength>
                 <required>true</required>
-                <control>
+                <control><text size="1"/>
+                <!-- 
                         <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAggregationCodeValuesFinder" />
+                -->
 				</control>
                 <summary>
                     <![CDATA[&nbsp;]]>

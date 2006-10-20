@@ -393,6 +393,9 @@
 	<field-descriptor name="vendorTaxNumberRequiredIndicator" column="VNDR_TAX_NBR_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorTypeChangeAllowedIndicator" column="VNDR_TYP_CHG_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorAddressTypeRequiredCode" column="VNDR_ADDR_TYP_REQ_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="addressType" class-ref="org.kuali.module.purap.bo.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorAddressTypeRequiredCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorStipulation" table="PUR_VNDR_STPLTN_T">

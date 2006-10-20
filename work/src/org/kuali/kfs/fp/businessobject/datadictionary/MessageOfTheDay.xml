@@ -57,23 +57,12 @@
 
         <attributes>
 
-            <attribute name="financialSystemOriginationCode" forceUppercase="true">
+            <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.core.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">
                 <label>Financial System Origination Code</label>
                 <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <alphaNumeric />
-                </validationPattern>
-                <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
-
                 <summary>Financial System Origination Code</summary>
                 <description>The code uniquely identifying a particular origination.</description>
-            </attribute>
+            </attributeReference>
 
             <attribute name="financialSystemMessageOfTheDayText" forceUppercase="false">
                 <label>Message Of The Day</label>

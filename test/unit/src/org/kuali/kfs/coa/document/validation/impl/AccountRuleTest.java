@@ -17,10 +17,6 @@
  */
 package org.kuali.module.chart.rules;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
-
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -36,6 +32,9 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.WithTestSpringContext;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 
 @WithTestSpringContext(session = KHUNTLEY)
 public class AccountRuleTest extends ChartRuleTestBase {
@@ -1140,17 +1139,16 @@ private void disableBeginBalanceLoadInd(){
         // make sure all the required fields are missing
         newAccount.setContractControlFinCoaCode(Accounts.ChartCode.GOOD1);
         newAccount.setContractControlAccountNumber(Accounts.AccountNumber.GOOD1);
-        newAccount.setAcctIndirectCostRcvyTypeCd("001");
-        newAccount.setFinancialIcrSeriesIdentifier("A");
+        newAccount.setAcctIndirectCostRcvyTypeCd("10");
+        newAccount.setFinancialIcrSeriesIdentifier("001");
         newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
         newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
         newAccount.setCgCatlfFedDomestcAssistNbr("001");
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
-        assertEquals("Rule should return true with no missing fields.", true, result);
         assertGlobalErrorMapEmpty();
-
+        assertEquals("Rule should return true with no missing fields.", true, result);
     }
 
     @SuppressWarnings("deprecation")

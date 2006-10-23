@@ -43,7 +43,7 @@ public class BudgetConstructionControlList extends BusinessObjectBase {
 	private String selectedOrganizationChartOfAccountsCode;
 	private String selectedOrganizationCode;
 	private Integer selectedPullFlag;
-	private String selectedSubFundGroup;
+	private String selectedSubFundGroupCode;
 
     private BudgetConstructionHeader budgetConstructionHeader;
     private Account account;
@@ -51,7 +51,7 @@ public class BudgetConstructionControlList extends BusinessObjectBase {
 	private Org selectedOrganization;
 	private Chart selectedOrganizationChartOfAccounts;
     private SubAccount subAccount;
-    private SubFundGroup selectedSubFund;
+    private SubFundGroup selectedSubFundGroup;
     
 	/**
 	 * Default constructor.
@@ -292,23 +292,23 @@ public class BudgetConstructionControlList extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the selectedSubFundGroup attribute.
+	 * Gets the selectedSubFundGroupCode attribute.
 	 * 
-	 * @return - Returns the selectedSubFundGroup
+	 * @return - Returns the selectedSubFundGroupCode
 	 * 
 	 */
-	public String getSelectedSubFundGroup() { 
-		return selectedSubFundGroup;
+	public String getSelectedSubFundGroupCode() { 
+		return selectedSubFundGroupCode;
 	}
 
 	/**
-	 * Sets the selectedSubFundGroup attribute.
+	 * Sets the selectedSubFundGroupCode attribute.
 	 * 
-	 * @param - selectedSubFundGroup The selectedSubFundGroup to set.
+	 * @param - selectedSubFundGroupCode The selectedSubFundGroupCode to set.
 	 * 
 	 */
-	public void setSelectedSubFundGroup(String selectedSubFundGroup) {
-		this.selectedSubFundGroup = selectedSubFundGroup;
+	public void setSelectedSubFundGroupCode(String selectedSubFundGroupCode) {
+		this.selectedSubFundGroupCode = selectedSubFundGroupCode;
 	}
 
 
@@ -410,20 +410,20 @@ public class BudgetConstructionControlList extends BusinessObjectBase {
     }    
     
     /**
-     * Gets the selectedSubFund attribute. 
-     * @return Returns the selectedSubFund.
+     * Gets the selectedSubFundGroup attribute. 
+     * @return Returns the selectedSubFundGroup.
      */
-    public SubFundGroup getSelectedSubFund() {
-        return selectedSubFund;
+    public SubFundGroup getSelectedSubFundGroup() {
+        return selectedSubFundGroup;
     }
 
     /**
-     * Sets the selectedSubFund attribute value.
-     * @param selectedSubFund The selectedSubFund to set.
+     * Sets the selectedSubFundGroup attribute value.
+     * @param selectedSubFundGroup The selectedSubFundGroup to set.
      * @deprecated
      */
-    public void setSelectedSubFund(SubFundGroup selectedSubFund) {
-        this.selectedSubFund = selectedSubFund;
+    public void setSelectedSubFundGroup(SubFundGroup selectedSubFundGroup) {
+        this.selectedSubFundGroup = selectedSubFundGroup;
     }
 
     /**

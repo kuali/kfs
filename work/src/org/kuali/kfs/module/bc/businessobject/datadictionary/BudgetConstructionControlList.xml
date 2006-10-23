@@ -36,7 +36,7 @@
                 <field attributeName="selectedOrganizationCode" />
                 <field attributeName="selectedOrganizationLevelCode" />
                 <field attributeName="selectedPullFlag" />
-                <field attributeName="selectedSubFundGroup" />
+                <field attributeName="selectedSubFundGroupCode" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="universityFiscalYear" />
             </inquiryFields>
@@ -67,7 +67,7 @@
                 <lookupField attributeName="selectedOrganizationCode" required="false" />
                 <lookupField attributeName="selectedOrganizationLevelCode" required="false" />
                 <lookupField attributeName="selectedPullFlag" required="false" />
-                <lookupField attributeName="selectedSubFundGroup" required="false" />
+                <lookupField attributeName="selectedSubFundGroupCode" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="universityFiscalYear" required="false" />
             </lookupFields>
@@ -82,7 +82,7 @@
                 <field attributeName="selectedOrganizationCode" />
                 <field attributeName="selectedOrganizationLevelCode" />
                 <field attributeName="selectedPullFlag" />
-                <field attributeName="selectedSubFundGroup" />
+                <field attributeName="selectedSubFundGroupCode" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="universityFiscalYear" />
             </resultFields>
@@ -225,9 +225,9 @@
                 <description>selectedPullFlag description...</description>
 			</attribute>
 
-            <attribute name="selectedSubFundGroup" forceUppercase="true">
-                <label>Selected Sub Fund Group</label>
-                <shortLabel>Group</shortLabel>
+            <attribute name="selectedSubFundGroupCode" forceUppercase="true">
+                <label>Selected Sub Fund Group Code</label>
+                <shortLabel>Code</shortLabel>
 
                 <maxLength>6</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -236,8 +236,8 @@
                     <text size="8" />
                 </control>
 
-                <summary>selectedSubFundGroup</summary>
-                <description>selectedSubFundGroup description...</description>
+                <summary>selectedSubFundGroupCode</summary>
+                <description>selectedSubFundGroupCode description...</description>
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">

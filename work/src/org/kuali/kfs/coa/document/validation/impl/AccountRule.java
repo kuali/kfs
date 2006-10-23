@@ -692,7 +692,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 if (checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "When Fund Group is CG, ICR Series Identifier")){
                     Map pkMap = new HashMap();
                     pkMap.put("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier());
-                    if (getBoService().findByPrimaryKey(IcrAutomatedEntry.class, pkMap) == null){
+                    if (getBoService().countMatching(IcrAutomatedEntry.class, pkMap) == 0){
                         putFieldError("financialIcrSeriesIdentifier", KeyConstants.ERROR_EXISTENCE, "financialIcrSeriesIdentifier");
                         result &= false;
                     }

@@ -44,7 +44,7 @@
 			<td>
 				<div id="workarea">
 
-					<kra-rf:routingFormMultiLine tabTitle="Human Subjects">
+					<kra-rf:routingFormMultiLine>
 					</kra-rf:routingFormMultiLine>
 
 					<kra-rf:routingFormDescrption tabTitle="Human Tissue/Fluids">

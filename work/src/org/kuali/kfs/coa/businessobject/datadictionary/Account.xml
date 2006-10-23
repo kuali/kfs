@@ -241,7 +241,7 @@
 
             <attributeReference name="accountTypeCode" sourceClassName="org.kuali.module.chart.bo.AcctType" sourceAttributeName="accountTypeCode">
 
-                <label>Account Type Code</label>
+                <label>Acct Type Code</label>
                 <shortLabel>AcctType</shortLabel>
                 <control>
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.AcctTypeValuesFinder" />
@@ -856,7 +856,7 @@
             </attributeReference>
 
             <attribute name="accountClosedIndicator" forceUppercase="false">
-                <label>Account Closed Indicator</label>
+                <label>Closed?</label>
                 <shortLabel>AcctClosed</shortLabel>
 
                 <maxLength>1</maxLength>

@@ -28,7 +28,6 @@ public class OrgInquirable extends KualiInquirableImpl {
 
     
     public void addAdditionalColumns(List columns, BusinessObject bo) {
-        // TODO: extract this into a superclass (KULCOA-917)
         if (bo instanceof Org) {
             Org org = (Org) bo;
 

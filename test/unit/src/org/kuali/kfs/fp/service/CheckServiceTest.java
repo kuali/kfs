@@ -20,6 +20,7 @@ package org.kuali.module.financial.service;
 import static org.kuali.core.util.SpringServiceLocator.getCheckService;
 import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE18;
 import static org.kuali.test.fixtures.UserNameFixture.MHKOZLOW;
 
 import java.util.Iterator;
@@ -33,7 +34,6 @@ import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.AccountingLineFixture.*;
 /**
  * This class tests the Check service.
  * 

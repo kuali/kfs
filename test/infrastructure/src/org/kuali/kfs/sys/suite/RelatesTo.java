@@ -30,9 +30,8 @@ import org.kuali.core.util.AssertionUtils;
  * This annotation marks test classes or methods which have failed for reasons relating to certain JIRA issues.
  * Ideally these issues would be about bugs in production code or database tasks, but they could be about test code too.
  * <p>
- * One purpose of this annotation is to remove the related tests from the Anthill results while their issues are in progress,
- * so they do not obscure new test failures for unknown reasons.  This will allow the test results to normally be maintained at 100%
- * even if developers do not run the tests before committing.
+ * One purpose of this annotation is to remove the related tests from the Anthill results while their issues are in progress.
+ * This prevents them from obscuring new test failures that need attention, by allowing the Anthill results to be maintained at 100% success.
  * <p>
  * Another purpose of this annotation is for KualiTestBase to wrap any test errors or failures with a notice
  * that the annotated JIRA issues are related.

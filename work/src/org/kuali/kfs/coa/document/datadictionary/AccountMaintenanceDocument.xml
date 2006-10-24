@@ -38,6 +38,8 @@
         <documentTypeName>KualiAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>ACCT</documentTypeCode>
 
+		<webScriptFile>chart/accountDocument.js</webScriptFile>
+
         <label>Account Maintenance Document</label>
         <shortLabel>AcctMaintDoc</shortLabel>
 
@@ -94,7 +96,7 @@
                     <maintainableField name="accountOffCampusIndicator" required="false" />
                     <maintainableField name="accountClosedIndicator" required="false" />
                     <maintainableField name="accountTypeCode" required="true" />
-                    <maintainableField name="subFundGroupCode" required="true" />
+                    <maintainableField name="subFundGroupCode" required="true" webUILeaveFieldFunction="onblur_subFundGroup" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
                     <!--  comment programCode out if not in use at your institution -->
                     <maintainableField name="programCode" required="false" />
                     <maintainableField name="accountsFringesBnftIndicator" required="false">
@@ -103,7 +105,7 @@
                     <maintainableField name="reportsToChartOfAccountsCode" required="false" />
                     <maintainableField name="reportsToAccountNumber" required="false" />
                     <maintainableField name="financialHigherEdFunctionCd" required="true" />
-                    <maintainableField name="accountRestrictedStatusCode" required="true" />
+                    <maintainableField name="accountRestrictedStatusCode" required="true"  webUILeaveFieldFunction="onblur_accountRestrictedStatusCode" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
                     <maintainableField name="accountRestrictedStatusDate" required="false" />
                     <maintainableField name="endowmentIncomeAcctFinCoaCd" required="false" />
                     <maintainableField name="endowmentIncomeAccountNumber" required="false" />

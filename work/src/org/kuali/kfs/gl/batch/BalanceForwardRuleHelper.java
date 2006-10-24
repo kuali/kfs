@@ -300,7 +300,7 @@ public class BalanceForwardRuleHelper {
             PriorYearAccount priorYearAccount = null; // This is used below in the write routine.
 
             // "EE", "ES", "EX", "IC", "TE", "TI", "IN", "CH"
-            String[] priorYearAccountObjectTypes = new String[7];
+            String[] priorYearAccountObjectTypes = new String[8];
             priorYearAccountObjectTypes[0] = options.getFinObjTypeExpendNotExpCode();
             priorYearAccountObjectTypes[1] = options.getFinObjTypeExpNotExpendCode();
             priorYearAccountObjectTypes[2] = options.getFinObjTypeExpenditureexpCd();

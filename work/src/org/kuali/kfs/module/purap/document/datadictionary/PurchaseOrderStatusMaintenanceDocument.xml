@@ -53,7 +53,7 @@
                     <maintainableField name="purchaseOrderStatusCode" required="true" />
                 	<maintainableField name="purchaseOrderStatusDescription" required="true" />
                 	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
-                	<maintainableField name="versionNumber" required="true"/>
+                	<maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

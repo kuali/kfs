@@ -53,7 +53,7 @@
                     <maintainableField name="purchaseOrderQuoteListIdentifier" required="true" />
                     <maintainableField name="purchaseOrderQuoteListName" required="true" />
                     <maintainableField name="contractManagerCode" required="true" />
-                    <maintainableField name="versionNumber" required="true"/>
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

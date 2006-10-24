@@ -55,7 +55,7 @@
                     <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" >
                        	<defaultValue>true</defaultValue>
                     </maintainableField>
-                    <maintainableField name="versionNumber" required="true"/>
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

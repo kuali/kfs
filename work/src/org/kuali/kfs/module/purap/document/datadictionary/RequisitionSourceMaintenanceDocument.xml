@@ -53,7 +53,7 @@
                     <maintainableField name="requisitionSourceCode" required="true" />
                     <maintainableField name="requisitionSourceDescription" required="true" />
                     <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
-                    <maintainableField name="versionNumber" required="true"/>
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

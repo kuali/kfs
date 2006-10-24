@@ -54,7 +54,7 @@
 					<maintainableField name="chartOfAccountsCode" required="true"/>
 					<maintainableField name="organizationCode" required="true"/>
 					<maintainableField name="organizationAutomaticPurchaseOrderLimit"/>
-					<maintainableField name="versionNumber" required="true"/>
+					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

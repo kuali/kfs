@@ -56,7 +56,7 @@
 					<maintainableField name="campusPurchasingDirectorName"/>
 					<maintainableField name="campusPurchasingDirectorTitle"/>
 					<maintainableField name="campusAccountsPayableEmailAddress"/>
-					<maintainableField name="versionNumber" required="true"/>
+					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

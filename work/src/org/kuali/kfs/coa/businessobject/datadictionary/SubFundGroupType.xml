@@ -21,7 +21,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.SubFundGroupType">
-        <customAttributeEnabled>false</customAttributeEnabled>
+        <customAttributeEnabled>true</customAttributeEnabled>
 
         <inquiry>
             <title>Sub-Fund Group Type Inquiry</title>

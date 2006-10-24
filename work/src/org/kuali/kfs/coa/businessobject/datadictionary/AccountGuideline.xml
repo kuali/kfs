@@ -22,7 +22,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.AccountGuideline">
 
-        <customAttributeEnabled>false</customAttributeEnabled>
+        <customAttributeEnabled>true</customAttributeEnabled>
 
         <attributes>
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />

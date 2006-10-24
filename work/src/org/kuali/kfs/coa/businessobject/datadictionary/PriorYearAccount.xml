@@ -21,7 +21,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.PriorYearAccount">
-        <customAttributeEnabled>false</customAttributeEnabled>
+        <customAttributeEnabled>true</customAttributeEnabled>
 
         <inquiry>
             <title>Prior Year Account Inquiry</title>

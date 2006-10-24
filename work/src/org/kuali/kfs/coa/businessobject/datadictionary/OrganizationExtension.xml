@@ -23,7 +23,7 @@
 	<businessObject
 		businessObjectClass="org.kuali.module.chart.bo.OrganizationExtension">
 
-		<customAttributeEnabled>false</customAttributeEnabled>
+		<customAttributeEnabled>true</customAttributeEnabled>
 
 		<attributes>
 			<attributeReference name="chartOfAccountsCode" 

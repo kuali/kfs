@@ -21,7 +21,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModelName">
-        <customAttributeEnabled>false</customAttributeEnabled>
+        <customAttributeEnabled>true</customAttributeEnabled>
 
         <inquiry>
             <title>Organization Routing Model Name Inquiry</title>

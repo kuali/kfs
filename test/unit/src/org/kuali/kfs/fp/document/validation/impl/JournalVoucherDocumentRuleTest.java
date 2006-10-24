@@ -17,11 +17,25 @@
  */
 package org.kuali.module.financial.rules;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+import org.kuali.Constants;
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.rule.AddAccountingLineRule;
+import org.kuali.core.util.GlobalVariables;
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import org.kuali.module.financial.document.JournalVoucherDocument;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.getBusinessRule;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
@@ -30,6 +44,10 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtil
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE2;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXTERNAL_ENCUMBRANCE_LINE;
@@ -41,29 +59,12 @@ import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
+import org.kuali.test.suite.RelatesTo;
+import static org.kuali.test.suite.RelatesTo.JiraIssue.KULEDOCS1730;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.AddAccountingLineRule;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.KualiTestBase;
-import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext(session = DFOGLE)
 public class JournalVoucherDocumentRuleTest extends KualiTestBase {
@@ -270,11 +271,13 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false, getDataDictionaryService());
     }
 
+    @RelatesTo(KULEDOCS1730)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), EXPENSE_LINE.createSourceAccountingLine(), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry(), 1, getDataDictionaryService());
     }
 
+    @RelatesTo(KULEDOCS1730)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetSourceLine(), getExpectedExplicitSourcePendingEntry(), getExpectedOffsetSourcePendingEntry(), 1, getDataDictionaryService());
     }

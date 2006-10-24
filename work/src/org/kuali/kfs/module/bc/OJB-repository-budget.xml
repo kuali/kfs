@@ -2326,3 +2326,73 @@
 		<foreignkey field-ref="organizationLevelOrganizationCode" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionBuildSalaryTotal01Move" table="LD_BCN_BUILD_SALTOT01_MT">
+	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
+	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salaryPercent" column="SAL_PCT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="salaryPayMonths" column="SAL_PMTHS" jdbc-type="INTEGER"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionBuildSalaryTotal02Move" table="LD_BCN_BUILD_SALTOT02_MT">
+	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
+	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
+	<field-descriptor name="salaryPayMonths" column="SAL_PMTHS" jdbc-type="INTEGER"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionBuildSalaryTotal03Move" table="LD_BCN_BUILD_SALTOT03_MT">
+	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
+	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="calculatedSalaryFoundationMonths" column="CSF_MTHS" jdbc-type="INTEGER"/>
+	<field-descriptor name="calculatedSalaryFoundationPayMonths" column="CSF_PMTHS" jdbc-type="INTEGER"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionBuildSalaryTotal04Move" table="LD_BCN_BUILD_SALTOT04_MT">
+	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
+	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="restatedCalculatedSalaryFoundationAmount" column="RES_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="salaryAmount" column="SAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salaryPercent" column="SAL_PCT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="salaryFullTimeEquivalency" column="SAL_FTE" jdbc-type="DECIMAL"/>
+	<field-descriptor name="salaryMonths" column="SAL_MTHS" jdbc-type="INTEGER"/>
+	<field-descriptor name="salaryPayMonths" column="SAL_PMTHS" jdbc-type="INTEGER"/>
+	<field-descriptor name="calculatedSalaryFoundationMonths" column="CSF_MTHS" jdbc-type="INTEGER"/>
+	<field-descriptor name="calculatedSalaryFoundationPayMonths" column="CSF_PMTHS" jdbc-type="INTEGER"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionBuildSalaryTotal05Move" table="LD_BCN_BUILD_SALTOT05_MT">
+	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
+	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="csfAmount" column="POS_CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedAmount" column="APPT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL"/>
+	<field-descriptor name="initialRequestedAmount" column="INIT_RQST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="initialRequestedFullTimeEquivalency" column="INIT_RQST_FTE" jdbc-type="DECIMAL"/>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationChartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationChartOfAccountsCode" />
+	</reference-descriptor>
+</class-descriptor>

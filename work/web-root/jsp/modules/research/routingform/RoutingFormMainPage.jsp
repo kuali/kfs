@@ -53,8 +53,8 @@
 
     <!-- TAB -->
 
-	<kra-rf:routingFormMainPageCustomAttributes editingMode="${KualiForm.editingMode}" />
-	
+	<!-- kra-rf:routingFormMainPageCustomAttributes editingMode="${KualiForm.editingMode}" /-->
+
     <!-- TAB -->
 
           <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">

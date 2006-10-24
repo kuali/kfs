@@ -39,10 +39,6 @@
         <lookup>
             <title>Project Director Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.ProjectDirector">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Project Director</instructions>
 
             <defaultSort attributeName="universalUser.personName" sortAscending="true" />

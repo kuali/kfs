@@ -34,7 +34,7 @@
         </div>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Status History Section">
 			<tr>
-            	<td colspan=4 class="tab-subhead">This Document:</td>
+            	<td colspan=5 class="tab-subhead">This Document:</td>
         	</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell
@@ -48,6 +48,9 @@
                 	scope="col" />
             	<kul:htmlAttributeHeaderCell
                 	attributeEntry="${documentAttributes.noteIdentifier}"
+                	scope="col" />
+               	<kul:htmlAttributeHeaderCell
+                	attributeEntry="${documentAttributes.statusHistoryUserIdentifier}"
                 	scope="col" />
         	</tr>
         	<c:forEach var="statusChange" items="${document.statusHistories}">
@@ -67,6 +70,10 @@
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.noteIdentifier}" 
 	                    	property="statusChange.noteIdentifier" readOnly="${readOnly}"/>
+	        		</td>
+	        		<td align=left valign=middle class="datacell">
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryUserIdentifier}" 
+	                    	property="statusChange.statusHistoryUserIdentifier" readOnly="${readOnly}"/>
 	        		</td>
 	        	</tr>
         	</c:forEach>

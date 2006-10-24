@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -53,7 +54,8 @@ public class BudgetConstructionHeader extends BusinessObjectBase {
     private UniversalUser budgetLockUser;
     private UniversalUser budgetTransactionLockUser;
     private Org organizationLevelOrganization;
-
+    private DocumentHeader financialDocument;
+    
     private List budgetConstructionAccountSelect;
 
     /**
@@ -401,6 +403,23 @@ public class BudgetConstructionHeader extends BusinessObjectBase {
         this.subAccount = subAccount;
     }
 
+    /**
+     * Gets the financialDocument attribute. 
+     * @return Returns the financialDocument.
+     */
+    public DocumentHeader getFinancialDocument() {
+        return financialDocument;
+    }
+
+    /**
+     * Sets the financialDocument attribute value.
+     * @param financialDocument The financialDocument to set.
+     * @deprecated
+     */
+    public void setFinancialDocument(DocumentHeader financialDocument) {
+        this.financialDocument = financialDocument;
+    }    
+    
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

@@ -36,10 +36,6 @@
         <lookup>
             <title>Indirect Cost Recovery Exclusion by Type Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
-            </menubar>
-
             <instructions>Lookup an Indirect Cost Recovery Exclusion by type</instructions>
 
             <defaultSort attributeName="accountIndirectCostRecoveryTypeCode" sortAscending="true" />

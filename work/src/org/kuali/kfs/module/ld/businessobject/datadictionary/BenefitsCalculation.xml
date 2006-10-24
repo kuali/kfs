@@ -38,8 +38,6 @@
         <lookup>
             <title>Labor Benefits Calculation Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.BenefitsCalculation">Create New</a>]]></menubar>
-
             <instructions>Lookup an Benefits Calculation</instructions>
 
             <defaultSort sortAscending="true">

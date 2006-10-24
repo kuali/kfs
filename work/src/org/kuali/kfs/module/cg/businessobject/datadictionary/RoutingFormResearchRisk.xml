@@ -42,8 +42,6 @@
         <lookup>
             <title>Routing Form Research Risk Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Research Risk</instructions>
 
             <defaultSort sortAscending="true">

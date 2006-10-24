@@ -44,8 +44,6 @@
         <lookup>
             <title>Purchase Order Account Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderAccount">Create New</a>]]></menubar>
-
             <instructions>Lookup an Purchase Order Account</instructions>
 
             <defaultSort sortAscending="true">

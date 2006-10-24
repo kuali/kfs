@@ -41,8 +41,6 @@
         <lookup>
             <title>Budget Construction Active Job Move Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionActiveJobMove">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Active Job Move</instructions>
 
             <defaultSort sortAscending="true">

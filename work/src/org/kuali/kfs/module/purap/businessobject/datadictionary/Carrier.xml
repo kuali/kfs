@@ -36,8 +36,6 @@
         <lookup>
             <title>Carrier Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.Carrier">Create New</a>]]></menubar>
-
             <instructions>Lookup a Carrier</instructions>
 
             <defaultSort sortAscending="true">

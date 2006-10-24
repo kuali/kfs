@@ -45,8 +45,6 @@
         <lookup>
             <title>Budget Construction Control List Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionControlList">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Control List</instructions>
 
             <defaultSort sortAscending="true">

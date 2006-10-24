@@ -36,8 +36,6 @@
         <lookup>
             <title>Budget Construction Administrative Post Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionAdministrativePost">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Administrative Post</instructions>
 
             <defaultSort sortAscending="true">

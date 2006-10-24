@@ -42,8 +42,6 @@
         <lookup>
             <title>Budget Construction Object Dump Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionObjectDump">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Object Dump</instructions>
 
             <defaultSort sortAscending="true">

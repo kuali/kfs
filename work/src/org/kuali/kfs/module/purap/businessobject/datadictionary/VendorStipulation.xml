@@ -37,8 +37,6 @@
         <lookup>
             <title>Vendor Stipulation Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.VendorStipulation">Create New</a>]]></menubar>
-
             <instructions>Lookup a Vendor Stipulation</instructions>
 
             <defaultSort sortAscending="true">

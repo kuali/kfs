@@ -36,8 +36,6 @@
         <lookup>
             <title>Funding Source Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.FundingSource">Create New</a>]]></menubar>
-
             <instructions>Lookup a Funding Source</instructions>
 
             <defaultSort sortAscending="true">

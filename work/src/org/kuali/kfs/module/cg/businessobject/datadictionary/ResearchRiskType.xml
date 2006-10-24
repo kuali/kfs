@@ -38,8 +38,6 @@
         <lookup>
             <title>Research Risk Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.ResearchRiskType">Create New</a>]]></menubar>
-
             <instructions>Look up a Research Risk Type</instructions>
 
             <defaultSort sortAscending="true">

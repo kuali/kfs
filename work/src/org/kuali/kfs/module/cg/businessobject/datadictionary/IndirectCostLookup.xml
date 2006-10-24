@@ -36,10 +36,6 @@
         <lookup>
             <title>Indirect Cost Lookup Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.IndirectCostLookup">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Indirect Cost Lookup</instructions>
 
             <defaultSort attributeName="budgetPurposeCode" sortAscending="true" />

@@ -39,8 +39,6 @@
         <lookup>
             <title>Budget Construction Pullup Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionPullup">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Pullup</instructions>
 
             <defaultSort sortAscending="true">

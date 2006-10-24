@@ -36,8 +36,6 @@
         <lookup>
             <title>Recurring Payment Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RecurringPaymentType">Create New</a>]]></menubar>
-
             <instructions>Lookup a Recurring Payment Type</instructions>
 
             <defaultSort sortAscending="true">

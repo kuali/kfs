@@ -37,8 +37,6 @@
         <lookup>
             <title>Proposal Organization Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.ProposalOrganization">Create New</a>]]></menubar>
-
             <instructions>Look up a Proposal Organization</instructions>
 
             <defaultSort sortAscending="true">

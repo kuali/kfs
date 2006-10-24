@@ -36,8 +36,6 @@
         <lookup>
             <title>Budget Construction Sub Fund Pick Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionSubFundPick">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Sub Fund Pick</instructions>
 
             <defaultSort sortAscending="true">

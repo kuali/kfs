@@ -35,10 +35,6 @@
         <lookup>
             <title>Graduate Assistant Rate Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.GraduateAssistantRate">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Graduate Assistant Rate</instructions>
 
             <defaultSort attributeName="campusCode" sortAscending="false" />

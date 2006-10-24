@@ -35,10 +35,6 @@
         <lookup>
             <title>Budget Base Code Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.BudgetBaseCode">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Budget Base Code</instructions>
 
             <defaultSort attributeName="budgetBaseCode" sortAscending="true" />

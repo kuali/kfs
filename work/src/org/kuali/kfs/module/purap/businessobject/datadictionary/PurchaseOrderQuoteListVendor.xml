@@ -36,8 +36,6 @@
         <lookup>
             <title>Purchase Order Quote List Vendor Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor">Create New</a>]]></menubar>
-
             <instructions>Lookup an Purchase Order Quote List Vendor</instructions>
 
             <defaultSort sortAscending="true">

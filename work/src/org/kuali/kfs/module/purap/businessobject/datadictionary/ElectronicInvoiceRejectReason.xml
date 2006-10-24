@@ -37,8 +37,6 @@
         <lookup>
             <title>Electronic Invoice Reject Reason Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ElectronicInvoiceRejectReason">Create New</a>]]></menubar>
-
             <instructions>Lookup an Electronic Invoice Reject Reason</instructions>
 
             <defaultSort sortAscending="true">

@@ -78,8 +78,6 @@
         <lookup>
             <title>Ledger Entry Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.LedgerEntry">Create New</a>]]></menubar>
-
             <instructions>Look up a Ledger Entry</instructions>
 
             <defaultSort sortAscending="true">

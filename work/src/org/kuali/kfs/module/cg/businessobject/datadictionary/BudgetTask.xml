@@ -38,10 +38,6 @@
         <lookup>
             <title>Budget Task</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.BudgetTask">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup an Budget Task</instructions>
 
             <defaultSort attributeName="researchDocumentNumber" sortAscending="true" />

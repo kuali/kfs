@@ -36,10 +36,6 @@
         <lookup>
             <title>Contracts and Grants Agency Type Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AgencyType">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Contracts and Grants Agency Type</instructions>
 
             <defaultSort attributeName="code" sortAscending="false" />

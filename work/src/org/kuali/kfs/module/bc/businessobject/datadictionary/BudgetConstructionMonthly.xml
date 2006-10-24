@@ -54,8 +54,6 @@
         <lookup>
             <title>Budget Construction Monthly Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionMonthly">Create New</a>]]></menubar>
-
             <instructions>Look up Budget Construction Monthly</instructions>
 
             <defaultSort sortAscending="true">

@@ -43,8 +43,6 @@
         <lookup>
             <title>Billing Address Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.BillingAddress">Create New</a>]]></menubar>
-
             <instructions>Lookup a Billing Address</instructions>
 
             <defaultSort sortAscending="true">

@@ -38,10 +38,6 @@
         <lookup>
             <title>Nonpersonnel Sub Category Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.NonpersonnelSubCategory">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Nonpersonnel Sub Category</instructions>
 
             <defaultSort attributeName="code" sortAscending="false" />

@@ -38,8 +38,6 @@
         <lookup>
             <title>Budget Construction Organization Reports Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionOrganizationReports">Create New</a>]]></menubar>
-
             <instructions>Look up Budget Construction Organization Reports</instructions>
 
             <defaultSort sortAscending="true">

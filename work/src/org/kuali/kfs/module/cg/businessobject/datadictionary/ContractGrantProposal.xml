@@ -36,8 +36,6 @@
         <lookup>
             <title>Contract Grant Proposal Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.ContractGrantProposal">Create New</a>]]></menubar>
-
             <instructions>Look up a Contract Grant Proposal</instructions>
 
             <defaultSort sortAscending="true">

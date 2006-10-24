@@ -36,8 +36,6 @@
         <lookup>
             <title>Grant Description Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.GrantDescription">Create New</a>]]></menubar>
-
             <instructions>Look up a Grant Description</instructions>
 
             <defaultSort sortAscending="true">

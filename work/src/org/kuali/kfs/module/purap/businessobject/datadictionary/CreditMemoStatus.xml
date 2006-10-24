@@ -36,8 +36,6 @@
         <lookup>
             <title>Credit Memo Status Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CreditMemoStatus">Create New</a>]]></menubar>
-
             <instructions>Lookup a Credit Memo Status</instructions>
 
             <defaultSort sortAscending="true">

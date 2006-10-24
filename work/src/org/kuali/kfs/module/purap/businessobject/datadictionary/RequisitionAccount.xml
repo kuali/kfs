@@ -43,8 +43,6 @@
         <lookup>
             <title>Requisition Account Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RequisitionAccount">Create New</a>]]></menubar>
-
             <instructions>Lookup an Requisition Account</instructions>
 
             <defaultSort sortAscending="true">

@@ -36,10 +36,6 @@
         <lookup>
             <title>Service Billing Control Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.ServiceBillingControl">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Service Billing Control</instructions>
 
             <defaultSort attributeName="chartOfAccountsCode" sortAscending="true" />

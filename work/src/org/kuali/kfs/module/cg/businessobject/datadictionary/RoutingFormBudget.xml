@@ -42,8 +42,6 @@
         <lookup>
             <title>Routing Form Budget Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormBudget">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Budget</instructions>
 
             <defaultSort sortAscending="true">

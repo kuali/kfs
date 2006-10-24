@@ -35,9 +35,7 @@
 
         <lookup>
             <title>Proposal Status Lookup</title>
-
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.ProposalStatus">Create New</a>]]></menubar>
-
+   
             <instructions>Look up a Proposal Status</instructions>
 
             <defaultSort sortAscending="true">

@@ -58,8 +58,6 @@
         <lookup>
             <title>Routing Form Agency Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormAgency">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Agency</instructions>
 
             <defaultSort sortAscending="true">

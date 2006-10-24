@@ -44,8 +44,6 @@
         <lookup>
             <title>Budget Construction Position Select Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionPositionSelect">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Position Select</instructions>
 
             <defaultSort sortAscending="true">

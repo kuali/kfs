@@ -55,8 +55,6 @@
         <lookup>
             <title>Pending Budget Construction Appointment Funding Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding">Create New</a>]]></menubar>
-
             <instructions>Look up Pending Budget Construction Appointment Funding</instructions>
 
             <defaultSort sortAscending="true">

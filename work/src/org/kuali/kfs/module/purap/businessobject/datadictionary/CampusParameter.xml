@@ -37,8 +37,6 @@
         <lookup>
             <title>Campus Parameter Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CampusParameter">Create New</a>]]></menubar>
-
             <instructions>Look up a Campus Parameter</instructions>
 
             <defaultSort sortAscending="true">

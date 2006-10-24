@@ -36,8 +36,6 @@
         <lookup>
             <title>Requisition Status Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RequisitionStatus">Create New</a>]]></menubar>
-
             <instructions>Lookup an Requisition Status</instructions>
 
             <defaultSort sortAscending="true">

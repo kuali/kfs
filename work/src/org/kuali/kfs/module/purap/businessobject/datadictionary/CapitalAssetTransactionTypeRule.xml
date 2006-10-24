@@ -36,8 +36,6 @@
         <lookup>
             <title>Capital Asset Transaction Type Rule Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CapitalAssetTransactionTypeRule">Create New</a>]]></menubar>
-
             <instructions>Lookup a Capital Asset Transaction Type Rule</instructions>
 
             <defaultSort sortAscending="true">

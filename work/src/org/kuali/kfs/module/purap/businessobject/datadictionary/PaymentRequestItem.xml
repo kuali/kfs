@@ -49,8 +49,6 @@
         <lookup>
             <title>Payment Request Item Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PaymentRequestItem">Create New</a>]]></menubar>
-
             <instructions>Lookup a Payment Request Item</instructions>
 
             <defaultSort sortAscending="true">

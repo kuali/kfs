@@ -40,8 +40,6 @@
         <lookup>
             <title>Electronic Invoice Load Summary Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ElectronicInvoiceLoadSummary">Create New</a>]]></menubar>
-
             <instructions>Lookup an Electronic Invoice Load Summary</instructions>
 
             <defaultSort sortAscending="true">

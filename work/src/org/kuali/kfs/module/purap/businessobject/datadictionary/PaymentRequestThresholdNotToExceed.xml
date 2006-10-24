@@ -35,8 +35,6 @@
         <lookup>
             <title>Payment Request Threshold Not To Exceed Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PaymentRequestThresholdNotToExceed">Create New</a>]]></menubar>
-
             <instructions>Lookup a Payment Request Threshold Not To Exceed</instructions>
 
             <defaultSort sortAscending="true">

@@ -36,8 +36,6 @@
         <lookup>
             <title>Requisition Source Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RequisitionSource">Create New</a>]]></menubar>
-
             <instructions>Lookup an Requisition Source</instructions>
 
             <defaultSort sortAscending="true">

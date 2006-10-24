@@ -50,8 +50,6 @@
         <lookup>
             <title>Requisition Item Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RequisitionItem">Create New</a>]]></menubar>
-
             <instructions>Lookup an Requisition Item</instructions>
 
             <defaultSort sortAscending="true">

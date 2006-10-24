@@ -41,8 +41,6 @@
         <lookup>
             <title>Budget Construction Pay Rate Holding Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionPayRateHolding">Create New</a>]]></menubar>
-
             <instructions>Look up Budget Construction Pay Rate Holding</instructions>
 
             <defaultSort sortAscending="true">

@@ -43,8 +43,6 @@
         <lookup>
             <title>Budget Construction Header Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionHeader">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Header</instructions>
 
             <defaultSort sortAscending="true">

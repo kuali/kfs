@@ -37,8 +37,6 @@
         <lookup>
             <title>Project Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.ProjectType">Create New</a>]]></menubar>
-
             <instructions>Look up a Project Type</instructions>
 
             <defaultSort sortAscending="true">

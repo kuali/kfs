@@ -36,8 +36,6 @@
         <lookup>
             <title>Proposal Purpose Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.ProposalPurpose">Create New</a>]]></menubar>
-
             <instructions>Look up a Proposal Purpose</instructions>
 
             <defaultSort sortAscending="true">

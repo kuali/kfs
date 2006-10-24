@@ -52,8 +52,6 @@
         <lookup>
             <title>Calculated Salary Foundation Tracker Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker">Create New</a>]]></menubar>
-
             <instructions>Look up a Calculated Salary Foundation Tracker</instructions>
 
             <defaultSort sortAscending="true">

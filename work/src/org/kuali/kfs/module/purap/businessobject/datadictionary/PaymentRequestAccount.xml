@@ -45,8 +45,6 @@
         <lookup>
             <title>Payment Request Account Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PaymentRequestAccount">Create New</a>]]></menubar>
-
             <instructions>Lookup a Payment Request Account</instructions>
 
             <defaultSort sortAscending="true">

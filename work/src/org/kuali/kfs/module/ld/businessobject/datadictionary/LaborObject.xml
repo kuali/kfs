@@ -41,8 +41,6 @@
         <lookup>
             <title>Labor Object Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.LaborObject">Create New</a>]]></menubar>
-
             <instructions>Look up a Labor Object</instructions>
 
             <defaultSort sortAscending="true">

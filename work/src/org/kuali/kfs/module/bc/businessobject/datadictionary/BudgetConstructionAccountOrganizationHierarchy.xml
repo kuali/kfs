@@ -39,8 +39,6 @@
         <lookup>
             <title>Budget Construction Account Organization Hierarchy Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Account Organization Hierarchy</instructions>
 
             <defaultSort sortAscending="true">

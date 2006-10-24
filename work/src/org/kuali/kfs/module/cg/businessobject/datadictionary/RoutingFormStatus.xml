@@ -36,8 +36,6 @@
         <lookup>
             <title>Routing Form Status Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormStatus">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Status</instructions>
 
             <defaultSort sortAscending="true">

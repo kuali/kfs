@@ -39,8 +39,6 @@
         <lookup>
             <title>Budget Construction Intended Incumbent Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Intended Incumbent</instructions>
 
             <defaultSort sortAscending="true">

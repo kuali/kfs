@@ -41,8 +41,6 @@
         <lookup>
             <title>Budget Construction Salary Total Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionSalaryTotal">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Salary Total</instructions>
 
             <defaultSort sortAscending="true">

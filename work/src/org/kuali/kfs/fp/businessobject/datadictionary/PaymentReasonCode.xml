@@ -37,9 +37,7 @@
 
         <lookup>
             <title>Payment Reason Code lookup</title>
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
-            </menubar>
+
             <instructions>Lookup a Payment Reason Code</instructions>
             <defaultSort attributeName="code" sortAscending="false" />
 

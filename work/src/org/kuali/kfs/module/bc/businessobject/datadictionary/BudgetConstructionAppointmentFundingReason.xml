@@ -43,8 +43,6 @@
         <lookup>
             <title>Budget Construction Appointment Funding Reason Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReason">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Appointment Funding Reason</instructions>
 
             <defaultSort sortAscending="true">

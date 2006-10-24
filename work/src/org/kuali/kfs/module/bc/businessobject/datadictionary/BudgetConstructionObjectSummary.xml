@@ -50,8 +50,6 @@
         <lookup>
             <title>Budget Construction Object Summary Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionObjectSummary">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Object Summary</instructions>
 
             <defaultSort sortAscending="true">

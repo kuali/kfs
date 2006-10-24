@@ -35,9 +35,7 @@
 
         <lookup>
             <title>Restricted Status lookup</title>
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.RestrictedStatus"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
-            </menubar>
+
             <instructions>Lookup an Restricted Status Code</instructions>
             <defaultSort attributeName="accountRestrictedStatusCode" sortAscending="true" />
 

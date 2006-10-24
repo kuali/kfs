@@ -36,8 +36,6 @@
         <lookup>
             <title>Sub-Fund Group Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubFundGroupType"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]></menubar>
-
             <instructions>Look up a Sub-Fund Group Type</instructions>
 
             <defaultSort sortAscending="true">

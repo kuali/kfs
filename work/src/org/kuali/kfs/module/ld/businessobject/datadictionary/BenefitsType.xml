@@ -36,8 +36,6 @@
         <lookup>
             <title>Labor Benefits Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.BenefitsType">Create New</a>]]></menubar>
-
             <instructions>Lookup an Benefits Type</instructions>
 
             <defaultSort sortAscending="true">

@@ -36,8 +36,6 @@
         <lookup>
             <title>Organization Parameter Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.OrganizationParameter">Create New</a>]]></menubar>
-
             <instructions>Look up an Organization Parameter</instructions>
 
             <defaultSort sortAscending="true">

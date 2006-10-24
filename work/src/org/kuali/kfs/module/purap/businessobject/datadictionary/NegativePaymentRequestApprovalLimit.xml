@@ -38,8 +38,6 @@
         <lookup>
             <title>Negative Payment Request Approval Limit Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.NegativePaymentRequestApprovalLimit">Create New</a>]]></menubar>
-
             <instructions>Lookup a Negative Payment Request Approval Limit</instructions>
 
             <defaultSort sortAscending="true">

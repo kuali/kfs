@@ -41,8 +41,6 @@
         <lookup>
             <title>Award Subcontractor Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AwardSubcontractor">Create New</a>]]></menubar>
-
             <instructions>Look up an Award Subcontractor</instructions>
 
             <defaultSort sortAscending="true">

@@ -38,8 +38,6 @@
         <lookup>
             <title>Routing Form Organization Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormOrganization">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Organization</instructions>
 
             <defaultSort sortAscending="true">

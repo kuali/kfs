@@ -53,8 +53,6 @@
         <lookup>
             <title>Budget Construction Appointment Funding Load Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingLoad">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Appointment Funding Load</instructions>
 
             <defaultSort sortAscending="true">

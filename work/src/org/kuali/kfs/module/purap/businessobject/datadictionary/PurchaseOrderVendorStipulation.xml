@@ -38,8 +38,6 @@
         <lookup>
             <title>Purchase Order Vendor Stipulation Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderVendorStipulation">Create New</a>]]></menubar>
-
             <instructions>Lookup an Purchase Order Vendor Stipulation</instructions>
 
             <defaultSort sortAscending="true">

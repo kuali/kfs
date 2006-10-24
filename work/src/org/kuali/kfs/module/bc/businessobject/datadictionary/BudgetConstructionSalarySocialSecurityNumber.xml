@@ -38,8 +38,6 @@
         <lookup>
             <title>Budget Construction Salary Social Security Number Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Salary Social Security Number</instructions>
 
             <defaultSort sortAscending="true">

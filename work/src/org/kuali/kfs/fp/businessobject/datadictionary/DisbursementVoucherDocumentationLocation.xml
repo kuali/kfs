@@ -36,10 +36,6 @@
         <lookup>
             <title>Documentation Location Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Disbursement Voucher Documentation Location</instructions>
 
             <defaultSort attributeName="disbursementVoucherDocumentationLocationCode" sortAscending="true" />

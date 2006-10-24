@@ -40,8 +40,6 @@
         <lookup>
             <title>Routing Form Institution Cost Share Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Institution Cost Share</instructions>
 
             <defaultSort sortAscending="true">

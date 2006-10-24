@@ -44,8 +44,6 @@
         <lookup>
             <title>Pending Budget Construction General Ledger Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger">Create New</a>]]></menubar>
-
             <instructions>Look up a Pending Budget Construction General Ledger</instructions>
 
             <defaultSort sortAscending="true">

@@ -36,8 +36,6 @@
         <lookup>
             <title>Budget Construction Duration Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionDuration">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Duration</instructions>
 
             <defaultSort sortAscending="true">

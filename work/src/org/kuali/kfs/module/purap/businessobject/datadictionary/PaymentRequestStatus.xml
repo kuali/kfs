@@ -36,8 +36,6 @@
         <lookup>
             <title>Payment Request Status Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PaymentRequestStatus">Create New</a>]]></menubar>
-
             <instructions>Lookup a Payment Request Status</instructions>
 
             <defaultSort sortAscending="true">

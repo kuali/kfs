@@ -35,8 +35,6 @@
         <lookup>
             <title>Routing Form Conflict Of Interest Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormConflictOfInterest">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Conflict Of Interest</instructions>
 
             <defaultSort sortAscending="true">

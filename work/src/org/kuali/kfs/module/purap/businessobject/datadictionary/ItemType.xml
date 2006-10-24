@@ -36,8 +36,6 @@
         <lookup>
             <title>Item Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ItemType">Create New</a>]]></menubar>
-
             <instructions>Lookup an Item Type</instructions>
 
             <defaultSort sortAscending="true">

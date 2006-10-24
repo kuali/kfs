@@ -38,8 +38,6 @@
         <lookup>
             <title>Routing Form Subcontractor Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Subcontractor</instructions>
 
             <defaultSort sortAscending="true">

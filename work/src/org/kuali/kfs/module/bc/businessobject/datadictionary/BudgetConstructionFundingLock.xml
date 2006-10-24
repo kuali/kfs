@@ -43,8 +43,6 @@
         <lookup>
             <title>Budget Construction Funding Lock Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionFundingLock">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Funding Lock</instructions>
 
             <defaultSort sortAscending="true">

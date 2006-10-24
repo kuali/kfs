@@ -36,8 +36,6 @@
         <lookup>
             <title>Purchase Order Quote Status Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderQuoteStatus">Create New</a>]]></menubar>
-
             <instructions>Lookup a Purchase Order Quote Status</instructions>
 
             <defaultSort sortAscending="true">

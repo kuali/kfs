@@ -36,8 +36,6 @@
         <lookup>
             <title>Organization Routing Model Name Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrganizationRoutingModelName"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]></menubar>
-
             <instructions>Look up an Organization Routing Model Name</instructions>
 
             <defaultSort sortAscending="true">

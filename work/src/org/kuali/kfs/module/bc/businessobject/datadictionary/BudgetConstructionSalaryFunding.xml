@@ -42,8 +42,6 @@
         <lookup>
             <title>Budget Construction Salary Funding Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionSalaryFunding">Create New</a>]]></menubar>
-
             <instructions>Look up Budget Construction Salary Funding</instructions>
 
             <defaultSort sortAscending="true">

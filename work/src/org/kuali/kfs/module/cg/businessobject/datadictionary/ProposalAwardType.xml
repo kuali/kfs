@@ -36,8 +36,6 @@
         <lookup>
             <title>Proposal Award Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.ProposalAwardType">Create New</a>]]></menubar>
-
             <instructions>Look up a Proposal Award Type</instructions>
 
             <defaultSort sortAscending="true">

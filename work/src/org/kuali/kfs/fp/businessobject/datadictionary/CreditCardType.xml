@@ -35,10 +35,6 @@
         <lookup>
             <title>Credit Card Type Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.CreditCardType"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
-            </menubar>
-
             <instructions>Lookup a Credit Card Type</instructions>
 
             <defaultSort attributeName="financialDocumentCreditCardTypeCode" sortAscending="true" />

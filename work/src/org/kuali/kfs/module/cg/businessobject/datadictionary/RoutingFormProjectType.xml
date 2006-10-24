@@ -36,8 +36,6 @@
         <lookup>
             <title>Routing Form Project Type Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormProjectType">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Project Type</instructions>
 
             <defaultSort sortAscending="true">

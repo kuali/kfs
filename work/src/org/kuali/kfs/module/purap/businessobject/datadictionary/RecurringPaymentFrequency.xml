@@ -36,8 +36,6 @@
         <lookup>
             <title>Recurring Payment Frequency Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RecurringPaymentFrequency">Create New</a>]]></menubar>
-
             <instructions>Lookup a Recurring Payment Frequency</instructions>
 
             <defaultSort sortAscending="true">

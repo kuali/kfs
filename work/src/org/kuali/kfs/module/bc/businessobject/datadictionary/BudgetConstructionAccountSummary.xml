@@ -45,8 +45,6 @@
         <lookup>
             <title>Budget Construction Account Summary Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionAccountSummary">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Account Summary</instructions>
 
             <defaultSort sortAscending="true">

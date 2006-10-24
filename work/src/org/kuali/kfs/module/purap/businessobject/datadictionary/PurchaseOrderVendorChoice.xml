@@ -36,8 +36,6 @@
         <lookup>
             <title>Purchase Order Vendor Choice Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderVendorChoice">Create New</a>]]></menubar>
-
             <instructions>Lookup a Purchase Order Vendor Choice</instructions>
 
             <defaultSort sortAscending="true">

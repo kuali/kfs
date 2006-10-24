@@ -45,8 +45,6 @@
         <lookup>
             <title>Budget Construction Position Funding Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionPositionFunding">Create New</a>]]></menubar>
-
             <instructions>Look up Budget Construction Position Funding</instructions>
 
             <defaultSort sortAscending="true">

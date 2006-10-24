@@ -82,10 +82,6 @@
         <lookup>
             <title>Sub-Account Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubAccount"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
-            </menubar>
-
             <instructions>Lookup a Sub-Account</instructions>
 
             <defaultSort attributeName="subAccountNumber" sortAscending="true" />

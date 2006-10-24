@@ -37,8 +37,6 @@
         <lookup>
             <title>Routing Form Other Cost Share Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Other Cost Share</instructions>
 
             <defaultSort sortAscending="true">

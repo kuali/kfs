@@ -36,8 +36,6 @@
         <lookup>
             <title>Routing Form Purpose Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.RoutingFormPurpose">Create New</a>]]></menubar>
-
             <instructions>Look up a Routing Form Purpose</instructions>
 
             <defaultSort sortAscending="true">

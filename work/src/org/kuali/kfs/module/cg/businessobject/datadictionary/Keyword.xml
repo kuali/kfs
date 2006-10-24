@@ -35,8 +35,6 @@
         <lookup>
             <title>Keyword Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.Keyword">Create New</a>]]></menubar>
-
             <instructions>Look up a Keyword</instructions>
 
             <defaultSort sortAscending="true">

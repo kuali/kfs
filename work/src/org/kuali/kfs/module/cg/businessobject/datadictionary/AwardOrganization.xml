@@ -37,8 +37,6 @@
         <lookup>
             <title>Award Organization Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AwardOrganization">Create New</a>]]></menubar>
-
             <instructions>Look up an Award Organization</instructions>
 
             <defaultSort sortAscending="true">

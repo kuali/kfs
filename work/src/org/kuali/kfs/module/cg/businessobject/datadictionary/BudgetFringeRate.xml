@@ -40,10 +40,6 @@
         <lookup>
             <title>Budget Fringe Rate</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.budget.bo.BudgetFringeRate">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Budget Fringe Rate</instructions>
 
             <defaultSort attributeName="researchDocumentNumber" sortAscending="true" />

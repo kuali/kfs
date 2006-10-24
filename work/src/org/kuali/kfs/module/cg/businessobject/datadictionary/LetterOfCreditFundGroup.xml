@@ -36,8 +36,6 @@
         <lookup>
             <title>Letter Of Credit Fund Group Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.LetterOfCreditFundGroup">Create New</a>]]></menubar>
-
             <instructions>Look up a Letter Of Credit Fund Group</instructions>
 
             <defaultSort sortAscending="true">

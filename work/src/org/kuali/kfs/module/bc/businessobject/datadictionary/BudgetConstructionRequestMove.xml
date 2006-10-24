@@ -54,8 +54,6 @@
         <lookup>
             <title>Budget Construction Request Move Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionRequestMove">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Request Move</instructions>
 
             <defaultSort sortAscending="true">

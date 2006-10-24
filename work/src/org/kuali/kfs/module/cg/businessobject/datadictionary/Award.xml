@@ -66,8 +66,6 @@
         <lookup>
             <title>Award Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Award">Create New</a>]]></menubar>
-
             <instructions>Look up an Award</instructions>
 
             <defaultSort sortAscending="true">

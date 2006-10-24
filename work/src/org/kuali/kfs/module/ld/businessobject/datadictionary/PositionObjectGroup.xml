@@ -36,8 +36,6 @@
         <lookup>
             <title>Position Object Group Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.PositionObjectGroup">Create New</a>]]></menubar>
-
             <instructions>Look up a Position Object Group</instructions>
 
             <defaultSort sortAscending="true">

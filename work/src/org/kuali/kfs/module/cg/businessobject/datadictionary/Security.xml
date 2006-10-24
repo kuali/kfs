@@ -34,10 +34,6 @@
         <lookup>
             <title>Contracts and Grants Security Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Security">Create New</a>]]>
-            </menubar>
-
             <instructions>Lookup a Contracts and Grants Security Record</instructions>
 
             <defaultSort attributeName="kualiUser.personUniversalIdentifier" sortAscending="true" />

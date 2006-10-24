@@ -90,8 +90,6 @@
         <lookup>
             <title>Prior Year Account Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.PriorYearAccount">Create New</a>]]></menubar>
-
             <instructions>Look up a Prior Year Account</instructions>
 
             <defaultSort sortAscending="true">

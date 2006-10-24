@@ -63,8 +63,6 @@
         <lookup>
             <title>Shipment Receiving Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.ShipmentReceiving">Create New</a>]]></menubar>
-
             <instructions>Lookup an Shipment Receiving</instructions>
 
             <defaultSort sortAscending="true">

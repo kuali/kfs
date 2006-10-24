@@ -36,8 +36,6 @@
         <lookup>
             <title>Delivery Required Date Reason Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.DeliveryRequiredDateReason">Create New</a>]]></menubar>
-
             <instructions>Lookup an Delivery Required Date Reason</instructions>
 
             <defaultSort sortAscending="true">

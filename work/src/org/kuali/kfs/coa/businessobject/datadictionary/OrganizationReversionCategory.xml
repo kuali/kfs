@@ -37,10 +37,6 @@
         <lookup>
             <title>Organization Reversion Category Lookup</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrganizationReversionCategory"><img src="images/tinybutton-createnew.gif" alt="create new" width="70" height="15"/></a>]]>
-            </menubar>
-
             <instructions>Lookup an Organization Reversion Category</instructions>
 
             <defaultSort attributeName="organizationReversionCategoryCode" sortAscending="true" />

@@ -38,8 +38,6 @@
         <lookup>
             <title>Budget Construction Account Dump Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionAccountDump">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Account Dump</instructions>
 
             <defaultSort sortAscending="true">

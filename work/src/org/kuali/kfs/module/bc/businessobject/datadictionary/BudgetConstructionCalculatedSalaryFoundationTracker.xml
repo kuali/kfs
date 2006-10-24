@@ -45,8 +45,6 @@
         <lookup>
             <title>Budget Construction Calculated Salary Foundation Tracker Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker">Create New</a>]]></menubar>
-
             <instructions>Look up a Budget Construction Calculated Salary Foundation Tracker</instructions>
 
             <defaultSort sortAscending="true">

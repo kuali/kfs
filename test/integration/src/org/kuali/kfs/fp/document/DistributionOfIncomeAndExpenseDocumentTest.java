@@ -33,11 +33,13 @@ import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.OftenUsefulSuite;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.OftenUsefulSuite;
+import org.kuali.test.suite.RelatesTo;
+import static org.kuali.test.suite.RelatesTo.JiraIssue.KULEDOCS1662;
 
 /**
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
@@ -69,6 +71,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
     /*
      * This test fails related to https://test.kuali.org/jira/browse/KULEDOCS-1662
      */
+    @RelatesTo(KULEDOCS1662)
     @AnnotationTestSuite(OftenUsefulSuite.class)
     @TestsWorkflowViaDatabase
     public final void testKULEDOCS_1401() throws Exception {

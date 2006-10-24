@@ -17,8 +17,6 @@
  */
 package org.kuali.test.suite;
 
-import java.io.IOException;
-
 import junit.framework.TestSuite;
 
 /**
@@ -31,7 +29,7 @@ import junit.framework.TestSuite;
  */
 public class CrossSectionSuite extends AnnotationTestSuite.Superclass {
     public static TestSuite suite()
-        throws IOException
+        throws Exception
     {
         return new CrossSectionSuite().getSuite();
     }
@@ -42,7 +40,7 @@ public class CrossSectionSuite extends AnnotationTestSuite.Superclass {
      */
     public static class Not {
         public static TestSuite suite()
-            throws IOException
+            throws Exception
         {
             return new CrossSectionSuite().getNegativeSuite();
         }

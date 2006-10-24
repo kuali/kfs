@@ -55,9 +55,10 @@ public class TestSuiteBuilder {
      * @param methodCriteria strategy for whether to include a given test method in the suite, if the whole class was not included.
      * @return a TestSuite containing the specified tests
      * @throws java.io.IOException if the directory containing this class file cannot be scanned for other test class files
+     * @throws Exception if either of the given criteria throw it
      */
     public static TestSuite build(ClassCriteria classCriteria, MethodCriteria methodCriteria)
-        throws IOException
+        throws Exception
     {
         TestSuite suite = new TestSuite();
         for (Class<? extends TestCase> t : constructTestClasses(scanTestClassNames(getTestRootPackageDir()))) {
@@ -172,8 +173,9 @@ public class TestSuiteBuilder {
         /**
          * @param testClass a TestCase to consider for the suite
          * @return whether it should be included as a sub-suite
+         * @throws Exception if necessary
          */
-        boolean includes(Class<? extends TestCase> testClass);
+        boolean includes(Class<? extends TestCase> testClass) throws Exception;
     }
 
     /**
@@ -185,8 +187,9 @@ public class TestSuiteBuilder {
         /**
          * @param testMethod a test method to consider for the suite.  The method name starts with "test", takes no parameters, and returns void.
          * @return whether it should be included
+         * @throws Exception if necessary
          */
-        boolean includes(Method testMethod);
+        boolean includes(Method testMethod) throws Exception;
     }
 
     /**
@@ -215,7 +218,9 @@ public class TestSuiteBuilder {
             this.decorated = decorated;
         }
 
-        public boolean includes(Class<? extends TestCase> testClass) {
+        public boolean includes(Class<? extends TestCase> testClass)
+            throws Exception
+        {
             return !decorated.includes(testClass);
         }
     }
@@ -231,7 +236,9 @@ public class TestSuiteBuilder {
             this.decorated = decorated;
         }
 
-        public boolean includes(Method method) {
+        public boolean includes(Method method)
+            throws Exception
+        {
             return !decorated.includes(method);
         }
     }

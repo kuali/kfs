@@ -17,8 +17,6 @@
  */
 package org.kuali.test.suite;
 
-import java.io.IOException;
-
 import junit.framework.TestSuite;
 
 /**
@@ -27,7 +25,7 @@ import junit.framework.TestSuite;
  */
 public class FiveMinuteSuite {
     public static TestSuite suite()
-        throws IOException
+        throws Exception
     {
         TestSuite suite = new TestSuite(FiveMinuteSuite.class.getName());
         suite.addTest(CrossSectionSuite.suite());

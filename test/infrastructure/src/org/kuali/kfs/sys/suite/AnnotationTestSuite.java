@@ -17,7 +17,6 @@
  */
 package org.kuali.test.suite;
 
-import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -59,7 +58,7 @@ public @interface AnnotationTestSuite {
          * @throws java.io.IOException if the directory containing the test class files cannot be scanned
          */
         protected TestSuite getSuite()
-            throws IOException
+            throws Exception
         {
             TestSuiteBuilder.ClassCriteria classCriteria = new TestSuiteBuilder.ClassCriteria() {
                 public boolean includes(Class<? extends TestCase> testClass) {
@@ -86,7 +85,7 @@ public @interface AnnotationTestSuite {
          * @throws java.io.IOException if the directory containing the test class files cannot be scanned
          */
         protected TestSuite getNegativeSuite()
-            throws IOException
+            throws Exception
         {
             TestSuiteBuilder.MethodCriteria negativeMethodCriteria = new TestSuiteBuilder.MethodCriteria() {
                 public boolean includes(Method method) {

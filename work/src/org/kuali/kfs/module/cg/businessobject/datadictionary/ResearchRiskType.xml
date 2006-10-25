@@ -29,7 +29,6 @@
             <inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchRiskBiosafetyIndicator" />
-                <field attributeName="researchRiskStudyRequiredIndicator" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
             </inquiryFields>
@@ -49,7 +48,6 @@
             <lookupFields>
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="researchRiskBiosafetyIndicator" required="false" />
-                <lookupField attributeName="researchRiskStudyRequiredIndicator" required="false" />
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
                 <lookupField attributeName="researchRiskTypeDescription" required="false" />
             </lookupFields>
@@ -57,7 +55,6 @@
             <resultFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchRiskBiosafetyIndicator" />
-                <field attributeName="researchRiskStudyRequiredIndicator" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
             </resultFields>
@@ -91,20 +88,6 @@
 
                 <summary>researchRiskBiosafetyIndicator</summary>
                 <description>researchRiskBiosafetyIndicator description...</description>
-			</attribute>
-
-            <attribute name="researchRiskStudyRequiredIndicator" forceUppercase="true">
-                <label>Research Risk Study Required Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>researchRiskStudyRequiredIndicator</summary>
-                <description>researchRiskStudyRequiredIndicator description...</description>
 			</attribute>
 
             <attribute name="researchRiskTypeCode" forceUppercase="true">

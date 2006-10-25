@@ -31,7 +31,6 @@ public class ResearchRiskType extends BusinessObjectBase {
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private String researchRiskTypeDescription;
 	private boolean researchRiskBiosafetyIndicator;
-	private boolean researchRiskStudyRequiredIndicator;
 
 	/**
 	 * Default constructor.
@@ -121,27 +120,6 @@ public class ResearchRiskType extends BusinessObjectBase {
 	 */
 	public void setResearchRiskBiosafetyIndicator(boolean researchRiskBiosafetyIndicator) {
 		this.researchRiskBiosafetyIndicator = researchRiskBiosafetyIndicator;
-	}
-
-
-	/**
-	 * Gets the researchRiskStudyRequiredIndicator attribute.
-	 * 
-	 * @return - Returns the researchRiskStudyRequiredIndicator
-	 * 
-	 */
-	public boolean isResearchRiskStudyRequiredIndicator() { 
-		return researchRiskStudyRequiredIndicator;
-	}
-
-	/**
-	 * Sets the researchRiskStudyRequiredIndicator attribute.
-	 * 
-	 * @param - researchRiskStudyRequiredIndicator The researchRiskStudyRequiredIndicator to set.
-	 * 
-	 */
-	public void setResearchRiskStudyRequiredIndicator(boolean researchRiskStudyRequiredIndicator) {
-		this.researchRiskStudyRequiredIndicator = researchRiskStudyRequiredIndicator;
 	}
 
 

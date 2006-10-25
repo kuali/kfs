@@ -17,7 +17,6 @@
  */
 package org.kuali.test.suite;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,7 +29,6 @@ import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.xml.sax.SAXException;
 
 /**
  * The suite of all test classes or methods which {@link org.kuali.test.suite.RelatesTo} a Kuali JIRA issue in-progress.
@@ -41,19 +39,28 @@ import org.xml.sax.SAXException;
 public class InProgressSuite {
 
     private static Collection<String> jiraIssuesInProgress;
+    private static RuntimeException initializationException = null;
     // This public Confluence space does not require a login like JIRA does.  There could be a better way to do this in the JIRA API, though.
     private static final String JIRA_FILTER_URL = "https://test.kuali.org/confluence/display/KULDOC/Issue+Filter+for+Unit+Test+Framework";
 
-    private static Collection<String> getNamesOfJiraIssuesInProgress()
-        throws IOException, SAXException
-    {
+    private static Collection<String> getNamesOfJiraIssuesInProgress() {
+        if (initializationException != null) {
+            // fast fail for remaining KualiTestBase tests that use this, after the first one fails to initialize
+            throw initializationException;
+        }
         if (jiraIssuesInProgress == null) {
-            jiraIssuesInProgress = new HashSet<String>();
-            WebResponse response = new WebConversation().getResponse(new GetMethodWebRequest(JIRA_FILTER_URL));
-            WebTable results = response.getTableStartingWithPrefix("Kuali: Jira");
-            int rowCount = results.getRowCount();
-            for (int row = 2; row < rowCount; row++) {
-                jiraIssuesInProgress.add(results.getCellAsText(row, 0));
+            try {
+                jiraIssuesInProgress = new HashSet<String>();
+                WebResponse response = new WebConversation().getResponse(new GetMethodWebRequest(JIRA_FILTER_URL));
+                WebTable results = response.getTableStartingWithPrefix("Kuali: Jira");
+                int rowCount = results.getRowCount();
+                for (int row = 2; row < rowCount; row++) {
+                    jiraIssuesInProgress.add(results.getCellAsText(row, 0));
+                }
+            }
+            catch (Exception e) {
+                initializationException = new RuntimeException("test framework cannot get list of in-progress JIRA issues", e);
+                throw initializationException;
             }
         }
         return jiraIssuesInProgress;
@@ -65,12 +72,8 @@ public class InProgressSuite {
      * 
      * @param from JIRA issues from which to filter
      * @return any of the given issues that are currently in-progress in JIRA
-     * @throws IOException if Confluence cannot be reached to provide the list of in-progress JIRA issues
-     * @throws SAXException if the response page from Confluence cannot be parsed
      */
-    public static Set<RelatesTo.JiraIssue> getInProgress(Collection<RelatesTo.JiraIssue> from)
-        throws IOException, SAXException
-    {
+    public static Set<RelatesTo.JiraIssue> getInProgress(Collection<RelatesTo.JiraIssue> from) {
         HashSet<RelatesTo.JiraIssue> result = new HashSet<RelatesTo.JiraIssue>();
         if (!from.isEmpty()) { // try to avoid the JIRA query
             for (RelatesTo.JiraIssue issue : from) {
@@ -82,9 +85,7 @@ public class InProgressSuite {
         return result;
     }
 
-    private static boolean hasRelatedIssueInProgress(RelatesTo annotation)
-        throws IOException, SAXException
-    {
+    private static boolean hasRelatedIssueInProgress(RelatesTo annotation) {
         return annotation != null && !getInProgress(Arrays.asList(annotation.value())).isEmpty();
     }
 
@@ -92,16 +93,12 @@ public class InProgressSuite {
         throws Exception
     {
         TestSuiteBuilder.ClassCriteria classCriteria = new TestSuiteBuilder.ClassCriteria() {
-            public boolean includes(Class<? extends TestCase> testClass)
-                throws IOException, SAXException
-            {
+            public boolean includes(Class<? extends TestCase> testClass) {
                 return hasRelatedIssueInProgress(testClass.getAnnotation(RelatesTo.class));
             }
         };
         TestSuiteBuilder.MethodCriteria methodCriteria = new TestSuiteBuilder.MethodCriteria() {
-            public boolean includes(Method method)
-                throws IOException, SAXException
-            {
+            public boolean includes(Method method) {
                 return hasRelatedIssueInProgress(method.getAnnotation(RelatesTo.class));
             }
         };
@@ -118,9 +115,7 @@ public class InProgressSuite {
             throws Exception
         {
             TestSuiteBuilder.MethodCriteria negativeMethodCriteria = new TestSuiteBuilder.MethodCriteria() {
-                public boolean includes(Method method)
-                    throws IOException, SAXException
-                {
+                public boolean includes(Method method) {
                     RelatesTo testClassAnnotation = method.getDeclaringClass().getAnnotation(RelatesTo.class);
                     return !hasRelatedIssueInProgress(testClassAnnotation) && !hasRelatedIssueInProgress(method.getAnnotation(RelatesTo.class));
                 }

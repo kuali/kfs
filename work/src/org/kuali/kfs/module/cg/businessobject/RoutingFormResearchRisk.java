@@ -38,7 +38,7 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
 	private String researchRiskStudyReviewCode;
 	private String researchRiskTypeCode;
 
-    private ResearchRiskType researchRiskType;
+    private RoutingFormDocumentResearchRiskType researchRiskType;
     
 	/**
 	 * Default constructor.
@@ -239,7 +239,7 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
      * Gets the researchRiskType attribute. 
      * @return Returns the researchRiskType.
      */
-    public ResearchRiskType getResearchRiskType() {
+    public RoutingFormDocumentResearchRiskType getResearchRiskType() {
         return researchRiskType;
     }
 
@@ -248,7 +248,7 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
      * @param researchRiskType The researchRiskType to set.
      * @deprecated
      */
-    public void setResearchRiskType(ResearchRiskType researchRiskType) {
+    public void setResearchRiskType(RoutingFormDocumentResearchRiskType researchRiskType) {
         this.researchRiskType = researchRiskType;
     }
     
@@ -261,7 +261,8 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
         if (this.proposalResearchRiskSequenceNumber != null) {
             m.put("proposalResearchRiskSequenceNumber", this.proposalResearchRiskSequenceNumber.toString());
         }
-	    return m;
+        m.put("researchRiskTypeCode", this.researchRiskTypeCode);
+        return m;
     }
 
 

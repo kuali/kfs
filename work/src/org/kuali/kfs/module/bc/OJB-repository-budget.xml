@@ -1478,7 +1478,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionBenefitsRecalculation01Move" table="LD_BENEFITS_RECALC01_MT">
+<class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionBenefitsRecalculation01Move" table="LD_BCN_BENEFITS_RECALC01_MT">
 	<field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true"/>
 	<field-descriptor name="positionFringeBenefitObjectCode" column="POS_FRNGBEN_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

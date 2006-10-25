@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/ControlAttributeType.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.ControlAttributeType">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Control Attribute Type Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="controlAttributeTypeCode" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="requiredIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Control Attribute Type Lookup</title>
+
+            <instructions>Look up a Control Attribute Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="controlAttributeTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="controlAttributeTypeCode" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                <lookupField attributeName="requiredIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="controlAttributeTypeCode" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="requiredIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="controlAttributeTypeCode" forceUppercase="true">
+                <label>Control Attribute Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>controlAttributeTypeCode</summary>
+                <description>controlAttributeTypeCode description...</description>
+			</attribute>
+
+            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
+                <label>Data Object Maintenance Code Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
+                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
+			</attribute>
+
+            <attribute name="requiredIndicator" forceUppercase="true">
+                <label>Required Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>requiredIndicator</summary>
+                <description>requiredIndicator description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

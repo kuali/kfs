@@ -31,7 +31,10 @@ public class ProjectType extends BusinessObjectBase {
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private String projectTypeDescription;
 	private Integer sortNumber;
+    private String controlAttributeTypeCode;
 
+    private ControlAttributeType controlAttributeType;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -122,7 +125,39 @@ public class ProjectType extends BusinessObjectBase {
 		this.sortNumber = sortNumber;
 	}
 
+    /**
+     * Gets the controlAttributeTypeCode attribute. 
+     * @return Returns the controlAttributeTypeCode.
+     */
+    public String getControlAttributeTypeCode() {
+        return controlAttributeTypeCode;
+    }
 
+    /**
+     * Sets the controlAttributeTypeCode attribute value.
+     * @param controlAttributeTypeCode The controlAttributeTypeCode to set.
+     */
+    public void setControlAttributeTypeCode(String controlAttributeTypeCode) {
+        this.controlAttributeTypeCode = controlAttributeTypeCode;
+    }
+
+    /**
+     * Gets the controlAttributeType attribute. 
+     * @return Returns the controlAttributeType.
+     */
+    public ControlAttributeType getControlAttributeType() {
+        return controlAttributeType;
+    }
+
+    /**
+     * Sets the controlAttributeType attribute value.
+     * @param controlAttributeType The controlAttributeType to set.
+     * @deprecated
+     */
+    public void setControlAttributeType(ControlAttributeType controlAttributeType) {
+        this.controlAttributeType = controlAttributeType;
+    }    
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */

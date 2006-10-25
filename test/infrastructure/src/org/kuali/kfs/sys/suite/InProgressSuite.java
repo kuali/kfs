@@ -19,8 +19,10 @@ package org.kuali.test.suite;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.WebConversation;
@@ -42,7 +44,7 @@ public class InProgressSuite {
     // This public Confluence space does not require a login like JIRA does.  There could be a better way to do this in the JIRA API, though.
     private static final String JIRA_FILTER_URL = "https://test.kuali.org/confluence/display/KULDOC/Issue+Filter+for+Unit+Test+Framework";
 
-    private static Collection<String> getJiraIssuesInProgress()
+    private static Collection<String> getNamesOfJiraIssuesInProgress()
         throws IOException, SAXException
     {
         if (jiraIssuesInProgress == null) {
@@ -57,18 +59,33 @@ public class InProgressSuite {
         return jiraIssuesInProgress;
     }
 
+    /**
+     * Filters the JIRA issues which are currently in-progress.
+     * The JIRA status is queried once when needed and cached statically for speed.
+     * 
+     * @param from JIRA issues from which to filter
+     * @return any of the given issues that are currently in-progress in JIRA
+     * @throws IOException if Confluence cannot be reached to provide the list of in-progress JIRA issues
+     * @throws SAXException if the response page from Confluence cannot be parsed
+     */
+    public static Set<RelatesTo.JiraIssue> getInProgress(Collection<RelatesTo.JiraIssue> from)
+        throws IOException, SAXException
+    {
+        HashSet<RelatesTo.JiraIssue> result = new HashSet<RelatesTo.JiraIssue>();
+        if (!from.isEmpty()) { // try to avoid the JIRA query
+            for (RelatesTo.JiraIssue issue : from) {
+                if (getNamesOfJiraIssuesInProgress().contains(issue.toString())) {
+                    result.add(issue);
+                }
+            }
+        }
+        return result;
+    }
+
     private static boolean hasRelatedIssueInProgress(RelatesTo annotation)
         throws IOException, SAXException
     {
-        if (annotation == null) {
-            return false;
-        }
-        for (RelatesTo.JiraIssue issue : annotation.value()) {
-            if (getJiraIssuesInProgress().contains(issue.toString())) {
-                return true;
-            }
-        }
-        return false;
+        return annotation != null && !getInProgress(Arrays.asList(annotation.value())).isEmpty();
     }
 
     public static TestSuite suite()

@@ -41,7 +41,6 @@ public class RequisitionServiceImpl implements RequisitionService {
      *
     */
     public KualiDecimal getApoLimit(String chart, String org) {
-        KualiDecimal apoLimit = new KualiDecimal(0);
         
         if ( ObjectUtils.isNull(ObjectUtils.isNull(chart)) || ObjectUtils.isNull(org) ) {
             return null;

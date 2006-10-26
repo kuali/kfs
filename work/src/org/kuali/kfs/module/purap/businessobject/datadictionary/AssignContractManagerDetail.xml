@@ -23,41 +23,6 @@
     <businessObject businessObjectClass="org.kuali.module.purap.bo.AssignContractManagerDetail">
         <customAttributeEnabled>false</customAttributeEnabled>
 
-        <inquiry>
-            <title>Assign Contract Manager Detail Inquiry</title>
-
-            <inquiryFields>
-                <field attributeName="contractManagerCode" />
-                <field attributeName="financialDocumentNumber" />
-                <field attributeName="requisitionIdentifier" />
-            </inquiryFields>
-        </inquiry>
-
-        <lookup>
-            <title>Assign Contract Manager Detail Lookup</title>
-
-            <instructions>Look up an Assign Contract Manager Detail</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="financialDocumentNumber" />
-                    <sortAttribute attributeName="requisitionIdentifier" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="contractManagerCode" required="false" />
-                <lookupField attributeName="financialDocumentNumber" required="false" />
-                <lookupField attributeName="requisitionIdentifier" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="contractManagerCode" />
-                <field attributeName="financialDocumentNumber" />
-                <field attributeName="requisitionIdentifier" />
-            </resultFields>
-        </lookup>
-
         <attributes>
 
             <attribute name="contractManagerCode" forceUppercase="true">

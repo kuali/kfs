@@ -16,9 +16,27 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
 
+<kul:documentPage showDocumentInfo="true"
+      documentTypeName="KualiAssignContractManagerDocument"
+      htmlFormAction="purapAssignContractManager" renderMultipart="true"
+      showTabButtons="true">
 
-<kul:page showDocumentInfo="false" showTabButtons="false"
-    headerTitle="${docTitle}" docTitle="${docTitle}"
-    transactionalDocument="false" htmlFormAction="purapAssignContractManager">
-</kul:page>
+	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+
+	<kul:hiddenDocumentFields />
+
+    <purap:assignContractManager />
+
+	<kul:notes />
+
+	<kul:adHocRecipients />
+
+	<kul:routeLog />
+
+	<kul:panelFooter />
+
+	<kul:documentControls transactionalDocument="true" />
+
+</kul:documentPage>

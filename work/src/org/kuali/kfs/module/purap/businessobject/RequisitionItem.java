@@ -46,7 +46,7 @@ public class RequisitionItem extends PurchasingItemBase {
     //private String externalOrganizationB2bProductTypeName;
     //private boolean itemAssignedToTradeInIndicator;
 
-	private Integer requisitionIdentifier;
+	private Integer purapDocumentIdentifier;
 	private KualiDecimal itemQuantity;
 	private boolean itemRestrictedIndicator;
 
@@ -108,19 +108,19 @@ public class RequisitionItem extends PurchasingItemBase {
     }
 
     /**
-     * Gets the requisitionIdentifier attribute. 
-     * @return Returns the requisitionIdentifier.
+     * Gets the purapDocumentIdentifier attribute. 
+     * @return Returns the purapDocumentIdentifier.
      */
-    public Integer getRequisitionIdentifier() {
-        return requisitionIdentifier;
+    public Integer getPurapDocumentIdentifier() {
+        return purapDocumentIdentifier;
     }
 
     /**
-     * Sets the requisitionIdentifier attribute value.
-     * @param requisitionIdentifier The requisitionIdentifier to set.
+     * Sets the purapDocumentIdentifier attribute value.
+     * @param purapDocumentIdentifier The purapDocumentIdentifier to set.
      */
-    public void setRequisitionIdentifier(Integer requisitionIdentifier) {
-        this.requisitionIdentifier = requisitionIdentifier;
+    public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
+        this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 
 

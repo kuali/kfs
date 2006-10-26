@@ -307,8 +307,11 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       this.setOrganizationAutomaticPurchaseOrderLimit(null);
       //this.setIsAPO(null);
       this.setPurchaseOrderAutomaticIndicator(false);
+      //TODO dterret: Make sure that the Status History gets nulled out here after David E. gets done
+      //implementing it.
+      //this.setStatusHistoryList(null);
       this.setStatusHistories(null);
-
+      
 //TODO DAVID AND CHRIS SHOULD FIX THIS
       //Trade In and Discount Items are only available for B2B. If the Requisition
       //doesn't currently contain trade in and discount, we should add them in 

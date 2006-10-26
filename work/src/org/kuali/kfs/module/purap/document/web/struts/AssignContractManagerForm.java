@@ -21,22 +21,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.module.purap.document.AssignContractManagerDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
  * This class is the form class for the assign a contract manager.
  * 
  */
-public class AssignContractManagerForm extends KualiForm {
+public class AssignContractManagerForm extends KualiTransactionalDocumentFormBase {
 
-    List requisitions;
+    // TODO: the list does not appear to need to be here. Delete it and getter and setter when confirmed.
+//    List unassignedRequisitions;
     
     /**
      * Constructs a AssignContractManagerForm instance 
      */
     public AssignContractManagerForm() {
         super();
-        requisitions = new ArrayList();
+        setDocument(new AssignContractManagerDocument());
+//        unassignedRequisitions = new ArrayList();
     }
 
+//    /**
+//     * @return Returns the assignContractManagerDocument.
+//     */
+//    public AssignContractManagerDocument getAssignContractManagerDocument() {
+//        return (AssignContractManagerDocument) getDocument();
+//    }
+//
+//    /**
+//     * @param assignContractManagerDocument The assignContractManagerDocument to set.
+//     */
+//    public void setAssignContractManagerDocument(AssignContractManagerDocument assignContractManagerDocument) {
+//        setDocument(assignContractManagerDocument);
+//    }
+
+//    public List getUnassignedRequisitions() {
+//        return unassignedRequisitions;
+//    }
+//
+//    public void setUnassignedRequisitions(List unassignedRequisitions) {
+//        this.unassignedRequisitions = unassignedRequisitions;
+//    }
 
 }

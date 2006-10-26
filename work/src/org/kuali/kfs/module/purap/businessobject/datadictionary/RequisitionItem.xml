@@ -41,7 +41,7 @@
                 <field attributeName="itemTypeCode" />
                 <field attributeName="itemUnitOfMeasureCode" />
                 <field attributeName="itemUnitPrice" />
-                <field attributeName="requisitionIdentifier" />
+                <field attributeName="purapDocumentIdentifier" />
                 <field attributeName="itemIdentifier" />
                 <field attributeName="requisitionLineIdentifier" />
             </inquiryFields>
@@ -73,7 +73,7 @@
                 <lookupField attributeName="itemTypeCode" required="false" />
                 <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
                 <lookupField attributeName="itemUnitPrice" required="false" />
-                <lookupField attributeName="requisitionIdentifier" required="false" />
+                <lookupField attributeName="purapDocumentIdentifier" required="false" />
                 <lookupField attributeName="itemIdentifier" required="false" />
                 <lookupField attributeName="requisitionLineIdentifier" required="false" />
             </lookupFields>
@@ -93,7 +93,7 @@
                 <field attributeName="itemTypeCode" />
                 <field attributeName="itemUnitOfMeasureCode" />
                 <field attributeName="itemUnitPrice" />
-                <field attributeName="requisitionIdentifier" />
+                <field attributeName="purapDocumentIdentifier" />
                 <field attributeName="itemIdentifier" />
                 <field attributeName="requisitionLineIdentifier" />
             </resultFields>
@@ -309,7 +309,7 @@
                 <description>itemUnitPrice description...</description>
 			</attribute>
 
-            <attribute name="requisitionIdentifier" forceUppercase="true">
+            <attribute name="purapDocumentIdentifier" forceUppercase="true">
                 <label>Requisition Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -320,8 +320,8 @@
                     <text size="10" />
                 </control>
 
-                <summary>requisitionIdentifier</summary>
-                <description>requisitionIdentifier description...</description>
+                <summary>purapDocumentIdentifier</summary>
+                <description>purapDocumentIdentifier description...</description>
 			</attribute>
 
             <attribute name="itemIdentifier" forceUppercase="true">

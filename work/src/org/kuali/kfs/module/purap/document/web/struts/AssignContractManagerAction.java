@@ -17,76 +17,74 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.core.authorization.DocumentAuthorizer;
-import org.kuali.core.bo.user.KualiUser;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.kra.budget.bo.AppointmentType;
+import org.kuali.module.purap.bo.AssignContractManagerDetail;
+import org.kuali.module.purap.document.AssignContractManagerDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.web.struts.form.AssignContractManagerForm;
+import org.kuali.core.util.ObjectUtils;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
- * This class handles Actions for Research Administration.
+ * This class handles Actions for AssignContractManager.
  * 
- * @author KRA (era_team@indiana.edu)
+ * @author PURAP (kualidev@oncourse.iu.edu)
  */
 
-public class AssignContractManagerAction extends KualiAction {
+public class AssignContractManagerAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);
 
+    /**
+     * Do initialization for a new AssignContractManagerDocument
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AssignContractManagerForm assignContractManagerForm = (AssignContractManagerForm) form;
-
-        // check authorization manually, since the auth-check isn't inherited by this class
-        // TODO complete logic (example from DepositWizardAction)
-//        String cmDocTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
-//        DocumentAuthorizer cmDocAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(cmDocTypeName);
-//        KualiUser luser = GlobalVariables.getUserSession().getKualiUser();
-//        if (!cmDocAuthorizer.canInitiate(cmDocTypeName, luser)) {
-//            throw new DocumentTypeAuthorizationException(luser.getUniversalUser().getPersonUserIdentifier(), "add deposits to", cmDocTypeName);
-//        }
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         
-        // populate the outgoing form used by the JSP if it seems empty (retrieve list of requisitions waiting for contract manager assignment)
-        // TODO complete logic (example from DepositWizardAction)
-//        String cmDocId = dwForm.getCashManagementDocId();
-//        if (StringUtils.isBlank(cmDocId)) {
-//            cmDocId = request.getParameter("cmDocId");
-//            String depositTypeCode = request.getParameter("depositTypeCode");
-//
-//            CashManagementDocument cmDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(cmDocId);
-//
-//            initializeForm(dwForm, cmDoc, depositTypeCode);
-//        }
-
-        return super.execute(mapping, form, request, response);
+        super.createDocument(kualiDocumentFormBase);
+        
+        ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+        
     }
 
-    /**
-     * This method is assigns the contract managers entered and creates the PO documents.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
+    @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        // TODO complete logic to save requisitions with contract manager and create POs
+        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument)((AssignContractManagerForm)form).getDocument();
+
+        List assignedRequisitions = acmDocument.getAssignContractManagerDetails();
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        for (Iterator iter = acmDocument.getUnassignedRequisitions().iterator(); iter.hasNext();) {
+            RequisitionDocument req = (RequisitionDocument) iter.next();
+            
+            if (ObjectUtils.isNotNull(req.getContractManagerCode())) {
+                // TODO: check that we have a valid contractManagerCode.
+                AssignContractManagerDetail detail = new AssignContractManagerDetail();
+                detail.setContractManagerCode(req.getContractManagerCode());
+                detail.setFinancialDocumentNumber(req.getFinancialDocumentNumber());
+                detail.setRequisitionIdentifier(req.getIdentifier());
+                
+                assignedRequisitions.add(detail);
+            }
+        }
+        acmDocument.setAssignContractManagerDetails(assignedRequisitions);
+        
+        return super.save(mapping, form, request, response);
     }
+
     
 }

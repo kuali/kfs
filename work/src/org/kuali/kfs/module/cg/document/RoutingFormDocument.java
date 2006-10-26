@@ -88,6 +88,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private String researchTypeCode;
     private String submissionTypeCode;
     private String previousFederalIdentifier;
+    private String federalIdentifier;
+    private String grantsGovernmentConfirmationNumber;
+    private boolean grantsGovernmentSubmissionIndicator;
+    private String projectAbstract;
     private Integer creditPercentNextSequenceNumber;
     private Integer institutionCostShareNextSequenceNumber;
     private Integer otherCostShareNextSequenceNumber;
@@ -1231,6 +1235,89 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.subcontractorNextSequenceNumber = subcontractorNextSequenceNumber;
     }
 
+    /**
+     * Gets the federalIdentifier attribute.
+     * 
+     * @return - Returns the federalIdentifier
+     * 
+     */
+    public String getFederalIdentifier() { 
+        return federalIdentifier;
+    }
+
+    /**
+     * Sets the federalIdentifier attribute.
+     * 
+     * @param - federalIdentifier The federalIdentifier to set.
+     * 
+     */
+    public void setFederalIdentifier(String federalIdentifier) {
+        this.federalIdentifier = federalIdentifier;
+    }
+
+
+    /**
+     * Gets the grantsGovernmentConfirmationNumber attribute.
+     * 
+     * @return - Returns the grantsGovernmentConfirmationNumber
+     * 
+     */
+    public String getGrantsGovernmentConfirmationNumber() { 
+        return grantsGovernmentConfirmationNumber;
+    }
+
+    /**
+     * Sets the grantsGovernmentConfirmationNumber attribute.
+     * 
+     * @param - grantsGovernmentConfirmationNumber The grantsGovernmentConfirmationNumber to set.
+     * 
+     */
+    public void setGrantsGovernmentConfirmationNumber(String grantsGovernmentConfirmationNumber) {
+        this.grantsGovernmentConfirmationNumber = grantsGovernmentConfirmationNumber;
+    }
+
+
+    /**
+     * Gets the grantsGovernmentSubmissionIndicator attribute.
+     * 
+     * @return - Returns the grantsGovernmentSubmissionIndicator
+     * 
+     */
+    public boolean isGrantsGovernmentSubmissionIndicator() { 
+        return grantsGovernmentSubmissionIndicator;
+    }
+
+    /**
+     * Sets the grantsGovernmentSubmissionIndicator attribute.
+     * 
+     * @param - grantsGovernmentSubmissionIndicator The grantsGovernmentSubmissionIndicator to set.
+     * 
+     */
+    public void setGrantsGovernmentSubmissionIndicator(boolean grantsGovernmentSubmissionIndicator) {
+        this.grantsGovernmentSubmissionIndicator = grantsGovernmentSubmissionIndicator;
+    }
+
+
+    /**
+     * Gets the projectAbstract attribute.
+     * 
+     * @return - Returns the projectAbstract
+     * 
+     */
+    public String getProjectAbstract() { 
+        return projectAbstract;
+    }
+
+    /**
+     * Sets the projectAbstract attribute.
+     * 
+     * @param - projectAbstract The projectAbstract to set.
+     * 
+     */
+    public void setProjectAbstract(String projectAbstract) {
+        this.projectAbstract = projectAbstract;
+    }
+    
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

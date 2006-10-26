@@ -78,7 +78,7 @@
 		<div class="left-errmsg-tab"><kul:errors keyMatch="document.budget.modular.tooLarge" /></div>
 		<table align="center" cellspacing="0">
 			<tr>
-				<td class="subhead" colspan=3>
+				<td class="subhead" colspan="${KualiForm.document.periodListSize + 2}">
 					<span class="subhead-left"><h2>Overview</h2></span>
 				</td>
 			</tr>

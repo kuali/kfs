@@ -19,9 +19,11 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.KualiUser;
@@ -35,6 +37,7 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 
@@ -78,6 +81,8 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
         this.setFundingSourceCode("IUAC");
+        List<StatusHistory> statusHistories = new ArrayList();
+        this.setStatusHistories( statusHistories );
         // TODO set default funding source in params or make non-IU specific
 
         // ripierce: the PostingYear has already been set before we come to this method.

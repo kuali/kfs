@@ -53,30 +53,30 @@
                 	attributeEntry="${documentAttributes.statusHistoryUserIdentifier}"
                 	scope="col" />
         	</tr>
-        	<c:forEach var="statusChange" items="${document.statusHistories}">
+ 			<logic:iterate id="changes" name="KualiForm" property="document.statusHistories" indexId="ctr">
         		<tr>
         			<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryTimestamp}" 
-	                		property="statusChange.statusHistoryTimestamp" readOnly="${readOnly}"/>
+	                		property="document.statusHistories[${ctr}].statusHistoryTimestamp" readOnly="true"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.oldStatusCode}" 
-	                		property="statusChange.oldStatusCode" readOnly="${readOnly}"/>
+	                		property="document.statusHistories[${ctr}].oldStatusCode" readOnly="true"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.newStatusCode}" 
-	                    	property="statusChange.newStatusCode" readOnly="${readOnly}"/>
+	                    	property="document.statusHistories[${ctr}].newStatusCode" readOnly="true"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.noteIdentifier}" 
-	                    	property="statusChange.noteIdentifier" readOnly="${readOnly}"/>
+	                    	property="document.statusHistories[${ctr}].noteIdentifier" readOnly="true"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryUserIdentifier}" 
-	                    	property="statusChange.statusHistoryUserIdentifier" readOnly="${readOnly}"/>
+	                    	property="document.statusHistories[${ctr}].statusHistoryUserIdentifier" readOnly="true"/>
 	        		</td>
 	        	</tr>
-        	</c:forEach>
+        	</logic:iterate>
     	</table>
     </div>
 </kul:tab>

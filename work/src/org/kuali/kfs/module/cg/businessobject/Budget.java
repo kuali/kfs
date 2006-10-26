@@ -147,6 +147,19 @@ public class Budget extends BusinessObjectBase {
     public void setProjectDirector(ProjectDirector projectDirector) {
         this.projectDirector = projectDirector;
     }
+    
+    /**
+     * Gets the project director from the personnel list as a BudgetUser
+     * 
+     * @return BudgetUser the project director
+     */
+    public BudgetUser getProjectDirectorFromList() {
+        // PD is always the first one in the list
+        if (!personnel.isEmpty()) {
+            return (BudgetUser) personnel.get(0);
+        }
+        return null;
+    }
 
     /**
      * @return Returns the budgetFederalPassThroughIndicator.

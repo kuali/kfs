@@ -33,6 +33,16 @@
                     <workgroup>kualiUniversalGroup</workgroup>
                 </workgroups>
             </authorization>
+            <authorization action="modify">
+            	<workgroups>
+            		<workgroup>KUALI_KRA_DEV</workgroup>
+            	</workgroups>
+            </authorization>
+            <authorization action="view">
+            	<workgroups>
+            		<workgroup>KRA_PRE_AWARD_ADMIN</workgroup>
+            	</workgroups>
+            </authorization>
         </authorizations>
 
         <documentTypeName>KualiBudgetDocument</documentTypeName>

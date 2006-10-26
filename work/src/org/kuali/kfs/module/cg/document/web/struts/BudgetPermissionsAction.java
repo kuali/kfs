@@ -52,17 +52,7 @@ public class BudgetPermissionsAction extends BudgetAction {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetPermissionsAction.class);
     
-    /**
-     * This method will insert the new ad hoc person from the from into the list of ad hoc person recipients, put a new new record
-     * in place and return like normal.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
+    @Override
     public ActionForward insertAdHocRoutePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument document = budgetForm.getBudgetDocument();
@@ -94,17 +84,7 @@ public class BudgetPermissionsAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    /**
-     * This method will insert the new ad hoc person from the from into the list of ad hoc person recipients, put a new new record
-     * in place and return like normal.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
+    @Override
     public ActionForward insertAdHocRouteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument document = budgetForm.getBudgetDocument();
@@ -132,6 +112,16 @@ public class BudgetPermissionsAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * This method will remove the selected ad-hoc person from the list.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         ((BudgetForm) form).getBudgetDocument().getBudget().getAdHocPermissions().remove(getLineToDelete(request));
@@ -139,6 +129,16 @@ public class BudgetPermissionsAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * This method will add a new ad-hoc org to the list.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward addOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         BudgetForm budgetForm = (BudgetForm) form;
@@ -158,6 +158,16 @@ public class BudgetPermissionsAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     } 
 
+    /**
+     * This method will remove the selected ad-hoc org from the list.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward deleteOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         ((BudgetForm) form).getBudgetDocument().getBudget().getAdHocOrgs().remove(getLineToDelete(request));

@@ -20,6 +20,7 @@ package org.kuali.module.kra.budget.document;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -35,15 +36,17 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.module.kra.budget.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
+import org.kuali.module.kra.budget.service.BudgetPermissionsService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -416,48 +419,121 @@ public class BudgetDocument extends ResearchDocumentBase {
         
         List referenceObjects = new ArrayList();
         referenceObjects.add("personnel");
-        referenceObjects.add("adHocPermissions");
+        referenceObjects.add("institutionCostShareItems");
+        referenceObjects.add("adHocOrgs");
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budget, referenceObjects);
         
         StringBuffer xml = new StringBuffer("<documentContent>");
-        buildOrgReportXml(xml);
-        buildAdhocUsersXml(xml);
-        if (ObjectUtils.isNotNull(budget.getProjectDirector()) && ObjectUtils.isNotNull(budget.getProjectDirector().getUniversalUser())) {
-            xml.append("<projectDirector><userId>" 
-                + budget.getProjectDirector().getUniversalUser().getPersonUserIdentifier() 
-                + "</userId></projectDirector>");
-        }
+        xml.append(buildProjectDirectorOrgReportXml(false));
+        xml.append(buildCostShareOrgReportXml(false));
+        xml.append(buildAdhocOrgReportXml(false));
         xml.append("</documentContent>");
+        
         documentHeader.getWorkflowDocument().getRouteHeader().getDocumentContent().setApplicationContent(xml.toString());
     }
     
-    private void buildOrgReportXml(StringBuffer xml) {
-        for (BudgetAdHocOrg org: this.getBudget().getAdHocOrgs()) {
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param BudgetUser projectDirector
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildProjectDirectorOrgReportXml(boolean encloseContent) {
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        BudgetUser projectDirector = this.getBudget().getProjectDirectorFromList();
+        if (ObjectUtils.isNotNull(projectDirector) && !StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
+            xml.append("<chartOrg><chartOfAccountsCode>");
+            xml.append(projectDirector.getFiscalCampusCode());
+            xml.append("</chartOfAccountsCode><organizationCode>");
+            xml.append(projectDirector.getPrimaryDepartmentCode());
+            xml.append("</organizationCode></chartOrg>");
+        }
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        return xml.toString();
+    }
+    
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param List<BudgetAdHocOrg> orgs
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildCostShareOrgReportXml(boolean encloseContent) {
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        List costShareItems = this.getBudget().getInstitutionCostShareItems();
+        for (Iterator iter = costShareItems.iterator(); iter.hasNext();) {
+            BudgetInstitutionCostShare costShare = (BudgetInstitutionCostShare) iter.next();
+            xml.append("<chartOrg><chartOfAccountsCode>");
+            xml.append(costShare.getChartOfAccountsCode());
+            xml.append("</chartOfAccountsCode><organizationCode>");
+            xml.append(costShare.getOrganizationCode());
+            xml.append("</organizationCode></chartOrg>");
+        }
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        return xml.toString();
+    }
+    
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param List<BudgetAdHocOrg> orgs
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildAdhocOrgReportXml(boolean encloseContent) {
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        List<BudgetAdHocOrg> orgs = this.getBudget().getAdHocOrgs();
+        for (BudgetAdHocOrg org: orgs) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());
             xml.append("</chartOfAccountsCode><organizationCode>");
             xml.append(org.getPrimaryDepartmentCode());
             xml.append("</organizationCode></chartOrg>");
         }
-        // Add Project Director's org
-        if (!this.getBudget().getPersonnel().isEmpty()) {
-            // PD is always the first one.
-            BudgetUser projectDirector = (BudgetUser) this.getBudget().getPersonnel().get(0);
-            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
-                xml.append("<chartOrg><chartOfAccountsCode>");
-                xml.append(projectDirector.getFiscalCampusCode());
-                xml.append("</chartOfAccountsCode><organizationCode>");
-                xml.append(projectDirector.getPrimaryDepartmentCode());
-                xml.append("</organizationCode></chartOrg>");
-            }
+        if (encloseContent) {
+            xml.append("</documentContent>");
         }
+        return xml.toString();
     }
     
-    private void buildAdhocUsersXml(StringBuffer xml) {
-        for (BudgetAdHocPermission user: this.getBudget().getAdHocPermissions()) {
-            xml.append("<manualAdhocUser>");
-            xml.append(user.getUser().getPersonUserIdentifier());
-            xml.append("</manualAdhocUser>");
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param List<BudgetAdHocOrg> orgs
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildAdhocOrgReportXml(String permissionTypeCode, boolean encloseContent) {
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
         }
+        List<BudgetAdHocOrg> orgs = SpringServiceLocator.getBudgetPermissionsService().getBudgetAdHocOrgs(this.getFinancialDocumentNumber(), permissionTypeCode);
+        for (BudgetAdHocOrg org: orgs) {
+            xml.append("<chartOrg><chartOfAccountsCode>");
+            xml.append(org.getFiscalCampusCode());
+            xml.append("</chartOfAccountsCode><organizationCode>");
+            xml.append(org.getPrimaryDepartmentCode());
+            xml.append("</organizationCode></chartOrg>");
+        }
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        return xml.toString();
     }
 }

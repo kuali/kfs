@@ -30,6 +30,7 @@
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchRiskBiosafetyIndicator" />
                 <field attributeName="researchRiskTypeCode" />
+                <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
             </inquiryFields>
         </inquiry>
@@ -49,6 +50,7 @@
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="researchRiskBiosafetyIndicator" required="false" />
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
+                <lookupField attributeName="controlAttributeTypeCode" required="false" />
                 <lookupField attributeName="researchRiskTypeDescription" required="false" />
             </lookupFields>
 
@@ -56,6 +58,7 @@
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchRiskBiosafetyIndicator" />
                 <field attributeName="researchRiskTypeCode" />
+                <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
             </resultFields>
         </lookup>
@@ -103,6 +106,21 @@
 
                 <summary>researchRiskTypeCode</summary>
                 <description>researchRiskTypeCode description...</description>
+			</attribute>
+
+            <attribute name="controlAttributeTypeCode" forceUppercase="true">
+                <label>Control Attribute Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>controlAttributeTypeCode</summary>
+                <description>controlAttributeTypeCode description...</description>
 			</attribute>
 
             <attribute name="researchRiskTypeDescription" forceUppercase="true">

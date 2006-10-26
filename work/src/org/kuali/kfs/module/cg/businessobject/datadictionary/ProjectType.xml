@@ -29,6 +29,7 @@
             <inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="projectTypeCode" />
+                <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="projectTypeDescription" />
                 <field attributeName="sortNumber" />
             </inquiryFields>
@@ -48,6 +49,7 @@
             <lookupFields>
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="projectTypeCode" required="false" />
+                <lookupField attributeName="controlAttributeTypeCode" required="false" />
                 <lookupField attributeName="projectTypeDescription" required="false" />
                 <lookupField attributeName="sortNumber" required="false" />
             </lookupFields>
@@ -55,6 +57,7 @@
             <resultFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="projectTypeCode" />
+                <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="projectTypeDescription" />
                 <field attributeName="sortNumber" />
             </resultFields>
@@ -89,6 +92,21 @@
 
                 <summary>projectTypeCode</summary>
                 <description>projectTypeCode description...</description>
+			</attribute>
+
+            <attribute name="controlAttributeTypeCode" forceUppercase="true">
+                <label>Control Attribute Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>controlAttributeTypeCode</summary>
+                <description>controlAttributeTypeCode description...</description>
 			</attribute>
 
             <attribute name="projectTypeDescription" forceUppercase="true">

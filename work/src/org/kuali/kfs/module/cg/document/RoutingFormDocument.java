@@ -27,6 +27,7 @@ import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
+import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
@@ -108,6 +109,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormBudget routingFormBudget;
     private RoutingFormResearchType researchType;
     private SubmissionType submissionType;
+    private ContractGrantProposal contractGrantProposal;
    
 	/**
 	 * Default constructor.
@@ -1432,6 +1434,14 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setSubmissionType(SubmissionType submissionType) {
         this.submissionType = submissionType;
+    }
+
+    public ContractGrantProposal getContractGrantProposal() {
+        return contractGrantProposal;
+    }
+
+    public void setContractGrantProposal(ContractGrantProposal contractGrantProposal) {
+        this.contractGrantProposal = contractGrantProposal;
     }
 
 

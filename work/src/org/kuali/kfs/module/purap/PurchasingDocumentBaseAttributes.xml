@@ -104,9 +104,8 @@
     </validationPattern>
 
     <control>
-        <text size="4" />
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryNotRestrictedValuesFinder" />
     </control>
-
     <summary>billingCountryCode</summary>
     <description>billingCountryCode description...</description>
 </attribute>
@@ -368,7 +367,7 @@
     </validationPattern>
 
     <control>
-        <text size="4" />
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryNotRestrictedValuesFinder" />
     </control>
 
     <summary>deliveryCountryCode</summary>
@@ -896,7 +895,7 @@
     </validationPattern>
 
 	<control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryNotRestrictedValuesFinder" />
     </control>
 
     <summary>vendorCountryCode</summary>

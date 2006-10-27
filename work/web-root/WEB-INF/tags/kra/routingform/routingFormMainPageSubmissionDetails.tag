@@ -204,7 +204,13 @@
 		            <table cellpadding="0" cellspacing="0" class="neutral">
 		              <tr>
 		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormKeyword" lookupParameters="document.routingFormKeyword.proposalKeywordDescritpion:proposalKeywordDescription" fieldConversions="proposalKeywordDescription:document.routingFormKeyword.proposalKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                	</c:if>
+
+<!-- 
 		                  <kul:htmlControlAttribute property="newRoutingFormKeyword.proposalKeywordDescription" attributeEntry="${routingFormKeywordAttributes.proposalKeywordDescription}" />
+-->
 		                </div></td>
 		                <td class="neutral"><div align="center"><html:image property="methodToCall.insertRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add keyword"/></div></td>
 		              </tr>   

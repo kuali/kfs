@@ -75,8 +75,8 @@
 			</attribute>
 
             <attribute name="proposalNumber" forceUppercase="true">
-                <label>Proposal Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Institution Proposal No.</label>
+                <shortLabel>Proposal No.</shortLabel>
 
                 <maxLength>12</maxLength>
                 <validationPattern><numeric /></validationPattern>

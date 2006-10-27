@@ -126,13 +126,19 @@
               </tr>
               <tr>
 
-                <th align=right valign=middle>Federal Identification No.:</th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.federalIdentifier}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.federalIdentifier" attributeEntry="${documentAttributes.federalIdentifier}"  />
+<!-- 
                 	<input name="textfield" type="text" size="12">
+-->
                 </td>
-                <th align=right valign=middle>Grants.gov Confirmation No.:</th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantsGovernmentConfirmationNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
-                	<input name="textfield" type="text" size="12">
+                	<kul:htmlControlAttribute property="document.grantsGovernmentConfirmationNumber" attributeEntry="${documentAttributes.grantsGovernmentConfirmationNumber}"  />
+<!-- 
+               	<input name="textfield" type="text" size="12">
+-->
                 </td>
               </tr>
               <tr>

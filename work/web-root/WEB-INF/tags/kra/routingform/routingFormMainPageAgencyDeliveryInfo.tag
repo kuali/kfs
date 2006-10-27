@@ -110,6 +110,9 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
 -->
                 </td>
                 <td nowrap >
+                	<kul:htmlControlAttribute property="document.grantsGovernmentSubmissionIndicator" attributeEntry="${documentAttributes.grantsGovernmentSubmissionIndicator}"  />
+                	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantsGovernmentSubmissionIndicator}" skipHelpUrl="true" labelFor="document.grantsGovernmentSubmissionIndicator" noColon="true" />
+                  	<br>
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyDiskAccompanyIndicator" attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}"  />
                 	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyDiskAccompanyIndicator" noColon="true" />
                   	<br>

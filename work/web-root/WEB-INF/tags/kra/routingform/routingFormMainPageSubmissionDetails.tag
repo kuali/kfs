@@ -30,6 +30,7 @@
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="routingFormBudgetAttributes" value="${DataDictionary.RoutingFormBudget.attributes}" />
 <c:set var="routingFormKeywordAttributes" value="${DataDictionary.RoutingFormKeyword.attributes}" />
+<c:set var="contractGrantProposalAttributes" value="${DataDictionary.ContractGrantProposal.attributes}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
@@ -125,6 +126,17 @@
               </tr>
               <tr>
 
+                <th align=right valign=middle>Federal Identification No.:</th>
+                <td align=left valign=middle >
+                	<input name="textfield" type="text" size="12">
+                </td>
+                <th align=right valign=middle>Grants.gov Confirmation No.:</th>
+                <td align=left valign=middle >
+                	<input name="textfield" type="text" size="12">
+                </td>
+              </tr>
+              <tr>
+
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.grantNumber" attributeEntry="${documentAttributes.grantNumber}"  />
@@ -133,9 +145,13 @@
                 	<input name="textfield" type="text" size="12">
 -->
                 </td>
-                <th align=right valign=middle>Current Institution Proposal #:</th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${contractGrantProposalAttributes.proposalNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
+                	<kul:htmlControlAttribute property="document.contractGrantProposal.proposalNumber" attributeEntry="${contractGrantProposalAttributes.proposalNumber}"  />
+
+<!--
                 	<input name="textfield" type="text" size="12">
+-->
                 </td>
               </tr>
               <tr>
@@ -184,50 +200,53 @@
               <tr>
                 <th align=right valign=middle>Keywords:</th>
                 <td colspan="3" align=left valign=middle nowrap >
-		            <table cellpadding=0 cellspacing="0"  summary="">
-		
+
+		            <table cellpadding="0" cellspacing="0" class="neutral">
 		              <tr>
-		                <th scope="row">add:</th>
-		                <td class="infoline"> <div align="center">
+		                <td class="neutral"> <div align="left">
 		                  <kul:htmlControlAttribute property="newRoutingFormKeyword.proposalKeywordDescription" attributeEntry="${routingFormKeywordAttributes.proposalKeywordDescription}" />
 		                </div></td>
-		                <td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add keyword"/></div></td>
+		                <td class="neutral"><div align="center"><html:image property="methodToCall.insertRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add keyword"/></div></td>
 		              </tr>   
 		              
-		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var ="routingFormKeyword" varStatus= "status"  >
-						 <tr>
-		                <th scope="row">${status.index +1 }</th>
-		                <td class="infoline"> <div align="center">
+		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var="routingFormKeyword" varStatus="status"  >
+					  <tr>
+		                <td class="neutral"> <div align="left">
 		                  <kul:htmlControlAttribute property="document.routingFormKeyword[${status.index}].proposalKeywordDescription" attributeEntry="${routingFormKeywordAttributes.proposalKeywordDescription}" />
 		                </div></td>
-		                <td class="infoline"><div align=center><html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div></td>
+		                <td class="neutral"><div align="center"><html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div></td>
 		              </tr>   
 		              </c:forEach>
 		            </table>
 
 
-
 <!-- 
-                	<table cellpadding=0 cellspacing=0 class="neutral">
+                  <table cellpadding=0 cellspacing=0 class="neutral">
                     <tr>
                       <td class="neutral"><div align=left> <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
-                      <td class="neutral"><div align=center>
-
+                      <td class="neutral">
+                        <div align="left">
                           <input type="image" name="methodToCall.showAllTabs6" src="images/tinybutton-add1.gif" class="tinybutton" alt="showAll">
-                        </div></td>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
-                      <td class="neutral"><div align=left> biology </div></td>
-                      <td class="neutral"><div align=center>
+                      <td class="neutral">
+                        <div align=left> biology </div>
+                      </td>
+                      <td class="neutral">
+                        <div align="left">
                           <input type="image" name="methodToCall.showAllTabs7" src="images/tinybutton-delete1.gif" class="tinybutton" alt="showAll">
-                        </div></td>
-
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td class="neutral"> cancer causing agent </td>
-                      <td class="neutral"><div align=center>
+                      <td class="neutral">
+                        <div align="left">
                           <input type="image" name="methodToCall.showAllTabs8" src="images/tinybutton-delete1.gif" class="tinybutton" alt="showAll">
-                        </div></td>
+                        </div>
+                      </td>
                     </tr>
                   </table>
 -->

@@ -123,12 +123,11 @@
                 <description>controlAttributeTypeCode description...</description>
 			</attribute>
 
-            <attribute name="researchRiskTypeDescription" forceUppercase="true">
+            <attribute name="researchRiskTypeDescription" forceUppercase="false">
                 <label>Research Risk Type Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
                     <text size="32" />

@@ -47,19 +47,7 @@
 					<kra-rf:routingFormResearchRisksMultiLine>
 					</kra-rf:routingFormResearchRisksMultiLine>
 
-					<kra-rf:routingFormResearchRisksDescrption tabTitle="Human Tissue/Fluids">
-					</kra-rf:routingFormResearchRisksDescrption>
-
-					<kra-rf:routingFormResearchRisksDescrption tabTitle="Pathogenic Agents">
-					</kra-rf:routingFormResearchRisksDescrption>
-
-					<kra-rf:routingFormResearchRisksDescrption tabTitle="Chemical/Radiation Safety">
-					</kra-rf:routingFormResearchRisksDescrption>
-
-					<kra-rf:routingFormResearchRisksDescrption tabTitle="Export Control">
-					</kra-rf:routingFormResearchRisksDescrption>
-
-					<kra-rf:routingFormResearchRisksDescrption tabTitle="Financial Conflict of Interest">
+					<kra-rf:routingFormResearchRisksDescrption>
 					</kra-rf:routingFormResearchRisksDescrption>
 
 				</div>

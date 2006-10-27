@@ -103,6 +103,7 @@
         </inquiry>
 
         <lookup>
+        	<lookupableID>accountLookupable</lookupableID>
             <title>Account Lookup</title>
 
             <menubar>

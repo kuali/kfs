@@ -247,4 +247,5 @@
     </bean>
 
     <bean id="OrgReviewLookupable" class="org.kuali.workflow.attribute.OrgReviewLookupableImpl" singleton="false"/>
+    <bean id="accountLookupable" class="org.kuali.module.chart.lookup.KualiAccountLookupableImpl" singleton="false" parent="kualiLookupable" />
 </beans>

@@ -198,18 +198,6 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * This method contains Pre Encumbrance document specific GLPE offset entry attribute assignments.
-     * 
-     * @see TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
-     *      GeneralLedgerPendingEntry, GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        offsetEntry.setFinancialObjectTypeCode(explicitEntry.getFinancialObjectTypeCode());
-        return true;
-    }
-
-    /**
      * limits only to expense object type codes
      * 
      * @see IsDebitUtils#isDebitConsideringSection(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)

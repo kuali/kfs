@@ -357,7 +357,7 @@
 
 	<target name="make-source" depends="init-make-references,filter-project">
 		<mkdir dir="${make-source.target.directory}" />
-		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true">
+		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.source.classpath" />
 		</javac>
 		<copy todir="${make-source.target.directory}">
@@ -369,7 +369,7 @@
 
 	<target name="make-tests" depends="init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
-		<javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true" fork="true" memoryinitialsize="40m" memorymaximumsize="128m">
+		<javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.tests.classpath" />
 			<src path="${source.directory}" />
 			<src path="${test.source.directory}" />

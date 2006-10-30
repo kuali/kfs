@@ -51,12 +51,12 @@
     <purap:additional
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
 
+	<purap:statushistory 
+		documentAttributes="${DataDictionary.RequisitionStatusHistory.attributes}" />
+
 	<kul:notes />
 
 	<kul:adHocRecipients />
-	
-	<purap:statushistory 
-		documentAttributes="${DataDictionary.RequisitionStatusHistory.attributes}" />
 
 	<kul:routeLog />
 

@@ -27,24 +27,24 @@
 
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-<kul:tab tabTitle="StatusHistory" defaultOpen="true" tabErrorKey="${Constants.ADDITIONAL_TAB_ERRORS}">
+<kul:tab tabTitle="Status History" defaultOpen="true" tabErrorKey="${Constants.ADDITIONAL_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Status History</h2>
         </div>
 		<table cellpadding="0" cellspacing="0" class="datatable" summary="Status History Section">
 			<tr>
-            	<td colspan=5 class="tab-subhead">This Document:</td>
-        	</tr>
-			<tr>
 				<kul:htmlAttributeHeaderCell
-                	attributeEntry="${documentAttributes.statusHistoryTimestamp}"
+                	attributeEntry="${documentAttributes.statusHistoryDate}"
+                	scope="col" />
+               	<kul:htmlAttributeHeaderCell
+                	attributeEntry="${documentAttributes.statusHistoryTime}"
                 	scope="col" />
 				<kul:htmlAttributeHeaderCell
-                	attributeEntry="${documentAttributes.oldStatusCode}"
+                	attributeEntry="${documentAttributes.oldStatus.statusDescription}"
                 	scope="col" />
     			<kul:htmlAttributeHeaderCell
-                	attributeEntry="${documentAttributes.newStatusCode}"
+                	attributeEntry="${documentAttributes.newStatus.statusDescription}"
                 	scope="col" />
             	<kul:htmlAttributeHeaderCell
                 	attributeEntry="${documentAttributes.noteIdentifier}"
@@ -56,16 +56,20 @@
  			<logic:iterate id="changes" name="KualiForm" property="document.statusHistories" indexId="ctr">
         		<tr>
         			<td align=left valign=middle class="datacell">
-	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryTimestamp}" 
-	                		property="document.statusHistories[${ctr}].statusHistoryTimestamp" readOnly="true"/>
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryDate}" 
+	                		property="document.statusHistories[${ctr}].statusHistoryDate" readOnly="true"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
-	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.oldStatusCode}" 
-	                		property="document.statusHistories[${ctr}].oldStatusCode" readOnly="true"/>
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryTime}" 
+	                		property="document.statusHistories[${ctr}].statusHistoryTime" readOnly="true"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
-	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.newStatusCode}" 
-	                    	property="document.statusHistories[${ctr}].newStatusCode" readOnly="true"/>
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.oldStatus.statusDescription}" 
+	                		property="document.statusHistories[${ctr}].oldStatus.statusDescription" readOnly="true"/>
+	        		</td>
+	        		<td align=left valign=middle class="datacell">
+	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.newStatus.statusDescription}" 
+	                    	property="document.statusHistories[${ctr}].newStatus.statusDescription" readOnly="true"/>
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.noteIdentifier}" 
@@ -73,7 +77,7 @@
 	        		</td>
 	        		<td align=left valign=middle class="datacell">
 	        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryUserIdentifier}" 
-	                    	property="document.statusHistories[${ctr}].statusHistoryUserIdentifier" readOnly="true"/>
+	                    	property="document.statusHistories[${ctr}].statusHistoryUser" readOnly="true"/>
 	        		</td>
 	        	</tr>
         	</logic:iterate>

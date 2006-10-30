@@ -68,10 +68,6 @@
 	<field-descriptor name="vendorRestrictedPersonIdentifier" column="VNDR_RSTRC_PRSN_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorSoldToGeneratedIdentifier" column="VNDR_SOLD_TO_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorSoldToAssignedIdentifier" column="VNDR_SOLD_TO_ASND_ID" jdbc-type="INTEGER"/>
-	<field-descriptor name="vendorLegacyTaxNumber" column="VNDR_LGCY_TAX_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorLegacyBranchNumber" column="VNDR_LGCY_BRCH_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorLegacyPayeeIdentifier" column="VNDR_LGCY_PAYEE_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorLegacySystemNumber" column="VNDR_LGCY_TOPS_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorFirstLastNameIndicator" column="VNDR_1ST_LST_NM_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="vendorHeader" class-ref="org.kuali.module.purap.bo.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
 		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
@@ -223,7 +219,6 @@
 	<field-descriptor name="vendorShippingPaymentTermsCode" column="VNDR_SHP_PMT_TERM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorShippingTitleCode" column="VNDR_SHP_TTL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorContractExtensionDate" column="VNDR_CONTR_EXTNS_DT" jdbc-type="DATE"/>
-	<field-descriptor name="vendorHotUrlName" column="VNDR_HOT_URL_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorB2bIndicator" column="VNDR_B2B_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="organizationAutomaticPurchaseOrderLimit" column="ORG_AUTO_PO_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<reference-descriptor name="vendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -920,9 +915,6 @@
 	<field-descriptor name="purchaseOrderQuoteDueDate" column="PO_QT_DUE_DT" jdbc-type="DATE"/>
 	<field-descriptor name="purchaseOrderQuoteTypeCode" column="PO_QT_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchaseOrderQuoteVendorNoteText" column="PO_QT_VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderLegacyNumber" column="PO_LGCY_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderLegacyAccountNumber" column="PO_LGCY_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderLegacyRequisitionIdentifier" column="PO_LGCY_REQS_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchaseOrderConfirmedIndicator" column="PO_CNFRMD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="purchaseOrderCommodityDescription" column="PO_COMM_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchaseOrderPreviousIdentifier" column="PO_PREV_ID" jdbc-type="INTEGER"/>
@@ -960,10 +952,6 @@
 	</reference-descriptor>
 	<reference-descriptor name="deliveryRequiredDateReason" class-ref="org.kuali.module.purap.bo.DeliveryRequiredDateReason" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="deliveryRequiredDateReasonCode" />
-	</reference-descriptor>
-	<reference-descriptor name="purchaseOrderLegacyAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="purchaseOrderLegacyAccountNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -1944,9 +1932,3 @@
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
 </class-descriptor>
-
-
-
-
-
-

@@ -40,10 +40,6 @@ public class PurapConstants {
     public static final String TAX_TYPE_SSN = "SSN";
     //public static final String TAX_TYPE_ITIN = "ITIN";  //are we implementing this in Kuali??
     
-    public static final String PURCHASE_ORDER = "PO";
-    public static final String REMIT = "RM";
-    public static final String DISBURSEMENT_VOUCHER = "DV";
-    
     //North American phone number formats as regular expressions
     public static final String GENERIC_PHONE_FORMAT_1 = "\\d{3}-\\d{3}-\\d{4}";
     public static final String GENERIC_PHONE_FORMAT_2 = "\\(\\d{3}\\)\\s\\d{3}-\\d{4}";

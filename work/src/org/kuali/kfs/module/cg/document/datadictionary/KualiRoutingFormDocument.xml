@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source$
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <researchDocument>
+        <documentClass>org.kuali.module.kra.routingform.document.RoutingFormDocument</documentClass>
+
+        <documentAuthorizerClass>org.kuali.module.kra.routingform.document.RoutingFormDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiRoutingFormDocument</documentTypeName>
+        <documentTypeCode>KRFD</documentTypeCode>
+        <label>Routing Form</label>
+        <shortLabel>Routing Form</shortLabel>
+        
+                <attributes>
+
+            <attribute name="agencyAdditionalShippingInstructionsIndicator" forceUppercase="true">
+                <label>Agency Additional Shipping Instructions Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>agencyAdditionalShippingInstructionsIndicator</summary>
+                <description>agencyAdditionalShippingInstructionsIndicator description...</description>
+      </attribute>
+
+            <attribute name="agencyFederalPassThroughNotAvailableIndicator" forceUppercase="true">
+                <label>Agency Federal Pass Through Not Available Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>agencyFederalPassThroughNotAvailableIndicator</summary>
+                <description>agencyFederalPassThroughNotAvailableIndicator description...</description>
+      </attribute>
+
+            <attribute name="agencyFederalPassThroughNumber" forceUppercase="true">
+                <label>Federal Pass Through</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>agencyFederalPassThroughNumber</summary>
+                <description>agencyFederalPassThroughNumber description...</description>
+      </attribute>
+
+            <attribute name="grantNumber" forceUppercase="true">
+                <label>Current Grant No.</label>
+                <shortLabel>Grant Number</shortLabel>
+
+                <maxLength>27</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="29" />
+                </control>
+
+                <summary>grantNumber</summary>
+                <description>grantNumber description...</description>
+      </attribute>
+
+            <attribute name="institutionAccountNumber" forceUppercase="true">
+                <label>Institution Account No.</label>
+                <shortLabel>Account Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>institutionAccountNumber</summary>
+                <description>institutionAccountNumber description...</description>
+      </attribute>
+
+            <attribute name="proposalAnnouncementNumber" forceUppercase="true">
+                <label>Proposal Announcement Number</label>
+                <shortLabel>Proposal Announcement</shortLabel>
+
+                <maxLength>110</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="112" />
+                </control>
+
+                <summary>proposalAnnouncementNumber</summary>
+                <description>proposalAnnouncementNumber description...</description>
+      </attribute>
+
+            <attribute name="proposalBudgetNumber" forceUppercase="true">
+                <label>Proposal Budget Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>proposalBudgetNumber</summary>
+                <description>proposalBudgetNumber description...</description>
+      </attribute>
+
+            <attribute name="proposalCoProjectDirectorIndicator" forceUppercase="true">
+                <label>Proposal Co Project Director Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalCoProjectDirectorIndicator</summary>
+                <description>proposalCoProjectDirectorIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalConflictOfInterestCurrentIndicator" forceUppercase="true">
+                <label>Proposal Conflict Of Interest Current Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalConflictOfInterestCurrentIndicator</summary>
+                <description>proposalConflictOfInterestCurrentIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalConflictOfInterestExistsIndicator" forceUppercase="true">
+                <label>Proposal Conflict Of Interest Exists Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalConflictOfInterestExistsIndicator</summary>
+                <description>proposalConflictOfInterestExistsIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalContactFaxNumber" forceUppercase="true">
+                <label>Proposal Contact Fax Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>proposalContactFaxNumber</summary>
+                <description>proposalContactFaxNumber description...</description>
+      </attribute>
+
+            <attribute name="proposalContactPhoneNumber" forceUppercase="true">
+                <label>Proposal Contact Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>proposalContactPhoneNumber</summary>
+                <description>proposalContactPhoneNumber description...</description>
+      </attribute>
+
+            <attribute name="proposalContactSystemsIdentifier" forceUppercase="true">
+                <label>Proposal Contact Systems Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>proposalContactSystemsIdentifier</summary>
+                <description>proposalContactSystemsIdentifier description...</description>
+      </attribute>
+
+            <attribute name="proposalCostShareIndicator" forceUppercase="true">
+                <label>Proposal Cost Share Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalCostShareIndicator</summary>
+                <description>proposalCostShareIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalCreateDate" forceUppercase="true">
+                <label>Proposal Create Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalCreateDate</summary>
+                <description>proposalCreateDate description...</description>
+      </attribute>
+
+            <attribute name="proposalCreditPercentIndicator" forceUppercase="true">
+                <label>Proposal Credit Percent Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalCreditPercentIndicator</summary>
+                <description>proposalCreditPercentIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalFederalPassThroughIndicator" forceUppercase="true">
+                <label>Proposal Federal Pass Through Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalFederalPassThroughIndicator</summary>
+                <description>proposalFederalPassThroughIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalFellowEmailAddress" forceUppercase="true">
+                <label>Proposal Fellow Email Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>proposalFellowEmailAddress</summary>
+                <description>proposalFellowEmailAddress description...</description>
+      </attribute>
+
+            <attribute name="proposalFellowFirstName" forceUppercase="true">
+                <label>Proposal Fellow First Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>proposalFellowFirstName</summary>
+                <description>proposalFellowFirstName description...</description>
+      </attribute>
+
+            <attribute name="proposalFellowFullName" forceUppercase="true">
+                <label>Proposal Fellow Full Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>proposalFellowFullName</summary>
+                <description>proposalFellowFullName description...</description>
+      </attribute>
+
+            <attribute name="proposalFellowLastName" forceUppercase="true">
+                <label>Proposal Fellow Last Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>proposalFellowLastName</summary>
+                <description>proposalFellowLastName description...</description>
+      </attribute>
+
+            <attribute name="proposalForeignPartnerIndicator" forceUppercase="true">
+                <label>Proposal Foreign Partner Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalForeignPartnerIndicator</summary>
+                <description>proposalForeignPartnerIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalForeignTravelIndicator" forceUppercase="true">
+                <label>Proposal Foreign Travel Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalForeignTravelIndicator</summary>
+                <description>proposalForeignTravelIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalIncomeIndicator" forceUppercase="true">
+                <label>Proposal Income Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalIncomeIndicator</summary>
+                <description>proposalIncomeIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalInventionIndicator" forceUppercase="true">
+                <label>Proposal Invention Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalInventionIndicator</summary>
+                <description>proposalInventionIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalLastUpdateDate" forceUppercase="true">
+                <label>Proposal Last Update Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>proposalLastUpdateDate</summary>
+                <description>proposalLastUpdateDate description...</description>
+      </attribute>
+
+            <attribute name="proposalLastUpdateSystemIdentifier" forceUppercase="true">
+                <label>Proposal Last Update System Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>proposalLastUpdateSystemIdentifier</summary>
+                <description>proposalLastUpdateSystemIdentifier description...</description>
+      </attribute>
+
+            <attribute name="proposalLayDescription" forceUppercase="true">
+                <label>Proposal Lay Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>1000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>proposalLayDescription</summary>
+                <description>proposalLayDescription description...</description>
+      </attribute>
+
+            <attribute name="proposalNewSpaceIndicator" forceUppercase="true">
+                <label>Proposal New Space Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalNewSpaceIndicator</summary>
+                <description>proposalNewSpaceIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalOffCampusDescription" forceUppercase="true">
+                <label>Proposal Off Campus Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>1000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>proposalOffCampusDescription</summary>
+                <description>proposalOffCampusDescription description...</description>
+      </attribute>
+
+            <attribute name="proposalOffCampusIndicator" forceUppercase="true">
+                <label>Proposal Off Campus Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalOffCampusIndicator</summary>
+                <description>proposalOffCampusIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalOtherOrganizationIndicator" forceUppercase="true">
+                <label>Proposal Other Organization Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalOtherOrganizationIndicator</summary>
+                <description>proposalOtherOrganizationIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalOtherPurposeDescription" forceUppercase="true">
+                <label>Proposal Other Purpose Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>proposalOtherPurposeDescription</summary>
+                <description>proposalOtherPurposeDescription description...</description>
+      </attribute>
+
+            <attribute name="proposalOtherTypeDescription" forceUppercase="true">
+                <label>Proposal Other Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>75</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="77" />
+                </control>
+
+                <summary>proposalOtherTypeDescription</summary>
+                <description>proposalOtherTypeDescription description...</description>
+      </attribute>
+
+            <attribute name="proposalParentNumber" forceUppercase="true">
+                <label>Proposal Parent Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>proposalParentNumber</summary>
+                <description>proposalParentNumber description...</description>
+      </attribute>
+
+            <attribute name="proposalPhysicalCampusCode" forceUppercase="true">
+                <label>Proposal Physical Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalPhysicalCampusCode</summary>
+                <description>proposalPhysicalCampusCode description...</description>
+      </attribute>
+
+            <attribute name="proposalPriorGrantNumber" forceUppercase="true">
+                <label>Prior Grant No.</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>27</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="29" />
+                </control>
+
+                <summary>proposalPriorGrantNumber</summary>
+                <description>proposalPriorGrantNumber description...</description>
+      </attribute>
+
+            <attribute name="proposalProjectTitle" forceUppercase="true">
+                <label>Proposal Project Title</label>
+                <shortLabel>Title</shortLabel>
+
+                <maxLength>500</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>proposalProjectTitle</summary>
+                <description>proposalProjectTitle description...</description>
+      </attribute>
+
+            <attribute name="proposalPurposeCode" forceUppercase="true">
+                <label>Proposal Purpose Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>proposalPurposeCode</summary>
+                <description>proposalPurposeCode description...</description>
+      </attribute>
+
+            <attribute name="proposalSpaceRequiredDescription" forceUppercase="true">
+                <label>Proposal Space Required Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>1000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>proposalSpaceRequiredDescription</summary>
+                <description>proposalSpaceRequiredDescription description...</description>
+      </attribute>
+
+            <attribute name="proposalSpaceRequiredIndicator" forceUppercase="true">
+                <label>Proposal Space Required Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalSpaceRequiredIndicator</summary>
+                <description>proposalSpaceRequiredIndicator description...</description>
+      </attribute>
+
+            <attribute name="proposalStatusCode" forceUppercase="true">
+                <label>Proposal Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>proposalStatusCode</summary>
+                <description>proposalStatusCode description...</description>
+      </attribute>
+
+            <attribute name="proposalSubcontractorIndicator" forceUppercase="true">
+                <label>Proposal Subcontractor Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>proposalSubcontractorIndicator</summary>
+                <description>proposalSubcontractorIndicator description...</description>
+      </attribute>
+
+            <attribute name="researchDocumentNumber" forceUppercase="true">
+                <label>Research Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>researchDocumentNumber</summary>
+                <description>researchDocumentNumber description...</description>
+      </attribute>
+
+            <attribute name="researchTypeCode" forceUppercase="true">
+                <label>Research Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>researchTypeCode</summary>
+                <description>researchTypeCode description...</description>
+      </attribute>
+
+            <attribute name="submissionTypeCode" forceUppercase="true">
+                <label>Submission Type Code</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>submissionTypeCode</summary>
+                <description>submissionTypeCode description...</description>
+      </attribute>
+	
+            <attribute name="previousFederalIdentifier" forceUppercase="true">
+                <label>Previous Federal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>previousFederalIdentifier</summary>
+                <description>previousFederalIdentifier description...</description>
+      </attribute>
+
+            <attribute name="federalIdentifier" forceUppercase="true">
+                <label>Federal Identification No.</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>federalIdentifier</summary>
+                <description>federalIdentifier description...</description>
+      </attribute>
+
+            <attribute name="grantsGovernmentConfirmationNumber" forceUppercase="true">
+                <label>Grants.gov Confirmation No.</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>grantsGovernmentConfirmationNumber</summary>
+                <description>grantsGovernmentConfirmationNumber description...</description>
+      </attribute>
+
+            <attribute name="grantsGovernmentSubmissionIndicator" forceUppercase="true">
+                <label>Grants.gov Submission</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>grantsGovernmentSubmissionIndicator</summary>
+                <description>grantsGovernmentSubmissionIndicator description...</description>
+      </attribute>
+
+            <attribute name="projectAbstract" forceUppercase="true">
+                <label>Project Abstract</label>
+                <shortLabel>Project Abstract</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>projectAbstract</summary>
+                <description>projectAbstract description...</description>
+      </attribute>
+
+            <attribute name="creditPercentNextSequenceNumber" forceUppercase="true">
+                <label>Credit Percent Next Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>creditPercentNextSequenceNumber</summary>
+                <description>creditPercentNextSequenceNumber description...</description>
+      </attribute>
+
+            <attribute name="institutionCostShareNextSequenceNumber" forceUppercase="true">
+                <label>Institution Cost Share Next Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>institutionCostShareNextSequenceNumber</summary>
+                <description>institutionCostShareNextSequenceNumber description...</description>
+      </attribute>
+
+            <attribute name="otherCostShareNextSequenceNumber" forceUppercase="true">
+                <label>Other Cost Share Next Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>otherCostShareNextSequenceNumber</summary>
+                <description>otherCostShareNextSequenceNumber description...</description>
+      </attribute>
+
+            <attribute name="projectDirectorNextSequenceNumber" forceUppercase="true">
+                <label>Project Director Next Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>projectDirectorNextSequenceNumber</summary>
+                <description>projectDirectorNextSequenceNumber description...</description>
+      </attribute>
+
+            <attribute name="subcontractorNextSequenceNumber" forceUppercase="true">
+                <label>Subcontractor Next Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>subcontractorNextSequenceNumber</summary>
+                <description>subcontractorNextSequenceNumber description...</description>
+      </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+        
+        
+        <summary>Routing Form document</summary>
+        <description>Filling out routing forms is a delight which all persons should be so lucky as to be able to do dailly twice</description>
+
+        <headerNavigation>
+        	<headerNavigationTab>
+        		<navigateTo>mainpage</navigateTo>
+        		<displayName>Main Page</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>personnel</navigateTo>
+        		<displayName>Personnel</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>researchrisks</navigateTo>
+        		<displayName>Research Risks</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>projectdetails</navigateTo>
+        		<displayName>Project Details</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>agencyspecific</navigateTo>
+        		<displayName>Agency Specific</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>sf424</navigateTo>
+        		<displayName>SF 424</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>link</navigateTo>
+        		<displayName>Module Links</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>notes</navigateTo>
+        		<displayName>Notes</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>output</navigateTo>
+        		<displayName>Output</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>template</navigateTo>
+        		<displayName>Template</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>auditmode</navigateTo>
+        		<displayName>Audit Mode</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>permissions</navigateTo>
+        		<displayName>Permissions</displayName>
+        	</headerNavigationTab>
+        	<headerNavigationTab>
+        		<navigateTo>approvals</navigateTo>
+        		<displayName>Approvals</displayName>
+        	</headerNavigationTab>
+        </headerNavigation>
+        
+        
+        <allowsNoteDelete>true</allowsNoteDelete>
+        <!--  attachmentTypesValuesFinderClass>org.kuali.module.kra.budget.lookup.keyvalues.BudgetBaseCodeValuesFinder</attachmentTypesValuesFinderClass -->
+    </researchDocument>
+</dictionaryEntry>

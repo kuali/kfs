@@ -56,35 +56,7 @@
 
         <!-- KRA Module Bean Definitions -->
         <form-bean name="BudgetForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetParametersForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetOverviewForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetTemplateForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetNonpersonnelForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetNonpersonnelCopyOverForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetPersonnelForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetPersonnelForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetCostShareForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetOutputForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetModularForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetIndirectCostForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetAuditModeForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetPermissionsForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-        <form-bean name="BudgetNotesForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
-
         <form-bean name="RoutingForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormMainPageForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormPersonnelForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormResearchRisksForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormProjectDetailsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormAgencySpecificForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormSF424Form" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormLinkForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormNotesForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormOutputForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormTemplateForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormAuditModeForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormPermissionsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
-        <form-bean name="RoutingFormApprovalsForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />
 
         <!-- General Ledger Bean Definitions -->
         <form-bean name="CorrectionForm" type="org.kuali.module.gl.web.struts.form.CorrectionForm" />
@@ -210,7 +182,7 @@
             <forward name="basic" path="/jsp/modules/generalLedger/AccountBalanceByConsolidationLookup.jsp" />
         </action>
 
-        <action path="/researchBudget*" name="Budget{1}Form" input="/jsp/modules/research/budget/Budget{1}.jsp" type="org.kuali.module.kra.budget.web.struts.action.Budget{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <action path="/researchBudget*" name="BudgetForm" input="/jsp/modules/research/budget/Budget{1}.jsp" type="org.kuali.module.kra.budget.web.struts.action.Budget{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/jsp/modules/research/budget/Budget{1}.jsp" />
             <forward name="parameters" path="/jsp/modules/research/budget/BudgetParameters.jsp" redirect="false" />
             <forward name="overview" path="/jsp/modules/research/budget/BudgetOverview.jsp" redirect="false" />
@@ -227,7 +199,7 @@
             <forward name="notes" path="/jsp/modules/research/budget/BudgetNotes.jsp" redirect="false" />
         </action>
 
-        <action path="/researchRoutingForm*" name="RoutingForm{1}Form" input="/jsp/modules/research/routingform/RoutingForm{1}.jsp" type="org.kuali.module.kra.routingform.web.struts.action.RoutingForm{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <action path="/researchRoutingForm*" name="RoutingForm" input="/jsp/modules/research/routingform/RoutingForm{1}.jsp" type="org.kuali.module.kra.routingform.web.struts.action.RoutingForm{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <forward name="basic" path="/jsp/modules/research/routingform/RoutingForm{1}.jsp" />
             <forward name="mainpage" path="/jsp/modules/research/routingform/RoutingFormMainPage.jsp" redirect="false" />
             <forward name="personnel" path="/jsp/modules/research/routingform/RoutingFormPersonnel.jsp" redirect="false" />

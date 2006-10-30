@@ -25,6 +25,7 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -35,6 +36,7 @@ public class RoutingForm extends KualiDocumentFormBase {
     private List<RoutingFormResearchRisk> newRoutingFormResearchRisks;
     private List<ResearchRiskType> researchRiskTypes;
     private RoutingFormKeyword newRoutingFormKeyword;
+    private RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare;
     
     public RoutingForm() {
         super();
@@ -88,4 +90,13 @@ public class RoutingForm extends KualiDocumentFormBase {
     public void setNewRoutingFormKeyword(RoutingFormKeyword newRoutingFormKeyword) {
         this.newRoutingFormKeyword = newRoutingFormKeyword;
     }
+
+    public void setNewRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare) {
+        this.newRoutingFormInstitutionCostShare = newRoutingFormInstitutionCostShare;
+    }
+
+    public RoutingFormInstitutionCostShare getNewRoutingFormInstitutionCostShare() {
+        return newRoutingFormInstitutionCostShare;
+    }
+
 }

@@ -30,6 +30,7 @@ import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
+import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
@@ -110,6 +111,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormResearchType researchType;
     private SubmissionType submissionType;
     private ContractGrantProposal contractGrantProposal;
+    private List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShares;
    
 	/**
 	 * Default constructor.
@@ -1444,5 +1446,23 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.contractGrantProposal = contractGrantProposal;
     }
 
+    public List<RoutingFormInstitutionCostShare> getRoutingFormInstitutionCostShares() {
+        return routingFormInstitutionCostShares;
+    }
+
+    public RoutingFormInstitutionCostShare getRoutingFormInstitutionCostShare(int index) {
+        while (getRoutingFormInstitutionCostShares().size() <= index) {
+            getRoutingFormInstitutionCostShares().add(new RoutingFormInstitutionCostShare());
+        }
+        return (RoutingFormInstitutionCostShare) getRoutingFormInstitutionCostShares().get(index);
+    }
+    
+    public void setRoutingFormInstitutionCostShares(List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShares) {
+        this.routingFormInstitutionCostShares = routingFormInstitutionCostShares;
+    }
+
+    public void addRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare routingFormInstitutionCostShare) {
+        getRoutingFormInstitutionCostShares().add(routingFormInstitutionCostShare);
+    }
 
 }

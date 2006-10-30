@@ -50,34 +50,34 @@
                 <th scope="row">add:</th>
                 <td class="infoline"><div align="center">
                     <input name="textfield" type="text" size="20">
-                    <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
                 <td class="infoline"><div align="right">
                     <input name="textfield" type="text" size="12" class="right">
 
                   </div></td>
-                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="../images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
                 <th scope="row"><div align="center">1</div></th>
                 <td><div align="center"><span class="infoline">
                     <input name="textfield" type="text" value="ACME Subcontract 1" size="20">
-                    </span><a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    </span><a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
 
                 <td><div align="right"><span class="infoline">
                     <input name="textfield" type="text" value="600.00" size="12" class="right">
                     </span></div></td>
-                <td><div align=center> <a href="ib10c.html"><img src="../images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
                 <th  scope="row"><div align="center">2</div></th>
                 <td><div align="center"><span class="infoline">
 
                     <input name="textfield" type="text" value="ACME Subcontract 2" size="20">
-                    </span><a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    </span><a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
                 <td><div align="right"><span class="infoline">
                     <input name="textfield" type="text" value="400.00" size="12" class="right">
                     </span></div></td>
-                <td><div align=center> <a href="ib10c.html"><img src="../images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
 

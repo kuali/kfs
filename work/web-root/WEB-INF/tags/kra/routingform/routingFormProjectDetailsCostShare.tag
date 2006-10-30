@@ -28,6 +28,7 @@
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
+<c:set var="institutionCostShareAttributes" value="${DataDictionary.RoutingFormInstitutionCostShare.attributes}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
@@ -45,15 +46,94 @@
               </tr>
               <tr>
                 <th width="50">&nbsp;</th>
-                <th> <div align="center">Chart</div></th>
-
-                <th> <div align="center">Org</div></th>
+                <th>Chart</th>
+                <th>Org</th>
                 <th>Description</th>
-                <th><div align="center">Account</div></th>
+                <th>Account</th>
                 <th>Amount</th>
-                <th >Action</th>
+                <th>Action</th>
               </tr>
 
+              <tr>
+                <th align=right valign=middle>Keywords:</th>
+                <td colspan="3" align=left valign=middle nowrap >
+
+		            <table cellpadding="0" cellspacing="0" class="neutral">
+		              <tr>
+		                <td> <div align="center">
+							add:
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.chartOfAccountsCode" attributeEntry="${institutionCostShareAttributes.chartOfAccountsCode}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.organizationCode" attributeEntry="${institutionCostShareAttributes.organizationCode}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" lookupParameters="newRoutingFormInstitutionCostShare.organizationCode:organizationCode" fieldConversions="organizationCode:newRoutingFormInstitutionCostShare.organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.proposalCostShareDescription" attributeEntry="${institutionCostShareAttributes.proposalCostShareDescription}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" lookupParameters="newRoutingFormInstitutionCostShare.proposalCostShareDescription:proposalCostShareDescription" fieldConversions="proposalCostShareDescription:newRoutingFormInstitutionCostShare.proposalCostShareDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.accountNumber" attributeEntry="${institutionCostShareAttributes.accountNumber}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" lookupParameters="newRoutingFormInstitutionCostShare.accountNumber:accountNumber" fieldConversions="accountNumber:newRoutingFormInstitutionCostShare.accountNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.proposalCostShareAmount" attributeEntry="${institutionCostShareAttributes.proposalCostShareAmount}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" lookupParameters="newRoutingFormInstitutionCostShare.proposalCostShareAmount:proposalCostShareAmount" fieldConversions="proposalCostShareAmount:newRoutingFormInstitutionCostShare.proposalCostShareAmount" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"><div align="center"><html:image property="methodToCall.insertRoutingFormCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add institution cost share"/></div></td>
+		              </tr>   
+		              
+		              <c:forEach items = "${KualiForm.document.routingFormInstitutionCostShare}" var="routingFormInstitutionCostShare" varStatus="status"  >
+					  <tr>
+		                <td class="neutral"> <div align="left">
+			                <kul:htmlControlAttribute property="routingFormInstitutionCostShare.sequenceNumber" attributeEntry="${institutionCostShareAttributes.sequenceNumber}" />
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="routingFormInstitutionCostShare.chartOfAccountsCode" attributeEntry="${institutionCostShareAttributes.chartOfAccountsCode}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="routingFormInstitutionCostShare.organizationCode" attributeEntry="${institutionCostShareAttributes.organizationCode}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" lookupParameters="document.routingFormInstitutionCostShare.organizationCode:organizationCode" fieldConversions="organizationCode:document.routingFormInstitutionCostShare.organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="routingFormInstitutionCostShare.proposalCostShareDescription" attributeEntry="${institutionCostShareAttributes.proposalCostShareDescription}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="routingFormInstitutionCostShare.accountNumber" attributeEntry="${institutionCostShareAttributes.accountNumber}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" lookupParameters="document.routingFormInstitutionCostShare.accountNumber:accountNumber" fieldConversions="accountNumber:document.routingFormInstitutionCostShare.accountNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"> <div align="left">
+					    	<c:if test="${!viewOnly}">
+				                <kul:htmlControlAttribute property="routingFormInstitutionCostShare.proposalCostShareAmount" attributeEntry="${institutionCostShareAttributes.proposalCostShareAmount}" />
+		                	</c:if>
+		                </div></td>
+		                <td class="neutral"><div align="center"><html:image property="methodToCall.deleteRoutingFormCostShare.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete institution cost share"/></div></td>
+		              </tr>
+		              </c:forEach>
+		            </table>
+
+
+<!-- 
               <tr>
                 <th scope="row">add:</th>
                 <td class="infoline"><div align="center">
@@ -79,18 +159,18 @@
                   </div></td>
                 <td class="infoline"><div align="center">
                     <input name="textfield" type="text" size="12">
-                    <a href="lookups/lookup-param1.html"> <img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    <a href="lookups/lookup-param1.html"> <img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
                 <td class="infoline"><div align="center">
                     <input name="textfield" type="text" size="20">
                   </div></td>
                 <td class="infoline"><div align="center">
 
                     <input name="textfield" type="text" size="12">
-                    <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
                 <td class="infoline"><div align="right">
                     <input name="textfield" type="text" size="12" class="right">
                   </div></td>
-                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="../images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
                 <th scope="row"><div align="center">1</div></th>
@@ -118,18 +198,18 @@
                 <td><div align="center"><span class="infoline">
                     <input name="textfield" type="text" value="CARD" size="12">
 
-                    </span> <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    </span> <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
                 <td><div align="center"><span class="infoline">
                     <input name="textfield" type="text" value="description goes here" size="20">
                     </span></div></td>
                 <td><div align="center">
                     <input name="textfield" type="text" value="263463" size="12">
-                    <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
                 <td><div align="right"><span class="infoline">
 
                     <input name="textfield" type="text" value="600.00" size="12" class="right">
                     </span></div></td>
-                <td><div align=center> <a href="ib10c.html"><img src="../images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
                 <th  scope="row"><div align="center">2</div></th>
@@ -156,20 +236,23 @@
                     </span></div></td>
                 <td><div align="center"><span class="infoline">
                     <input name="textfield" type="text" value="UITS" size="12">
-                    </span> <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    </span> <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
 
                 <td><div align="center"><span class="infoline">
                     <input name="textfield" type="text" value="description goes here" size="20">
                     </span></div></td>
                 <td><div align="center">
                     <input name="textfield" type="text" value="727234" size="12">
-                    <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
                 <td><div align="right"><span class="infoline">
                     <input name="textfield" type="text" value="400.00" size="12" class="right">
                     </span></div></td>
 
-                <td><div align=center> <a href="ib10c.html"><img src="../images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
+              
+-->              
+              
               <tr>
                 <td colspan="5" class="total-line"  scope="row">&nbsp;</td>
                 <td class="total-line">$1000.00</td>
@@ -190,32 +273,32 @@
                 <th scope="row">add:</th>
                 <td colspan="3" class="infoline"><div align="center">
                     <input name="textfield" type="text" size="20">
-                    <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    </div></td>
                 <td colspan="2" class="infoline"><input name="textfield" type="text" size="12" class="right"></td>
 
-                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="../images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
                 <th scope="row"><div align="center">1</div></th>
                 <td colspan="3"><div align="center">
                     <input name="textfield" type="text" value="source 1" size="20">
-                    <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    </div></td>
                 <td colspan="2"><span class="infoline">
 
                   <input name="textfield" type="text" value="600.00" size="12" class="right">
                   </span></td>
-                <td><div align=center> <a href="ib10c.html"><img src="../images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
                 <th  scope="row"><div align="center">2</div></th>
                 <td colspan="3"><div align="center">
                     <input name="textfield" type="text" value="source 2" size="20">
 
-                    <a href="lookups/lookup-param1.html"><img src="../images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
+                    </div></td>
                 <td colspan="2"><span class="infoline">
                   <input name="textfield" type="text" value="400.00" size="12" class="right">
                   </span></td>
-                <td><div align=center> <a href="ib10c.html"><img src="../images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
               </tr>
               <tr>
                 <td colspan="4" class="total-line"  scope="row">&nbsp;</td>

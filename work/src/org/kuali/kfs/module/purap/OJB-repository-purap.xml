@@ -638,7 +638,6 @@
 	<field-descriptor name="nonInstitutionFundOrganizationCode" column="NON_INST_FND_ORG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nonInstitutionFundChartOfAccountsCode" column="NON_INST_FND_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nonInstitutionFundAccountNumber" column="NON_INST_FND_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="facilitiesManagementBuildingCode" column="FM_BLDG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingCode" column="DLVY_BLDG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingName" column="DLVY_BLDG_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingRoomNumber" column="DLVY_BLDG_RM_NBR" jdbc-type="VARCHAR"/>
@@ -860,7 +859,6 @@
 	<field-descriptor name="nonInstitutionFundOrganizationCode" column="NON_INST_FND_ORG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nonInstitutionFundChartOfAccountsCode" column="NON_INST_FND_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nonInstitutionFundAccountNumber" column="NON_INST_FND_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="facilitiesManagementBuildingCode" column="FM_BLDG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryCampusCode" column="DLVY_CMP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingCode" column="DLVY_BLDG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="deliveryBuildingName" column="DLVY_BLDG_NM" jdbc-type="VARCHAR"/>

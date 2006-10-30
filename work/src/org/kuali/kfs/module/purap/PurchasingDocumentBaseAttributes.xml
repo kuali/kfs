@@ -516,23 +516,6 @@
     <description>externalOrganizationB2bSupplierIdentifier description...</description>
 </attribute>
 
-<attribute name="facilitiesManagementBuildingCode" forceUppercase="true">
-    <label>Facilities Management Building Code</label>
-    <shortLabel>Code</shortLabel>
-
-    <maxLength>10</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="12" />
-    </control>
-
-    <summary>facilitiesManagementBuildingCode</summary>
-    <description>facilitiesManagementBuildingCode description...</description>
-</attribute>
-
 <attribute name="fundingSourceCode" forceUppercase="true">
     <label>Funding Source</label>
     <shortLabel>Funding Source</shortLabel>

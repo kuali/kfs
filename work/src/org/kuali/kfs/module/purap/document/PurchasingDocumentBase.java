@@ -129,10 +129,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private VendorContract vendorContract;
     
     //COLLECTIONS
-    private List items;
-    
-    
-    
+    private List items;   
     
     public PurchasingDocumentBase() {
         super();

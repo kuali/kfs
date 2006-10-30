@@ -64,7 +64,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	 * Default constructor.
 	 */
 	public RequisitionDocument() {
-        
+        super();
     }
 
     public void refreshAllReferences() {
@@ -81,8 +81,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
         this.setFundingSourceCode("IUAC");
-        List<StatusHistory> statusHistories = new ArrayList();
-        this.setStatusHistories( statusHistories );
         // TODO set default funding source in params or make non-IU specific
 
         // ripierce: the PostingYear has already been set before we come to this method.

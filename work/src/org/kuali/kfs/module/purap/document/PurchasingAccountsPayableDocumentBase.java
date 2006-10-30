@@ -17,6 +17,7 @@
  */
 package org.kuali.module.purap.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.Constants;
@@ -45,6 +46,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     // REFERENCE OBJECTS
     private Status status;
 
+    // CONSTRUCTORS
+    public PurchasingAccountsPayableDocumentBase() {
+        List<StatusHistory> statusHistories = new ArrayList();
+        this.setStatusHistories( statusHistories );
+    }
+    
     // OVERRIDEN METHODS
     @Override
     public KualiDecimal getTotalDollarAmount() {

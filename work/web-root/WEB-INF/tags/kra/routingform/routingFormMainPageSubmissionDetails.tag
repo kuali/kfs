@@ -211,7 +211,7 @@
 		              <tr>
 		                <td class="neutral"> <div align="left">
 					    	<c:if test="${!viewOnly}">
-					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormKeyword" lookupParameters="document.routingFormKeyword.proposalKeywordDescritpion:proposalKeywordDescription" fieldConversions="proposalKeywordDescription:document.routingFormKeyword.proposalKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormKeyword" lookupParameters="document.routingFormKeyword.proposalKeywordDescription:proposalKeywordDescription" fieldConversions="proposalKeywordDescription:document.routingFormKeyword.proposalKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
 		                	</c:if>
 
 <!-- 

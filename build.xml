@@ -546,7 +546,7 @@
 	
 	<target name="dist-binary-and-source-package" depends="init-binary-and-source-package,make-binary-and-source-package,dist-package" />
 		
-	<target name="continuous-integration" depends="make-tests,test">
+	<target name="continuous-integration" depends="clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 

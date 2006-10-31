@@ -88,6 +88,8 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
+        document.setPostingYear(2000); // because our test database has no offset definitions (GL_OFFSET_DEFN_T) for UNIV_FISCAL_YR=2000.
+        document.setPostingPeriodCode("06"); // because this BO reveals no change when the year is set by itself.
         AccountingLine accountingLine = FLEXIBLE_EXPENSE_LINE.createSourceAccountingLine();
         GeneralLedgerPendingEntry expectedExplicit = EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
         GeneralLedgerPendingEntry expectedOffset = EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION.createGeneralLedgerPendingEntry();

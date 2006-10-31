@@ -44,7 +44,6 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtil
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -57,7 +56,6 @@ import static org.kuali.test.fixtures.AccountingLineFixture.LINE9;
 import static org.kuali.test.fixtures.AccountingLineFixture.SOURCE_LINE;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 import org.kuali.test.suite.RelatesTo;
 import static org.kuali.test.suite.RelatesTo.JiraIssue.KULEDOCS1730;
@@ -112,7 +110,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName, String expectedErrorKey) throws Exception {
         line.refresh();
         assertGlobalErrorMapEmpty();
-        boolean wasValid = getBusinessRule(DOCUMENT_CLASS, AddAccountingLineRule.class,getDataDictionaryService()).processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line);
+        boolean wasValid = getBusinessRule(DOCUMENT_CLASS, AddAccountingLineRule.class).processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line);
         if (expectedErrorFieldName == null) {
             assertGlobalErrorMapEmpty(line.toString()); // fail printing error map for debugging before failing on simple result
             assertEquals("wasValid " + line, true, wasValid);
@@ -217,37 +215,37 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false, getDataDictionaryService());
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
     }
 
     public void testIsObjectTypeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true, getDataDictionaryService());
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true, getDataDictionaryService());
+        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
     }
 
     public void testAddAccountingLine_Valid() throws Exception {
         TransactionalDocument doc = createDocumentWithValidObjectSubType();
-        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true, getDataDictionaryService());
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true);
     }
 
     public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true, getDataDictionaryService());
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
     }
 
     public void testProcessSaveDocument_Valid() throws Exception {
-        testSaveDocumentRule_ProcessSaveDocument(createDocument(), true, getDataDictionaryService());
+        testSaveDocumentRule_ProcessSaveDocument(buildDocument(), true);
     }
 
     public void testProcessSaveDocument_Invalid() throws Exception {
-        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false, getDataDictionaryService());
+        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false);
     }
 
     public void testProcessSaveDocument_Invalid1() throws Exception {
         try {
-            testSaveDocumentRule_ProcessSaveDocument(null, false, getDataDictionaryService());
+            testSaveDocumentRule_ProcessSaveDocument(null, false);
             fail("validated null doc");
         }
         catch (Exception e) {
@@ -256,34 +254,29 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     public void testProcessRouteDocument_Valid() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true);
     }
 
     public void testProcessRouteDocument_Invalid() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocument(), false, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(buildDocument(), false);
     }
 
     public void testProcessRouteDocument_NoAccountingLines() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocument(), false, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(buildDocument(), false);
     }
 
     public void testProcessRouteDocument_Unbalanced() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
     @RelatesTo(KULEDOCS1730)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
-
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), EXPENSE_LINE.createSourceAccountingLine(), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry(), 1, getDataDictionaryService());
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, null);
     }
 
     @RelatesTo(KULEDOCS1730)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getAssetSourceLine(), getExpectedExplicitSourcePendingEntry(), getExpectedOffsetSourcePendingEntry(), 1, getDataDictionaryService());
-    }
-
-    private JournalVoucherDocument createDocument() throws Exception {
-        return buildDocument();
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), getAssetSourceLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY, null);
     }
 
     private JournalVoucherDocument createDocumentValidForRouting() throws Exception {
@@ -301,7 +294,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private JournalVoucherDocument createDocumentWithValidObjectSubType() throws Exception {
-        JournalVoucherDocument retval = createDocument();
+        JournalVoucherDocument retval = buildDocument();
         retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
         retval.setTargetAccountingLines(getValidObjectSubTypeTargetLines());
         return retval;
@@ -349,25 +342,9 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         return SOURCE_LINE.createSourceAccountingLine();
     }
 
-    private TransactionalDocument createDocument5() throws Exception {
+    private JournalVoucherDocument createDocumentUnbalanced() throws Exception {
         return buildDocument();
     }
 
-    private JournalVoucherDocument createDocumentUnbalanced() throws Exception {
-        JournalVoucherDocument retval = createDocument();
-        return retval;
-    }
 
-    private GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
-        return EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-
-    private GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
-        return EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-    }
-
-    private GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
-        return EXPECTED_OFFSET_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
 }

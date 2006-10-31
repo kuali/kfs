@@ -43,7 +43,6 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtil
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
@@ -56,6 +55,7 @@ import static org.kuali.test.fixtures.AccountingLineFixture.LINE12;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE13;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE9;
+import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE;
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
@@ -81,7 +81,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     @AnnotationTestSuite(CrossSectionSuite.class)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2.createGeneralLedgerPendingEntry(), EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry(), 2, getDataDictionaryService());
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2, EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
     @RelatesTo(KULEDOCS1730)
@@ -91,10 +91,10 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         document.setPostingYear(2000); // because our test database has no offset definitions (GL_OFFSET_DEFN_T) for UNIV_FISCAL_YR=2000.
         document.setPostingPeriodCode("06"); // because this BO reveals no change when the year is set by itself.
         AccountingLine accountingLine = FLEXIBLE_EXPENSE_LINE.createSourceAccountingLine();
-        GeneralLedgerPendingEntry expectedExplicit = EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-        GeneralLedgerPendingEntry expectedOffset = EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION.createGeneralLedgerPendingEntry();
+        GeneralLedgerPendingEntryFixture expectedExplicit = EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
+        GeneralLedgerPendingEntryFixture expectedOffset = EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION;
 
-        boolean ruleResult = testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(document, accountingLine, expectedExplicit, expectedOffset, 2, getDataDictionaryService());
+        boolean ruleResult = testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(document, accountingLine, expectedExplicit, expectedOffset);
         assertEquals(false, ruleResult);
         assertGlobalErrorMapContains(Constants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
     }
@@ -482,19 +482,19 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false, getDataDictionaryService());
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
     }
 
     public void testIsObjectTypeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true, getDataDictionaryService());
+        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
     }
 
     public void testIsObjectCodeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true, getDataDictionaryService());
+        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
     }
 
     public void testIsObjectCodeAllowed_InvalidObjectCode() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getInvalidObjectCodeSourceLine(), false, getDataDictionaryService());
+        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getInvalidObjectCodeSourceLine(), false);
     }
 
     public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
@@ -510,33 +510,33 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
             sourceAccountingLine.setFinancialObjectCode(NON_MANDATORY_TRANSFER_OBJECT_CODE);
         }
         // todo: is this correct? a test of an invalid object sub type expects an outcome of true
-        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true, getDataDictionaryService());
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true);
     }
 
     public void testAddAccountingLine_Valid() throws Exception {
         TransactionalDocument doc = createDocumentWithValidObjectSubType();
-        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true, getDataDictionaryService());
+        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true);
     }
 
     public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getInvalidObjectSubTypeTargetLine(), false, getDataDictionaryService());
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getInvalidObjectSubTypeTargetLine(), false);
     }
 
     public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true, getDataDictionaryService());
+        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
     }
 
     public void testProcessSaveDocument_Valid() throws Exception {
-        testSaveDocumentRule_ProcessSaveDocument(createDocument(), true, getDataDictionaryService());
+        testSaveDocumentRule_ProcessSaveDocument(createDocument(), true);
     }
 
     public void testProcessSaveDocument_Invalid() throws Exception {
-        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false, getDataDictionaryService());
+        testSaveDocumentRule_ProcessSaveDocument(createDocumentInvalidForSave(), false);
     }
 
     public void testProcessSaveDocument_Invalid1() throws Exception {
         try {
-            testSaveDocumentRule_ProcessSaveDocument(null, false, getDataDictionaryService());
+            testSaveDocumentRule_ProcessSaveDocument(null, false);
             fail("validated null doc");
         }
         catch (Exception e) {
@@ -545,28 +545,28 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     public void testProcessRouteDocument_Valid() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(createDocumentValidForRouting(), true);
     }
 
     public void testProcessRouteDocument_Invalid() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocument(), false, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(createDocument(), false);
     }
 
     public void testProcessRouteDocument_NoAccountingLines() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocument(), false, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(createDocument(), false);
     }
 
     public void testProcessRouteDocument_Unbalanced() throws Exception {
-        testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false, getDataDictionaryService());
+        testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseTargetLine(), getExpectedExplicitTargetPendingEntryForExpense(), getExpectedOffsetTargetPendingEntry(), 2, getDataDictionaryService());
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_TARGET_PENDING_ENTRY);
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
-        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument5(), getExpenseSourceLine(), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry(), 2, getDataDictionaryService());
+        testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
     private TransferOfFundsDocument createDocumentValidForRouting() throws Exception {
@@ -619,22 +619,6 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         return retval;
     }
 
-    private SourceAccountingLine getExpenseSourceLine() throws Exception {
-        return EXPENSE_LINE.createSourceAccountingLine();
-    }
-
-    private TargetAccountingLine getExpenseTargetLine() throws Exception {
-        return EXPENSE_LINE.createTargetAccountingLine();
-    }
-
-    private GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
-        return EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-    }
-
-    private GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
-        return EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE.createGeneralLedgerPendingEntry();
-    }
-
     private TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
         return (TargetAccountingLine) makeObjectTypeAndSubTypeValid(LINE11.createTargetAccountingLine());
     }
@@ -646,7 +630,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     }
 
     private TargetAccountingLine getInvalidObjectSubTypeTargetLine() throws Exception {
-        return getTargetLineParameter3();
+        return LINE13.createTargetAccountingLine();
     }
 
     private List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
@@ -665,7 +649,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     private List<TargetAccountingLine> getInvalidObjectSubTypeTargetLines() throws Exception {
         List<TargetAccountingLine> retval = new ArrayList<TargetAccountingLine>();
         retval.add(LINE11.createTargetAccountingLine());
-        retval.add(getTargetLineParameter3());
+        retval.add(getInvalidObjectSubTypeTargetLine());
         return retval;
     }
 
@@ -696,11 +680,6 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         return LINE11.createSourceAccountingLine();
     }
 
-    private TransactionalDocument createDocument5() throws Exception {
-        return DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
-    }
-
-
     private TransferOfFundsDocument createDocumentWithInvalidObjectSubType() throws Exception {
         TransferOfFundsDocument retval = createDocument();
         retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
@@ -715,17 +694,4 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         retval.addTargetAccountingLine(getValidObjectSubTypeTargetLine());
         return retval;
     }
-
-    private TargetAccountingLine getTargetLineParameter3() throws Exception {
-        return LINE13.createTargetAccountingLine();
-    }
-
-    private GeneralLedgerPendingEntry getExpectedOffsetTargetPendingEntry() {
-        return EXPECTED_OFFSET_TARGET_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
-    private GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
-        return EXPECTED_OFFSET_SOURCE_PENDING_ENTRY.createGeneralLedgerPendingEntry();
-    }
-
 }

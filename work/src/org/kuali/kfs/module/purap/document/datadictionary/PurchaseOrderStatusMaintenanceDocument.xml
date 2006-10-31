@@ -44,14 +44,14 @@
         <description>Document used to create or update Purchase Order Status objects</description>
 
         <lockingKeys>
-            <field attributeName="purchaseOrderStatusCode" />
+            <field attributeName="statusCode" />
         </lockingKeys>
 
         <maintainableSections>
             <maintainableSection title="Edit Purchase Order Status">
                 <maintainableItems>
-                    <maintainableField name="purchaseOrderStatusCode" required="true" />
-                	<maintainableField name="purchaseOrderStatusDescription" required="true" />
+                    <maintainableField name="statusCode" required="true" />
+                    <maintainableField name="statusDescription" required="true" />
                 	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>

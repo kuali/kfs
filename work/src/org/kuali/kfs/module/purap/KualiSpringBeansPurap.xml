@@ -32,9 +32,21 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
     </bean>
 
     <bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
+    </bean>
+
+    <bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
     </bean>
 
     <bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">

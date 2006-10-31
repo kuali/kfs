@@ -27,8 +27,8 @@
             <title>Purchase Order Status Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="purchaseOrderStatusCode" />
-                <field attributeName="purchaseOrderStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields>
         </inquiry>
@@ -40,26 +40,26 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="purchaseOrderStatusDescription" />
+                    <sortAttribute attributeName="statusDescription" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="purchaseOrderStatusCode" required="false" />
-                <lookupField attributeName="purchaseOrderStatusDescription" required="false" />
+                <lookupField attributeName="statusCode" required="false" />
+                <lookupField attributeName="statusDescription" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="purchaseOrderStatusCode" />
-                <field attributeName="purchaseOrderStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="purchaseOrderStatusCode" forceUppercase="true">
+            <attribute name="statusCode" forceUppercase="true">
                 <label>Purchase Order Status Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -74,7 +74,7 @@
                 <description>purchaseOrderStatusCode description...</description>
 			</attribute>
 
-            <attribute name="purchaseOrderStatusDescription">
+            <attribute name="statusDescription">
                 <label>Purchase Order Status Description</label>
                 <shortLabel>Description</shortLabel>
 

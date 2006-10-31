@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation.
  * 
- * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/PurchaseOrderStatus.java,v $
+ * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/service/PurchaseOrderService.java,v $
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.kuali.module.purap.service;
 
-package org.kuali.module.purap.bo;
+import org.kuali.core.util.KualiDecimal;
 
 
-/**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
-public class PurchaseOrderStatus extends Status {
+public interface PurchaseOrderService {
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderStatus() {
-        super();
-        super.ojbConcreteClass = this.getClass().getName();
-	}
-
+//    public PurchaseOrderDocument createPurchaseOrder();   
+    
 }

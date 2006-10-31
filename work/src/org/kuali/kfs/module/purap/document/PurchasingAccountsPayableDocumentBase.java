@@ -18,6 +18,7 @@
 package org.kuali.module.purap.document;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.Constants;
@@ -25,6 +26,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
+import org.kuali.module.purap.bo.VendorDetail;
 
 /**
  * Purchasing-Accounts Payable Document Base
@@ -45,6 +47,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
 
     // REFERENCE OBJECTS
     private Status status;
+    private VendorDetail vendorDetail;
 
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
@@ -63,6 +66,17 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
      */
     public void refreshAllReferences() {
         this.refreshReferenceObject("status");
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        if (getIdentifier() != null) {
+            m.put("identifier", getIdentifier().toString());
+        }
+        return m;
     }
 
     // GETTERS AND SETTERS
@@ -157,6 +171,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
 
     public void setStatusHistories(List<StatusHistory> statusHistories) {
         this.statusHistories = statusHistories;
+    }
+
+    public VendorDetail getVendorDetail() {
+        return vendorDetail;
+    }
+
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
     }
 
 }

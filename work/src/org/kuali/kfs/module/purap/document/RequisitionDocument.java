@@ -47,6 +47,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Requisition Document
  */
 public class RequisitionDocument extends PurchasingDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
 
 	private String requisitionOrganizationReference1Text;
 	private String requisitionOrganizationReference2Text;
@@ -117,8 +118,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
             this.setBillingPhoneNumber(billingAddress.getBillingPhoneNumber());
         }
 
-// TODO Needed?      this.updateDropDownObjects(r);
-
 // TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
 //        // add new item for freight
 //        addNewBelowLineItem(r, EpicConstants.ITEM_TYPE_FREIGHT_CODE);
@@ -141,7 +140,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         this.refreshAllReferences();
     }
-    
+
     /**
      * A method in which to do checks as to whether copying of this document should be allowed.
      * Copying is not to be allowed if this is a B2B req. and more than a set number of days
@@ -238,6 +237,8 @@ public class RequisitionDocument extends PurchasingDocumentBase {
               return;
           }
       }
+
+//    TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
 //      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
 //        if (!activeContract) {
 //          LOG.debug("copy() B2B contract has expired; don't allow copy.");
@@ -280,7 +281,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       //implementing it.
       //this.setStatusHistoryList(null);
       this.setStatusHistories(null);
-      
+
 //TODO DAVID AND CHRIS SHOULD FIX THIS
       //Trade In and Discount Items are only available for B2B. If the Requisition
       //doesn't currently contain trade in and discount, we should add them in 
@@ -311,6 +312,96 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     
 	}
 
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        LOG.debug("handleRouteStatusChange() started");
+        super.handleRouteStatusChange();
+
+        // DOCUMENT PROCESSED
+        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            // TODO if "canBecomeAPO", create APO
+            // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"
+        }
+        // DOCUMENT DISAPPROVED
+        else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            // TODO set REQ status to disapproved - based on route level
+        }
+        // DOCUMENT CANCELED
+        else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+            // TODO EPIC did nothing; is that right?
+        }
+
+//        if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeHeader.getDocRouteStatus())) {
+//            if (getRequisitionPostProcessorService().isAPO(routeHeader.getRouteHeaderId(), getLastUserId(routeHeader))) {
+//                PurchaseOrder po = getRequisitionPostProcessorService().createAPO(routeHeader.getRouteHeaderId(), getLastUserId(routeHeader));
+//                //getRequisitionPostProcessorService().routeAPO(po, getLastUserId(routeHeader));
+//            } else {
+//                //set req to buyer assign
+//                getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_CONTRACT_MANAGER_ASSGN, getLastUserId(routeHeader));
+//            }
+//        } else if (EdenConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeHeader.getDocRouteStatus())) {
+//            //set EPIC status to disapproved - based on route level
+//            LOG.info("doRouteStatusChange() Route Status is " + EdenConstants.ROUTE_HEADER_DISAPPROVED_LABEL + " - Epic document with doc ID " + 
+//              routeHeader.getRouteHeaderId() + " has had workflow document disapproved by " + getLastUserId(routeHeader));
+//            getRequisitionPostProcessorService().disapproveRequisition(routeHeader.getRouteHeaderId(), routeHeader.getCurrentRouteLevelName(),getLastUserId(routeHeader));
+//        } else if (EdenConstants.ROUTE_HEADER_CANCEL_CD.equals(routeHeader.getDocRouteStatus())) {
+//          LOG.info("doRouteStatusChange() Route Status is " + EdenConstants.ROUTE_HEADER_CANCEL_LABEL + " - Epic document with doc ID " + 
+//              routeHeader.getRouteHeaderId() + " has had workflow document cancelled by " + getLastUserId(routeHeader));
+//        }
+
+    }
+
+    @Override
+    public void handleRouteLevelChange() {
+        LOG.debug("handleRouteLevelChange() started");
+        super.handleRouteLevelChange();
+
+        //on level change alter EPIC status of document - possibly clear & reset attributes
+//        DocumentRouteHeaderValue routeHeader = getRouteHeaderService().getRouteHeader(levelChangeEvent.getRouteHeaderId());
+//
+//        if (RoutingService.REQ_CONTENT_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
+//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_CONTENT_APRVL, getLastUserId(routeHeader));
+//        }
+//        if (RoutingService.REQ_SUB_ACCT_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
+//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_SUB_ACCT_APRVL, getLastUserId(routeHeader));
+//        }
+//        if (RoutingService.REQ_FISCAL_OFFICER_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
+//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_FISCAL_APRVL, getLastUserId(routeHeader));
+//        }
+//        if (RoutingService.REQ_CHART_ORG_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())) {
+//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_CHART_APRVL, getLastUserId(routeHeader));          
+//        }
+//        if (RoutingService.REQ_SOD_NODE_NAME.equalsIgnoreCase(levelChangeEvent.getNewNodeName())){
+//            getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_SEP_OF_DUTY_APRVL, getLastUserId(routeHeader));
+//            
+//            //test for separation of duties, if fail send to exception routing
+//            String initiatorId = routeHeader.getInitiatorUser().getAuthenticationUserId().getAuthenticationId();
+//            int numberOfApprovals = 0;
+//            String approver = null;
+//            for (Iterator iter = routeHeader.getActionsTaken().iterator(); iter.hasNext();) {
+//                ActionTakenValue actionTaken = (ActionTakenValue) iter.next();
+//                if(actionTaken.getActionTaken().equals(EdenConstants.ACTION_TAKEN_APPROVED_CD)){
+//                    numberOfApprovals++;
+//                    approver = actionTaken.getWorkflowUser().getAuthenticationUserId().getAuthenticationId();
+//                }
+//            }
+//            
+//            if(getRequisitionPostProcessorService().failsSeparationOfDuties(routeHeader.getRouteHeaderId(), initiatorId, approver, numberOfApprovals)){
+//                WorkflowDocument document = new WorkflowDocument(new NetworkIdVO(initiatorId), routeHeader.getRouteHeaderId());
+//                document.clearAttributeContent();
+//                document.addAttributeDefinition(new SeparationDefinition("fails"));
+//                document.saveRoutingData();
+//            }
+//            
+//        }
+
+    }
+
+    // SETTERS AND GETTERS
 	/**
 	 * Gets the requisitionOrganizationReference1Text attribute.
 	 * 
@@ -500,37 +591,4 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
 
-
-
-	/**
-	 * Gets the documentHeader attribute.
-	 * 
-	 * @return - Returns the documentHeader
-	 * 
-	 */
-	public DocumentHeader getDocumentHeader() { 
-		return documentHeader;
-	}
-
-	/**
-	 * Sets the documentHeader attribute.
-	 * 
-	 * @param - documentHeader The documentHeader to set.
-	 * @deprecated
-	 */
-	public void setDocumentHeader(DocumentHeader documentHeader) {
-		this.documentHeader = documentHeader;
-	}
-
-
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        if (getIdentifier() != null) {
-            m.put("identifier", getIdentifier().toString());
-        }
-	    return m;
-    }
 }

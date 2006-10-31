@@ -74,7 +74,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String nonInstitutionFundOrganizationCode;
     private String nonInstitutionFundChartOfAccountsCode;
     private String nonInstitutionFundAccountNumber;
-    private String facilitiesManagementBuildingCode;
     private String deliveryBuildingCode;
     private String deliveryBuildingName;
     private String deliveryBuildingRoomNumber;
@@ -126,18 +125,18 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Org nonInstitutionFundOrganization;
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
-    private VendorDetail vendorDetail;
     private VendorContract vendorContract;
     
     //COLLECTIONS
-    private List items;   
+    private List items;
     
+
     public PurchasingDocumentBase() {
         super();
         items = new ArrayList();
     }
 
-
+    
     /**
      * Retrieve all references common to purchasing
      */
@@ -161,7 +160,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         if (vendorDetail == null) {
             return;
         }
-
+    
         this.setVendorDetail(vendorDetail);
         this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setVendorName(vendorDetail.getVendorName());
@@ -182,7 +181,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }    
     
     // GETTERS AND SETTERS    
-    
     /**
      * Gets the fundingSourceCode attribute.
      * 
@@ -761,26 +759,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public void setNonInstitutionFundAccountNumber(String nonInstitutionFundAccountNumber) {
         this.nonInstitutionFundAccountNumber = nonInstitutionFundAccountNumber;
-    }
-
-    /**
-     * Gets the facilitiesManagementBuildingCode attribute.
-     * 
-     * @return - Returns the facilitiesManagementBuildingCode
-     * 
-     */
-    public String getFacilitiesManagementBuildingCode() { 
-        return facilitiesManagementBuildingCode;
-    }
-
-    /**
-     * Sets the facilitiesManagementBuildingCode attribute.
-     * 
-     * @param - facilitiesManagementBuildingCode The facilitiesManagementBuildingCode to set.
-     * 
-     */
-    public void setFacilitiesManagementBuildingCode(String facilitiesManagementBuildingCode) {
-        this.facilitiesManagementBuildingCode = facilitiesManagementBuildingCode;
     }
 
     /**
@@ -1641,14 +1619,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public void setNonInstitutionFundChartOfAccounts(Chart nonInstitutionFundChartOfAccounts) {
         this.nonInstitutionFundChartOfAccounts = nonInstitutionFundChartOfAccounts;
-    }
-
-    public VendorDetail getVendorDetail() {
-        return vendorDetail;
-    }
-
-    public void setVendorDetail(VendorDetail vendorDetail) {
-        this.vendorDetail = vendorDetail;
     }
 
     public String getVendorNumber() {

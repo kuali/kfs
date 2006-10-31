@@ -506,22 +506,6 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public void setNonInstitutionFundAccountNumber(String nonInstitutionFundAccountNumber);
 
     /**
-     * Gets the facilitiesManagementBuildingCode attribute.
-     * 
-     * @return - Returns the facilitiesManagementBuildingCode
-     * 
-     */
-    public String getFacilitiesManagementBuildingCode();
-
-    /**
-     * Sets the facilitiesManagementBuildingCode attribute.
-     * 
-     * @param - facilitiesManagementBuildingCode The facilitiesManagementBuildingCode to set.
-     * 
-     */
-    public void setFacilitiesManagementBuildingCode(String facilitiesManagementBuildingCode);
-
-    /**
      * Gets the deliveryBuildingCode attribute.
      * 
      * @return - Returns the deliveryBuildingCode

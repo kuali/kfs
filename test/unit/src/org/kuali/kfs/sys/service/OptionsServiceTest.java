@@ -27,7 +27,7 @@ import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests the Options service.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 @WithTestSpringContext
 public class OptionsServiceTest extends KualiTestBase {

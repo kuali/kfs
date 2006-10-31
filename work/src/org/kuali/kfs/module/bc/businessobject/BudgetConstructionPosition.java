@@ -20,7 +20,9 @@ package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
@@ -57,13 +59,14 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
 	private String iuPositionType;
 	private String positionLockUserIdentifier;
 
-    private BudgetConstructionPositionSelect positionSelect;
+    private List budgetConstructionPositionSelect;
     private ResponsibilityCenter responsibilityCenter;
     
 	/**
 	 * Default constructor.
 	 */
 	public BudgetConstructionPosition() {
+        budgetConstructionPositionSelect = new ArrayList();
 
 	}
 
@@ -614,23 +617,23 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the positionSelect attribute.
+	 * Gets the budgetConstructionPositionSelect list.
 	 * 
-	 * @return - Returns the positionSelect
+	 * @return - Returns the budgetConstructionPositionSelect list
 	 * 
 	 */
-	public BudgetConstructionPositionSelect getPositionSelect() { 
-		return positionSelect;
+	public List getBudgetConstructionPositionSelect() { 
+		return budgetConstructionPositionSelect;
 	}
 
 	/**
-	 * Sets the positionSelect attribute.
+	 * Sets the budgetConstructionPositionSelect list.
 	 * 
-	 * @param - positionSelect The positionSelect to set.
+	 * @param - budgetConstructionPositionSelect The budgetConstructionPositionSelect list to set.
 	 * @deprecated
 	 */
-	public void setPositionSelect(BudgetConstructionPositionSelect positionSelect) {
-		this.positionSelect = positionSelect;
+	public void setPositionSelect(List budgetConstructionPositionSelect) {
+		this.budgetConstructionPositionSelect = budgetConstructionPositionSelect;
 	}
 
     /**

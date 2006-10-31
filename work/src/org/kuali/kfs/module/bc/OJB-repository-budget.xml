@@ -335,13 +335,14 @@
 	<field-descriptor name="iuDefaultObjectCode" column="IU_DFLT_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="iuPositionType" column="IU_POSITION_TYPE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionLockUserIdentifier" column="POS_LOCK_USR_ID" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="positionSelect" class-ref="org.kuali.module.budget.bo.BudgetConstructionPositionSelect" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="positionNumber" />
-		<foreignkey field-ref="universityFiscalYear" />
-	</reference-descriptor>
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
+	<collection-descriptor name="budgetConstructionPositionSelect" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionPositionSelect" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="personUniversalIdentifier" sort="ASC" />
+		<inverse-foreignkey field-ref="positionNumber" />
+		<inverse-foreignkey field-ref="universityFiscalYear" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionPositionSelect" table="LD_BCN_POS_SEL_T">
@@ -358,6 +359,10 @@
 	<field-descriptor name="grade" column="GRADE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionDescription" column="POS_DESCR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="budgetConstructionPosition" class-ref="org.kuali.module.budget.bo.BudgetConstructionPosition" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="positionNumber" />
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingLoad" table="LD_BCN_AF_LOAD_T">

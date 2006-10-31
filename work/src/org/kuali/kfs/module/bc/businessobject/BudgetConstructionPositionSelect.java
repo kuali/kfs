@@ -38,6 +38,8 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	private String grade;
 	private String positionDescription;
 	private String personName;
+    
+    private BudgetConstructionPosition budgetConstructionPosition;
 
 	/**
 	 * Default constructor.
@@ -276,6 +278,26 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 		this.personName = personName;
 	}
 
+
+    /**
+     * Gets the budgetConstructionPosition attribute.
+     * 
+     * @return - Returns the budgetConstructionPosition
+     * 
+     */
+    public BudgetConstructionPosition getBudgetConstructionPosition() { 
+        return budgetConstructionPosition;
+    }
+
+    /**
+     * Sets the budgetConstructionPosition attribute.
+     * 
+     * @param - budgetConstructionPosition The budgetConstructionPosition to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
+        this.budgetConstructionPosition = budgetConstructionPosition;
+    }
 
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()

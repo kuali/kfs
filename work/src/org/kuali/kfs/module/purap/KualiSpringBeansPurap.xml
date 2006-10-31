@@ -34,6 +34,9 @@
         </property>
     </bean>
 
+    <bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
+    </bean>
+
     <bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>

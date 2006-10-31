@@ -17,7 +17,11 @@
  */
 package org.kuali.module.purap.document;
 
+import java.util.List;
+
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.module.purap.bo.Status;
+import org.kuali.module.purap.bo.StatusHistory;
 
 
 /**
@@ -26,4 +30,51 @@ import org.kuali.core.document.TransactionalDocument;
  */
 public interface PurchasingAccountsPayableDocument extends TransactionalDocument {
     
+    public Integer getVendorHeaderGeneratedIdentifier();
+
+    /**
+     * Sets the vendorHeaderGeneratedIdentifier attribute.
+     * 
+     * @param - vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+     * 
+     */
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier);
+
+
+    /**
+     * Gets the vendorDetailAssignedIdentifier attribute.
+     * 
+     * @return - Returns the vendorDetailAssignedIdentifier
+     * 
+     */
+    public Integer getVendorDetailAssignedIdentifier();
+
+    /**
+     * Sets the vendorDetailAssignedIdentifier attribute.
+     * 
+     * @param - vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+     * 
+     */
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier);
+
+    public String getVendorCustomerNumber();
+
+    public void setVendorCustomerNumber(String vendorCustomerNumber);
+
+    public Integer getIdentifier();
+
+    public void setIdentifier(Integer identifier);
+
+    public Status getStatus();
+
+    public void setStatus(Status status);
+
+    public String getStatusCode();
+
+    public void setStatusCode(String statusCode);
+
+    public List<StatusHistory> getStatusHistories();
+
+    public void setStatusHistories(List<StatusHistory> statusHistories);
+
 }

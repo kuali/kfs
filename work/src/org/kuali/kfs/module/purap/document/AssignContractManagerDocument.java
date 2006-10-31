@@ -21,24 +21,29 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 import org.kuali.module.purap.bo.ContractManager;
+import org.kuali.module.purap.service.PurapService;
 
 /**
  * @author PURAP (kualidev@oncourse.iu.edu)
  */
 public class AssignContractManagerDocument extends TransactionalDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 
     private String financialDocumentNumber;
     private String financialDocumentStatusCode;
@@ -57,12 +62,19 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private List<RequisitionDocument> unassignedRequisitions = new ArrayList(); // Not in the database.
     
     private BusinessObjectService boService;
-
     protected BusinessObjectService getBOService() {
         if( ObjectUtils.isNull( this.boService ) ) {
             this.boService = SpringServiceLocator.getBusinessObjectService();
         }
         return this.boService;
+    }
+
+    private PurapService purapService;
+    protected PurapService getPurapService() {
+        if( ObjectUtils.isNull( this.purapService ) ) {
+            this.purapService = SpringServiceLocator.getPurapService();
+        }
+        return this.purapService;
     }
 
 	/**
@@ -93,8 +105,44 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 //        List requisitionList = new ArrayList(getBOService().findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.DOCUMENT_IDENTIFIER, true));
         this.setUnassignedRequisitions(unassignedRequisitions);
     }
+    
+	@Override
+    public void handleRouteStatusChange() {
+        LOG.debug("In handleRouteStatusChange() for AssignContractManager documents");
+        super.handleRouteStatusChange();
+        
+        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()
+          || this.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+            // TODO: verify that the above if is checking for the proper status.
 
-	/**
+            for (Iterator iter = this.getAssignContractManagerDetails().iterator(); iter.hasNext();) {
+                AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
+                
+                // Get the requisition for this AssignContractManagerDetail.
+                Map keys = new HashMap();
+                keys.put(PurapPropertyConstants.DOCUMENT_IDENTIFIER, detail.getRequisitionIdentifier());
+                RequisitionDocument req = 
+                  (RequisitionDocument)boService.findByPrimaryKey(RequisitionDocument.class, keys);
+
+                // TODO: verify that another document hasn't already assigned this req, 
+                //   deal with fyi's if needed.
+                req.setContractManagerCode(detail.getContractManagerCode());
+                
+                boolean success = this.getPurapService().updateStatusAndStatusHistory(req, 
+                  PurapConstants.REQ_STAT_CONTRACT_MANAGER_ASSGN);
+                if (success) {
+                    LOG.debug("Status and status history have been updated for requisition #"+detail.getRequisitionIdentifier());
+                }
+                else {
+                    LOG.debug("Updating of status and status history failed for requisition #"+detail.getRequisitionIdentifier());
+                }
+                
+                boService.save((BusinessObject)req);
+            }
+        }
+    }
+
+    /**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 //	protected LinkedHashMap toStringMapper() {

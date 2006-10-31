@@ -25,7 +25,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetConstructionAppointmentFundingLoad02Move extends BusinessObjectBase {
 

@@ -32,7 +32,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetConstructionBalanceByAccount extends BusinessObjectBase {
 

@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class PaymentRequestAccount extends BusinessObjectBase {
 

@@ -30,7 +30,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.gl.bo.Balance;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class BudgetConstructionMonthly extends BusinessObjectBase {
 

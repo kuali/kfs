@@ -26,7 +26,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class RequisitionItem extends PurchasingItemBase {
 

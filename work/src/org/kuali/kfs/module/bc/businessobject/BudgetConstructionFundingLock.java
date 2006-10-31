@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetConstructionFundingLock extends BusinessObjectBase {
 
@@ -47,7 +47,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	private Chart chartOfAccounts;
     private SubAccount subAccount;
     private UniversalUser appointmentFundingLockUser;
-
+    
 	/**
 	 * Default constructor.
 	 */
@@ -322,7 +322,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
         this.subAccount = subAccount;
     }    
     
-    /**
+	/**
      * 
      * Gets the appointmentFundingLockUser attribute.
      * @return Returns the appointmentFundingLockUser. 

@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 

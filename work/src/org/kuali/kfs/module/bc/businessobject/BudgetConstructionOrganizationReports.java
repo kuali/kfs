@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 

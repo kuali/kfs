@@ -23,7 +23,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class AssignContractManagerDetail extends BusinessObjectBase {
 

@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 

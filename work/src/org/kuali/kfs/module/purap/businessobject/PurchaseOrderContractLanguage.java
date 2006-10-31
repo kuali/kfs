@@ -25,7 +25,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 

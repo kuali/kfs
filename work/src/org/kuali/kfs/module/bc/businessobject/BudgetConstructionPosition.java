@@ -25,6 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
 
 /**
@@ -61,6 +63,7 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
 
     private List budgetConstructionPositionSelect;
     private ResponsibilityCenter responsibilityCenter;
+    private UniversalUser positionLockUser;
     
 	/**
 	 * Default constructor.
@@ -651,6 +654,25 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
      */
     public void setResponsibilityCenter(ResponsibilityCenter responsibilityCenter) {
         this.responsibilityCenter = responsibilityCenter;
+    }
+
+    /**
+     * Gets the positionLockUser attribute value. 
+     * @return Returns the positionLockUser
+     */
+    public UniversalUser getPositionLockUser() {
+        positionLockUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
+        return positionLockUser;
+    }
+
+    /**
+     * Sets the positionLockUser attribute.
+     * 
+     * @param - positionLockUser The positionLockUser to set.
+     * @deprecated
+     */
+    public void setPositionLockUser(UniversalUser positionLockUser) {
+        this.positionLockUser = positionLockUser;
     }
 
     /**

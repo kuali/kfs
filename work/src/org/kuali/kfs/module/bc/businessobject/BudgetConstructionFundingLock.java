@@ -21,6 +21,8 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
@@ -44,7 +46,8 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
     private Account account;
 	private Chart chartOfAccounts;
     private SubAccount subAccount;
-    
+    private UniversalUser appointmentFundingLockUser;
+
 	/**
 	 * Default constructor.
 	 */
@@ -319,7 +322,27 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
         this.subAccount = subAccount;
     }    
     
-	/**
+    /**
+     * 
+     * Gets the appointmentFundingLockUser attribute.
+     * @return Returns the appointmentFundingLockUser. 
+     */
+    public UniversalUser getAppointmentFundingLockUser() {
+        appointmentFundingLockUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
+        return appointmentFundingLockUser;
+    }
+
+    /**
+     * Sets the appointmentFundingLockUser attribute.
+     * 
+     * @param - appointmentFundingLockUser The appointmentFundingLockUser to set.
+     * @deprecated
+     */
+    public void setAppointmentFundingLockUser(UniversalUser appointmentFundingLockUser) {
+        this.appointmentFundingLockUser = appointmentFundingLockUser;
+    }
+
+    /**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

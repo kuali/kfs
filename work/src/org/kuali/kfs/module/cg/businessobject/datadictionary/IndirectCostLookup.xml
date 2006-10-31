@@ -18,7 +18,7 @@
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
 
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.IndirectCostLookup">

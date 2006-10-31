@@ -141,35 +141,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         this.refreshAllReferences();
     }
-
-    /**
-     * Convenience method to set vendor detail fields based on a given VendorDetail.
-     * 
-     * @param vendorDetail
-     */
-    public void templateVendorDetail(VendorDetail vendorDetail) {
-        if (vendorDetail == null) {
-            return;
-        }
-
-        this.setVendorDetail(vendorDetail);
-        this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
-        this.setVendorName(vendorDetail.getVendorName());
-    }
-    
-    /**
-     * Convenience method to set vendor contract fields based on a given VendorContract.
-     * 
-     * @param vendorContract
-     */
-    public void templateVendorContract(VendorContract vendorContract) {
-        if (vendorContract == null) {
-            return;
-        }
-
-        this.setVendorContract(vendorContract);
-        this.setVendorContractName(vendorContract.getVendorContractName());
-    }
     
     /**
      * A method in which to do checks as to whether copying of this document should be allowed.

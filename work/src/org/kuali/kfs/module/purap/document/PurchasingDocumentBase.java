@@ -26,6 +26,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderCostSource;
@@ -151,6 +152,34 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.refreshReferenceObject("deliveryCampus");
     }
 
+    /**
+     * Convenience method to set vendor detail fields based on a given VendorDetail.
+     * 
+     * @param vendorDetail
+     */
+    public void templateVendorDetail(VendorDetail vendorDetail) {
+        if (vendorDetail == null) {
+            return;
+        }
+
+        this.setVendorDetail(vendorDetail);
+        this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
+        this.setVendorName(vendorDetail.getVendorName());
+    }
+    
+    /**
+     * Convenience method to set vendor contract fields based on a given VendorContract.
+     * 
+     * @param vendorContract
+     */
+    public void templateVendorContract(VendorContract vendorContract) {
+        if (vendorContract == null) {
+            return;
+        }
+
+        this.setVendorContract(vendorContract);
+        this.setVendorContractName(vendorContract.getVendorContractName());
+    }    
     
     // GETTERS AND SETTERS    
     

@@ -106,7 +106,7 @@
 
             <attribute name="institutionCostShareIndicator" forceUppercase="true">
                 <label>Institution Cost Share</label>
-                <shortLabel>Univ C.S.</shortLabel>
+                <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -119,8 +119,8 @@
             </attribute>
 
             <attribute name="budgetThirdPartyCostShareIndicator" forceUppercase="true">
-                <label>3rd-party Cost Share</label>
-                <shortLabel>3rd Party C.S.</shortLabel>
+                <label>Third Party Cost Share</label>
+                <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -210,7 +210,7 @@
 
             <attribute name="budgetPersonnelInflationRate" forceUppercase="true">
                 <label>Personnel Inflation Rate</label>
-                <shortLabel>Personnel Infl Rt</shortLabel>
+                <shortLabel>Rate</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern>
@@ -229,7 +229,7 @@
 
             <attribute name="budgetNonpersonnelInflationRate" forceUppercase="true">
                 <label>Nonpersonnel Inflation Rate</label>
-                <shortLabel>Nonpersonnel Infl Rt</shortLabel>
+                <shortLabel>Rate</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern>
@@ -295,10 +295,10 @@
             </attribute>
 
             <attributeReference name="budgetAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-                <label>Budget Agency</label>
-                <shortLabel>Agency</shortLabel>
+                <label>Agency</label>
+                <shortLabel>Number</shortLabel>
                 <summary>Budget Agency</summary>
-                <description>Budget Agency</description>
+                <description>Budget Agency...</description>
             </attributeReference>
 
             <attributeReference name="federalPassThroughAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">

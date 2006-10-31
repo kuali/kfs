@@ -25,11 +25,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
@@ -40,6 +42,8 @@ public class BudgetParametersRule {
     private String PERIOD_IDENTIFIER;
     private String NEW_PERIOD_IDENTIFIER;
     
+    private DataDictionaryService dataDictionaryService;
+    
     /**
      * 
      */
@@ -49,6 +53,8 @@ public class BudgetParametersRule {
         MAXIMUM_PERIOD_LENGTH = kcs.getApplicationParameterValue("KraDevelopmentGroup", "maximumPeriodLength");
         PERIOD_IDENTIFIER = kcs.getApplicationParameterValue("KraDevelopmentGroup", "periodIdentifier");
         NEW_PERIOD_IDENTIFIER = kcs.getApplicationParameterValue("KraDevelopmentGroup", "newPeriodIdentifier");
+        
+        dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
     }
 
     protected boolean isParametersValid(BudgetDocument budgetDocument) {
@@ -99,12 +105,12 @@ public class BudgetParametersRule {
                 SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.BUDGET_MAX_INFLATION_RATE_PARAMETER_NAME));
 
         if (budgetDocument.getBudget().getBudgetPersonnelInflationRate() != null && budgetDocument.getBudget().getBudgetPersonnelInflationRate().isGreaterThan(MAX_INFLATION_RATE)) {
-            GlobalVariables.getErrorMap().putError("budget.budgetPersonnelInflationRate", KeyConstants.ERROR_INVALID_VALUE, new String[] { "Personnel Inflation Rate" });
+            GlobalVariables.getErrorMap().putError("budget.budgetPersonnelInflationRate", KeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetPersonnelInflationRate") });
             valid = false;
         }
 
         if (budgetDocument.getBudget().getBudgetNonpersonnelInflationRate() != null && budgetDocument.getBudget().getBudgetNonpersonnelInflationRate().isGreaterThan(MAX_INFLATION_RATE)) {
-            GlobalVariables.getErrorMap().putError("budget.budgetNonpersonnelInflationRate", KeyConstants.ERROR_INVALID_VALUE, new String[] { "Nonpersonnel Inflation Rate" });
+            GlobalVariables.getErrorMap().putError("budget.budgetNonpersonnelInflationRate", KeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetNonpersonnelInflationRate") });
             valid = false;
         }
 
@@ -147,7 +153,7 @@ public class BudgetParametersRule {
             return true;
         }
 
-        GlobalVariables.getErrorMap().putError("budget.budgetProjectDirectorSystemId", KeyConstants.ERROR_MISSING, new String[] { "Project Director" });
+        GlobalVariables.getErrorMap().putError("budget.budgetProjectDirectorSystemId", KeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetProjectDirectorSystemId") });
 
         return false;
     }
@@ -164,7 +170,7 @@ public class BudgetParametersRule {
             return true;
         }
 
-        GlobalVariables.getErrorMap().putError("budget.budgetAgencyNumber", KeyConstants.ERROR_MISSING, new String[] { "Agency" });
+        GlobalVariables.getErrorMap().putError("budget.budgetAgencyNumber", KeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetAgency") });
 
         return false;
     }

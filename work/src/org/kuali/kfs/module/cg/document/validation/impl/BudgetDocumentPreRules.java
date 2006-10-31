@@ -24,14 +24,14 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocumentPreRules extends PreRulesContinuationBase {
 
@@ -153,6 +153,7 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
      */
     private boolean confirmDeleteCostShare(BudgetDocument budgetDocument) {
         
+        DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
         String costShareRemoved = SpringServiceLocator.getBudgetService().buildCostShareRemovedCode(budgetDocument);
         
         if (StringUtils.isBlank(event.getQuestionContext())) {
@@ -164,13 +165,13 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
           //Build our confirmation message with proper context.
           StringBuffer codeText = new StringBuffer();
           if (costShareRemoved.contains(KraConstants.INSTITUTION_COST_SHARE_CODE)) {
-              codeText.append("Institution Cost Share");
+              codeText.append(dataDictionaryService.getAttributeLabel(Budget.class, "institutionCostShareIndicator"));
           }
           if (costShareRemoved.contains(KraConstants.THIRD_PARTY_COST_SHARE_CODE)) {
               if (costShareRemoved.indexOf(KraConstants.THIRD_PARTY_COST_SHARE_CODE) != 0) {
                   codeText.append(" and ");
               }
-              codeText.append("Third Party Cost Share");
+              codeText.append(dataDictionaryService.getAttributeLabel(Budget.class, "budgetThirdPartyCostShareIndicator"));
           }
             
             String questionText = StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(

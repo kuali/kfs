@@ -29,7 +29,7 @@ public class PurchaseOrderStatus extends BusinessObjectBase {
 
 	private String purchaseOrderStatusCode;
 	private String purchaseOrderStatusDescription;
-	private String dataObjectMaintenanceCodeActiveIndicator;
+	private boolean dataObjectMaintenanceCodeActiveIndicator;
 
 	/**
 	 * Default constructor.
@@ -86,7 +86,7 @@ public class PurchaseOrderStatus extends BusinessObjectBase {
 	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
-	public String getDataObjectMaintenanceCodeActiveIndicator() { 
+	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
 		return dataObjectMaintenanceCodeActiveIndicator;
 	}
 
@@ -96,7 +96,7 @@ public class PurchaseOrderStatus extends BusinessObjectBase {
 	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(String dataObjectMaintenanceCodeActiveIndicator) {
+	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
 		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
 	}
 

@@ -34,7 +34,7 @@ import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService {
 

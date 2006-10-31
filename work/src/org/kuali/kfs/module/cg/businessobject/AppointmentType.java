@@ -31,7 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Account Business Object
  * 
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class AppointmentType extends BusinessObjectBase {
 

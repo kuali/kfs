@@ -26,7 +26,7 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 /**
  * Class capturing an enter modular event.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class EnterModularEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 

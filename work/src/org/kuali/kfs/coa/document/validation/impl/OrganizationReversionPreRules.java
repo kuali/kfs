@@ -33,7 +33,7 @@ import org.kuali.module.chart.bo.OrganizationReversionDetail;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
 

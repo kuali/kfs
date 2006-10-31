@@ -39,7 +39,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 /**
  * This class handles Actions for the Budget Template page.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetTemplateAction extends BudgetAction {
 

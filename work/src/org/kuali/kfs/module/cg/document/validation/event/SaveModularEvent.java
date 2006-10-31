@@ -25,7 +25,7 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 /**
  * Class capturing a save modular event.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class SaveModularEvent extends KualiDocumentEventBase {
 

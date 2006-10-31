@@ -24,7 +24,7 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 /**
  * Class capturing an update nonpersonnel event.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface UpdateNonpersonnelEvent extends KualiDocumentEvent {
     /**

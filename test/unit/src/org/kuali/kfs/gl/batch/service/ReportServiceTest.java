@@ -26,7 +26,7 @@ import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
- * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
+ * 
  */
 @WithTestSpringContext
 public class ReportServiceTest extends KualiTestBase {

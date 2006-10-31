@@ -38,7 +38,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
 /**
  * This class handles Actions for Research Administration.
  * 
- * @author mmorgan
+ * 
  */
 
 public class BudgetIndirectCostAction extends BudgetAction {

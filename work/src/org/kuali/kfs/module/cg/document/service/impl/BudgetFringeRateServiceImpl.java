@@ -34,7 +34,7 @@ import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 /**
  * This class is the service implementation for the Account structure. This is the default, Kuali provided implementation.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     

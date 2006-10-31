@@ -46,7 +46,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 /**
  * This class handles Actions for Research Administration permissions page.
  * 
- * @author KRA (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetPermissionsAction extends BudgetAction {
 

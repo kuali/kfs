@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AwardStatus extends BusinessObjectBase {
 

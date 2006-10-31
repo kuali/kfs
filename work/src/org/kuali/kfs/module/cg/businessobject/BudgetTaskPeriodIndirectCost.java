@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements Comparable {
 

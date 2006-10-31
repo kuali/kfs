@@ -46,7 +46,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 /**
  * This class handles Actions for Research Administration.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 
 public class BudgetPersonnelAction extends BudgetAction {

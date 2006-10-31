@@ -27,7 +27,7 @@ import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
  * This is a wrapper for BudgetNonpersonnel business object. It's useful on the copy over page because it assists in housing and
  * computing the inflation rates.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
     private static final long serialVersionUID = -4975734069081678964L;

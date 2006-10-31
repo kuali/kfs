@@ -25,7 +25,7 @@ import java.util.List;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
 

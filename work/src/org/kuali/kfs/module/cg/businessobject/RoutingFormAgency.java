@@ -25,7 +25,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.cg.bo.Agency;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class RoutingFormAgency extends BusinessObjectBase {
 

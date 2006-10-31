@@ -27,7 +27,7 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
  * 
  * Represents a document event.
  * 
- * @author KRA Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class RecalculateIndirectCostEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 

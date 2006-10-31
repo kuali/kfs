@@ -39,7 +39,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class RoutingFormDocument extends ResearchDocumentBase {
 

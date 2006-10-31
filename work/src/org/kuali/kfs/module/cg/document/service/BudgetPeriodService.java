@@ -25,7 +25,7 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
  * 
  * This interface defines methods that a BudgetPeriod service must provide
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetPeriodService {
 

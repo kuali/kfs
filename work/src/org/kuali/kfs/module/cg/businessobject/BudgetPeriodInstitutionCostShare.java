@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetPeriodInstitutionCostShare extends BudgetAbstractPeriodCostShare {
 

@@ -35,7 +35,7 @@ import org.kuali.module.cg.bo.ProjectDirector;
  * 
  * This class...
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class Budget extends BusinessObjectBase {
 

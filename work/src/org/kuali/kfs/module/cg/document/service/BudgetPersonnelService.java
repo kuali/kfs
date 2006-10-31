@@ -30,7 +30,7 @@ import org.kuali.module.kra.budget.document.BudgetDocument;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetPersonnelService {
 

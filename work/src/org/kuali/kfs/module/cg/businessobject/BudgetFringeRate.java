@@ -29,7 +29,7 @@ import org.kuali.core.util.ObjectUtils;
 /**
  * Budget Fringe Rate Business Object
  * 
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetFringeRate extends BusinessObjectBase {
 

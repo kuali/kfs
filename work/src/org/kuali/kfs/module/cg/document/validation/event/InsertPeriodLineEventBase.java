@@ -27,7 +27,7 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 /**
  * Class capturing an insert period line event.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public final class InsertPeriodLineEventBase extends KualiDocumentEventBase implements InsertPeriodLineEvent {
 

@@ -26,7 +26,7 @@ import org.kuali.module.kra.budget.service.BudgetTypeCodeService;
 /**
  * This class is the service implementation for the Budget Type Codes interface. This is the default, Kuali provided implementation.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetTypeCodeServiceImpl implements BudgetTypeCodeService {
 

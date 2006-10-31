@@ -53,7 +53,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Budget
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetDocument extends ResearchDocumentBase {
 

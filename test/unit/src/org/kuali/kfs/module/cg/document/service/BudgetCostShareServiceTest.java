@@ -35,7 +35,7 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
 /**
  * This class tests service methods in BudgetCostShareService.
  * 
- * @author Kuali Research Administration Team ()
+ * 
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
 @WithTestSpringContext

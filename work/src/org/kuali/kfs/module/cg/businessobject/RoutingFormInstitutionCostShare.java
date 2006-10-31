@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 

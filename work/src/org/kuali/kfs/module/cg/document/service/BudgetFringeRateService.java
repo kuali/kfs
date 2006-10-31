@@ -28,7 +28,7 @@ import org.kuali.module.kra.budget.bo.BudgetUser;
 /**
  * This interface defines methods that an Budget Fringe Rate Service must provide
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetFringeRateService {
     // public void setFringeRate(Long researchDocumentNumber, Collection accountNumber);

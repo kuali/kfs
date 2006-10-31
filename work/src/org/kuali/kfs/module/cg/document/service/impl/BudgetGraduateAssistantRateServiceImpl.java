@@ -31,7 +31,7 @@ import org.kuali.module.kra.budget.bo.GraduateAssistantRate;
 import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
 
 /**
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  * 
  */
 public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAssistantRateService {

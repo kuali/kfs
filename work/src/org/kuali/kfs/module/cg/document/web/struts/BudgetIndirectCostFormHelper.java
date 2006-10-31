@@ -28,7 +28,7 @@ import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 /**
  * Used by UI to get totals, counts, aggregations, and other things to render the Indirect Cost page.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetIndirectCostFormHelper {
 

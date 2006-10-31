@@ -24,7 +24,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetService {
     public void initializeBudget(BudgetDocument budgetDocument);

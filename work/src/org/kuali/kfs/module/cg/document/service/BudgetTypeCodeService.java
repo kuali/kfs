@@ -22,7 +22,7 @@ import java.util.Collection;
 /**
  * This interface defines methods that an Budget Type Code Service must provide
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetTypeCodeService {
 

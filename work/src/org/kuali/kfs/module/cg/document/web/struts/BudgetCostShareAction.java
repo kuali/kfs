@@ -37,7 +37,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 /**
  * Action for BudgetCostShare page.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetCostShareAction extends BudgetAction {
 

@@ -32,7 +32,7 @@ import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 /**
  * This is used by the UI to get totals, counts, and other things needed to render the page properly.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetNonpersonnelFormHelper {
 
@@ -211,7 +211,7 @@ public class BudgetNonpersonnelFormHelper {
      * This class holds information relevent to each NonpersonnelCategory. It tells the number of items, totals (agency, univ. cost
      * share, and third party cost share), and item indexes.
      * 
-     * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+     * 
      */
 
     public class NonpersonnelCategoryHelper {

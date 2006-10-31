@@ -54,7 +54,7 @@ import org.w3c.dom.Element;
 /**
  * This class creates an XML representation of a Budget's data.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetXml {
 

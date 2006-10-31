@@ -25,7 +25,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class AwardAccount extends BusinessObjectBase {
 

@@ -29,7 +29,7 @@ import org.kuali.module.kra.budget.bo.AppointmentType;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetAppointmentTypeValuesFinder extends KeyValuesBase {
 

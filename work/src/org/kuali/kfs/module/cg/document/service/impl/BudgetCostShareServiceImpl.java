@@ -32,7 +32,7 @@ import org.kuali.module.kra.budget.service.BudgetCostShareService;
  * 
  * This class...
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetCostShareServiceImpl implements BudgetCostShareService {
 

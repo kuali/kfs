@@ -26,7 +26,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 /**
  * Account Business Object
  * 
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetTask extends BusinessObjectBase implements Comparable {
 

@@ -38,8 +38,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles Actions for AssignContractManager.
- * 
- * @author PURAP (kualidev@oncourse.iu.edu)
  */
 
 public class AssignContractManagerAction extends KualiTransactionalDocumentActionBase {

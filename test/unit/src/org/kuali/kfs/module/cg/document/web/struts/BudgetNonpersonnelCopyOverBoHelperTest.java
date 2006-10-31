@@ -28,7 +28,7 @@ import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverBoHelper.
  * 
- * @author Kuali Research Administration Team ()
+ * 
  */
 @WithTestSpringContext
 public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBase {

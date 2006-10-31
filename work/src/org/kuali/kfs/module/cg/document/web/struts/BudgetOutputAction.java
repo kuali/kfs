@@ -59,7 +59,7 @@ import org.w3c.dom.Document;
 /**
  * This class handles Output Actions for Research Administration.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetOutputAction extends BudgetAction {
 

@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.module.cg.bo.Agency;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class AgencyExtension extends BusinessObjectBase {
 

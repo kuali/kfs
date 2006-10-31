@@ -36,7 +36,7 @@ import org.kuali.test.WithTestSpringContext;
 /**
  * Test basic rule methods of <code>{@link BudgetDocumentRuleBase}</code> convenience class.
  * 
- * @author Kuali Research Administration Team ()
+ * 
  */
 @WithTestSpringContext
 public class BudgetDocumentRuleTest extends KualiTestBase {

@@ -26,7 +26,7 @@ import org.kuali.module.kra.budget.document.ResearchDocument;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class ResearchDocumentRuleBase extends DocumentRuleBase {
 

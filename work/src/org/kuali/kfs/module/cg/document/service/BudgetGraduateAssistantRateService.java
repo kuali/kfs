@@ -24,7 +24,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.Budget;
 
 /**
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  * 
  */
 public interface BudgetGraduateAssistantRateService {

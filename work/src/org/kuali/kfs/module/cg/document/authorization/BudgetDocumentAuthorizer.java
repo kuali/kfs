@@ -37,8 +37,6 @@ import org.kuali.module.kra.budget.service.BudgetPermissionsService;
 
 /**
  * DocumentAuthorizer class for KRA Budget Documents.
- * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(BudgetDocumentAuthorizer.class);

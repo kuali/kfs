@@ -55,8 +55,6 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * This class handles Actions for Research Administration.
- * 
- * @author KRA (era_team@indiana.edu)
  */
 
 public class BudgetAction extends KualiDocumentActionBase {
@@ -123,7 +121,6 @@ public class BudgetAction extends KualiDocumentActionBase {
 
         // Check if user has permission to save
         budgetForm.populateAuthorizationFields(SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(budgetForm.getBudgetDocument()));
-        
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             super.save(mapping, form, request, response);
         }

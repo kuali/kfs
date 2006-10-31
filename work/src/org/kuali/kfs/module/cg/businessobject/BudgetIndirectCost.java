@@ -28,7 +28,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.KraConstants;
 
 /**
- * @author mmorgan
+ * 
  */
 public class BudgetIndirectCost extends BusinessObjectBase {
 

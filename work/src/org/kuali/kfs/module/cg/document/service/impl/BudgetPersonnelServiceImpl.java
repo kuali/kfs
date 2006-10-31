@@ -52,10 +52,10 @@ import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 /**
  * This class...
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 /**
- * @author jones
+ * 
  * 
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */

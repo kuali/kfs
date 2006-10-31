@@ -42,7 +42,7 @@ import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests methods in BudgetOverviewFormHelper.
  * 
- * @author Kuali Research Administration Team ()
+ * 
  */
 @WithTestSpringContext
 public class BudgetCostShareFormHelperTest extends KualiTestBase {

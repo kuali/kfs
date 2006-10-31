@@ -39,7 +39,7 @@ import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 /**
  * This class...
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetDocumentRule extends ResearchDocumentRuleBase {
     

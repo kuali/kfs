@@ -33,7 +33,7 @@ import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 /**
  * This class...
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetUser extends BusinessObjectBase implements Comparable {
 

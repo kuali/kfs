@@ -42,7 +42,7 @@ import org.kuali.module.kra.budget.web.struts.action.BudgetAction;
 /**
  * This is used by the UI to get totals, counts, and other things needed to render the page properly.
  * 
- * @author Kuali KRA Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetOverviewFormHelper {
 

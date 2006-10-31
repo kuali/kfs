@@ -25,7 +25,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.Country;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class PriorYearOrganization extends BusinessObjectBase {
 

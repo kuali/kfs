@@ -24,7 +24,7 @@ import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 /**
  * This interface defines methods that a DocumentNote service must provide
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetNonpersonnelService {
     /**

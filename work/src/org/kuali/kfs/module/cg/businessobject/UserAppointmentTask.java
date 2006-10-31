@@ -28,7 +28,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class UserAppointmentTask extends BusinessObjectBase implements Comparable {
 

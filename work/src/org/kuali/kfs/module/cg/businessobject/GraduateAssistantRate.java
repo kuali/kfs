@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Campus;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu) NOT AUTO GENERATED (should go back and generate later)
+ * 
  */
 
 public class GraduateAssistantRate extends BusinessObjectBase {

@@ -56,7 +56,7 @@ import org.kuali.module.kra.budget.document.BudgetDocument;
 /**
  * This class is the action form for KRA Budget.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetForm extends KualiDocumentFormBase {
 

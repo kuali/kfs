@@ -32,7 +32,7 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 /**
  * 
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 
 public class KualiOrgMaintainable extends KualiMaintainableImpl {

@@ -44,7 +44,7 @@ import org.kuali.test.WithTestSpringContext;
 /**
  * This class tests service methods in BudgetModularService.
  * 
- * @author Kuali Research Administration Team ()
+ * 
  */
 @WithTestSpringContext
 public class BudgetModularServiceTest extends KualiTestBase {

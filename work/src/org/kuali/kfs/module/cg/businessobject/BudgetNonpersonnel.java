@@ -24,7 +24,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 
 public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable {

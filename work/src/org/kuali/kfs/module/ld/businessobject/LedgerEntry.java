@@ -41,7 +41,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.UniversityDate;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class LedgerEntry extends BusinessObjectBase {
 

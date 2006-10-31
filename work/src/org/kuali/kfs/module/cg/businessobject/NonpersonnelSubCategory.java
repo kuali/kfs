@@ -24,7 +24,7 @@ import org.kuali.core.bo.KualiCodeBase;
  * 
  * This class...
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class NonpersonnelSubCategory extends KualiCodeBase implements Comparable {
 

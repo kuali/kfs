@@ -26,7 +26,7 @@ import org.kuali.module.kra.budget.bo.Budget;
 /**
  * This interface defines methods that a BudgetModular service must provide
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetModularService {
 

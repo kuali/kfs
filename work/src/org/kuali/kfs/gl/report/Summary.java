@@ -17,10 +17,6 @@
  */
 package org.kuali.module.gl.util;
 
-/**
- * 
- * @version $Id :$
- */
 public class Summary implements Comparable {
     /**
      * This number is used by TransactionReport when sorting the list of Summary objects passed to

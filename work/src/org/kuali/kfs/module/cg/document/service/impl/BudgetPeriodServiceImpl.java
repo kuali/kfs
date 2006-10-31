@@ -33,7 +33,7 @@ import org.kuali.module.kra.budget.service.BudgetPeriodService;
  * 
  * This class...
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetPeriodServiceImpl implements BudgetPeriodService {
 

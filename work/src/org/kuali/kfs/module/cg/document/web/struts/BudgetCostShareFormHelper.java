@@ -45,7 +45,7 @@ import org.kuali.module.kra.budget.service.BudgetPeriodService;
 /**
  * Used by UI to get totals, counts, aggregations, and other things to render the Cost Share page.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetCostShareFormHelper {
 
@@ -288,7 +288,7 @@ public class BudgetCostShareFormHelper {
     /**
      * Inner helper class that assists in the management of the data for the Institution & 3rd party direct section.
      * 
-     * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+     * 
      */
     public class Direct {
         private KualiInteger[] totalBudgeted;
@@ -558,7 +558,7 @@ public class BudgetCostShareFormHelper {
     /**
      * Inner helper class that assists in the management of the data for the Subcontractor section.
      * 
-     * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+     * 
      */
     public class Subcontractor {
         private String budgetNonpersonnelDescription;

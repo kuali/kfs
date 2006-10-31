@@ -30,7 +30,7 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.service.BudgetTaskService;
 
 /**
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  * 
  */
 public class BudgetTaskServiceImpl implements BudgetTaskService {

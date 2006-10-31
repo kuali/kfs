@@ -39,9 +39,6 @@ import org.kuali.module.purap.bo.AssignContractManagerDetail;
 import org.kuali.module.purap.bo.ContractManager;
 import org.kuali.module.purap.service.PurapService;
 
-/**
- * @author PURAP (kualidev@oncourse.iu.edu)
- */
 public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 

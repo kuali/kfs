@@ -23,7 +23,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.KualiUser;
 
 /**
- * @author Kuali Nervous System Team ()
+ * 
  */
 public class Security extends BusinessObjectBase {
 

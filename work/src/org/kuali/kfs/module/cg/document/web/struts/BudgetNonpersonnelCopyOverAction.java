@@ -28,7 +28,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 /**
  * Action for BudgetNonpersonnelCopyOver page.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetNonpersonnelCopyOverAction extends BudgetAction {
 

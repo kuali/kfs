@@ -39,7 +39,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
 /**
  * This class provides implementations for BudgetModularService interface
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetModularServiceImpl implements BudgetModularService {
 
@@ -453,7 +453,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     /**
      * This class encapsulates agency-related information needed to process Modular Budget objects.
      * 
-     * @author Kuali Research Administration (kualidev@oncourse.iu.edu)
+     * 
      */
     private class ModularAgencyHelper {
         private KualiInteger budgetModularIncrementAmount;

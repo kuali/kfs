@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu) NOT AUTO GENERATED (should go back and generate later)
+ * 
  */
 
 public class NonpersonnelObjectCode extends BusinessObjectBase implements Comparable {

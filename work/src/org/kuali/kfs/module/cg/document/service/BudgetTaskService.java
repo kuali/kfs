@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 
 /**
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetTaskService {
 

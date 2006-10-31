@@ -28,7 +28,7 @@ import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
  * 
  * This interface defines methods that a BudgetCostShareService must provide.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public interface BudgetCostShareService {
 

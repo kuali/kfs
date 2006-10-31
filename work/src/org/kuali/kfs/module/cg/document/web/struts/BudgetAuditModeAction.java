@@ -31,7 +31,7 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 /**
  * This class handles Actions for the Budget Audit Mode page.
  * 
- * @author KRA (kualidev@oncourse.iu.edu)
+ * 
  */
 public class BudgetAuditModeAction extends BudgetAction {
 

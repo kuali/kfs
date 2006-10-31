@@ -26,7 +26,7 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 /**
  * Class capturing a run audit event.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class RunAuditEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 

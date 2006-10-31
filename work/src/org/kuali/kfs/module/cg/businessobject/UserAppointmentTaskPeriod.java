@@ -29,7 +29,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.budget.service.impl.BudgetPersonnelServiceImpl.PeriodSalary;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Comparable {
 

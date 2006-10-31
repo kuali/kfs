@@ -36,7 +36,7 @@ import org.kuali.module.kra.budget.service.BudgetPeriodService;
 /**
  * This is used by the UI to get totals, counts, and other things needed to render nonpersonnel copy over properly.
  * 
- * @author KRA (era_team@indiana.edu)
+ * 
  */
 public class BudgetNonpersonnelCopyOverFormHelper {
 
@@ -150,7 +150,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
      * Class that stores the nonpersonnel items. From the copy over page seen this is a category with each having the line items for
      * all tasks.
      * 
-     * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+     * 
      */
     public class NonpersonnelCopyOverCategoryHelper {
         private String nonpersonnelCategoryCode; // this field isn't critical, but it is helpful
@@ -391,7 +391,7 @@ public class BudgetNonpersonnelCopyOverFormHelper {
          * period (it helps to look at the nonpersonnel copy over page -- periods go out horizontally, that is what this object with
          * its list represents).
          * 
-         * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+         * 
          */
         public class NonpersonnelCopyOverLineItemHelper {
             // these two are the same for each item in the periodAmounts list. It is in this object

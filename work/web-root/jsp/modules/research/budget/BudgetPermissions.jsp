@@ -41,7 +41,7 @@
 	
 	<kul:panelFooter />
 
-	<div align="center"><kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
+	<div align="center"><kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}"/>
 	</div>
 
 </kul:documentPage>

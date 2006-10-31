@@ -60,6 +60,6 @@
 	<kra-b:budgetCostShare3rdPartyDirect /> <kra-b:budgetCostShareTotals /></div>
 
 	<div align="center"><kul:documentControls transactionalDocument="false"
-		saveButtonOverride="saveBudgetCostShare" suppressRoutingControls="true" /></div>
+		saveButtonOverride="saveBudgetCostShare" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" /></div>
 
 </kul:documentPage>

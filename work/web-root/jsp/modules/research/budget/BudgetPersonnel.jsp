@@ -57,6 +57,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
 	</p>
 

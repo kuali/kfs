@@ -57,16 +57,10 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         
         // Check default user permissions
         if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getUniversalUser().getPersonUserIdentifier())) {
-            if (budgetDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(Constants.DocumentStatusCodes.APPROVED)) {
-                permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
-            }
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
         }
         
         if (u.getPersonUniversalIdentifier().equals(budgetDocument.getBudget().getBudgetProjectDirectorSystemId())) {
-            if (budgetDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(Constants.DocumentStatusCodes.APPROVED)) {
-                permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
-            }
             permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
                     KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_DIRECTOR_BUDGET_PERMISSION));
         }
@@ -113,6 +107,12 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
         
+        // If doc is approved, full entry should become view only
+        if (permissionCode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) 
+                && budgetDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(Constants.DocumentStatusCodes.APPROVED)) {
+            permissionCode = AuthorizationConstants.EditMode.VIEW_ONLY;
+        }
+        
         Map editModeMap = new HashMap();
         editModeMap.put(permissionCode, "TRUE");
         return editModeMap;
@@ -137,15 +137,11 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         flags.setCanDisapprove(false);
         flags.setCanFYI(false);
         flags.setCanClose(false);
+        flags.setCanSave(true);
 
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
-        
-        if (user.getPersonUniversalIdentifier().equals(budgetDocument.getBudget().getBudgetProjectDirectorSystemId())) {
-            flags.setCanSave(true);
-        }
-
-        // else use inherited canSave, canRoute, canAnnotate, and canReload values
+        // use inherited canRoute, canAnnotate, and canReload values
 
         return flags;
     }
@@ -162,7 +158,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
             return AuthorizationConstants.EditMode.FULL_ENTRY;
         }
         if (currentCode.equals(AuthorizationConstants.EditMode.VIEW_ONLY) || candidateCode.equals(AuthorizationConstants.EditMode.VIEW_ONLY)) {
-            return AuthorizationConstants.EditMode.FULL_ENTRY;
+            return AuthorizationConstants.EditMode.VIEW_ONLY;
         }
         return AuthorizationConstants.EditMode.UNVIEWABLE;
     }

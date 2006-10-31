@@ -32,6 +32,6 @@
 	<kra-b:budgetNonpersonnel />
 
 	<div align="center"><kul:documentControls transactionalDocument="false"
-		saveButtonOverride="saveNonpersonnel" suppressRoutingControls="true" /></div>
+		saveButtonOverride="saveNonpersonnel" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" /></div>
 
 </kul:documentPage>

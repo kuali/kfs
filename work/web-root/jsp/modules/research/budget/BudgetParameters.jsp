@@ -40,6 +40,6 @@
 	<kra-b:budgetParameters />
 
 	<kul:documentControls transactionalDocument="false"
-		saveButtonOverride="saveParameters" suppressRoutingControls="true"/>
+		saveButtonOverride="saveParameters" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 
 </kul:documentPage>

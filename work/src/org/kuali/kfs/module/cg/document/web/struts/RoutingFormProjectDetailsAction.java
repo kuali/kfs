@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
+import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormProjectDetailsAction extends RoutingFormAction {
@@ -46,6 +47,27 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
         routingForm.getRoutingFormDocument().getRoutingFormInstitutionCostShares().remove(lineToDelete);        
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward insertRoutingFormOtherCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.getRoutingFormDocument().addRoutingFormOtherCostShare(routingForm.getNewRoutingFormOtherCostShare());
+        
+        // use getters and setters on the form to reinitialize the properties on the form.                
+        routingForm.setNewRoutingFormOtherCostShare(new RoutingFormOtherCostShare());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteRoutingFormOtherCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RoutingForm routingForm = (RoutingForm) form;
+
+        // Remove the item from the list.
+        int lineToDelete = super.getLineToDelete(request);
+        routingForm.getRoutingFormDocument().getRoutingFormOtherCostShares().remove(lineToDelete);        
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

@@ -92,7 +92,7 @@
 	                <td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute property="document.unassignedRequisition[${ctr}].contractManagerCode" attributeEntry="${requisitionAttributes.contractManagerCode}" readOnly="${readOnly}" />
 				        <c:if test="${!readOnly}" >
-	                        <kul:lookup boClassName="org.kuali.module.purap.bo.ContractManager" fieldConversions="contractManager.contractManagerCode:document.contractManagerCode" /></div>
+	                        <kul:lookup boClassName="org.kuali.module.purap.bo.ContractManager" fieldConversions="contractManagerCode:document.unassignedRequisition[${ctr}].contractManagerCode" /></div>
 				        </c:if>
 	                </td>
 	                <td align=left valign=middle class="datacell">

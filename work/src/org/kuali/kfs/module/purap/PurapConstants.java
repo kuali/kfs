@@ -71,29 +71,37 @@ public class PurapConstants {
     
     public static final KualiDecimal VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(100000);
     
-    //Requisition Statuses
-    public static String REQ_STAT_IN_PROCESS = "INPR";
-    public static String REQ_STAT_CANCELLED = "CANC";
-    public static String REQ_STAT_CLOSED = "CLOS";
-    public static String REQ_STAT_AWAIT_CONTENT_APRVL = "ACNT";
-    public static String REQ_STAT_AWAIT_SUB_ACCT_APRVL = "ASUB";
-    public static String REQ_STAT_AWAIT_FISCAL_APRVL = "AFIS";
-    public static String REQ_STAT_AWAIT_CHART_APRVL = "ACHA";
-    public static String REQ_STAT_AWAIT_SEP_OF_DUTY_APRVL = "ASOD";
-    public static String REQ_STAT_DAPRVD_CONTENT = "DCNT";
-    public static String REQ_STAT_DAPRVD_SUB_ACCT = "DSUB";
-    public static String REQ_STAT_DAPRVD_FISCAL = "DFIS";
-    public static String REQ_STAT_DAPRVD_CHART = "DCHA";
-    public static String REQ_STAT_DAPRVD_SEP_OF_DUTY = "DSOD";
-    public static String REQ_STAT_AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
-    public static String REQ_STAT_CONTRACT_MANAGER_ASSGN = "CMRA"; 
+    public static class RequisitionStatuses {
+        public static String IN_PROCESS = "INPR";
+        public static String CANCELLED = "CANC";
+        public static String CLOSED = "CLOS";
+        public static String AWAIT_CONTENT_APRVL = "ACNT";
+        public static String AWAIT_SUB_ACCT_APRVL = "ASUB";
+        public static String AWAIT_FISCAL_APRVL = "AFIS";
+        public static String AWAIT_CHART_APRVL = "ACHA";
+        public static String AWAIT_SEP_OF_DUTY_APRVL = "ASOD";
+        public static String DAPRVD_CONTENT = "DCNT";
+        public static String DAPRVD_SUB_ACCT = "DSUB";
+        public static String DAPRVD_FISCAL = "DFIS";
+        public static String DAPRVD_CHART = "DCHA";
+        public static String DAPRVD_SEP_OF_DUTY = "DSOD";
+        public static String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
+        public static String CONTRACT_MANAGER_ASSGN = "CMRA";
+    }
 
-    //Misc. constants needed for initiate a requisition, we may need more later.
-    public static String REQ_SOURCE_STANDARD_ORDER = "STAN";
-    public static String REQ_SOURCE_B2B = "B2B";
-    public static String PO_COST_SRC_ESTIMATE = "EST";
-    public static String PO_TRANSMISSION_METHOD_FAX = "FAX";
+    public static class POCostSources {
+        public static String ESTIMATE = "EST";
+    }
+    
+    public static class POTransmissionMethods {
+        public static String FAX = "FAX";
+    }
     
     public static int REQ_B2B_ALLOW_COPY_DAYS = 5;
+    
+    public static class RequisitionSources {
+        public static String STANDARD_ORDER = "STAN";
+        public static String B2B = "B2B";
+    }
 
 }

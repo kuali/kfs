@@ -77,10 +77,10 @@ public class RequisitionDocument extends PurchasingDocumentBase {
      */
     public void initiateDocument() {
 
-        this.setRequisitionSourceCode(PurapConstants.REQ_SOURCE_STANDARD_ORDER);
-        this.setStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
-        this.setPurchaseOrderCostSourceCode(PurapConstants.PO_COST_SRC_ESTIMATE);
-        this.setPurchaseOrderTransmissionMethodCode(PurapConstants.PO_TRANSMISSION_METHOD_FAX);
+        this.setRequisitionSourceCode( PurapConstants.RequisitionSources.STANDARD_ORDER );
+        this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
+        this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
+        this.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.FAX);
         this.setFundingSourceCode("IUAC");
         // TODO set default funding source in params or make non-IU specific
 
@@ -152,7 +152,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     @Override
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
-        if( this.getRequisitionSourceCode().equals( PurapConstants.REQ_SOURCE_B2B ) ) {
+        if( this.getRequisitionSourceCode().equals( PurapConstants.RequisitionSources.B2B ) ) {
             String allowedCopyDays = ( new Integer( PurapConstants.REQ_B2B_ALLOW_COPY_DAYS ) ).toString();
             
             Calendar c = Calendar.getInstance();
@@ -194,7 +194,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
       
       //Set req status to INPR.
-      this.setStatusCode(PurapConstants.REQ_STAT_IN_PROCESS);
+      this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
 
       //Set fields from the user.
       this.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
@@ -225,17 +225,11 @@ public class RequisitionDocument extends PurchasingDocumentBase {
       }
 
       //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
-      if(this.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_B2B)) {
-          if( !activeContract ) {
-              GlobalVariables.getErrorMap().putError(this.getVendorContractGeneratedIdentifier().toString(),
-                      PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT,this.getIdentifier().toString());
-              return;
+      if(this.getRequisitionSourceCode().equals( PurapConstants.RequisitionSources.B2B )) {
+          if(( !activeContract ) || ( !activeVendor ) ){
+              throw new IllegalStateException();
           }
-          if( !activeVendor ) {
-              GlobalVariables.getErrorMap().putError(this.getVendorHeaderGeneratedIdentifier().toString(),
-                      PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR,this.getIdentifier().toString());
-              return;
-          }
+      }
       }
 
 //    TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
@@ -257,7 +251,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //          newReq.setVendorContract(req.getVendorContract());
 //        }
 //      }
-
+      
       if( !activeVendor ) {
         this.setVendorHeaderGeneratedIdentifier(null);
         this.setVendorDetailAssignedIdentifier(null);
@@ -268,20 +262,14 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
       //These fields should not be set in this method; force to be null
       this.setVendorNoteText(null);
-      //this.setContractManager(null);
       this.setContractManagerCode(null);
       this.setInstitutionContactName(null);
       this.setInstitutionContactPhoneNumber(null);
       this.setInstitutionContactEmailAddress(null);
-      //this.setAutomaticPurchaseOrderLimit(null);
       this.setOrganizationAutomaticPurchaseOrderLimit(null);
-      //this.setIsAPO(null);
       this.setPurchaseOrderAutomaticIndicator(false);
-      //TODO dterret: Make sure that the Status History gets nulled out here after David E. gets done
-      //implementing it.
-      //this.setStatusHistoryList(null);
       this.setStatusHistories(null);
-
+      
 //TODO DAVID AND CHRIS SHOULD FIX THIS
       //Trade In and Discount Items are only available for B2B. If the Requisition
       //doesn't currently contain trade in and discount, we should add them in 
@@ -312,8 +300,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     
 	}
 
-    
-    /**
+	/**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
@@ -591,4 +578,5 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
 
-}
+	}
+

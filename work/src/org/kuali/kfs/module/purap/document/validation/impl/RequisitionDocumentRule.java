@@ -85,7 +85,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     boolean processVendorValidation(RequisitionDocument document) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean valid = super.processVendorValidation(document);
-        if (document.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_STANDARD_ORDER)) { 
+        if (document.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.STANDARD_ORDER)) { 
             if (!StringUtils.isBlank(document.getVendorCountryCode()) &&
                 document.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES) && 
                 !StringUtils.isBlank(document.getVendorPostalCode())) {

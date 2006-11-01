@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -51,8 +52,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
 
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
-        List<StatusHistory> statusHistories = new ArrayList();
-        this.setStatusHistories( statusHistories );
+        this.statusHistories = new TypedArrayList( StatusHistory.class );
     }
     
     // OVERRIDEN METHODS
@@ -175,8 +175,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
 
     public VendorDetail getVendorDetail() {
         return vendorDetail;
-    }
-
+}
     public void setVendorDetail(VendorDetail vendorDetail) {
         this.vendorDetail = vendorDetail;
     }

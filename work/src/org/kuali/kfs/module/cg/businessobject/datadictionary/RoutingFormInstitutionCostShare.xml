@@ -74,7 +74,7 @@
 
             <attribute name="accountNumber" forceUppercase="true">
                 <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Account</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -89,13 +89,13 @@
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
                 <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Chart</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SimpleChartValuesFinder" />
                 </control>
 
                 <summary>chartOfAccountsCode</summary>
@@ -104,7 +104,7 @@
 
             <attribute name="organizationCode" forceUppercase="true">
                 <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Org</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -122,10 +122,13 @@
                 <shortLabel>Amount</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="true" precision="19" scale="2" />
+                </validationPattern>
 
                 <control>
-                    <text size="21" />
+                    <currency size="10" formattedMaxLength="26" />
                 </control>
 
                 <summary>proposalCostShareAmount</summary>
@@ -140,7 +143,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <textarea rows="5" cols="80"/>
+                    <text size="50"/>
                 </control>
 
                 <summary>proposalCostShareDescription</summary>
@@ -155,7 +158,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="6" />
+                    <hidden />
                 </control>
 
                 <summary>proposalCostShareSequenceNumber</summary>
@@ -170,7 +173,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="16" />
+                    <hidden />
                 </control>
 
                 <summary>researchDocumentNumber</summary>

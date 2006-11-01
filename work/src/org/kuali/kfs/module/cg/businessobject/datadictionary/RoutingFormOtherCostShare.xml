@@ -68,10 +68,13 @@
                 <shortLabel>Amount</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="true" precision="19" scale="2" />
+                </validationPattern>
 
                 <control>
-                    <text size="21" />
+                    <currency size="10" formattedMaxLength="26" />
                 </control>
 
                 <summary>proposalCostShareAmount</summary>
@@ -95,7 +98,7 @@
 
             <attribute name="proposalCostShareSourceName" forceUppercase="true">
                 <label>Proposal Cost Share Source Name</label>
-                <shortLabel>Name</shortLabel>
+                <shortLabel>Source</shortLabel>
 
                 <maxLength>50</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

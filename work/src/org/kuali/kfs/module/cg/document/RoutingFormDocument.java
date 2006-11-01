@@ -32,6 +32,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
@@ -112,12 +113,16 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private SubmissionType submissionType;
     private ContractGrantProposal contractGrantProposal;
     private List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShares;
+    private List<RoutingFormOtherCostShare> routingFormOtherCostShares;
    
 	/**
 	 * Default constructor.
 	 */
 	public RoutingFormDocument() {
         routingFormResearchRisks = new ArrayList<RoutingFormResearchRisk>();
+        routingFormKeywords = new ArrayList<RoutingFormKeyword>();
+        routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
+        routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
 	}
 
 	/**
@@ -1463,6 +1468,25 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void addRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare routingFormInstitutionCostShare) {
         getRoutingFormInstitutionCostShares().add(routingFormInstitutionCostShare);
+    }
+
+    public List<RoutingFormOtherCostShare> getRoutingFormOtherCostShares() {
+        return routingFormOtherCostShares;
+    }
+
+    public RoutingFormOtherCostShare getRoutingFormOtherCostShare(int index) {
+        while (getRoutingFormOtherCostShares().size() <= index) {
+            getRoutingFormOtherCostShares().add(new RoutingFormOtherCostShare());
+        }
+        return (RoutingFormOtherCostShare) getRoutingFormOtherCostShares().get(index);
+    }
+    
+    public void setRoutingFormOtherCostShares(List<RoutingFormOtherCostShare> routingFormOtherCostShares) {
+        this.routingFormOtherCostShares = routingFormOtherCostShares;
+    }
+
+    public void addRoutingFormOtherCostShare(RoutingFormOtherCostShare routingFormOtherCostShare) {
+        getRoutingFormOtherCostShares().add(routingFormOtherCostShare);
     }
 
 }

@@ -53,8 +53,8 @@
 	        	<maintainableItems>
 	            	<maintainableField name="positionObjectGroupCode" required="true" />
 	            	<maintainableField name="positionObjectGroupName" required="true" />
-	            	<maintainableField name="rowActiveIndicator" required="true"/>
-	            	<maintainableField name="versionNumber" required="true"/>
+	            	<maintainableField name="rowActiveIndicator" required="false"/>
+	            	<maintainableField name="versionNumber" required="false"/>
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

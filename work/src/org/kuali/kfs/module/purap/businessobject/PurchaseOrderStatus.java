@@ -20,7 +20,7 @@ package org.kuali.module.purap.bo;
 
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
  */
 public class PurchaseOrderStatus extends Status {
 

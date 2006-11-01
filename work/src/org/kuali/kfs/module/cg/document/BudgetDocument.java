@@ -474,9 +474,13 @@ public class BudgetDocument extends ResearchDocumentBase {
         for (Iterator iter = costShareItems.iterator(); iter.hasNext();) {
             BudgetInstitutionCostShare costShare = (BudgetInstitutionCostShare) iter.next();
             xml.append("<chartOrg><chartOfAccountsCode>");
-            xml.append(costShare.getChartOfAccountsCode());
+            if (costShare.getChartOfAccountsCode() != null) {
+                xml.append(costShare.getChartOfAccountsCode());
+            }
             xml.append("</chartOfAccountsCode><organizationCode>");
-            xml.append(costShare.getOrganizationCode());
+            if (costShare.getOrganizationCode() != null) {
+                xml.append(costShare.getOrganizationCode());
+            }
             xml.append("</organizationCode></chartOrg>");
         }
         if (encloseContent) {

@@ -85,7 +85,7 @@ public class AssignContractManagerDocumentRule extends PurchasingDocumentRuleBas
     boolean processVendorValidation(RequisitionDocument document) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         boolean valid = super.processVendorValidation(document);
-        if (document.getRequisitionSourceCode().equals(PurapConstants.REQ_SOURCE_STANDARD_ORDER)) { 
+        if (document.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.STANDARD_ORDER)) { 
             if (!StringUtils.isBlank(document.getVendorCountryCode()) &&
                 document.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES) && 
                 !StringUtils.isBlank(document.getVendorPostalCode())) {
@@ -223,7 +223,7 @@ public class AssignContractManagerDocumentRule extends PurchasingDocumentRuleBas
     boolean validateFaxNumberIfTransmissionTypeIsFax(RequisitionDocument document) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(document.getVendorHeaderGeneratedIdentifier()) &&
-              document.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.PO_TRANSMISSION_METHOD_FAX)) {
+              document.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
             if (ObjectUtils.isNull(document.getVendorFaxNumber()) ||
                   ! PhoneNumberUtils.isValidPhoneNumber(document.getVendorFaxNumber())  ) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.REQUISITION_VENDOR_FAX_NUMBER, 

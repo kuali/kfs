@@ -223,7 +223,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     boolean validateFaxNumberIfTransmissionTypeIsFax(RequisitionDocument document) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(document.getVendorHeaderGeneratedIdentifier()) &&
-              document.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.PO_TRANSMISSION_METHOD_FAX)) {
+              document.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
             if (ObjectUtils.isNull(document.getVendorFaxNumber()) ||
                   ! PhoneNumberUtils.isValidPhoneNumber(document.getVendorFaxNumber())  ) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.REQUISITION_VENDOR_FAX_NUMBER, 

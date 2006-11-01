@@ -79,8 +79,8 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         this.setRequisitionSourceCode( PurapConstants.RequisitionSources.STANDARD_ORDER );
         this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
-        this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
-        this.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.FAX);
+        this.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
+        this.setPurchaseOrderTransmissionMethodCode( PurapConstants.POTransmissionMethods.FAX );
         this.setFundingSourceCode("IUAC");
         // TODO set default funding source in params or make non-IU specific
 
@@ -229,7 +229,6 @@ public class RequisitionDocument extends PurchasingDocumentBase {
           if(( !activeContract ) || ( !activeVendor ) ){
               throw new IllegalStateException();
           }
-      }
       }
 
 //    TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)

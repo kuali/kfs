@@ -218,7 +218,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                 return "Selected vendor is marked as restricted.";
             }
 
-            if ((!PurapConstants.REQ_SOURCE_B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
+            if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
                 VendorContract vendorContract = new VendorContract();
                 vendorContract.setVendorContractGeneratedIdentifier(requisition.getVendorContractGeneratedIdentifier());
                 vendorContract = (VendorContract) businessObjectService.retrieve(vendorContract);

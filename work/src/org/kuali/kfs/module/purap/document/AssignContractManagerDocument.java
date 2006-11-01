@@ -95,7 +95,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
         // Get list of requisitions with status of Awaiting Contract Manager Assignment.
         Map fieldValues = new HashMap();
-        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.REQ_STAT_AWAIT_CONTRACT_MANAGER_ASSGN);
+        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
         List unassignedRequisitions = new ArrayList(getBOService().findMatching(RequisitionDocument.class, fieldValues));
 // TODO: ripierce, the above list won't be sorted. The findMatchingOrderBy method in the line below should sort but
 //    I can't make it work, will come back to it.
@@ -126,7 +126,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                 req.setContractManagerCode(detail.getContractManagerCode());
                 
                 boolean success = this.getPurapService().updateStatusAndStatusHistory(req, 
-                  PurapConstants.REQ_STAT_CONTRACT_MANAGER_ASSGN);
+                  PurapConstants.RequisitionStatuses.CONTRACT_MANAGER_ASSGN);
                 if (success) {
                     LOG.debug("Status and status history have been updated for requisition #"+detail.getRequisitionIdentifier());
                 }

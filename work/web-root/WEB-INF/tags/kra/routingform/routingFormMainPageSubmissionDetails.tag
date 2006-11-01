@@ -110,18 +110,10 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.proposalPriorGrantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.proposalPriorGrantNumber" attributeEntry="${documentAttributes.proposalPriorGrantNumber}"  />
-
-<!--
-                	<input name="textfield" type="text" size="12">
--->
                	</td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionAccountNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.institutionAccountNumber" attributeEntry="${documentAttributes.institutionAccountNumber}"  />
-
-<!--
-                	<input name="textfield" type="text" size="12">
--->
                 </td>
               </tr>
               <tr>
@@ -129,16 +121,10 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.federalIdentifier}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.federalIdentifier" attributeEntry="${documentAttributes.federalIdentifier}"  />
-<!-- 
-                	<input name="textfield" type="text" size="12">
--->
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantsGovernmentConfirmationNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.grantsGovernmentConfirmationNumber" attributeEntry="${documentAttributes.grantsGovernmentConfirmationNumber}"  />
-<!-- 
-               	<input name="textfield" type="text" size="12">
--->
                 </td>
               </tr>
               <tr>
@@ -146,23 +132,14 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.grantNumber" attributeEntry="${documentAttributes.grantNumber}"  />
-
-<!--
-                	<input name="textfield" type="text" size="12">
--->
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${contractGrantProposalAttributes.proposalNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.contractGrantProposal.proposalNumber" attributeEntry="${contractGrantProposalAttributes.proposalNumber}"  />
-
-<!--
-                	<input name="textfield" type="text" size="12">
--->
                 </td>
               </tr>
               <tr>
                 <td colspan=4 class="tab-subhead"><span class="left">Project Purpose </span> </td>
-
               </tr>
               <tr>
                 <th align=right valign=middle>Type:</th>
@@ -185,7 +162,7 @@
                   <label>
                   <input name="RadioGroup1" type="radio" class="nobord" value="radio">
                   Service/other: </label>
-&nbsp;
+                  &nbsp;
                   <input name="textfield" type="text" size="12">
 
                 </td>
@@ -198,9 +175,6 @@
 
                 <td colspan="3" align=left valign=middle nowrap >
                 	<kul:htmlControlAttribute property="document.proposalProjectTitle" attributeEntry="${documentAttributes.proposalProjectTitle}" />
-<!--                 
-                	<textarea name="textfield" cols="60" rows="3"></textarea>
--->
                 </td>
               </tr>
               <tr>
@@ -211,12 +185,9 @@
 		              <tr>
 		                <td class="neutral"> <div align="left">
 					    	<c:if test="${!viewOnly}">
-					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.RoutingFormKeyword" lookupParameters="document.routingFormKeyword.proposalKeywordDescription:proposalKeywordDescription" fieldConversions="proposalKeywordDescription:document.routingFormKeyword.proposalKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
+						    	<html:hidden write="true" property="newRoutingFormKeyword.proposalKeywordDescription" /> 
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookupParameters="newRoutingFormKeyword.proposalKeywordDescription:proposalKeywordDescription" fieldConversions="proposalKeywordDescription:newRoutingFormKeyword.proposalKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
 		                	</c:if>
-
-<!-- 
-		                  <kul:htmlControlAttribute property="newRoutingFormKeyword.proposalKeywordDescription" attributeEntry="${routingFormKeywordAttributes.proposalKeywordDescription}" />
--->
 		                </div></td>
 		                <td class="neutral"><div align="center"><html:image property="methodToCall.insertRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add keyword"/></div></td>
 		              </tr>   
@@ -230,38 +201,6 @@
 		              </tr>   
 		              </c:forEach>
 		            </table>
-
-
-<!-- 
-                  <table cellpadding=0 cellspacing=0 class="neutral">
-                    <tr>
-                      <td class="neutral"><div align=left> <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
-                      <td class="neutral">
-                        <div align="left">
-                          <input type="image" name="methodToCall.showAllTabs6" src="images/tinybutton-add1.gif" class="tinybutton" alt="showAll">
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="neutral">
-                        <div align=left> biology </div>
-                      </td>
-                      <td class="neutral">
-                        <div align="left">
-                          <input type="image" name="methodToCall.showAllTabs7" src="images/tinybutton-delete1.gif" class="tinybutton" alt="showAll">
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="neutral"> cancer causing agent </td>
-                      <td class="neutral">
-                        <div align="left">
-                          <input type="image" name="methodToCall.showAllTabs8" src="images/tinybutton-delete1.gif" class="tinybutton" alt="showAll">
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
--->
                 </td>
               </tr>
               <tr>
@@ -276,17 +215,10 @@
                 <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetDirectAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td width="30%" align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.proposalBudgetDirectAmount}"  />
-<!-- 
-                	<input name="textfield" type="text" size="12">
--->
                 </td>
                 <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetStartDate}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td width="30%" align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.proposalBudgetStartDate}" datePicker="true" />
-<!--
-                	<input name="date1" size=10 value="01/01/2005 " type=text>
-                  	<a href="#" onclick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor1"><img src="images/cal.gif" alt="date selector" width=16 height=16 border=0></a>
--->
                 </td>
               </tr>
 
@@ -294,17 +226,10 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetIndirectCostAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.proposalBudgetIndirectCostAmount}"  />
-<!--
-                	<input name="textfield" type="text" size="12">
--->
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetEndDate}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.proposalBudgetEndDate}" datePicker="true" />
-<!-- 
-                	<input name="date1" size=10 value="01/01/2005 " type=text>
-                  	<a href="#" onclick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;" name="anchor1" id="anchor1"><img src="images/cal.gif" alt="date selector" width=16 height=16 border=0></a>
--->
                 </td>
               </tr>
               <tr>

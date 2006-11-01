@@ -51,9 +51,6 @@
 			    	<c:if test="${!viewOnly}">
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
-<!--
-					(select) <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a> 
--->
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalDueDate}" skipHelpUrl="true" /></th>
                 <td colspan="2" align=left valign=middle >
@@ -67,30 +64,16 @@
 <!-- 
 NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
  -->                
-                
 			    	<html:hidden property="document.agencyFederalPassThroughNumber" /> 
 			    	<html:hidden write="true" property="document.routingFormAgency.federalPassThroughAgency.fullName" /> 
 	    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber}">(select)</c:if>
 	    			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber" tabindexOverride="5110" anchor="${currentTabIndex}" />
-                
-<!--                
-                	(select) <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a> 
--->
+
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalDueDateTypeCode}" skipHelpUrl="true" /></th>
 
                 <td colspan="2" align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.proposalDueDateTypeCode" attributeEntry="${routingFormAgencyAttributes.proposalDueDateTypeCode}"  />
-
-
-<!-- 
-                  <select name="select">
-                    <option selected>select:</option>
-                    <option>receipt</option>
-                    <option>postmark</option>
-                    <option>target</option>
-                  </select>
--->
                 </td>
 
               </tr>
@@ -98,16 +81,10 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyAddressDescription}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyAddressDescription" attributeEntry="${routingFormAgencyAttributes.agencyAddressDescription}"  />
-<!-- 
-                    <textarea name="textfield" cols="20" rows="3"></textarea>
--->
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyShippingInstructionsDescription" attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}"  />
-<!--             
-                	<textarea name="textfield" cols="20" rows="3"></textarea>
--->
                 </td>
                 <td nowrap >
                 	<kul:htmlControlAttribute property="document.grantsGovernmentSubmissionIndicator" attributeEntry="${documentAttributes.grantsGovernmentSubmissionIndicator}"  />
@@ -118,12 +95,6 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
                   	<br>
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyElectronicSubmissionIndicator" attributeEntry="${routingFormAgencyAttributes.agencyElectronicSubmissionIndicator}"  />
                 	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyElectronicSubmissionIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyElectronicSubmissionIndicator" noColon="true" />
-<!-- 
-                  <input name="checkbox" type="checkbox" class="radio" value="checkbox">
-                  Disk to Accompany Proposal<br>
-                  <input name="checkbox" type="checkbox" class="radio" value="checkbox">
-                  Electronic Submision Required
--->                  
                   </td>
               </tr>
               <tr>
@@ -136,19 +107,11 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
 			    	<c:if test="${!viewOnly}">
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" lookupParameters="document.catalogOfFederalDomesticAssistanceReference.cfdaNumber:cfdaNumber,document.catalogOfFederalDomesticAssistanceReference.cfdaProgramTitleName:cfdaProgramTitleName" fieldConversions="cfdaNumber:document.catalogOfFederalDomesticAssistanceReference.cfdaNumber,cfdaProgramTitleName:document.catalogOfFederalDomesticAssistanceReference.cfdaProgramTitleName" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
-
-<!--
-                  	(select) <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a> 
--->
 				</td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalRequiredCopyNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="2" align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.routingFormAgency.proposalRequiredCopyNumber" attributeEntry="${routingFormAgencyAttributes.proposalRequiredCopyNumber}"  />
                 	Submit 2 additional copies plus the number of required by your department and school.
-<!--                
-                  <input name="textfield" type="text" size="5">
-                  Submit 2 additional copies plus the number of required by your department and school.
--->
                 </td>
               </tr>
               <tr>
@@ -156,9 +119,6 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
 
                 <td colspan="4" align=left valign=middle >
                 	<kul:htmlControlAttribute property="document.proposalAnnouncementNumber" attributeEntry="${documentAttributes.proposalAnnouncementNumber}"  />
-<!-- 
-                  <textarea name="textfield" cols="60" rows="3"></textarea>
--->
                 </td>
               </tr>
             </table>

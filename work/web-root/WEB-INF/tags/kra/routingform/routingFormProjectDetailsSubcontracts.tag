@@ -28,6 +28,7 @@
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
+<c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
@@ -41,46 +42,71 @@
             <table cellpadding=0 cellspacing="0"  summary="">
               <tr>
                 <th width="50">&nbsp;</th>
-                <th> <div align="center">Subcontract Name </div></th>
-                <th ><div align="right">Amount</div></th>
-                <th >Action</th>
+                <th> <div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.proposalSubcontractorName}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.proposalSubcontractorAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
+                <th>Action</th>
 
               </tr>
               <tr>
                 <th scope="row">add:</th>
-                <td class="infoline"><div align="center">
-                    <input name="textfield" type="text" size="20">
-                    <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
-                <td class="infoline"><div align="right">
-                    <input name="textfield" type="text" size="12" class="right">
-
-                  </div></td>
-                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td class="infoline">
+                	<div align="center">
+			    	<c:if test="${!viewOnly}">
+		                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.proposalSubcontractorName" attributeEntry="${subcontractorAttributes.proposalSubcontractorName}" />
+			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.proposalSubcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.proposalSubcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                	</c:if>
+                    </div>
+                </td>
+                <td class="infoline">
+                	<div align="right">
+				    	<c:if test="${!viewOnly}">
+			                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.proposalSubcontractorAmount" attributeEntry="${subcontractorAttributes.proposalSubcontractorAmount}" />
+	                	</c:if>
+                  	</div>
+                </td>
+                <td class="infoline">
+                	<div align=center>
+						<html:image property="methodToCall.insertRoutingFormSubcontractor.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add subcontractor"/>
+                	</div>
+                </td>
               </tr>
-              <tr>
-                <th scope="row"><div align="center">1</div></th>
-                <td><div align="center"><span class="infoline">
-                    <input name="textfield" type="text" value="ACME Subcontract 1" size="20">
-                    </span><a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
 
-                <td><div align="right"><span class="infoline">
-                    <input name="textfield" type="text" value="600.00" size="12" class="right">
-                    </span></div></td>
-                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
-              </tr>
-              <tr>
-                <th  scope="row"><div align="center">2</div></th>
-                <td><div align="center"><span class="infoline">
 
-                    <input name="textfield" type="text" value="ACME Subcontract 2" size="20">
-                    </span><a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
-                <td><div align="right"><span class="infoline">
-                    <input name="textfield" type="text" value="400.00" size="12" class="right">
-                    </span></div></td>
-                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
-              </tr>
-              <tr>
 
+              <c:forEach items = "${KualiForm.document.routingFormSubcontractors}" var="routingFormSubcontractor" varStatus="status"  >
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorSequenceNumber" attributeEntry="${subcontractorAttributes.proposalSubcontractorSequenceNumber}" />
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorNumber" attributeEntry="${subcontractorAttributes.proposalSubcontractorNumber}" />
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].researchDocumentNumber" attributeEntry="${subcontractorAttributes.researchDocumentNumber}"/>
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].objectId" attributeEntry="${subcontractorAttributes.objectId}" />
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].versionNumber" attributeEntry="${subcontractorAttributes.versionNumber}"/>
+
+
+	              <tr>
+	                <th scope="row">
+	                	<div align="center">
+	                		${status.index+1}
+	                	</div>
+	                </th>
+	                <td>
+	                	<div align="center">
+			                <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorName" attributeEntry="${subcontractorAttributes.proposalSubcontractorName}" />
+				    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].proposalSubcontractorName:subcontractorName" fieldConversions="subcontractorName:document.routingFormSubcontractor[${status.index}].proposalSubcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
+	                    </div>
+	                </td>
+	                <td>
+	                	<div align="right">
+				            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorAmount" attributeEntry="${subcontractorAttributes.proposalSubcontractorAmount}" />
+	                    </div>
+	                </td>
+	                <td><div align=center>
+						<html:image property="methodToCall.deleteRoutingFormSubcontractor.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete subcontractor"/>
+	                </div></td>
+	              </tr>
+			  </c:forEach>
+
+
+
+              <tr>
                 <td colspan="2" class="total-line"  scope="row">&nbsp;</td>
                 <td class="total-line">$1000.00</td>
                 <td class="total-line">&nbsp;</td>

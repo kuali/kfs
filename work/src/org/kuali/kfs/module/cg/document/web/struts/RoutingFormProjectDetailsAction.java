@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/document/web/struts/RoutingFormProjectDetailsAction.java,v $
  * 
@@ -17,6 +17,8 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +26,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
@@ -31,10 +35,35 @@ import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
+    /**
+     * Adds handling for amount updates.
+     * 
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+
+        if (routingForm.hasDocumentId()) {
+            RoutingFormDocument routingDoc = routingForm.getRoutingFormDocument();
+
+            routingDoc.setTotalInstitutionCostShareAmount(calculateRoutingFormInstitutionCostShareTotal(routingDoc)); // recalc b/c changes to the amounts could have happened
+            routingDoc.setTotalOtherCostShareAmount(calculateRoutingFormOtherCostShareTotal(routingDoc)); // recalc b/c changes to the amounts could have happened
+            routingDoc.setTotalSubcontractorAmount(calculateRoutingFormSubcontractorTotal(routingDoc)); // recalc b/c changes to the amounts could have happened
+        }
+
+        // proceed as usual
+        return super.execute(mapping, form, request, response);
+    }
+
     public ActionForward insertRoutingFormInstitutionCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.getRoutingFormDocument().addRoutingFormInstitutionCostShare(routingForm.getNewRoutingFormInstitutionCostShare());
+        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
+        RoutingFormInstitutionCostShare routingFormInstitutionCostShare = routingForm.getNewRoutingFormInstitutionCostShare();
+        
+        routingFormDocument.prepareNewRoutingFormInstitutionCostShare(routingFormInstitutionCostShare);
+        routingFormDocument.addRoutingFormInstitutionCostShare(routingFormInstitutionCostShare);
         
         // use getters and setters on the form to reinitialize the properties on the form.                
         routingForm.setNewRoutingFormInstitutionCostShare(new RoutingFormInstitutionCostShare());
@@ -47,7 +76,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormInstitutionCostShares().remove(lineToDelete);        
+        routingForm.getRoutingFormDocument().removeRoutingFormInstitutionCostShare(lineToDelete);        
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -55,7 +84,11 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
     public ActionForward insertRoutingFormOtherCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.getRoutingFormDocument().addRoutingFormOtherCostShare(routingForm.getNewRoutingFormOtherCostShare());
+        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
+        RoutingFormOtherCostShare routingFormOtherCostShare = routingForm.getNewRoutingFormOtherCostShare();
+        
+        routingFormDocument.prepareNewRoutingFormOtherCostShare(routingFormOtherCostShare);
+        routingFormDocument.addRoutingFormOtherCostShare(routingFormOtherCostShare);
         
         // use getters and setters on the form to reinitialize the properties on the form.                
         routingForm.setNewRoutingFormOtherCostShare(new RoutingFormOtherCostShare());
@@ -68,7 +101,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormOtherCostShares().remove(lineToDelete);        
+        routingForm.getRoutingFormDocument().removeRoutingFormOtherCostShare(lineToDelete);        
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -76,7 +109,11 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
     public ActionForward insertRoutingFormSubcontractor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.getRoutingFormDocument().addRoutingFormSubcontractor(routingForm.getNewRoutingFormSubcontractor());
+        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
+        RoutingFormSubcontractor routingFormSubcontractor = routingForm.getNewRoutingFormSubcontractor();
+        
+        routingFormDocument.prepareNewRoutingFormSubcontractor(routingFormSubcontractor);
+        routingFormDocument.addRoutingFormSubcontractor(routingFormSubcontractor);
         
         // use getters and setters on the form to reinitialize the properties on the form.                
         routingForm.setNewRoutingFormSubcontractor(new RoutingFormSubcontractor());
@@ -89,9 +126,54 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormSubcontractors().remove(lineToDelete);        
+        routingForm.getRoutingFormDocument().removeRoutingFormSubcontractor(lineToDelete);        
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Recalculates the routing form institution cost share total since user could have changed it during their update.
+     * 
+     * @param routingFormDocument
+     */
+    private KualiDecimal calculateRoutingFormInstitutionCostShareTotal(RoutingFormDocument routingFormDocument) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        Iterator<RoutingFormInstitutionCostShare> institutionCostShares = routingFormDocument.getRoutingFormInstitutionCostShares().iterator();
+        while (institutionCostShares.hasNext()) {
+            RoutingFormInstitutionCostShare institutionCostShare = institutionCostShares.next();
+            total = total.add(new KualiDecimal(institutionCostShare.getProposalCostShareAmount()));
+        }
+        return total;
+    }
+
+    /**
+     * Recalculates the routing form other cost share total since user could have changed it during their update.
+     * 
+     * @param routingFormDocument
+     */
+    private KualiDecimal calculateRoutingFormOtherCostShareTotal(RoutingFormDocument routingFormDocument) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        Iterator<RoutingFormOtherCostShare> otherCostShares = routingFormDocument.getRoutingFormOtherCostShares().iterator();
+        while (otherCostShares.hasNext()) {
+            RoutingFormOtherCostShare otherCostShare = otherCostShares.next();
+            total = total.add(new KualiDecimal(otherCostShare.getProposalCostShareAmount()));
+        }
+        return total;
+    }
+
+    /**
+     * Recalculates the routing form subcontractor total since user could have changed it during their update.
+     * 
+     * @param routingFormDocument
+     */
+    private KualiDecimal calculateRoutingFormSubcontractorTotal(RoutingFormDocument routingFormDocument) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        Iterator<RoutingFormSubcontractor> subcontractors = routingFormDocument.getRoutingFormSubcontractors().iterator();
+        while (subcontractors.hasNext()) {
+            RoutingFormSubcontractor subcontractor = subcontractors.next();
+            total = total.add(new KualiDecimal(subcontractor.getProposalSubcontractorAmount()));
+        }
+        return total;
     }
 
 }

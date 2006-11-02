@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/RequisitionSource.xml,v $
  
@@ -74,7 +74,7 @@
                 <description>requisitionSourceCode description...</description>
 			</attribute>
 
-            <attribute name="requisitionSourceDescription" >
+            <attribute name="requisitionSourceDescription" forceUppercase="true">
                 <label>Requisition Source Description</label>
                 <shortLabel>Description</shortLabel>
 

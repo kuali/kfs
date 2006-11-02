@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/Carrier.xml,v $
  
@@ -76,7 +76,7 @@
                 <description>carrierCode description...</description>
 			</attribute>
 
-            <attribute name="carrierDescription" >
+            <attribute name="carrierDescription" forceUppercase="true">
                 <label>Carrier Description</label>
                 <shortLabel>Description</shortLabel>
 

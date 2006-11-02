@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/DeliveryRequiredDateReason.xml,v $
  
@@ -74,7 +74,7 @@
                 <description>deliveryRequiredDateReasonCode description...</description>
 			</attribute>
 
-            <attribute name="deliveryRequiredDateReasonDescription" >
+            <attribute name="deliveryRequiredDateReasonDescription" forceUppercase="true">
                 <label>Delivery Required Date Reason Description</label>
                 <shortLabel>Delivery Required Date Reason Description</shortLabel>
 

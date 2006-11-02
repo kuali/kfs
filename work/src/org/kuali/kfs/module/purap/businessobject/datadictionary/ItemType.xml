@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/ItemType.xml,v $
  
@@ -74,7 +74,7 @@
                 <description>itemTypeCode description...</description>
 			</attribute>
 
-            <attribute name="itemTypeDescription" forceUppercase="false">
+            <attribute name="itemTypeDescription" forceUppercase="true">
                 <label>Item Type Description</label>
                 <shortLabel>Description</shortLabel>
 

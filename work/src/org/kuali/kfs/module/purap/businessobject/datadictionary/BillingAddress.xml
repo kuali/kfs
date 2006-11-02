@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/BillingAddress.xml,v $
  
@@ -95,7 +95,7 @@
                 <description>billingCampusCode description...</description>
 			</attribute>
 
-            <attribute name="billingCityName">
+            <attribute name="billingCityName" forceUppercase="true">
                 <label>Billing City Name</label>
                 <shortLabel>Name</shortLabel>
 
@@ -125,7 +125,7 @@
                 <description>billingCountryCode description...</description>
 			</attribute>
 
-            <attribute name="billingLine1Address">
+            <attribute name="billingLine1Address" forceUppercase="true">
                 <label>Billing Line1 Address</label>
                 <shortLabel>Address</shortLabel>
 
@@ -140,7 +140,7 @@
                 <description>billingLine1Address description...</description>
 			</attribute>
 
-            <attribute name="billingLine2Address">
+            <attribute name="billingLine2Address" forceUppercase="true">
                 <label>Billing Line2 Address</label>
                 <shortLabel>Address</shortLabel>
 
@@ -155,7 +155,7 @@
                 <description>billingLine2Address description...</description>
 			</attribute>
 
-            <attribute name="billingName">
+            <attribute name="billingName" forceUppercase="true">
                 <label>Billing Name</label>
                 <shortLabel>Name</shortLabel>
 

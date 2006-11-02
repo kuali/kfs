@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/RecurringPaymentFrequency.xml,v $
  
@@ -74,7 +74,7 @@
                 <description>recurringPaymentFrequencyCode description...</description>
 			</attribute>
 
-            <attribute name="recurringPaymentFrequencyDescription">
+            <attribute name="recurringPaymentFrequencyDescription" forceUppercase="true">
                 <label>Recurring Payment Frequency Description</label>
                 <shortLabel>Description</shortLabel>
 

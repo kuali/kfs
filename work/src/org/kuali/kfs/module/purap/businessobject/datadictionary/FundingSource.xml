@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/businessobject/datadictionary/FundingSource.xml,v $
  
@@ -74,7 +74,7 @@
                 <description>fundingSourceCode description...</description>
 			</attribute>
 
-            <attribute name="fundingSourceDescription">
+            <attribute name="fundingSourceDescription" forceUppercase="true">
                 <label>Funding Source Description</label>
                 <shortLabel>Description</shortLabel>
 

@@ -37,6 +37,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
 
 /**
@@ -114,6 +115,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private ContractGrantProposal contractGrantProposal;
     private List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShares;
     private List<RoutingFormOtherCostShare> routingFormOtherCostShares;
+    private List<RoutingFormSubcontractor> routingFormSubcontractors;
    
 	/**
 	 * Default constructor.
@@ -123,6 +125,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormKeywords = new ArrayList<RoutingFormKeyword>();
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
+        routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
 	}
 
 	/**
@@ -1487,6 +1490,25 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void addRoutingFormOtherCostShare(RoutingFormOtherCostShare routingFormOtherCostShare) {
         getRoutingFormOtherCostShares().add(routingFormOtherCostShare);
+    }
+
+    public List<RoutingFormSubcontractor> getRoutingFormSubcontractors() {
+        return routingFormSubcontractors;
+    }
+
+    public RoutingFormSubcontractor getRoutingFormSubcontractor(int index) {
+        while (getRoutingFormSubcontractors().size() <= index) {
+            getRoutingFormSubcontractors().add(new RoutingFormSubcontractor());
+        }
+        return (RoutingFormSubcontractor) getRoutingFormSubcontractors().get(index);
+    }
+    
+    public void setRoutingFormSubcontractors(List<RoutingFormSubcontractor> routingFormSubcontractors) {
+        this.routingFormSubcontractors = routingFormSubcontractors;
+    }
+
+    public void addRoutingFormSubcontractor(RoutingFormSubcontractor routingFormSubcontractor) {
+        getRoutingFormSubcontractors().add(routingFormSubcontractor);
     }
 
 }

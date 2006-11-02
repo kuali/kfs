@@ -83,7 +83,7 @@
 
             <attribute name="proposalSubcontractorName" forceUppercase="true">
                 <label>Proposal Subcontractor Name</label>
-                <shortLabel>Name</shortLabel>
+                <shortLabel>Subcontract Name</shortLabel>
 
                 <maxLength>50</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

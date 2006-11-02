@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/web-root/WEB-INF/tags/kra/routingform/routingFormProjectDetailsCostShare.tag,v $
  
@@ -107,7 +107,6 @@
 	                <td class="neutral"> <div align="center">
 				    	<c:if test="${!viewOnly}">
 			                <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].organizationCode" attributeEntry="${institutionCostShareAttributes.organizationCode}" />
-				    		<kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="document.routingFormInstitutionCostShare[${status.index}].organizationCode:organizationCode" fieldConversions="organizationCode:document.routingFormInstitutionCostShare.organizationCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
 	                	</c:if>
 	                </div></td>
 	                <td class="neutral"> <div align="center">
@@ -118,7 +117,6 @@
 	                <td class="neutral"> <div align="center">
 				    	<c:if test="${!viewOnly}">
 			                <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].accountNumber" attributeEntry="${institutionCostShareAttributes.accountNumber}" />
-				    		<kul:lookup boClassName="org.kuali.module.chart.bo.Account" lookupParameters="document.routingFormInstitutionCostShare[${status.index}].accountNumber:accountNumber" fieldConversions="accountNumber:document.routingFormInstitutionCostShare.accountNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
 	                	</c:if>
 	                </div></td>
 	                <td class="neutral"> <div align="right">
@@ -131,7 +129,7 @@
               </c:forEach>
               <tr>
                 <td colspan="5" class="total-line"  scope="row">&nbsp;</td>
-                <td class="total-line">$1000.00</td>
+                <td class="total-line"><strong> Total: $${KualiForm.document.currencyFormattedTotalInstitutionCostShareAmount}</strong><html:hidden write="false" property="document.totalInstitutionCostShareAmount" /></td>
                 <td class="total-line">&nbsp;</td>
               </tr>
 
@@ -202,8 +200,7 @@
               
               <tr>
                 <td colspan="4" class="total-line"  scope="row">&nbsp;</td>
-
-                <th colspan="2" class="total-line"  scope="row"><div align="right">$1000.00</div></th>
+                <td colspan="2" class="total-line"><strong> Total: $${KualiForm.document.currencyFormattedTotalOtherCostShareAmount}</strong><html:hidden write="false" property="document.totalOtherCostShareAmount" /></td>
                 <td class="total-line">&nbsp;</td>
               </tr>
             </table>

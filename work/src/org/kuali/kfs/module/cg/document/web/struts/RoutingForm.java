@@ -29,6 +29,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 public class RoutingForm extends KualiDocumentFormBase {
@@ -39,6 +40,7 @@ public class RoutingForm extends KualiDocumentFormBase {
     private RoutingFormKeyword newRoutingFormKeyword;
     private RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare;
     private RoutingFormOtherCostShare newRoutingFormOtherCostShare;
+    private RoutingFormSubcontractor newRoutingFormSubcontractor;
     
     public RoutingForm() {
         super();
@@ -107,6 +109,14 @@ public class RoutingForm extends KualiDocumentFormBase {
 
     public void setNewRoutingFormOtherCostShare(RoutingFormOtherCostShare newRoutingFormOtherCostShare) {
         this.newRoutingFormOtherCostShare = newRoutingFormOtherCostShare;
+    }
+
+    public RoutingFormSubcontractor getNewRoutingFormSubcontractor() {
+        return newRoutingFormSubcontractor;
+    }
+
+    public void setNewRoutingFormSubcontractor(RoutingFormSubcontractor newRoutingFormSubcontractor) {
+        this.newRoutingFormSubcontractor = newRoutingFormSubcontractor;
     }
 
 }

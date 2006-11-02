@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/web-root/WEB-INF/tags/kra/routingform/routingFormProjectDetailsSubcontracts.tag,v $
  
@@ -90,7 +90,6 @@
 	                <td>
 	                	<div align="center">
 			                <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorName" attributeEntry="${subcontractorAttributes.proposalSubcontractorName}" />
-				    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].proposalSubcontractorName:subcontractorName" fieldConversions="subcontractorName:document.routingFormSubcontractor[${status.index}].proposalSubcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
 	                    </div>
 	                </td>
 	                <td>
@@ -108,7 +107,7 @@
 
               <tr>
                 <td colspan="2" class="total-line"  scope="row">&nbsp;</td>
-                <td class="total-line">$1000.00</td>
+                <td class="total-line"><strong> Total: $${KualiForm.document.currencyFormattedTotalSubcontractorAmount}</strong><html:hidden write="false" property="document.totalSubcontractorAmount" /></td>
                 <td class="total-line">&nbsp;</td>
               </tr>
             </table>

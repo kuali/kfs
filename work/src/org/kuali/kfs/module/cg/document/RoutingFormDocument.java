@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/document/RoutingFormDocument.java,v $
  * 
@@ -23,7 +23,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.exceptions.IllegalObjectStateException;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
@@ -101,6 +105,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private Integer otherCostShareNextSequenceNumber;
     private Integer projectDirectorNextSequenceNumber;
     private Integer subcontractorNextSequenceNumber;
+    
+    // monetary attributes
+    private KualiDecimal totalInstitutionCostShareAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalOtherCostShareAmount = KualiDecimal.ZERO;
+    private KualiDecimal totalSubcontractorAmount = KualiDecimal.ZERO;
     
     private Campus proposalPhysicalCampus;
     private RoutingFormStatus proposalStatus;
@@ -1469,14 +1478,53 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormInstitutionCostShares = routingFormInstitutionCostShares;
     }
 
-    public void addRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare routingFormInstitutionCostShare) {
-        getRoutingFormInstitutionCostShares().add(routingFormInstitutionCostShare);
+    /**
+     * This is a helper method that automatically populates document specfic information into the institution cost share
+     * (RoutingFormInstitutionCostShare) instance.
+     * 
+     * @param routingFormInstitutionCostShare
+     */
+    public final void prepareNewRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare routingFormInstitutionCostShare) {
+        routingFormInstitutionCostShare.setResearchDocumentNumber(this.getResearchDocumentNumber());
     }
 
+    /**
+     * 
+     * This method...
+     * @param routingFormInstitutionCostShare
+     */
+    public void addRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare routingFormInstitutionCostShare) {
+        getRoutingFormInstitutionCostShares().add(routingFormInstitutionCostShare);
+
+        // update the overall amount
+        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.add(new KualiDecimal(routingFormInstitutionCostShare.getProposalCostShareAmount()));
+    }
+
+    /**
+     * This method removes an institution cost share from the list and updates the total appropriately.
+     * 
+     * @param index
+     */
+    public void removeRoutingFormInstitutionCostShare(int index) {
+        RoutingFormInstitutionCostShare routingFormInstitutionCostShare = routingFormInstitutionCostShares.remove(index);
+        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.subtract(new KualiDecimal(routingFormInstitutionCostShare.getProposalCostShareAmount()));
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public List<RoutingFormOtherCostShare> getRoutingFormOtherCostShares() {
         return routingFormOtherCostShares;
     }
 
+    /**
+     * 
+     * This method...
+     * @param index
+     * @return
+     */
     public RoutingFormOtherCostShare getRoutingFormOtherCostShare(int index) {
         while (getRoutingFormOtherCostShares().size() <= index) {
             getRoutingFormOtherCostShares().add(new RoutingFormOtherCostShare());
@@ -1484,18 +1532,62 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         return (RoutingFormOtherCostShare) getRoutingFormOtherCostShares().get(index);
     }
     
+    /**
+     * 
+     * This method...
+     * @param routingFormOtherCostShares
+     */
     public void setRoutingFormOtherCostShares(List<RoutingFormOtherCostShare> routingFormOtherCostShares) {
         this.routingFormOtherCostShares = routingFormOtherCostShares;
     }
 
-    public void addRoutingFormOtherCostShare(RoutingFormOtherCostShare routingFormOtherCostShare) {
-        getRoutingFormOtherCostShares().add(routingFormOtherCostShare);
+    /**
+     * This is a helper method that automatically populates document specfic information into the other cost share
+     * (RoutingFormOtherCostShare) instance.
+     * 
+     * @param routingFormOtherCostShare
+     */
+    public final void prepareNewRoutingFormOtherCostShare(RoutingFormOtherCostShare routingFormOtherCostShare) {
+        routingFormOtherCostShare.setResearchDocumentNumber(this.getResearchDocumentNumber());
     }
 
+    /**
+     * 
+     * This method...
+     * @param routingFormOtherCostShare
+     */
+    public void addRoutingFormOtherCostShare(RoutingFormOtherCostShare routingFormOtherCostShare) {
+        getRoutingFormOtherCostShares().add(routingFormOtherCostShare);
+
+        // update the overall amount
+        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.add(new KualiDecimal(routingFormOtherCostShare.getProposalCostShareAmount()));
+    }
+
+    /**
+     * This method removes an other cost share from the list and updates the total appropriately.
+     * 
+     * @param index
+     */
+    public void removeRoutingFormOtherCostShare(int index) {
+        RoutingFormOtherCostShare routingFormOtherCostShare = routingFormOtherCostShares.remove(index);
+        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.subtract(new KualiDecimal(routingFormOtherCostShare.getProposalCostShareAmount()));
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public List<RoutingFormSubcontractor> getRoutingFormSubcontractors() {
         return routingFormSubcontractors;
     }
 
+    /**
+     * 
+     * This method...
+     * @param index
+     * @return
+     */
     public RoutingFormSubcontractor getRoutingFormSubcontractor(int index) {
         while (getRoutingFormSubcontractors().size() <= index) {
             getRoutingFormSubcontractors().add(new RoutingFormSubcontractor());
@@ -1503,12 +1595,126 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         return (RoutingFormSubcontractor) getRoutingFormSubcontractors().get(index);
     }
     
+    /**
+     * 
+     * This method...
+     * @param routingFormSubcontractors
+     */
     public void setRoutingFormSubcontractors(List<RoutingFormSubcontractor> routingFormSubcontractors) {
         this.routingFormSubcontractors = routingFormSubcontractors;
     }
 
+    /**
+     * This is a helper method that automatically populates document specfic information into the subcontractor
+     * (RoutingFormSubcontractor) instance.
+     * 
+     * @param routingFormSubcontractor
+     */
+    public final void prepareNewRoutingFormSubcontractor(RoutingFormSubcontractor routingFormSubcontractor) {
+        routingFormSubcontractor.setResearchDocumentNumber(this.getResearchDocumentNumber());
+    }
+
+    /**
+     * 
+     * This method...
+     * @param routingFormSubcontractor
+     */
     public void addRoutingFormSubcontractor(RoutingFormSubcontractor routingFormSubcontractor) {
         getRoutingFormSubcontractors().add(routingFormSubcontractor);
+
+        // update the overall amount
+        this.totalSubcontractorAmount = this.totalSubcontractorAmount.add(new KualiDecimal(routingFormSubcontractor.getProposalSubcontractorAmount()));
+    }
+
+    /**
+     * This method removes a subcontractor from the list and updates the total appropriately.
+     * 
+     * @param index
+     */
+    public void removeRoutingFormSubcontractor(int index) {
+        RoutingFormSubcontractor routingFormSubcontractor = routingFormSubcontractors.remove(index);
+        this.totalSubcontractorAmount = this.totalSubcontractorAmount.subtract(new KualiDecimal(routingFormSubcontractor.getProposalSubcontractorAmount()));
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public KualiDecimal getTotalInstitutionCostShareAmount() {
+        return totalInstitutionCostShareAmount;
+    }
+
+    /**
+     * This method returns the institution total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalInstitutionCostShareAmount() {
+        return (String) new CurrencyFormatter().format(totalInstitutionCostShareAmount);
+    }
+
+    /**
+     * 
+     * This method...
+     * @param totalInstitutionCostShareAmount
+     */
+    public void setTotalInstitutionCostShareAmount(KualiDecimal totalInstitutionCostShareAmount) {
+        this.totalInstitutionCostShareAmount = totalInstitutionCostShareAmount;
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public KualiDecimal getTotalOtherCostShareAmount() {
+        return totalOtherCostShareAmount;
+    }
+
+    /**
+     * This method returns the other cost share total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalOtherCostShareAmount() {
+        return (String) new CurrencyFormatter().format(totalOtherCostShareAmount);
+    }
+
+    /**
+     * 
+     * This method...
+     * @param totalOtherCostShareAmount
+     */
+    public void setTotalOtherCostShareAmount(KualiDecimal totalOtherCostShareAmount) {
+        this.totalOtherCostShareAmount = totalOtherCostShareAmount;
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public KualiDecimal getTotalSubcontractorAmount() {
+        return totalSubcontractorAmount;
+    }
+
+    /**
+     * This method returns the subcontractor total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalSubcontractorAmount() {
+        return (String) new CurrencyFormatter().format(totalSubcontractorAmount);
+    }
+
+    /**
+     * 
+     * This method...
+     * @param totalSubcontractorAmount
+     */
+    public void setTotalSubcontractorAmount(KualiDecimal totalSubcontractorAmount) {
+        this.totalSubcontractorAmount = totalSubcontractorAmount;
     }
 
 }

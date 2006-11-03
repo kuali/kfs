@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -58,7 +58,11 @@ import org.w3c.dom.Element;
  */
 public class BudgetXml {
 
-    private static String TO_BE_NAMED;
+    // The following field is hard coded as checks in nih-2590, nih-398, nih-modular, and NSFSummaryProposalBudget. Hence if
+    // this field name is changed, the XLTs have to be updated. This also prevents us from using the more elegant:
+    // SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "toBeNamedLabel");
+    private static final String TO_BE_NAMED = "To Be Named";
+    
     private static final String OUTPUT_PERCENT_SYMBOL = "%";
 
     /**
@@ -71,8 +75,6 @@ public class BudgetXml {
      */
     public static void makeXml(BudgetDocument budgetDoc, Document xmlDoc, String baseUrl, String param) throws Exception {
         Budget budget = budgetDoc.getBudget();
-
-        TO_BE_NAMED = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraDevelopmentGroup", "toBeNamedLabel");
 
         // Initialize data needed. This is data true for the budget as global. There is some data in createTaskPeriodsElement
         // that is only true for a certain task / period.

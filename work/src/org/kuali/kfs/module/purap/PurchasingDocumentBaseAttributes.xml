@@ -111,6 +111,7 @@
 <attributeReference name="billingName" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingName">
     <label>Address</label>
     <shortLabel>Name</shortLabel>
+    
     <summary>billingName</summary>
     <description>billingName description...</description>
 </attributeReference>
@@ -118,6 +119,7 @@
 <attributeReference name="billingPhoneNumber" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPhoneNumber">
     <label>Billing Phone Number</label>
     <shortLabel>Number</shortLabel>
+    
     <summary>billingPhoneNumber</summary>
     <description>billingPhoneNumber description...</description>
 </attributeReference>
@@ -125,6 +127,7 @@
 <attributeReference name="billingPostalCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPostalCode">
     <label>Billing Postal Code</label>
     <shortLabel>Code</shortLabel>
+    
     <summary>billingPostalCode</summary>
     <description>billingPostalCode description...</description>
 </attributeReference>
@@ -132,31 +135,23 @@
 <attributeReference name="billingStateCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingStateCode">
     <label>Billing State Code</label>
     <shortLabel>Code</shortLabel>
+    
     <summary>billingStateCode</summary>
     <description>billingStateCode description...</description>
 </attributeReference>
 
-<attribute name="chartOfAccountsCode" forceUppercase="true">
+<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Chart</label>
     <shortLabel>Code</shortLabel>
 
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-    <required>true</required>
-
-    <control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SimpleChartValuesFinder" />
-    </control>
-
     <summary>chartOfAccountsCode</summary>
     <description>chartOfAccountsCode description...</description>
-</attribute>
+</attributeReference>
 
 <attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.purap.bo.ContractManager" sourceAttributeName="contractManagerCode">
     <label>Contract Manager</label>
     <shortLabel>Contract Manager</shortLabel>
+    
      <summary>contractManagerCode</summary>
     <description>contractManagerCode description...</description>
 </attributeReference>
@@ -229,23 +224,13 @@
     <description>deliveryBuildingRoomNumber description...</description>
 </attribute>
 
-<attribute name="deliveryCampusCode" forceUppercase="true">
+<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.chart.bo.Campus" sourceAttributeName="campusCode">
     <label>Delivery Campus</label>
     <shortLabel>Del. Campus</shortLabel>
-
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-    <required>true</required>
-
-    <control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
-    </control>
-
+    
     <summary>deliveryCampusCode</summary>
     <description>deliveryCampusCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="deliveryCityName" forceUppercase="true">
     <label>City</label>
@@ -323,22 +308,13 @@
     <description>deliveryRequiredDate description...</description>
 </attributeReference>
 
-<attribute name="deliveryRequiredDateReasonCode" forceUppercase="true">
+
+<attributeReference name="deliveryRequiredDateReasonCode" sourceClassName="org.kuali.module.purap.bo.DeliveryRequiredDateReason" sourceAttributeName="deliveryRequiredDateReasonCode">
     <label>Required Date Reason</label>
     <shortLabel>Date Reason</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.DateRequiredReasonValuesFinder"/>
-    </control>
-
     <summary>deliveryRequiredDateReasonCode</summary>
     <description>deliveryRequiredDateReasonCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="deliveryStateCode" forceUppercase="true">
     <label>State</label>
@@ -422,22 +398,12 @@
     <description>externalOrganizationB2bSupplierIdentifier description...</description>
 </attribute>
 
-<attribute name="fundingSourceCode" forceUppercase="true">
+<attributeReference name="fundingSourceCode" sourceClassName="org.kuali.module.purap.bo.FundingSource" sourceAttributeName="fundingSourceCode">
     <label>Funding Source</label>
     <shortLabel>Funding Source</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FundingSourceValuesFinder" />
-    </control>
-
     <summary>fundingSourceCode</summary>
     <description>fundingSourceCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="institutionContactEmailAddress" forceUppercase="true">
     <label>Contact Email</label>
@@ -484,91 +450,37 @@
     <description>institutionContactPhoneNumber description...</description>
 </attribute>
 
-<attribute name="nonInstitutionFundAccountNumber" forceUppercase="true">
+<attributeReference name="nonInstitutionFundAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
     <label>Non Institution Fund Account Number</label>
     <shortLabel>Number</shortLabel>
 
-    <maxLength>7</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="9" />
-    </control>
-
     <summary>nonInstitutionFundAccountNumber</summary>
     <description>nonInstitutionFundAccountNumber description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="nonInstitutionFundChartOfAccountsCode" forceUppercase="true">
+<attributeReference name="nonInstitutionFundChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
 
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="4" />
-    </control>
-
     <summary>nonInstitutionFundChartOfAccountsCode</summary>
     <description>nonInstitutionFundChartOfAccountsCode description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="nonInstitutionFundOrgChartOfAccountsCode" forceUppercase="true">
+<attributeReference name="nonInstitutionFundOrgChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Org Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
 
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="4" />
-    </control>
-
     <summary>nonInstitutionFundOrgChartOfAccountsCode</summary>
     <description>nonInstitutionFundOrgChartOfAccountsCode description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="nonInstitutionFundOrganizationCode" forceUppercase="true">
-    <label>Non Institution Fund Organization Code</label>
-    <shortLabel>Code</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="6" />
-    </control>
-
-    <summary>nonInstitutionFundOrganizationCode</summary>
-    <description>nonInstitutionFundOrganizationCode description...</description>
-</attribute>
-
-<attribute name="organizationCode" forceUppercase="true">
+<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
     <label>Chart/Org</label>
     <shortLabel>Chart/Org</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-    <required>true</required>
-
-    <control>
-        <text size="6" />
-    </control>
-
+    
     <summary>organizationCode</summary>
     <description>organizationCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="purchaseOrderAutomaticIndicator" forceUppercase="true">
     <label>Purchase Order Automatic Indicator</label>
@@ -584,23 +496,12 @@
     <description>purchaseOrderAutomaticIndicator description...</description>
 </attribute>
 
-<attribute name="purchaseOrderCostSourceCode" forceUppercase="true">
+<attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-    <required>true</required>
-
-    <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
-    </control>
-
     <summary>purchaseOrderCostSourceCode</summary>
     <description>purchaseOrderCostSourceCode description...</description>
-</attribute>
+</attributeReference>
 
 <attributeReference name="purchaseOrderBeginDate" 
 		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
@@ -639,40 +540,19 @@
     <description>purchaseOrderTotalLimit description...</description>
 </attribute>
 
-<attribute name="purchaseOrderTransmissionMethodCode" forceUppercase="true">
+<attributeReference name="purchaseOrderTransmissionMethodCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" sourceAttributeName="purchaseOrderTransmissionMethodCode">
     <label>Method of PO Transmission</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-    <required>true</required>
-
-    <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
-    </control>
-
     <summary>purchaseOrderTransmissionMethodCode</summary>
     <description>purchaseOrderTransmissionMethodCode description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="recurringPaymentTypeCode" forceUppercase="true">
+<attributeReference name="recurringPaymentTypeCode" sourceClassName="org.kuali.module.purap.bo.RecurringPaymentType" sourceAttributeName="recurringPaymentTypeCode">
     <label>Type of Recurring Payment</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder" />
-    </control>
-
     <summary>recurringPaymentTypeCode</summary>
     <description>recurringPaymentTypeCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="requestorPersonEmailAddr" forceUppercase="true">
     <label>Requestor Email</label>
@@ -722,23 +602,12 @@
     <description>requestorPersonPhoneNumber description...</description>
 </attribute>
 
-<attribute name="requisitionSourceCode" forceUppercase="true">
+<attributeReference name="requisitionSourceCode" sourceClassName="org.kuali.module.purap.bo.RequisitionSource" sourceAttributeName="requisitionSourceCode">
     <label>Requisition Source Code</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="6" />
-    </control>
-
     <summary>requisitionSourceCode</summary>
     <description>requisitionSourceCode description...</description>
-</attribute>
-
+</attributeReference>
 
 <attribute name="vendorCityName" forceUppercase="true">
     <label>City</label>
@@ -757,22 +626,13 @@
     <description>vendorCityName description...</description>
 </attribute>
 
-<attribute name="vendorContractGeneratedIdentifier" forceUppercase="true">
+<attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.module.purap.bo.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier">
     <label>Contract ID</label>
     <shortLabel>Identifier</shortLabel>
-
-    <maxLength>10</maxLength>
-    <validationPattern>
-        <numeric />
-    </validationPattern>
-
-    <control>
-        <text size="12" />
-    </control>
-
+    
     <summary>vendorContractGeneratedIdentifier</summary>
     <description>vendorContractGeneratedIdentifier description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="vendorCountryCode" forceUppercase="true">
     <label>Country</label>

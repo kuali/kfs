@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/document/web/struts/RoutingFormAction.java,v $
  * 
@@ -24,10 +24,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class RoutingFormAction extends KualiDocumentActionBase {
     
@@ -41,7 +45,14 @@ public class RoutingFormAction extends KualiDocumentActionBase {
     
     public ActionForward researchrisks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.setResearchRiskTypes(SpringServiceLocator.getRoutingFormResearchRiskService().getAllResearchRiskTypes());
+        
+        // Setup research risks if this is the first entry into page.
+        if (routingForm.getRoutingFormDocument().getRoutingFormDocumentResearchRisks().isEmpty()) {
+            routingForm.getRoutingFormDocument().setRoutingFormDocumentResearchRisks(
+                    SpringServiceLocator.getRoutingFormResearchRiskService().getAllRoutingFormDocumentResearchRisks(
+                            routingForm.getRoutingFormDocument().getFinancialDocumentNumber()));
+        }
+        
         return mapping.findForward("researchrisks");
     }
     

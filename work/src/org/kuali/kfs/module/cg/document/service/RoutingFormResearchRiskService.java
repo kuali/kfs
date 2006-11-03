@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/document/service/RoutingFormResearchRiskService.java,v $
  * 
@@ -20,7 +20,8 @@ package org.kuali.module.kra.routingform.service;
 import java.util.List;
 
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormDocumentResearchRiskType;
 
 public interface RoutingFormResearchRiskService {
-    public List<ResearchRiskType> getAllResearchRiskTypes();
+    public List<RoutingFormDocumentResearchRiskType> getAllRoutingFormDocumentResearchRisks(String documentNumber);
 }

@@ -34,11 +34,12 @@ import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
+import org.kuali.module.kra.routingform.bo.RoutingFormDocumentResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
@@ -116,7 +117,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormPurpose proposalPurpose;
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
-    private List<RoutingFormResearchRisk> routingFormResearchRisks;
+    private List<RoutingFormDocumentResearchRiskType> routingFormDocumentResearchRisks;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
     private RoutingFormResearchType researchType;
@@ -130,7 +131,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * Default constructor.
 	 */
 	public RoutingFormDocument() {
-        routingFormResearchRisks = new ArrayList<RoutingFormResearchRisk>();
+        routingFormDocumentResearchRisks = new ArrayList<RoutingFormDocumentResearchRiskType>();
         routingFormKeywords = new ArrayList<RoutingFormKeyword>();
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
@@ -1374,23 +1375,23 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.catalogOfFederalDomesticAssistanceReference = catalogOfFederalDomesticAssistanceReference;
     }
     
-    public List<RoutingFormResearchRisk> getRoutingFormResearchRisks() {
-        return routingFormResearchRisks;
+    public List<RoutingFormDocumentResearchRiskType> getRoutingFormDocumentResearchRisks() {
+        return routingFormDocumentResearchRisks;
     }
 
-    public RoutingFormResearchRisk getRoutingFormResearchRisk(int index) {
-        while (getRoutingFormResearchRisks().size() <= index) {
-            getRoutingFormResearchRisks().add(new RoutingFormResearchRisk());
+    public RoutingFormDocumentResearchRiskType getRoutingFormDocumentResearchRisk(int index) {
+        while (getRoutingFormDocumentResearchRisks().size() <= index) {
+            getRoutingFormDocumentResearchRisks().add(new RoutingFormDocumentResearchRiskType());
         }
-        return (RoutingFormResearchRisk) getRoutingFormResearchRisks().get(index);
+        return (RoutingFormDocumentResearchRiskType) getRoutingFormDocumentResearchRisks().get(index);
     }
     
-    public void setRoutingFormResearchRisks(List<RoutingFormResearchRisk> routingFormResearchRisks) {
-        this.routingFormResearchRisks = routingFormResearchRisks;
+    public void setRoutingFormDocumentResearchRisks(List<RoutingFormDocumentResearchRiskType> routingFormDocumentResearchRisks) {
+        this.routingFormDocumentResearchRisks = routingFormDocumentResearchRisks;
     }
 
-    public void addRoutingFormResearchRisk(RoutingFormResearchRisk routingFormResearchRisk) {
-        getRoutingFormResearchRisks().add(routingFormResearchRisk);
+    public void addRoutingFormDocumentResearchRisk(RoutingFormDocumentResearchRiskType routingFormDocumentResearchRisk) {
+        getRoutingFormDocumentResearchRisks().add(routingFormDocumentResearchRisk);
     }
 
     public RoutingFormBudget getRoutingFormBudget() {

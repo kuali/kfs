@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/document/service/impl/RoutingFormResearchRiskServiceImpl.java,v $
  * 
@@ -17,19 +17,29 @@
  */
 package org.kuali.module.kra.routingform.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormDocumentResearchRiskType;
 import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
 
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
 
     private BusinessObjectService businessObjectService;
     
-    public List<ResearchRiskType> getAllResearchRiskTypes() {
-        
-        List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>)getBusinessObjectService().findAll(ResearchRiskType.class);
+    public List<RoutingFormDocumentResearchRiskType> getAllRoutingFormDocumentResearchRisks(String documentNumber) {
+        List<ResearchRiskType> researchRiskTypes = getAllResearchRiskTypes();
+        List<RoutingFormDocumentResearchRiskType> researchRisks = new ArrayList<RoutingFormDocumentResearchRiskType>();
+        for (ResearchRiskType researchRiskType: researchRiskTypes) {
+            researchRisks.add(new RoutingFormDocumentResearchRiskType(documentNumber, researchRiskType));
+        }
+        return researchRisks;
+    }
+    
+    private List<ResearchRiskType> getAllResearchRiskTypes() {
+        List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>) getBusinessObjectService().findAll(ResearchRiskType.class);
         return researchRiskTypes;
     }
 
@@ -40,5 +50,4 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 }

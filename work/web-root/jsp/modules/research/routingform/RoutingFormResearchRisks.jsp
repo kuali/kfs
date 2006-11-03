@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/web-root/jsp/modules/research/routingform/RoutingFormResearchRisks.jsp,v $
  
@@ -43,12 +43,16 @@
 			</td>
 			<td>
 				<div id="workarea">
+				
+				<kra-rf:routingFormResearchRisks/>
 
+<%-- %>
 					<kra-rf:routingFormResearchRisksMultiLine>
 					</kra-rf:routingFormResearchRisksMultiLine>
 
 					<kra-rf:routingFormResearchRisksDescrption>
 					</kra-rf:routingFormResearchRisksDescrption>
+					--%>
 
 				</div>
 			</td>

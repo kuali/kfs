@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -82,7 +82,7 @@
                           <label for="newPersonnelType.ToBeNamed">name later</label>
 						            </td>
 						            <th class="grid">
-						              <div align="right">Role:</div>
+						              <div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetUser.attributes.role}" skipHelpUrl="true" /></div>
 						            </th>
 						            <td class="grid">
 						              <kul:htmlControlAttribute property="newPersonnel.role" attributeEntry="${budgetPersonnelAttributes.role}"/>

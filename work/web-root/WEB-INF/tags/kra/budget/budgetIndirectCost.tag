@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -64,7 +64,7 @@
 <!--  Top part of IDC form.  This contains metadata for all indirect costs attached to the current budget. -->
           <table cellpadding="0" cellspacing="0" class="datatable" summary="">
             <tr>
-              <th width="20%" align="right"  >Primary Purpose:</th>
+              <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetPurposeCode}" skipHelpUrl="true" /></th>
 
               <td width="30%"   >
               	<kul:htmlControlAttribute property="document.budget.indirectCost.budgetPurposeCode" attributeEntry="${budgetIndirectCostAttributes.budgetPurposeCode}" readOnly="${viewOnly}"/>
@@ -80,12 +80,12 @@
 
               <td width="30%" rowspan="2"   >
                 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetIndirectCostCostShareIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetIndirectCostCostShareIndicator}" disabled="${!KualiForm.document.budget.institutionCostShareIndicator}" readOnly="${viewOnly}"/>
-                Include Indirect Cost<br/>
+                Include <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetIndirectCostCostShareIndicator}" skipHelpUrl="true" noColon="true" /><br/>
                 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetUnrecoveredIndirectCostIndicator}" disabled="${!KualiForm.document.budget.institutionCostShareIndicator}" readOnly="${viewOnly}"/>
-                Include Unrecovered Indirect Cost</td>
+                Include <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetUnrecoveredIndirectCostIndicator}" skipHelpUrl="true" noColon="true" /></td>
             </tr>
             <tr>
-              <th width="20%" align="right"  >Current Base Indicator:</th>
+              <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetBaseCode}" skipHelpUrl="true" /></th>
 
               <td width="30%" >
               	<kul:htmlControlAttribute property="document.budget.indirectCost.budgetBaseCode" attributeEntry="${budgetIndirectCostAttributes.budgetBaseCode}" readOnly="${viewOnly}"/>
@@ -93,12 +93,12 @@
             </tr>
 
             <tr>
-              <th width="20%" align="right"  >Indirect Cost Rate Source:</th>
+              <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetManualRateIndicator}" skipHelpUrl="true" /></th>
               <td width="30%" >
                 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetManualRateIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetManualRateIndicator}" readOnly="${viewOnly}"/>
               </td>
 
-              <th width="20%" align="right"  >Justification for manual values:</th>
+              <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetIndirectCostJustificationText}" skipHelpUrl="true" /></th>
               <td width="30%" >
               <kul:htmlControlAttribute property="document.budget.indirectCost.budgetIndirectCostJustificationText" attributeEntry="${budgetIndirectCostAttributes.budgetIndirectCostJustificationText}" readOnly="${viewOnly}"/>
               </td>
@@ -133,7 +133,7 @@
               <th width="7%" align="center" >Base </th>
               <th width="7%" align="center" >ICR</th>
               <th width="7%" align="center" >Calculated Indirect Cost </th>
-              <th width="7%" align="center" >Unrecovered Indirect Cost </th>
+              <th width="7%" align="center" ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetUnrecoveredIndirectCostIndicator}" skipHelpUrl="true" noColon="true" /></th>
             </tr>
          
 <!--  Begin iterating over tasks.  For each task, iterate over associated periods.  -->

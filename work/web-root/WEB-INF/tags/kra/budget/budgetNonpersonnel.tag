@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -82,12 +82,12 @@
               <table class="datatable" align="center" cellpadding="0" cellspacing="0">
                 <tbody>
                 <tr>
-                  <th class="bord-l-b"><div align="left">Sub-category</div></th>
-                  <th class="bord-l-b"><div align="left">Description</div></th>
+                  <th class="bord-l-b"><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelSubCategoryCode}" skipHelpUrl="true" noColon="true" /></div></th>
+                  <th class="bord-l-b"><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelDescription}" skipHelpUrl="true" noColon="true" /></div></th>
                   <c:if test="${! viewOnly }"><th class="bord-l-b"><div align="center">Copy to Future Periods </div></th></c:if>
-                  <th class="bord-l-b"><div align="center">Agency Amount Requested </div></th>
-                  <th class="bord-l-b"><div align="center">Institution Cost Share</div></th>
-                  <th class="bord-l-b"><div align="center">3rd Party Cost Share</div></th>
+                  <th class="bord-l-b"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.agencyRequestAmount}" skipHelpUrl="true" noColon="true" /></div></th>
+                  <th class="bord-l-b"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetInstitutionCostShareAmount}" skipHelpUrl="true" noColon="true" /></div></th>
+                  <th class="bord-l-b"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetThirdPartyCostShareAmount}" skipHelpUrl="true" noColon="true" /></div></th>
                   <c:if test="${! viewOnly }"><th class="bord-l-b"><div align="center">Actions</div></th></c:if>
                 </tr>
 

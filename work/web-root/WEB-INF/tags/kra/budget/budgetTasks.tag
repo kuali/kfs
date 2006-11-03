@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -45,9 +45,9 @@
   <!-- Column headers -->
   <tr>
     <th width="2%" scope="row">&nbsp;</th>
-    <th><div align="left">* Task Name </div></th>
-    <th width="5%"><div align="center"> Occurs On Campus</div></th>
-    <th width="5%"><div align="center"> Includes Modular Variance </div></th>
+    <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" noColon="true" /></div></th>
+    <th width="5%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskOnCampus}" skipHelpUrl="true" noColon="true" /></div></th>
+    <th width="5%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetModular.attributes.budgetModularTaskNumber}" skipHelpUrl="true" noColon="true" /></div></th>
     <c:if test="${not viewOnly}"><th width="2%">Action</th></c:if>
   </tr>
   <!-- Default add line for additional tasks

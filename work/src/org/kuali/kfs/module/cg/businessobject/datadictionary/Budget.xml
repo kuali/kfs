@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -190,8 +190,8 @@
             </attribute>
 
             <attribute name="budgetTypeCodeText" forceUppercase="true">
-                <label>Budget Type Code</label>
-                <shortLabel>Budget Type Code</shortLabel>
+                <label>Budget Type</label>
+                <shortLabel>Code</shortLabel>
 
                 <maxLength>40</maxLength>
                 <validationPattern>
@@ -247,8 +247,8 @@
             </attribute>
 
             <attribute name="budgetFringeRateDescription" forceUppercase="true">
-                <label>Fringe Rate Description</label>
-                <shortLabel>Fringe Rate</shortLabel>
+                <label>Benefit Rate Change Justification</label>
+                <shortLabel>Description</shortLabel>
 
                 <maxLength>250</maxLength>
                 <validationPattern>
@@ -259,8 +259,8 @@
                     <textarea rows="5" cols="50" />
                 </control>
 
-                <summary>Fringe Rate Description</summary>
-                <description>Fringe Rate Description</description>
+                <summary>Benefit Rate Change Justification</summary>
+                <description>Benefit Rate Change Justification...</description>
             </attribute>
 
             <attribute name="routeSheetTrackNumber" forceUppercase="true">

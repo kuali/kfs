@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -44,7 +44,7 @@
   </tr>
 
   <tr>
-    <th><div align="left">Position (Code)</div></th>
+    <th><div align="left">Position (<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetGraduateAssistantRate.attributes.campusCode}" useShortLabel="true" skipHelpUrl="true" noColon="true"/>)</div></th>
     <th>System Rate</th>
     <th>* Current Rate</th>
   </tr>

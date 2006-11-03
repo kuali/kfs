@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -276,7 +276,7 @@
 					</th>
 					<th class="bord-l-b">
 						<div align="right">
-							Source:
+							<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareSourceName}" skipHelpUrl="true" />
 						</div>
 					</th>
 
@@ -308,7 +308,7 @@
 				<tr>
 					<th class="bord-l-b">
 						<div align="right">
-							Description:
+							<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareDescription}" skipHelpUrl="true" />
 						</div>
 					</th>
 					<td colspan="${KualiForm.document.periodListSize+2}" class="infoline">
@@ -328,7 +328,7 @@
 						</th>
 						<th class="bord-l-b">
 							<div align="right">
-								Source:
+								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareSourceName}" skipHelpUrl="true" />
 							</div>
 						</th>
 
@@ -363,7 +363,7 @@
 					<tr>
 						<th class="datacell">
 							<div align="right">
-								Description:
+								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetThirdPartyCostShare.attributes.budgetCostShareDescription}" skipHelpUrl="true" />
 							</div>
 						</th>
 						<td colspan="${KualiForm.document.periodListSize+2}" class="datacell">

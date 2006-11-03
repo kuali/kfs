@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -118,7 +118,7 @@
               <td class="annotate-t"><div align="right"><img src="images/annotate-tr1.gif" alt="" align="middle" height="24" width="12"></div></td>
             </tr>
           </tbody></table>
-          <div class="annotate-container"> Task:
+          <div class="annotate-container"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
             <html:hidden property="currentTaskNumber" value="${KualiForm.currentTaskNumber}" /> <!-- Necessary because drop down is disabled. -->
             <html:hidden property="previousTaskNumber" value="${KualiForm.currentTaskNumber}" />
             <html:select property="currentTaskNumber" disabled="true">
@@ -130,7 +130,7 @@
             <html:hidden property="currentPeriodNumber" value="${KualiForm.currentPeriodNumber}" /> <!-- Necessary because drop down is disabled. -->
             <html:hidden property="previousPeriodNumber" value="${KualiForm.currentPeriodNumber}" />
 
-&nbsp;&nbsp; Category:
+&nbsp;&nbsp; <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelCategoryCode}" skipHelpUrl="true" readOnly="true" />
   			    <c:set var="budgetNonpersonnelCategories" value="${KualiForm.nonpersonnelCategories}"/>
             <html:select property="currentNonpersonnelCategoryCode" >
               <html:options collection="budgetNonpersonnelCategories" property="code" labelProperty="name"/>

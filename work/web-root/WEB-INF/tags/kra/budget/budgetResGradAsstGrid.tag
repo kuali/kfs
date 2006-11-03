@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -47,13 +47,13 @@
 
               </tr>
               <tr>
-                <th class="bord-l-b"> Effort </th>
-                <th class="bord-l-b"> Salary</th>
-                <th class="bord-l-b"> Health Insurance</th>
-                <th class="bord-l-b"> Effort  </th>
+                <th class="bord-l-b"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.agencyFullTimeEquivalentPercent}" useShortLabel="true" skipHelpUrl="true" noColon="true" /> </th>
+                <th class="bord-l-b"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.agencySalaryAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /> </th>
+                <th class="bord-l-b"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.agencyHealthInsuranceAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
+                <th class="bord-l-b"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.institutionFullTimeEquivalentPercent}" useShortLabel="true" skipHelpUrl="true" noColon="true" /> </th>
 
-                <th class="bord-l-b"> Salary</th>
-                <th class="bord-l-b"> Health Insurance</th>
+                <th class="bord-l-b"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.institutionSalaryAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
+                <th class="bord-l-b"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.institutionHealthInsuranceAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
               </tr>
               
               <logic:iterate id="userAppointmentTask" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTasks" indexId="userAppointmentTaskIndex">
@@ -159,13 +159,13 @@
 
                 <tr>
                   <th class="bord-l-b"> Period </th>
-                  <th class="bord-l-b">Credit Hours</th>
-                  <th colspan="2" class="bord-l-b">$ Per Credit Hour</th>
-                  <th colspan="2" class="bord-l-b">Miscellaneous Fees</th>
+                  <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.userCreditHoursNumber}" skipHelpUrl="true" noColon="true" /></th>
+                  <th colspan="2" class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.userCreditHourAmount}" skipHelpUrl="true" noColon="true" /></th>
+                  <th colspan="2" class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.userMiscellaneousFeeAmount}" skipHelpUrl="true" noColon="true" /></th>
   
                   <th colspan="2" class="bord-l-b">Total Fee Remissions</th>
-                  <th class="bord-l-b">Agency Amount Requested</th>
-                  <th class="bord-l-b">Institution Cost Share</th>
+                  <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.agencyRequestedFeesAmount}" skipHelpUrl="true" noColon="true" /></th>
+                  <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.institutionRequestedFeesAmount}" skipHelpUrl="true" noColon="true" /></th>
                 </tr>
 
                 <logic:iterate id="userAppointmentTaskPeriod" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriods" indexId="userAppointmentTaskPeriodIndex">

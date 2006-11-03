@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -126,7 +126,7 @@
   </tr>
   
   <tr>
-    <th scope="row" ><div align="right">* Budget Type:</div></th>
+    <th scope="row" ><div align="right">* <kul:htmlAttributeLabel attributeEntry="${budgetAttributes.budgetTypeCodeText}" skipHelpUrl="true" /></div></th>
     <td>
     	<logic:iterate id="budgetType" name="KualiForm" property="budgetTypeCodes" indexId="i"> 
     		<html:hidden property="budgetTypeCode[${i}].budgetTypeCode" /> 

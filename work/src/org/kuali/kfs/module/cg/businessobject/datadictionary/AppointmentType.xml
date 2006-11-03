@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -69,7 +69,7 @@
 
             <attribute name="appointmentTypeCode" forceUppercase="true">
                 <label>Appointment Type Code</label>
-                <shortLabel>Appointment Type</shortLabel>
+                <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>
@@ -85,7 +85,7 @@
             </attribute>
 
             <attribute name="appointmentTypeDescription" forceUppercase="false">
-                <label>Appointment Type Description</label>
+                <label>Position</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>

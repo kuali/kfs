@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -55,8 +55,8 @@
             </attribute>
 
             <attribute name="budgetPeriodBeginDate" forceUppercase="false">
-                <label>Budget period begin date</label>
-                <shortLabel>Bdgt. Pd. Beg. Date.</shortLabel>
+                <label>from</label>
+                <shortLabel>Date</shortLabel>
 
                 <maxLength>10</maxLength>
 
@@ -72,8 +72,8 @@
             </attribute>
 
             <attribute name="budgetPeriodEndDate" forceUppercase="false">
-                <label>Budget period end date</label>
-                <shortLabel>Bdgt. Pd. End Date.</shortLabel>
+                <label>to</label>
+                <shortLabel>Date</shortLabel>
 
                 <maxLength>10</maxLength>
 
@@ -89,8 +89,8 @@
             </attribute>
 
             <attribute name="budgetPeriodParticipantsNumber" forceUppercase="false">
-                <label>Budget Period Participants Number</label>
-                <shortLabel>Period Participants No.</shortLabel>
+                <label>Number of Participants/Trainees</label>
+                <shortLabel>Number</shortLabel>
 
                 <maxLength>3</maxLength>
 

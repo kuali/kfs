@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -34,7 +34,7 @@
               <td class="annotate-t"><div align="right"><img src="images/annotate-tr1.gif" alt="" align="middle" height="24" width="12"></div></td>
             </tr>
           </tbody></table>
-          <div class="annotate-container"> Task:
+          <div class="annotate-container"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetTask.attributes.budgetTaskName}" skipHelpUrl="true" readOnly="true" />
             <html:hidden property="previousTaskNumber" value="${KualiForm.currentTaskNumber}" />
             <html:select property="currentTaskNumber">
               <c:set var="budgetTasks" value="${KualiForm.budgetDocument.budget.tasks}"/>

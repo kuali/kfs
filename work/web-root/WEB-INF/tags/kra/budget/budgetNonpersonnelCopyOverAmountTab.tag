@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -39,8 +39,8 @@
                 <td colspan="99" class="subhead">Agency Amount Requested </td>
               </tr>
               <tr>
-                <th class="bord-l-b">Sub-category</th>
-                <th class="bord-l-b">Description</th>
+                <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelSubCategoryCode}" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
+                <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelDescription}" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
                 <c:forEach items="${KualiForm.document.budget.periods}" var="period" varStatus="status">
 	                <th colspan="2" class="bord-l-b" align="center"> ${status.index + 1} </th>
                 </c:forEach>

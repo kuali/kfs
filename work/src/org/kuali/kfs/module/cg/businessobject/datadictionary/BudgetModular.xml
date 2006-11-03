@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -49,6 +49,20 @@
 
                 <summary>Doc Header ID</summary>
                 <description>Doc Header ID</description>
+            </attribute>
+
+            <attribute name="budgetModularTaskNumber" forceUppercase="true">
+                <label>Includes Modular Variance</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Budget Modular Task Number</summary>
+                <description>Budget Modular Task Number...</description>
             </attribute>
 
             <attribute name="budgetModularPersonnelDescription" forceUppercase="true">

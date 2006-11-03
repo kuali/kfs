@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/InstitutionCostSharePersonnel.xml,v $
  
@@ -51,8 +51,8 @@
             </attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Code</label>
-                <shortLabel>Chart</shortLabel>
+                <label>Source</label>
+                <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>
@@ -70,8 +70,8 @@
             </attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Organization Code</shortLabel>
+                <label>Source</label>
+                <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern>

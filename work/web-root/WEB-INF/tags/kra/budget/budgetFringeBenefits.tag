@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -33,7 +33,7 @@
   </span><span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClass}" altText="help"/></span> </div>
 <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   <tr>
-    <th rowspan="2"><div align="left">Position (Code) </div></th>
+    <th rowspan="2"><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.AppointmentType.attributes.appointmentTypeDescription}" skipHelpUrl="true" noColon="true" /> (<kul:htmlAttributeLabel attributeEntry="${DataDictionary.AppointmentType.attributes.appointmentTypeCode}" useShortLabel="true" skipHelpUrl="true" noColon="true" />) </div></th>
     <td colspan="2" class="tab-subhead"><div align="center">Contracts &amp; Grants</div></td>
     <th width="20" rowspan="2">&nbsp;</th>
     <td colspan="2" class="tab-subhead"><div align="center">Cost Share</div></td>

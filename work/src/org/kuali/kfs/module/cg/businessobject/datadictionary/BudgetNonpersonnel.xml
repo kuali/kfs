@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -27,7 +27,8 @@
 
         <attributes>
             <attribute name="budgetNonpersonnelCategoryCode" forceUppercase="true">
-                <label>Category Code</label>
+                <label>Category</label>
+                <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
                 <required>true</required>
                 <control>
@@ -38,8 +39,8 @@
             </attribute>
             
             <attribute name="budgetNonpersonnelSubCategoryCode" forceUppercase="true">
-                <label>Sub-category code</label>
-                <shortLabel>Sub-category</shortLabel>
+                <label>Sub-category</label>
+                <shortLabel>Code</shortLabel>
                 
                 <maxLength>3</maxLength>
                 <required>true</required>
@@ -69,7 +70,7 @@
             </attribute>
 
             <attribute name="budgetNonpersonnelDescription" forceUppercase="true">
-                <label>Nonpersonnel Description</label>
+                <label>Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>50</maxLength>

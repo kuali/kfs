@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -95,8 +95,8 @@
             </attribute>
 
             <attribute name="budgetTaskOnCampus" forceUppercase="false">
-                <label>Budget Task On Campus?</label>
-                <shortLabel>Budget Task On Campus?</shortLabel>
+                <label>Occurs On Campus</label>
+                <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern>
@@ -113,8 +113,8 @@
 
 
             <attribute name="budgetTaskName" forceUppercase="false">
-                <label>Budget Task Name</label>
-                <shortLabel>Task Name</shortLabel>
+                <label>Task</label>
+                <shortLabel>Name</shortLabel>
 
                 <maxLength>50</maxLength>
                 <validationPattern>

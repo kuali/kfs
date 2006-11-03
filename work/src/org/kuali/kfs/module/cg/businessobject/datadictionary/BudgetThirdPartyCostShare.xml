@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -85,8 +85,8 @@
             </attribute>
 
             <attribute name="budgetCostShareSourceName" forceUppercase="true">
-                <label>Description</label>
-                <shortLabel>Description</shortLabel>
+                <label>Source</label>
+                <shortLabel>Name</shortLabel>
 
                 <maxLength>50</maxLength>
                 <validationPattern>

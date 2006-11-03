@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -43,8 +43,8 @@
 
               <tr>
                 <th rowspan="2"><b>Period</b></th>
-                <th rowspan="2"># of<br>Weeks</th>
-                <th rowspan="2"> Prd Salary </th>
+                <th rowspan="2"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.personWeeksAmount}" skipHelpUrl="true" noColon="true" /></th>
+                <th rowspan="2"> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.userBudgetPeriodSalaryAmount}" skipHelpUrl="true" noColon="true" /> </th>
                 <td colspan="4" class="tab-subhead"><div align="center"><b>Agency Amount Requested</b> </div></td>
                 <td colspan="4" class="tab-subhead"><div align="center"><b>Institution CS</b></div></td>
                 <th rowspan="2"><b>Total Effort </b></th>
@@ -53,14 +53,16 @@
               </tr>
 
               <tr>
-                <th> Effort </th>
-                <th> Salary </th>
-                <th> C&amp;G Fringe Rate </th>
-                <th> Fringe Benefits </th>
-                <th> Effort </th>
-                <th> Salary</th>
-                <th> Fringe Rate</th>
-                <th> Fringe Benefits</th>
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.agencyPercentEffortAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" /> </th>
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.agencySalaryAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /> </th>
+
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetFringeRate.attributes.contractsAndGrantsFringeRateAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /> </th>
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.agencyFringeBenefitTotalAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /> </th>
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.institutionCostSharePercentEffortAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" /> </th>
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.institutionSalaryAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
+
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetFringeRate.attributes.institutionCostShareFringeRateAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
+                <th> <kul:htmlAttributeLabel attributeEntry="${DataDictionary.UserAppointmentTaskPeriod.attributes.institutionCostShareFringeBenefitTotalAmount}" useShortLabel="true" skipHelpUrl="true" noColon="true" readOnly="true" /></th>
               </tr>
 
               <logic:iterate id="userAppointmentTask" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTasks" indexId="userAppointmentTaskIndex">

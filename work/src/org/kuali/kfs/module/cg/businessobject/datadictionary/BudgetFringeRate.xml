@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -97,7 +97,7 @@
 
             <attribute name="contractsAndGrantsFringeRateAmount" forceUppercase="false">
                 <label>Contract and Grants Fringe Rate Amount</label>
-                <shortLabel>CG Fringe Rate</shortLabel>
+                <shortLabel>C&amp;G Fringe Rate</shortLabel>
 
                 <maxLength>8</maxLength>
                 <validationPattern>
@@ -116,7 +116,7 @@
 
             <attribute name="institutionCostShareFringeRateAmount" forceUppercase="false">
                 <label>Cost Share Fringe Rate Amount</label>
-                <shortLabel>Cost Share</shortLabel>
+                <shortLabel>Fringe Rate</shortLabel>
 
                 <maxLength>8</maxLength>
                 <validationPattern>

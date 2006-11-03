@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -78,7 +78,8 @@
             </attribute>
 
             <attribute name="budgetBaseCode">
-                <label>Budget Base Code</label>
+                <label>Current Base Indicator</label>
+                <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
                     <select valuesFinderClass="org.kuali.module.kra.budget.lookup.keyvalues.BudgetBaseCodeValuesFinder" />
@@ -88,7 +89,8 @@
             </attribute>
 
             <attribute name="budgetIndirectCostCostShareIndicator">
-                <label>Indirect Cost Share Indicator</label>
+                <label>Indirect Cost</label>
+                <shortLabel>Indicator</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
                     <checkbox />
@@ -98,7 +100,8 @@
             </attribute>
 
             <attribute name="budgetUnrecoveredIndirectCostIndicator">
-                <label>Unrecovered Indirect Cost Indicator</label>
+                <label>Unrecovered Indirect Cost</label>
+                <shortLabel>Indicator</shortLabel>
                 <maxLength>3</maxLength>
                 <control>
                     <checkbox />
@@ -108,7 +111,8 @@
             </attribute>
 
             <attribute name="budgetIndirectCostJustificationText">
-                <label>Indirect Cost Justification</label>
+                <label>Justification for manual values</label>
+                <shortLabel>Text</shortLabel>
                 <maxLength>255</maxLength>
                 <control>
                     <text size="30" />
@@ -128,7 +132,8 @@
             </attribute>
 
             <attribute name="budgetManualRateIndicator">
-                <label>Manual Rate Indicator</label>
+                <label>Indirect Cost Rate Source</label>
+                <shortLabel>Indicator</shortLabel>
                 <maxLength>5</maxLength>
                 <control>
                     <select valuesFinderClass="org.kuali.module.kra.budget.lookup.keyvalues.BudgetManualRateIndicatorValuesFinder" />
@@ -138,7 +143,8 @@
             </attribute>
 
             <attribute name="budgetPurposeCode">
-                <label>Purpose Code</label>
+                <label>Primary Purpose</label>
+                <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
                     <select valuesFinderClass="org.kuali.module.kra.budget.lookup.keyvalues.BudgetPurposeCodeValuesFinder" />

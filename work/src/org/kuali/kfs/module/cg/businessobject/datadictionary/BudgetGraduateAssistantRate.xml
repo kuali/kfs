@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -45,7 +45,7 @@
 
             <attribute name="campusCode" forceUppercase="false">
                 <label>Campus Code</label>
-                <shortLabel>Campus Code</shortLabel>
+                <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern>

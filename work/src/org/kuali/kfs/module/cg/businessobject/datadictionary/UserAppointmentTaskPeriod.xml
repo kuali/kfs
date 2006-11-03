@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -38,6 +38,9 @@
             </attributeReference>
 
             <attributeReference name="userBudgetPeriodSalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Period Salary</label>
+                <shortLabel>Amount</shortLabel>
+            
                 <control>
                     <hidden />
                 </control>
@@ -50,6 +53,8 @@
             </attributeReference>
 
             <attributeReference name="agencyFringeBenefitTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <shortLabel>Fringe Benefits</shortLabel>
+
                 <control>
                     <hidden />
                 </control>
@@ -62,6 +67,8 @@
             </attributeReference>
 
             <attributeReference name="institutionCostShareFringeBenefitTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <shortLabel>Fringe Benefits</shortLabel>
+
                 <control>
                     <hidden />
                 </control>
@@ -69,7 +76,7 @@
 
             <attribute name="agencyPercentEffortAmount">
                 <label>Agency Percent Effort Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Effort</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern>
@@ -86,7 +93,7 @@
 
             <attribute name="institutionCostSharePercentEffortAmount">
                 <label>Institution Percent Effort</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Effort</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern>
@@ -102,7 +109,7 @@
             </attribute>
 
             <attribute name="personWeeksAmount">
-                <label>Number of Weeks</label>
+                <label># of Weeks</label>
                 <shortLabel>Amount</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -119,8 +126,8 @@
             </attribute>
 
             <attribute name="userAgencyHours">
-                <label>Agency Request Number of Hours</label>
-                <shortLabel>Hours</shortLabel>
+                <label>Hours Per Period</label>
+                <shortLabel>Rate</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern>
@@ -136,7 +143,7 @@
             </attribute>
 
             <attribute name="userInstitutionHours">
-                <label>Institution Request Number of Hours</label>
+                <label>Hours Per Period</label>
                 <shortLabel>Hours</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -153,8 +160,8 @@
             </attribute>
 
             <attribute name="userHourlyRate">
-                <label>Hourly Rate</label>
-                <shortLabel>Rate</shortLabel>
+                <label>Hourly Rate ($)</label>
+                <shortLabel>Hours</shortLabel>
 
                 <maxLength>6</maxLength>
                 <validationPattern>
@@ -172,7 +179,7 @@
 
             <attributeReference name="agencyHealthInsuranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Agency Health Insurance Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Health Insurance</shortLabel>
             
                 <control>
                     <text size="8" />
@@ -183,7 +190,7 @@
             </attributeReference>
 
             <attributeReference name="agencyRequestedFeesAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Agency Requested Fees</label>
+                <label>Agency Amount Requested</label>
                 <shortLabel>Amount</shortLabel>
             
                 <control>
@@ -196,7 +203,7 @@
 
             <attributeReference name="agencySalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Agency Salary Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Salary</shortLabel>
             
                 <control>
                     <text size="8" />
@@ -208,7 +215,7 @@
 
             <attributeReference name="institutionHealthInsuranceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Institution Health Insurance Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Health Insurance</shortLabel>
             
                 <control>
                     <text size="8" />
@@ -219,7 +226,7 @@
             </attributeReference>
 
             <attributeReference name="institutionRequestedFeesAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Institution Requested Fees</label>
+                <label>Institution Cost Share</label>
                 <shortLabel>Amount</shortLabel>
             
                 <control>
@@ -232,7 +239,7 @@
 
             <attributeReference name="institutionSalaryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Institution Salary Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Salary</shortLabel>
             
                 <control>
                     <text size="8" />
@@ -243,7 +250,7 @@
             </attributeReference>
 
             <attributeReference name="userCreditHourAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Amount Per Credit Hour</label>
+                <label>$ Per Credit Hour</label>
                 <shortLabel>Amount</shortLabel>
             
                 <control>
@@ -255,7 +262,7 @@
             </attributeReference>
 
             <attributeReference name="userMiscellaneousFeeAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Miscellaneous Fees Amount</label>
+                <label>Miscellaneous Fees</label>
                 <shortLabel>Amount</shortLabel>
             
                 <control>
@@ -302,7 +309,7 @@
             </attribute>
 
             <attribute name="userCreditHoursNumber">
-                <label>Number of Credit Hours</label>
+                <label>Credit Hours</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>2</maxLength>

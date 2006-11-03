@@ -1,5 +1,5 @@
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/PurchasingDocumentBaseAttributes.xml,v $
  
@@ -79,130 +79,62 @@
     <summary>vendorContactsLabel</summary>
     <description>vendorContactsLabel description...</description>
 </attribute>
-<attribute name="billingCityName" forceUppercase="false">
+
+<attributeReference name="billingCityName" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingCityName">
     <label>Billing City Name</label>
     <shortLabel>Name</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>billingCityName</summary>
     <description>billingCityName description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="billingCountryCode" forceUppercase="true">
+<attributeReference name="billingCountryCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingCountryCode">
     <label>Billing Country Code</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryNotRestrictedValuesFinder" />
-    </control>
     <summary>billingCountryCode</summary>
     <description>billingCountryCode description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="billingLine1Address" forceUppercase="false">
+<attributeReference name="billingLine1Address" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingLine1Address">
     <label>Billing Line1 Address</label>
     <shortLabel>Address</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>billingLine1Address</summary>
     <description>billingLine1Address description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="billingLine2Address" forceUppercase="false">
+<attributeReference name="billingLine2Address" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingLine2Address">
     <label>Billing Line2 Address</label>
     <shortLabel>Address</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>billingLine2Address</summary>
     <description>billingLine2Address description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="billingName" forceUppercase="false">
+<attributeReference name="billingName" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingName">
     <label>Address</label>
     <shortLabel>Name</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>billingName</summary>
     <description>billingName description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="billingPhoneNumber" forceUppercase="true">
+<attributeReference name="billingPhoneNumber" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPhoneNumber">
     <label>Billing Phone Number</label>
     <shortLabel>Number</shortLabel>
-
-    <maxLength>20</maxLength>
-    <validationPattern><phoneNumber /></validationPattern>
-
-    <control>
-        <text size="22" />
-    </control>
-
     <summary>billingPhoneNumber</summary>
     <description>billingPhoneNumber description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="billingPostalCode" forceUppercase="true">
+<attributeReference name="billingPostalCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingPostalCode">
     <label>Billing Postal Code</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>20</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="22" />
-    </control>
-
     <summary>billingPostalCode</summary>
     <description>billingPostalCode description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="billingStateCode" forceUppercase="true">
+<attributeReference name="billingStateCode" sourceClassName="org.kuali.module.purap.bo.BillingAddress" sourceAttributeName="billingStateCode">
     <label>Billing State Code</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="4" />
-    </control>
-
     <summary>billingStateCode</summary>
     <description>billingStateCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="chartOfAccountsCode" forceUppercase="true">
     <label>Chart</label>
@@ -222,22 +154,13 @@
     <description>chartOfAccountsCode description...</description>
 </attribute>
 
-<attribute name="contractManagerCode" forceUppercase="true">
+<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.purap.bo.ContractManager" sourceAttributeName="contractManagerCode">
     <label>Contract Manager</label>
     <shortLabel>Contract Manager</shortLabel>
-
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <numeric />
-    </validationPattern>
-
-    <control>
-        <text size="4" />
-    </control>
-
-    <summary>contractManagerCode</summary>
+     <summary>contractManagerCode</summary>
     <description>contractManagerCode description...</description>
-</attribute>
+</attributeReference>
+
 
 <attribute name="deliveryBuildingCode" forceUppercase="true">
     <label>Building Code</label>
@@ -256,36 +179,19 @@
     <description>deliveryBuildingCode description...</description>
 </attribute>
 
-<attribute name="deliveryBuildingLine1Address" forceUppercase="true">
+<attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorLine1Address">
     <label>Address 1</label>
     <shortLabel>Addr. 1</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-    <required>true</required>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>deliveryBuildingLine1Address</summary>
     <description>deliveryBuildingLine1Address description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="deliveryBuildingLine2Address" forceUppercase="true">
+<attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorLine2Address">
     <label>Address 2</label>
     <shortLabel>Addr. 2</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>deliveryBuildingLine2Address</summary>
     <description>deliveryBuildingLine2Address description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="deliveryBuildingName" forceUppercase="true">
     <label>Building</label>

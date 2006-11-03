@@ -54,6 +54,7 @@ public class OrganizationReversion extends BusinessObjectBase {
      */
     public OrganizationReversion() {
         organizations = new TypedArrayList(Org.class);
+        organizationReversionDetail = new TypedArrayList(OrganizationReversionDetail.class);
     }
 
     public List<OrganizationReversionDetail> getOrganizationReversionDetail() {

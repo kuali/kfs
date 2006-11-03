@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/service/impl/RequisitionServiceImpl.java,v $
  * 
@@ -31,6 +31,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
+import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.RequisitionService;
 
@@ -39,7 +40,12 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private RequisitionDao requisitionDao;
 
+    public void save(RequisitionDocument requisitionDocument) {
+        requisitionDao.save(requisitionDocument);
+    }
+    
     /**
      * This method gets the org_auto_po_limit for a given requisition from PUR_AP_ORG_PARM_T.
      *
@@ -290,6 +296,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;    
+    }
+
+    public void setRequisitionDao(RequisitionDao requisitionDao) {
+        this.requisitionDao = requisitionDao;
     }
 
 }

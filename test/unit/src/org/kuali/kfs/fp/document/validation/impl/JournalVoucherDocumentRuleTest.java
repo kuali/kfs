@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/test/unit/src/org/kuali/kfs/fp/document/validation/impl/JournalVoucherDocumentRuleTest.java,v $
  * 
@@ -58,7 +58,7 @@ import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_
 import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 import org.kuali.test.suite.RelatesTo;
-import static org.kuali.test.suite.RelatesTo.JiraIssue.KULEDOCS1730;
+import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1847;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapNotContains;
@@ -269,12 +269,12 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
-    @RelatesTo(KULEDOCS1730)
+    @RelatesTo(KULRNE1847)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, null);
     }
 
-    @RelatesTo(KULEDOCS1730)
+    @RelatesTo(KULRNE1847)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), getAssetSourceLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY, null);
     }

@@ -68,7 +68,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
 import org.kuali.test.suite.RelatesTo;
-import static org.kuali.test.suite.RelatesTo.JiraIssue.KULEDOCS1730;
+import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1847;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 
 @WithTestSpringContext(session = KHUNTLEY)
@@ -84,7 +84,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2, EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
-    @RelatesTo(KULEDOCS1730)
+    @RelatesTo(KULRNE1847)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);

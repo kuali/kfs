@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/test/infrastructure/src/org/kuali/kfs/sys/suite/RelatesTo.java,v $
  * 
@@ -50,9 +50,9 @@ public @interface RelatesTo {
      * Using this enumeration makes it easy for the IDE to show which tests relate to which issues.
      */
     public enum JiraIssue {
-        KULCOA1271,
-        KULEDOCS1730,
-        KULEDOCS1662,
+        KULRNE42,
+        KULRNE1847,
+        KULRNE1612,
         ;
         
         private final static Pattern PATTERN = Pattern.compile("(\\p{Alpha}+)(\\p{Digit}+)");
@@ -63,7 +63,8 @@ public @interface RelatesTo {
         @Override
         public String toString() {
             Matcher m = PATTERN.matcher(name());
-            AssertionUtils.assertThat(m.matches());
+            final boolean matched = m.matches();
+            AssertionUtils.assertThat(matched);
             return m.group(1) + "-" + m.group(2);
         }
     }

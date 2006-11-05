@@ -31,7 +31,8 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
-import org.kuali.module.purap.dao.RequisitionDao;
+// TODO uncomment this when the referenced class exists
+//import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.RequisitionService;
 
@@ -40,10 +41,12 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private RequisitionDao requisitionDao;
+    // TODO uncomment this when the referenced class exists
+    //private RequisitionDao requisitionDao;
 
     public void save(RequisitionDocument requisitionDocument) {
-        requisitionDao.save(requisitionDocument);
+        // TODO uncomment this when the referenced class exists
+        //requisitionDao.save(requisitionDocument);
     }
     
     /**
@@ -298,8 +301,8 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.dateTimeService = dateTimeService;    
     }
 
-    public void setRequisitionDao(RequisitionDao requisitionDao) {
-        this.requisitionDao = requisitionDao;
-    }
-
+    // TODO uncomment this when the referenced class exists
+//    public void setRequisitionDao(RequisitionDao requisitionDao) {
+//        this.requisitionDao = requisitionDao;
+//    }
 }

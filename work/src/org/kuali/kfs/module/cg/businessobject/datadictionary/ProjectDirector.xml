@@ -26,14 +26,14 @@
         <inquiry>
             <title>Project Director Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            <inquiryFields>
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="universalUser.personUserIdentifier" />
                 <field attributeName="universalUser.personName" />
                 <field attributeName="universalUser.deptid" />
                 <field attributeName="universalUser.employeeStatusCode" />
                 <field attributeName="universalUser.employeeTypeCode" />
-            </inquiryFields></inquirySection></inquirySections>
+            </inquiryFields>
         </inquiry>
 
         <lookup>

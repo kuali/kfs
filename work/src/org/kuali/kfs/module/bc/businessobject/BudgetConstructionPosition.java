@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/businessobject/BudgetConstructionPosition.java,v $
  * 
@@ -61,6 +61,7 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
 	private String iuPositionType;
 	private String positionLockUserIdentifier;
 
+    private List pendingBudgetConstructionAppointmentFunding;
     private List budgetConstructionPositionSelect;
     private ResponsibilityCenter responsibilityCenter;
     private UniversalUser positionLockUser;
@@ -70,6 +71,7 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
 	 */
 	public BudgetConstructionPosition() {
         budgetConstructionPositionSelect = new ArrayList();
+        pendingBudgetConstructionAppointmentFunding = new ArrayList();;
 
 	}
 
@@ -619,6 +621,26 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
 	}
 
 
+    /**
+     * Gets the pendingBudgetConstructionAppointmentFunding list.
+     * 
+     * @return - Returns the pendingBudgetConstructionAppointmentFunding list
+     * 
+     */
+    public List getPendingBudgetConstructionAppointmentFunding() { 
+        return pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * Sets the pendingBudgetConstructionAppointmentFunding list.
+     * 
+     * @param - pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding list to set.
+     * @deprecated
+     */
+    public void setPendingBudgetConstructionAppointmentFunding(List pendingBudgetConstructionAppointmentFunding) {
+        this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
+    }
+
 	/**
 	 * Gets the budgetConstructionPositionSelect list.
 	 * 
@@ -635,7 +657,7 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
 	 * @param - budgetConstructionPositionSelect The budgetConstructionPositionSelect list to set.
 	 * @deprecated
 	 */
-	public void setPositionSelect(List budgetConstructionPositionSelect) {
+	public void setBudgetConstructionPositionSelect(List budgetConstructionPositionSelect) {
 		this.budgetConstructionPositionSelect = budgetConstructionPositionSelect;
 	}
 

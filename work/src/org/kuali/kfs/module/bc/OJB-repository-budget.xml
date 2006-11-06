@@ -1,5 +1,5 @@
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/OJB-repository-budget.xml,v $
  
@@ -338,6 +338,12 @@
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
+	<collection-descriptor name="pendingBudgetConstructionAppointmentFunding" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="accountNumber" sort="ASC" />
+		<orderby name="subAccountNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="positionNumber" />
+		<inverse-foreignkey field-ref="universityFiscalYear" />
+	</collection-descriptor>
 	<collection-descriptor name="budgetConstructionPositionSelect" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionPositionSelect" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="personUniversalIdentifier" sort="ASC" />
 		<inverse-foreignkey field-ref="positionNumber" />
@@ -760,6 +766,10 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="budgetConstructionPosition" class-ref="org.kuali.module.budget.bo.BudgetConstructionPosition" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="positionNumber" />
+		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 </class-descriptor>
 

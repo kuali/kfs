@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/businessobject/PendingBudgetConstructionAppointmentFunding.java,v $
  * 
@@ -63,6 +63,8 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
 	private Account account;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
+    
+    private BudgetConstructionPosition budgetConstructionPosition;
     
 	/**
 	 * Default constructor.
@@ -650,6 +652,26 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
         this.subAccount = subAccount;
     }
     
+    /**
+     * Gets the budgetConstructionPosition attribute.
+     * 
+     * @return - Returns the budgetConstructionPosition
+     * 
+     */
+    public BudgetConstructionPosition getBudgetConstructionPosition() { 
+        return budgetConstructionPosition;
+    }
+
+    /**
+     * Sets the budgetConstructionPosition attribute.
+     * 
+     * @param - budgetConstructionPosition The budgetConstructionPosition to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
+        this.budgetConstructionPosition = budgetConstructionPosition;
+    }
+
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */

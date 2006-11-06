@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/datadictionary/PurchaseOrderContractLanguageMaintenanceDocument.xml,v $
  
@@ -55,7 +55,7 @@
                     <maintainableField name="purchaseOrderContractLanguageIdentifier"/>
                 	<maintainableField name="campusCode" required="true"/>
                 	<maintainableField name="purchaseOrderContractLanguageDescription" required="true"/>
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
                     <maintainableField name="contractLanguageCreateDate" readOnly="true"/>
                 </maintainableItems>
             </maintainableSection>

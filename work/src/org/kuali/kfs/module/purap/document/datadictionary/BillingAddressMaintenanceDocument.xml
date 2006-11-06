@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/datadictionary/BillingAddressMaintenanceDocument.xml,v $
  
@@ -59,7 +59,7 @@
                     <maintainableField name="billingPostalCode" required="true"/>
                     <maintainableField name="billingCountryCode" required="true"/>
                     <maintainableField name="billingPhoneNumber" required="true"/>
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

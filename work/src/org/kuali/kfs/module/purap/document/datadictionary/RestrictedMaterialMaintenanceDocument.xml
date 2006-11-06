@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/datadictionary/RestrictedMaterialMaintenanceDocument.xml,v $
  
@@ -54,7 +54,7 @@
                     <maintainableField name="restrictedMaterialDescription" required="true" />
                     <maintainableField name="restrictedMaterialDefaultDescription" required="true" />
                     <maintainableField name="restrictedMaterialWorkgroupName" required="true" />
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

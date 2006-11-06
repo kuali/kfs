@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/datadictionary/CapitalAssetTransactionTypeMaintenanceDocument.xml,v $
  
@@ -52,8 +52,8 @@
                 <maintainableItems>
                     <maintainableField name="capitalAssetTransactionTypeCode" required="true" />
                 	<maintainableField name="capitalAssetTransactionTypeDescription" required="true" />
-                	<maintainableField name="capitalAssetTransactionTypeServiceIndicator" required="true" />
-                	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true" />
+                	<maintainableField name="capitalAssetTransactionTypeServiceIndicator" />
+                	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

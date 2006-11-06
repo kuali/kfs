@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -192,6 +192,9 @@ public class BudgetPermissionsAction extends BudgetAction {
         budgetForm.getBudgetDocument().getBudget().setAdHocWorkgroups(adHocWorkgroups);
         
         SpringServiceLocator.getDocumentService().updateDocument(budgetForm.getBudgetDocument());
+        
+        budgetForm.getBudgetDocument().populateDocumentForRouting();
+        budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
 
         return super.save(mapping, budgetForm, request, response);
     }

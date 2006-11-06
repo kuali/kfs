@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -416,7 +416,10 @@ public class BudgetDocument extends ResearchDocumentBase {
         KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
         xmlWrapper.setDocument(this);
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        
+        documentHeader.getWorkflowDocument().getRouteHeader().getDocumentContent().setApplicationContent(generateDocumentContent());
+    }
+    
+    public String generateDocumentContent() {
         List referenceObjects = new ArrayList();
         referenceObjects.add("personnel");
         referenceObjects.add("institutionCostShareItems");
@@ -429,7 +432,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         xml.append(buildAdhocOrgReportXml(false));
         xml.append("</documentContent>");
         
-        documentHeader.getWorkflowDocument().getRouteHeader().getDocumentContent().setApplicationContent(xml.toString());
+        return xml.toString();
     }
     
     /**

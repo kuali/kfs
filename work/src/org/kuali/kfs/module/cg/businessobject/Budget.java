@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -154,9 +154,11 @@ public class Budget extends BusinessObjectBase {
      * @return BudgetUser the project director
      */
     public BudgetUser getProjectDirectorFromList() {
-        // PD is always the first one in the list
-        if (!personnel.isEmpty()) {
-            return (BudgetUser) personnel.get(0);
+        for (Iterator iter = this.personnel.iterator(); iter.hasNext();) {
+            BudgetUser person = (BudgetUser) iter.next();
+            if (person.isPersonProjectDirectorIndicator()) {
+                return person;
+            }
         }
         return null;
     }

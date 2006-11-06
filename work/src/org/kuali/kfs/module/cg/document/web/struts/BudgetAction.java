@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -342,6 +342,9 @@ public class BudgetAction extends KualiDocumentActionBase {
         
         budgetForm.setInitiator(SpringServiceLocator.getKualiUserService().getKualiUser(
                 new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
+        
+        budgetForm.getBudgetDocument().populateDocumentForRouting();
+        budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
 
         // This is so that tab states are not shared between pages.
         budgetForm.newTabState(true, true);

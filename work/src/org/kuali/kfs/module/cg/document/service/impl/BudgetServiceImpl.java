@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -85,10 +85,12 @@ public class BudgetServiceImpl implements BudgetService {
         String[] currentNodes = budgetDocument.getDocumentHeader().getWorkflowDocument().getNodeNames();
         WorkflowInfo workflowInfo = new WorkflowInfo();
         //RouteNodeInstanceVO[] nodes = workflowInfo.get(budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        budgetDocument.getDocumentHeader().getWorkflowDocument().appSpecificRouteDocumentToUser(
-                "F", "Adhoc Routing", 0, "", 
-                new NetworkIdVO(budgetDocument.getBudget().getProjectDirector().getUniversalUser().getPersonUserIdentifier()), 
-                "Project Director notification of completion.", true);
+        if (!budgetDocument.getBudget().isProjectDirectorToBeNamedIndicator()) {
+            budgetDocument.getDocumentHeader().getWorkflowDocument().appSpecificRouteDocumentToUser(
+                    "F", "Adhoc Routing", 0, "", 
+                    new NetworkIdVO(budgetDocument.getBudget().getProjectDirector().getUniversalUser().getPersonUserIdentifier()), 
+                    "Project Director notification of completion.", true);
+        }
     }
 
     /**

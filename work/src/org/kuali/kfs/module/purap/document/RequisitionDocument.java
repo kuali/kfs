@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/RequisitionDocument.java,v $
  * 
@@ -19,15 +19,13 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -37,7 +35,6 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
-import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 
@@ -188,7 +185,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
      * Perform logic needed to copy Requisition Document
      */
     @Override
-    public void convertIntoCopy() throws WorkflowException {
+    public void convertIntoCopy() throws WorkflowException, ValidationException {
       super.convertIntoCopy();
       
       KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
@@ -226,8 +223,11 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
       //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
       if(this.getRequisitionSourceCode().equals( PurapConstants.RequisitionSources.B2B )) {
-          if(( !activeContract ) || ( !activeVendor ) ){
-              throw new IllegalStateException();
+          if( !activeContract ) {
+              throw new ValidationException( PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT );
+          }
+          if( !activeVendor ) {
+              throw new ValidationException( PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR );
           }
       }
 

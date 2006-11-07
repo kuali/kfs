@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/coa/document/validation/impl/DelegateRule.java,v $
  * 
@@ -27,7 +27,6 @@ import java.util.Map;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.document.MaintenanceDocument;
@@ -385,7 +384,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         UniversalUser user = newDelegate.getAccountDelegate();
 
         // user must be an active kuali user
-        if (!user.isActiveKualiUser()) {
+        if (!getKualiUserService().isActiveKualiUser( user )) {
             success = false;
             putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
         }

@@ -893,14 +893,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         boolean result = true;
         UniversalUser fiscalOfficer = null;
         try {
-           fiscalOfficer=SpringServiceLocator.getKualiUserService().getUniversalUser(fiscalOfficerUserId);
+           fiscalOfficer=getKualiUserService().getUniversalUser(fiscalOfficerUserId);
          }
          catch (UserNotFoundException e) {
              result = false;
              putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_EXIST);
          }
         
-        if (fiscalOfficer!=null && !fiscalOfficer.isActiveKualiUser()) {
+        if (fiscalOfficer!=null && !getKualiUserService().isActiveKualiUser( fiscalOfficer ) ) {
             result=false;
             putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
         }

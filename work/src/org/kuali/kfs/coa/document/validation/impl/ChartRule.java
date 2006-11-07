@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/coa/document/validation/impl/ChartRule.java,v $
  * 
@@ -17,13 +17,11 @@
  */
 package org.kuali.module.chart.rules;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.service.ChartService;
@@ -54,14 +52,13 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
         
         UniversalUser chartManager = null;
         try {
-           chartManager=SpringServiceLocator.getKualiUserService().getUniversalUser(chart.getFinCoaManagerUniversalId());
-         }
-         catch (UserNotFoundException e) {
+           chartManager = getKualiUserService().getUniversalUser( chart.getFinCoaManagerUniversalId() );
+         } catch (UserNotFoundException e) {
              result = false;
              putFieldError("finCoaManagerUniversal.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
          }
         
-        if (chartManager!=null && !chartManager.isActiveKualiUser()) {
+        if (chartManager!=null && !getKualiUserService().isActiveKualiUser( chartManager ) ) {
             result=false;
             putFieldError("finCoaManagerUniversal.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
         }

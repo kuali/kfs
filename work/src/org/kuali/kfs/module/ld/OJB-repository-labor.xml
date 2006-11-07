@@ -62,7 +62,7 @@
         <foreignkey field-ref="financialSubObjectCode"/>
     </reference-descriptor>
 	<reference-descriptor name="universityFiscal"
-		class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true"
+		class-ref="org.kuali.core.bo.Options" auto-retrieve="true"
 		auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
@@ -143,7 +143,7 @@
 	</reference-descriptor>
 	
 	<reference-descriptor name="universityFiscal"
-		class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true"
+		class-ref="org.kuali.core.bo.Options" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
@@ -181,7 +181,7 @@
 	</reference-descriptor>
 	
 	<reference-descriptor name="universityFiscal"
-		class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true"
+		class-ref="org.kuali.core.bo.Options" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
@@ -461,7 +461,7 @@
     <reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     <reference-descriptor name="reversalDate" class-ref="org.kuali.module.gl.bo.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none">

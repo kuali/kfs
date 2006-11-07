@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation.
+ * Copyright 2005-2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/ld/businessobject/BenefitsCalculation.java,v $
  * 

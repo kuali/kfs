@@ -26,13 +26,13 @@
         <inquiry>
             <title>Fund Group Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" noInquiry="true" />
                 <field attributeName="name" />
                 <field attributeName="financialReportingSortCode" />
                 <field attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
                 <field attributeName="active" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

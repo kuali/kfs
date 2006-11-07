@@ -26,7 +26,7 @@
         <inquiry>
             <title>Pending Budget Construction Appointment Funding Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="appointmentFundingDeleteIndicator" />
                 <field attributeName="appointmentFundingDurationCode" />
@@ -49,7 +49,7 @@
                 <field attributeName="positionSalaryChangeIndicator" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

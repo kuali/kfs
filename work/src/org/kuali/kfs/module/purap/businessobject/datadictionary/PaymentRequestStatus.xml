@@ -26,11 +26,11 @@
         <inquiry>
             <title>Payment Request Status Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="paymentRequestStatusCode" />
                 <field attributeName="paymentRequestStatusDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

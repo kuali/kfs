@@ -26,13 +26,13 @@
         <inquiry>
             <title>Routing Form Organization Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetIndicator" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="routingFormPrimaryOrganizationIndicator" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

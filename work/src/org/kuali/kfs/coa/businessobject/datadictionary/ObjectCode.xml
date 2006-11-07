@@ -31,7 +31,7 @@
         <inquiry>
             <title>Object Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Object Code 1"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialObjectCode" />
@@ -41,6 +41,9 @@
                 <field attributeName="reportsToFinancialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialObjectLevelCode" />
+             </inquiryFields>
+             </inquirySection>
+             <inquirySection title="Object code 2"><inquiryFields>
                 <field attributeName="financialObjectSubTypeCode" />
                 <field attributeName="historicalFinancialObjectCode" />
                 <field attributeName="financialObjectActiveCode" />
@@ -48,7 +51,7 @@
                 <field attributeName="finObjMandatoryTrnfrelimCd" />
                 <field attributeName="financialFederalFundedCode" />
                 <field attributeName="nextYearFinancialObjectCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
         <!-- 
             NOTE!!!

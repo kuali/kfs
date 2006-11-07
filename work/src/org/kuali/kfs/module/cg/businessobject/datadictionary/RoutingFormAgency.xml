@@ -26,7 +26,7 @@
         <inquiry>
             <title>Routing Form Agency Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="agencyAddressDescription" />
                 <field attributeName="agencyCityName" />
                 <field attributeName="agencyContactName" />
@@ -52,7 +52,7 @@
                 <field attributeName="routingFormRequiredCopyText" />
                 <field attributeName="routingFormSubmitDate" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

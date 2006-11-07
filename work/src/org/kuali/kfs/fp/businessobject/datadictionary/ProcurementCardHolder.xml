@@ -26,7 +26,7 @@
         <inquiry>
             <title>Procurement Card Holder Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialDocumentNumber" />
                 <field attributeName="cardCycleAmountLimit" />
                 <field attributeName="cardCycleVolumeLimit" />
@@ -44,7 +44,7 @@
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <attributes>

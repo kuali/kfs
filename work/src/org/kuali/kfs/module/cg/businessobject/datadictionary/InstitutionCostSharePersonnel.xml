@@ -26,9 +26,9 @@
         <inquiry>
             <title>Institution Cost Share Personnel</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <attributes>

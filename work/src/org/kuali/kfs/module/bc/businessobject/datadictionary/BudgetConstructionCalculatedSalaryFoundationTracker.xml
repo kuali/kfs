@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Calculated Salary Foundation Tracker Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="csfAmount" />
@@ -39,7 +39,7 @@
                 <field attributeName="positionNumber" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

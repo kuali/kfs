@@ -26,12 +26,12 @@
         <inquiry>
             <title>Award Organization Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="awardPrimaryOrganizationIndicator" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="proposalNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

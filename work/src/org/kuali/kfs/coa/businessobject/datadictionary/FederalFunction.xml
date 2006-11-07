@@ -26,10 +26,10 @@
         <inquiry>
             <title>Federal Function Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialFederalFunctionCode" />
                 <field attributeName="financialFederalFunctionName" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

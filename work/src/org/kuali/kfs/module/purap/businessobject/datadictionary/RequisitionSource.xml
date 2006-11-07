@@ -26,11 +26,11 @@
         <inquiry>
             <title>Requisition Source Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="requisitionSourceCode" />
                 <field attributeName="requisitionSourceDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

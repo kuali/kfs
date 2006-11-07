@@ -26,10 +26,10 @@
         <inquiry>
             <title>Payment Request Threshold Not To Exceed Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountsPayableThresholdNotToExceedAmount" />
                 <field attributeName="chartOfAccountsCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

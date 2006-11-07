@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Month Summary Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialConsolidationObjectCode" />
@@ -52,7 +52,7 @@
                 <field attributeName="organizationCode" />
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="subFundGroupCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

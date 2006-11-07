@@ -26,13 +26,13 @@
         <inquiry>
             <title>Labor Benefits Calculation Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="positionBenefitTypeCode" />
                 <field attributeName="positionFringeBenefitObjectCode" />
                 <field attributeName="positionFringeBenefitPercent" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

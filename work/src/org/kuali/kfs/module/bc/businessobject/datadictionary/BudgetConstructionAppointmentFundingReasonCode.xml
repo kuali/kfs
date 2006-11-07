@@ -26,11 +26,11 @@
         <inquiry>
             <title>Budget Construction Appointment Funding Reason Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="appointmentFundingReasonCode" />
                 <field attributeName="appointmentFundingReasonDescription" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

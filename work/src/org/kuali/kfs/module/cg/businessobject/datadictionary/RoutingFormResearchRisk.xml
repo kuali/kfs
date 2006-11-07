@@ -26,7 +26,7 @@
         <inquiry>
             <title>Routing Form Research Risk Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="routingFormResearchRiskSequenceNumber" />
                 <field attributeName="researchRiskApprovalPendingIndicator" />
                 <field attributeName="researchRiskExemptionNumber" />
@@ -36,7 +36,7 @@
                 <field attributeName="researchRiskStudyReviewCode" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,11 +26,11 @@
         <inquiry>
             <title>Purchase Order Vendor Choice Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderVendorChoiceCode" />
                 <field attributeName="purchaseOrderVendorChoiceDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

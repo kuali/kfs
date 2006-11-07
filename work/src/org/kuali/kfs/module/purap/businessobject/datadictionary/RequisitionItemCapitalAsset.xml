@@ -26,11 +26,11 @@
         <inquiry>
             <title>Requisition Item Capital Asset Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="capitalAssetNumber" />
                 <field attributeName="requisitionItemIdentifier" />
                 <field attributeName="requisitionItemCapitalAssetIdentifier" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

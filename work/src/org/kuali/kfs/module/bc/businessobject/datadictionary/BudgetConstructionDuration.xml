@@ -26,11 +26,11 @@
         <inquiry>
             <title>Budget Construction Duration Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="appointmentDurationCode" />
                 <field attributeName="appointmentDurationDescription" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

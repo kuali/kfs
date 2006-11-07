@@ -26,7 +26,7 @@
         <inquiry>
             <title>Routing Form Institution Cost Share Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
@@ -34,7 +34,7 @@
                 <field attributeName="routingFormCostShareDescription" />
                 <field attributeName="routingFormCostShareSequenceNumber" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

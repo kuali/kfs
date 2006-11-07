@@ -26,11 +26,11 @@
         <inquiry>
             <title>Budget Construction Administrative Post Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="administrativePost" />
                 <field attributeName="emplid" />
                 <field attributeName="positionNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

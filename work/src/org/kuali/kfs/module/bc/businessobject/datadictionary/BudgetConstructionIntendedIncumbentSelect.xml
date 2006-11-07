@@ -26,12 +26,12 @@
         <inquiry>
             <title>Budget Construction Intended Incumbent Select Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="emplid" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="personName" />
                 <field attributeName="personUniversalIdentifier" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

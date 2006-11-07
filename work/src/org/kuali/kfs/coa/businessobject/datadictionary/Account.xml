@@ -26,7 +26,7 @@
         <inquiry>
             <title>Account Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccounts.codeAndDescription" />
                 <field attributeName="accountNumber" />
                 <field attributeName="accountName" />
@@ -99,7 +99,7 @@
                 <field attributeName="accountDescription.campusCode" />
                 <field attributeName="accountDescription.buildingCode" />
 
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,11 +26,11 @@
         <inquiry>
             <title>Sub-Fund Group Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="subFundGroupTypeCode" />
                 <field attributeName="subFundGroupTypeDescription" />
                 <field attributeName="subFundGroupTypeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

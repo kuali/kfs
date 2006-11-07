@@ -26,10 +26,10 @@
         <inquiry>
             <title>Budget Base Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetBaseCode" />
                 <field attributeName="budgetBaseDescription" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

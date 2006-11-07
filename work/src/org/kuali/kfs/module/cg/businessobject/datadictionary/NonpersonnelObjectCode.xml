@@ -26,12 +26,12 @@
         <inquiry>
             <title>Object Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="active" />
                 <field attributeName="budgetNonpersonnelObjectCode" />
                 <field attributeName="nonpersonnelCategory" />
                 <field attributeName="nonpersonnelSubCategory" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

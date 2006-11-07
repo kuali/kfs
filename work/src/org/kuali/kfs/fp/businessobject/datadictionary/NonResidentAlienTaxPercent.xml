@@ -26,11 +26,11 @@
         <inquiry>
             <title>Non Resident Alien Tax Percent Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="incomeClassCode" />
                 <field attributeName="incomeTaxTypeCode" />
                 <field attributeName="incomeTaxPercent" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

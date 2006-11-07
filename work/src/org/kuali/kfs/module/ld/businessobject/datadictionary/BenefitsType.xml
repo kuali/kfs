@@ -26,11 +26,11 @@
         <inquiry>
             <title>Labor Benefits Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="positionBenefitTypeCode" />
                 <field attributeName="positionBenefitTypeDescription" />
                 <field attributeName="positionBenefitRetirementIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

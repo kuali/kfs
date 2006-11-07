@@ -26,11 +26,11 @@
         <inquiry>
             <title>Routing Form Status Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="routingFormStatusCode" />
                 <field attributeName="routingFormStatusDescription" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,7 +26,7 @@
         <inquiry>
             <title>Proposal Project Director Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="proposalNumber" />
                 <field attributeName="proposalPrimaryProjectDirectorIndicator" />
@@ -34,7 +34,7 @@
                 <field attributeName="proposalProjectDirectorNote2Text" />
                 <field attributeName="proposalProjectDirectorNote3Text" />
                 <field attributeName="proposalProjectDirectorProjectTitle" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

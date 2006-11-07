@@ -26,13 +26,13 @@
         <inquiry>
             <title>Purchase Order Vendor Stipulation Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderIdentifier" />
                 <field attributeName="purchaseOrderVendorStipulationIdentifier" />
                 <field attributeName="vendorStipulationAuthorEmployeeIdentifier" />
                 <field attributeName="vendorStipulationCreateDate" />
                 <field attributeName="vendorStipulationDescription" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

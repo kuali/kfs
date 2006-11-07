@@ -24,7 +24,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
             <title>Pending Entry Inquiry</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialDocumentNumber" />
                 <field attributeName="transactionLedgerEntrySequenceNumber" />
                 <field attributeName="financialBalanceTypeCode" />
@@ -54,7 +54,7 @@
                 <field attributeName="projectCode" />
                 <field attributeName="transactionEntryProcessedTs" />
                 <field attributeName="budgetYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

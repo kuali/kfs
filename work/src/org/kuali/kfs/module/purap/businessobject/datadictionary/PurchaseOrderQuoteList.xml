@@ -26,11 +26,11 @@
         <inquiry>
             <title>Purchase Order Quote List Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderQuoteListIdentifier" />
                 <field attributeName="purchaseOrderQuoteListName" />
                 <field attributeName="contractManagerCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

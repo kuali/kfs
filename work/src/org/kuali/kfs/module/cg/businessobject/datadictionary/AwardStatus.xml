@@ -26,11 +26,11 @@
         <inquiry>
             <title>Award Status Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="awardStatusCode" />
                 <field attributeName="awardStatusDescription" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

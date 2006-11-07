@@ -26,11 +26,11 @@
         <inquiry>
             <title>Funding Source Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="fundingSourceCode" />
                 <field attributeName="fundingSourceDescription" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

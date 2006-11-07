@@ -26,11 +26,11 @@
         <inquiry>
             <title>Purchase Order Item Capital Asset Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="capitalAssetNumber" />
                 <field attributeName="purchaseOrderItemIdentifier" />
                 <field attributeName="purchaseOrderItemCapitalAssetIdentifier" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

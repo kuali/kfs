@@ -27,14 +27,14 @@
         <inquiry>
             <title>Personnel Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="user.personUniversalIdentifier" />
                 <field attributeName="user.personUserIdentifier" />
                 <field attributeName="user.personName" />
                 <field attributeName="user.deptid" />
                 <field attributeName="user.employeeStatusCode" />
                 <field attributeName="user.employeeTypeCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
 

@@ -26,11 +26,11 @@
         <inquiry>
             <title>Letter Of Credit Fund Group Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="letterOfCreditFundGroupCode" />
                 <field attributeName="letterOfCreditFundGroupDescription" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

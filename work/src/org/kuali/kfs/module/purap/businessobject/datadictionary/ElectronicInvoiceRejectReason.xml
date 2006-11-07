@@ -26,12 +26,12 @@
         <inquiry>
             <title>Electronic Invoice Reject Reason Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="invoiceHeaderInformationIdentifier" />
                 <field attributeName="invoiceRejectReasonDescription" />
                 <field attributeName="invoiceRejectReasonIdentifier" />
                 <field attributeName="invoiceRejectReasonTypeCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

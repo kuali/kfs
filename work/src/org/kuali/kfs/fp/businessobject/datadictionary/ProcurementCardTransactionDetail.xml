@@ -26,7 +26,7 @@
         <inquiry>
             <title>Procurement Card Transaction Detail Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialDocumentNumber" />
                 <field attributeName="financialDocumentTransactionLineNumber" />
                 <field attributeName="transactionReferenceNumber" />
@@ -47,7 +47,7 @@
                 <field attributeName="transactionCycleEndDate" />
                 <field attributeName="transactionCycleStartDate" />
                 <field attributeName="transactionTotalAmount" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <attributes>

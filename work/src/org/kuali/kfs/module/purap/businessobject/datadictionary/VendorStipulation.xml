@@ -26,12 +26,12 @@
         <inquiry>
             <title>Vendor Stipulation Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
             	<field attributeName="vendorStipulationIdentifier" />
             	<field attributeName="vendorStipulationName" />
             	<field attributeName="vendorStipulationDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />        
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

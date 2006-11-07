@@ -31,7 +31,7 @@
         <inquiry>
             <title>Sub-Object Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
@@ -40,7 +40,7 @@
                 <field attributeName="financialSubObjectCodeName" />
                 <field attributeName="financialSubObjectActiveIndicator" />
                 <field attributeName="financialSubObjectCdshortNm" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

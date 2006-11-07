@@ -26,11 +26,11 @@
         <inquiry>
             <title>Proposal Award Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="proposalAwardTypeCode" />
                 <field attributeName="proposalAwardTypeDescription" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

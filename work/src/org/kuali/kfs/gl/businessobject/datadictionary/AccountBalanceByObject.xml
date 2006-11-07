@@ -25,7 +25,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
             <title>Balances By Object</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
@@ -36,7 +36,7 @@
                 <field attributeName="accountLineActualsBalanceAmount" />
                 <field attributeName="accountLineEncumbranceBalanceAmount" />
                 <field attributeName="dummyBusinessObject.genericAmount" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

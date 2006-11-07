@@ -26,13 +26,13 @@
         <inquiry>
             <title>Offset Definition Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialDocumentTypeCode" noInquiry="true" />
                 <field attributeName="financialBalanceTypeCode" noInquiry="true" />
                 <field attributeName="financialObjectCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

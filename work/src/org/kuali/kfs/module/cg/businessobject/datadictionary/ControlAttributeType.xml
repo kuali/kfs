@@ -26,11 +26,11 @@
         <inquiry>
             <title>Control Attribute Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="requiredIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

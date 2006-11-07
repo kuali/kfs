@@ -26,11 +26,11 @@
         <inquiry>
             <title>Auto Approve Exclude Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-             </inquiryFields>
+             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

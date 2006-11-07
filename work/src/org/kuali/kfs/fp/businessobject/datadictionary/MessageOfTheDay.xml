@@ -26,10 +26,10 @@
         <inquiry>
             <title>Message Of The Day Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialSystemOriginationCode" />
                 <field attributeName="financialSystemMessageOfTheDayText" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,13 +26,13 @@
         <inquiry>
             <title>Research Risk Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchRiskBiosafetyIndicator" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

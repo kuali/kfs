@@ -26,11 +26,11 @@
         <inquiry>
             <title>Credit Memo Status Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="creditMemoStatusCode" />
                 <field attributeName="creditMemoStatusDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

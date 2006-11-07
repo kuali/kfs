@@ -26,11 +26,11 @@
         <inquiry>
             <title>Proposal Status Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="proposalStatusCode" />
                 <field attributeName="proposalStatusDescription" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

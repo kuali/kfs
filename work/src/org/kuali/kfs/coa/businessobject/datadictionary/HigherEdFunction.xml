@@ -25,13 +25,13 @@
         <inquiry>
             <title>Higher Education Function Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialHigherEdFunctionCd" />
                 <field attributeName="financialHigherEdFunctionNm" />
                 <field attributeName="finUnivBdgtOfficeFunctionCd" />
                 <field attributeName="finAicpaFunctionCode" />
                 <field attributeName="financialFederalFunctionCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

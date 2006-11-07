@@ -26,11 +26,11 @@
         <inquiry>
             <title>Function Control Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialSystemFunctionControlCode" />
                 <field attributeName="financialSystemFunctionDescription" />
                 <field attributeName="financialSystemFunctionDefaultIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

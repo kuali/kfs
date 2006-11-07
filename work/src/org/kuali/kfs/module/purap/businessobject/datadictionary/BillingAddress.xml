@@ -26,7 +26,7 @@
         <inquiry>
             <title>Billing Address Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="billingCampusCode" />
                 <field attributeName="billingName" />
                 <field attributeName="billingLine1Address" />
@@ -37,7 +37,7 @@
                 <field attributeName="billingCountryCode" />
                 <field attributeName="billingPhoneNumber" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

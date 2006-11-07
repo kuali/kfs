@@ -26,7 +26,7 @@
         <inquiry>
             <title>Purchase Order Vendor Quote Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderIdentifier" />
                 <field attributeName="purchaseOrderQuoteAwardDate" />
                 <field attributeName="purchaseOrderQuotePriceExpirationDate" />
@@ -47,7 +47,7 @@
                 <field attributeName="vendorPhoneNumber" />
                 <field attributeName="vendorPostalCode" />
                 <field attributeName="vendorStateCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

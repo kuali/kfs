@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Funding Lock Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="appointmentFundingLockUserId" />
                 <field attributeName="chartOfAccountsCode" />
@@ -37,7 +37,7 @@
                 <field attributeName="fill5" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

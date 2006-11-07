@@ -26,13 +26,13 @@
         <inquiry>
             <title>Balance Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="financialBalanceTypeShortNm" />
                 <field attributeName="financialOffsetGenerationIndicator" />
                 <field attributeName="finBalanceTypeEncumIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

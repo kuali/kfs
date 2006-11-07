@@ -26,13 +26,13 @@
         <inquiry>
             <title>Nonpersonnel Sub Category</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="nonpersonnelMtdcExcludedIndicator" />
                 <field attributeName="nonpersonnelModularExcludedIndicator" />
                 <field attributeName="active" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,13 +26,13 @@
         <inquiry>
             <title>Project Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="projectTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="projectTypeDescription" />
                 <field attributeName="sortNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

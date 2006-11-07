@@ -26,7 +26,7 @@
         <inquiry>
             <title>Labor Object Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="detailPositionRequiredIndicator" />
                 <field attributeName="financialObjectCode" />
@@ -35,7 +35,7 @@
                 <field attributeName="financialObjectPayTypeCode" />
                 <field attributeName="positionObjectGroupCode" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

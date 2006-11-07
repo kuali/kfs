@@ -26,14 +26,14 @@
         <inquiry>
             <title>Accounting Period Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="universityFiscalPeriodName" />
                 <field attributeName="universityFiscalPeriodStatusCode" />
                 <field attributeName="universityFiscalPeriodEndDate" />
                 <field attributeName="budgetRolloverIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

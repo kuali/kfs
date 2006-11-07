@@ -26,10 +26,10 @@
         <inquiry>
             <title>University Budget Office Function Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialUniversityBudgetOfficeFunctionCode" />
                 <field attributeName="financialUniversityBudgetOfficeFunctionName" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

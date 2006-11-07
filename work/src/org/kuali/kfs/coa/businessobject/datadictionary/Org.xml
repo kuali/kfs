@@ -26,7 +26,7 @@
             <title>Organization Code Inquiry</title>
 			<inquirableClass>org.kuali.module.chart.maintenance.OrgInquirable</inquirableClass>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
 
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
@@ -80,7 +80,7 @@
 		        <field attributeName="organizationExtension.fiscalApproverUniversal.personName" />
 		        
 		        <field attributeName="organizationExtension.hrmsLastUpdateDate" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

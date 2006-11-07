@@ -26,14 +26,14 @@
         <inquiry>
             <title>Financial Reporting Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="financialReportingCode" />
                 <field attributeName="financialReportingCodeDescription" />
                 <field attributeName="universalUser.personName" />
                 <field attributeName="financialReportsToReportingCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,10 +26,10 @@
         <inquiry>
             <title>Routing Form Conflict Of Interest Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="routingFormConflictOfInterestDescription" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

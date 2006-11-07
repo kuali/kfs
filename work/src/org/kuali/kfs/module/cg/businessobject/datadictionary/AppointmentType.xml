@@ -26,7 +26,7 @@
         <inquiry>
             <title>Appointment Type</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="appointmentTypeCode" />
                 <field attributeName="appointmentTypeDescription" />
                 <field attributeName="appointmentTypeAbbrieviation" />
@@ -35,7 +35,7 @@
                 <field attributeName="relatedAppointmentTypeCode" />
                 <field attributeName="fiscalYear" />
                 <field attributeName="lastUpdate" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,13 +26,13 @@
         <inquiry>
             <title>Budget Task</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="researchDocumentNumber" />
                 <field attributeName="budgetTaskSequenceNumber" />
                 <field attributeName="budgetTaskName" />
                 <field attributeName="objectId" />
                 <field attributeName="versionNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

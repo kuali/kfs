@@ -26,10 +26,10 @@
         <inquiry>
             <title>Graduate Assistant Rate Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="campusCode" />
                 <field attributeName="active" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,11 +26,11 @@
         <inquiry>
             <title>Sufficient Funds Code</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="active" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <titleAttribute>code</titleAttribute>

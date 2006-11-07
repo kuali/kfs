@@ -26,14 +26,14 @@
         <inquiry>
             <title>Budget Construction Pullup Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="pullFlag" />
                 <field attributeName="reportsToChartOfAccountsCode" />
                 <field attributeName="reportsToOrganizationCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

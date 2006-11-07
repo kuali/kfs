@@ -25,10 +25,10 @@
 
         <inquiry>
             <title>Mandatory Transfer Elimination Code Inquiry</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

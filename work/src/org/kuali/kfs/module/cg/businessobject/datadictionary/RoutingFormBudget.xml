@@ -26,7 +26,7 @@
         <inquiry>
             <title>Routing Form Budget Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="routingFormBudgetDirectAmount" />
                 <field attributeName="routingFormBudgetEndDate" />
                 <field attributeName="routingFormBudgetIndirectCostAmount" />
@@ -36,7 +36,7 @@
                 <field attributeName="routingFormBudgetStartDate" />
                 <field attributeName="routingFormBudgetTypeCode" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

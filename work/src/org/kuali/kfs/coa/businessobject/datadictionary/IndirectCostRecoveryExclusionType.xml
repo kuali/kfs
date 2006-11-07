@@ -26,11 +26,11 @@
         <inquiry>
             <title>Indirect Cost Recovery Exclusion by Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountIndirectCostRecoveryTypeCode" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="objectCodeCurrent.financialObjectCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

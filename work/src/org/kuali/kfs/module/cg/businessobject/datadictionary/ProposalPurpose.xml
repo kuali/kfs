@@ -26,11 +26,11 @@
         <inquiry>
             <title>Proposal Purpose Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="proposalPurposeCode" />
                 <field attributeName="proposalPurposeDescription" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

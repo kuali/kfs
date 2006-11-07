@@ -24,11 +24,11 @@
         <customAttributeEnabled>true</customAttributeEnabled>
         <inquiry>
             <title>Organization Reversion Detail Inquiry</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="organizationReversionCategoryCode" />
                 <field attributeName="organizationReversionObjectCode" />
                 <field attributeName="organizationReversionCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -25,7 +25,7 @@
 
         <inquiry>
             <title>Object Consolidation Inquiry</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="finConsolidationObjectCode" />
                 <field attributeName="finConsolidationObjectName" />
@@ -34,7 +34,7 @@
                 <field attributeName="financialEliminationsObjectCode" />
                 <field attributeName="financialReportingSortCode" />
 
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

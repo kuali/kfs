@@ -26,10 +26,10 @@
         <inquiry>
             <title>Account Type</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountTypeCode" />
                 <field attributeName="accountTypeName" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

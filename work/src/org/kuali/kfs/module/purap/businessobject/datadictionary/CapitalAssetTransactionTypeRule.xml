@@ -26,11 +26,11 @@
         <inquiry>
             <title>Capital Asset Transaction Type Rule Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="capitalAssetRelationshipLimitNumber" />
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="financialObjectSubTypeCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

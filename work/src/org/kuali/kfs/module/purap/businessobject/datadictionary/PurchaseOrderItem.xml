@@ -26,7 +26,7 @@
         <inquiry>
             <title>Purchase Order Item Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="externalOrganizationB2bProductReferenceNumber" />
                 <field attributeName="externalOrganizationB2bProductTypeName" />
@@ -51,7 +51,7 @@
                 <field attributeName="purchaseOrderIdentifier" />
                 <field attributeName="itemIdentifier" />
                 <field attributeName="requisitionLineIdentifier" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

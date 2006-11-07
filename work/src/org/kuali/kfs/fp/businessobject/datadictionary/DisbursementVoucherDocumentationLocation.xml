@@ -26,11 +26,11 @@
         <inquiry>
             <title>Documentation Location Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="disbursementVoucherDocumentationLocationCode" />
                 <field attributeName="disbursementVoucherDocumentationLocationName" />
                 <field attributeName="disbursementVoucherDocumentationLocationAddress" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,11 +26,11 @@
         <inquiry>
             <title>Indirect Cost Lookup Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetOnCampusIndicator" />
                 <field attributeName="budgetPurposeCode" />
                 <field attributeName="budgetIndirectCostRate" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

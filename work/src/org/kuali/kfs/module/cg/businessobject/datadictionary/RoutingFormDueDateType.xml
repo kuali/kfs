@@ -26,12 +26,12 @@
         <inquiry>
             <title>Routing Form Due Date Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="routingFormApprovalLeadTime" />
                 <field attributeName="routingFormDueDateDescription" />
                 <field attributeName="routingFormDueDateTypeCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

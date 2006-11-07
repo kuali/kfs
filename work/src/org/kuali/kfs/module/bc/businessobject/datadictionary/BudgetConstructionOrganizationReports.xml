@@ -26,13 +26,13 @@
         <inquiry>
             <title>Budget Construction Organization Reports Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="reportsToChartOfAccountsCode" />
                 <field attributeName="reportsToOrganizationCode" />
                 <field attributeName="responsibilityCenterCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

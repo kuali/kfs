@@ -26,11 +26,11 @@
         <inquiry>
             <title>Travel Per Diem Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="fiscalYear" />
                 <field attributeName="perDiemCountryName" />
                 <field attributeName="perDiemCountryText" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

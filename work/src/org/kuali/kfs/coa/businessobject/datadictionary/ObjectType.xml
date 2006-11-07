@@ -26,14 +26,14 @@
         <inquiry>
             <title>Object Type Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="finObjectTypeDebitcreditCd" />
                 <field attributeName="finObjectTypeIcrSelectionIndicator" />
                 <field attributeName="fundBalanceIndicator" />
                 <field attributeName="financialReportingSortCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

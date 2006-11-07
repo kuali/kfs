@@ -26,7 +26,7 @@
         <inquiry>
             <title>Bank Account Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialDocumentBankCode" />
                 <field attributeName="finDocumentBankAccountNumber" />
                 <field attributeName="finDocumentBankAccountDesc" />
@@ -35,7 +35,7 @@
                 <field attributeName="cashOffsetSubAccountNumber" />
                 <field attributeName="cashOffsetObjectCode" />
                 <field attributeName="cashOffsetSubObjectCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

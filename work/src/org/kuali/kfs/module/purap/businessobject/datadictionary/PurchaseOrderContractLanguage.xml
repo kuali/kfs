@@ -26,12 +26,12 @@
         <inquiry>
             <title>Purchase Order Contract Language Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="campusCode" />
                 <field attributeName="purchaseOrderContractLanguageDescription" />
                 <field attributeName="contractLanguageCreateDate" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,11 +26,11 @@
         <inquiry>
             <title>Routing Form Project Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="projectTypeCode" />
                 <field attributeName="projectTypeDescription" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

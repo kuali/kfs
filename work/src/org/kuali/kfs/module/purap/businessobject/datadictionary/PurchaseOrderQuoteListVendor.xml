@@ -26,11 +26,11 @@
         <inquiry>
             <title>Purchase Order Quote List Vendor Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderQuoteListIdentifier" />
                 <field attributeName="vendorDetailAssignedIdentifier" />
                 <field attributeName="vendorHeaderGeneratedIdentifier" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

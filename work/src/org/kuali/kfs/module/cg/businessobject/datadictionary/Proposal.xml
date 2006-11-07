@@ -26,7 +26,7 @@
         <inquiry>
             <title>Proposal Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="agencyNumber" />
                 <field attributeName="cfdaNumber" />
                 <field attributeName="federalPassThroughAgencyNumber" />
@@ -50,7 +50,7 @@
                 <field attributeName="proposalSubmissionDate" />
                 <field attributeName="proposalTotalAmount" />
                 <field attributeName="proposalTotalProjectAmount" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

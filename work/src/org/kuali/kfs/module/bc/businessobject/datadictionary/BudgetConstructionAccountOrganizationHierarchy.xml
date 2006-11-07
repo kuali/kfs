@@ -26,14 +26,14 @@
         <inquiry>
             <title>Budget Construction Account Organization Hierarchy Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationChartOfAccountsCode" />
                 <field attributeName="organizationCode" />
                 <field attributeName="organizationLevelCode" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

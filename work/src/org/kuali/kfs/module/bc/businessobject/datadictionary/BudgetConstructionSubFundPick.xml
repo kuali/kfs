@@ -26,11 +26,11 @@
         <inquiry>
             <title>Budget Construction Sub Fund Pick Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="reportFlag" />
                 <field attributeName="subFundGroupCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -27,10 +27,10 @@
         <inquiry>
             <title>Modular Budget Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="researchDocumentNumber" />
                 <!-- field attributeName="budgetAgency.agencyName" / -->
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <attributes>

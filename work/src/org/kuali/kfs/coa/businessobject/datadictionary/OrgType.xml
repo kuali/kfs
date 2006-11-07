@@ -26,10 +26,10 @@
         <inquiry>
             <title>Organization Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="organizationTypeCode" />
                 <field attributeName="organizationTypeName" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

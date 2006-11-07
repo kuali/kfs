@@ -26,11 +26,11 @@
         <inquiry>
             <title>Travel Mileage Rate Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="disbursementVoucherMileageEffectiveDate" />
                 <field attributeName="mileageLimitAmount" />
                 <field attributeName="mileageRate" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

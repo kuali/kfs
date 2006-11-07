@@ -27,7 +27,7 @@
         <inquiry>
             <title>Chart Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="finCoaManagerUniversal.personName" />
                 <field attributeName="finChartOfAccountDescription" />
@@ -44,7 +44,7 @@
                 <field attributeName="icrIncomeFinancialObjectCode" />
                 <field attributeName="icrExpenseFinancialObjectCd" />
                 <field attributeName="fundBalanceObjectCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

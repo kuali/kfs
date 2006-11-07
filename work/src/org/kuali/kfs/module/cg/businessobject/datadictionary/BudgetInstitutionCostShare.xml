@@ -26,9 +26,9 @@
         <inquiry>
             <title>Budget Institution Cost Share</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetCostShareSequenceNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <attributes>

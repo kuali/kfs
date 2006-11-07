@@ -26,11 +26,11 @@
         <inquiry>
             <title>Recurring Payment Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="recurringPaymentTypeCode" />
                 <field attributeName="recurringPaymentTypeDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

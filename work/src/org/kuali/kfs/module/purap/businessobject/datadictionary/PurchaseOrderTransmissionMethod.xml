@@ -26,11 +26,11 @@
         <inquiry>
             <title>Purchase Order Transmission Method Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderTransmissionMethodCode" />
                 <field attributeName="purchaseOrderTransmissionMethodDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

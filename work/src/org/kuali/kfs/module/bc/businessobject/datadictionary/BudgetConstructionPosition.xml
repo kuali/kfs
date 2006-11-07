@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Position Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetedPosition" />
                 <field attributeName="confidentialPosition" />
                 <field attributeName="iuDefaultObjectCode" />
@@ -53,7 +53,7 @@
                 <field attributeName="setidJobCode" />
                 <field attributeName="setidSalary" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

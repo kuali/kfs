@@ -26,12 +26,12 @@
         <inquiry>
             <title>Bank Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialDocumentBankCode" />
                 <field attributeName="financialDocumentBankName" />
                 <field attributeName="financialDocumentBankShortNm" />
                 <field attributeName="bankRoutingNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

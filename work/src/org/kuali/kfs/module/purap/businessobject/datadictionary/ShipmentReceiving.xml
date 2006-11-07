@@ -26,7 +26,7 @@
         <inquiry>
             <title>Shipment Receiving Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="carrierCode" />
                 <field attributeName="deliveryBuildingCode" />
                 <field attributeName="deliveryBuildingLine1Address" />
@@ -57,7 +57,7 @@
                 <field attributeName="vendorPostalCode" />
                 <field attributeName="vendorShippingPaymentTermsCode" />
                 <field attributeName="vendorStateCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

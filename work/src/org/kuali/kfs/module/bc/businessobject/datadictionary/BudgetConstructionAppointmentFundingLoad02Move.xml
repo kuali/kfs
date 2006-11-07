@@ -26,12 +26,12 @@
         <inquiry>
             <title>Budget Construction Appointment Funding Load 02 Move Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="continuationAccountNumber" />
                 <field attributeName="continuationFinChrtOfAcctCd" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

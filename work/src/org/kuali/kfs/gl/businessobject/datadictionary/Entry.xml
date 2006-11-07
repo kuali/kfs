@@ -24,7 +24,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
             <title>General Ledger Entry</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
@@ -53,7 +53,7 @@
                 <field attributeName="transactionPostingDate" />
                 <field attributeName="transactionDateTimeStamp" noInquiry="true" />
                 <field attributeName="budgetYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

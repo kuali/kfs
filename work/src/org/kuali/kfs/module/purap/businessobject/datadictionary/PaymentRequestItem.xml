@@ -26,7 +26,7 @@
         <inquiry>
             <title>Payment Request Item Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="itemAssignedToTradeInIndicator" />
                 <field attributeName="itemAuxiliaryPartIdentifier" />
@@ -43,7 +43,7 @@
                 <field attributeName="paymentRequestItemIdentifier" />
                 <field attributeName="purchaseOrderCommodityCode" />
                 <field attributeName="purchaseOrderItemUnitPrice" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

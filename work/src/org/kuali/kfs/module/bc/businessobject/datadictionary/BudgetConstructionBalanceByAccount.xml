@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Balance By Account Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />
                 <field attributeName="accountNumber" />
                 <field attributeName="appointmentRequestedCsfFteQuantity" />
@@ -45,7 +45,7 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="typeFinancialReportSortCode" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

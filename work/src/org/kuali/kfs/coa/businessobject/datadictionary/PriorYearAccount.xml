@@ -26,7 +26,7 @@
         <inquiry>
             <title>Prior Year Account Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountCityName" />
                 <field attributeName="accountClosedIndicator" />
                 <field attributeName="accountCreateDate" />
@@ -84,7 +84,7 @@
                 <field attributeName="reportsToAccountNumber" />
                 <field attributeName="reportsToChartOfAccountsCode" />
                 <field attributeName="subFundGroupCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

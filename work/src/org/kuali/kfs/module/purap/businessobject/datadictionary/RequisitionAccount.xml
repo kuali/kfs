@@ -26,7 +26,7 @@
         <inquiry>
             <title>Requisition Account Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLinePercent" />
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
@@ -37,7 +37,7 @@
                 <field attributeName="requisitionAccountIdentifier" />
                 <field attributeName="requisitionItemIdentifier" />
                 <field attributeName="subAccountNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

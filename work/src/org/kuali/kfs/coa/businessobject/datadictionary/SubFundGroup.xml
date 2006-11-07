@@ -26,7 +26,7 @@
         <inquiry>
             <title>Sub-Fund Group Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="subFundGroupCode" />
                 <field attributeName="subFundGroupDescription" />
                 <field attributeName="subFundGroupTypeCode" />
@@ -36,7 +36,7 @@
                 <field attributeName="subfundgrpActivityIndicator" />
                 <field attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
                 <field attributeName="accountRestrictedStatusCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

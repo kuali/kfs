@@ -26,7 +26,7 @@
         <inquiry>
             <title>Contracts and Grants Agency Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="agencyNumber" />
                 <field attributeName="reportingName" />
                 <field attributeName="fullName" />
@@ -35,7 +35,7 @@
                 <field attributeName="inStateIndicator" />
                 <field attributeName="indirectAmount" />
                 <field attributeName="reportsToAgency.agencyNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

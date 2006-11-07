@@ -26,11 +26,11 @@
         <inquiry>
             <title>Fiscal Year Function Control Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="financialSystemFunctionControlCode" />
                 <field attributeName="financialSystemFunctionActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

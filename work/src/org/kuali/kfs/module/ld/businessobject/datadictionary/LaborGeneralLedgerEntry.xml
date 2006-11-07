@@ -26,7 +26,7 @@
         <inquiry>
             <title>Labor General Ledger Entry Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialBalanceTypeCode" />
@@ -51,7 +51,7 @@
                 <field attributeName="transactionLedgerEntrySequenceNumber" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

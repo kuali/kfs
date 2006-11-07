@@ -26,12 +26,12 @@
         <inquiry>
             <title>Campus Parameter Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="campusCode" />
                 <field attributeName="campusPurchasingDirectorName" />
                 <field attributeName="campusPurchasingDirectorTitle" />
                 <field attributeName="campusAccountsPayableEmailAddress" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

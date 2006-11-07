@@ -26,10 +26,10 @@
         <inquiry>
             <title>AICPA Function Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialAicpaFunctionCode" />
                 <field attributeName="financialAicpaFunctionName" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

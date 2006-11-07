@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Fringe Rate</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="researchDocumentNumber" />
                 <field attributeName="institutionAppointmentTypeCode" />
                 <field attributeName="contractsAndGrantsFringeRateAmount" />
@@ -34,7 +34,7 @@
                 <field attributeName="budgetLastUpdateTimestamp" />
                 <field attributeName="objectId" />
                 <field attributeName="versionNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

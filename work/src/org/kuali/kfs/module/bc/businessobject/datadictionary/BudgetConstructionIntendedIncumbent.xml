@@ -26,14 +26,14 @@
         <inquiry>
             <title>Budget Construction Intended Incumbent Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="emplid" />
                 <field attributeName="grade" />
                 <field attributeName="iuClassificationLevel" />
                 <field attributeName="personName" />
                 <field attributeName="salaryAdministrationPlan" />
                 <field attributeName="setidSalary" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

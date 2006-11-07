@@ -26,13 +26,13 @@
         <inquiry>
             <title>Routing Form Subcontractor Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="routingFormSubcontractorAmount" />
                 <field attributeName="routingFormSubcontractorName" />
                 <field attributeName="routingFormSubcontractorNumber" />
                 <field attributeName="routingFormSubcontractorSequenceNumber" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

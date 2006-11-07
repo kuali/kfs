@@ -26,12 +26,12 @@
         <inquiry>
             <title>Proposal Subcontractor Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="proposalNumber" />
                 <field attributeName="proposalSubcontractorAmount" />
                 <field attributeName="proposalSubcontractorNumber" />
                 <field attributeName="subcontractorNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

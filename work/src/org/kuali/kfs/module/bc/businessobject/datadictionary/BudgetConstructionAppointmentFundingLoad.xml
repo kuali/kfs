@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Appointment Funding Load Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="appointmentFundingDeleteCode" />
                 <field attributeName="appointmentFundingDurationCode" />
@@ -47,7 +47,7 @@
                 <field attributeName="positionNumber" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="universityFiscalYear" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

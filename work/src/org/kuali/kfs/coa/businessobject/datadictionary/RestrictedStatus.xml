@@ -27,10 +27,10 @@
 
         <inquiry>
             <title>Restricted Status inquiry</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountRestrictedStatusCode" />
                 <field attributeName="accountRestrictedStatusName" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

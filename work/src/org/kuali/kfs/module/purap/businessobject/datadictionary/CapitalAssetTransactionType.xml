@@ -26,12 +26,12 @@
         <inquiry>
             <title>Capital Asset Transaction Type Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="capitalAssetTransactionTypeDescription" />
                 <field attributeName="capitalAssetTransactionTypeServiceIndicator" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

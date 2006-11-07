@@ -26,7 +26,7 @@
         <inquiry>
             <title>Credit Memo Account Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLinePercent" />
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
@@ -38,7 +38,7 @@
                 <field attributeName="organizationReferenceId" />
                 <field attributeName="projectCode" />
                 <field attributeName="subAccountNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

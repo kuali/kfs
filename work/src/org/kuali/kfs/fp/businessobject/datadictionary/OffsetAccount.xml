@@ -26,13 +26,13 @@
         <inquiry>
             <title>Offset Acount Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="financialOffsetObjectCode" />
                 <field attributeName="financialOffsetChartOfAccountCode" />
                 <field attributeName="financialOffsetAccountNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,7 +26,7 @@
         <inquiry>
             <title>Account Delegate Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="financialDocumentTypeCode" />
@@ -37,7 +37,7 @@
                 <field attributeName="accountsDelegatePrmrtIndicator" />
                 <field attributeName="accountDelegateActiveIndicator" />
                 <field attributeName="accountDelegateStartDate" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,7 +26,7 @@
         <inquiry>
             <title>Credit Memo Item Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="creditMemoIdentifier" />
                 <field attributeName="creditMemoItemIdentifier" />
                 <field attributeName="itemAssignedToTradeInIndicator" />
@@ -35,7 +35,7 @@
                 <field attributeName="itemLineNumber" />
                 <field attributeName="itemTypeCode" />
                 <field attributeName="itemUnitPrice" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

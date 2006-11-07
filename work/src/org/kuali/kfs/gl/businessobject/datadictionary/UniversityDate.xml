@@ -26,11 +26,11 @@
         <inquiry>
             <title>University Date Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityDate" />
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="universityFiscalAccountingPeriod" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

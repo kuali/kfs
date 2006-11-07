@@ -26,7 +26,7 @@
         <inquiry>
             <title>Wire Charge Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
@@ -34,7 +34,7 @@
                 <field attributeName="expenseFinancialObjectCode" />
                 <field attributeName="domesticChargeAmt" />
                 <field attributeName="foreignChargeAmt" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

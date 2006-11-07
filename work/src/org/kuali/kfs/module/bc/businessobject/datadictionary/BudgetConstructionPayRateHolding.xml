@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Pay Rate Holding Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="appointmentRequestedPayRate" />
                 <field attributeName="emplid" />
                 <field attributeName="grade" />
@@ -35,7 +35,7 @@
                 <field attributeName="salaryAdministrationPlan" />
                 <field attributeName="setidSalary" />
                 <field attributeName="unionCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

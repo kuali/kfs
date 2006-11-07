@@ -26,7 +26,7 @@
         <inquiry>
             <title>Credit Card Vendor Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="financialDocumentCreditCardVendorNumber" />
                 <field attributeName="financialDocumentCreditCardVendorName" />
                 <field attributeName="financialDocumentCreditCardTypeCode" />
@@ -40,7 +40,7 @@
                 <field attributeName="expenseFinancialObjectCode" />
                 <field attributeName="expenseFinancialSubObjectCode" />
                 <field attributeName="expenseSubAccountNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

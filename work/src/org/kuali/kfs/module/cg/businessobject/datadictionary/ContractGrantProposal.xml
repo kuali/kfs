@@ -26,11 +26,11 @@
         <inquiry>
             <title>Contract Grant Proposal Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="proposalCreateDate" />
                 <field attributeName="proposalNumber" />
                 <field attributeName="researchDocumentNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

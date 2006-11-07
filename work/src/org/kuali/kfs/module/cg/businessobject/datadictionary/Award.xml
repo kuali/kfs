@@ -26,7 +26,7 @@
         <inquiry>
             <title>Award Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="agencyAnalystName" />
                 <field attributeName="agencyAwardNumber" />
                 <field attributeName="agencyFuture1Amount" />
@@ -60,7 +60,7 @@
                 <field attributeName="oldProposalNumber" />
                 <field attributeName="proposalAwardTypeCode" />
                 <field attributeName="proposalNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

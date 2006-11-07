@@ -26,13 +26,13 @@
         <inquiry>
             <title>Restricted Material Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="restrictedMaterialCode" />
                 <field attributeName="restrictedMaterialDescription" />
                 <field attributeName="restrictedMaterialDefaultDescription" />
                 <field attributeName="restrictedMaterialWorkgroupName" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,7 +26,7 @@
         <inquiry>
             <title>Electronic Invoice Header Information Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountsPayableElectronicInvoiceLoadSummaryIdentifier" />
                 <field attributeName="epicPurchaseOrderDeliveryCampusCode" />
                 <field attributeName="epicPurchaseOrderIdentifier" />
@@ -85,7 +85,7 @@
                 <field attributeName="vendorDetailAssignedIdentifier" />
                 <field attributeName="vendorDunsNumber" />
                 <field attributeName="vendorHeaderGeneratedIdentifier" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,13 +26,13 @@
         <inquiry>
             <title>Negative Payment Request Approval Limit Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="negativePaymentRequestApprovalLimitAmount" />
                 <field attributeName="negativePaymentRequestApprovalLimitIdentifier" />
                 <field attributeName="organizationCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

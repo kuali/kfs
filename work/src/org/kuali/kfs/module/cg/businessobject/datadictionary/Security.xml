@@ -26,9 +26,9 @@
         <inquiry>
             <title>Contracts and Grants Security</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="kualiUser.personUniversalIdentifier" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

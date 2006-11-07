@@ -26,7 +26,7 @@
         <inquiry>
             <title>Sub-Account Code Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <!-- Previous version which is little different from Maintainable Fields       -->
                 <!-- <field attributeName="chartOfAccountsCode" />
                     <field attributeName="accountNumber" />			
@@ -76,7 +76,7 @@
                 <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
                 <field attributeName="a21SubAccount.offCampusCode" />
 
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

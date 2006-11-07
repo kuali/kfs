@@ -26,11 +26,11 @@
         <inquiry>
             <title>Grant Description Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="grantDescription" />
                 <field attributeName="grantDescriptionActiveCode" />
                 <field attributeName="grantDescriptionCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

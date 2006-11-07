@@ -26,12 +26,12 @@
         <inquiry>
             <title>Organization Reversion Category Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="organizationReversionCategoryCode" />
                 <field attributeName="organizationReversionCategoryName" />
                 <field attributeName="organizationReversionSortCode" />
                 <field attributeName="organizationReversionCategoryActiveIndicator" />  
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

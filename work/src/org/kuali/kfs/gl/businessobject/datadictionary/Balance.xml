@@ -25,7 +25,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
             <title>General Ledger Balance</title>
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" forceInquiry="true" />
                 <field attributeName="chartOfAccountsCode" forceInquiry="true" />
                 <field attributeName="accountNumber" forceInquiry="true" />
@@ -35,7 +35,7 @@
                 <field attributeName="balanceTypeCode" forceInquiry="true" />
                 <field attributeName="dummyBusinessObject.consolidationOption" forceInquiry="true" />
                 <field attributeName="dummyBusinessObject.amountViewOption" forceInquiry="true" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

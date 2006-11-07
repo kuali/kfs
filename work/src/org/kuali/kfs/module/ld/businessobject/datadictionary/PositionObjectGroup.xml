@@ -26,11 +26,11 @@
         <inquiry>
             <title>Position Object Group Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="positionObjectGroupCode" />
                 <field attributeName="positionObjectGroupName" />
                 <field attributeName="rowActiveIndicator" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

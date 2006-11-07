@@ -26,7 +26,7 @@
         <inquiry>
             <title>Indirect Cost Recovery Automated Entry Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="financialIcrSeriesIdentifier" />
                 <field attributeName="balanceTypeCode" />
@@ -39,7 +39,7 @@
                 <field attributeName="offsetBalanceSheetObjectCodeNumber" />
                 <field attributeName="transactionDebitIndicator" />
                 <field attributeName="awardIndrCostRcvyRatePct" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

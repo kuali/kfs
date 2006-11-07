@@ -26,11 +26,11 @@
         <inquiry>
             <title>Delivery Required Date Reason Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="deliveryRequiredDateReasonCode" />
                 <field attributeName="deliveryRequiredDateReasonDescription" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

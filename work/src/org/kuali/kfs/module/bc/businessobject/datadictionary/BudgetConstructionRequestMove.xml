@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Request Move Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
@@ -48,7 +48,7 @@
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="requestUpdateErrorCode" />
                 <field attributeName="subAccountNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

@@ -26,7 +26,7 @@
         <inquiry>
             <title>Award Subcontractor Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="awardSubcontractorAmendmentNumber" />
                 <field attributeName="awardSubcontractorNumber" />
                 <field attributeName="proposalNumber" />
@@ -35,7 +35,7 @@
                 <field attributeName="subcontractorContactFirstName" />
                 <field attributeName="subcontractorContactLastName" />
                 <field attributeName="subcontractorNumber" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

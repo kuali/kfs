@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/gl/service/impl/BalanceServiceImpl.java,v $
  * 
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.KualiDecimal;

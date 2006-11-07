@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;

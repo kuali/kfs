@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -20,7 +20,7 @@ package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 import java.sql.Date;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.PriorYearAccount;

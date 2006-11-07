@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/fp/document/validation/impl/BudgetAdjustmentDocumentRule.java,v $
  * 
@@ -50,8 +50,8 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.Options;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.user.Options;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
 import org.kuali.core.document.TransactionalDocument;

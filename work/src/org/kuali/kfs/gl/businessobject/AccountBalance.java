@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;

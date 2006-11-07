@@ -111,7 +111,7 @@
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -232,7 +232,7 @@
         <foreignkey field-ref="referenceFinancialDocumentTypeCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -333,7 +333,7 @@
         <foreignkey field-ref="transactionDate" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -391,7 +391,7 @@
         <foreignkey field-ref="balanceTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     
@@ -444,7 +444,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
@@ -536,7 +536,7 @@
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 </class-descriptor>
@@ -582,7 +582,7 @@
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     
@@ -758,7 +758,7 @@
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="option" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 

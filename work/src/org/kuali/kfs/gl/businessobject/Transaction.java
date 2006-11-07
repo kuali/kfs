@@ -23,7 +23,7 @@ package org.kuali.module.gl.bo;
 
 import java.sql.Date;
 
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;

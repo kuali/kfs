@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/gl/batch/service/impl/SufficientFundsRebuilderServiceImpl.java,v $
  * 
@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.dao.OptionsDao;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;

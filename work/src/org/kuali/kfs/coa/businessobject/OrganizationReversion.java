@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.util.TypedArrayList;
 
 /**

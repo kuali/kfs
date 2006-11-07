@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/coa/businessobject/OrganizationReversionDetail.java,v $
  * 
@@ -21,7 +21,7 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 
 /**
  * 

@@ -20,7 +20,7 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 
 /**
  * 

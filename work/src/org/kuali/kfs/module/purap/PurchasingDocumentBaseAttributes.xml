@@ -453,7 +453,9 @@
 <attributeReference name="nonInstitutionFundAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
     <label>Non Institution Fund Account Number</label>
     <shortLabel>Number</shortLabel>
-
+	
+	<required>false</required>
+	
     <summary>nonInstitutionFundAccountNumber</summary>
     <description>nonInstitutionFundAccountNumber description...</description>
 </attributeReference>
@@ -461,7 +463,9 @@
 <attributeReference name="nonInstitutionFundChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
-
+	
+	<required>false</required>
+	
     <summary>nonInstitutionFundChartOfAccountsCode</summary>
     <description>nonInstitutionFundChartOfAccountsCode description...</description>
 </attributeReference>
@@ -469,9 +473,21 @@
 <attributeReference name="nonInstitutionFundOrgChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Non Institution Fund Org Chart Of Accounts Code</label>
     <shortLabel>Code</shortLabel>
-
+	
+	<required>false</required>
+	
     <summary>nonInstitutionFundOrgChartOfAccountsCode</summary>
     <description>nonInstitutionFundOrgChartOfAccountsCode description...</description>
+</attributeReference>
+
+<attributeReference name="nonInstitutionFundOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+    <label>Non Institution Fund Org Organization Code</label>
+    <shortLabel>Code</shortLabel>
+	
+	<required>false</required>
+	
+    <summary>nonInstitutionFundOrganizationCode</summary>
+    <description>nonInstitutionFundOrganizationCode description...</description>
 </attributeReference>
 
 <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">

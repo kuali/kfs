@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/test/unit/src/org/kuali/kfs/coa/document/validation/impl/AccountRuleTest.java,v $
  * 
@@ -22,9 +22,9 @@ import java.util.Calendar;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.Options;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiUser;
-import org.kuali.core.bo.user.Options;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;

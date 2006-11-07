@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/test/unit/src/org/kuali/kfs/sys/service/OptionsServiceTest.java,v $
  * 
@@ -19,7 +19,8 @@ package org.kuali.core.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
+
 import static org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;

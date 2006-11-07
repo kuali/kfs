@@ -1,5 +1,5 @@
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/test/unit/src/org/kuali/kfs/sys/document/routing/attribute/fixture/TransferOfFunds_FEMPSubcode_OneLiner.xml,v $
  
@@ -652,7 +652,7 @@
                     <universityFiscalPeriodStatusCode>O</universityFiscalPeriodStatusCode>
                     <budgetRolloverIndicator>false</budgetRolloverIndicator>
                     <universityFiscalPeriodEndDate>2006-06-30</universityFiscalPeriodEndDate>
-                    <options class="org.kuali.core.bo.user.Options--EnhancerByCGLIB--24f9e54b">
+                    <options class="org.kuali.core.bo.Options--EnhancerByCGLIB--24f9e54b">
                         <universityFiscalYear>2006</universityFiscalYear>
                         <actualFinancialBalanceTypeCd>AC</actualFinancialBalanceTypeCd>
                         <budgetCheckingBalanceTypeCd>CB</budgetCheckingBalanceTypeCd>
@@ -848,7 +848,7 @@
                     <universityFiscalPeriodStatusCode>O</universityFiscalPeriodStatusCode>
                     <budgetRolloverIndicator>false</budgetRolloverIndicator>
                     <universityFiscalPeriodEndDate>2004-07-06</universityFiscalPeriodEndDate>
-                    <options class="org.kuali.core.bo.user.Options--EnhancerByCGLIB--24f9e54b">
+                    <options class="org.kuali.core.bo.Options--EnhancerByCGLIB--24f9e54b">
                         <universityFiscalYear>2004</universityFiscalYear>
                         <actualFinancialBalanceTypeCd>AC</actualFinancialBalanceTypeCd>
                         <budgetCheckingBalanceTypeCd>CB</budgetCheckingBalanceTypeCd>

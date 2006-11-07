@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -20,7 +20,7 @@ package org.kuali.module.gl.web.optionfinder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.user.Options;
+import org.kuali.core.bo.Options;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.service.OptionsService;

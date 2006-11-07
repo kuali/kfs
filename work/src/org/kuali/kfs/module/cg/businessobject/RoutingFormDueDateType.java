@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormDueDateType.java,v $
  * 
@@ -27,10 +27,10 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RoutingFormDueDateType extends BusinessObjectBase {
 
-	private String proposalDueDateTypeCode;
+	private String routingFormDueDateTypeCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private Integer proposalApprovalLeadTime;
-	private String proposalDueDateDescription;
+	private Integer routingFormApprovalLeadTime;
+	private String routingFormDueDateDescription;
 
 	/**
 	 * Default constructor.
@@ -40,23 +40,23 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalDueDateTypeCode attribute.
+	 * Gets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @return - Returns the proposalDueDateTypeCode
+	 * @return - Returns the routingFormDueDateTypeCode
 	 * 
 	 */
-	public String getProposalDueDateTypeCode() { 
-		return proposalDueDateTypeCode;
+	public String getRoutingFormDueDateTypeCode() { 
+		return routingFormDueDateTypeCode;
 	}
 
 	/**
-	 * Sets the proposalDueDateTypeCode attribute.
+	 * Sets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @param - proposalDueDateTypeCode The proposalDueDateTypeCode to set.
+	 * @param - routingFormDueDateTypeCode The routingFormDueDateTypeCode to set.
 	 * 
 	 */
-	public void setProposalDueDateTypeCode(String proposalDueDateTypeCode) {
-		this.proposalDueDateTypeCode = proposalDueDateTypeCode;
+	public void setRoutingFormDueDateTypeCode(String routingFormDueDateTypeCode) {
+		this.routingFormDueDateTypeCode = routingFormDueDateTypeCode;
 	}
 
 
@@ -82,44 +82,44 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalApprovalLeadTime attribute.
+	 * Gets the routingFormApprovalLeadTime attribute.
 	 * 
-	 * @return - Returns the proposalApprovalLeadTime
+	 * @return - Returns the routingFormApprovalLeadTime
 	 * 
 	 */
-	public Integer getProposalApprovalLeadTime() { 
-		return proposalApprovalLeadTime;
+	public Integer getRoutingFormApprovalLeadTime() { 
+		return routingFormApprovalLeadTime;
 	}
 
 	/**
-	 * Sets the proposalApprovalLeadTime attribute.
+	 * Sets the routingFormApprovalLeadTime attribute.
 	 * 
-	 * @param - proposalApprovalLeadTime The proposalApprovalLeadTime to set.
+	 * @param - routingFormApprovalLeadTime The routingFormApprovalLeadTime to set.
 	 * 
 	 */
-	public void setProposalApprovalLeadTime(Integer proposalApprovalLeadTime) {
-		this.proposalApprovalLeadTime = proposalApprovalLeadTime;
+	public void setRoutingFormApprovalLeadTime(Integer routingFormApprovalLeadTime) {
+		this.routingFormApprovalLeadTime = routingFormApprovalLeadTime;
 	}
 
 
 	/**
-	 * Gets the proposalDueDateDescription attribute.
+	 * Gets the routingFormDueDateDescription attribute.
 	 * 
-	 * @return - Returns the proposalDueDateDescription
+	 * @return - Returns the routingFormDueDateDescription
 	 * 
 	 */
-	public String getProposalDueDateDescription() { 
-		return proposalDueDateDescription;
+	public String getRoutingFormDueDateDescription() { 
+		return routingFormDueDateDescription;
 	}
 
 	/**
-	 * Sets the proposalDueDateDescription attribute.
+	 * Sets the routingFormDueDateDescription attribute.
 	 * 
-	 * @param - proposalDueDateDescription The proposalDueDateDescription to set.
+	 * @param - routingFormDueDateDescription The routingFormDueDateDescription to set.
 	 * 
 	 */
-	public void setProposalDueDateDescription(String proposalDueDateDescription) {
-		this.proposalDueDateDescription = proposalDueDateDescription;
+	public void setRoutingFormDueDateDescription(String routingFormDueDateDescription) {
+		this.routingFormDueDateDescription = routingFormDueDateDescription;
 	}
 
 
@@ -128,7 +128,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("proposalDueDateTypeCode", this.proposalDueDateTypeCode);
+        m.put("routingFormDueDateTypeCode", this.routingFormDueDateTypeCode);
 	    return m;
     }
 }

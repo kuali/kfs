@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormResearchRisk.java,v $
  * 
@@ -29,7 +29,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RoutingFormResearchRisk extends BusinessObjectBase {
 
 	private String researchDocumentNumber;
-	private Integer proposalResearchRiskSequenceNumber;
+	private Integer routingFormResearchRiskSequenceNumber;
 	private String researchRiskApprovalPendingIndicator;
 	private String researchRiskExemptionNumber;
 	private Date researchRiskStudyApprovalDate;
@@ -69,23 +69,23 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalResearchRiskSequenceNumber attribute.
+	 * Gets the routingFormResearchRiskSequenceNumber attribute.
 	 * 
-	 * @return - Returns the proposalResearchRiskSequenceNumber
+	 * @return - Returns the routingFormResearchRiskSequenceNumber
 	 * 
 	 */
-	public Integer getProposalResearchRiskSequenceNumber() { 
-		return proposalResearchRiskSequenceNumber;
+	public Integer getRoutingFormResearchRiskSequenceNumber() { 
+		return routingFormResearchRiskSequenceNumber;
 	}
 
 	/**
-	 * Sets the proposalResearchRiskSequenceNumber attribute.
+	 * Sets the routingFormResearchRiskSequenceNumber attribute.
 	 * 
-	 * @param - proposalResearchRiskSequenceNumber The proposalResearchRiskSequenceNumber to set.
+	 * @param - routingFormResearchRiskSequenceNumber The routingFormResearchRiskSequenceNumber to set.
 	 * 
 	 */
-	public void setProposalResearchRiskSequenceNumber(Integer proposalResearchRiskSequenceNumber) {
-		this.proposalResearchRiskSequenceNumber = proposalResearchRiskSequenceNumber;
+	public void setRoutingFormResearchRiskSequenceNumber(Integer routingFormResearchRiskSequenceNumber) {
+		this.routingFormResearchRiskSequenceNumber = routingFormResearchRiskSequenceNumber;
 	}
 
 
@@ -258,8 +258,8 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("researchDocumentNumber", this.researchDocumentNumber);
-        if (this.proposalResearchRiskSequenceNumber != null) {
-            m.put("proposalResearchRiskSequenceNumber", this.proposalResearchRiskSequenceNumber.toString());
+        if (this.routingFormResearchRiskSequenceNumber != null) {
+            m.put("routingFormResearchRiskSequenceNumber", this.routingFormResearchRiskSequenceNumber.toString());
         }
         m.put("researchRiskTypeCode", this.researchRiskTypeCode);
         return m;

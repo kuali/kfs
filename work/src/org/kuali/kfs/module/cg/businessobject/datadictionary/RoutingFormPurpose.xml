@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormPurpose.xml,v $
  
@@ -28,8 +28,8 @@
 
             <inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalPurposeCode" />
-                <field attributeName="proposalPurposeDescription" />
+                <field attributeName="routingFormPurposeCode" />
+                <field attributeName="routingFormPurposeDescription" />
             </inquiryFields>
         </inquiry>
 
@@ -40,20 +40,20 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="proposalPurposeCode" />
+                    <sortAttribute attributeName="routingFormPurposeCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-                <lookupField attributeName="proposalPurposeCode" required="false" />
-                <lookupField attributeName="proposalPurposeDescription" required="false" />
+                <lookupField attributeName="routingFormPurposeCode" required="false" />
+                <lookupField attributeName="routingFormPurposeDescription" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalPurposeCode" />
-                <field attributeName="proposalPurposeDescription" />
+                <field attributeName="routingFormPurposeCode" />
+                <field attributeName="routingFormPurposeDescription" />
             </resultFields>
         </lookup>
 
@@ -74,8 +74,8 @@
                 <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
 			</attribute>
 
-            <attribute name="proposalPurposeCode" forceUppercase="true">
-                <label>Proposal Purpose Code</label>
+            <attribute name="routingFormPurposeCode" forceUppercase="true">
+                <label>Routing Form Purpose Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -85,12 +85,12 @@
                     <text size="3" />
                 </control>
 
-                <summary>proposalPurposeCode</summary>
-                <description>proposalPurposeCode description...</description>
+                <summary>routingFormPurposeCode</summary>
+                <description>routingFormPurposeCode description...</description>
 			</attribute>
 
-            <attribute name="proposalPurposeDescription" forceUppercase="true">
-                <label>Proposal Purpose Description</label>
+            <attribute name="routingFormPurposeDescription" forceUppercase="true">
+                <label>Routing Form Purpose Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>26</maxLength>
@@ -100,8 +100,8 @@
                     <text size="28" />
                 </control>
 
-                <summary>proposalPurposeDescription</summary>
-                <description>proposalPurposeDescription description...</description>
+                <summary>routingFormPurposeDescription</summary>
+                <description>routingFormPurposeDescription description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/web-root/WEB-INF/tags/kra/routingform/routingFormMainPageAgencyDeliveryInfo.tag,v $
  
@@ -52,9 +52,9 @@
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
                 </td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalDueDate}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDate}" skipHelpUrl="true" /></th>
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.proposalDueDate" attributeEntry="${routingFormAgencyAttributes.proposalDueDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormDueDate" attributeEntry="${routingFormAgencyAttributes.routingFormDueDate}" datePicker="true" />
                 </td>
               </tr>
               <tr>
@@ -70,10 +70,10 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
 	    			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber" tabindexOverride="5110" anchor="${currentTabIndex}" />
 
                 </td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalDueDateTypeCode}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" skipHelpUrl="true" /></th>
 
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.proposalDueDateTypeCode" attributeEntry="${routingFormAgencyAttributes.proposalDueDateTypeCode}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormDueDateTypeCode" attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}"  />
                 </td>
 
               </tr>
@@ -108,17 +108,17 @@ NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" lookupParameters="document.catalogOfFederalDomesticAssistanceReference.cfdaNumber:cfdaNumber,document.catalogOfFederalDomesticAssistanceReference.cfdaProgramTitleName:cfdaProgramTitleName" fieldConversions="cfdaNumber:document.catalogOfFederalDomesticAssistanceReference.cfdaNumber,cfdaProgramTitleName:document.catalogOfFederalDomesticAssistanceReference.cfdaProgramTitleName" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
 				</td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.proposalRequiredCopyNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.proposalRequiredCopyNumber" attributeEntry="${routingFormAgencyAttributes.proposalRequiredCopyNumber}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormRequiredCopyNumber" attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyNumber}"  />
                 	Submit 2 additional copies plus the number of required by your department and school.
                 </td>
               </tr>
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.proposalAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routingFormAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="4" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.proposalAnnouncementNumber" attributeEntry="${documentAttributes.proposalAnnouncementNumber}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${documentAttributes.routingFormAnnouncementNumber}"  />
                 </td>
               </tr>
             </table>

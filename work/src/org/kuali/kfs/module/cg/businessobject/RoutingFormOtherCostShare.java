@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormOtherCostShare.java,v $
  * 
@@ -28,10 +28,10 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RoutingFormOtherCostShare extends BusinessObjectBase {
 
-	private Integer proposalCostShareSequenceNumber;
+	private Integer routingFormCostShareSequenceNumber;
 	private String researchDocumentNumber;
-	private String proposalCostShareSourceName;
-	private BigDecimal proposalCostShareAmount;
+	private String routingFormCostShareSourceName;
+	private BigDecimal routingFormCostShareAmount;
 
 	/**
 	 * Default constructor.
@@ -41,23 +41,23 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalCostShareSequenceNumber attribute.
+	 * Gets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @return - Returns the proposalCostShareSequenceNumber
+	 * @return - Returns the routingFormCostShareSequenceNumber
 	 * 
 	 */
-	public Integer getProposalCostShareSequenceNumber() { 
-		return proposalCostShareSequenceNumber;
+	public Integer getRoutingFormCostShareSequenceNumber() { 
+		return routingFormCostShareSequenceNumber;
 	}
 
 	/**
-	 * Sets the proposalCostShareSequenceNumber attribute.
+	 * Sets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @param - proposalCostShareSequenceNumber The proposalCostShareSequenceNumber to set.
+	 * @param - routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
 	 * 
 	 */
-	public void setProposalCostShareSequenceNumber(Integer proposalCostShareSequenceNumber) {
-		this.proposalCostShareSequenceNumber = proposalCostShareSequenceNumber;
+	public void setRoutingFormCostShareSequenceNumber(Integer routingFormCostShareSequenceNumber) {
+		this.routingFormCostShareSequenceNumber = routingFormCostShareSequenceNumber;
 	}
 
 
@@ -83,43 +83,43 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalCostShareSourceName attribute.
+	 * Gets the routingFormCostShareSourceName attribute.
 	 * 
-	 * @return - Returns the proposalCostShareSourceName
+	 * @return - Returns the routingFormCostShareSourceName
 	 * 
 	 */
-	public String getProposalCostShareSourceName() { 
-		return proposalCostShareSourceName;
+	public String getRoutingFormCostShareSourceName() { 
+		return routingFormCostShareSourceName;
 	}
 
 	/**
-	 * Sets the proposalCostShareSourceName attribute.
+	 * Sets the routingFormCostShareSourceName attribute.
 	 * 
-	 * @param - proposalCostShareSourceName The proposalCostShareSourceName to set.
+	 * @param - routingFormCostShareSourceName The routingFormCostShareSourceName to set.
 	 * 
 	 */
-	public void setProposalCostShareSourceName(String proposalCostShareSourceName) {
-		this.proposalCostShareSourceName = proposalCostShareSourceName;
+	public void setRoutingFormCostShareSourceName(String routingFormCostShareSourceName) {
+		this.routingFormCostShareSourceName = routingFormCostShareSourceName;
 	}
 
 	/**
-	 * Gets the proposalCostShareAmount attribute.
+	 * Gets the routingFormCostShareAmount attribute.
 	 * 
-	 * @return - Returns the proposalCostShareAmount
+	 * @return - Returns the routingFormCostShareAmount
 	 * 
 	 */
-	public BigDecimal getProposalCostShareAmount() { 
-		return proposalCostShareAmount;
+	public BigDecimal getRoutingFormCostShareAmount() { 
+		return routingFormCostShareAmount;
 	}
 
 	/**
-	 * Sets the proposalCostShareAmount attribute.
+	 * Sets the routingFormCostShareAmount attribute.
 	 * 
-	 * @param - proposalCostShareAmount The proposalCostShareAmount to set.
+	 * @param - routingFormCostShareAmount The routingFormCostShareAmount to set.
 	 * 
 	 */
-	public void setProposalCostShareAmount(BigDecimal proposalCostShareAmount) {
-		this.proposalCostShareAmount = proposalCostShareAmount;
+	public void setRoutingFormCostShareAmount(BigDecimal routingFormCostShareAmount) {
+		this.routingFormCostShareAmount = routingFormCostShareAmount;
 	}
 
 
@@ -128,8 +128,8 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.proposalCostShareSequenceNumber != null) {
-            m.put("proposalCostShareSequenceNumber", this.proposalCostShareSequenceNumber.toString());
+        if (this.routingFormCostShareSequenceNumber != null) {
+            m.put("routingFormCostShareSequenceNumber", this.routingFormCostShareSequenceNumber.toString());
         }
         m.put("researchDocumentNumber", this.researchDocumentNumber);
 	    return m;

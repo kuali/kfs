@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormPurpose.java,v $
  * 
@@ -27,9 +27,9 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RoutingFormPurpose extends BusinessObjectBase {
 
-	private String proposalPurposeCode;
+	private String routingFormPurposeCode;
 	private String dataObjectMaintenanceCodeActiveIndicator;
-	private String proposalPurposeDescription;
+	private String routingFormPurposeDescription;
 
 	/**
 	 * Default constructor.
@@ -39,23 +39,23 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalPurposeCode attribute.
+	 * Gets the routingFormPurposeCode attribute.
 	 * 
-	 * @return - Returns the proposalPurposeCode
+	 * @return - Returns the routingFormPurposeCode
 	 * 
 	 */
-	public String getProposalPurposeCode() { 
-		return proposalPurposeCode;
+	public String getRoutingFormPurposeCode() { 
+		return routingFormPurposeCode;
 	}
 
 	/**
-	 * Sets the proposalPurposeCode attribute.
+	 * Sets the routingFormPurposeCode attribute.
 	 * 
-	 * @param - proposalPurposeCode The proposalPurposeCode to set.
+	 * @param - routingFormPurposeCode The routingFormPurposeCode to set.
 	 * 
 	 */
-	public void setProposalPurposeCode(String proposalPurposeCode) {
-		this.proposalPurposeCode = proposalPurposeCode;
+	public void setRoutingFormPurposeCode(String routingFormPurposeCode) {
+		this.routingFormPurposeCode = routingFormPurposeCode;
 	}
 
 
@@ -81,23 +81,23 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalPurposeDescription attribute.
+	 * Gets the routingFormPurposeDescription attribute.
 	 * 
-	 * @return - Returns the proposalPurposeDescription
+	 * @return - Returns the routingFormPurposeDescription
 	 * 
 	 */
-	public String getProposalPurposeDescription() { 
-		return proposalPurposeDescription;
+	public String getRoutingFormPurposeDescription() { 
+		return routingFormPurposeDescription;
 	}
 
 	/**
-	 * Sets the proposalPurposeDescription attribute.
+	 * Sets the routingFormPurposeDescription attribute.
 	 * 
-	 * @param - proposalPurposeDescription The proposalPurposeDescription to set.
+	 * @param - routingFormPurposeDescription The routingFormPurposeDescription to set.
 	 * 
 	 */
-	public void setProposalPurposeDescription(String proposalPurposeDescription) {
-		this.proposalPurposeDescription = proposalPurposeDescription;
+	public void setRoutingFormPurposeDescription(String routingFormPurposeDescription) {
+		this.routingFormPurposeDescription = routingFormPurposeDescription;
 	}
 
 
@@ -106,7 +106,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("proposalPurposeCode", this.proposalPurposeCode);
+        m.put("routingFormPurposeCode", this.routingFormPurposeCode);
 	    return m;
     }
 }

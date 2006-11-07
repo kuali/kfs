@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormStatus.xml,v $
  
@@ -28,8 +28,8 @@
 
             <inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalStatusCode" />
-                <field attributeName="proposalStatusDescription" />
+                <field attributeName="routingFormStatusCode" />
+                <field attributeName="routingFormStatusDescription" />
             </inquiryFields>
         </inquiry>
 
@@ -40,20 +40,20 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="proposalStatusCode" />
+                    <sortAttribute attributeName="routingFormStatusCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-                <lookupField attributeName="proposalStatusCode" required="false" />
-                <lookupField attributeName="proposalStatusDescription" required="false" />
+                <lookupField attributeName="routingFormStatusCode" required="false" />
+                <lookupField attributeName="routingFormStatusDescription" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalStatusCode" />
-                <field attributeName="proposalStatusDescription" />
+                <field attributeName="routingFormStatusCode" />
+                <field attributeName="routingFormStatusDescription" />
             </resultFields>
         </lookup>
 
@@ -73,8 +73,8 @@
                 <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
 			</attribute>
 
-            <attribute name="proposalStatusCode" forceUppercase="true">
-                <label>Proposal Status Code</label>
+            <attribute name="routingFormStatusCode" forceUppercase="true">
+                <label>Routing Form Status Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -84,12 +84,12 @@
                     <text size="4" />
                 </control>
 
-                <summary>proposalStatusCode</summary>
-                <description>proposalStatusCode description...</description>
+                <summary>routingFormStatusCode</summary>
+                <description>routingFormStatusCode description...</description>
 			</attribute>
 
-            <attribute name="proposalStatusDescription" forceUppercase="true">
-                <label>Proposal Status Description</label>
+            <attribute name="routingFormStatusDescription" forceUppercase="true">
+                <label>Routing Form Status Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>15</maxLength>
@@ -99,8 +99,8 @@
                     <text size="17" />
                 </control>
 
-                <summary>proposalStatusDescription</summary>
-                <description>proposalStatusDescription description...</description>
+                <summary>routingFormStatusDescription</summary>
+                <description>routingFormStatusDescription description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

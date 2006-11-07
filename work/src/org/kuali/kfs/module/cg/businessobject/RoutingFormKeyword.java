@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormKeyword.java,v $
  * 
@@ -27,7 +27,7 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RoutingFormKeyword extends BusinessObjectBase {
 
-	private String proposalKeywordDescription;
+	private String routingFormKeywordDescription;
 	private String researchDocumentNumber;
 
 	/**
@@ -38,23 +38,23 @@ public class RoutingFormKeyword extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalKeywordDescription attribute.
+	 * Gets the routingFormKeywordDescription attribute.
 	 * 
-	 * @return - Returns the proposalKeywordDescription
+	 * @return - Returns the routingFormKeywordDescription
 	 * 
 	 */
-	public String getProposalKeywordDescription() { 
-		return proposalKeywordDescription;
+	public String getRoutingFormKeywordDescription() { 
+		return routingFormKeywordDescription;
 	}
 
 	/**
-	 * Sets the proposalKeywordDescription attribute.
+	 * Sets the routingFormKeywordDescription attribute.
 	 * 
-	 * @param - proposalKeywordDescription The proposalKeywordDescription to set.
+	 * @param - routingFormKeywordDescription The routingFormKeywordDescription to set.
 	 * 
 	 */
-	public void setProposalKeywordDescription(String proposalKeywordDescription) {
-		this.proposalKeywordDescription = proposalKeywordDescription;
+	public void setRoutingFormKeywordDescription(String routingFormKeywordDescription) {
+		this.routingFormKeywordDescription = routingFormKeywordDescription;
 	}
 
 
@@ -84,7 +84,7 @@ public class RoutingFormKeyword extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("proposalKeywordDescription", this.proposalKeywordDescription);
+        m.put("routingFormKeywordDescription", this.routingFormKeywordDescription);
         m.put("researchDocumentNumber", this.researchDocumentNumber);
 	    return m;
     }

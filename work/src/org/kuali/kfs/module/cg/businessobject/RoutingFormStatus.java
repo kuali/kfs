@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormStatus.java,v $
  * 
@@ -27,9 +27,9 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RoutingFormStatus extends BusinessObjectBase {
 
-	private String proposalStatusCode;
+	private String routingFormStatusCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private String proposalStatusDescription;
+	private String routingFormStatusDescription;
 
 	/**
 	 * Default constructor.
@@ -39,23 +39,23 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalStatusCode attribute.
+	 * Gets the routingFormStatusCode attribute.
 	 * 
-	 * @return - Returns the proposalStatusCode
+	 * @return - Returns the routingFormStatusCode
 	 * 
 	 */
-	public String getProposalStatusCode() { 
-		return proposalStatusCode;
+	public String getRoutingFormStatusCode() { 
+		return routingFormStatusCode;
 	}
 
 	/**
-	 * Sets the proposalStatusCode attribute.
+	 * Sets the routingFormStatusCode attribute.
 	 * 
-	 * @param - proposalStatusCode The proposalStatusCode to set.
+	 * @param - routingFormStatusCode The routingFormStatusCode to set.
 	 * 
 	 */
-	public void setProposalStatusCode(String proposalStatusCode) {
-		this.proposalStatusCode = proposalStatusCode;
+	public void setRoutingFormStatusCode(String routingFormStatusCode) {
+		this.routingFormStatusCode = routingFormStatusCode;
 	}
 
 
@@ -81,23 +81,23 @@ public class RoutingFormStatus extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalStatusDescription attribute.
+	 * Gets the routingFormStatusDescription attribute.
 	 * 
-	 * @return - Returns the proposalStatusDescription
+	 * @return - Returns the routingFormStatusDescription
 	 * 
 	 */
-	public String getProposalStatusDescription() { 
-		return proposalStatusDescription;
+	public String getRoutingFormStatusDescription() { 
+		return routingFormStatusDescription;
 	}
 
 	/**
-	 * Sets the proposalStatusDescription attribute.
+	 * Sets the routingFormStatusDescription attribute.
 	 * 
-	 * @param - proposalStatusDescription The proposalStatusDescription to set.
+	 * @param - routingFormStatusDescription The routingFormStatusDescription to set.
 	 * 
 	 */
-	public void setProposalStatusDescription(String proposalStatusDescription) {
-		this.proposalStatusDescription = proposalStatusDescription;
+	public void setRoutingFormStatusDescription(String routingFormStatusDescription) {
+		this.routingFormStatusDescription = routingFormStatusDescription;
 	}
 
 
@@ -106,7 +106,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("proposalStatusCode", this.proposalStatusCode);
+        m.put("routingFormStatusCode", this.routingFormStatusCode);
 	    return m;
     }
 }

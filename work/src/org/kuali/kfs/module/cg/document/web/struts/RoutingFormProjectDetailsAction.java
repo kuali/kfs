@@ -141,7 +141,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         Iterator<RoutingFormInstitutionCostShare> institutionCostShares = routingFormDocument.getRoutingFormInstitutionCostShares().iterator();
         while (institutionCostShares.hasNext()) {
             RoutingFormInstitutionCostShare institutionCostShare = institutionCostShares.next();
-            total = total.add(new KualiDecimal(institutionCostShare.getProposalCostShareAmount()));
+            total = total.add(new KualiDecimal(institutionCostShare.getRoutingFormCostShareAmount()));
         }
         return total;
     }
@@ -156,7 +156,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         Iterator<RoutingFormOtherCostShare> otherCostShares = routingFormDocument.getRoutingFormOtherCostShares().iterator();
         while (otherCostShares.hasNext()) {
             RoutingFormOtherCostShare otherCostShare = otherCostShares.next();
-            total = total.add(new KualiDecimal(otherCostShare.getProposalCostShareAmount()));
+            total = total.add(new KualiDecimal(otherCostShare.getRoutingFormCostShareAmount()));
         }
         return total;
     }
@@ -171,7 +171,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         Iterator<RoutingFormSubcontractor> subcontractors = routingFormDocument.getRoutingFormSubcontractors().iterator();
         while (subcontractors.hasNext()) {
             RoutingFormSubcontractor subcontractor = subcontractors.next();
-            total = total.add(new KualiDecimal(subcontractor.getProposalSubcontractorAmount()));
+            total = total.add(new KualiDecimal(subcontractor.getRoutingFormSubcontractorAmount()));
         }
         return total;
     }

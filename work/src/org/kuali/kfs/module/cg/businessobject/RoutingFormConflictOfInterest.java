@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormConflictOfInterest.java,v $
  * 
@@ -28,7 +28,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RoutingFormConflictOfInterest extends BusinessObjectBase {
 
 	private String researchDocumentNumber;
-	private String proposalConflictOfInterestDescription;
+	private String routingFormConflictOfInterestDescription;
 
 	/**
 	 * Default constructor.
@@ -59,23 +59,23 @@ public class RoutingFormConflictOfInterest extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalConflictOfInterestDescription attribute.
+	 * Gets the routingFormConflictOfInterestDescription attribute.
 	 * 
-	 * @return - Returns the proposalConflictOfInterestDescription
+	 * @return - Returns the routingFormConflictOfInterestDescription
 	 * 
 	 */
-	public String getProposalConflictOfInterestDescription() { 
-		return proposalConflictOfInterestDescription;
+	public String getRoutingFormConflictOfInterestDescription() { 
+		return routingFormConflictOfInterestDescription;
 	}
 
 	/**
-	 * Sets the proposalConflictOfInterestDescription attribute.
+	 * Sets the routingFormConflictOfInterestDescription attribute.
 	 * 
-	 * @param - proposalConflictOfInterestDescription The proposalConflictOfInterestDescription to set.
+	 * @param - routingFormConflictOfInterestDescription The routingFormConflictOfInterestDescription to set.
 	 * 
 	 */
-	public void setProposalConflictOfInterestDescription(String proposalConflictOfInterestDescription) {
-		this.proposalConflictOfInterestDescription = proposalConflictOfInterestDescription;
+	public void setRoutingFormConflictOfInterestDescription(String routingFormConflictOfInterestDescription) {
+		this.routingFormConflictOfInterestDescription = routingFormConflictOfInterestDescription;
 	}
 
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/Keyword.xml,v $
  
@@ -28,7 +28,7 @@
 
             <inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalKeywordDescription" />
+                <field attributeName="routingFormKeywordDescription" />
             </inquiryFields>
         </inquiry>
 
@@ -39,18 +39,18 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="proposalKeywordDescription" />
+                    <sortAttribute attributeName="routingFormKeywordDescription" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-                <lookupField attributeName="proposalKeywordDescription" required="false" />
+                <lookupField attributeName="routingFormKeywordDescription" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalKeywordDescription" />
+                <field attributeName="routingFormKeywordDescription" />
             </resultFields>
         </lookup>
 
@@ -70,8 +70,8 @@
                 <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
 			</attribute>
 
-            <attribute name="proposalKeywordDescription" forceUppercase="true">
-                <label>Proposal Keyword Description</label>
+            <attribute name="routingFormKeywordDescription" forceUppercase="true">
+                <label>Routing Form Keyword Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>70</maxLength>
@@ -81,8 +81,8 @@
                     <text size="72" />
                 </control>
 
-                <summary>proposalKeywordDescription</summary>
-                <description>proposalKeywordDescription description...</description>
+                <summary>routingFormKeywordDescription</summary>
+                <description>routingFormKeywordDescription description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source$
  
@@ -113,9 +113,9 @@
                 <description>institutionAccountNumber description...</description>
       </attribute>
 
-            <attribute name="proposalAnnouncementNumber" forceUppercase="true">
-                <label>Proposal Announcement Number</label>
-                <shortLabel>Proposal Announcement</shortLabel>
+            <attribute name="routingFormAnnouncementNumber" forceUppercase="true">
+                <label>Routing Form Announcement Number</label>
+                <shortLabel>Routing Form Announcement</shortLabel>
 
                 <maxLength>110</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -124,12 +124,12 @@
                     <text size="112" />
                 </control>
 
-                <summary>proposalAnnouncementNumber</summary>
-                <description>proposalAnnouncementNumber description...</description>
+                <summary>routingFormAnnouncementNumber</summary>
+                <description>routingFormAnnouncementNumber description...</description>
       </attribute>
 
-            <attribute name="proposalBudgetNumber" forceUppercase="true">
-                <label>Proposal Budget Number</label>
+            <attribute name="routingFormBudgetNumber" forceUppercase="true">
+                <label>Routing Form Budget Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>12</maxLength>
@@ -139,12 +139,12 @@
                     <text size="14" />
                 </control>
 
-                <summary>proposalBudgetNumber</summary>
-                <description>proposalBudgetNumber description...</description>
+                <summary>routingFormBudgetNumber</summary>
+                <description>routingFormBudgetNumber description...</description>
       </attribute>
 
-            <attribute name="proposalCoProjectDirectorIndicator" forceUppercase="true">
-                <label>Proposal Co Project Director Indicator</label>
+            <attribute name="routingFormCoProjectDirectorIndicator" forceUppercase="true">
+                <label>Routing Form Co Project Director Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -153,12 +153,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalCoProjectDirectorIndicator</summary>
-                <description>proposalCoProjectDirectorIndicator description...</description>
+                <summary>routingFormCoProjectDirectorIndicator</summary>
+                <description>routingFormCoProjectDirectorIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalConflictOfInterestCurrentIndicator" forceUppercase="true">
-                <label>Proposal Conflict Of Interest Current Indicator</label>
+            <attribute name="routingFormConflictOfInterestCurrentIndicator" forceUppercase="true">
+                <label>Routing Form Conflict Of Interest Current Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -167,12 +167,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalConflictOfInterestCurrentIndicator</summary>
-                <description>proposalConflictOfInterestCurrentIndicator description...</description>
+                <summary>routingFormConflictOfInterestCurrentIndicator</summary>
+                <description>routingFormConflictOfInterestCurrentIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalConflictOfInterestExistsIndicator" forceUppercase="true">
-                <label>Proposal Conflict Of Interest Exists Indicator</label>
+            <attribute name="routingFormConflictOfInterestExistsIndicator" forceUppercase="true">
+                <label>Routing Form Conflict Of Interest Exists Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -181,12 +181,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalConflictOfInterestExistsIndicator</summary>
-                <description>proposalConflictOfInterestExistsIndicator description...</description>
+                <summary>routingFormConflictOfInterestExistsIndicator</summary>
+                <description>routingFormConflictOfInterestExistsIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalContactFaxNumber" forceUppercase="true">
-                <label>Proposal Contact Fax Number</label>
+            <attribute name="routingFormContactFaxNumber" forceUppercase="true">
+                <label>Routing Form Contact Fax Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -196,12 +196,12 @@
                     <text size="12" />
                 </control>
 
-                <summary>proposalContactFaxNumber</summary>
-                <description>proposalContactFaxNumber description...</description>
+                <summary>routingFormContactFaxNumber</summary>
+                <description>routingFormContactFaxNumber description...</description>
       </attribute>
 
-            <attribute name="proposalContactPhoneNumber" forceUppercase="true">
-                <label>Proposal Contact Phone Number</label>
+            <attribute name="routingFormContactPhoneNumber" forceUppercase="true">
+                <label>Routing Form Contact Phone Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -211,12 +211,12 @@
                     <text size="12" />
                 </control>
 
-                <summary>proposalContactPhoneNumber</summary>
-                <description>proposalContactPhoneNumber description...</description>
+                <summary>routingFormContactPhoneNumber</summary>
+                <description>routingFormContactPhoneNumber description...</description>
       </attribute>
 
-            <attribute name="proposalContactSystemsIdentifier" forceUppercase="true">
-                <label>Proposal Contact Systems Identifier</label>
+            <attribute name="routingFormContactSystemsIdentifier" forceUppercase="true">
+                <label>Routing Form Contact Systems Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>12</maxLength>
@@ -226,12 +226,12 @@
                     <text size="14" />
                 </control>
 
-                <summary>proposalContactSystemsIdentifier</summary>
-                <description>proposalContactSystemsIdentifier description...</description>
+                <summary>routingFormContactSystemsIdentifier</summary>
+                <description>routingFormContactSystemsIdentifier description...</description>
       </attribute>
 
-            <attribute name="proposalCostShareIndicator" forceUppercase="true">
-                <label>Proposal Cost Share Indicator</label>
+            <attribute name="routingFormCostShareIndicator" forceUppercase="true">
+                <label>Routing Form Cost Share Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -240,12 +240,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalCostShareIndicator</summary>
-                <description>proposalCostShareIndicator description...</description>
+                <summary>routingFormCostShareIndicator</summary>
+                <description>routingFormCostShareIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalCreateDate" forceUppercase="true">
-                <label>Proposal Create Date</label>
+            <attribute name="routingFormCreateDate" forceUppercase="true">
+                <label>Routing Form Create Date</label>
                 <shortLabel>Date</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -255,12 +255,12 @@
                     <text size="9" />
                 </control>
 
-                <summary>proposalCreateDate</summary>
-                <description>proposalCreateDate description...</description>
+                <summary>routingFormCreateDate</summary>
+                <description>routingFormCreateDate description...</description>
       </attribute>
 
-            <attribute name="proposalCreditPercentIndicator" forceUppercase="true">
-                <label>Proposal Credit Percent Indicator</label>
+            <attribute name="routingFormCreditPercentIndicator" forceUppercase="true">
+                <label>Routing Form Credit Percent Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -269,12 +269,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalCreditPercentIndicator</summary>
-                <description>proposalCreditPercentIndicator description...</description>
+                <summary>routingFormCreditPercentIndicator</summary>
+                <description>routingFormCreditPercentIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalFederalPassThroughIndicator" forceUppercase="true">
-                <label>Proposal Federal Pass Through Indicator</label>
+            <attribute name="routingFormFederalPassThroughIndicator" forceUppercase="true">
+                <label>Routing Form Federal Pass Through Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -283,12 +283,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalFederalPassThroughIndicator</summary>
-                <description>proposalFederalPassThroughIndicator description...</description>
+                <summary>routingFormFederalPassThroughIndicator</summary>
+                <description>routingFormFederalPassThroughIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalFellowEmailAddress" forceUppercase="true">
-                <label>Proposal Fellow Email Address</label>
+            <attribute name="routingFormFellowEmailAddress" forceUppercase="true">
+                <label>Routing Form Fellow Email Address</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -298,12 +298,12 @@
                     <text size="42" />
                 </control>
 
-                <summary>proposalFellowEmailAddress</summary>
-                <description>proposalFellowEmailAddress description...</description>
+                <summary>routingFormFellowEmailAddress</summary>
+                <description>routingFormFellowEmailAddress description...</description>
       </attribute>
 
-            <attribute name="proposalFellowFirstName" forceUppercase="true">
-                <label>Proposal Fellow First Name</label>
+            <attribute name="routingFormFellowFirstName" forceUppercase="true">
+                <label>Routing Form Fellow First Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>25</maxLength>
@@ -313,12 +313,12 @@
                     <text size="27" />
                 </control>
 
-                <summary>proposalFellowFirstName</summary>
-                <description>proposalFellowFirstName description...</description>
+                <summary>routingFormFellowFirstName</summary>
+                <description>routingFormFellowFirstName description...</description>
       </attribute>
 
-            <attribute name="proposalFellowFullName" forceUppercase="true">
-                <label>Proposal Fellow Full Name</label>
+            <attribute name="routingFormFellowFullName" forceUppercase="true">
+                <label>Routing Form Fellow Full Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>30</maxLength>
@@ -328,12 +328,12 @@
                     <text size="32" />
                 </control>
 
-                <summary>proposalFellowFullName</summary>
-                <description>proposalFellowFullName description...</description>
+                <summary>routingFormFellowFullName</summary>
+                <description>routingFormFellowFullName description...</description>
       </attribute>
 
-            <attribute name="proposalFellowLastName" forceUppercase="true">
-                <label>Proposal Fellow Last Name</label>
+            <attribute name="routingFormFellowLastName" forceUppercase="true">
+                <label>Routing Form Fellow Last Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>25</maxLength>
@@ -343,12 +343,12 @@
                     <text size="27" />
                 </control>
 
-                <summary>proposalFellowLastName</summary>
-                <description>proposalFellowLastName description...</description>
+                <summary>routingFormFellowLastName</summary>
+                <description>routingFormFellowLastName description...</description>
       </attribute>
 
-            <attribute name="proposalForeignPartnerIndicator" forceUppercase="true">
-                <label>Proposal Foreign Partner Indicator</label>
+            <attribute name="routingFormForeignPartnerIndicator" forceUppercase="true">
+                <label>Routing Form Foreign Partner Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -357,12 +357,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalForeignPartnerIndicator</summary>
-                <description>proposalForeignPartnerIndicator description...</description>
+                <summary>routingFormForeignPartnerIndicator</summary>
+                <description>routingFormForeignPartnerIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalForeignTravelIndicator" forceUppercase="true">
-                <label>Proposal Foreign Travel Indicator</label>
+            <attribute name="routingFormForeignTravelIndicator" forceUppercase="true">
+                <label>Routing Form Foreign Travel Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -371,12 +371,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalForeignTravelIndicator</summary>
-                <description>proposalForeignTravelIndicator description...</description>
+                <summary>routingFormForeignTravelIndicator</summary>
+                <description>routingFormForeignTravelIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalIncomeIndicator" forceUppercase="true">
-                <label>Proposal Income Indicator</label>
+            <attribute name="routingFormIncomeIndicator" forceUppercase="true">
+                <label>Routing Form Income Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -385,12 +385,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalIncomeIndicator</summary>
-                <description>proposalIncomeIndicator description...</description>
+                <summary>routingFormIncomeIndicator</summary>
+                <description>routingFormIncomeIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalInventionIndicator" forceUppercase="true">
-                <label>Proposal Invention Indicator</label>
+            <attribute name="routingFormInventionIndicator" forceUppercase="true">
+                <label>Routing Form Invention Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -399,12 +399,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalInventionIndicator</summary>
-                <description>proposalInventionIndicator description...</description>
+                <summary>routingFormInventionIndicator</summary>
+                <description>routingFormInventionIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalLastUpdateDate" forceUppercase="true">
-                <label>Proposal Last Update Date</label>
+            <attribute name="routingFormLastUpdateDate" forceUppercase="true">
+                <label>Routing Form Last Update Date</label>
                 <shortLabel>Date</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -414,12 +414,12 @@
                     <text size="9" />
                 </control>
 
-                <summary>proposalLastUpdateDate</summary>
-                <description>proposalLastUpdateDate description...</description>
+                <summary>routingFormLastUpdateDate</summary>
+                <description>routingFormLastUpdateDate description...</description>
       </attribute>
 
-            <attribute name="proposalLastUpdateSystemIdentifier" forceUppercase="true">
-                <label>Proposal Last Update System Identifier</label>
+            <attribute name="routingFormLastUpdateSystemIdentifier" forceUppercase="true">
+                <label>Routing Form Last Update System Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>12</maxLength>
@@ -429,12 +429,12 @@
                     <text size="14" />
                 </control>
 
-                <summary>proposalLastUpdateSystemIdentifier</summary>
-                <description>proposalLastUpdateSystemIdentifier description...</description>
+                <summary>routingFormLastUpdateSystemIdentifier</summary>
+                <description>routingFormLastUpdateSystemIdentifier description...</description>
       </attribute>
 
-            <attribute name="proposalLayDescription" forceUppercase="true">
-                <label>Proposal Lay Description</label>
+            <attribute name="routingFormLayDescription" forceUppercase="true">
+                <label>Routing Form Lay Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>1000</maxLength>
@@ -444,12 +444,12 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>proposalLayDescription</summary>
-                <description>proposalLayDescription description...</description>
+                <summary>routingFormLayDescription</summary>
+                <description>routingFormLayDescription description...</description>
       </attribute>
 
-            <attribute name="proposalNewSpaceIndicator" forceUppercase="true">
-                <label>Proposal New Space Indicator</label>
+            <attribute name="routingFormNewSpaceIndicator" forceUppercase="true">
+                <label>Routing Form New Space Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -458,12 +458,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalNewSpaceIndicator</summary>
-                <description>proposalNewSpaceIndicator description...</description>
+                <summary>routingFormNewSpaceIndicator</summary>
+                <description>routingFormNewSpaceIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalOffCampusDescription" forceUppercase="true">
-                <label>Proposal Off Campus Description</label>
+            <attribute name="routingFormOffCampusDescription" forceUppercase="true">
+                <label>Routing Form Off Campus Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>1000</maxLength>
@@ -473,12 +473,12 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>proposalOffCampusDescription</summary>
-                <description>proposalOffCampusDescription description...</description>
+                <summary>routingFormOffCampusDescription</summary>
+                <description>routingFormOffCampusDescription description...</description>
       </attribute>
 
-            <attribute name="proposalOffCampusIndicator" forceUppercase="true">
-                <label>Proposal Off Campus Indicator</label>
+            <attribute name="routingFormOffCampusIndicator" forceUppercase="true">
+                <label>Routing Form Off Campus Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -487,12 +487,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalOffCampusIndicator</summary>
-                <description>proposalOffCampusIndicator description...</description>
+                <summary>routingFormOffCampusIndicator</summary>
+                <description>routingFormOffCampusIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalOtherOrganizationIndicator" forceUppercase="true">
-                <label>Proposal Other Organization Indicator</label>
+            <attribute name="routingFormOtherOrganizationIndicator" forceUppercase="true">
+                <label>Routing Form Other Organization Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -501,12 +501,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalOtherOrganizationIndicator</summary>
-                <description>proposalOtherOrganizationIndicator description...</description>
+                <summary>routingFormOtherOrganizationIndicator</summary>
+                <description>routingFormOtherOrganizationIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalOtherPurposeDescription" forceUppercase="true">
-                <label>Proposal Other Purpose Description</label>
+            <attribute name="routingFormOtherPurposeDescription" forceUppercase="true">
+                <label>Routing Form Other Purpose Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>50</maxLength>
@@ -516,12 +516,12 @@
                     <text size="52" />
                 </control>
 
-                <summary>proposalOtherPurposeDescription</summary>
-                <description>proposalOtherPurposeDescription description...</description>
+                <summary>routingFormOtherPurposeDescription</summary>
+                <description>routingFormOtherPurposeDescription description...</description>
       </attribute>
 
-            <attribute name="proposalOtherTypeDescription" forceUppercase="true">
-                <label>Proposal Other Type Description</label>
+            <attribute name="routingFormOtherTypeDescription" forceUppercase="true">
+                <label>Routing Form Other Type Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>75</maxLength>
@@ -531,12 +531,12 @@
                     <text size="77" />
                 </control>
 
-                <summary>proposalOtherTypeDescription</summary>
-                <description>proposalOtherTypeDescription description...</description>
+                <summary>routingFormOtherTypeDescription</summary>
+                <description>routingFormOtherTypeDescription description...</description>
       </attribute>
 
-            <attribute name="proposalParentNumber" forceUppercase="true">
-                <label>Proposal Parent Number</label>
+            <attribute name="routingFormParentNumber" forceUppercase="true">
+                <label>Routing Form Parent Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>12</maxLength>
@@ -546,12 +546,12 @@
                     <text size="14" />
                 </control>
 
-                <summary>proposalParentNumber</summary>
-                <description>proposalParentNumber description...</description>
+                <summary>routingFormParentNumber</summary>
+                <description>routingFormParentNumber description...</description>
       </attribute>
 
-            <attribute name="proposalPhysicalCampusCode" forceUppercase="true">
-                <label>Proposal Physical Campus Code</label>
+            <attribute name="routingFormPhysicalCampusCode" forceUppercase="true">
+                <label>Routing Form Physical Campus Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -561,11 +561,11 @@
                     <text size="4" />
                 </control>
 
-                <summary>proposalPhysicalCampusCode</summary>
-                <description>proposalPhysicalCampusCode description...</description>
+                <summary>routingFormPhysicalCampusCode</summary>
+                <description>routingFormPhysicalCampusCode description...</description>
       </attribute>
 
-            <attribute name="proposalPriorGrantNumber" forceUppercase="true">
+            <attribute name="routingFormPriorGrantNumber" forceUppercase="true">
                 <label>Prior Grant No.</label>
                 <shortLabel>Number</shortLabel>
 
@@ -576,12 +576,12 @@
                     <text size="29" />
                 </control>
 
-                <summary>proposalPriorGrantNumber</summary>
-                <description>proposalPriorGrantNumber description...</description>
+                <summary>routingFormPriorGrantNumber</summary>
+                <description>routingFormPriorGrantNumber description...</description>
       </attribute>
 
-            <attribute name="proposalProjectTitle" forceUppercase="true">
-                <label>Proposal Project Title</label>
+            <attribute name="routingFormProjectTitle" forceUppercase="true">
+                <label>Routing Form Project Title</label>
                 <shortLabel>Title</shortLabel>
 
                 <maxLength>500</maxLength>
@@ -591,12 +591,12 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>proposalProjectTitle</summary>
-                <description>proposalProjectTitle description...</description>
+                <summary>routingFormProjectTitle</summary>
+                <description>routingFormProjectTitle description...</description>
       </attribute>
 
-            <attribute name="proposalPurposeCode" forceUppercase="true">
-                <label>Proposal Purpose Code</label>
+            <attribute name="routingFormPurposeCode" forceUppercase="true">
+                <label>Routing Form Purpose Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -606,12 +606,12 @@
                     <text size="3" />
                 </control>
 
-                <summary>proposalPurposeCode</summary>
-                <description>proposalPurposeCode description...</description>
+                <summary>routingFormPurposeCode</summary>
+                <description>routingFormPurposeCode description...</description>
       </attribute>
 
-            <attribute name="proposalSpaceRequiredDescription" forceUppercase="true">
-                <label>Proposal Space Required Description</label>
+            <attribute name="routingFormSpaceRequiredDescription" forceUppercase="true">
+                <label>Routing Form Space Required Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>1000</maxLength>
@@ -621,12 +621,12 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>proposalSpaceRequiredDescription</summary>
-                <description>proposalSpaceRequiredDescription description...</description>
+                <summary>routingFormSpaceRequiredDescription</summary>
+                <description>routingFormSpaceRequiredDescription description...</description>
       </attribute>
 
-            <attribute name="proposalSpaceRequiredIndicator" forceUppercase="true">
-                <label>Proposal Space Required Indicator</label>
+            <attribute name="routingFormSpaceRequiredIndicator" forceUppercase="true">
+                <label>Routing Form Space Required Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -635,12 +635,12 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalSpaceRequiredIndicator</summary>
-                <description>proposalSpaceRequiredIndicator description...</description>
+                <summary>routingFormSpaceRequiredIndicator</summary>
+                <description>routingFormSpaceRequiredIndicator description...</description>
       </attribute>
 
-            <attribute name="proposalStatusCode" forceUppercase="true">
-                <label>Proposal Status Code</label>
+            <attribute name="routingFormStatusCode" forceUppercase="true">
+                <label>Routing Form Status Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -650,12 +650,12 @@
                     <text size="4" />
                 </control>
 
-                <summary>proposalStatusCode</summary>
-                <description>proposalStatusCode description...</description>
+                <summary>routingFormStatusCode</summary>
+                <description>routingFormStatusCode description...</description>
       </attribute>
 
-            <attribute name="proposalSubcontractorIndicator" forceUppercase="true">
-                <label>Proposal Subcontractor Indicator</label>
+            <attribute name="routingFormSubcontractorIndicator" forceUppercase="true">
+                <label>Routing Form Subcontractor Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -664,8 +664,8 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalSubcontractorIndicator</summary>
-                <description>proposalSubcontractorIndicator description...</description>
+                <summary>routingFormSubcontractorIndicator</summary>
+                <description>routingFormSubcontractorIndicator description...</description>
       </attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

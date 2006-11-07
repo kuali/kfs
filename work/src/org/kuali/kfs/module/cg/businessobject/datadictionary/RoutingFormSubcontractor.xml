@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormSubcontractor.xml,v $
  
@@ -27,10 +27,10 @@
             <title>Routing Form Subcontractor Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="proposalSubcontractorAmount" />
-                <field attributeName="proposalSubcontractorName" />
-                <field attributeName="proposalSubcontractorNumber" />
-                <field attributeName="proposalSubcontractorSequenceNumber" />
+                <field attributeName="routingFormSubcontractorAmount" />
+                <field attributeName="routingFormSubcontractorName" />
+                <field attributeName="routingFormSubcontractorNumber" />
+                <field attributeName="routingFormSubcontractorSequenceNumber" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
         </inquiry>
@@ -43,31 +43,31 @@
             <defaultSort sortAscending="true">
                 <sortAttributes>
                     <sortAttribute attributeName="researchDocumentNumber" />
-                    <sortAttribute attributeName="proposalSubcontractorSequenceNumber" />
+                    <sortAttribute attributeName="routingFormSubcontractorSequenceNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="proposalSubcontractorAmount" required="false" />
-                <lookupField attributeName="proposalSubcontractorName" required="false" />
-                <lookupField attributeName="proposalSubcontractorNumber" required="false" />
-                <lookupField attributeName="proposalSubcontractorSequenceNumber" required="false" />
+                <lookupField attributeName="routingFormSubcontractorAmount" required="false" />
+                <lookupField attributeName="routingFormSubcontractorName" required="false" />
+                <lookupField attributeName="routingFormSubcontractorNumber" required="false" />
+                <lookupField attributeName="routingFormSubcontractorSequenceNumber" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="proposalSubcontractorAmount" />
-                <field attributeName="proposalSubcontractorName" />
-                <field attributeName="proposalSubcontractorNumber" />
-                <field attributeName="proposalSubcontractorSequenceNumber" />
+                <field attributeName="routingFormSubcontractorAmount" />
+                <field attributeName="routingFormSubcontractorName" />
+                <field attributeName="routingFormSubcontractorNumber" />
+                <field attributeName="routingFormSubcontractorSequenceNumber" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="proposalSubcontractorAmount" forceUppercase="true">
-                <label>Proposal Subcontractor Amount</label>
+            <attribute name="routingFormSubcontractorAmount" forceUppercase="true">
+                <label>Routing Form Subcontractor Amount</label>
                 <shortLabel>Amount</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -77,12 +77,12 @@
                     <text size="21" />
                 </control>
 
-                <summary>proposalSubcontractorAmount</summary>
-                <description>proposalSubcontractorAmount description...</description>
+                <summary>routingFormSubcontractorAmount</summary>
+                <description>routingFormSubcontractorAmount description...</description>
 			</attribute>
 
-            <attribute name="proposalSubcontractorName" forceUppercase="true">
-                <label>Proposal Subcontractor Name</label>
+            <attribute name="routingFormSubcontractorName" forceUppercase="true">
+                <label>Routing Form Subcontractor Name</label>
                 <shortLabel>Subcontract Name</shortLabel>
 
                 <maxLength>50</maxLength>
@@ -92,12 +92,12 @@
                     <text size="52" />
                 </control>
 
-                <summary>proposalSubcontractorName</summary>
-                <description>proposalSubcontractorName description...</description>
+                <summary>routingFormSubcontractorName</summary>
+                <description>routingFormSubcontractorName description...</description>
 			</attribute>
 
-            <attribute name="proposalSubcontractorNumber" forceUppercase="true">
-                <label>Proposal Subcontractor Number</label>
+            <attribute name="routingFormSubcontractorNumber" forceUppercase="true">
+                <label>Routing Form Subcontractor Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -107,12 +107,12 @@
                     <text size="7" />
                 </control>
 
-                <summary>proposalSubcontractorNumber</summary>
-                <description>proposalSubcontractorNumber description...</description>
+                <summary>routingFormSubcontractorNumber</summary>
+                <description>routingFormSubcontractorNumber description...</description>
 			</attribute>
 
-            <attribute name="proposalSubcontractorSequenceNumber" forceUppercase="true">
-                <label>Proposal Subcontractor Sequence Number</label>
+            <attribute name="routingFormSubcontractorSequenceNumber" forceUppercase="true">
+                <label>Routing Form Subcontractor Sequence Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -122,8 +122,8 @@
                     <text size="5" />
                 </control>
 
-                <summary>proposalSubcontractorSequenceNumber</summary>
-                <description>proposalSubcontractorSequenceNumber description...</description>
+                <summary>routingFormSubcontractorSequenceNumber</summary>
+                <description>routingFormSubcontractorSequenceNumber description...</description>
 			</attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

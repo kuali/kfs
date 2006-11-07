@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormDueDateType.xml,v $
  
@@ -28,9 +28,9 @@
 
             <inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalApprovalLeadTime" />
-                <field attributeName="proposalDueDateDescription" />
-                <field attributeName="proposalDueDateTypeCode" />
+                <field attributeName="routingFormApprovalLeadTime" />
+                <field attributeName="routingFormDueDateDescription" />
+                <field attributeName="routingFormDueDateTypeCode" />
             </inquiryFields>
         </inquiry>
 
@@ -41,22 +41,22 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="proposalDueDateTypeCode" />
+                    <sortAttribute attributeName="routingFormDueDateTypeCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-                <lookupField attributeName="proposalApprovalLeadTime" required="false" />
-                <lookupField attributeName="proposalDueDateDescription" required="false" />
-                <lookupField attributeName="proposalDueDateTypeCode" required="false" />
+                <lookupField attributeName="routingFormApprovalLeadTime" required="false" />
+                <lookupField attributeName="routingFormDueDateDescription" required="false" />
+                <lookupField attributeName="routingFormDueDateTypeCode" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="proposalApprovalLeadTime" />
-                <field attributeName="proposalDueDateDescription" />
-                <field attributeName="proposalDueDateTypeCode" />
+                <field attributeName="routingFormApprovalLeadTime" />
+                <field attributeName="routingFormDueDateDescription" />
+                <field attributeName="routingFormDueDateTypeCode" />
             </resultFields>
         </lookup>
 
@@ -76,8 +76,8 @@
                 <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
 			</attribute>
 
-            <attribute name="proposalApprovalLeadTime" forceUppercase="true">
-                <label>Proposal Approval Lead Time</label>
+            <attribute name="routingFormApprovalLeadTime" forceUppercase="true">
+                <label>Routing Form Approval Lead Time</label>
                 <shortLabel>Time</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -87,12 +87,12 @@
                     <text size="5" />
                 </control>
 
-                <summary>proposalApprovalLeadTime</summary>
-                <description>proposalApprovalLeadTime description...</description>
+                <summary>routingFormApprovalLeadTime</summary>
+                <description>routingFormApprovalLeadTime description...</description>
 			</attribute>
 
-            <attribute name="proposalDueDateDescription" forceUppercase="true">
-                <label>Proposal Due Date Description</label>
+            <attribute name="routingFormDueDateDescription" forceUppercase="true">
+                <label>Routing Form Due Date Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>20</maxLength>
@@ -102,12 +102,12 @@
                     <text size="22" />
                 </control>
 
-                <summary>proposalDueDateDescription</summary>
-                <description>proposalDueDateDescription description...</description>
+                <summary>routingFormDueDateDescription</summary>
+                <description>routingFormDueDateDescription description...</description>
 			</attribute>
 
-            <attribute name="proposalDueDateTypeCode" forceUppercase="true">
-                <label>Proposal Due Date Type Code</label>
+            <attribute name="routingFormDueDateTypeCode" forceUppercase="true">
+                <label>Routing Form Due Date Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -117,8 +117,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>proposalDueDateTypeCode</summary>
-                <description>proposalDueDateTypeCode description...</description>
+                <summary>routingFormDueDateTypeCode</summary>
+                <description>routingFormDueDateTypeCode description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

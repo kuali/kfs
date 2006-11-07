@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormSubcontractor.java,v $
  * 
@@ -29,10 +29,10 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RoutingFormSubcontractor extends BusinessObjectBase {
 
 	private String researchDocumentNumber;
-	private Integer proposalSubcontractorSequenceNumber;
-	private BigDecimal proposalSubcontractorAmount;
-	private String proposalSubcontractorNumber;
-	private String proposalSubcontractorName;
+	private Integer routingFormSubcontractorSequenceNumber;
+	private BigDecimal routingFormSubcontractorAmount;
+	private String routingFormSubcontractorNumber;
+	private String routingFormSubcontractorName;
 
 	/**
 	 * Default constructor.
@@ -63,86 +63,86 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalSubcontractorSequenceNumber attribute.
+	 * Gets the routingFormSubcontractorSequenceNumber attribute.
 	 * 
-	 * @return - Returns the proposalSubcontractorSequenceNumber
+	 * @return - Returns the routingFormSubcontractorSequenceNumber
 	 * 
 	 */
-	public Integer getProposalSubcontractorSequenceNumber() { 
-		return proposalSubcontractorSequenceNumber;
+	public Integer getRoutingFormSubcontractorSequenceNumber() { 
+		return routingFormSubcontractorSequenceNumber;
 	}
 
 	/**
-	 * Sets the proposalSubcontractorSequenceNumber attribute.
+	 * Sets the routingFormSubcontractorSequenceNumber attribute.
 	 * 
-	 * @param - proposalSubcontractorSequenceNumber The proposalSubcontractorSequenceNumber to set.
-	 * 
-	 */
-	public void setProposalSubcontractorSequenceNumber(Integer proposalSubcontractorSequenceNumber) {
-		this.proposalSubcontractorSequenceNumber = proposalSubcontractorSequenceNumber;
-	}
-
-
-	/**
-	 * Gets the proposalSubcontractorAmount attribute.
-	 * 
-	 * @return - Returns the proposalSubcontractorAmount
+	 * @param - routingFormSubcontractorSequenceNumber The routingFormSubcontractorSequenceNumber to set.
 	 * 
 	 */
-	public BigDecimal getProposalSubcontractorAmount() { 
-		return proposalSubcontractorAmount;
-	}
-
-	/**
-	 * Sets the proposalSubcontractorAmount attribute.
-	 * 
-	 * @param - proposalSubcontractorAmount The proposalSubcontractorAmount to set.
-	 * 
-	 */
-	public void setProposalSubcontractorAmount(BigDecimal proposalSubcontractorAmount) {
-		this.proposalSubcontractorAmount = proposalSubcontractorAmount;
+	public void setRoutingFormSubcontractorSequenceNumber(Integer routingFormSubcontractorSequenceNumber) {
+		this.routingFormSubcontractorSequenceNumber = routingFormSubcontractorSequenceNumber;
 	}
 
 
 	/**
-	 * Gets the proposalSubcontractorNumber attribute.
+	 * Gets the routingFormSubcontractorAmount attribute.
 	 * 
-	 * @return - Returns the proposalSubcontractorNumber
+	 * @return - Returns the routingFormSubcontractorAmount
 	 * 
 	 */
-	public String getProposalSubcontractorNumber() { 
-		return proposalSubcontractorNumber;
+	public BigDecimal getRoutingFormSubcontractorAmount() { 
+		return routingFormSubcontractorAmount;
 	}
 
 	/**
-	 * Sets the proposalSubcontractorNumber attribute.
+	 * Sets the routingFormSubcontractorAmount attribute.
 	 * 
-	 * @param - proposalSubcontractorNumber The proposalSubcontractorNumber to set.
+	 * @param - routingFormSubcontractorAmount The routingFormSubcontractorAmount to set.
 	 * 
 	 */
-	public void setProposalSubcontractorNumber(String proposalSubcontractorNumber) {
-		this.proposalSubcontractorNumber = proposalSubcontractorNumber;
+	public void setRoutingFormSubcontractorAmount(BigDecimal routingFormSubcontractorAmount) {
+		this.routingFormSubcontractorAmount = routingFormSubcontractorAmount;
 	}
 
 
 	/**
-	 * Gets the proposalSubcontractorName attribute.
+	 * Gets the routingFormSubcontractorNumber attribute.
 	 * 
-	 * @return - Returns the proposalSubcontractorName
+	 * @return - Returns the routingFormSubcontractorNumber
 	 * 
 	 */
-	public String getProposalSubcontractorName() { 
-		return proposalSubcontractorName;
+	public String getRoutingFormSubcontractorNumber() { 
+		return routingFormSubcontractorNumber;
 	}
 
 	/**
-	 * Sets the proposalSubcontractorName attribute.
+	 * Sets the routingFormSubcontractorNumber attribute.
 	 * 
-	 * @param - proposalSubcontractorName The proposalSubcontractorName to set.
+	 * @param - routingFormSubcontractorNumber The routingFormSubcontractorNumber to set.
 	 * 
 	 */
-	public void setProposalSubcontractorName(String proposalSubcontractorName) {
-		this.proposalSubcontractorName = proposalSubcontractorName;
+	public void setRoutingFormSubcontractorNumber(String routingFormSubcontractorNumber) {
+		this.routingFormSubcontractorNumber = routingFormSubcontractorNumber;
+	}
+
+
+	/**
+	 * Gets the routingFormSubcontractorName attribute.
+	 * 
+	 * @return - Returns the routingFormSubcontractorName
+	 * 
+	 */
+	public String getRoutingFormSubcontractorName() { 
+		return routingFormSubcontractorName;
+	}
+
+	/**
+	 * Sets the routingFormSubcontractorName attribute.
+	 * 
+	 * @param - routingFormSubcontractorName The routingFormSubcontractorName to set.
+	 * 
+	 */
+	public void setRoutingFormSubcontractorName(String routingFormSubcontractorName) {
+		this.routingFormSubcontractorName = routingFormSubcontractorName;
 	}
 
 
@@ -152,8 +152,8 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("researchDocumentNumber", this.researchDocumentNumber);
-        if (this.proposalSubcontractorSequenceNumber != null) {
-            m.put("proposalSubcontractorSequenceNumber", this.proposalSubcontractorSequenceNumber.toString());
+        if (this.routingFormSubcontractorSequenceNumber != null) {
+            m.put("routingFormSubcontractorSequenceNumber", this.routingFormSubcontractorSequenceNumber.toString());
         }
 	    return m;
     }

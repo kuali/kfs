@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormConflictOfInterest.xml,v $
  
@@ -27,7 +27,7 @@
             <title>Routing Form Conflict Of Interest Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="proposalConflictOfInterestDescription" />
+                <field attributeName="routingFormConflictOfInterestDescription" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
         </inquiry>
@@ -44,20 +44,20 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="proposalConflictOfInterestDescription" required="false" />
+                <lookupField attributeName="routingFormConflictOfInterestDescription" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="proposalConflictOfInterestDescription" />
+                <field attributeName="routingFormConflictOfInterestDescription" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="proposalConflictOfInterestDescription" forceUppercase="true">
-                <label>Proposal Conflict Of Interest Description</label>
+            <attribute name="routingFormConflictOfInterestDescription" forceUppercase="true">
+                <label>Routing Form Conflict Of Interest Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>1000</maxLength>
@@ -67,8 +67,8 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>proposalConflictOfInterestDescription</summary>
-                <description>proposalConflictOfInterestDescription description...</description>
+                <summary>routingFormConflictOfInterestDescription</summary>
+                <description>routingFormConflictOfInterestDescription description...</description>
 			</attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

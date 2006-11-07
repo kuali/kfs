@@ -42,8 +42,8 @@
             <table cellpadding=0 cellspacing="0"  summary="">
               <tr>
                 <th width="50">&nbsp;</th>
-                <th> <div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.proposalSubcontractorName}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
-                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.proposalSubcontractorAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
+                <th> <div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.routingFormSubcontractorName}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
                 <th>Action</th>
 
               </tr>
@@ -52,15 +52,15 @@
                 <td class="infoline">
                 	<div align="center">
 			    	<c:if test="${!viewOnly}">
-		                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.proposalSubcontractorName" attributeEntry="${subcontractorAttributes.proposalSubcontractorName}" />
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.proposalSubcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.proposalSubcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorName" attributeEntry="${subcontractorAttributes.routingFormSubcontractorName}" />
+			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.routingFormSubcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.routingFormSubcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
                     </div>
                 </td>
                 <td class="infoline">
                 	<div align="right">
 				    	<c:if test="${!viewOnly}">
-			                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.proposalSubcontractorAmount" attributeEntry="${subcontractorAttributes.proposalSubcontractorAmount}" />
+			                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" />
 	                	</c:if>
                   	</div>
                 </td>
@@ -74,8 +74,8 @@
 
 
               <c:forEach items = "${KualiForm.document.routingFormSubcontractors}" var="routingFormSubcontractor" varStatus="status"  >
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorSequenceNumber" attributeEntry="${subcontractorAttributes.proposalSubcontractorSequenceNumber}" />
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorNumber" attributeEntry="${subcontractorAttributes.proposalSubcontractorNumber}" />
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorSequenceNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorSequenceNumber}" />
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" />
 				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].researchDocumentNumber" attributeEntry="${subcontractorAttributes.researchDocumentNumber}"/>
 				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].objectId" attributeEntry="${subcontractorAttributes.objectId}" />
 				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].versionNumber" attributeEntry="${subcontractorAttributes.versionNumber}"/>
@@ -89,12 +89,12 @@
 	                </th>
 	                <td>
 	                	<div align="center">
-			                <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorName" attributeEntry="${subcontractorAttributes.proposalSubcontractorName}" />
+			                <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorName" attributeEntry="${subcontractorAttributes.routingFormSubcontractorName}" />
 	                    </div>
 	                </td>
 	                <td>
 	                	<div align="right">
-				            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].proposalSubcontractorAmount" attributeEntry="${subcontractorAttributes.proposalSubcontractorAmount}" />
+				            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" />
 	                    </div>
 	                </td>
 	                <td><div align=center>

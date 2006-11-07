@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormBudget.xml,v $
  
@@ -27,14 +27,14 @@
             <title>Routing Form Budget Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="proposalBudgetDirectAmount" />
-                <field attributeName="proposalBudgetEndDate" />
-                <field attributeName="proposalBudgetIndirectCostAmount" />
-                <field attributeName="proposalBudgetIndirectCostDescription" />
-                <field attributeName="proposalBudgetMaximumPeriodNumber" />
-                <field attributeName="proposalBudgetMinimumPeriodNumber" />
-                <field attributeName="proposalBudgetStartDate" />
-                <field attributeName="proposalBudgetTypeCode" />
+                <field attributeName="routingFormBudgetDirectAmount" />
+                <field attributeName="routingFormBudgetEndDate" />
+                <field attributeName="routingFormBudgetIndirectCostAmount" />
+                <field attributeName="routingFormBudgetIndirectCostDescription" />
+                <field attributeName="routingFormBudgetMaximumPeriodNumber" />
+                <field attributeName="routingFormBudgetMinimumPeriodNumber" />
+                <field attributeName="routingFormBudgetStartDate" />
+                <field attributeName="routingFormBudgetTypeCode" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
         </inquiry>
@@ -46,40 +46,40 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="proposalBudgetTypeCode" />
+                    <sortAttribute attributeName="routingFormBudgetTypeCode" />
                     <sortAttribute attributeName="researchDocumentNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="proposalBudgetDirectAmount" required="false" />
-                <lookupField attributeName="proposalBudgetEndDate" required="false" />
-                <lookupField attributeName="proposalBudgetIndirectCostAmount" required="false" />
-                <lookupField attributeName="proposalBudgetIndirectCostDescription" required="false" />
-                <lookupField attributeName="proposalBudgetMaximumPeriodNumber" required="false" />
-                <lookupField attributeName="proposalBudgetMinimumPeriodNumber" required="false" />
-                <lookupField attributeName="proposalBudgetStartDate" required="false" />
-                <lookupField attributeName="proposalBudgetTypeCode" required="false" />
+                <lookupField attributeName="routingFormBudgetDirectAmount" required="false" />
+                <lookupField attributeName="routingFormBudgetEndDate" required="false" />
+                <lookupField attributeName="routingFormBudgetIndirectCostAmount" required="false" />
+                <lookupField attributeName="routingFormBudgetIndirectCostDescription" required="false" />
+                <lookupField attributeName="routingFormBudgetMaximumPeriodNumber" required="false" />
+                <lookupField attributeName="routingFormBudgetMinimumPeriodNumber" required="false" />
+                <lookupField attributeName="routingFormBudgetStartDate" required="false" />
+                <lookupField attributeName="routingFormBudgetTypeCode" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="proposalBudgetDirectAmount" />
-                <field attributeName="proposalBudgetEndDate" />
-                <field attributeName="proposalBudgetIndirectCostAmount" />
-                <field attributeName="proposalBudgetIndirectCostDescription" />
-                <field attributeName="proposalBudgetMaximumPeriodNumber" />
-                <field attributeName="proposalBudgetMinimumPeriodNumber" />
-                <field attributeName="proposalBudgetStartDate" />
-                <field attributeName="proposalBudgetTypeCode" />
+                <field attributeName="routingFormBudgetDirectAmount" />
+                <field attributeName="routingFormBudgetEndDate" />
+                <field attributeName="routingFormBudgetIndirectCostAmount" />
+                <field attributeName="routingFormBudgetIndirectCostDescription" />
+                <field attributeName="routingFormBudgetMaximumPeriodNumber" />
+                <field attributeName="routingFormBudgetMinimumPeriodNumber" />
+                <field attributeName="routingFormBudgetStartDate" />
+                <field attributeName="routingFormBudgetTypeCode" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="proposalBudgetDirectAmount" forceUppercase="true">
-                <label>Proposal Budget Direct Amount</label>
+            <attribute name="routingFormBudgetDirectAmount" forceUppercase="true">
+                <label>Routing Form Budget Direct Amount</label>
                 <shortLabel>Direct Costs</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -89,12 +89,12 @@
                     <text size="21" />
                 </control>
 
-                <summary>proposalBudgetDirectAmount</summary>
-                <description>proposalBudgetDirectAmount description...</description>
+                <summary>routingFormBudgetDirectAmount</summary>
+                <description>routingFormBudgetDirectAmount description...</description>
 			</attribute>
 
-            <attribute name="proposalBudgetEndDate" forceUppercase="true">
-                <label>Proposal Budget End Date</label>
+            <attribute name="routingFormBudgetEndDate" forceUppercase="true">
+                <label>Routing Form Budget End Date</label>
                 <shortLabel>End Date</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -104,12 +104,12 @@
                     <text size="10" />
                 </control>
 
-                <summary>proposalBudgetEndDate</summary>
-                <description>proposalBudgetEndDate description...</description>
+                <summary>routingFormBudgetEndDate</summary>
+                <description>routingFormBudgetEndDate description...</description>
 			</attribute>
 
-            <attribute name="proposalBudgetIndirectCostAmount" forceUppercase="true">
-                <label>Proposal Budget Indirect Cost Amount</label>
+            <attribute name="routingFormBudgetIndirectCostAmount" forceUppercase="true">
+                <label>Routing Form Budget Indirect Cost Amount</label>
                 <shortLabel>Indirect Costs</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -119,12 +119,12 @@
                     <text size="21" />
                 </control>
 
-                <summary>proposalBudgetIndirectCostAmount</summary>
-                <description>proposalBudgetIndirectCostAmount description...</description>
+                <summary>routingFormBudgetIndirectCostAmount</summary>
+                <description>routingFormBudgetIndirectCostAmount description...</description>
 			</attribute>
 
-            <attribute name="proposalBudgetIndirectCostDescription" forceUppercase="true">
-                <label>Proposal Budget Indirect Cost Description</label>
+            <attribute name="routingFormBudgetIndirectCostDescription" forceUppercase="true">
+                <label>Routing Form Budget Indirect Cost Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>1000</maxLength>
@@ -134,12 +134,12 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>proposalBudgetIndirectCostDescription</summary>
-                <description>proposalBudgetIndirectCostDescription description...</description>
+                <summary>routingFormBudgetIndirectCostDescription</summary>
+                <description>routingFormBudgetIndirectCostDescription description...</description>
 			</attribute>
 
-            <attribute name="proposalBudgetMaximumPeriodNumber" forceUppercase="true">
-                <label>Proposal Budget Maximum Period Number</label>
+            <attribute name="routingFormBudgetMaximumPeriodNumber" forceUppercase="true">
+                <label>Routing Form Budget Maximum Period Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -149,12 +149,12 @@
                     <text size="4" />
                 </control>
 
-                <summary>proposalBudgetMaximumPeriodNumber</summary>
-                <description>proposalBudgetMaximumPeriodNumber description...</description>
+                <summary>routingFormBudgetMaximumPeriodNumber</summary>
+                <description>routingFormBudgetMaximumPeriodNumber description...</description>
 			</attribute>
 
-            <attribute name="proposalBudgetMinimumPeriodNumber" forceUppercase="true">
-                <label>Proposal Budget Minimum Period Number</label>
+            <attribute name="routingFormBudgetMinimumPeriodNumber" forceUppercase="true">
+                <label>Routing Form Budget Minimum Period Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -164,12 +164,12 @@
                     <text size="4" />
                 </control>
 
-                <summary>proposalBudgetMinimumPeriodNumber</summary>
-                <description>proposalBudgetMinimumPeriodNumber description...</description>
+                <summary>routingFormBudgetMinimumPeriodNumber</summary>
+                <description>routingFormBudgetMinimumPeriodNumber description...</description>
 			</attribute>
 
-            <attribute name="proposalBudgetStartDate" forceUppercase="true">
-                <label>Proposal Budget Start Date</label>
+            <attribute name="routingFormBudgetStartDate" forceUppercase="true">
+                <label>Routing Form Budget Start Date</label>
                 <shortLabel>Start Date</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -179,12 +179,12 @@
                     <text size="10" />
                 </control>
 
-                <summary>proposalBudgetStartDate</summary>
-                <description>proposalBudgetStartDate description...</description>
+                <summary>routingFormBudgetStartDate</summary>
+                <description>routingFormBudgetStartDate description...</description>
 			</attribute>
 
-            <attribute name="proposalBudgetTypeCode" forceUppercase="true">
-                <label>Proposal Budget Type Code</label>
+            <attribute name="routingFormBudgetTypeCode" forceUppercase="true">
+                <label>Routing Form Budget Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -194,8 +194,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>proposalBudgetTypeCode</summary>
-                <description>proposalBudgetTypeCode description...</description>
+                <summary>routingFormBudgetTypeCode</summary>
+                <description>routingFormBudgetTypeCode description...</description>
 			</attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

@@ -49,9 +49,9 @@
                 <th width="50">&nbsp;</th>
                 <th><kul:htmlAttributeLabel attributeEntry="${institutionCostShareAttributes.chartOfAccountsCode}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
                 <th><kul:htmlAttributeLabel attributeEntry="${institutionCostShareAttributes.organizationCode}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
-                <th><kul:htmlAttributeLabel attributeEntry="${institutionCostShareAttributes.proposalCostShareDescription}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
+                <th><kul:htmlAttributeLabel attributeEntry="${institutionCostShareAttributes.routingFormCostShareDescription}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
                 <th><kul:htmlAttributeLabel attributeEntry="${institutionCostShareAttributes.accountNumber}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
-                <th><kul:htmlAttributeLabel attributeEntry="${institutionCostShareAttributes.proposalCostShareAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
+                <th><kul:htmlAttributeLabel attributeEntry="${institutionCostShareAttributes.routingFormCostShareAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
                 <th>Action</th>
               </tr>
 
@@ -72,7 +72,7 @@
                 </div></td>
                 <td class="infoline"> <div align="center">
 			    	<c:if test="${!viewOnly}">
-		                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.proposalCostShareDescription" attributeEntry="${institutionCostShareAttributes.proposalCostShareDescription}" />
+		                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.routingFormCostShareDescription" attributeEntry="${institutionCostShareAttributes.routingFormCostShareDescription}" />
                 	</c:if>
                 </div></td>
                 <td class="infoline"> <div align="center">
@@ -83,14 +83,14 @@
                 </div></td>
                 <td class="infoline"> <div align="right">
 			    	<c:if test="${!viewOnly}">
-		                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.proposalCostShareAmount" attributeEntry="${institutionCostShareAttributes.proposalCostShareAmount}" />
+		                <kul:htmlControlAttribute property="newRoutingFormInstitutionCostShare.routingFormCostShareAmount" attributeEntry="${institutionCostShareAttributes.routingFormCostShareAmount}" />
                 	</c:if>
                 </div></td>
                 <td class="infoline"><div align="center"><html:image property="methodToCall.insertRoutingFormInstitutionCostShare.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add institution cost share"/></div></td>
               </tr>   
               
               <c:forEach items = "${KualiForm.document.routingFormInstitutionCostShares}" var="routingFormInstitutionCostShare" varStatus="status"  >
-				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].proposalCostShareSequenceNumber" attributeEntry="${institutionCostShareAttributes.proposalCostShareSequenceNumber}" />
+				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].routingFormCostShareSequenceNumber" attributeEntry="${institutionCostShareAttributes.routingFormCostShareSequenceNumber}" />
 				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].researchDocumentNumber" attributeEntry="${institutionCostShareAttributes.researchDocumentNumber}"/>
 				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].objectId" attributeEntry="${institutionCostShareAttributes.objectId}" />
 				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].versionNumber" attributeEntry="${institutionCostShareAttributes.versionNumber}"/>
@@ -111,7 +111,7 @@
 	                </div></td>
 	                <td class="neutral"> <div align="center">
 				    	<c:if test="${!viewOnly}">
-			                <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].proposalCostShareDescription" attributeEntry="${institutionCostShareAttributes.proposalCostShareDescription}" />
+			                <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].routingFormCostShareDescription" attributeEntry="${institutionCostShareAttributes.routingFormCostShareDescription}" />
 	                	</c:if>
 	                </div></td>
 	                <td class="neutral"> <div align="center">
@@ -121,7 +121,7 @@
 	                </div></td>
 	                <td class="neutral"> <div align="right">
 				    	<c:if test="${!viewOnly}">
-			                <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].proposalCostShareAmount" attributeEntry="${institutionCostShareAttributes.proposalCostShareAmount}" />
+			                <kul:htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].routingFormCostShareAmount" attributeEntry="${institutionCostShareAttributes.routingFormCostShareAmount}" />
 	                	</c:if>
 	                </div></td>
 	                <td class="neutral"><div align="center"><html:image property="methodToCall.deleteRoutingFormInstitutionCostShare.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete institution cost share"/></div></td>
@@ -140,20 +140,20 @@
               </tr>
               <tr>
                 <th>&nbsp;</th>
-                <th colspan="3"><kul:htmlAttributeLabel attributeEntry="${otherCostShareAttributes.proposalCostShareSourceName}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
-                <th colspan="2"><kul:htmlAttributeLabel attributeEntry="${otherCostShareAttributes.proposalCostShareAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
+                <th colspan="3"><kul:htmlAttributeLabel attributeEntry="${otherCostShareAttributes.routingFormCostShareSourceName}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
+                <th colspan="2"><kul:htmlAttributeLabel attributeEntry="${otherCostShareAttributes.routingFormCostShareAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></th>
                 <th >Action</th>
               </tr>
               <tr>
                 <th scope="row">add:</th>
                 <td colspan="3" class="infoline"><div align="center">
 			    	<c:if test="${!viewOnly}">
-		                <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.proposalCostShareSourceName" attributeEntry="${otherCostShareAttributes.proposalCostShareSourceName}" />
+		                <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.routingFormCostShareSourceName" attributeEntry="${otherCostShareAttributes.routingFormCostShareSourceName}" />
                 	</c:if>
                 </div></td>
                 <td colspan="2" class="infoline"><div align="right">
 			    	<c:if test="${!viewOnly}">
-		                <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.proposalCostShareAmount" attributeEntry="${otherCostShareAttributes.proposalCostShareAmount}" />
+		                <kul:htmlControlAttribute property="newRoutingFormOtherCostShare.routingFormCostShareAmount" attributeEntry="${otherCostShareAttributes.routingFormCostShareAmount}" />
                 	</c:if>
                	</div></td>
                 <td class="infoline">
@@ -165,7 +165,7 @@
 
 
               <c:forEach items = "${KualiForm.document.routingFormOtherCostShares}" var="routingFormOtherCostShare" varStatus="status"  >
-				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].proposalCostShareSequenceNumber" attributeEntry="${otherCostShareAttributes.proposalCostShareSequenceNumber}" />
+				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].routingFormCostShareSequenceNumber" attributeEntry="${otherCostShareAttributes.routingFormCostShareSequenceNumber}" />
 				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].researchDocumentNumber" attributeEntry="${otherCostShareAttributes.researchDocumentNumber}"/>
 				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].objectId" attributeEntry="${otherCostShareAttributes.objectId}" />
 				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].versionNumber" attributeEntry="${otherCostShareAttributes.versionNumber}"/>
@@ -179,14 +179,14 @@
 	                <td colspan="3">
 	                	<div align="center">
 					    	<c:if test="${!viewOnly}">
-				                <kul:htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].proposalCostShareSourceName" attributeEntry="${otherCostShareAttributes.proposalCostShareSourceName}" />
+				                <kul:htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].routingFormCostShareSourceName" attributeEntry="${otherCostShareAttributes.routingFormCostShareSourceName}" />
 		                	</c:if>
 	                	</div>
 	                </td>
 	                <td colspan="2">
 	                	<div align="right">
 					    	<c:if test="${!viewOnly}">
-				                <kul:htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].proposalCostShareAmount" attributeEntry="${otherCostShareAttributes.proposalCostShareAmount}" />
+				                <kul:htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].routingFormCostShareAmount" attributeEntry="${otherCostShareAttributes.routingFormCostShareAmount}" />
 		                	</c:if>
 	                	</div>
 	                </td>

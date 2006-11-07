@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormOrganization.java,v $
  * 
@@ -33,7 +33,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	private String organizationCode;
 	private String researchDocumentNumber;
 	private boolean budgetIndicator;
-	private boolean proposalPrimaryOrganizationIndicator;
+	private boolean routingFormPrimaryOrganizationIndicator;
 
     private Chart chartOfAccounts;
 	private Org organization;
@@ -129,23 +129,23 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalPrimaryOrganizationIndicator attribute.
+	 * Gets the routingFormPrimaryOrganizationIndicator attribute.
 	 * 
-	 * @return - Returns the proposalPrimaryOrganizationIndicator
+	 * @return - Returns the routingFormPrimaryOrganizationIndicator
 	 * 
 	 */
-	public boolean getProposalPrimaryOrganizationIndicator() { 
-		return proposalPrimaryOrganizationIndicator;
+	public boolean getRoutingFormPrimaryOrganizationIndicator() { 
+		return routingFormPrimaryOrganizationIndicator;
 	}
 
 	/**
-	 * Sets the proposalPrimaryOrganizationIndicator attribute.
+	 * Sets the routingFormPrimaryOrganizationIndicator attribute.
 	 * 
-	 * @param - proposalPrimaryOrganizationIndicator The proposalPrimaryOrganizationIndicator to set.
+	 * @param - routingFormPrimaryOrganizationIndicator The routingFormPrimaryOrganizationIndicator to set.
 	 * 
 	 */
-	public void setProposalPrimaryOrganizationIndicator(boolean proposalPrimaryOrganizationIndicator) {
-		this.proposalPrimaryOrganizationIndicator = proposalPrimaryOrganizationIndicator;
+	public void setRoutingFormPrimaryOrganizationIndicator(boolean routingFormPrimaryOrganizationIndicator) {
+		this.routingFormPrimaryOrganizationIndicator = routingFormPrimaryOrganizationIndicator;
 	}
 
 

@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/web-root/WEB-INF/tags/kra/routingform/routingFormMainPageSubmissionDetails.tag,v $
  
@@ -107,9 +107,9 @@
 
               </tr>
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.proposalPriorGrantNumber}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routingFormPriorGrantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.proposalPriorGrantNumber" attributeEntry="${documentAttributes.proposalPriorGrantNumber}"  />
+                	<kul:htmlControlAttribute property="document.routingFormPriorGrantNumber" attributeEntry="${documentAttributes.routingFormPriorGrantNumber}"  />
                	</td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionAccountNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
@@ -171,10 +171,10 @@
                 <td colspan=4 class="tab-subhead"><span class="left">Project Summary </span> </td>
               </tr>
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.proposalProjectTitle}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routingFormProjectTitle}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="3" align=left valign=middle nowrap >
-                	<kul:htmlControlAttribute property="document.proposalProjectTitle" attributeEntry="${documentAttributes.proposalProjectTitle}" />
+                	<kul:htmlControlAttribute property="document.routingFormProjectTitle" attributeEntry="${documentAttributes.routingFormProjectTitle}" />
                 </td>
               </tr>
               <tr>
@@ -185,8 +185,8 @@
 		              <tr>
 		                <td class="neutral"> <div align="left">
 					    	<c:if test="${!viewOnly}">
-						    	<html:hidden write="true" property="newRoutingFormKeyword.proposalKeywordDescription" /> 
-					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookupParameters="newRoutingFormKeyword.proposalKeywordDescription:proposalKeywordDescription" fieldConversions="proposalKeywordDescription:newRoutingFormKeyword.proposalKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
+						    	<html:hidden write="true" property="newRoutingFormKeyword.routingFormKeywordDescription" /> 
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookupParameters="newRoutingFormKeyword.routingFormKeywordDescription:routingFormKeywordDescription" fieldConversions="routingFormKeywordDescription:newRoutingFormKeyword.routingFormKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
 		                	</c:if>
 		                </div></td>
 		                <td class="neutral"><div align="center"><html:image property="methodToCall.insertRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add keyword"/></div></td>
@@ -195,7 +195,7 @@
 		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var="routingFormKeyword" varStatus="status"  >
 					  <tr>
 		                <td class="neutral"> <div align="left">
-		                  <kul:htmlControlAttribute property="document.routingFormKeyword[${status.index}].proposalKeywordDescription" attributeEntry="${routingFormKeywordAttributes.proposalKeywordDescription}" />
+		                  <kul:htmlControlAttribute property="document.routingFormKeyword[${status.index}].routingFormKeywordDescription" attributeEntry="${routingFormKeywordAttributes.routingFormKeywordDescription}" />
 		                </div></td>
 		                <td class="neutral"><div align="center"><html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div></td>
 		              </tr>   
@@ -212,24 +212,24 @@
 
               </tr>
               <tr>
-                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetDirectAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td width="30%" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.proposalBudgetDirectAmount}"  />
+                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}"  />
                 </td>
-                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetStartDate}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td width="30%" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.proposalBudgetStartDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" datePicker="true" />
                 </td>
               </tr>
 
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetIndirectCostAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.proposalBudgetIndirectCostAmount}"  />
+                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}"  />
                 </td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.proposalBudgetEndDate}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.proposalBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.proposalBudgetEndDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" datePicker="true" />
                 </td>
               </tr>
               <tr>

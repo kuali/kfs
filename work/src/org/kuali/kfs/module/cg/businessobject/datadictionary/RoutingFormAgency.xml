@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormAgency.xml,v $
  
@@ -45,12 +45,12 @@
                 <field attributeName="agencyShippingInstructionsDescription" />
                 <field attributeName="agencyStateCode" />
                 <field attributeName="agencyZipCode" />
-                <field attributeName="proposalDueDate" />
-                <field attributeName="proposalDueDateTypeCode" />
-                <field attributeName="proposalDueTime" />
-                <field attributeName="proposalRequiredCopyNumber" />
-                <field attributeName="proposalRequiredCopyText" />
-                <field attributeName="proposalSubmitDate" />
+                <field attributeName="routingFormDueDate" />
+                <field attributeName="routingFormDueDateTypeCode" />
+                <field attributeName="routingFormDueTime" />
+                <field attributeName="routingFormRequiredCopyNumber" />
+                <field attributeName="routingFormRequiredCopyText" />
+                <field attributeName="routingFormSubmitDate" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
         </inquiry>
@@ -85,12 +85,12 @@
                 <lookupField attributeName="agencyShippingInstructionsDescription" required="false" />
                 <lookupField attributeName="agencyStateCode" required="false" />
                 <lookupField attributeName="agencyZipCode" required="false" />
-                <lookupField attributeName="proposalDueDate" required="false" />
-                <lookupField attributeName="proposalDueDateTypeCode" required="false" />
-                <lookupField attributeName="proposalDueTime" required="false" />
-                <lookupField attributeName="proposalRequiredCopyNumber" required="false" />
-                <lookupField attributeName="proposalRequiredCopyText" required="false" />
-                <lookupField attributeName="proposalSubmitDate" required="false" />
+                <lookupField attributeName="routingFormDueDate" required="false" />
+                <lookupField attributeName="routingFormDueDateTypeCode" required="false" />
+                <lookupField attributeName="routingFormDueTime" required="false" />
+                <lookupField attributeName="routingFormRequiredCopyNumber" required="false" />
+                <lookupField attributeName="routingFormRequiredCopyText" required="false" />
+                <lookupField attributeName="routingFormSubmitDate" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
 
@@ -113,12 +113,12 @@
                 <field attributeName="agencyShippingInstructionsDescription" />
                 <field attributeName="agencyStateCode" />
                 <field attributeName="agencyZipCode" />
-                <field attributeName="proposalDueDate" />
-                <field attributeName="proposalDueDateTypeCode" />
-                <field attributeName="proposalDueTime" />
-                <field attributeName="proposalRequiredCopyNumber" />
-                <field attributeName="proposalRequiredCopyText" />
-                <field attributeName="proposalSubmitDate" />
+                <field attributeName="routingFormDueDate" />
+                <field attributeName="routingFormDueDateTypeCode" />
+                <field attributeName="routingFormDueTime" />
+                <field attributeName="routingFormRequiredCopyNumber" />
+                <field attributeName="routingFormRequiredCopyText" />
+                <field attributeName="routingFormSubmitDate" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
         </lookup>
@@ -186,7 +186,7 @@
 			</attribute>
 
             <attribute name="agencyDiskAccompanyIndicator" forceUppercase="true">
-                <label>Disk to Accompany Proposal</label>
+                <label>Disk to Accompany Routing Form</label>
                 <shortLabel>Accompany</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -393,7 +393,7 @@
                 <description>agencyZipCode description...</description>
 			</attribute>
 
-            <attribute name="proposalDueDate" forceUppercase="true">
+            <attribute name="routingFormDueDate" forceUppercase="true">
                 <label>Due Date</label>
                 <shortLabel>Date</shortLabel>
 
@@ -404,11 +404,11 @@
                     <text size="10" />
                 </control>
 
-                <summary>proposalDueDate</summary>
-                <description>proposalDueDate description...</description>
+                <summary>routingFormDueDate</summary>
+                <description>routingFormDueDate description...</description>
 			</attribute>
 
-            <attribute name="proposalDueDateTypeCode" forceUppercase="true">
+            <attribute name="routingFormDueDateTypeCode" forceUppercase="true">
                 <label>Due Date Type</label>
                 <shortLabel>Code</shortLabel>
 
@@ -419,12 +419,12 @@
                     <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormDueDateTypeValuesFinder" />
                 </control>
 
-                <summary>proposalDueDateTypeCode</summary>
-                <description>proposalDueDateTypeCode description...</description>
+                <summary>routingFormDueDateTypeCode</summary>
+                <description>routingFormDueDateTypeCode description...</description>
 			</attribute>
 
-            <attribute name="proposalDueTime" forceUppercase="true">
-                <label>Proposal Due Time</label>
+            <attribute name="routingFormDueTime" forceUppercase="true">
+                <label>Routing Form Due Time</label>
                 <shortLabel>Time</shortLabel>
 
                 <maxLength>15</maxLength>
@@ -434,12 +434,12 @@
                     <text size="17" />
                 </control>
 
-                <summary>proposalDueTime</summary>
-                <description>proposalDueTime description...</description>
+                <summary>routingFormDueTime</summary>
+                <description>routingFormDueTime description...</description>
 			</attribute>
 
-            <attribute name="proposalRequiredCopyNumber" forceUppercase="true">
-                <label>Proposal Required Copy Number</label>
+            <attribute name="routingFormRequiredCopyNumber" forceUppercase="true">
+                <label>Routing Form Required Copy Number</label>
                 <shortLabel>Copies to Agency</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -449,12 +449,12 @@
                     <text size="5" />
                 </control>
 
-                <summary>proposalRequiredCopyNumber</summary>
-                <description>proposalRequiredCopyNumber description...</description>
+                <summary>routingFormRequiredCopyNumber</summary>
+                <description>routingFormRequiredCopyNumber description...</description>
 			</attribute>
 
-            <attribute name="proposalRequiredCopyText" forceUppercase="true">
-                <label>Proposal Required Copy Text</label>
+            <attribute name="routingFormRequiredCopyText" forceUppercase="true">
+                <label>Routing Form Required Copy Text</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>20</maxLength>
@@ -464,12 +464,12 @@
                     <text size="22" />
                 </control>
 
-                <summary>proposalRequiredCopyText</summary>
-                <description>proposalRequiredCopyText description...</description>
+                <summary>routingFormRequiredCopyText</summary>
+                <description>routingFormRequiredCopyText description...</description>
 			</attribute>
 
-            <attribute name="proposalSubmitDate" forceUppercase="true">
-                <label>Proposal Submit Date</label>
+            <attribute name="routingFormSubmitDate" forceUppercase="true">
+                <label>Routing Form Submit Date</label>
                 <shortLabel>Date</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -479,8 +479,8 @@
                     <text size="9" />
                 </control>
 
-                <summary>proposalSubmitDate</summary>
-                <description>proposalSubmitDate description...</description>
+                <summary>routingFormSubmitDate</summary>
+                <description>routingFormSubmitDate description...</description>
 			</attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

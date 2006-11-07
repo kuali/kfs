@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormInstitutionCostShare.xml,v $
  
@@ -30,9 +30,9 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="proposalCostShareAmount" />
-                <field attributeName="proposalCostShareDescription" />
-                <field attributeName="proposalCostShareSequenceNumber" />
+                <field attributeName="routingFormCostShareAmount" />
+                <field attributeName="routingFormCostShareDescription" />
+                <field attributeName="routingFormCostShareSequenceNumber" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
         </inquiry>
@@ -44,7 +44,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="proposalCostShareSequenceNumber" />
+                    <sortAttribute attributeName="routingFormCostShareSequenceNumber" />
                     <sortAttribute attributeName="researchDocumentNumber" />
                 </sortAttributes>
             </defaultSort>
@@ -53,9 +53,9 @@
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="proposalCostShareAmount" required="false" />
-                <lookupField attributeName="proposalCostShareDescription" required="false" />
-                <lookupField attributeName="proposalCostShareSequenceNumber" required="false" />
+                <lookupField attributeName="routingFormCostShareAmount" required="false" />
+                <lookupField attributeName="routingFormCostShareDescription" required="false" />
+                <lookupField attributeName="routingFormCostShareSequenceNumber" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
 
@@ -63,9 +63,9 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="proposalCostShareAmount" />
-                <field attributeName="proposalCostShareDescription" />
-                <field attributeName="proposalCostShareSequenceNumber" />
+                <field attributeName="routingFormCostShareAmount" />
+                <field attributeName="routingFormCostShareDescription" />
+                <field attributeName="routingFormCostShareSequenceNumber" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
         </lookup>
@@ -117,8 +117,8 @@
                 <description>organizationCode description...</description>
 			</attribute>
 
-            <attribute name="proposalCostShareAmount" forceUppercase="true">
-                <label>Proposal Cost Share Amount</label>
+            <attribute name="routingFormCostShareAmount" forceUppercase="true">
+                <label>Routing Form Cost Share Amount</label>
                 <shortLabel>Amount</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -131,12 +131,12 @@
                     <currency size="10" formattedMaxLength="26" />
                 </control>
 
-                <summary>proposalCostShareAmount</summary>
-                <description>proposalCostShareAmount description...</description>
+                <summary>routingFormCostShareAmount</summary>
+                <description>routingFormCostShareAmount description...</description>
 			</attribute>
 
-            <attribute name="proposalCostShareDescription" forceUppercase="true">
-                <label>Proposal Cost Share Description</label>
+            <attribute name="routingFormCostShareDescription" forceUppercase="true">
+                <label>Routing Form Cost Share Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>250</maxLength>
@@ -146,12 +146,12 @@
                     <text size="50"/>
                 </control>
 
-                <summary>proposalCostShareDescription</summary>
-                <description>proposalCostShareDescription description...</description>
+                <summary>routingFormCostShareDescription</summary>
+                <description>routingFormCostShareDescription description...</description>
 			</attribute>
 
-            <attribute name="proposalCostShareSequenceNumber" forceUppercase="true">
-                <label>Proposal Cost Share Sequence Number</label>
+            <attribute name="routingFormCostShareSequenceNumber" forceUppercase="true">
+                <label>Routing Form Cost Share Sequence Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -161,8 +161,8 @@
                     <hidden />
                 </control>
 
-                <summary>proposalCostShareSequenceNumber</summary>
-                <description>proposalCostShareSequenceNumber description...</description>
+                <summary>routingFormCostShareSequenceNumber</summary>
+                <description>routingFormCostShareSequenceNumber description...</description>
 			</attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

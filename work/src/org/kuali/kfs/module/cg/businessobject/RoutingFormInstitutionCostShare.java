@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormInstitutionCostShare.java,v $
  * 
@@ -31,13 +31,13 @@ import org.kuali.module.chart.bo.Org;
  */
 public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 
-	private Integer proposalCostShareSequenceNumber;
+	private Integer routingFormCostShareSequenceNumber;
 	private String researchDocumentNumber;
 	private String accountNumber;
 	private String chartOfAccountsCode;
 	private String organizationCode;
-	private BigDecimal proposalCostShareAmount;
-	private String proposalCostShareDescription;
+	private BigDecimal routingFormCostShareAmount;
+	private String routingFormCostShareDescription;
 
     private Account account;
 	private Chart chartOfAccounts;
@@ -51,23 +51,23 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalCostShareSequenceNumber attribute.
+	 * Gets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @return - Returns the proposalCostShareSequenceNumber
+	 * @return - Returns the routingFormCostShareSequenceNumber
 	 * 
 	 */
-	public Integer getProposalCostShareSequenceNumber() { 
-		return proposalCostShareSequenceNumber;
+	public Integer getRoutingFormCostShareSequenceNumber() { 
+		return routingFormCostShareSequenceNumber;
 	}
 
 	/**
-	 * Sets the proposalCostShareSequenceNumber attribute.
+	 * Sets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @param - proposalCostShareSequenceNumber The proposalCostShareSequenceNumber to set.
+	 * @param - routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
 	 * 
 	 */
-	public void setProposalCostShareSequenceNumber(Integer proposalCostShareSequenceNumber) {
-		this.proposalCostShareSequenceNumber = proposalCostShareSequenceNumber;
+	public void setRoutingFormCostShareSequenceNumber(Integer routingFormCostShareSequenceNumber) {
+		this.routingFormCostShareSequenceNumber = routingFormCostShareSequenceNumber;
 	}
 
 
@@ -156,44 +156,44 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalCostShareAmount attribute.
+	 * Gets the routingFormCostShareAmount attribute.
 	 * 
-	 * @return - Returns the proposalCostShareAmount
+	 * @return - Returns the routingFormCostShareAmount
 	 * 
 	 */
-	public BigDecimal getProposalCostShareAmount() { 
-		return proposalCostShareAmount;
+	public BigDecimal getRoutingFormCostShareAmount() { 
+		return routingFormCostShareAmount;
 	}
 
 	/**
-	 * Sets the proposalCostShareAmount attribute.
+	 * Sets the routingFormCostShareAmount attribute.
 	 * 
-	 * @param - proposalCostShareAmount The proposalCostShareAmount to set.
+	 * @param - routingFormCostShareAmount The routingFormCostShareAmount to set.
 	 * 
 	 */
-	public void setProposalCostShareAmount(BigDecimal proposalCostShareAmount) {
-		this.proposalCostShareAmount = proposalCostShareAmount;
+	public void setRoutingFormCostShareAmount(BigDecimal routingFormCostShareAmount) {
+		this.routingFormCostShareAmount = routingFormCostShareAmount;
 	}
 
 
 	/**
-	 * Gets the proposalCostShareDescription attribute.
+	 * Gets the routingFormCostShareDescription attribute.
 	 * 
-	 * @return - Returns the proposalCostShareDescription
+	 * @return - Returns the routingFormCostShareDescription
 	 * 
 	 */
-	public String getProposalCostShareDescription() { 
-		return proposalCostShareDescription;
+	public String getRoutingFormCostShareDescription() { 
+		return routingFormCostShareDescription;
 	}
 
 	/**
-	 * Sets the proposalCostShareDescription attribute.
+	 * Sets the routingFormCostShareDescription attribute.
 	 * 
-	 * @param - proposalCostShareDescription The proposalCostShareDescription to set.
+	 * @param - routingFormCostShareDescription The routingFormCostShareDescription to set.
 	 * 
 	 */
-	public void setProposalCostShareDescription(String proposalCostShareDescription) {
-		this.proposalCostShareDescription = proposalCostShareDescription;
+	public void setRoutingFormCostShareDescription(String routingFormCostShareDescription) {
+		this.routingFormCostShareDescription = routingFormCostShareDescription;
 	}
 
 	/**
@@ -261,8 +261,8 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.proposalCostShareSequenceNumber != null) {
-            m.put("proposalCostShareSequenceNumber", this.proposalCostShareSequenceNumber.toString());
+        if (this.routingFormCostShareSequenceNumber != null) {
+            m.put("routingFormCostShareSequenceNumber", this.routingFormCostShareSequenceNumber.toString());
         }
         m.put("researchDocumentNumber", this.researchDocumentNumber);
 	    return m;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormBudget.java,v $
  * 
@@ -29,15 +29,15 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RoutingFormBudget extends BusinessObjectBase {
 
-	private String proposalBudgetTypeCode;
+	private String routingFormBudgetTypeCode;
 	private String researchDocumentNumber;
-	private Integer proposalBudgetMaximumPeriodNumber;
-	private Integer proposalBudgetMinimumPeriodNumber;
-	private BigDecimal proposalBudgetDirectAmount;
-	private Date proposalBudgetEndDate;
-	private BigDecimal proposalBudgetIndirectCostAmount;
-	private String proposalBudgetIndirectCostDescription;
-	private Date proposalBudgetStartDate;
+	private Integer routingFormBudgetMaximumPeriodNumber;
+	private Integer routingFormBudgetMinimumPeriodNumber;
+	private BigDecimal routingFormBudgetDirectAmount;
+	private Date routingFormBudgetEndDate;
+	private BigDecimal routingFormBudgetIndirectCostAmount;
+	private String routingFormBudgetIndirectCostDescription;
+	private Date routingFormBudgetStartDate;
 
 	/**
 	 * Default constructor.
@@ -47,23 +47,23 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the proposalBudgetTypeCode attribute.
+	 * Gets the routingFormBudgetTypeCode attribute.
 	 * 
-	 * @return - Returns the proposalBudgetTypeCode
+	 * @return - Returns the routingFormBudgetTypeCode
 	 * 
 	 */
-	public String getProposalBudgetTypeCode() { 
-		return proposalBudgetTypeCode;
+	public String getRoutingFormBudgetTypeCode() { 
+		return routingFormBudgetTypeCode;
 	}
 
 	/**
-	 * Sets the proposalBudgetTypeCode attribute.
+	 * Sets the routingFormBudgetTypeCode attribute.
 	 * 
-	 * @param - proposalBudgetTypeCode The proposalBudgetTypeCode to set.
+	 * @param - routingFormBudgetTypeCode The routingFormBudgetTypeCode to set.
 	 * 
 	 */
-	public void setProposalBudgetTypeCode(String proposalBudgetTypeCode) {
-		this.proposalBudgetTypeCode = proposalBudgetTypeCode;
+	public void setRoutingFormBudgetTypeCode(String routingFormBudgetTypeCode) {
+		this.routingFormBudgetTypeCode = routingFormBudgetTypeCode;
 	}
 
 
@@ -89,149 +89,149 @@ public class RoutingFormBudget extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalBudgetMaximumPeriodNumber attribute.
+	 * Gets the routingFormBudgetMaximumPeriodNumber attribute.
 	 * 
-	 * @return - Returns the proposalBudgetMaximumPeriodNumber
+	 * @return - Returns the routingFormBudgetMaximumPeriodNumber
 	 * 
 	 */
-	public Integer getProposalBudgetMaximumPeriodNumber() { 
-		return proposalBudgetMaximumPeriodNumber;
+	public Integer getRoutingFormBudgetMaximumPeriodNumber() { 
+		return routingFormBudgetMaximumPeriodNumber;
 	}
 
 	/**
-	 * Sets the proposalBudgetMaximumPeriodNumber attribute.
+	 * Sets the routingFormBudgetMaximumPeriodNumber attribute.
 	 * 
-	 * @param - proposalBudgetMaximumPeriodNumber The proposalBudgetMaximumPeriodNumber to set.
-	 * 
-	 */
-	public void setProposalBudgetMaximumPeriodNumber(Integer proposalBudgetMaximumPeriodNumber) {
-		this.proposalBudgetMaximumPeriodNumber = proposalBudgetMaximumPeriodNumber;
-	}
-
-
-	/**
-	 * Gets the proposalBudgetMinimumPeriodNumber attribute.
-	 * 
-	 * @return - Returns the proposalBudgetMinimumPeriodNumber
+	 * @param - routingFormBudgetMaximumPeriodNumber The routingFormBudgetMaximumPeriodNumber to set.
 	 * 
 	 */
-	public Integer getProposalBudgetMinimumPeriodNumber() { 
-		return proposalBudgetMinimumPeriodNumber;
-	}
-
-	/**
-	 * Sets the proposalBudgetMinimumPeriodNumber attribute.
-	 * 
-	 * @param - proposalBudgetMinimumPeriodNumber The proposalBudgetMinimumPeriodNumber to set.
-	 * 
-	 */
-	public void setProposalBudgetMinimumPeriodNumber(Integer proposalBudgetMinimumPeriodNumber) {
-		this.proposalBudgetMinimumPeriodNumber = proposalBudgetMinimumPeriodNumber;
+	public void setRoutingFormBudgetMaximumPeriodNumber(Integer routingFormBudgetMaximumPeriodNumber) {
+		this.routingFormBudgetMaximumPeriodNumber = routingFormBudgetMaximumPeriodNumber;
 	}
 
 
 	/**
-	 * Gets the proposalBudgetDirectAmount attribute.
+	 * Gets the routingFormBudgetMinimumPeriodNumber attribute.
 	 * 
-	 * @return - Returns the proposalBudgetDirectAmount
+	 * @return - Returns the routingFormBudgetMinimumPeriodNumber
 	 * 
 	 */
-	public BigDecimal getProposalBudgetDirectAmount() { 
-		return proposalBudgetDirectAmount;
+	public Integer getRoutingFormBudgetMinimumPeriodNumber() { 
+		return routingFormBudgetMinimumPeriodNumber;
 	}
 
 	/**
-	 * Sets the proposalBudgetDirectAmount attribute.
+	 * Sets the routingFormBudgetMinimumPeriodNumber attribute.
 	 * 
-	 * @param - proposalBudgetDirectAmount The proposalBudgetDirectAmount to set.
-	 * 
-	 */
-	public void setProposalBudgetDirectAmount(BigDecimal proposalBudgetDirectAmount) {
-		this.proposalBudgetDirectAmount = proposalBudgetDirectAmount;
-	}
-
-
-	/**
-	 * Gets the proposalBudgetEndDate attribute.
-	 * 
-	 * @return - Returns the proposalBudgetEndDate
+	 * @param - routingFormBudgetMinimumPeriodNumber The routingFormBudgetMinimumPeriodNumber to set.
 	 * 
 	 */
-	public Date getProposalBudgetEndDate() { 
-		return proposalBudgetEndDate;
-	}
-
-	/**
-	 * Sets the proposalBudgetEndDate attribute.
-	 * 
-	 * @param - proposalBudgetEndDate The proposalBudgetEndDate to set.
-	 * 
-	 */
-	public void setProposalBudgetEndDate(Date proposalBudgetEndDate) {
-		this.proposalBudgetEndDate = proposalBudgetEndDate;
+	public void setRoutingFormBudgetMinimumPeriodNumber(Integer routingFormBudgetMinimumPeriodNumber) {
+		this.routingFormBudgetMinimumPeriodNumber = routingFormBudgetMinimumPeriodNumber;
 	}
 
 
 	/**
-	 * Gets the proposalBudgetIndirectCostAmount attribute.
+	 * Gets the routingFormBudgetDirectAmount attribute.
 	 * 
-	 * @return - Returns the proposalBudgetIndirectCostAmount
+	 * @return - Returns the routingFormBudgetDirectAmount
 	 * 
 	 */
-	public BigDecimal getProposalBudgetIndirectCostAmount() { 
-		return proposalBudgetIndirectCostAmount;
+	public BigDecimal getRoutingFormBudgetDirectAmount() { 
+		return routingFormBudgetDirectAmount;
 	}
 
 	/**
-	 * Sets the proposalBudgetIndirectCostAmount attribute.
+	 * Sets the routingFormBudgetDirectAmount attribute.
 	 * 
-	 * @param - proposalBudgetIndirectCostAmount The proposalBudgetIndirectCostAmount to set.
-	 * 
-	 */
-	public void setProposalBudgetIndirectCostAmount(BigDecimal proposalBudgetIndirectCostAmount) {
-		this.proposalBudgetIndirectCostAmount = proposalBudgetIndirectCostAmount;
-	}
-
-
-	/**
-	 * Gets the proposalBudgetIndirectCostDescription attribute.
-	 * 
-	 * @return - Returns the proposalBudgetIndirectCostDescription
+	 * @param - routingFormBudgetDirectAmount The routingFormBudgetDirectAmount to set.
 	 * 
 	 */
-	public String getProposalBudgetIndirectCostDescription() { 
-		return proposalBudgetIndirectCostDescription;
-	}
-
-	/**
-	 * Sets the proposalBudgetIndirectCostDescription attribute.
-	 * 
-	 * @param - proposalBudgetIndirectCostDescription The proposalBudgetIndirectCostDescription to set.
-	 * 
-	 */
-	public void setProposalBudgetIndirectCostDescription(String proposalBudgetIndirectCostDescription) {
-		this.proposalBudgetIndirectCostDescription = proposalBudgetIndirectCostDescription;
+	public void setRoutingFormBudgetDirectAmount(BigDecimal routingFormBudgetDirectAmount) {
+		this.routingFormBudgetDirectAmount = routingFormBudgetDirectAmount;
 	}
 
 
 	/**
-	 * Gets the proposalBudgetStartDate attribute.
+	 * Gets the routingFormBudgetEndDate attribute.
 	 * 
-	 * @return - Returns the proposalBudgetStartDate
+	 * @return - Returns the routingFormBudgetEndDate
 	 * 
 	 */
-	public Date getProposalBudgetStartDate() { 
-		return proposalBudgetStartDate;
+	public Date getRoutingFormBudgetEndDate() { 
+		return routingFormBudgetEndDate;
 	}
 
 	/**
-	 * Sets the proposalBudgetStartDate attribute.
+	 * Sets the routingFormBudgetEndDate attribute.
 	 * 
-	 * @param - proposalBudgetStartDate The proposalBudgetStartDate to set.
+	 * @param - routingFormBudgetEndDate The routingFormBudgetEndDate to set.
 	 * 
 	 */
-	public void setProposalBudgetStartDate(Date proposalBudgetStartDate) {
-		this.proposalBudgetStartDate = proposalBudgetStartDate;
+	public void setRoutingFormBudgetEndDate(Date routingFormBudgetEndDate) {
+		this.routingFormBudgetEndDate = routingFormBudgetEndDate;
+	}
+
+
+	/**
+	 * Gets the routingFormBudgetIndirectCostAmount attribute.
+	 * 
+	 * @return - Returns the routingFormBudgetIndirectCostAmount
+	 * 
+	 */
+	public BigDecimal getRoutingFormBudgetIndirectCostAmount() { 
+		return routingFormBudgetIndirectCostAmount;
+	}
+
+	/**
+	 * Sets the routingFormBudgetIndirectCostAmount attribute.
+	 * 
+	 * @param - routingFormBudgetIndirectCostAmount The routingFormBudgetIndirectCostAmount to set.
+	 * 
+	 */
+	public void setRoutingFormBudgetIndirectCostAmount(BigDecimal routingFormBudgetIndirectCostAmount) {
+		this.routingFormBudgetIndirectCostAmount = routingFormBudgetIndirectCostAmount;
+	}
+
+
+	/**
+	 * Gets the routingFormBudgetIndirectCostDescription attribute.
+	 * 
+	 * @return - Returns the routingFormBudgetIndirectCostDescription
+	 * 
+	 */
+	public String getRoutingFormBudgetIndirectCostDescription() { 
+		return routingFormBudgetIndirectCostDescription;
+	}
+
+	/**
+	 * Sets the routingFormBudgetIndirectCostDescription attribute.
+	 * 
+	 * @param - routingFormBudgetIndirectCostDescription The routingFormBudgetIndirectCostDescription to set.
+	 * 
+	 */
+	public void setRoutingFormBudgetIndirectCostDescription(String routingFormBudgetIndirectCostDescription) {
+		this.routingFormBudgetIndirectCostDescription = routingFormBudgetIndirectCostDescription;
+	}
+
+
+	/**
+	 * Gets the routingFormBudgetStartDate attribute.
+	 * 
+	 * @return - Returns the routingFormBudgetStartDate
+	 * 
+	 */
+	public Date getRoutingFormBudgetStartDate() { 
+		return routingFormBudgetStartDate;
+	}
+
+	/**
+	 * Sets the routingFormBudgetStartDate attribute.
+	 * 
+	 * @param - routingFormBudgetStartDate The routingFormBudgetStartDate to set.
+	 * 
+	 */
+	public void setRoutingFormBudgetStartDate(Date routingFormBudgetStartDate) {
+		this.routingFormBudgetStartDate = routingFormBudgetStartDate;
 	}
 
 
@@ -240,7 +240,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("proposalBudgetTypeCode", this.proposalBudgetTypeCode);
+        m.put("routingFormBudgetTypeCode", this.routingFormBudgetTypeCode);
         m.put("researchDocumentNumber", this.researchDocumentNumber);
 	    return m;
     }

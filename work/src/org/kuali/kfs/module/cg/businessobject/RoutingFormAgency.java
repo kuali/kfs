@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 The Kuali Foundation.
+ * Copyright 2006 The Kuali Foundation.
  * 
  * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/RoutingFormAgency.java,v $
  * 
@@ -48,14 +48,14 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	private String agencyShippingInstructionsDescription;
 	private String agencyStateCode;
 	private String agencyZipCode;
-	private String proposalDueDateTypeCode;
-	private Date proposalDueDate;
-	private String proposalDueTime;
-	private Integer proposalRequiredCopyNumber;
-	private String proposalRequiredCopyText;
-	private Date proposalSubmitDate;
+	private String routingFormDueDateTypeCode;
+	private Date routingFormDueDate;
+	private String routingFormDueTime;
+	private Integer routingFormRequiredCopyNumber;
+	private String routingFormRequiredCopyText;
+	private Date routingFormSubmitDate;
 
-    private RoutingFormDueDateType proposalDueDateType;
+    private RoutingFormDueDateType routingFormDueDateType;
     private Agency routingFormAgency;
     private Agency federalPassThroughAgency;
     
@@ -466,145 +466,145 @@ public class RoutingFormAgency extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the proposalDueDateTypeCode attribute.
+	 * Gets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @return - Returns the proposalDueDateTypeCode
+	 * @return - Returns the routingFormDueDateTypeCode
 	 * 
 	 */
-	public String getProposalDueDateTypeCode() { 
-		return proposalDueDateTypeCode;
+	public String getRoutingFormDueDateTypeCode() { 
+		return routingFormDueDateTypeCode;
 	}
 
 	/**
-	 * Sets the proposalDueDateTypeCode attribute.
+	 * Sets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @param - proposalDueDateTypeCode The proposalDueDateTypeCode to set.
-	 * 
-	 */
-	public void setProposalDueDateTypeCode(String proposalDueDateTypeCode) {
-		this.proposalDueDateTypeCode = proposalDueDateTypeCode;
-	}
-
-
-	/**
-	 * Gets the proposalDueDate attribute.
-	 * 
-	 * @return - Returns the proposalDueDate
+	 * @param - routingFormDueDateTypeCode The routingFormDueDateTypeCode to set.
 	 * 
 	 */
-	public Date getProposalDueDate() { 
-		return proposalDueDate;
-	}
-
-	/**
-	 * Sets the proposalDueDate attribute.
-	 * 
-	 * @param - proposalDueDate The proposalDueDate to set.
-	 * 
-	 */
-	public void setProposalDueDate(Date proposalDueDate) {
-		this.proposalDueDate = proposalDueDate;
+	public void setRoutingFormDueDateTypeCode(String routingFormDueDateTypeCode) {
+		this.routingFormDueDateTypeCode = routingFormDueDateTypeCode;
 	}
 
 
 	/**
-	 * Gets the proposalDueTime attribute.
+	 * Gets the routingFormDueDate attribute.
 	 * 
-	 * @return - Returns the proposalDueTime
+	 * @return - Returns the routingFormDueDate
 	 * 
 	 */
-	public String getProposalDueTime() { 
-		return proposalDueTime;
+	public Date getRoutingFormDueDate() { 
+		return routingFormDueDate;
 	}
 
 	/**
-	 * Sets the proposalDueTime attribute.
+	 * Sets the routingFormDueDate attribute.
 	 * 
-	 * @param - proposalDueTime The proposalDueTime to set.
-	 * 
-	 */
-	public void setProposalDueTime(String proposalDueTime) {
-		this.proposalDueTime = proposalDueTime;
-	}
-
-
-	/**
-	 * Gets the proposalRequiredCopyNumber attribute.
-	 * 
-	 * @return - Returns the proposalRequiredCopyNumber
+	 * @param - routingFormDueDate The routingFormDueDate to set.
 	 * 
 	 */
-	public Integer getProposalRequiredCopyNumber() { 
-		return proposalRequiredCopyNumber;
-	}
-
-	/**
-	 * Sets the proposalRequiredCopyNumber attribute.
-	 * 
-	 * @param - proposalRequiredCopyNumber The proposalRequiredCopyNumber to set.
-	 * 
-	 */
-	public void setProposalRequiredCopyNumber(Integer proposalRequiredCopyNumber) {
-		this.proposalRequiredCopyNumber = proposalRequiredCopyNumber;
+	public void setRoutingFormDueDate(Date routingFormDueDate) {
+		this.routingFormDueDate = routingFormDueDate;
 	}
 
 
 	/**
-	 * Gets the proposalRequiredCopyText attribute.
+	 * Gets the routingFormDueTime attribute.
 	 * 
-	 * @return - Returns the proposalRequiredCopyText
+	 * @return - Returns the routingFormDueTime
 	 * 
 	 */
-	public String getProposalRequiredCopyText() { 
-		return proposalRequiredCopyText;
+	public String getRoutingFormDueTime() { 
+		return routingFormDueTime;
 	}
 
 	/**
-	 * Sets the proposalRequiredCopyText attribute.
+	 * Sets the routingFormDueTime attribute.
 	 * 
-	 * @param - proposalRequiredCopyText The proposalRequiredCopyText to set.
+	 * @param - routingFormDueTime The routingFormDueTime to set.
 	 * 
 	 */
-	public void setProposalRequiredCopyText(String proposalRequiredCopyText) {
-		this.proposalRequiredCopyText = proposalRequiredCopyText;
+	public void setRoutingFormDueTime(String routingFormDueTime) {
+		this.routingFormDueTime = routingFormDueTime;
 	}
 
 
 	/**
-	 * Gets the proposalSubmitDate attribute.
+	 * Gets the routingFormRequiredCopyNumber attribute.
 	 * 
-	 * @return - Returns the proposalSubmitDate
+	 * @return - Returns the routingFormRequiredCopyNumber
 	 * 
 	 */
-	public Date getProposalSubmitDate() { 
-		return proposalSubmitDate;
+	public Integer getRoutingFormRequiredCopyNumber() { 
+		return routingFormRequiredCopyNumber;
 	}
 
 	/**
-	 * Sets the proposalSubmitDate attribute.
+	 * Sets the routingFormRequiredCopyNumber attribute.
 	 * 
-	 * @param - proposalSubmitDate The proposalSubmitDate to set.
+	 * @param - routingFormRequiredCopyNumber The routingFormRequiredCopyNumber to set.
 	 * 
 	 */
-	public void setProposalSubmitDate(Date proposalSubmitDate) {
-		this.proposalSubmitDate = proposalSubmitDate;
+	public void setRoutingFormRequiredCopyNumber(Integer routingFormRequiredCopyNumber) {
+		this.routingFormRequiredCopyNumber = routingFormRequiredCopyNumber;
+	}
+
+
+	/**
+	 * Gets the routingFormRequiredCopyText attribute.
+	 * 
+	 * @return - Returns the routingFormRequiredCopyText
+	 * 
+	 */
+	public String getRoutingFormRequiredCopyText() { 
+		return routingFormRequiredCopyText;
+	}
+
+	/**
+	 * Sets the routingFormRequiredCopyText attribute.
+	 * 
+	 * @param - routingFormRequiredCopyText The routingFormRequiredCopyText to set.
+	 * 
+	 */
+	public void setRoutingFormRequiredCopyText(String routingFormRequiredCopyText) {
+		this.routingFormRequiredCopyText = routingFormRequiredCopyText;
+	}
+
+
+	/**
+	 * Gets the routingFormSubmitDate attribute.
+	 * 
+	 * @return - Returns the routingFormSubmitDate
+	 * 
+	 */
+	public Date getRoutingFormSubmitDate() { 
+		return routingFormSubmitDate;
+	}
+
+	/**
+	 * Sets the routingFormSubmitDate attribute.
+	 * 
+	 * @param - routingFormSubmitDate The routingFormSubmitDate to set.
+	 * 
+	 */
+	public void setRoutingFormSubmitDate(Date routingFormSubmitDate) {
+		this.routingFormSubmitDate = routingFormSubmitDate;
 	}
 
     /**
-     * Gets the proposalDueDateType attribute. 
-     * @return Returns the proposalDueDateType.
+     * Gets the routingFormDueDateType attribute. 
+     * @return Returns the routingFormDueDateType.
      */
-    public RoutingFormDueDateType getProposalDueDateType() {
-        return proposalDueDateType;
+    public RoutingFormDueDateType getRoutingFormDueDateType() {
+        return routingFormDueDateType;
     }
 
     /**
-     * Sets the proposalDueDateType attribute value.
-     * @param proposalDueDateType The proposalDueDateType to set.
+     * Sets the routingFormDueDateType attribute value.
+     * @param routingFormDueDateType The routingFormDueDateType to set.
      * @deprecated
      */
-    public void setProposalDueDateType(RoutingFormDueDateType proposalDueDateType) {
-        this.proposalDueDateType = proposalDueDateType;
+    public void setRoutingFormDueDateType(RoutingFormDueDateType routingFormDueDateType) {
+        this.routingFormDueDateType = routingFormDueDateType;
     }
 
     /**

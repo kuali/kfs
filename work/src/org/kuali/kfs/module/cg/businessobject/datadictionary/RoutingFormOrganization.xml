@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormOrganization.xml,v $
  
@@ -30,7 +30,7 @@
                 <field attributeName="budgetIndicator" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="proposalPrimaryOrganizationIndicator" />
+                <field attributeName="routingFormPrimaryOrganizationIndicator" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
         </inquiry>
@@ -52,7 +52,7 @@
                 <lookupField attributeName="budgetIndicator" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="proposalPrimaryOrganizationIndicator" required="false" />
+                <lookupField attributeName="routingFormPrimaryOrganizationIndicator" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
 
@@ -60,7 +60,7 @@
                 <field attributeName="budgetIndicator" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="proposalPrimaryOrganizationIndicator" />
+                <field attributeName="routingFormPrimaryOrganizationIndicator" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
         </lookup>
@@ -111,8 +111,8 @@
                 <description>organizationCode description...</description>
 			</attribute>
 
-            <attribute name="proposalPrimaryOrganizationIndicator" forceUppercase="true">
-                <label>Proposal Primary Organization Indicator</label>
+            <attribute name="routingFormPrimaryOrganizationIndicator" forceUppercase="true">
+                <label>Routing Form Primary Organization Indicator</label>
                 <shortLabel>Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -121,8 +121,8 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalPrimaryOrganizationIndicator</summary>
-                <description>proposalPrimaryOrganizationIndicator description...</description>
+                <summary>routingFormPrimaryOrganizationIndicator</summary>
+                <description>routingFormPrimaryOrganizationIndicator description...</description>
 			</attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

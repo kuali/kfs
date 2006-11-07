@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormKeyword.xml,v $
  
@@ -27,7 +27,7 @@
             <title>Routing Form Keyword Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="proposalKeywordDescription" />
+                <field attributeName="routingFormKeywordDescription" />
                 <field attributeName="researchDocumentNumber" />
             </inquiryFields>
         </inquiry>
@@ -39,26 +39,26 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="proposalKeywordDescription" />
+                    <sortAttribute attributeName="routingFormKeywordDescription" />
                     <sortAttribute attributeName="researchDocumentNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="proposalKeywordDescription" required="false" />
+                <lookupField attributeName="routingFormKeywordDescription" required="false" />
                 <lookupField attributeName="researchDocumentNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="proposalKeywordDescription" />
+                <field attributeName="routingFormKeywordDescription" />
                 <field attributeName="researchDocumentNumber" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="proposalKeywordDescription" forceUppercase="true">
-                <label>Proposal Keyword Description</label>
+            <attribute name="routingFormKeywordDescription" forceUppercase="true">
+                <label>Routing Form Keyword Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>70</maxLength>
@@ -68,8 +68,8 @@
                     <text size="72" />
                 </control>
 
-                <summary>proposalKeywordDescription</summary>
-                <description>proposalKeywordDescription description...</description>
+                <summary>routingFormKeywordDescription</summary>
+                <description>routingFormKeywordDescription description...</description>
 			</attribute>
 
             <attribute name="researchDocumentNumber" forceUppercase="true">

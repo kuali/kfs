@@ -55,44 +55,44 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private boolean agencyFederalPassThroughNotAvailableIndicator;
 	private String agencyFederalPassThroughNumber;
 	private String grantNumber;
-	private String proposalAnnouncementNumber;
-    private String proposalBudgetNumber;
-	private boolean proposalConflictOfInterestCurrentIndicator;
-	private boolean proposalConflictOfInterestExistsIndicator;
-	private String proposalContactFaxNumber;
-	private String proposalContactPhoneNumber;
-	private Long proposalContactSystemsIdentifier;
-	private boolean proposalCoProjectDirectorIndicator;
-	private boolean proposalCreditPercentIndicator;
-	private Date proposalCreateDate;
-	private boolean proposalCostShareIndicator;
-	private boolean proposalFederalPassThroughIndicator;
-	private String proposalFellowFirstName;
-	private String proposalFellowEmailAddress;
-	private String proposalFellowFullName;
-	private String proposalFellowLastName;
-	private boolean proposalForeignPartnerIndicator;
-	private boolean proposalForeignTravelIndicator;
-	private boolean proposalIncomeIndicator;
-	private boolean proposalInventionIndicator;
-	private String proposalLayDescription;
-	private Date proposalLastUpdateDate;
-	private Long proposalLastUpdateSystemIdentifier;
-	private boolean proposalNewSpaceIndicator;
-	private String proposalOffCampusDescription;
-	private boolean proposalOffCampusIndicator;
-	private boolean proposalOtherOrganizationIndicator;
-	private String proposalOtherPurposeDescription;
-	private String proposalOtherTypeDescription;
-    private String proposalParentNumber;
-	private String proposalPhysicalCampusCode;
-	private String proposalPriorGrantNumber;
-	private String proposalProjectTitle;
-	private String proposalPurposeCode;
-	private String proposalSpaceRequiredDescription;
-	private boolean proposalSpaceRequiredIndicator;
-	private String proposalStatusCode;
-	private boolean proposalSubcontractorIndicator;
+	private String routingFormAnnouncementNumber;
+    private String routingFormBudgetNumber;
+	private boolean routingFormConflictOfInterestCurrentIndicator;
+	private boolean routingFormConflictOfInterestExistsIndicator;
+	private String routingFormContactFaxNumber;
+	private String routingFormContactPhoneNumber;
+	private Long routingFormContactSystemsIdentifier;
+	private boolean routingFormCoProjectDirectorIndicator;
+	private boolean routingFormCreditPercentIndicator;
+	private Date routingFormCreateDate;
+	private boolean routingFormCostShareIndicator;
+	private boolean routingFormFederalPassThroughIndicator;
+	private String routingFormFellowFirstName;
+	private String routingFormFellowEmailAddress;
+	private String routingFormFellowFullName;
+	private String routingFormFellowLastName;
+	private boolean routingFormForeignPartnerIndicator;
+	private boolean routingFormForeignTravelIndicator;
+	private boolean routingFormIncomeIndicator;
+	private boolean routingFormInventionIndicator;
+	private String routingFormLayDescription;
+	private Date routingFormLastUpdateDate;
+	private Long routingFormLastUpdateSystemIdentifier;
+	private boolean routingFormNewSpaceIndicator;
+	private String routingFormOffCampusDescription;
+	private boolean routingFormOffCampusIndicator;
+	private boolean routingFormOtherOrganizationIndicator;
+	private String routingFormOtherPurposeDescription;
+	private String routingFormOtherTypeDescription;
+    private String routingFormParentNumber;
+	private String routingFormPhysicalCampusCode;
+	private String routingFormPriorGrantNumber;
+	private String routingFormProjectTitle;
+	private String routingFormPurposeCode;
+	private String routingFormSpaceRequiredDescription;
+	private boolean routingFormSpaceRequiredIndicator;
+	private String routingFormStatusCode;
+	private boolean routingFormSubcontractorIndicator;
 	private String institutionAccountNumber;
     private String researchTypeCode;
     private String submissionTypeCode;
@@ -112,9 +112,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private KualiDecimal totalOtherCostShareAmount = KualiDecimal.ZERO;
     private KualiDecimal totalSubcontractorAmount = KualiDecimal.ZERO;
     
-    private Campus proposalPhysicalCampus;
-    private RoutingFormStatus proposalStatus;
-    private RoutingFormPurpose proposalPurpose;
+    private Campus routingFormPhysicalCampus;
+    private RoutingFormStatus routingFormStatus;
+    private RoutingFormPurpose routingFormPurpose;
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
     private List<RoutingFormDocumentResearchRiskType> routingFormDocumentResearchRisks;
@@ -244,799 +244,799 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
 
 	/**
-	 * Gets the proposalAnnouncementNumber attribute.
+	 * Gets the routingFormAnnouncementNumber attribute.
 	 * 
-	 * @return - Returns the proposalAnnouncementNumber
+	 * @return - Returns the routingFormAnnouncementNumber
 	 * 
 	 */
-	public String getProposalAnnouncementNumber() { 
-		return proposalAnnouncementNumber;
+	public String getRoutingFormAnnouncementNumber() { 
+		return routingFormAnnouncementNumber;
 	}
 
 	/**
-	 * Sets the proposalAnnouncementNumber attribute.
+	 * Sets the routingFormAnnouncementNumber attribute.
 	 * 
-	 * @param - proposalAnnouncementNumber The proposalAnnouncementNumber to set.
+	 * @param - routingFormAnnouncementNumber The routingFormAnnouncementNumber to set.
 	 * 
 	 */
-	public void setProposalAnnouncementNumber(String proposalAnnouncementNumber) {
-		this.proposalAnnouncementNumber = proposalAnnouncementNumber;
+	public void setRoutingFormAnnouncementNumber(String routingFormAnnouncementNumber) {
+		this.routingFormAnnouncementNumber = routingFormAnnouncementNumber;
 	}
 
 
 	/**
-	 * Gets the proposalBudgetNumber attribute.
+	 * Gets the routingFormBudgetNumber attribute.
 	 * 
-	 * @return - Returns the proposalBudgetNumber
+	 * @return - Returns the routingFormBudgetNumber
 	 * 
 	 */
-	public String getProposalBudgetNumber() { 
-		return proposalBudgetNumber;
+	public String getRoutingFormBudgetNumber() { 
+		return routingFormBudgetNumber;
 	}
 
 	/**
-	 * Sets the proposalBudgetNumber attribute.
+	 * Sets the routingFormBudgetNumber attribute.
 	 * 
-	 * @param - proposalBudgetNumber The proposalBudgetNumber to set.
+	 * @param - routingFormBudgetNumber The routingFormBudgetNumber to set.
 	 * 
 	 */
-	public void setProposalBudgetNumber(String proposalBudgetNumber) {
-		this.proposalBudgetNumber = proposalBudgetNumber;
+	public void setRoutingFormBudgetNumber(String routingFormBudgetNumber) {
+		this.routingFormBudgetNumber = routingFormBudgetNumber;
 	}
 
 
 	/**
-	 * Gets the proposalConflictOfInterestCurrentIndicator attribute.
+	 * Gets the routingFormConflictOfInterestCurrentIndicator attribute.
 	 * 
-	 * @return - Returns the proposalConflictOfInterestCurrentIndicator
+	 * @return - Returns the routingFormConflictOfInterestCurrentIndicator
 	 * 
 	 */
-	public boolean getProposalConflictOfInterestCurrentIndicator() { 
-		return proposalConflictOfInterestCurrentIndicator;
+	public boolean getRoutingFormConflictOfInterestCurrentIndicator() { 
+		return routingFormConflictOfInterestCurrentIndicator;
 	}
 
 	/**
-	 * Sets the proposalConflictOfInterestCurrentIndicator attribute.
+	 * Sets the routingFormConflictOfInterestCurrentIndicator attribute.
 	 * 
-	 * @param - proposalConflictOfInterestCurrentIndicator The proposalConflictOfInterestCurrentIndicator to set.
+	 * @param - routingFormConflictOfInterestCurrentIndicator The routingFormConflictOfInterestCurrentIndicator to set.
 	 * 
 	 */
-	public void setProposalConflictOfInterestCurrentIndicator(boolean proposalConflictOfInterestCurrentIndicator) {
-		this.proposalConflictOfInterestCurrentIndicator = proposalConflictOfInterestCurrentIndicator;
+	public void setRoutingFormConflictOfInterestCurrentIndicator(boolean routingFormConflictOfInterestCurrentIndicator) {
+		this.routingFormConflictOfInterestCurrentIndicator = routingFormConflictOfInterestCurrentIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalConflictOfInterestExistsIndicator attribute.
+	 * Gets the routingFormConflictOfInterestExistsIndicator attribute.
 	 * 
-	 * @return - Returns the proposalConflictOfInterestExistsIndicator
+	 * @return - Returns the routingFormConflictOfInterestExistsIndicator
 	 * 
 	 */
-	public boolean getProposalConflictOfInterestExistsIndicator() { 
-		return proposalConflictOfInterestExistsIndicator;
+	public boolean getRoutingFormConflictOfInterestExistsIndicator() { 
+		return routingFormConflictOfInterestExistsIndicator;
 	}
 
 	/**
-	 * Sets the proposalConflictOfInterestExistsIndicator attribute.
+	 * Sets the routingFormConflictOfInterestExistsIndicator attribute.
 	 * 
-	 * @param - proposalConflictOfInterestExistsIndicator The proposalConflictOfInterestExistsIndicator to set.
+	 * @param - routingFormConflictOfInterestExistsIndicator The routingFormConflictOfInterestExistsIndicator to set.
 	 * 
 	 */
-	public void setProposalConflictOfInterestExistsIndicator(boolean proposalConflictOfInterestExistsIndicator) {
-		this.proposalConflictOfInterestExistsIndicator = proposalConflictOfInterestExistsIndicator;
+	public void setRoutingFormConflictOfInterestExistsIndicator(boolean routingFormConflictOfInterestExistsIndicator) {
+		this.routingFormConflictOfInterestExistsIndicator = routingFormConflictOfInterestExistsIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalContactFaxNumber attribute.
+	 * Gets the routingFormContactFaxNumber attribute.
 	 * 
-	 * @return - Returns the proposalContactFaxNumber
+	 * @return - Returns the routingFormContactFaxNumber
 	 * 
 	 */
-	public String getProposalContactFaxNumber() { 
-		return proposalContactFaxNumber;
+	public String getRoutingFormContactFaxNumber() { 
+		return routingFormContactFaxNumber;
 	}
 
 	/**
-	 * Sets the proposalContactFaxNumber attribute.
+	 * Sets the routingFormContactFaxNumber attribute.
 	 * 
-	 * @param - proposalContactFaxNumber The proposalContactFaxNumber to set.
+	 * @param - routingFormContactFaxNumber The routingFormContactFaxNumber to set.
 	 * 
 	 */
-	public void setProposalContactFaxNumber(String proposalContactFaxNumber) {
-		this.proposalContactFaxNumber = proposalContactFaxNumber;
+	public void setRoutingFormContactFaxNumber(String routingFormContactFaxNumber) {
+		this.routingFormContactFaxNumber = routingFormContactFaxNumber;
 	}
 
 
 	/**
-	 * Gets the proposalContactPhoneNumber attribute.
+	 * Gets the routingFormContactPhoneNumber attribute.
 	 * 
-	 * @return - Returns the proposalContactPhoneNumber
+	 * @return - Returns the routingFormContactPhoneNumber
 	 * 
 	 */
-	public String getProposalContactPhoneNumber() { 
-		return proposalContactPhoneNumber;
+	public String getRoutingFormContactPhoneNumber() { 
+		return routingFormContactPhoneNumber;
 	}
 
 	/**
-	 * Sets the proposalContactPhoneNumber attribute.
+	 * Sets the routingFormContactPhoneNumber attribute.
 	 * 
-	 * @param - proposalContactPhoneNumber The proposalContactPhoneNumber to set.
+	 * @param - routingFormContactPhoneNumber The routingFormContactPhoneNumber to set.
 	 * 
 	 */
-	public void setProposalContactPhoneNumber(String proposalContactPhoneNumber) {
-		this.proposalContactPhoneNumber = proposalContactPhoneNumber;
+	public void setRoutingFormContactPhoneNumber(String routingFormContactPhoneNumber) {
+		this.routingFormContactPhoneNumber = routingFormContactPhoneNumber;
 	}
 
 
 	/**
-	 * Gets the proposalContactSystemsIdentifier attribute.
+	 * Gets the routingFormContactSystemsIdentifier attribute.
 	 * 
-	 * @return - Returns the proposalContactSystemsIdentifier
+	 * @return - Returns the routingFormContactSystemsIdentifier
 	 * 
 	 */
-	public Long getProposalContactSystemsIdentifier() { 
-		return proposalContactSystemsIdentifier;
+	public Long getRoutingFormContactSystemsIdentifier() { 
+		return routingFormContactSystemsIdentifier;
 	}
 
 	/**
-	 * Sets the proposalContactSystemsIdentifier attribute.
+	 * Sets the routingFormContactSystemsIdentifier attribute.
 	 * 
-	 * @param - proposalContactSystemsIdentifier The proposalContactSystemsIdentifier to set.
+	 * @param - routingFormContactSystemsIdentifier The routingFormContactSystemsIdentifier to set.
 	 * 
 	 */
-	public void setProposalContactSystemsIdentifier(Long proposalContactSystemsIdentifier) {
-		this.proposalContactSystemsIdentifier = proposalContactSystemsIdentifier;
+	public void setRoutingFormContactSystemsIdentifier(Long routingFormContactSystemsIdentifier) {
+		this.routingFormContactSystemsIdentifier = routingFormContactSystemsIdentifier;
 	}
 
 
 	/**
-	 * Gets the proposalCoProjectDirectorIndicator attribute.
+	 * Gets the routingFormCoProjectDirectorIndicator attribute.
 	 * 
-	 * @return - Returns the proposalCoProjectDirectorIndicator
+	 * @return - Returns the routingFormCoProjectDirectorIndicator
 	 * 
 	 */
-	public boolean getProposalCoProjectDirectorIndicator() { 
-		return proposalCoProjectDirectorIndicator;
+	public boolean getRoutingFormCoProjectDirectorIndicator() { 
+		return routingFormCoProjectDirectorIndicator;
 	}
 
 	/**
-	 * Sets the proposalCoProjectDirectorIndicator attribute.
+	 * Sets the routingFormCoProjectDirectorIndicator attribute.
 	 * 
-	 * @param - proposalCoProjectDirectorIndicator The proposalCoProjectDirectorIndicator to set.
+	 * @param - routingFormCoProjectDirectorIndicator The routingFormCoProjectDirectorIndicator to set.
 	 * 
 	 */
-	public void setProposalCoProjectDirectorIndicator(boolean proposalCoProjectDirectorIndicator) {
-		this.proposalCoProjectDirectorIndicator = proposalCoProjectDirectorIndicator;
+	public void setRoutingFormCoProjectDirectorIndicator(boolean routingFormCoProjectDirectorIndicator) {
+		this.routingFormCoProjectDirectorIndicator = routingFormCoProjectDirectorIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalCreditPercentIndicator attribute.
+	 * Gets the routingFormCreditPercentIndicator attribute.
 	 * 
-	 * @return - Returns the proposalCreditPercentIndicator
+	 * @return - Returns the routingFormCreditPercentIndicator
 	 * 
 	 */
-	public boolean getProposalCreditPercentIndicator() { 
-		return proposalCreditPercentIndicator;
+	public boolean getRoutingFormCreditPercentIndicator() { 
+		return routingFormCreditPercentIndicator;
 	}
 
 	/**
-	 * Sets the proposalCreditPercentIndicator attribute.
+	 * Sets the routingFormCreditPercentIndicator attribute.
 	 * 
-	 * @param - proposalCreditPercentIndicator The proposalCreditPercentIndicator to set.
+	 * @param - routingFormCreditPercentIndicator The routingFormCreditPercentIndicator to set.
 	 * 
 	 */
-	public void setProposalCreditPercentIndicator(boolean proposalCreditPercentIndicator) {
-		this.proposalCreditPercentIndicator = proposalCreditPercentIndicator;
+	public void setRoutingFormCreditPercentIndicator(boolean routingFormCreditPercentIndicator) {
+		this.routingFormCreditPercentIndicator = routingFormCreditPercentIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalCreateDate attribute.
+	 * Gets the routingFormCreateDate attribute.
 	 * 
-	 * @return - Returns the proposalCreateDate
+	 * @return - Returns the routingFormCreateDate
 	 * 
 	 */
-	public Date getProposalCreateDate() { 
-		return proposalCreateDate;
+	public Date getRoutingFormCreateDate() { 
+		return routingFormCreateDate;
 	}
 
 	/**
-	 * Sets the proposalCreateDate attribute.
+	 * Sets the routingFormCreateDate attribute.
 	 * 
-	 * @param - proposalCreateDate The proposalCreateDate to set.
+	 * @param - routingFormCreateDate The routingFormCreateDate to set.
 	 * 
 	 */
-	public void setProposalCreateDate(Date proposalCreateDate) {
-		this.proposalCreateDate = proposalCreateDate;
+	public void setRoutingFormCreateDate(Date routingFormCreateDate) {
+		this.routingFormCreateDate = routingFormCreateDate;
 	}
 
 
 	/**
-	 * Gets the proposalCostShareIndicator attribute.
+	 * Gets the routingFormCostShareIndicator attribute.
 	 * 
-	 * @return - Returns the proposalCostShareIndicator
+	 * @return - Returns the routingFormCostShareIndicator
 	 * 
 	 */
-	public boolean getProposalCostShareIndicator() { 
-		return proposalCostShareIndicator;
+	public boolean getRoutingFormCostShareIndicator() { 
+		return routingFormCostShareIndicator;
 	}
 
 	/**
-	 * Sets the proposalCostShareIndicator attribute.
+	 * Sets the routingFormCostShareIndicator attribute.
 	 * 
-	 * @param - proposalCostShareIndicator The proposalCostShareIndicator to set.
+	 * @param - routingFormCostShareIndicator The routingFormCostShareIndicator to set.
 	 * 
 	 */
-	public void setProposalCostShareIndicator(boolean proposalCostShareIndicator) {
-		this.proposalCostShareIndicator = proposalCostShareIndicator;
+	public void setRoutingFormCostShareIndicator(boolean routingFormCostShareIndicator) {
+		this.routingFormCostShareIndicator = routingFormCostShareIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalFederalPassThroughIndicator attribute.
+	 * Gets the routingFormFederalPassThroughIndicator attribute.
 	 * 
-	 * @return - Returns the proposalFederalPassThroughIndicator
+	 * @return - Returns the routingFormFederalPassThroughIndicator
 	 * 
 	 */
-	public boolean getProposalFederalPassThroughIndicator() { 
-		return proposalFederalPassThroughIndicator;
+	public boolean getRoutingFormFederalPassThroughIndicator() { 
+		return routingFormFederalPassThroughIndicator;
 	}
 
 	/**
-	 * Sets the proposalFederalPassThroughIndicator attribute.
+	 * Sets the routingFormFederalPassThroughIndicator attribute.
 	 * 
-	 * @param - proposalFederalPassThroughIndicator The proposalFederalPassThroughIndicator to set.
+	 * @param - routingFormFederalPassThroughIndicator The routingFormFederalPassThroughIndicator to set.
 	 * 
 	 */
-	public void setProposalFederalPassThroughIndicator(boolean proposalFederalPassThroughIndicator) {
-		this.proposalFederalPassThroughIndicator = proposalFederalPassThroughIndicator;
+	public void setRoutingFormFederalPassThroughIndicator(boolean routingFormFederalPassThroughIndicator) {
+		this.routingFormFederalPassThroughIndicator = routingFormFederalPassThroughIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalFellowFirstName attribute.
+	 * Gets the routingFormFellowFirstName attribute.
 	 * 
-	 * @return - Returns the proposalFellowFirstName
+	 * @return - Returns the routingFormFellowFirstName
 	 * 
 	 */
-	public String getProposalFellowFirstName() { 
-		return proposalFellowFirstName;
+	public String getRoutingFormFellowFirstName() { 
+		return routingFormFellowFirstName;
 	}
 
 	/**
-	 * Sets the proposalFellowFirstName attribute.
+	 * Sets the routingFormFellowFirstName attribute.
 	 * 
-	 * @param - proposalFellowFirstName The proposalFellowFirstName to set.
+	 * @param - routingFormFellowFirstName The routingFormFellowFirstName to set.
 	 * 
 	 */
-	public void setProposalFellowFirstName(String proposalFellowFirstName) {
-		this.proposalFellowFirstName = proposalFellowFirstName;
+	public void setRoutingFormFellowFirstName(String routingFormFellowFirstName) {
+		this.routingFormFellowFirstName = routingFormFellowFirstName;
 	}
 
 
 	/**
-	 * Gets the proposalFellowEmailAddress attribute.
+	 * Gets the routingFormFellowEmailAddress attribute.
 	 * 
-	 * @return - Returns the proposalFellowEmailAddress
+	 * @return - Returns the routingFormFellowEmailAddress
 	 * 
 	 */
-	public String getProposalFellowEmailAddress() { 
-		return proposalFellowEmailAddress;
+	public String getRoutingFormFellowEmailAddress() { 
+		return routingFormFellowEmailAddress;
 	}
 
 	/**
-	 * Sets the proposalFellowEmailAddress attribute.
+	 * Sets the routingFormFellowEmailAddress attribute.
 	 * 
-	 * @param - proposalFellowEmailAddress The proposalFellowEmailAddress to set.
+	 * @param - routingFormFellowEmailAddress The routingFormFellowEmailAddress to set.
 	 * 
 	 */
-	public void setProposalFellowEmailAddress(String proposalFellowEmailAddress) {
-		this.proposalFellowEmailAddress = proposalFellowEmailAddress;
+	public void setRoutingFormFellowEmailAddress(String routingFormFellowEmailAddress) {
+		this.routingFormFellowEmailAddress = routingFormFellowEmailAddress;
 	}
 
 
 	/**
-	 * Gets the proposalFellowFullName attribute.
+	 * Gets the routingFormFellowFullName attribute.
 	 * 
-	 * @return - Returns the proposalFellowFullName
+	 * @return - Returns the routingFormFellowFullName
 	 * 
 	 */
-	public String getProposalFellowFullName() { 
-		return proposalFellowFullName;
+	public String getRoutingFormFellowFullName() { 
+		return routingFormFellowFullName;
 	}
 
 	/**
-	 * Sets the proposalFellowFullName attribute.
+	 * Sets the routingFormFellowFullName attribute.
 	 * 
-	 * @param - proposalFellowFullName The proposalFellowFullName to set.
+	 * @param - routingFormFellowFullName The routingFormFellowFullName to set.
 	 * 
 	 */
-	public void setProposalFellowFullName(String proposalFellowFullName) {
-		this.proposalFellowFullName = proposalFellowFullName;
+	public void setRoutingFormFellowFullName(String routingFormFellowFullName) {
+		this.routingFormFellowFullName = routingFormFellowFullName;
 	}
 
 
 	/**
-	 * Gets the proposalFellowLastName attribute.
+	 * Gets the routingFormFellowLastName attribute.
 	 * 
-	 * @return - Returns the proposalFellowLastName
+	 * @return - Returns the routingFormFellowLastName
 	 * 
 	 */
-	public String getProposalFellowLastName() { 
-		return proposalFellowLastName;
+	public String getRoutingFormFellowLastName() { 
+		return routingFormFellowLastName;
 	}
 
 	/**
-	 * Sets the proposalFellowLastName attribute.
+	 * Sets the routingFormFellowLastName attribute.
 	 * 
-	 * @param - proposalFellowLastName The proposalFellowLastName to set.
+	 * @param - routingFormFellowLastName The routingFormFellowLastName to set.
 	 * 
 	 */
-	public void setProposalFellowLastName(String proposalFellowLastName) {
-		this.proposalFellowLastName = proposalFellowLastName;
+	public void setRoutingFormFellowLastName(String routingFormFellowLastName) {
+		this.routingFormFellowLastName = routingFormFellowLastName;
 	}
 
 
 	/**
-	 * Gets the proposalForeignPartnerIndicator attribute.
+	 * Gets the routingFormForeignPartnerIndicator attribute.
 	 * 
-	 * @return - Returns the proposalForeignPartnerIndicator
+	 * @return - Returns the routingFormForeignPartnerIndicator
 	 * 
 	 */
-	public boolean getProposalForeignPartnerIndicator() { 
-		return proposalForeignPartnerIndicator;
+	public boolean getRoutingFormForeignPartnerIndicator() { 
+		return routingFormForeignPartnerIndicator;
 	}
 
 	/**
-	 * Sets the proposalForeignPartnerIndicator attribute.
+	 * Sets the routingFormForeignPartnerIndicator attribute.
 	 * 
-	 * @param - proposalForeignPartnerIndicator The proposalForeignPartnerIndicator to set.
+	 * @param - routingFormForeignPartnerIndicator The routingFormForeignPartnerIndicator to set.
 	 * 
 	 */
-	public void setProposalForeignPartnerIndicator(boolean proposalForeignPartnerIndicator) {
-		this.proposalForeignPartnerIndicator = proposalForeignPartnerIndicator;
+	public void setRoutingFormForeignPartnerIndicator(boolean routingFormForeignPartnerIndicator) {
+		this.routingFormForeignPartnerIndicator = routingFormForeignPartnerIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalForeignTravelIndicator attribute.
+	 * Gets the routingFormForeignTravelIndicator attribute.
 	 * 
-	 * @return - Returns the proposalForeignTravelIndicator
+	 * @return - Returns the routingFormForeignTravelIndicator
 	 * 
 	 */
-	public boolean getProposalForeignTravelIndicator() { 
-		return proposalForeignTravelIndicator;
+	public boolean getRoutingFormForeignTravelIndicator() { 
+		return routingFormForeignTravelIndicator;
 	}
 
 	/**
-	 * Sets the proposalForeignTravelIndicator attribute.
+	 * Sets the routingFormForeignTravelIndicator attribute.
 	 * 
-	 * @param - proposalForeignTravelIndicator The proposalForeignTravelIndicator to set.
+	 * @param - routingFormForeignTravelIndicator The routingFormForeignTravelIndicator to set.
 	 * 
 	 */
-	public void setProposalForeignTravelIndicator(boolean proposalForeignTravelIndicator) {
-		this.proposalForeignTravelIndicator = proposalForeignTravelIndicator;
+	public void setRoutingFormForeignTravelIndicator(boolean routingFormForeignTravelIndicator) {
+		this.routingFormForeignTravelIndicator = routingFormForeignTravelIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalIncomeIndicator attribute.
+	 * Gets the routingFormIncomeIndicator attribute.
 	 * 
-	 * @return - Returns the proposalIncomeIndicator
+	 * @return - Returns the routingFormIncomeIndicator
 	 * 
 	 */
-	public boolean getProposalIncomeIndicator() { 
-		return proposalIncomeIndicator;
+	public boolean getRoutingFormIncomeIndicator() { 
+		return routingFormIncomeIndicator;
 	}
 
 	/**
-	 * Sets the proposalIncomeIndicator attribute.
+	 * Sets the routingFormIncomeIndicator attribute.
 	 * 
-	 * @param - proposalIncomeIndicator The proposalIncomeIndicator to set.
+	 * @param - routingFormIncomeIndicator The routingFormIncomeIndicator to set.
 	 * 
 	 */
-	public void setProposalIncomeIndicator(boolean proposalIncomeIndicator) {
-		this.proposalIncomeIndicator = proposalIncomeIndicator;
+	public void setRoutingFormIncomeIndicator(boolean routingFormIncomeIndicator) {
+		this.routingFormIncomeIndicator = routingFormIncomeIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalInventionIndicator attribute.
+	 * Gets the routingFormInventionIndicator attribute.
 	 * 
-	 * @return - Returns the proposalInventionIndicator
+	 * @return - Returns the routingFormInventionIndicator
 	 * 
 	 */
-	public boolean getProposalInventionIndicator() { 
-		return proposalInventionIndicator;
+	public boolean getRoutingFormInventionIndicator() { 
+		return routingFormInventionIndicator;
 	}
 
 	/**
-	 * Sets the proposalInventionIndicator attribute.
+	 * Sets the routingFormInventionIndicator attribute.
 	 * 
-	 * @param - proposalInventionIndicator The proposalInventionIndicator to set.
+	 * @param - routingFormInventionIndicator The routingFormInventionIndicator to set.
 	 * 
 	 */
-	public void setProposalInventionIndicator(boolean proposalInventionIndicator) {
-		this.proposalInventionIndicator = proposalInventionIndicator;
+	public void setRoutingFormInventionIndicator(boolean routingFormInventionIndicator) {
+		this.routingFormInventionIndicator = routingFormInventionIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalLayDescription attribute.
+	 * Gets the routingFormLayDescription attribute.
 	 * 
-	 * @return - Returns the proposalLayDescription
+	 * @return - Returns the routingFormLayDescription
 	 * 
 	 */
-	public String getProposalLayDescription() { 
-		return proposalLayDescription;
+	public String getRoutingFormLayDescription() { 
+		return routingFormLayDescription;
 	}
 
 	/**
-	 * Sets the proposalLayDescription attribute.
+	 * Sets the routingFormLayDescription attribute.
 	 * 
-	 * @param - proposalLayDescription The proposalLayDescription to set.
+	 * @param - routingFormLayDescription The routingFormLayDescription to set.
 	 * 
 	 */
-	public void setProposalLayDescription(String proposalLayDescription) {
-		this.proposalLayDescription = proposalLayDescription;
+	public void setRoutingFormLayDescription(String routingFormLayDescription) {
+		this.routingFormLayDescription = routingFormLayDescription;
 	}
 
 
 	/**
-	 * Gets the proposalLastUpdateDate attribute.
+	 * Gets the routingFormLastUpdateDate attribute.
 	 * 
-	 * @return - Returns the proposalLastUpdateDate
+	 * @return - Returns the routingFormLastUpdateDate
 	 * 
 	 */
-	public Date getProposalLastUpdateDate() { 
-		return proposalLastUpdateDate;
+	public Date getRoutingFormLastUpdateDate() { 
+		return routingFormLastUpdateDate;
 	}
 
 	/**
-	 * Sets the proposalLastUpdateDate attribute.
+	 * Sets the routingFormLastUpdateDate attribute.
 	 * 
-	 * @param - proposalLastUpdateDate The proposalLastUpdateDate to set.
+	 * @param - routingFormLastUpdateDate The routingFormLastUpdateDate to set.
 	 * 
 	 */
-	public void setProposalLastUpdateDate(Date proposalLastUpdateDate) {
-		this.proposalLastUpdateDate = proposalLastUpdateDate;
+	public void setRoutingFormLastUpdateDate(Date routingFormLastUpdateDate) {
+		this.routingFormLastUpdateDate = routingFormLastUpdateDate;
 	}
 
 
 	/**
-	 * Gets the proposalLastUpdateSystemIdentifier attribute.
+	 * Gets the routingFormLastUpdateSystemIdentifier attribute.
 	 * 
-	 * @return - Returns the proposalLastUpdateSystemIdentifier
+	 * @return - Returns the routingFormLastUpdateSystemIdentifier
 	 * 
 	 */
-	public Long getProposalLastUpdateSystemIdentifier() { 
-		return proposalLastUpdateSystemIdentifier;
+	public Long getRoutingFormLastUpdateSystemIdentifier() { 
+		return routingFormLastUpdateSystemIdentifier;
 	}
 
 	/**
-	 * Sets the proposalLastUpdateSystemIdentifier attribute.
+	 * Sets the routingFormLastUpdateSystemIdentifier attribute.
 	 * 
-	 * @param - proposalLastUpdateSystemIdentifier The proposalLastUpdateSystemIdentifier to set.
+	 * @param - routingFormLastUpdateSystemIdentifier The routingFormLastUpdateSystemIdentifier to set.
 	 * 
 	 */
-	public void setProposalLastUpdateSystemIdentifier(Long proposalLastUpdateSystemIdentifier) {
-		this.proposalLastUpdateSystemIdentifier = proposalLastUpdateSystemIdentifier;
+	public void setRoutingFormLastUpdateSystemIdentifier(Long routingFormLastUpdateSystemIdentifier) {
+		this.routingFormLastUpdateSystemIdentifier = routingFormLastUpdateSystemIdentifier;
 	}
 
 
 	/**
-	 * Gets the proposalNewSpaceIndicator attribute.
+	 * Gets the routingFormNewSpaceIndicator attribute.
 	 * 
-	 * @return - Returns the proposalNewSpaceIndicator
+	 * @return - Returns the routingFormNewSpaceIndicator
 	 * 
 	 */
-	public boolean getProposalNewSpaceIndicator() { 
-		return proposalNewSpaceIndicator;
+	public boolean getRoutingFormNewSpaceIndicator() { 
+		return routingFormNewSpaceIndicator;
 	}
 
 	/**
-	 * Sets the proposalNewSpaceIndicator attribute.
+	 * Sets the routingFormNewSpaceIndicator attribute.
 	 * 
-	 * @param - proposalNewSpaceIndicator The proposalNewSpaceIndicator to set.
+	 * @param - routingFormNewSpaceIndicator The routingFormNewSpaceIndicator to set.
 	 * 
 	 */
-	public void setProposalNewSpaceIndicator(boolean proposalNewSpaceIndicator) {
-		this.proposalNewSpaceIndicator = proposalNewSpaceIndicator;
+	public void setRoutingFormNewSpaceIndicator(boolean routingFormNewSpaceIndicator) {
+		this.routingFormNewSpaceIndicator = routingFormNewSpaceIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalOffCampusDescription attribute.
+	 * Gets the routingFormOffCampusDescription attribute.
 	 * 
-	 * @return - Returns the proposalOffCampusDescription
+	 * @return - Returns the routingFormOffCampusDescription
 	 * 
 	 */
-	public String getProposalOffCampusDescription() { 
-		return proposalOffCampusDescription;
+	public String getRoutingFormOffCampusDescription() { 
+		return routingFormOffCampusDescription;
 	}
 
 	/**
-	 * Sets the proposalOffCampusDescription attribute.
+	 * Sets the routingFormOffCampusDescription attribute.
 	 * 
-	 * @param - proposalOffCampusDescription The proposalOffCampusDescription to set.
+	 * @param - routingFormOffCampusDescription The routingFormOffCampusDescription to set.
 	 * 
 	 */
-	public void setProposalOffCampusDescription(String proposalOffCampusDescription) {
-		this.proposalOffCampusDescription = proposalOffCampusDescription;
+	public void setRoutingFormOffCampusDescription(String routingFormOffCampusDescription) {
+		this.routingFormOffCampusDescription = routingFormOffCampusDescription;
 	}
 
 
 	/**
-	 * Gets the proposalOffCampusIndicator attribute.
+	 * Gets the routingFormOffCampusIndicator attribute.
 	 * 
-	 * @return - Returns the proposalOffCampusIndicator
+	 * @return - Returns the routingFormOffCampusIndicator
 	 * 
 	 */
-	public boolean getProposalOffCampusIndicator() { 
-		return proposalOffCampusIndicator;
+	public boolean getRoutingFormOffCampusIndicator() { 
+		return routingFormOffCampusIndicator;
 	}
 
 	/**
-	 * Sets the proposalOffCampusIndicator attribute.
+	 * Sets the routingFormOffCampusIndicator attribute.
 	 * 
-	 * @param - proposalOffCampusIndicator The proposalOffCampusIndicator to set.
+	 * @param - routingFormOffCampusIndicator The routingFormOffCampusIndicator to set.
 	 * 
 	 */
-	public void setProposalOffCampusIndicator(boolean proposalOffCampusIndicator) {
-		this.proposalOffCampusIndicator = proposalOffCampusIndicator;
+	public void setRoutingFormOffCampusIndicator(boolean routingFormOffCampusIndicator) {
+		this.routingFormOffCampusIndicator = routingFormOffCampusIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalOtherOrganizationIndicator attribute.
+	 * Gets the routingFormOtherOrganizationIndicator attribute.
 	 * 
-	 * @return - Returns the proposalOtherOrganizationIndicator
+	 * @return - Returns the routingFormOtherOrganizationIndicator
 	 * 
 	 */
-	public boolean getProposalOtherOrganizationIndicator() { 
-		return proposalOtherOrganizationIndicator;
+	public boolean getRoutingFormOtherOrganizationIndicator() { 
+		return routingFormOtherOrganizationIndicator;
 	}
 
 	/**
-	 * Sets the proposalOtherOrganizationIndicator attribute.
+	 * Sets the routingFormOtherOrganizationIndicator attribute.
 	 * 
-	 * @param - proposalOtherOrganizationIndicator The proposalOtherOrganizationIndicator to set.
+	 * @param - routingFormOtherOrganizationIndicator The routingFormOtherOrganizationIndicator to set.
 	 * 
 	 */
-	public void setProposalOtherOrganizationIndicator(boolean proposalOtherOrganizationIndicator) {
-		this.proposalOtherOrganizationIndicator = proposalOtherOrganizationIndicator;
+	public void setRoutingFormOtherOrganizationIndicator(boolean routingFormOtherOrganizationIndicator) {
+		this.routingFormOtherOrganizationIndicator = routingFormOtherOrganizationIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalOtherPurposeDescription attribute.
+	 * Gets the routingFormOtherPurposeDescription attribute.
 	 * 
-	 * @return - Returns the proposalOtherPurposeDescription
+	 * @return - Returns the routingFormOtherPurposeDescription
 	 * 
 	 */
-	public String getProposalOtherPurposeDescription() { 
-		return proposalOtherPurposeDescription;
+	public String getRoutingFormOtherPurposeDescription() { 
+		return routingFormOtherPurposeDescription;
 	}
 
 	/**
-	 * Sets the proposalOtherPurposeDescription attribute.
+	 * Sets the routingFormOtherPurposeDescription attribute.
 	 * 
-	 * @param - proposalOtherPurposeDescription The proposalOtherPurposeDescription to set.
+	 * @param - routingFormOtherPurposeDescription The routingFormOtherPurposeDescription to set.
 	 * 
 	 */
-	public void setProposalOtherPurposeDescription(String proposalOtherPurposeDescription) {
-		this.proposalOtherPurposeDescription = proposalOtherPurposeDescription;
+	public void setRoutingFormOtherPurposeDescription(String routingFormOtherPurposeDescription) {
+		this.routingFormOtherPurposeDescription = routingFormOtherPurposeDescription;
 	}
 
 
 	/**
-	 * Gets the proposalOtherTypeDescription attribute.
+	 * Gets the routingFormOtherTypeDescription attribute.
 	 * 
-	 * @return - Returns the proposalOtherTypeDescription
+	 * @return - Returns the routingFormOtherTypeDescription
 	 * 
 	 */
-	public String getProposalOtherTypeDescription() { 
-		return proposalOtherTypeDescription;
+	public String getRoutingFormOtherTypeDescription() { 
+		return routingFormOtherTypeDescription;
 	}
 
 	/**
-	 * Sets the proposalOtherTypeDescription attribute.
+	 * Sets the routingFormOtherTypeDescription attribute.
 	 * 
-	 * @param - proposalOtherTypeDescription The proposalOtherTypeDescription to set.
+	 * @param - routingFormOtherTypeDescription The routingFormOtherTypeDescription to set.
 	 * 
 	 */
-	public void setProposalOtherTypeDescription(String proposalOtherTypeDescription) {
-		this.proposalOtherTypeDescription = proposalOtherTypeDescription;
+	public void setRoutingFormOtherTypeDescription(String routingFormOtherTypeDescription) {
+		this.routingFormOtherTypeDescription = routingFormOtherTypeDescription;
 	}
 
 
 	/**
-	 * Gets the proposalParentNumber attribute.
+	 * Gets the routingFormParentNumber attribute.
 	 * 
-	 * @return - Returns the proposalParentNumber
+	 * @return - Returns the routingFormParentNumber
 	 * 
 	 */
-	public String getProposalParentNumber() { 
-		return proposalParentNumber;
+	public String getRoutingFormParentNumber() { 
+		return routingFormParentNumber;
 	}
 
 	/**
-	 * Sets the proposalParentNumber attribute.
+	 * Sets the routingFormParentNumber attribute.
 	 * 
-	 * @param - proposalParentNumber The proposalParentNumber to set.
+	 * @param - routingFormParentNumber The routingFormParentNumber to set.
 	 * 
 	 */
-	public void setProposalParentNumber(String proposalParentNumber) {
-		this.proposalParentNumber = proposalParentNumber;
+	public void setRoutingFormParentNumber(String routingFormParentNumber) {
+		this.routingFormParentNumber = routingFormParentNumber;
 	}
 
 
 	/**
-	 * Gets the proposalPhysicalCampusCode attribute.
+	 * Gets the routingFormPhysicalCampusCode attribute.
 	 * 
-	 * @return - Returns the proposalPhysicalCampusCode
+	 * @return - Returns the routingFormPhysicalCampusCode
 	 * 
 	 */
-	public String getProposalPhysicalCampusCode() { 
-		return proposalPhysicalCampusCode;
+	public String getRoutingFormPhysicalCampusCode() { 
+		return routingFormPhysicalCampusCode;
 	}
 
 	/**
-	 * Sets the proposalPhysicalCampusCode attribute.
+	 * Sets the routingFormPhysicalCampusCode attribute.
 	 * 
-	 * @param - proposalPhysicalCampusCode The proposalPhysicalCampusCode to set.
+	 * @param - routingFormPhysicalCampusCode The routingFormPhysicalCampusCode to set.
 	 * 
 	 */
-	public void setProposalPhysicalCampusCode(String proposalPhysicalCampusCode) {
-		this.proposalPhysicalCampusCode = proposalPhysicalCampusCode;
+	public void setRoutingFormPhysicalCampusCode(String routingFormPhysicalCampusCode) {
+		this.routingFormPhysicalCampusCode = routingFormPhysicalCampusCode;
 	}
 
 
 	/**
-	 * Gets the proposalPriorGrantNumber attribute.
+	 * Gets the routingFormPriorGrantNumber attribute.
 	 * 
-	 * @return - Returns the proposalPriorGrantNumber
+	 * @return - Returns the routingFormPriorGrantNumber
 	 * 
 	 */
-	public String getProposalPriorGrantNumber() { 
-		return proposalPriorGrantNumber;
+	public String getRoutingFormPriorGrantNumber() { 
+		return routingFormPriorGrantNumber;
 	}
 
 	/**
-	 * Sets the proposalPriorGrantNumber attribute.
+	 * Sets the routingFormPriorGrantNumber attribute.
 	 * 
-	 * @param - proposalPriorGrantNumber The proposalPriorGrantNumber to set.
+	 * @param - routingFormPriorGrantNumber The routingFormPriorGrantNumber to set.
 	 * 
 	 */
-	public void setProposalPriorGrantNumber(String proposalPriorGrantNumber) {
-		this.proposalPriorGrantNumber = proposalPriorGrantNumber;
+	public void setRoutingFormPriorGrantNumber(String routingFormPriorGrantNumber) {
+		this.routingFormPriorGrantNumber = routingFormPriorGrantNumber;
 	}
 
 
 	/**
-	 * Gets the proposalProjectTitle attribute.
+	 * Gets the routingFormProjectTitle attribute.
 	 * 
-	 * @return - Returns the proposalProjectTitle
+	 * @return - Returns the routingFormProjectTitle
 	 * 
 	 */
-	public String getProposalProjectTitle() { 
-		return proposalProjectTitle;
+	public String getRoutingFormProjectTitle() { 
+		return routingFormProjectTitle;
 	}
 
 	/**
-	 * Sets the proposalProjectTitle attribute.
+	 * Sets the routingFormProjectTitle attribute.
 	 * 
-	 * @param - proposalProjectTitle The proposalProjectTitle to set.
+	 * @param - routingFormProjectTitle The routingFormProjectTitle to set.
 	 * 
 	 */
-	public void setProposalProjectTitle(String proposalProjectTitle) {
-		this.proposalProjectTitle = proposalProjectTitle;
+	public void setRoutingFormProjectTitle(String routingFormProjectTitle) {
+		this.routingFormProjectTitle = routingFormProjectTitle;
 	}
 
 
 	/**
-	 * Gets the proposalPurposeCode attribute.
+	 * Gets the routingFormPurposeCode attribute.
 	 * 
-	 * @return - Returns the proposalPurposeCode
+	 * @return - Returns the routingFormPurposeCode
 	 * 
 	 */
-	public String getProposalPurposeCode() { 
-		return proposalPurposeCode;
+	public String getRoutingFormPurposeCode() { 
+		return routingFormPurposeCode;
 	}
 
 	/**
-	 * Sets the proposalPurposeCode attribute.
+	 * Sets the routingFormPurposeCode attribute.
 	 * 
-	 * @param - proposalPurposeCode The proposalPurposeCode to set.
+	 * @param - routingFormPurposeCode The routingFormPurposeCode to set.
 	 * 
 	 */
-	public void setProposalPurposeCode(String proposalPurposeCode) {
-		this.proposalPurposeCode = proposalPurposeCode;
+	public void setRoutingFormPurposeCode(String routingFormPurposeCode) {
+		this.routingFormPurposeCode = routingFormPurposeCode;
 	}
 
     /**
-	 * Gets the proposalSpaceRequiredDescription attribute.
+	 * Gets the routingFormSpaceRequiredDescription attribute.
 	 * 
-	 * @return - Returns the proposalSpaceRequiredDescription
+	 * @return - Returns the routingFormSpaceRequiredDescription
 	 * 
 	 */
-	public String getProposalSpaceRequiredDescription() { 
-		return proposalSpaceRequiredDescription;
+	public String getRoutingFormSpaceRequiredDescription() { 
+		return routingFormSpaceRequiredDescription;
 	}
 
 	/**
-	 * Sets the proposalSpaceRequiredDescription attribute.
+	 * Sets the routingFormSpaceRequiredDescription attribute.
 	 * 
-	 * @param - proposalSpaceRequiredDescription The proposalSpaceRequiredDescription to set.
-	 * 
-	 */
-	public void setProposalSpaceRequiredDescription(String proposalSpaceRequiredDescription) {
-		this.proposalSpaceRequiredDescription = proposalSpaceRequiredDescription;
-	}
-
-
-	/**
-	 * Gets the proposalSpaceRequiredIndicator attribute.
-	 * 
-	 * @return - Returns the proposalSpaceRequiredIndicator
+	 * @param - routingFormSpaceRequiredDescription The routingFormSpaceRequiredDescription to set.
 	 * 
 	 */
-	public boolean getProposalSpaceRequiredIndicator() { 
-		return proposalSpaceRequiredIndicator;
-	}
-
-	/**
-	 * Sets the proposalSpaceRequiredIndicator attribute.
-	 * 
-	 * @param - proposalSpaceRequiredIndicator The proposalSpaceRequiredIndicator to set.
-	 * 
-	 */
-	public void setProposalSpaceRequiredIndicator(boolean proposalSpaceRequiredIndicator) {
-		this.proposalSpaceRequiredIndicator = proposalSpaceRequiredIndicator;
+	public void setRoutingFormSpaceRequiredDescription(String routingFormSpaceRequiredDescription) {
+		this.routingFormSpaceRequiredDescription = routingFormSpaceRequiredDescription;
 	}
 
 
 	/**
-	 * Gets the proposalStatusCode attribute.
+	 * Gets the routingFormSpaceRequiredIndicator attribute.
 	 * 
-	 * @return - Returns the proposalStatusCode
+	 * @return - Returns the routingFormSpaceRequiredIndicator
 	 * 
 	 */
-	public String getProposalStatusCode() { 
-		return proposalStatusCode;
+	public boolean getRoutingFormSpaceRequiredIndicator() { 
+		return routingFormSpaceRequiredIndicator;
 	}
 
 	/**
-	 * Sets the proposalStatusCode attribute.
+	 * Sets the routingFormSpaceRequiredIndicator attribute.
 	 * 
-	 * @param - proposalStatusCode The proposalStatusCode to set.
+	 * @param - routingFormSpaceRequiredIndicator The routingFormSpaceRequiredIndicator to set.
 	 * 
 	 */
-	public void setProposalStatusCode(String proposalStatusCode) {
-		this.proposalStatusCode = proposalStatusCode;
+	public void setRoutingFormSpaceRequiredIndicator(boolean routingFormSpaceRequiredIndicator) {
+		this.routingFormSpaceRequiredIndicator = routingFormSpaceRequiredIndicator;
 	}
 
 
 	/**
-	 * Gets the proposalSubcontractorIndicator attribute.
+	 * Gets the routingFormStatusCode attribute.
 	 * 
-	 * @return - Returns the proposalSubcontractorIndicator
+	 * @return - Returns the routingFormStatusCode
 	 * 
 	 */
-	public boolean getProposalSubcontractorIndicator() { 
-		return proposalSubcontractorIndicator;
+	public String getRoutingFormStatusCode() { 
+		return routingFormStatusCode;
 	}
 
 	/**
-	 * Sets the proposalSubcontractorIndicator attribute.
+	 * Sets the routingFormStatusCode attribute.
 	 * 
-	 * @param - proposalSubcontractorIndicator The proposalSubcontractorIndicator to set.
+	 * @param - routingFormStatusCode The routingFormStatusCode to set.
 	 * 
 	 */
-	public void setProposalSubcontractorIndicator(boolean proposalSubcontractorIndicator) {
-		this.proposalSubcontractorIndicator = proposalSubcontractorIndicator;
+	public void setRoutingFormStatusCode(String routingFormStatusCode) {
+		this.routingFormStatusCode = routingFormStatusCode;
+	}
+
+
+	/**
+	 * Gets the routingFormSubcontractorIndicator attribute.
+	 * 
+	 * @return - Returns the routingFormSubcontractorIndicator
+	 * 
+	 */
+	public boolean getRoutingFormSubcontractorIndicator() { 
+		return routingFormSubcontractorIndicator;
+	}
+
+	/**
+	 * Sets the routingFormSubcontractorIndicator attribute.
+	 * 
+	 * @param - routingFormSubcontractorIndicator The routingFormSubcontractorIndicator to set.
+	 * 
+	 */
+	public void setRoutingFormSubcontractorIndicator(boolean routingFormSubcontractorIndicator) {
+		this.routingFormSubcontractorIndicator = routingFormSubcontractorIndicator;
 	}
 
 	/**
@@ -1124,57 +1124,57 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     
 	/**
-	 * Gets the proposalPhysicalCampus attribute.
+	 * Gets the routingFormPhysicalCampus attribute.
 	 * 
-	 * @return - Returns the proposalPhysicalCampus
+	 * @return - Returns the routingFormPhysicalCampus
 	 * 
 	 */
-	public Campus getProposalPhysicalCampus() { 
-		return proposalPhysicalCampus;
+	public Campus getRoutingFormPhysicalCampus() { 
+		return routingFormPhysicalCampus;
 	}
 
 	/**
-	 * Sets the proposalPhysicalCampus attribute.
+	 * Sets the routingFormPhysicalCampus attribute.
 	 * 
-	 * @param - proposalPhysicalCampus The proposalPhysicalCampus to set.
+	 * @param - routingFormPhysicalCampus The routingFormPhysicalCampus to set.
 	 * @deprecated
 	 */
-	public void setProposalPhysicalCampus(Campus proposalPhysicalCampus) {
-		this.proposalPhysicalCampus = proposalPhysicalCampus;
+	public void setRoutingFormPhysicalCampus(Campus routingFormPhysicalCampus) {
+		this.routingFormPhysicalCampus = routingFormPhysicalCampus;
 	}
 
     /**
-     * Gets the proposalStatus attribute. 
-     * @return Returns the proposalStatus.
+     * Gets the routingFormStatus attribute. 
+     * @return Returns the routingFormStatus.
      */
-    public RoutingFormStatus getProposalStatus() {
-        return proposalStatus;
+    public RoutingFormStatus getRoutingFormStatus() {
+        return routingFormStatus;
     }
 
     /**
-     * Sets the proposalStatus attribute value.
-     * @param proposalStatus The proposalStatus to set.
+     * Sets the routingFormStatus attribute value.
+     * @param routingFormStatus The routingFormStatus to set.
      * @deprecated
      */
-    public void setProposalStatus(RoutingFormStatus proposalStatus) {
-        this.proposalStatus = proposalStatus;
+    public void setRoutingFormStatus(RoutingFormStatus routingFormStatus) {
+        this.routingFormStatus = routingFormStatus;
     }
 
     /**
-     * Gets the proposalPurpose attribute. 
-     * @return Returns the proposalPurpose.
+     * Gets the routingFormPurpose attribute. 
+     * @return Returns the routingFormPurpose.
      */
-    public RoutingFormPurpose getProposalPurpose() {
-        return proposalPurpose;
+    public RoutingFormPurpose getRoutingFormPurpose() {
+        return routingFormPurpose;
     }
 
     /**
-     * Sets the proposalPurpose attribute value.
-     * @param proposalPurpose The proposalPurpose to set.
+     * Sets the routingFormPurpose attribute value.
+     * @param routingFormPurpose The routingFormPurpose to set.
      * @deprecated
      */
-    public void setProposalPurpose(RoutingFormPurpose proposalPurpose) {
-        this.proposalPurpose = proposalPurpose;
+    public void setRoutingFormPurpose(RoutingFormPurpose routingFormPurpose) {
+        this.routingFormPurpose = routingFormPurpose;
     }    
 
     /**
@@ -1498,7 +1498,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         getRoutingFormInstitutionCostShares().add(routingFormInstitutionCostShare);
 
         // update the overall amount
-        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.add(new KualiDecimal(routingFormInstitutionCostShare.getProposalCostShareAmount()));
+        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.add(new KualiDecimal(routingFormInstitutionCostShare.getRoutingFormCostShareAmount()));
     }
 
     /**
@@ -1508,7 +1508,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void removeRoutingFormInstitutionCostShare(int index) {
         RoutingFormInstitutionCostShare routingFormInstitutionCostShare = routingFormInstitutionCostShares.remove(index);
-        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.subtract(new KualiDecimal(routingFormInstitutionCostShare.getProposalCostShareAmount()));
+        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.subtract(new KualiDecimal(routingFormInstitutionCostShare.getRoutingFormCostShareAmount()));
     }
 
     /**
@@ -1561,7 +1561,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         getRoutingFormOtherCostShares().add(routingFormOtherCostShare);
 
         // update the overall amount
-        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.add(new KualiDecimal(routingFormOtherCostShare.getProposalCostShareAmount()));
+        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.add(new KualiDecimal(routingFormOtherCostShare.getRoutingFormCostShareAmount()));
     }
 
     /**
@@ -1571,7 +1571,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void removeRoutingFormOtherCostShare(int index) {
         RoutingFormOtherCostShare routingFormOtherCostShare = routingFormOtherCostShares.remove(index);
-        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.subtract(new KualiDecimal(routingFormOtherCostShare.getProposalCostShareAmount()));
+        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.subtract(new KualiDecimal(routingFormOtherCostShare.getRoutingFormCostShareAmount()));
     }
 
     /**
@@ -1624,7 +1624,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         getRoutingFormSubcontractors().add(routingFormSubcontractor);
 
         // update the overall amount
-        this.totalSubcontractorAmount = this.totalSubcontractorAmount.add(new KualiDecimal(routingFormSubcontractor.getProposalSubcontractorAmount()));
+        this.totalSubcontractorAmount = this.totalSubcontractorAmount.add(new KualiDecimal(routingFormSubcontractor.getRoutingFormSubcontractorAmount()));
     }
 
     /**
@@ -1634,7 +1634,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void removeRoutingFormSubcontractor(int index) {
         RoutingFormSubcontractor routingFormSubcontractor = routingFormSubcontractors.remove(index);
-        this.totalSubcontractorAmount = this.totalSubcontractorAmount.subtract(new KualiDecimal(routingFormSubcontractor.getProposalSubcontractorAmount()));
+        this.totalSubcontractorAmount = this.totalSubcontractorAmount.subtract(new KualiDecimal(routingFormSubcontractor.getRoutingFormSubcontractorAmount()));
     }
 
     /**

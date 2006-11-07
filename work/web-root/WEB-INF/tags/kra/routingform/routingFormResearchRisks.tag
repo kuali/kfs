@@ -128,7 +128,7 @@
                 				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div>
                 				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchDocumentNumber"/>
                 				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].proposalResearchRiskSequenceNumber"/>
+                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskSequenceNumber"/>
                 				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
                 				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].versionNumber"/>
                 			</td>

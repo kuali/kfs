@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormResearchRisk.xml,v $
  
@@ -27,7 +27,7 @@
             <title>Routing Form Research Risk Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="proposalResearchRiskSequenceNumber" />
+                <field attributeName="routingFormResearchRiskSequenceNumber" />
                 <field attributeName="researchRiskApprovalPendingIndicator" />
                 <field attributeName="researchRiskExemptionNumber" />
                 <field attributeName="researchRiskStudyApprovalDate" />
@@ -47,12 +47,12 @@
             <defaultSort sortAscending="true">
                 <sortAttributes>
                     <sortAttribute attributeName="researchDocumentNumber" />
-                    <sortAttribute attributeName="proposalResearchRiskSequenceNumber" />
+                    <sortAttribute attributeName="routingFormResearchRiskSequenceNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="proposalResearchRiskSequenceNumber" required="false" />
+                <lookupField attributeName="routingFormResearchRiskSequenceNumber" required="false" />
                 <lookupField attributeName="researchRiskApprovalPendingIndicator" required="false" />
                 <lookupField attributeName="researchRiskExemptionNumber" required="false" />
                 <lookupField attributeName="researchRiskStudyApprovalDate" required="false" />
@@ -64,7 +64,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="proposalResearchRiskSequenceNumber" />
+                <field attributeName="routingFormResearchRiskSequenceNumber" />
                 <field attributeName="researchRiskApprovalPendingIndicator" />
                 <field attributeName="researchRiskExemptionNumber" />
                 <field attributeName="researchRiskStudyApprovalDate" />
@@ -78,8 +78,8 @@
 
         <attributes>
 
-            <attribute name="proposalResearchRiskSequenceNumber" forceUppercase="true">
-                <label>Proposal Research Risk Sequence Number</label>
+            <attribute name="routingFormResearchRiskSequenceNumber" forceUppercase="true">
+                <label>Routing Form Research Risk Sequence Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -89,8 +89,8 @@
                     <text size="6" />
                 </control>
 
-                <summary>proposalResearchRiskSequenceNumber</summary>
-                <description>proposalResearchRiskSequenceNumber description...</description>
+                <summary>routingFormResearchRiskSequenceNumber</summary>
+                <description>routingFormResearchRiskSequenceNumber description...</description>
 			</attribute>
 
             <attribute name="researchRiskApprovalPendingIndicator" forceUppercase="true">

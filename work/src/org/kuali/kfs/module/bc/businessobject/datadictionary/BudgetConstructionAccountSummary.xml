@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006 The Kuali Foundation.
  
  $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/businessobject/datadictionary/BudgetConstructionAccountSummary.xml,v $
  
@@ -26,7 +26,7 @@
         <inquiry>
             <title>Budget Construction Account Summary Inquiry</title>
 
-            <inquiryFields>
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
@@ -39,7 +39,7 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="subFundGroupCode" />
                 <field attributeName="subFundSortCode" />
-            </inquiryFields>
+            </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>

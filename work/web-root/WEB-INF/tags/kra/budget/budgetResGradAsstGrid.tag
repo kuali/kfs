@@ -57,7 +57,7 @@
               </tr>
               
               <logic:iterate id="userAppointmentTask" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTasks" indexId="userAppointmentTaskIndex">
-                <c:if test="${userAppointmentTask.budgetTaskSequenceNumber eq person.currentTaskNumber and matchAppointmentType eq person.appointmentTypeCode}">
+                <c:if test="${userAppointmentTask.budgetTaskSequenceNumber eq person.currentTaskNumber and matchAppointmentType eq userAppointmentTask.institutionAppointmentTypeCode}">
                   <logic:iterate id="userAppointmentTaskPeriod" name="KualiForm" property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriods" indexId="userAppointmentTaskPeriodIndex">
   		              <tr>
   		                <td class="datacell"><div class="nowrap" align="center"><strong>${userAppointmentTaskPeriodIndex + 1}</strong><span class="fineprint"><br />

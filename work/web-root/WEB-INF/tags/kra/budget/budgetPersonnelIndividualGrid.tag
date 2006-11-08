@@ -29,9 +29,6 @@
 <%@ attribute name="person" required="true" type="org.kuali.module.kra.budget.bo.BudgetUser"%>
 <%@ attribute name="personListIndex" required="true"%>
 
-
-                 <c:set var="appointmentTypes" value="${fn:split(person.appointmentTypeCode, ',')}" />
-                 
                  <c:choose>
 	                 <c:when test="${fn:contains(KualiForm.appointmentTypeGridMappings['fullYear'], person.appointmentTypeCode)}">
 	                   <kra-b:budgetPersonnelFullYearGrid person="${person}" personListIndex="${personListIndex}" matchAppointmentType="${person.appointmentTypeCode}" />
@@ -49,7 +46,7 @@
                      <kra-b:budgetResGradAsstGrid person="${person}" personListIndex="${personListIndex}"  matchAppointmentType="${person.appointmentTypeCode}" />
                    </c:when>
                  </c:choose>
-                                    
+
                  <c:if test="${not empty person.secondaryAppointmentTypeCode }">
                   <c:choose>
 	                  <c:when test="${fn:contains(KualiForm.appointmentTypeGridMappings['fullYear'], person.secondaryAppointmentTypeCode)}">

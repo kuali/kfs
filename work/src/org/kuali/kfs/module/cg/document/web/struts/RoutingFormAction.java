@@ -17,6 +17,8 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,14 +26,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.core.document.Document;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class RoutingFormAction extends KualiDocumentActionBase {
     
@@ -52,6 +49,8 @@ public class RoutingFormAction extends KualiDocumentActionBase {
                     SpringServiceLocator.getRoutingFormResearchRiskService().getAllRoutingFormDocumentResearchRisks(
                             routingForm.getRoutingFormDocument().getFinancialDocumentNumber()));
         }
+        
+        routingForm.setTabStates(new ArrayList());
         
         return mapping.findForward("researchrisks");
     }

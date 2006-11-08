@@ -42,30 +42,7 @@ import org.kuali.core.util.AssertionUtils;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface RelatesTo {
-
-    public JiraIssue[] value();
-
-    /**
-     * JIRA issues which have been thought to relate to certain test failures.
-     * Using this enumeration makes it easy for the IDE to show which tests relate to which issues.
-     */
-    public enum JiraIssue {
-        KULRNE42,
-        KULRNE1847,
-        KULRNE1612,
-        ;
-        
-        private final static Pattern PATTERN = Pattern.compile("(\\p{Alpha}+)(\\p{Digit}+)");
-
-        /**
-         * @return the JIRA issue name, which is not a legal Java identifier.
-         */
-        @Override
-        public String toString() {
-            Matcher m = PATTERN.matcher(name());
-            final boolean matched = m.matches();
-            AssertionUtils.assertThat(matched);
-            return m.group(1) + "-" + m.group(2);
-        }
-    }
+    
+    public String value() default "";
+    
 }

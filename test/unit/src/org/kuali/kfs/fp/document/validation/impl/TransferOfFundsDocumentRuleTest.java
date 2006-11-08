@@ -18,6 +18,38 @@
 package org.kuali.module.financial.rules;
 
 
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
+import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
+import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
+import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.FLEXIBLE_EXPENSE_LINE;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE11;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE12;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE13;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE9;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
+import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -30,46 +62,14 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
-import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testAddAccountingLine_IsObjectSubTypeAllowed;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtils.testSaveDocumentRule_ProcessSaveDocument;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
-import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.FLEXIBLE_EXPENSE_LINE;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE10;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE11;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE12;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE13;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE8;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE9;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
-import static org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
 import org.kuali.test.suite.RelatesTo;
-import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1847;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 
 @WithTestSpringContext(session = KHUNTLEY)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
@@ -77,14 +77,13 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
     private static final String NON_MANDATORY_TRANSFER_OBJECT_CODE = "1669";
 
-
     @AnnotationTestSuite(CrossSectionSuite.class)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2, EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
-    @RelatesTo(KULRNE1847)
+    @RelatesTo("KULRNE-1847")
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);

@@ -21,7 +21,6 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.suite.RelatesTo;
-import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE42;
 
 /**
  * Tests of the ICRTypeCode BO.
@@ -32,7 +31,7 @@ public class ICRTypeCodeTest extends KualiTestBase {
     /**
      * The isActive method should always return true, at least until a phase 2 task adds active indicators to all BOs.
      */
-    @RelatesTo(KULRNE42)
+    @RelatesTo("KULRNE-42")
     public void testIsActive() {
         ICRTypeCode bo = (ICRTypeCode) (SpringServiceLocator.getBusinessObjectService().findAll(ICRTypeCode.class).toArray()[0]);
         assertEquals(true, bo.isActive());

@@ -75,7 +75,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         
         // Check default org permissions - project director
         if (!budgetDocument.getBudget().getPersonnel().isEmpty()) {
-            if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorOrgReportXml(true), u.getPersonUniversalIdentifier())) {
+            if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorReportXml(true), u.getPersonUniversalIdentifier())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
                         KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
             }

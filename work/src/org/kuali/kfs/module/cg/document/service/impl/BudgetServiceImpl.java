@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation.
+ * Copyright 2005-2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -78,19 +78,6 @@ public class BudgetServiceImpl implements BudgetService {
         budgetFringeRateService.setupDefaultFringeRates(budget);
         budgetGraduateAssistantRateService.setupDefaultGradAssistantRates(budget);
         budgetIndirectCostService.setupIndirectCostRates(budget);
-    }
-    
-    public void appSpecificRouteDocumentToUsers(BudgetDocument budgetDocument) throws WorkflowException {
-        documentService.prepareWorkflowDocument(budgetDocument);
-        String[] currentNodes = budgetDocument.getDocumentHeader().getWorkflowDocument().getNodeNames();
-        WorkflowInfo workflowInfo = new WorkflowInfo();
-        //RouteNodeInstanceVO[] nodes = workflowInfo.get(budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        if (!budgetDocument.getBudget().isProjectDirectorToBeNamedIndicator()) {
-            budgetDocument.getDocumentHeader().getWorkflowDocument().appSpecificRouteDocumentToUser(
-                    "F", "Adhoc Routing", 0, "", 
-                    new NetworkIdVO(budgetDocument.getBudget().getProjectDirector().getUniversalUser().getPersonUserIdentifier()), 
-                    "Project Director notification of completion.", true);
-        }
     }
 
     /**

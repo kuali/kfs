@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation.
+ * Copyright 2005-2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -98,7 +98,6 @@ public class BudgetAction extends KualiDocumentActionBase {
         if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
             budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getBudget().getAdHocPermissions()));
             budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getBudget().getAdHocWorkgroups()));
-            SpringServiceLocator.getBudgetService().appSpecificRouteDocumentToUsers(budgetForm.getBudgetDocument());
             return super.route(mapping, form, request, response);
         }
         

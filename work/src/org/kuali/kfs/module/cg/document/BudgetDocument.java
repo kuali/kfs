@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation.
+ * Copyright 2005-2006 The Kuali Foundation.
  * 
  * $Source$
  * 
@@ -427,7 +427,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budget, referenceObjects);
         
         StringBuffer xml = new StringBuffer("<documentContent>");
-        xml.append(buildProjectDirectorOrgReportXml(false));
+        xml.append(buildProjectDirectorReportXml(false));
         xml.append(buildCostShareOrgReportXml(false));
         xml.append(buildAdhocOrgReportXml(false));
         xml.append("</documentContent>");
@@ -436,24 +436,31 @@ public class BudgetDocument extends ResearchDocumentBase {
     }
     
     /**
-     * Build the xml to use when generating the workflow org routing report.
+     * Build the xml to use when generating the workflow routing report.
      * 
      * @param BudgetUser projectDirector
      * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
      * @return String
      */
-    public String buildProjectDirectorOrgReportXml(boolean encloseContent) {
+    public String buildProjectDirectorReportXml(boolean encloseContent) {
         StringBuffer xml = new StringBuffer();
         if (encloseContent) {
             xml.append("<documentContent>");
         }
         BudgetUser projectDirector = this.getBudget().getProjectDirectorFromList();
-        if (ObjectUtils.isNotNull(projectDirector) && !StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
-            xml.append("<chartOrg><chartOfAccountsCode>");
-            xml.append(projectDirector.getFiscalCampusCode());
-            xml.append("</chartOfAccountsCode><organizationCode>");
-            xml.append(projectDirector.getPrimaryDepartmentCode());
-            xml.append("</organizationCode></chartOrg>");
+        if (ObjectUtils.isNotNull(projectDirector) && ObjectUtils.isNotNull(projectDirector.getUser())) {
+            if (!this.getBudget().isProjectDirectorToBeNamedIndicator()) {
+                xml.append("<projectDirector>");
+                xml.append(projectDirector.getUser().getPersonUniversalIdentifier());
+                xml.append("</projectDirector>");
+            }
+            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
+                xml.append("<chartOrg><chartOfAccountsCode>");
+                xml.append(projectDirector.getFiscalCampusCode());
+                xml.append("</chartOfAccountsCode><organizationCode>");
+                xml.append(projectDirector.getPrimaryDepartmentCode());
+                xml.append("</organizationCode></chartOrg>");
+            }
         }
         if (encloseContent) {
             xml.append("</documentContent>");

@@ -237,7 +237,9 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             Date workStartDate = (period.getBudgetPeriodBeginDate().before(evalStartDate) ? evalStartDate : period.getBudgetPeriodBeginDate());
             Date workEndDate = (period.getBudgetPeriodEndDate().after(evalEndDate) ? evalEndDate : period.getBudgetPeriodEndDate());
 
-            int daysInPeriod = dateTimeService.dateDiff(workStartDate, workEndDate, true);
+            //method can return a negative - this may occur in cases when we are modifying the dates to calcualte based on.  For example, summer appointments in periods that 
+            int dateDiff = dateTimeService.dateDiff(workStartDate, workEndDate, true);
+            int daysInPeriod = dateDiff > 0 ? dateDiff : 0;
 
             // Step 3 - multiply the number of days in the period (Step 2) by the daily salary (Step 1)
             KualiInteger periodSalary = new KualiInteger(daysInPeriod).multiply(dailySalaryForAppointmentTypeDuration);

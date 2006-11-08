@@ -89,7 +89,7 @@ public class BudgetPersonnelAction extends BudgetAction {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
-        boolean rulePassed = runRule(budgetForm, new InsertPersonnelEventBase(budgetForm.getDocument(), budgetForm.getNewPersonnel()));
+        boolean rulePassed = runRule(budgetForm, new InsertPersonnelEventBase(budgetForm.getDocument(), budgetForm.getNewPersonnel(), !StringUtils.equals(PERSON, budgetForm.getNewPersonnelType())));
         
         if (rulePassed) {
             if (!StringUtils.equals(PERSON, budgetForm.getNewPersonnelType())) {

@@ -34,6 +34,7 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 public class InsertPersonnelEventBase extends KualiDocumentEventBase {
 
     private final BudgetUser newBudgetUser;
+    private final boolean isToBeNamed;
 
     /**
      * Constructs a UpdateNonpersonnelEventBase.java.
@@ -42,14 +43,15 @@ public class InsertPersonnelEventBase extends KualiDocumentEventBase {
      * @param errorPathPrefix
      * @param document
      */
-    public InsertPersonnelEventBase(String errorPathPrefix, Document document, BudgetUser newBudgetUser) {
+    public InsertPersonnelEventBase(String errorPathPrefix, Document document, BudgetUser newBudgetUser, boolean isToBeNamed) {
         super("adding periodLine to document " + getDocumentId(document), errorPathPrefix, document);
 
+        this.isToBeNamed = isToBeNamed;
         this.newBudgetUser = newBudgetUser;
     }
 
-    public InsertPersonnelEventBase(Document document, BudgetUser newBudgetUser) {
-        this("", document, newBudgetUser);
+    public InsertPersonnelEventBase(Document document, BudgetUser newBudgetUser, boolean isToBeNamed) {
+        this("", document, newBudgetUser, isToBeNamed);
     }
 
     /**
@@ -63,6 +65,6 @@ public class InsertPersonnelEventBase extends KualiDocumentEventBase {
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((BudgetDocumentRule) rule).processInsertPersonnelBusinessRules(document, newBudgetUser);
+        return ((BudgetDocumentRule) rule).processInsertPersonnelBusinessRules(document, newBudgetUser, isToBeNamed);
     }
 }

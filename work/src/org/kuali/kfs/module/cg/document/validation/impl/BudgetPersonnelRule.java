@@ -166,7 +166,7 @@ public class BudgetPersonnelRule {
         return valid;
     }
 
-    protected boolean processInsertPersonnelBusinessRules(List personnelList, BudgetUser newBudgetUser) {
+    protected boolean processInsertPersonnelBusinessRules(List personnelList, BudgetUser newBudgetUser, boolean isToBeNamed) {
         boolean valid = true;
 
         if (StringUtils.isNotEmpty(newBudgetUser.getPersonSystemIdentifier())) {
@@ -177,6 +177,9 @@ public class BudgetPersonnelRule {
                     break;
                 }
             }
+        } else if (!isToBeNamed) {
+            GlobalVariables.getErrorMap().putError("newPersonnel", KeyConstants.ERROR_PERSON_NOT_SELECTED, new String[] {});
+            valid = false;
         }
         return valid;
     }

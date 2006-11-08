@@ -150,8 +150,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
         return budgetIndirectCostRule.processSaveIndirectCostBusinessRules(idc);
     }
 
-    public boolean processInsertPersonnelBusinessRules(Document document, BudgetUser newBudgetUser) {
-        return budgetPersonnelRule.processInsertPersonnelBusinessRules(((BudgetDocument)document).getBudget().getPersonnel(), newBudgetUser);
+    public boolean processInsertPersonnelBusinessRules(Document document, BudgetUser newBudgetUser, boolean isToBeNamed) {
+        return budgetPersonnelRule.processInsertPersonnelBusinessRules(((BudgetDocument)document).getBudget().getPersonnel(), newBudgetUser, isToBeNamed);
     }
 
     public boolean processSavePersonnelBusinessRules(List personnel) {

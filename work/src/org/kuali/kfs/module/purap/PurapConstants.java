@@ -104,4 +104,9 @@ public class PurapConstants {
         public static String B2B = "B2B";
     }
 
+    // Requisition Tab Errors
+    public static final String DELIVERY_TAB_ERRORS = "document.delivery*";
+    public static final String VENDOR_ERRORS = "document.vendor*";
+    public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.purchaseOrderTransmissionMethodCode,document.chartOfAccountsCode,document.organizationCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
+    public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.assignContractManager";
 }

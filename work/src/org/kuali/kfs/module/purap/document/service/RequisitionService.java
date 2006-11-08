@@ -18,10 +18,13 @@
 package org.kuali.module.purap.service;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 
 public interface RequisitionService {
 
+    public void save(RequisitionDocument requisitionDocument);
+    
     public KualiDecimal getApoLimit(String chart, String org);
     
 }

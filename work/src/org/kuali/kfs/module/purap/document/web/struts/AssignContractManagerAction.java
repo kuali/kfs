@@ -17,22 +17,9 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.purap.bo.AssignContractManagerDetail;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.web.struts.form.AssignContractManagerForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -43,6 +30,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class AssignContractManagerAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);
 
+
     /**
      * Do initialization for a new AssignContractManagerDocument
      * 
@@ -50,60 +38,12 @@ public class AssignContractManagerAction extends KualiTransactionalDocumentActio
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        
+        LOG.debug("createDocument() Entering method.");
+
         super.createDocument(kualiDocumentFormBase);
         
         ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
         
+        LOG.debug("createDocument() Leaving method.");
     }
-
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument)((AssignContractManagerForm)form).getDocument();
-
-        List assignedRequisitions = acmDocument.getAssignContractManagerDetails();
-        
-        for (Iterator iter = acmDocument.getUnassignedRequisitions().iterator(); iter.hasNext();) {
-            RequisitionDocument req = (RequisitionDocument) iter.next();
-            
-            if (ObjectUtils.isNotNull(req.getContractManagerCode())) {
-                // TODO: check that we have a valid contractManagerCode.
-                AssignContractManagerDetail detail = new AssignContractManagerDetail();
-                detail.setContractManagerCode(req.getContractManagerCode());
-                detail.setFinancialDocumentNumber(req.getFinancialDocumentNumber());
-                detail.setRequisitionIdentifier(req.getIdentifier());
-                
-                assignedRequisitions.add(detail);
-            }
-        }
-        acmDocument.setAssignContractManagerDetails(assignedRequisitions);
-        
-        return super.save(mapping, form, request, response);
-
-    }
-
-//    @Override
-//    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        AssignContractManagerDocument acmDocument = (AssignContractManagerDocument)((AssignContractManagerForm)form).getDocument();
-//
-//        List assignedRequisitions = acmDocument.getAssignContractManagerDetails();
-//        
-//        for (Iterator iter = acmDocument.getUnassignedRequisitions().iterator(); iter.hasNext();) {
-//            RequisitionDocument req = (RequisitionDocument) iter.next();
-//            
-//            if (ObjectUtils.isNotNull(req.getContractManagerCode())) {
-//                // TODO: check that we have a valid contractManagerCode.
-//                AssignContractManagerDetail detail = new AssignContractManagerDetail();
-//                detail.setContractManagerCode(req.getContractManagerCode());
-//                detail.setFinancialDocumentNumber(req.getFinancialDocumentNumber());
-//                detail.setRequisitionIdentifier(req.getIdentifier());
-//                
-//                assignedRequisitions.add(detail);
-//            }
-//        }
-//        acmDocument.setAssignContractManagerDetails(assignedRequisitions);
-//        
-//        return super.blanketApprove(mapping, form, request, response);
-//    }
 }

@@ -32,7 +32,7 @@
 <c:set var="vendorReadOnly" value="${readOnly or not empty KualiForm.document.vendorNumber}" />
 <c:set var="currentUserCampusCode" value="${UserSession.kualiUser.universalUser.campusCode}" />
 
-<kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${Constants.VENDOR_ERRORS}">
+<kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Vendor Info</h2>

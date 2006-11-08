@@ -17,34 +17,17 @@
  */
 package org.kuali.module.purap.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.bo.ContractManager;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurapService;
 
 public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    protected BusinessObjectService getBOService() {
-        if( ObjectUtils.isNull( this.businessObjectService ) ) {
-            this.businessObjectService = SpringServiceLocator.getBusinessObjectService();
-        }
-        return this.businessObjectService;
-    }
+
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
     }
@@ -75,18 +58,24 @@ public class PurapServiceImpl implements PurapService {
      * This method updates the status for a purap document.
      *
     */
-    public boolean updateStatus(PurchasingAccountsPayableDocument document,String statusToSet) {
+    public boolean updateStatus(PurchasingAccountsPayableDocument document,String newStatus) {
         LOG.debug("updateStatus(): entered method.");
         
         boolean success = false;
         
-        if ( ObjectUtils.isNull(document) || ObjectUtils.isNull(statusToSet) ) {
+        if ( ObjectUtils.isNull(document) || ObjectUtils.isNull(newStatus) ) {
             return success;
         }
+        
+        String oldStatus = document.getStatusCode();
 
-        document.setStatusCode(statusToSet);
+        document.setStatusCode(newStatus);
         
         success = true;
+        if (success) {
+            LOG.debug("Status of document #"+document.getFinancialDocumentNumber()+" has been changed from "+
+               oldStatus+" to "+newStatus);
+        }
         
         LOG.debug("updateStatus(): leaving method.");
         return success;
@@ -96,23 +85,29 @@ public class PurapServiceImpl implements PurapService {
      * This method updates the status history for a purap document.
      *
     */
-    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document,String statusToSet) {
+    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document,String newStatus) {
         LOG.debug("updateStatusHistory(): entered method.");
         
         boolean success = false;
         
-        if ( ObjectUtils.isNull(document) || ObjectUtils.isNull(statusToSet) ) {
+        if ( ObjectUtils.isNull(document) || ObjectUtils.isNull(newStatus) ) {
             return success;
         }
 
+        String oldStatus = document.getStatusCode();
+
         StatusHistory statusHistory = new StatusHistory();
         statusHistory.setOldStatusCode(document.getStatusCode());
-        statusHistory.setNewStatusCode(statusToSet);
+        statusHistory.setNewStatusCode(newStatus);
         // TODO: add note, what other fields need to be filled?
         
         document.getStatusHistories().add(statusHistory);
 
         success = true;
+        if (success) {
+            LOG.debug("StatusHistory of document #"+document.getFinancialDocumentNumber()+" has been changed from "
+                    +oldStatus+" to "+newStatus);
+        }
         
         LOG.debug("updateStatusHistory(): leaving method.");
         return success;

@@ -26,8 +26,7 @@
 <c:set var="requisitionAttributes" value="${DataDictionary.KualiRequisitionDocument.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-<kul:tab tabTitle="Assign A Contract Manager" defaultOpen="true">
-<!-- TODO: add the following to the above kul:tab if needed.   tabErrorKey="${Constants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS}" -->
+<kul:tab tabTitle="Assign A Contract Manager" defaultOpen="true" tabErrorKey="${PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS}">
 
     <div class="tab-container" align=center>
         <div class="h2-container">

@@ -33,6 +33,7 @@ import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 // TODO uncomment this when the referenced class exists
 //import org.kuali.module.purap.dao.RequisitionDao;
+import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.RequisitionService;
 
@@ -41,12 +42,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    // TODO uncomment this when the referenced class exists
-    //private RequisitionDao requisitionDao;
+    private RequisitionDao requisitionDao;
 
     public void save(RequisitionDocument requisitionDocument) {
-        // TODO uncomment this when the referenced class exists
-        //requisitionDao.save(requisitionDocument);
+        requisitionDao.save(requisitionDocument);
     }
     
     /**
@@ -58,7 +57,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         if ( ObjectUtils.isNull(ObjectUtils.isNull(chart)) || ObjectUtils.isNull(org) ) {
             return null;
         }
-        
+        // TODO: call vendorService to get the contract. Remove call to vendorService in the ReqDocument.
         OrganizationParameter orgParameter = new OrganizationParameter();
         orgParameter.setChartOfAccountsCode(chart);
         orgParameter.setOrganizationCode(org);
@@ -301,8 +300,8 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.dateTimeService = dateTimeService;    
     }
 
-    // TODO uncomment this when the referenced class exists
-//    public void setRequisitionDao(RequisitionDao requisitionDao) {
-//        this.requisitionDao = requisitionDao;
-//    }
+    public void setRequisitionDao(RequisitionDao requisitionDao) {
+        this.requisitionDao = requisitionDao;
+    }
 }
+

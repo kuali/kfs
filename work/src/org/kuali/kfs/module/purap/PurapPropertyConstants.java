@@ -69,6 +69,7 @@ public class PurapPropertyConstants {
     public static final String ORGANIZATION_APO_LIMIT = "vendorContractPurchaseOrderLimitAmount";
     
     // Purchase Order & Requisition
+    public static final String REQUISITION_ID = "identifier";
     public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
     public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
     public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";
@@ -77,5 +78,6 @@ public class PurapPropertyConstants {
     public static final String REQUISITION_VENDOR_FAX_NUMBER = "document.vendorFaxNumber";
     public static final String STATUS_CODE = "statusCode";
     public static final String DOCUMENT_IDENTIFIER = "purapDocumentIdentifier";
+    public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
     
 }

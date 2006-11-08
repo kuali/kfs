@@ -22,6 +22,7 @@
 <dictionaryEntry>
     <transactionalDocument>
         <documentClass>org.kuali.module.purap.document.AssignContractManagerDocument</documentClass>
+        <businessRulesClass>org.kuali.module.purap.rules.AssignContractManagerDocumentRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.TransactionalDocumentAuthorizerBase</documentAuthorizerClass>
         
         <authorizations>

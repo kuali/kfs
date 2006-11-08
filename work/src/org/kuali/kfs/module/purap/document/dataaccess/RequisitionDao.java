@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation.
  * 
- * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/service/PurapService.java,v $
+ * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/purap/document/dataaccess/RequisitionDao.java,v $
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.purap.service;
+package org.kuali.module.purap.dao;
 
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 
-public interface PurapService {
+public interface RequisitionDao {
 
-    public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document, String statusToSet);
-    
-    public boolean updateStatus(PurchasingAccountsPayableDocument document,String statusToSet);
-    
-    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document,String statusToSet);
+    public void save(RequisitionDocument requisitionDocument);
     
 }

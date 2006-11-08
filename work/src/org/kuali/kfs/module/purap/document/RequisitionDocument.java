@@ -228,7 +228,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
           }
           if( !activeVendor ) {
               throw new ValidationException( PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR );
-          }
+      }
       }
 
 //    TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)

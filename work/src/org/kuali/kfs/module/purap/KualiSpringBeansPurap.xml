@@ -35,9 +35,15 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
+        <property name="requisitionDao">
+            <ref bean="requisitionDao" />
+        </property>
     </bean>
 
     <bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
     </bean>
 
     <bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
@@ -50,6 +56,12 @@
     </bean>
 
     <bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+
+    <bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>

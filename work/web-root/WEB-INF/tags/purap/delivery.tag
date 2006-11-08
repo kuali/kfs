@@ -27,7 +27,7 @@
               
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
-<kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${Constants.DELIVERY_TAB_ERRORS}">
+<kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Delivery</h2>

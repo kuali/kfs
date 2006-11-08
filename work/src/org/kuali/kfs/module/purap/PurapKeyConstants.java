@@ -80,6 +80,7 @@ public class PurapKeyConstants {
     public static final String ERROR_FAX_NUMBER_INVALID = "errors.faxNumber.invalid";
     public static final String ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE = "error.faxNumber.PoTransmissionType";
     public static final String REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "error.purchaseOrderTotalLimit";
+    public static final String INVALID_CONTRACT_MANAGER_CODE = "error.invalidContractManagerCode";
     public static final String ERROR_REQ_COPY_EXPIRED_CONTRACT = "error.requisition.copy.expired.contract";
     public static final String ERROR_REQ_COPY_INACTIVE_VENDOR = "error.requisition.copy.inactive.vendor";
 }

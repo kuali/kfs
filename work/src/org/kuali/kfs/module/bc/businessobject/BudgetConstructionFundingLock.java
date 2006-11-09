@@ -48,7 +48,11 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
     private SubAccount subAccount;
     private UniversalUser appointmentFundingLockUser;
     
-	/**
+    // dummy field associated with locked position
+    // value of "NotFnd" indicates an orphan lock
+    private String positionNumber;
+    
+    /**
 	 * Default constructor.
 	 */
 	public BudgetConstructionFundingLock() {
@@ -323,8 +327,8 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
     }    
     
 	/**
-     * 
-     * Gets the appointmentFundingLockUser attribute.
+     * Gets the appointmentFundingLockUser attribute. 
+     *
      * @return Returns the appointmentFundingLockUser. 
      */
     public UniversalUser getAppointmentFundingLockUser() {
@@ -340,6 +344,24 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
      */
     public void setAppointmentFundingLockUser(UniversalUser appointmentFundingLockUser) {
         this.appointmentFundingLockUser = appointmentFundingLockUser;
+    }
+
+    /**
+     * Gets the positionNumber attribute. 
+     *
+     * @return Returns the positionNumber.
+     */
+    public String getPositionNumber() {
+        return positionNumber;
+    }
+
+    /**
+     * Sets the positionNumber attribute. 
+     *
+     * @param positionNumber The positionNumber to set.
+     */
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
     }
 
     /**

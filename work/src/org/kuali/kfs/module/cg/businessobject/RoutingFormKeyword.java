@@ -20,6 +20,7 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
@@ -87,5 +88,9 @@ public class RoutingFormKeyword extends BusinessObjectBase {
         m.put("routingFormKeywordDescription", this.routingFormKeywordDescription);
         m.put("researchDocumentNumber", this.researchDocumentNumber);
 	    return m;
+    }
+    
+    public boolean isEmpty() {
+        return StringUtils.isBlank(researchDocumentNumber) && StringUtils.isBlank(routingFormKeywordDescription);
     }
 }

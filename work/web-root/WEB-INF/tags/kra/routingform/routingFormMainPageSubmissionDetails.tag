@@ -195,7 +195,7 @@
 		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var="routingFormKeyword" varStatus="status"  >
 					  <tr>
 		                <td class="neutral"> <div align="left">
-		                  <kul:htmlControlAttribute property="document.routingFormKeyword[${status.index}].routingFormKeywordDescription" attributeEntry="${routingFormKeywordAttributes.routingFormKeywordDescription}" />
+				    		<html:hidden write="true" property="document.routingFormKeyword[${status.index}].routingFormKeywordDescription" /> 
 		                </div></td>
 		                <td class="neutral"><div align="center"><html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div></td>
 		              </tr>   

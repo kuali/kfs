@@ -46,7 +46,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         } else {
             // Throw error
             GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_ROUTING_FORM_KEYWORD);
-            GlobalVariables.getErrorMap().putError(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS, KeyConstants.ERROR_CUSTOM, "Please enter a valid keyword.");
+            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_ROUTING_FORM_KEYWORD, KeyConstants.ERROR_CUSTOM, "Please enter a valid keyword.");
             GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_ROUTING_FORM_KEYWORD);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

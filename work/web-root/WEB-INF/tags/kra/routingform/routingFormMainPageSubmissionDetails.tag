@@ -34,7 +34,7 @@
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
-<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="${Constants.RoutingFormConstants.ROUTING_FORM_SUBMISSION_DETAIL_ERRORS}" >
 
           <div class="tab-container" align="center">
             <div class="h2-container">

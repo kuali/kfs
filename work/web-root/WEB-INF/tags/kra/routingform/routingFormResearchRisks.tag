@@ -31,7 +31,7 @@
 	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
 	
 	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'A'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" transparentBackground="${researchRiskStatus.index == 0}">
+		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" ynRadioPropertyName="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" transparentBackground="${researchRiskStatus.index == 0}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">
@@ -39,8 +39,8 @@
                 		<td colspan=7 class="tab-subhead"><span class="left">Insert Study </span> </td>
               		</tr>
               		<tr>
-                		<th>&nbsp;</th>                
-                		<th> 
+                		<th>&nbsp;</th>
+                		<th>
                 			<div align="center">
 								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskApprovalPendingIndicator}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
@@ -141,7 +141,7 @@
 	</c:if>
 
 	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'S'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" transparentBackground="${researchRiskStatus.index == 0}">
+		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" ynRadioPropertyName="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" transparentBackground="${researchRiskStatus.index == 0}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">
@@ -221,7 +221,7 @@
 	</c:if>
 	
 	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'D'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" transparentBackground="${researchRiskStatus.index == 0}">
+		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" ynRadioPropertyName="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" transparentBackground="${researchRiskStatus.index == 0}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
 				<table cellpadding="0" cellspacing="0" summary="">

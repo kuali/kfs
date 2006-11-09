@@ -69,20 +69,26 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         return (RequisitionDocument) getUnassignedRequisitions().get(index);
     }
     
-    /**
-     * Perform logic needed to initiate Assign Contract Manager Document.
-     */
-    public void initiateDocument() {
-        LOG.debug("initiateDocument() Entering method.");
+    @Override
+    public void processAfterRetrieve() {
+        this.populateDocumentWithRequisitions();
+        super.processAfterRetrieve();
+    }
 
-        // Get list of requisitions with status of Awaiting Contract Manager Assignment.
+    /**
+     * Perform logic needed to populate the Assign Contract Manager Document with
+     *   requisitions in status of Awaiting Contract Manager Assignment.
+     */
+    public void populateDocumentWithRequisitions() {
+        LOG.debug("populateDocumentWithRequisitions() Entering method.");
+
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
         List unassignedRequisitions = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(RequisitionDocument.class, 
                 fieldValues, PurapPropertyConstants.REQUISITION_ID, true));
 
         this.setUnassignedRequisitions(unassignedRequisitions);
-        LOG.debug("initiateDocument() Leaving method.");
+        LOG.debug("populateDocumentWithRequisitions() Leaving method.");
     }
     
 	@Override
@@ -97,7 +103,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                 
                 // Get the requisition for this AssignContractManagerDetail.
                 RequisitionDocument req = detail.getRequisition();
-    
+   
                 // If the ContractManagerCode of the saved req is not null it means that another
                 //   AssignContractManagerDocument already assigned the contract manager.
                 //   If so we won't assign it here but will send an fyi to the initiator of this document.

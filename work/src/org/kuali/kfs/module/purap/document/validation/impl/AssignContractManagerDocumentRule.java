@@ -17,13 +17,11 @@
  */
 package org.kuali.module.purap.rules;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
@@ -32,17 +30,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
-import org.kuali.module.kra.budget.KraKeyConstants;
-import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.util.AuditCluster;
-import org.kuali.module.kra.budget.util.AuditError;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 import org.kuali.module.purap.bo.ContractManager;
-import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
 
 public class AssignContractManagerDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -70,17 +63,8 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
         return isValid &= processValidation(acmDocument);
     }
 
-//  boolean processAdditionalValidation(RequisitionDocument document) {
-//  boolean valid = super.processAdditionalValidation(document);
-//  // TODO code validation
-//  validateFaxNumberIfTransmissionTypeIsFax(document);
-//  return valid;
-//}
-
     private boolean processValidation(AssignContractManagerDocument document) {
         boolean valid = true;
-
-        //document.setUserAssignedRequisitions(document.getUnassignedRequisitions());
 
         valid &= this.validateContractManagerCodes(document.getAssignContractManagerDetails());
         
@@ -88,14 +72,13 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     }
     
     boolean processContractManagerValidation(AssignContractManagerDocument document) {
-
         return false;
     }
-
     
 
     /**
-     * This method ensures that a valid ContractManagerCode has been entered.
+     * This method takes the list of AssignContractManagerDetails where the user has
+     * entered ContractManagerCodes and validates that each code is valid.
      * 
      * @param fieldValues   A Map containing the code to be validated.
      */
@@ -110,7 +93,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
                 Map fieldValues = new HashMap();
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
                 if ( SpringServiceLocator.getBusinessObjectService().countMatching(ContractManager.class, fieldValues) != 1 ) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CONTRACT_MANAGER_CODE,
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_ERRORS,
                             PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE);
                     isValid = false;
                 }

@@ -30,7 +30,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class AssignContractManagerAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerAction.class);
 
-
     /**
      * Do initialization for a new AssignContractManagerDocument
      * 
@@ -38,12 +37,14 @@ public class AssignContractManagerAction extends KualiTransactionalDocumentActio
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        LOG.debug("createDocument() Entering method.");
-
         super.createDocument(kualiDocumentFormBase);
-        
-        ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
-        
-        LOG.debug("createDocument() Leaving method.");
+        ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).populateDocumentWithRequisitions();
     }
+
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).populateDocumentWithRequisitions();
+    }
+    
 }

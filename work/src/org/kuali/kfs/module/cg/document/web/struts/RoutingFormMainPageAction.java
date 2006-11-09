@@ -38,16 +38,16 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormKeyword rfKeyword = routingForm.getNewRoutingFormKeyword();
 
-        if(rfKeyword != null) {
+        if(!rfKeyword.isEmpty()) {
             routingForm.getRoutingFormDocument().addRoutingFormKeyword(rfKeyword);
             
             // use getters and setters on the form to reinitialize the properties on the form.                
             routingForm.setNewRoutingFormKeyword(new RoutingFormKeyword());
         } else {
             // Throw error
-            GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS);
-            GlobalVariables.getErrorMap().putError(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS, KeyConstants.ERROR_CUSTOM, "Error");
-            GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS);
+            GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_ROUTING_FORM_KEYWORD);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS, KeyConstants.ERROR_CUSTOM, "Please enter a valid keyword.");
+            GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_ROUTING_FORM_KEYWORD);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -58,7 +58,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormKeywords().remove(lineToDelete);        
+        routingForm.getRoutingFormDocument().getRoutingFormKeywords().remove(lineToDelete);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

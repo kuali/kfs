@@ -73,10 +73,10 @@ public class InProgressSuite {
      * @param from JIRA issues from which to filter
      * @return any of the given issues that are currently in-progress in JIRA
      */
-    public static Set<String> getInProgress(Collection<String> from) {
-        HashSet<String> result = new HashSet<String>();
+    public static Set<RelatesTo.JiraIssue> getInProgress(Collection<RelatesTo.JiraIssue> from) {
+        HashSet<RelatesTo.JiraIssue> result = new HashSet<RelatesTo.JiraIssue>();
         if (!from.isEmpty()) { // try to avoid the JIRA query
-            for (String issue : from) {
+            for (RelatesTo.JiraIssue issue : from) {
                 if (getNamesOfJiraIssuesInProgress().contains(issue.toString())) {
                     result.add(issue);
                 }

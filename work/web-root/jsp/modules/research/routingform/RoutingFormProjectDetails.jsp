@@ -17,7 +17,7 @@
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<c:set var="routingFormMainPageAttributes"
+<c:set var="routingFormProjectDetailsAttributes"
 	value="${DataDictionary['RoutingFormDocument'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />

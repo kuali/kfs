@@ -24,6 +24,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -33,10 +36,19 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     public ActionForward insertRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.getRoutingFormDocument().addRoutingFormKeyword(routingForm.getNewRoutingFormKeyword());
-        
-        // use getters and setters on the form to reinitialize the properties on the form.                
-        routingForm.setNewRoutingFormKeyword(new RoutingFormKeyword());
+        RoutingFormKeyword rfKeyword = routingForm.getNewRoutingFormKeyword();
+
+        if(rfKeyword != null) {
+            routingForm.getRoutingFormDocument().addRoutingFormKeyword(rfKeyword);
+            
+            // use getters and setters on the form to reinitialize the properties on the form.                
+            routingForm.setNewRoutingFormKeyword(new RoutingFormKeyword());
+        } else {
+            // Throw error
+            GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS);
+            GlobalVariables.getErrorMap().putError(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS, KeyConstants.ERROR_CUSTOM, "Error");
+            GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.ROUTING_FORM_SUBMISSION_DETAILS);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

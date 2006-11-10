@@ -40,6 +40,9 @@
 	<reference-descriptor name="vendorOwnershipCategory" class-ref="org.kuali.module.purap.bo.OwnershipCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="vendorOwnershipCategoryCode" />
 	</reference-descriptor>
+    <collection-descriptor name="vendorSupplierDiversities" element-class-ref="org.kuali.module.purap.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorDetail" table="PUR_VNDR_DTL_T">
@@ -122,9 +125,6 @@
     <collection-descriptor name="vendorShippingSpecialConditions" element-class-ref="org.kuali.module.purap.bo.VendorShippingSpecialCondition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
-    </collection-descriptor>
-    <collection-descriptor name="vendorSupplierDiversities" element-class-ref="org.kuali.module.purap.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </collection-descriptor>
    	<collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.module.purap.bo.VendorTaxChange" auto-retrieve="false" auto-update="object" auto-delete="false" proxy="false">
 		<inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />

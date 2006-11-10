@@ -52,8 +52,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.supplierDiversityLabel}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                      <c:if test="${not empty KualiForm.document.vendorDetail.vendorSupplierDiversities}">
-                          <c:forEach var="item" items="${KualiForm.document.vendorDetail.vendorSupplierDiversities}" varStatus="status">
+                      <c:if test="${not empty KualiForm.document.vendorDetail.vendorHeader.vendorSupplierDiversities}">
+                          <c:forEach var="item" items="${KualiForm.document.vendorDetail.vendorHeader.vendorSupplierDiversities}" varStatus="status">
                               <c:if test="${!(status.first)}"><br></c:if>${item.vendorSupplierDiversity.vendorSupplierDiversityDescription}
                           </c:forEach>
                       </c:if>&nbsp;

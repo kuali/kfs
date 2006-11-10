@@ -1,0 +1,94 @@
+package org.kuali.module.budget.dao;
+
+import java.util.Collection;
+
+import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
+import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.BudgetConstructionPosition;
+
+
+/**
+ * This interface defines the methods that a BudgetConstructionDao must provide.
+ * 
+ * 
+ */
+public interface BudgetConstructionDao {
+
+    /**
+     * This gets a BudgetConstructionHeader using the candidate key
+     * chart, account, subaccount, fiscalyear
+     * 
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param fiscalYear
+     * @return BudgetConstructionHeader
+     */
+    public BudgetConstructionHeader getByCandidateKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
+
+    /**
+     * This saves a BudgetConstructionHeader object to the database
+     *
+     * @param bcHeader
+     */
+    public void saveBudgetConstructionHeader(BudgetConstructionHeader bcHeader);
+
+    /**
+     * This gets a BudgetConstructionFundingLock using the primary key
+     * chart, account, subaccount, fiscalyear, pUId
+     *
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param fiscalYear
+     * @param personUniversalIdentifier
+     * @return BudgetConstructionFundingLock
+     */
+    public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+
+    /**
+     * This saves a BudgetConstructionFundingLock to the database
+     *
+     * @param budgetConstructionFundingLock
+     */
+    public void saveBudgetConstructionFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock);
+
+    /**
+     * This deletes a BudgetConstructionFundingLock from the database
+     *
+     * @param budgetConstructionFundingLock
+     */
+    public void deleteBudgetConstructionFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock);
+
+    /**
+     * This gets the set of BudgetConstructionFundingLocks asssociated with a BC EDoc (account).
+     * Each BudgetConstructionFundingLock has the positionNumber dummy attribute set to the
+     * associated Position that is locked.  A positionNumber value of "NotFnd" indicates the
+     * BudgetConstructionFundingLock is an orphan.
+     *
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param fiscalYear
+     * @return Collection<BudgetConstructionFundingLock>
+     */
+    public Collection<BudgetConstructionFundingLock> getFlocksForAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
+
+    /**
+     * Gets a BudgetConstructionPosition from the database by the primary key
+     * positionNumber, fiscalYear
+     *
+     * @param positionNumber
+     * @param fiscalYear
+     * @return BudgetConstructionPosition
+     */
+    public BudgetConstructionPosition getByPrimaryId(String positionNumber, Integer fiscalYear);
+
+    /**
+     * Saves a BudgetConstructionPosition to the database
+     *
+     * @param bcPosition
+     */
+    public void saveBudgetConstructionPosition(BudgetConstructionPosition bcPosition);
+
+}

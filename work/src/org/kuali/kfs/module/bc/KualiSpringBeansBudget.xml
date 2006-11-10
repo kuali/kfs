@@ -19,4 +19,15 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
+    <bean id="lockService" class="org.kuali.module.budget.service.impl.LockServiceImpl">
+        <property name="budgetConstructionDao">
+            <ref bean="budgetConstructionDao" />
+        </property>
+    </bean>
+
+    <bean id="budgetConstructionDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
 </beans>

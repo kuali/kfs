@@ -1972,3 +1972,12 @@
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.purap.bo.SourceDocumentReference" table="PUR_SRC_DOC_REF_T">
+	<field-descriptor name="sourceDocumentReferenceGeneratedIdentifier" column="SRC_DOC_REF_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="SRC_DOC_REF_GNRTD_ID"/>
+	<field-descriptor name="sourceDocumentIdentifier" column="SRC_DOC_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="sourceFinancialDocumentTypeCode" column="SRC_FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="sourceDocumentObjectIdentifier" column="SRC_DOC_OBJ_ID" jdbc-type="VARCHAR"/>
+</class-descriptor>

@@ -53,6 +53,9 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
     </bean>
 
     <bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">

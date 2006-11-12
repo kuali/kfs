@@ -570,7 +570,7 @@
     <description>recurringPaymentTypeCode description...</description>
 </attributeReference>
 
-<attribute name="requestorPersonEmailAddr" forceUppercase="true">
+<attribute name="requestorPersonEmailAddress" forceUppercase="true">
     <label>Requestor Email</label>
     <shortLabel>Email</shortLabel>
 
@@ -582,8 +582,8 @@
         <text size="47" />
     </control>
 
-    <summary>requestorPersonEmailAddr</summary>
-    <description>requestorPersonEmailAddr description...</description>
+    <summary>requestorPersonEmailAddress</summary>
+    <description>requestorPersonEmailAddress description...</description>
 </attribute>
 
 <attribute name="requestorPersonName" forceUppercase="false">

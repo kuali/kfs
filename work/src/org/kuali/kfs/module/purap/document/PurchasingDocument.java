@@ -410,20 +410,20 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public void setRequestorPersonName(String requestorPersonName);
 
     /**
-     * Gets the requestorPersonEmailAddr attribute.
+     * Gets the requestorPersonEmailAddress attribute.
      * 
-     * @return - Returns the requestorPersonEmailAddr
+     * @return - Returns the requestorPersonEmailAddress
      * 
      */
-    public String getRequestorPersonEmailAddr();
+    public String getRequestorPersonEmailAddress();
 
     /**
-     * Sets the requestorPersonEmailAddr attribute.
+     * Sets the requestorPersonEmailAddress attribute.
      * 
-     * @param - requestorPersonEmailAddr The requestorPersonEmailAddr to set.
+     * @param - requestorPersonEmailAddress The requestorPersonEmailAddress to set.
      * 
      */
-    public void setRequestorPersonEmailAddr(String requestorPersonEmailAddr);
+    public void setRequestorPersonEmailAddress(String requestorPersonEmailAddress);
 
     /**
      * Gets the requestorPersonPhoneNumber attribute.

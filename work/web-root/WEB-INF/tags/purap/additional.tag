@@ -53,7 +53,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonName}" property="document.requestorPersonName" readOnly="${readOnly}" />
 			        <c:if test="${!readOnly}" >
-                        <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" fieldConversions="universalUser.personName:document.requestorPersonName,universalUser.personLocalPhoneNumber:document.requestorPersonPhoneNumber,universalUser.personEmailAddress:document.requestorPersonEmailAddr" /></div>
+                        <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" fieldConversions="universalUser.personName:document.requestorPersonName,universalUser.personLocalPhoneNumber:document.requestorPersonPhoneNumber,universalUser.personEmailAddress:document.requestorPersonEmailAddress" /></div>
 			        </c:if>
                 </td>
             </tr>
@@ -81,10 +81,10 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderCostSourceCode}" property="document.purchaseOrderCostSourceCode" readOnly="${readOnly}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requestorPersonEmailAddr}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requestorPersonEmailAddress}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonEmailAddr}" property="document.requestorPersonEmailAddr" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonEmailAddress}" property="document.requestorPersonEmailAddress" readOnly="${readOnly}" />
                 </td>
             </tr>
             

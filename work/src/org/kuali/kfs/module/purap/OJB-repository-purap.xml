@@ -632,7 +632,7 @@
 	<field-descriptor name="vendorContractGeneratedIdentifier" column="VNDR_CONTR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="vendorNoteText" column="VNDR_NTE_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="requestorPersonName" column="RQSTR_PRSN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestorPersonEmailAddr" column="RQSTR_PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="requestorPersonEmailAddress" column="RQSTR_PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nonInstitutionFundOrgChartOfAccountsCode" column="NON_INST_FND_ORG_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nonInstitutionFundOrganizationCode" column="NON_INST_FND_ORG_CD" jdbc-type="VARCHAR"/>
@@ -831,9 +831,8 @@
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.purap.bo.PurchaseOrder" table="PUR_PO_T">
+<class-descriptor class="org.kuali.module.purap.document.PurchaseOrderDocument" table="PUR_PO_T">
 	<field-descriptor name="identifier" column="PO_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ID"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialDocumentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
@@ -1972,7 +1971,6 @@
         <inverse-foreignkey field-ref="financialDocumentNumber" />
     </collection-descriptor>
 </class-descriptor>
-
 <class-descriptor class="org.kuali.module.purap.bo.SourceDocumentReference" table="PUR_SRC_DOC_REF_T">
 	<field-descriptor name="sourceDocumentReferenceGeneratedIdentifier" column="SRC_DOC_REF_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="SRC_DOC_REF_GNRTD_ID"/>
 	<field-descriptor name="sourceDocumentIdentifier" column="SRC_DOC_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>

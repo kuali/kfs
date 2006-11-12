@@ -17,18 +17,53 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.util.List;
+
+import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurchaseOrderService;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private DocumentService documentService;
 
 
-    // new methods
+    /**
+     * Creates a PurchaseOrderDocument from given RequisitionDocument
+     * 
+     * @param reqDocument - RequisitionDocument that the PO is being created from
+     * @return PurchaseOrderDocument
+     */
+    public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
+        PurchaseOrderDocument poDocument = null;
+
+        // get new document from doc service
+        try {
+            poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocument.class);
+            poDocument.populatePurchaseOrderFromRequisition(reqDocument);
+            // TODO set other default info
+            documentService.validateAndPersistDocument(poDocument, new SaveOnlyDocumentEvent(poDocument));
+        }
+        catch (WorkflowException e) {
+            LOG.error("Error creating PO document: " + e.getMessage());
+            throw new RuntimeException("Error creating PO document: " + e.getMessage());
+        }
+        catch (Exception e) {
+            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
+            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
+        }
+        return poDocument;
+    }
+
 
 
     public void setBusinessObjectService(BusinessObjectService boService) {
@@ -37,6 +72,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;    
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }

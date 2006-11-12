@@ -74,6 +74,87 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         super();
     }
 
+    public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
+// TODO check this (is this data correct?  is there a better way of doing this?
+        this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());
+        
+        this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
+        this.getDocumentHeader().setFinancialDocumentDescription(requisitionDocument.getDocumentHeader().getFinancialDocumentDescription());
+
+        this.setPurchaseOrderBeginDate(requisitionDocument.getPurchaseOrderBeginDate());
+        
+        this.setBillingCityName(requisitionDocument.getBillingCityName());
+        this.setBillingCountryCode(requisitionDocument.getBillingCountryCode());
+        this.setBillingLine1Address(requisitionDocument.getBillingLine1Address());
+        this.setBillingLine2Address(requisitionDocument.getBillingLine2Address());
+        this.setBillingName(requisitionDocument.getBillingName());
+        this.setBillingPhoneNumber(requisitionDocument.getBillingPhoneNumber());
+        this.setBillingPostalCode(requisitionDocument.getBillingPostalCode());
+        this.setBillingStateCode(requisitionDocument.getBillingStateCode());
+        this.setContractManagerCode(requisitionDocument.getContractManagerCode());
+        this.setPurchaseOrderCostSourceCode(requisitionDocument.getPurchaseOrderCostSourceCode());
+        this.setDeliveryBuildingCode(requisitionDocument.getDeliveryBuildingCode());
+        this.setDeliveryBuildingRoomNumber(requisitionDocument.getDeliveryBuildingRoomNumber());
+        this.setDeliveryBuildingName(requisitionDocument.getDeliveryBuildingName());
+        this.setDeliveryCampusCode(requisitionDocument.getDeliveryCampusCode());
+        this.setDeliveryCityName(requisitionDocument.getDeliveryCityName());
+        this.setDeliveryCountryCode(requisitionDocument.getDeliveryCountryCode());
+        this.setDeliveryInstructionText(requisitionDocument.getDeliveryInstructionText());
+        this.setDeliveryBuildingLine1Address(requisitionDocument.getDeliveryBuildingLine1Address());
+        this.setDeliveryBuildingLine2Address(requisitionDocument.getDeliveryBuildingLine2Address());
+        this.setDeliveryPostalCode(requisitionDocument.getDeliveryPostalCode());
+        this.setDeliveryRequiredDate(requisitionDocument.getDeliveryRequiredDate());
+        this.setDeliveryRequiredDateReasonCode(requisitionDocument.getDeliveryRequiredDateReasonCode());
+        this.setDeliveryStateCode(requisitionDocument.getDeliveryStateCode());
+        this.setDeliveryToEmailAddress(requisitionDocument.getDeliveryToEmailAddress());
+        this.setDeliveryToName(requisitionDocument.getDeliveryToName());
+        this.setDeliveryToPhoneNumber(requisitionDocument.getDeliveryToPhoneNumber());
+        this.setPostingYear(requisitionDocument.getPostingYear());
+        this.setPurchaseOrderEndDate(requisitionDocument.getPurchaseOrderEndDate());
+        this.setChartOfAccountsCode(requisitionDocument.getChartOfAccountsCode());
+        this.setFundingSourceCode(requisitionDocument.getFundingSourceCode());
+        this.setInstitutionContactEmailAddress(requisitionDocument.getInstitutionContactEmailAddress());
+        this.setInstitutionContactName(requisitionDocument.getInstitutionContactName());
+        this.setInstitutionContactPhoneNumber(requisitionDocument.getInstitutionContactPhoneNumber());
+        this.setNonInstitutionFundAccountNumber(requisitionDocument.getNonInstitutionFundAccountNumber());
+        this.setNonInstitutionFundChartOfAccountsCode(requisitionDocument.getNonInstitutionFundChartOfAccountsCode());
+        this.setNonInstitutionFundOrgChartOfAccountsCode(requisitionDocument.getNonInstitutionFundOrgChartOfAccountsCode());
+        this.setNonInstitutionFundOrganizationCode(requisitionDocument.getNonInstitutionFundOrganizationCode());
+        this.setOrganizationCode(requisitionDocument.getOrganizationCode());
+        this.setRecurringPaymentTypeCode(requisitionDocument.getRecurringPaymentTypeCode());
+        this.setRequestorPersonEmailAddress(requisitionDocument.getRequestorPersonEmailAddress());
+        this.setRequestorPersonName(requisitionDocument.getRequestorPersonName());
+        this.setRequestorPersonPhoneNumber(requisitionDocument.getRequestorPersonPhoneNumber());
+        this.setRequisitionIdentifier(requisitionDocument.getIdentifier());
+        this.setPurchaseOrderTotalLimit(requisitionDocument.getPurchaseOrderTotalLimit());
+        this.setPurchaseOrderTransmissionMethodCode(requisitionDocument.getPurchaseOrderTransmissionMethodCode());
+        this.setVendorCityName(requisitionDocument.getVendorCityName());
+        this.setVendorContract(requisitionDocument.getVendorContract());
+        this.setVendorCountryCode(requisitionDocument.getVendorCountryCode());
+        this.setVendorCustomerNumber(requisitionDocument.getVendorCustomerNumber());
+        this.setVendorDetailAssignedIdentifier(requisitionDocument.getVendorDetailAssignedIdentifier());
+        this.setVendorFaxNumber(requisitionDocument.getVendorFaxNumber());
+        this.setVendorHeaderGeneratedIdentifier(requisitionDocument.getVendorHeaderGeneratedIdentifier());
+        this.setVendorLine1Address(requisitionDocument.getVendorLine1Address());
+        this.setVendorLine2Address(requisitionDocument.getVendorLine2Address());
+        this.setVendorName(requisitionDocument.getVendorName());
+        this.setVendorNoteText(requisitionDocument.getVendorNoteText());
+        this.setVendorPhoneNumber(requisitionDocument.getVendorPhoneNumber());
+        this.setVendorPostalCode(requisitionDocument.getVendorPostalCode());
+        this.setVendorRestrictedIndicator(requisitionDocument.getVendorRestrictedIndicator());
+        this.setVendorStateCode(requisitionDocument.getVendorStateCode());
+        this.setExternalOrganizationB2bSupplierIdentifier(requisitionDocument.getExternalOrganizationB2bSupplierIdentifier());
+        this.setRequisitionSourceCode(requisitionDocument.getRequisitionSourceCode());
+
+        //copy items from req to pending (which will copy the item's accounts and assets)
+//        List items = new ArrayList();
+//        for (Iterator iter = requisitionDocument.getItems().iterator(); iter.hasNext();) {
+//          RequisitionItem reqItem = (RequisitionItem) iter.next();
+//          items.add(new PurchaseOrderItem(reqItem, this));
+//        }
+//        this.setItems(items);
+    }
+
     public void refreshAllReferences() {
         super.refreshAllReferences();
     }

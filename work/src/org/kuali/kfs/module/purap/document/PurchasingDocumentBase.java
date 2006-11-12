@@ -68,7 +68,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Integer vendorContractGeneratedIdentifier;
     private String vendorNoteText;
     private String requestorPersonName;
-    private String requestorPersonEmailAddr;
+    private String requestorPersonEmailAddress;
     private String requestorPersonPhoneNumber;
     private String nonInstitutionFundOrgChartOfAccountsCode;
     private String nonInstitutionFundOrganizationCode;
@@ -642,23 +642,23 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * Gets the requestorPersonEmailAddr attribute.
+     * Gets the requestorPersonEmailAddress attribute.
      * 
-     * @return - Returns the requestorPersonEmailAddr
+     * @return - Returns the requestorPersonEmailAddress
      * 
      */
-    public String getRequestorPersonEmailAddr() { 
-        return requestorPersonEmailAddr;
+    public String getRequestorPersonEmailAddress() { 
+        return requestorPersonEmailAddress;
     }
 
     /**
-     * Sets the requestorPersonEmailAddr attribute.
+     * Sets the requestorPersonEmailAddress attribute.
      * 
-     * @param - requestorPersonEmailAddr The requestorPersonEmailAddr to set.
+     * @param - requestorPersonEmailAddress The requestorPersonEmailAddress to set.
      * 
      */
-    public void setRequestorPersonEmailAddr(String requestorPersonEmailAddr) {
-        this.requestorPersonEmailAddr = requestorPersonEmailAddr;
+    public void setRequestorPersonEmailAddress(String requestorPersonEmailAddress) {
+        this.requestorPersonEmailAddress = requestorPersonEmailAddress;
     }
 
     /**

@@ -149,23 +149,23 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     @Override
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
-        if( this.getRequisitionSourceCode().equals( PurapConstants.RequisitionSources.B2B ) ) {
-            String allowedCopyDays = ( new Integer( PurapConstants.REQ_B2B_ALLOW_COPY_DAYS ) ).toString();
-            
+        if (this.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
+            String allowedCopyDays = (new Integer(PurapConstants.REQ_B2B_ALLOW_COPY_DAYS)).toString();
+
             Calendar c = Calendar.getInstance();
             DocumentHeader dh = this.getDocumentHeader();
             KualiWorkflowDocument wd = dh.getWorkflowDocument();
-            Timestamp createDate = (Timestamp)wd.getCreateDate();
-            c.setTime( createDate );
+            Timestamp createDate = (Timestamp) wd.getCreateDate();
+            c.setTime(createDate);
             c.set(Calendar.HOUR, 12);
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
             c.set(Calendar.MILLISECOND, 0);
             c.set(Calendar.AM_PM, Calendar.AM);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
-            //The allowed copy date is the document creation date plus a set number of days.
+            // The allowed copy date is the document creation date plus a set number of days.
             Timestamp allowedCopyDate = new Timestamp(c.getTime().getTime());
-            
+
             Calendar c2 = Calendar.getInstance();
             c2.setTime(new java.util.Date());
             c2.set(Calendar.HOUR, 11);
@@ -174,9 +174,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
             c2.set(Calendar.MILLISECOND, 59);
             c2.set(Calendar.AM_PM, Calendar.PM);
             Timestamp testTime = new Timestamp(c2.getTime().getTime());
-            
-            //Return true if the current time is before the allowed copy date.
-            allowsCopy = (testTime.compareTo(allowedCopyDate) <=  0);
+
+            // Return true if the current time is before the allowed copy date.
+            allowsCopy = (testTime.compareTo(allowedCopyDate) <= 0);
         }
         return allowsCopy;
     }
@@ -186,50 +186,50 @@ public class RequisitionDocument extends PurchasingDocumentBase {
      */
     @Override
     public void convertIntoCopy() throws WorkflowException, ValidationException {
-      super.convertIntoCopy();
-      
-      KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-      
-      //Set req status to INPR.
-      this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
+        super.convertIntoCopy();
 
-      //Set fields from the user.
-      this.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
-      this.setOrganizationCode(currentUser.getOrganizationCode());
+        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
 
-      this.dateTimeService = SpringServiceLocator.getDateTimeService();
-      this.setPostingYear(dateTimeService.getCurrentFiscalYear());
+        // Set req status to INPR.
+        this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
 
-      boolean activeVendor = true;
-      boolean activeContract = true;
+        // Set fields from the user.
+        this.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
+        this.setOrganizationCode(currentUser.getOrganizationCode());
 
-      Date today = dateTimeService.getCurrentDate();
- 
-      VendorContract vendorContract = new VendorContract();
-      vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
-      Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(vendorContract);
-      vendorContract = (VendorContract)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, keys);
+        this.dateTimeService = SpringServiceLocator.getDateTimeService();
+        this.setPostingYear(dateTimeService.getCurrentFiscalYear());
+
+        boolean activeVendor = true;
+        boolean activeContract = true;
+
+        Date today = dateTimeService.getCurrentDate();
+
+        VendorContract vendorContract = new VendorContract();
+        vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
+        Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(vendorContract);
+        vendorContract = (VendorContract) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, keys);
       if (!(vendorContract != null && 
           today.after(vendorContract.getVendorContractBeginningDate()) && 
           today.before(vendorContract.getVendorContractEndDate()))) {
-        activeContract = false;
-      }     
+            activeContract = false;
+        }
 
       VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), 
           this.getVendorDetailAssignedIdentifier());
-      if(!(vendorDetail != null && vendorDetail.isDataObjectMaintenanceCodeActiveIndicator() )) {
-          activeVendor = false;
-      }
+        if (!(vendorDetail != null && vendorDetail.isDataObjectMaintenanceCodeActiveIndicator())) {
+            activeVendor = false;
+        }
 
-      //B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
-      if(this.getRequisitionSourceCode().equals( PurapConstants.RequisitionSources.B2B )) {
-          if( !activeContract ) {
-              throw new ValidationException( PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT );
-          }
-          if( !activeVendor ) {
-              throw new ValidationException( PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR );
-      }
-      }
+        // B2B - only copy if contract and vendor are both active (throw separate errors to print to screen)
+        if (this.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
+            if (!activeContract) {
+                throw new ValidationException(PurapKeyConstants.ERROR_REQ_COPY_EXPIRED_CONTRACT);
+            }
+            if (!activeVendor) {
+                throw new ValidationException(PurapKeyConstants.ERROR_REQ_COPY_INACTIVE_VENDOR);
+            }
+        }
 
 //    TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
 //      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
@@ -251,23 +251,23 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //        }
 //      }
       
-      if( !activeVendor ) {
-        this.setVendorHeaderGeneratedIdentifier(null);
-        this.setVendorDetailAssignedIdentifier(null);
-        if( !activeContract ) {
-          this.setVendorContract(null);
+        if (!activeVendor) {
+            this.setVendorHeaderGeneratedIdentifier(null);
+            this.setVendorDetailAssignedIdentifier(null);
+            if (!activeContract) {
+                this.setVendorContract(null);
+            }
         }
-      }
 
-      //These fields should not be set in this method; force to be null
-      this.setVendorNoteText(null);
-      this.setContractManagerCode(null);
-      this.setInstitutionContactName(null);
-      this.setInstitutionContactPhoneNumber(null);
-      this.setInstitutionContactEmailAddress(null);
-      this.setOrganizationAutomaticPurchaseOrderLimit(null);
-      this.setPurchaseOrderAutomaticIndicator(false);
-      this.setStatusHistories(null);
+        // These fields should not be set in this method; force to be null
+        this.setVendorNoteText(null);
+        this.setContractManagerCode(null);
+        this.setInstitutionContactName(null);
+        this.setInstitutionContactPhoneNumber(null);
+        this.setInstitutionContactEmailAddress(null);
+        this.setOrganizationAutomaticPurchaseOrderLimit(null);
+        this.setPurchaseOrderAutomaticIndicator(false);
+        this.setStatusHistories(null);
       
 //TODO DAVID AND CHRIS SHOULD FIX THIS
       //Trade In and Discount Items are only available for B2B. If the Requisition
@@ -309,8 +309,12 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         // DOCUMENT PROCESSED
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            // TODO if "canBecomeAPO", create APO
-            // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"
+            if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
+                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
+            }
+            else {
+                // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"
+            }
         }
         // DOCUMENT DISAPPROVED
         else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

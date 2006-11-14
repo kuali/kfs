@@ -32,7 +32,7 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
     
     public ActionForward insertRoutingFormResearchRiskStudy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.getRoutingFormDocument().getRoutingFormDocumentResearchRisks().get(getSelectedLine(request)).addNewResearchRiskStudyToList();
+        routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().get(getSelectedLine(request)).addNewResearchRiskStudyToList();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -43,7 +43,7 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         // Remove the item from the list.
         int tabToDelete = super.getTabToToggle(request);
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormDocumentResearchRisks().get(tabToDelete).getResearchRiskStudies().remove(lineToDelete);
+        routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().get(tabToDelete).getResearchRiskStudies().remove(lineToDelete);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

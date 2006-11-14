@@ -117,7 +117,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormPurpose routingFormPurpose;
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
-    private List<RoutingFormResearchRisk> routingFormDocumentResearchRisks;
+    private List<RoutingFormResearchRisk> routingFormResearchRisks;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
     private RoutingFormResearchType researchType;
@@ -131,7 +131,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * Default constructor.
 	 */
 	public RoutingFormDocument() {
-        routingFormDocumentResearchRisks = new ArrayList<RoutingFormResearchRisk>();
+        routingFormResearchRisks = new ArrayList<RoutingFormResearchRisk>();
         routingFormKeywords = new ArrayList<RoutingFormKeyword>();
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
@@ -1375,23 +1375,23 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.catalogOfFederalDomesticAssistanceReference = catalogOfFederalDomesticAssistanceReference;
     }
     
-    public List<RoutingFormResearchRisk> getRoutingFormDocumentResearchRisks() {
-        return routingFormDocumentResearchRisks;
+    public List<RoutingFormResearchRisk> getRoutingFormResearchRisks() {
+        return routingFormResearchRisks;
     }
 
-    public RoutingFormResearchRisk getRoutingFormDocumentResearchRisk(int index) {
-        while (getRoutingFormDocumentResearchRisks().size() <= index) {
-            getRoutingFormDocumentResearchRisks().add(new RoutingFormResearchRisk());
+    public RoutingFormResearchRisk getRoutingFormResearchRisk(int index) {
+        while (getRoutingFormResearchRisks().size() <= index) {
+            getRoutingFormResearchRisks().add(new RoutingFormResearchRisk());
         }
-        return (RoutingFormResearchRisk) getRoutingFormDocumentResearchRisks().get(index);
+        return (RoutingFormResearchRisk) getRoutingFormResearchRisks().get(index);
     }
     
-    public void setRoutingFormDocumentResearchRisks(List<RoutingFormResearchRisk> routingFormDocumentResearchRisks) {
-        this.routingFormDocumentResearchRisks = routingFormDocumentResearchRisks;
+    public void setRoutingFormResearchRisks(List<RoutingFormResearchRisk> routingFormResearchRisks) {
+        this.routingFormResearchRisks = routingFormResearchRisks;
     }
 
-    public void addRoutingFormDocumentResearchRisk(RoutingFormResearchRisk routingFormDocumentResearchRisk) {
-        getRoutingFormDocumentResearchRisks().add(routingFormDocumentResearchRisk);
+    public void addRoutingFormResearchRisk(RoutingFormResearchRisk routingFormResearchRisk) {
+        getRoutingFormResearchRisks().add(routingFormResearchRisk);
     }
 
     public RoutingFormBudget getRoutingFormBudget() {

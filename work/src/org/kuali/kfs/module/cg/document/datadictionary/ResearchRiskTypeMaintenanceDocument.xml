@@ -53,6 +53,7 @@
                     <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                     <maintainableField name="researchRiskTypeDescription" required="false" />
                     <maintainableField name="researchRiskBiosafetyIndicator" required="false" />
+                    <maintainableField name="controlAttributeTypeCode" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

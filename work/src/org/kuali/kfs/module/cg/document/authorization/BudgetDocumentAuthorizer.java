@@ -169,7 +169,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
      * @return true if the given user is allowed to modify documents of the given document type
      */
     public boolean canModify(String documentTypeName, KualiUser user) {
-        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, "modify", documentTypeName);
+        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, Constants.PERMISSION_MODIFY, documentTypeName);
     }
     
     /**
@@ -180,6 +180,6 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
      * @return true if the given user is allowed to view documents of the given document type
      */
     public boolean canView(String documentTypeName, KualiUser user) {
-        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, "view", documentTypeName);
+        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, Constants.PERMISSION_VIEW, documentTypeName);
     }
 }

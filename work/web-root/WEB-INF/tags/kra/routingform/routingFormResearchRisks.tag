@@ -21,17 +21,17 @@
 <c:set var="routingFormResearchRiskStudyAttributes" value="${DataDictionary.RoutingFormResearchRiskStudy.attributes}" />
 <c:set var="routingFormResearchRiskAttributes" value="${DataDictionary.RoutingFormResearchRisk.attributes}"/>
 
-<c:forEach items="${KualiForm.routingFormDocument.routingFormDocumentResearchRisks}" var="researchRisk" varStatus="researchRiskStatus">
-	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchDocumentNumber"/>
-	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskTypeCode"/>
-	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].objectId"/>
-	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].versionNumber"/>
-	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeCode"/>
-	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeDescription"/>
-	<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
+<c:forEach items="${KualiForm.routingFormDocument.routingFormResearchRisks}" var="researchRisk" varStatus="researchRiskStatus">
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchDocumentNumber"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskTypeCode"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].objectId"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].versionNumber"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeCode"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeDescription"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
 	
 	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'A'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" rightSideHtmlProperty="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}" transparentBackground="${researchRiskStatus.index == 0}">
+		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}" transparentBackground="${researchRiskStatus.index == 0}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">
@@ -42,27 +42,27 @@
                 		<th>&nbsp;</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskApprovalPendingIndicator}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
 						</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskStudyNumber}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
                 			</div>
                 		</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskStudyApprovalDate}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
 						</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskStudyReviewCode}" useShortLabel="false" skipHelpUrl="true" noColon="true" />                
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyReviewCode}" useShortLabel="false" skipHelpUrl="true" noColon="true" />                
                 			</div>
                 		</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskExemptionNumber}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskExemptionNumber}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
 						</th>
                 		<th>Action</th>
@@ -71,27 +71,27 @@
                 		<th scope="row">add:</th>
                 		<td class="infoline">
                 			<div align="center">
-                				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+                				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
                 			</div>
                 		</td>
                 		<td class="infoline">
                 			<div align="center">
-                    			<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
+                    			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
                 			</div>
                 		</td>
                 		<td class="infoline">
                 			<div align="center">
-                    			<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
+                    			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
                 			</div>
                 		</td>
                 		<td class="infoline">
                 			<div align="center">
-                    			<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyReviewCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyReviewCode}" />
+                    			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyReviewCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyReviewCode}" />
                 			</div>
                 		</td>
                 		<td class="infoline">
                 			<div align="center">
-                    			<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskExemptionNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskExemptionNumber}" />                
+                    			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskExemptionNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskExemptionNumber}" />                
                 			</div>
                 		</td>
                 		<td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormResearchRiskStudy.anchor${currentTabIndex}.line${researchRiskStatus.index}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add research risk"/></div></td>
@@ -102,36 +102,36 @@
                 			<th scope="row">${studyStatus.index + 1}</th>
                 			<td class="infoline">
                 				<div align="center">
-	            					<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+	            					<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align="center">
-                    				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
+                    				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align="center">
-                    				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
+                    				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align="center">
-                    				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyReviewCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyReviewCode}" />
+                    				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyReviewCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyReviewCode}" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align="center">
-                    				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskExemptionNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskExemptionNumber}" />
+                    				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskExemptionNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskExemptionNumber}" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchDocumentNumber"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].versionNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchDocumentNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].versionNumber"/>
                 			</td>
               			</tr>
               		</c:forEach>
@@ -141,7 +141,7 @@
 	</c:if>
 
 	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'S'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false"  rightSideHtmlProperty="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"  transparentBackground="${researchRiskStatus.index == 0}">
+		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false"  rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"  transparentBackground="${researchRiskStatus.index == 0}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">
@@ -152,17 +152,17 @@
                 		<th>&nbsp;</th>                
                 		<th> 
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskApprovalPendingIndicator}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
 						</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskStudyNumber}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
                 			</div>
                 		</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.RoutingFormResearchRisk.attributes.researchRiskStudyApprovalDate}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
 						</th>
                 		<th>Action</th>
@@ -171,17 +171,17 @@
                 		<th scope="row">add:</th>
                 		<td class="infoline">
                 			<div align="center">
-                				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+                				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
                 			</div>
                 		</td>
                 		<td class="infoline">
                 			<div align="center">
-                    			<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
+                    			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
                 			</div>
                 		</td>
                 		<td class="infoline">
                 			<div align="center">
-                    			<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
+                    			<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
                 			</div>
                 		</td>
                 		<td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormResearchRiskStudy.anchor${currentTabIndex}.line${researchRiskStatus.index}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add research risk"/></div></td>
@@ -192,26 +192,26 @@
                 			<th scope="row">${studyStatus.index + 1}</th>
                 			<td class="infoline">
                 				<div align="center">
-	            					<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+	            					<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align="center">
-                    				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
+                    				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyNumber" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyNumber}" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align="center">
-                    				<kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
+                    				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyApprovalDate" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalDate}" datePicker="true" />
                 				</div>
                 			</td>
                 			<td class="infoline">
                 				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchDocumentNumber"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
-                				<html:hidden property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].versionNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchDocumentNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].versionNumber"/>
                 			</td>
               			</tr>
               		</c:forEach>
@@ -221,13 +221,13 @@
 	</c:if>
 	
 	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'D'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false"  rightSideHtmlProperty="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"  transparentBackground="${researchRiskStatus.index == 0}">
+		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false"  rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"  transparentBackground="${researchRiskStatus.index == 0}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
 				<table cellpadding="0" cellspacing="0" summary="">
 					<tr>
-						<th><kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskDescription}" useShortLabel="true" skipHelpUrl="true" noColon="false" /></th>
-						<td><span class="infoline"><kul:htmlControlAttribute property="document.routingFormDocumentResearchRisk[${researchRiskStatus.index}].researchRiskDescription" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskDescription}" /></span></td>
+						<th><kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskAttributes.researchRiskDescription}" useShortLabel="true" skipHelpUrl="true" noColon="false" /></th>
+						<td><span class="infoline"><kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskDescription" attributeEntry="${routingFormResearchRiskAttributes.researchRiskDescription}" /></span></td>
 					</tr>
 				</table>
             </div>

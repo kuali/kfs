@@ -44,8 +44,8 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         RoutingForm routingForm = (RoutingForm) form;
         
         // Setup research risks if this is the first entry into page.
-        if (routingForm.getRoutingFormDocument().getRoutingFormDocumentResearchRisks().isEmpty()) {
-            routingForm.getRoutingFormDocument().setRoutingFormDocumentResearchRisks(
+        if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
+            routingForm.getRoutingFormDocument().setRoutingFormResearchRisks(
                     SpringServiceLocator.getRoutingFormResearchRiskService().getAllRoutingFormDocumentResearchRisks(
                             routingForm.getRoutingFormDocument().getFinancialDocumentNumber()));
         }

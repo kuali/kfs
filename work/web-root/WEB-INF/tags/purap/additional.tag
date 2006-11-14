@@ -25,6 +25,9 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
 
+<%@ attribute name="displayRequisitionFields" required="false"
+              description="Boolean to indicate if REQ specific fields should be displayed" %>
+
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Additional" defaultOpen="true" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
@@ -98,12 +101,25 @@
                         <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" fieldConversions="universalUser.personName:document.institutionContactName,universalUser.personLocalPhoneNumber:document.institutionContactPhoneNumber,universalUser.personEmailAddress:document.institutionContactEmailAddress" /></div>
 			        </c:if>
                 </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference1Text" readOnly="${readOnly}" />
-                </td>
+                
+                <c:choose>
+	                <c:when test="${displayRequisitionFields}">
+		                <th align=right valign=middle class="bord-l-b">
+		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" /></div>
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference1Text" readOnly="${readOnly}" />
+		                </td>
+	                </c:when>
+        			<c:otherwise>
+		                <th align=right valign=middle class="bord-l-b">
+		                    &nbsp;
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    &nbsp;
+		                </td>
+	                </c:otherwise>
+				</c:choose>
             </tr>
 
             <tr>
@@ -113,12 +129,25 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${readOnly}" />
                 </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference2Text" readOnly="${readOnly}" />
-                </td>
+
+                <c:choose>
+	                <c:when test="${displayRequisitionFields}">
+		                <th align=right valign=middle class="bord-l-b">
+		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" /></div>
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference1Text" readOnly="${readOnly}" />
+		                </td>
+	                </c:when>
+        			<c:otherwise>
+		                <th align=right valign=middle class="bord-l-b">
+		                    &nbsp;
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    &nbsp;
+		                </td>
+	                </c:otherwise>
+				</c:choose>
             </tr>
 
             <tr>
@@ -128,12 +157,25 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" property="document.institutionContactEmailAddress" readOnly="${readOnly}" />
                 </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" property="document.requisitionOrganizationReference3Text" readOnly="${readOnly}" />
-                </td>
+
+                <c:choose>
+	                <c:when test="${displayRequisitionFields}">
+		                <th align=right valign=middle class="bord-l-b">
+		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" /></div>
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference3Text" readOnly="${readOnly}" />
+		                </td>
+	                </c:when>
+        			<c:otherwise>
+		                <th align=right valign=middle class="bord-l-b">
+		                    &nbsp;
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    &nbsp;
+		                </td>
+	                </c:otherwise>
+				</c:choose>
             </tr>
 
             <tr>

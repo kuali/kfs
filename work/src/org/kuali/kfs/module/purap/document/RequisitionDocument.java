@@ -309,12 +309,13 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         // DOCUMENT PROCESSED
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
-                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
-            }
-            else {
-                // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"
-            }
+            PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
+//            if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
+//                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
+//            }
+//            else {
+//                // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"
+//            }
         }
         // DOCUMENT DISAPPROVED
         else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

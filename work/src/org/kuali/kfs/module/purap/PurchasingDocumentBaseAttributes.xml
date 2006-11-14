@@ -340,7 +340,7 @@
 
     <maxLength>45</maxLength>
     <validationPattern><emailAddress /></validationPattern>
-    <required>true</required>
+    <required>false</required>
 
     <control>
         <text size="47" />

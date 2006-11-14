@@ -17,8 +17,8 @@
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiTransferOfFundsDocument"
-	htmlFormAction="financialTransferOfFunds" renderMultipart="true"
+	documentTypeName="KualiSalaryExpenseTransferDocument"
+	htmlFormAction="financialSalaryExpenseTransfer" renderMultipart="true"
 	showTabButtons="true">
 
 	<kul:hiddenDocumentFields />

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/businessobject/datadictionary/RoutingFormResearchRiskStudy.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Research Risk Study Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="routingFormResearchRiskStudySequenceNumber" />
+                <field attributeName="researchRiskApprovalPendingIndicator" />
+                <field attributeName="researchRiskExemptionNumber" />
+                <field attributeName="researchRiskStudyApprovalDate" />
+                <field attributeName="researchRiskStudyName" />
+                <field attributeName="researchRiskStudyNumber" />
+                <field attributeName="researchRiskStudyReviewCode" />
+                <field attributeName="researchRiskTypeCode" />
+                <field attributeName="researchDocumentNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Research Risk Study Lookup</title>
+
+            <instructions>Look up a Routing Form Research Risk Study</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="researchDocumentNumber" />
+                    <sortAttribute attributeName="routingFormResearchRiskStudySequenceNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="routingFormResearchRiskStudySequenceNumber" required="false" />
+                <lookupField attributeName="researchRiskApprovalPendingIndicator" required="false" />
+                <lookupField attributeName="researchRiskExemptionNumber" required="false" />
+                <lookupField attributeName="researchRiskStudyApprovalDate" required="false" />
+                <lookupField attributeName="researchRiskStudyName" required="false" />
+                <lookupField attributeName="researchRiskStudyNumber" required="false" />
+                <lookupField attributeName="researchRiskStudyReviewCode" required="false" />
+                <lookupField attributeName="researchRiskTypeCode" required="false" />
+                <lookupField attributeName="researchDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="routingFormResearchRiskStudySequenceNumber" />
+                <field attributeName="researchRiskApprovalPendingIndicator" />
+                <field attributeName="researchRiskExemptionNumber" />
+                <field attributeName="researchRiskStudyApprovalDate" />
+                <field attributeName="researchRiskStudyName" />
+                <field attributeName="researchRiskStudyNumber" />
+                <field attributeName="researchRiskStudyReviewCode" />
+                <field attributeName="researchRiskTypeCode" />
+                <field attributeName="researchDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="routingFormResearchRiskStudySequenceNumber" forceUppercase="true">
+                <label>Routing Form Research Risk Study Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>routingFormResearchRiskStudySequenceNumber</summary>
+                <description>routingFormResearchRiskStudySequenceNumber description...</description>
+			</attribute>
+
+            <attribute name="researchRiskApprovalPendingIndicator" forceUppercase="true">
+                <label>Approval Status</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormApprovalStatusValuesFinder" />
+                </control>
+
+                <summary>researchRiskApprovalPendingIndicator</summary>
+                <description>researchRiskApprovalPendingIndicator description...</description>
+			</attribute>
+
+            <attribute name="researchRiskExemptionNumber" forceUppercase="true">
+                <label>Exemption Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>researchRiskExemptionNumber</summary>
+                <description>researchRiskExemptionNumber description...</description>
+			</attribute>
+
+            <attribute name="researchRiskStudyApprovalDate" forceUppercase="true">
+                <label>Approval Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>researchRiskStudyApprovalDate</summary>
+                <description>researchRiskStudyApprovalDate description...</description>
+			</attribute>
+
+            <attribute name="researchRiskStudyName" forceUppercase="true">
+                <label>Research Risk Study Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>researchRiskStudyName</summary>
+                <description>researchRiskStudyName description...</description>
+			</attribute>
+
+            <attribute name="researchRiskStudyNumber" forceUppercase="true">
+                <label>Study Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>15</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="17" />
+                </control>
+
+                <summary>researchRiskStudyNumber</summary>
+                <description>researchRiskStudyNumber description...</description>
+			</attribute>
+
+            <attribute name="researchRiskStudyReviewCode" forceUppercase="true">
+                <label>Study Review Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormStudyReviewCodeValuesFinder" />
+                </control>
+
+                <summary>researchRiskStudyReviewCode</summary>
+                <description>researchRiskStudyReviewCode description...</description>
+			</attribute>
+
+            <attribute name="researchRiskTypeCode" forceUppercase="true">
+                <label>Research Risk Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>researchRiskTypeCode</summary>
+                <description>researchRiskTypeCode description...</description>
+			</attribute>
+
+            <attribute name="researchDocumentNumber" forceUppercase="true">
+                <label>Research Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>researchDocumentNumber</summary>
+                <description>researchDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

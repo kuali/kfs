@@ -25,11 +25,11 @@ import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.module.kra.routingform.bo.RoutingFormDocumentResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 

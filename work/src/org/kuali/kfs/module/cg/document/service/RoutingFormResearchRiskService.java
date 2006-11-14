@@ -20,8 +20,8 @@ package org.kuali.module.kra.routingform.service;
 import java.util.List;
 
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.module.kra.routingform.bo.RoutingFormDocumentResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 
 public interface RoutingFormResearchRiskService {
-    public List<RoutingFormDocumentResearchRiskType> getAllRoutingFormDocumentResearchRisks(String documentNumber);
+    public List<RoutingFormResearchRisk> getAllRoutingFormDocumentResearchRisks(String documentNumber);
 }

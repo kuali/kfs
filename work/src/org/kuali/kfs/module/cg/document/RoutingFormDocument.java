@@ -34,12 +34,12 @@ import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
-import org.kuali.module.kra.routingform.bo.RoutingFormDocumentResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
@@ -117,7 +117,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private RoutingFormPurpose routingFormPurpose;
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
-    private List<RoutingFormDocumentResearchRiskType> routingFormDocumentResearchRisks;
+    private List<RoutingFormResearchRisk> routingFormDocumentResearchRisks;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
     private RoutingFormResearchType researchType;
@@ -131,7 +131,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * Default constructor.
 	 */
 	public RoutingFormDocument() {
-        routingFormDocumentResearchRisks = new ArrayList<RoutingFormDocumentResearchRiskType>();
+        routingFormDocumentResearchRisks = new ArrayList<RoutingFormResearchRisk>();
         routingFormKeywords = new ArrayList<RoutingFormKeyword>();
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
@@ -1375,22 +1375,22 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.catalogOfFederalDomesticAssistanceReference = catalogOfFederalDomesticAssistanceReference;
     }
     
-    public List<RoutingFormDocumentResearchRiskType> getRoutingFormDocumentResearchRisks() {
+    public List<RoutingFormResearchRisk> getRoutingFormDocumentResearchRisks() {
         return routingFormDocumentResearchRisks;
     }
 
-    public RoutingFormDocumentResearchRiskType getRoutingFormDocumentResearchRisk(int index) {
+    public RoutingFormResearchRisk getRoutingFormDocumentResearchRisk(int index) {
         while (getRoutingFormDocumentResearchRisks().size() <= index) {
-            getRoutingFormDocumentResearchRisks().add(new RoutingFormDocumentResearchRiskType());
+            getRoutingFormDocumentResearchRisks().add(new RoutingFormResearchRisk());
         }
-        return (RoutingFormDocumentResearchRiskType) getRoutingFormDocumentResearchRisks().get(index);
+        return (RoutingFormResearchRisk) getRoutingFormDocumentResearchRisks().get(index);
     }
     
-    public void setRoutingFormDocumentResearchRisks(List<RoutingFormDocumentResearchRiskType> routingFormDocumentResearchRisks) {
+    public void setRoutingFormDocumentResearchRisks(List<RoutingFormResearchRisk> routingFormDocumentResearchRisks) {
         this.routingFormDocumentResearchRisks = routingFormDocumentResearchRisks;
     }
 
-    public void addRoutingFormDocumentResearchRisk(RoutingFormDocumentResearchRiskType routingFormDocumentResearchRisk) {
+    public void addRoutingFormDocumentResearchRisk(RoutingFormResearchRisk routingFormDocumentResearchRisk) {
         getRoutingFormDocumentResearchRisks().add(routingFormDocumentResearchRisk);
     }
 

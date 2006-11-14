@@ -22,18 +22,18 @@ import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.module.kra.routingform.bo.RoutingFormDocumentResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
 
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
 
     private BusinessObjectService businessObjectService;
     
-    public List<RoutingFormDocumentResearchRiskType> getAllRoutingFormDocumentResearchRisks(String documentNumber) {
+    public List<RoutingFormResearchRisk> getAllRoutingFormDocumentResearchRisks(String documentNumber) {
         List<ResearchRiskType> researchRiskTypes = getAllResearchRiskTypes();
-        List<RoutingFormDocumentResearchRiskType> researchRisks = new ArrayList<RoutingFormDocumentResearchRiskType>();
+        List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>();
         for (ResearchRiskType researchRiskType: researchRiskTypes) {
-            researchRisks.add(new RoutingFormDocumentResearchRiskType(documentNumber, researchRiskType));
+            researchRisks.add(new RoutingFormResearchRisk(documentNumber, researchRiskType));
         }
         return researchRisks;
     }

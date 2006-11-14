@@ -70,8 +70,10 @@
                     <text size="6" />
                 </control>
 
-                <summary>letterOfCreditFundGroupCode</summary>
-                <description>letterOfCreditFundGroupCode description...</description>
+                <summary>
+                	<![CDATA[&nbsp;]]>
+                </summary>
+                <description>Letter of Credit Fund Group Code</description>
 			</attribute>
 
             <attribute name="letterOfCreditFundGroupDescription" forceUppercase="true">
@@ -79,14 +81,16 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhiteSpace="true" /></validationPattern>
 
                 <control>
                     <text size="42" />
                 </control>
 
-                <summary>letterOfCreditFundGroupDescription</summary>
-                <description>letterOfCreditFundGroupDescription description...</description>
+                <summary>
+                	<![CDATA[&nbsp;]]>
+				</summary>
+                <description>Contracts And Grants Letter of Credit Fund Group Description</description>
 			</attribute>
 
             <attribute name="rowActiveIndicator" forceUppercase="false">

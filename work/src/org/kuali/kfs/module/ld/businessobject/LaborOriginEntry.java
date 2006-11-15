@@ -46,8 +46,8 @@ import org.kuali.module.gl.bo.UniversityDate;
  */
 public class LaborOriginEntry extends BusinessObjectBase {
 
-	private Long originEntryIdentifier;
-	private Long originEntryGroupIdentifier;
+	private Integer originEntryIdentifier;
+	private Integer originEntryGroupIdentifier;
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;
 	private String accountNumber;
@@ -134,7 +134,7 @@ public class LaborOriginEntry extends BusinessObjectBase {
 	 * @return - Returns the originEntryIdentifier
 	 * 
 	 */
-	public Long getOriginEntryIdentifier() { 
+	public Integer getOriginEntryIdentifier() { 
 		return originEntryIdentifier;
 	}
 
@@ -144,7 +144,7 @@ public class LaborOriginEntry extends BusinessObjectBase {
 	 * @param - originEntryIdentifier The originEntryIdentifier to set.
 	 * 
 	 */
-	public void setOriginEntryIdentifier(Long originEntryIdentifier) {
+	public void setOriginEntryIdentifier(Integer originEntryIdentifier) {
 		this.originEntryIdentifier = originEntryIdentifier;
 	}
 
@@ -155,7 +155,7 @@ public class LaborOriginEntry extends BusinessObjectBase {
 	 * @return - Returns the originEntryGroupIdentifier
 	 * 
 	 */
-	public Long getOriginEntryGroupIdentifier() { 
+	public Integer getOriginEntryGroupIdentifier() { 
 		return originEntryGroupIdentifier;
 	}
 
@@ -165,7 +165,7 @@ public class LaborOriginEntry extends BusinessObjectBase {
 	 * @param - originEntryGroupIdentifier The originEntryGroupIdentifier to set.
 	 * 
 	 */
-	public void setOriginEntryGroupIdentifier(Long originEntryGroupIdentifier) {
+	public void setOriginEntryGroupIdentifier(Integer originEntryGroupIdentifier) {
 		this.originEntryGroupIdentifier = originEntryGroupIdentifier;
 	}
 

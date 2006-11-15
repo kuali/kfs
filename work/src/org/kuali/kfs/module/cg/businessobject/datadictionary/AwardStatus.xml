@@ -64,14 +64,14 @@
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><alphaNumeric /></validationPattern>
 
                 <control>
                     <text size="4" />
                 </control>
 
-                <summary>awardStatusCode</summary>
-                <description>awardStatusCode description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
 			</attribute>
 
             <attribute name="awardStatusDescription" forceUppercase="true">
@@ -79,14 +79,14 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>15</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter  allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="17" />
                 </control>
 
-                <summary>awardStatusDescription</summary>
-                <description>awardStatusDescription description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
 			</attribute>
 
             <attribute name="rowActiveIndicator" forceUppercase="false">
@@ -99,8 +99,8 @@
                     <checkbox />
                 </control>
 
-                <summary>Active Indicator</summary>
-                <description>Contracts And Grants Award Status Active Indicator</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -25,6 +25,8 @@
 <%-- derive displayReadOnly value --%>
 <c:set var="displayReadOnly" value="false" />
 <c:set var="budgetAdHocPermissionAttributes" value="${DataDictionary.BudgetAdHocPermission.attributes}" />
+<c:set var="budgetAdHocOrgAttributes" value="${DataDictionary.BudgetAdHocOrg.attributes}" />
+<c:set var="budgetAdHocWorkgroupAttributes" value="${DataDictionary.BudgetAdHocWorkgroup.attributes}" />
 
 <c:if test="${!empty editingMode['viewOnly']}" >
     <c:set var="displayReadOnly" value="true" />
@@ -163,7 +165,7 @@
                     	colspan="3"
                     	/>
 					<kul:htmlAttributeHeaderCell
-                  		attributeEntry="${DataDictionary.BudgetAdHocPermission.attributes.budgetPermissionCode}"
+                  		attributeEntry="${DataDictionary.BudgetAdHocOrg.attributes.budgetPermissionCode}"
                   		scope="col"
                   	  />
 					<c:if test="${not displayReadOnly}"><th scope=col>Actions</th></c:if>
@@ -195,7 +197,7 @@
 					</td>
 					<td class="infoline">
 						<div align="left">
-							<kul:htmlControlAttribute property="newAdHocOrg.budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}"/>
+							<kul:htmlControlAttribute property="newAdHocOrg.budgetPermissionCode" attributeEntry="${budgetAdHocOrgAttributes.budgetPermissionCode}"/>
 						</div>
 					</td>
 					<td class="infoline">

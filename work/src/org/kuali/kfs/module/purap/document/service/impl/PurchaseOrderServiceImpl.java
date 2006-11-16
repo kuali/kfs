@@ -51,7 +51,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocument.class);
             poDocument.populatePurchaseOrderFromRequisition(reqDocument);
             // TODO set other default info
-            documentService.validateAndPersistDocument(poDocument, new SaveOnlyDocumentEvent(poDocument));
+            // TODO set initiator of document as contract manager (is that right?)
+            documentService.saveDocument(poDocument);
         }
         catch (WorkflowException e) {
             LOG.error("Error creating PO document: " + e.getMessage());

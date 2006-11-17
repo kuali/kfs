@@ -206,5 +206,7 @@
                 <description>extendedAttributeValues description...</description>
             </collection>
         </collections>
+        
+        <objectLabel>Sub-Fund Group</objectLabel>
     </businessObject>
 </dictionaryEntry>

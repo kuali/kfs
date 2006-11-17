@@ -374,5 +374,7 @@
 
 
         </attributes>
+        
+        <objectLabel>Sub-Account</objectLabel>
     </businessObject>
 </dictionaryEntry>

@@ -392,6 +392,7 @@
             </relationship>
         </relationships>
 
+		<objectLabel>Chart</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

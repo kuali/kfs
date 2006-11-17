@@ -120,5 +120,6 @@
 			</attribute>
 
         </attributes>
+        <objectLabel>Organization Routing Model Name</objectLabel>
     </businessObject>
 </dictionaryEntry>

@@ -196,6 +196,7 @@
             </relationship>
         </relationships>
 
+		<objectLabel>Project Code</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

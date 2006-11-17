@@ -156,6 +156,8 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        
+        <objectLabel>Object Consolidation</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

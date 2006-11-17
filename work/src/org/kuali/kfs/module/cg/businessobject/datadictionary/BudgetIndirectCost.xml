@@ -167,5 +167,6 @@
 
         </collections>
 
+		<objectLabel>Budget Indirect Cost</objectLabel>
     </businessObject>
 </dictionaryEntry>

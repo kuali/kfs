@@ -108,5 +108,7 @@
             </attribute>
 
         </attributes>
+        
+        <objectLabel>Modular Budget</objectLabel>
     </businessObject>
 </dictionaryEntry>

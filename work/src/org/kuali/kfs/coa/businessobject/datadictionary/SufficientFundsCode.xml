@@ -75,6 +75,8 @@
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"></attributeReference>
 
         </attributes>
+        
+        <objectLabel>Sufficient Funds Code</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

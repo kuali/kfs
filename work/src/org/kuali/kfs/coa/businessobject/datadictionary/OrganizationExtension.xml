@@ -283,7 +283,7 @@
                 <primitiveAttribute sourceName="fiscalApproverUniversalId" targetName="personUniversalIdentifier" />
             </relationship>
         </relationships>
-
+		<objectLabel>Organization Extension</objectLabel>
 	</businessObject>
 </dictionaryEntry>
 

@@ -214,7 +214,8 @@
                 <description>versionNumber description...</description>
             </attribute>
         </attributes>
-        
+
+		<objectLabel>Budget Graduate Assistant Rate</objectLabel>        
     </businessObject>
 </dictionaryEntry>
 

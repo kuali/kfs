@@ -169,6 +169,7 @@
             </relationship>
         </relationships>
 
+		<objectLabel>Financial Reporting Code</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

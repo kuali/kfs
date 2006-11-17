@@ -119,6 +119,8 @@
                 <description>versionNumber description...</description>
             </attribute>
         </attributes>
+        
+        <objectLabel>Budget Third Party Cost Share</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

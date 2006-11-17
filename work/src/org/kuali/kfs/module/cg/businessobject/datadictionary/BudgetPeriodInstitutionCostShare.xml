@@ -24,7 +24,7 @@
         <customAttributeEnabled>true</customAttributeEnabled>
 
         <inquiry>
-            <title>Budget Institution Cost Share</title>
+            <title>Budget Period Institution Cost Share</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetPeriodSequenceNumber" />
@@ -157,6 +157,8 @@
             </attribute>
 
         </attributes>
+        
+        <objectLabel>Budget Period Institution Cost Share</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

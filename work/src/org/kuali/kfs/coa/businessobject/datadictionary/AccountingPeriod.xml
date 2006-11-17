@@ -175,5 +175,7 @@
                 <description>extendedAttributeValues description...</description>
             </collection>
         </collections>
+        
+        <objectLabel>Accounting Period</objectLabel>
     </businessObject>
 </dictionaryEntry>

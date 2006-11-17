@@ -167,6 +167,8 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        
+        <objectLabel>Sub-Object Code</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

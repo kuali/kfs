@@ -775,6 +775,7 @@
             </relationship>
         </relationships>
 
+		<objectLabel>Organization Code</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

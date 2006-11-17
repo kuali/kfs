@@ -150,5 +150,6 @@
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
         </attributes>
+        <objectLabel>Object Type Code</objectLabel>
     </businessObject>
 </dictionaryEntry>

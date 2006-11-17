@@ -344,6 +344,8 @@
                 <description>Employee Type</description>
             </attributeReference>
         </attributes>
+        
+        <objectLabel>Budget User/Personnel</objectLabel>
     </businessObject>
 
 </dictionaryEntry>

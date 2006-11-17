@@ -1113,5 +1113,7 @@
                 <primitiveAttribute sourceName="accountNumber" targetName="accountNumber" />
             </relationship>
         </relationships>
+        
+        <objectLabel>Account</objectLabel>
     </businessObject>
 </dictionaryEntry>

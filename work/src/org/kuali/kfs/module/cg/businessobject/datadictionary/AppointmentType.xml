@@ -225,6 +225,7 @@
 
 
         </attributes>
+        <objectLabel>Appointment Type</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

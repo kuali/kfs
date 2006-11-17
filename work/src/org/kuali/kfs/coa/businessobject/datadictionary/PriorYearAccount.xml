@@ -1044,5 +1044,7 @@
                 <primitiveAttribute sourceName="accountNumber" targetName="accountNumber" />
             </relationship>
         </relationships>
+        
+        <objectLabel>Prior Year Account</objectLabel>
     </businessObject>
 </dictionaryEntry>

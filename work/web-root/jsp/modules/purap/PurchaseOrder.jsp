@@ -32,7 +32,8 @@
         postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
     <purap:vendor
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
+        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
+        displayPurchaseOrderFields="true" />
 
     <purap:items
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />

@@ -28,6 +28,9 @@
 <%@ attribute name="displayRequisitionFields" required="false"
               description="Boolean to indicate if REQ specific fields should be displayed" %>
 
+<%@ attribute name="displayPurchaseOrderFields" required="false"
+              description="Boolean to indicate if PO specific fields should be displayed" %>
+              
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 <c:set var="vendorReadOnly" value="${readOnly or not empty KualiForm.document.vendorNumber}" />
 <c:set var="currentUserCampusCode" value="${UserSession.kualiUser.universalUser.campusCode}" />
@@ -39,7 +42,18 @@
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
-
+            <c:if test="${displayPurchaseOrderFields}">
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" property="document.purchaseOrderVendorChoiceCode" readOnly="${vendorReadOnly}" />
+                    </td>
+                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                    <td align=left valign=middle class="datacell">&nbsp;</td>
+                </tr>
+            </c:if>
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorName}" /></div>
@@ -155,7 +169,46 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" />
                 </td>
             </tr> 
-                                 
+            <c:if test="${displayPurchaseOrderFields}">
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" readOnly="${vendorReadOnly}" />
+                    </td>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorName}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorName}" property="document.alternateVendorName" readOnly="${vendorReadOnly}" />
+                    </td>                        
+                </tr>
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${vendorReadOnly}" />
+                    </td>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorHeaderGeneratedIdentifier}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorHeaderGeneratedIdentifier}" property="document.vendorShippingTitleCode" readOnly="${vendorReadOnly}" />
+                    </td>                        
+                </tr>
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" readOnly="${vendorReadOnly}" />
+                    </td>
+                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                    <td align=left valign=middle class="datacell">&nbsp;</td>                        
+                </tr>
+            </c:if>                                                 
         </table>
 
         <c:if test="${displayRequisitionFields}">

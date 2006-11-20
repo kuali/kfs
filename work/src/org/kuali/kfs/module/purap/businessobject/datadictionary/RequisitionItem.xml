@@ -148,7 +148,7 @@
 
             <attribute name="itemAssignedToTradeInIndicator" forceUppercase="true">
                 <label>Item Assigned To Trade In Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Trade In</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -192,7 +192,7 @@
 
             <attribute name="itemCatalogNumber" forceUppercase="true">
                 <label>Item Catalog Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Catalog Number</shortLabel>
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -222,7 +222,7 @@
 
             <attribute name="itemLineNumber" forceUppercase="true">
                 <label>Item Line Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>#</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -266,22 +266,21 @@
 
             <attribute name="itemTypeCode" forceUppercase="true">
                 <label>Item Type Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Type Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
-
+    			<control>
+        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder"/>
+    			</control>
                 <summary>itemTypeCode</summary>
                 <description>itemTypeCode description...</description>
 			</attribute>
 
             <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
                 <label>Item Unit Of Measure Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>UOM</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -308,6 +307,22 @@
                 <summary>itemUnitPrice</summary>
                 <description>itemUnitPrice description...</description>
 			</attribute>
+
+            <attribute name="extendedPrice" forceUppercase="true">
+                <label>Extended Price</label>
+                <shortLabel>Extended Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>extendedPrice</summary>
+                <description>extendedPrice description...</description>
+			</attribute>
+
 
             <attribute name="purapDocumentIdentifier" forceUppercase="true">
                 <label>Requisition Identifier</label>

@@ -39,8 +39,7 @@
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
         displayRequisitionFields="true" />
 
-    <purap:items
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+    <purap:items />
 
     <purap:paymentinfo
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />

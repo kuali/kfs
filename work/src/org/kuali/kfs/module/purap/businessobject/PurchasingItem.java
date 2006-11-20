@@ -19,6 +19,8 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 
+import org.kuali.core.util.KualiDecimal;
+
 
 public interface PurchasingItem {
 
@@ -277,5 +279,16 @@ public interface PurchasingItem {
      * @deprecated
      */
     public abstract void setItemType(ItemType itemType);
+    
+    /**
+     * Gets the extendedPrice attribute. 
+     * @return Returns the extendedPrice.
+     */
+    public KualiDecimal getExtendedPrice();
 
+    /**
+     * Sets the extendedPrice attribute value.
+     * @param extendedPrice The extendedPrice to set.
+     */
+    public void setExtendedPrice(KualiDecimal extendedPrice);
 }

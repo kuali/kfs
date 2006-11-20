@@ -44,6 +44,7 @@ public class PurchasingItemBase extends BusinessObjectBase implements Purchasing
 	private String externalOrganizationB2bProductReferenceNumber;
 	private String externalOrganizationB2bProductTypeName;
 	private boolean itemAssignedToTradeInIndicator;
+    private KualiDecimal extendedPrice; //not currently in DB
 
 	private CapitalAssetTransactionType capitalAssetTransactionType;
 	private ItemType itemType;
@@ -52,7 +53,8 @@ public class PurchasingItemBase extends BusinessObjectBase implements Purchasing
 	 * Default constructor.
 	 */
 	public PurchasingItemBase() {
-
+	    //TODO: Chris - default itemType (should probably get this from spring or Constants file)
+        itemTypeCode = "ITEM";
 	}
 
 	/**
@@ -387,6 +389,22 @@ public class PurchasingItemBase extends BusinessObjectBase implements Purchasing
 	}
 
 	/**
+     * Gets the extendedPrice attribute. 
+     * @return Returns the extendedPrice.
+     */
+    public KualiDecimal getExtendedPrice() {
+        return extendedPrice;
+    }
+
+    /**
+     * Sets the extendedPrice attribute value.
+     * @param extendedPrice The extendedPrice to set.
+     */
+    public void setExtendedPrice(KualiDecimal extendedPrice) {
+        this.extendedPrice = extendedPrice;
+    }
+
+    /**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

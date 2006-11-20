@@ -18,10 +18,10 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.chart.bo.Chart;
@@ -32,7 +32,9 @@ import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.PurchasingItem;
+import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.RecurringPaymentType;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -128,12 +130,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private VendorContract vendorContract;
     
     //COLLECTIONS
-    private List items;
+    private List<PurchasingItem> items;
     
 
     public PurchasingDocumentBase() {
         super();
-        items = new ArrayList();
+        items = new TypedArrayList(PurchasingItemBase.class);
     }
 
     
@@ -1680,13 +1682,47 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public void addItem(PurchasingItem item) {
-        //for now set the line number to the position
-        item.setItemLineNumber(items.size());
-        items.add(item);
+        int itemLinePosition = items.size();
+        if(item.getItemLineNumber()!=null) {
+            itemLinePosition = item.getItemLineNumber().intValue();
+        }
+       
+        //if the user entered something set line number to that
+        if(itemLinePosition>1&&itemLinePosition<items.size()) {
+            itemLinePosition = item.getItemLineNumber() - 1;
+        }
+        
+        items.add(itemLinePosition,item);
+        renumberItems(itemLinePosition);
     }
-    //TODO: this may run into struts problems, look at accountingline or intbilling (but watch for inheritance) to fix
+    
+    public void deleteItem(int lineNum) {
+        if(items.remove(lineNum)==null) {
+            //throw error here
+        }
+        renumberItems(lineNum);
+    }
+    
+    public void renumberItems(int start) {
+        for (int i = start; i<items.size(); i++) {
+            PurchasingItem item = (PurchasingItem)items.get(i);
+            item.setItemLineNumber(new Integer(i+1));
+        }
+    }
+    
     public PurchasingItem getItem(int pos) {
+        while (getItems().size() <= pos) {
+            //TODO: totally incorrect shouldn't be ReqItem fix later
+            getItems().add(new RequisitionItem());
+        }
         return (PurchasingItem)items.get(pos);
+    }
+    public KualiDecimal getTotal() {
+        KualiDecimal total = new KualiDecimal("0");
+        for (PurchasingItem item : items) {
+           total = total.add(item.getExtendedPrice());
+       }
+       return total;
     }
 
     /**

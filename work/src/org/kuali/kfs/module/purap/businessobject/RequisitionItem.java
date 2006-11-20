@@ -19,9 +19,8 @@
 package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.RequisitionDocument;
 
@@ -56,7 +55,7 @@ public class RequisitionItem extends PurchasingItemBase {
 	 * Default constructor.
 	 */
 	public RequisitionItem() {
-
+        
 	}
 
     /**
@@ -123,5 +122,16 @@ public class RequisitionItem extends PurchasingItemBase {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 
+    /**
+     * @see org.kuali.module.purap.bo.PurchasingItemBase#getExtendedPrice()
+     */
+    @Override
+    public KualiDecimal getExtendedPrice() {
+        if((this.getItemQuantity()==null) || (this.getItemUnitPrice()==null)) {
+            return new KualiDecimal("0");
+        }
+        return new KualiDecimal(this.getItemUnitPrice().multiply(new BigDecimal(this.getItemQuantity().toString())).toString());
+    }
 
+    
 }

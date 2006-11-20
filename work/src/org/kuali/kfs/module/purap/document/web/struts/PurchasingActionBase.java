@@ -55,4 +55,23 @@ public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
         purDocument.addItem(item);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    /**
+     * Delete an item from the document.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        //TODO: should call delete line event/rules here
+        
+        PurchasingDocument purDocument = (PurchasingDocument)purchasingForm.getDocument();
+        purDocument.deleteItem(getSelectedLine(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }

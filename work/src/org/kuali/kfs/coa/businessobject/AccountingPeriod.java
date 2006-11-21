@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.service.DateTimeService;
@@ -172,6 +173,14 @@ public class AccountingPeriod extends BusinessObjectBase {
      */
     public void setUniversityFiscalPeriodEndDate(Date universityFiscalPeriodEndDate) {
         this.universityFiscalPeriodEndDate = universityFiscalPeriodEndDate;
+    }
+    
+    /**
+     * Determine if the current account period is open
+     * @return true if the accounting period is open; otherwise, false
+     */
+    public boolean isOpen(){       
+        return Constants.ACCOUNTING_PERIOD_STATUS_OPEN.equals(this.getUniversityFiscalPeriodStatusCode());
     }
 
     /**

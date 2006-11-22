@@ -28,7 +28,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+
+import edu.iu.uis.eden.clientapp.IDocHandler;
 
 public class RoutingFormAction extends KualiDocumentActionBase {
     
@@ -96,7 +99,21 @@ public class RoutingFormAction extends KualiDocumentActionBase {
     }
     
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.save(mapping, form, request, response);
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        RoutingForm routingForm = (RoutingForm) form;
+
+        if (IDocHandler.INITIATE_COMMAND.equals(routingForm.getCommand())) {
+            routingForm.getRoutingFormDocument().setResearchDocumentNumber(routingForm.getRoutingFormDocument().getFinancialDocumentNumber());
+            // TODO
+            //SpringServiceLocator.getBudgetService().initializeBudget(routingForm.getRoutingFormDocument());
+        }
+        return forward;
+    }
 }

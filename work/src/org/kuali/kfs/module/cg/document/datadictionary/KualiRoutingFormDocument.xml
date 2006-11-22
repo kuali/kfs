@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
  
  $Source$
  
@@ -23,6 +23,8 @@
 <dictionaryEntry>
     <researchDocument>
         <documentClass>org.kuali.module.kra.routingform.document.RoutingFormDocument</documentClass>
+        <businessRulesClass>org.kuali.module.kra.routingform.rules.RoutingFormDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.kra.routingform.rules.RoutingFormDocumentPreRules</preRulesCheckClass>
 
         <documentAuthorizerClass>org.kuali.module.kra.routingform.document.RoutingFormDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>

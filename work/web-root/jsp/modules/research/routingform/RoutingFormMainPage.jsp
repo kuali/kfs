@@ -65,7 +65,7 @@
 
           </table>
         </div>
-        <div class="globalbuttons"> <a href="overview.html"><img src="images/buttonsmall_save.gif" alt="save" width="53" height="18" hspace="5" border="0"></a><a href="confirm-cancel.html"><img src="images/buttonsmall_cancel.gif" alt="cancel" width="66" height="18" hspace="5" border="0"></a> </div></td>
+        <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
       <td class="column-right"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
     </tr>
   </table>

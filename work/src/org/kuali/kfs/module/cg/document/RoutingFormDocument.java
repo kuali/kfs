@@ -30,6 +30,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
+import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
@@ -131,6 +132,15 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 * Default constructor.
 	 */
 	public RoutingFormDocument() {
+        super();
+        this.setResearchDocumentNumber(this.financialDocumentNumber);
+        
+        creditPercentNextSequenceNumber = new Integer(1);
+        institutionCostShareNextSequenceNumber = new Integer(1);
+        otherCostShareNextSequenceNumber = new Integer(1);
+        projectDirectorNextSequenceNumber = new Integer(1);
+        subcontractorNextSequenceNumber = new Integer(1);
+        
         routingFormResearchRisks = new ArrayList<RoutingFormResearchRisk>();
         routingFormKeywords = new ArrayList<RoutingFormKeyword>();
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();

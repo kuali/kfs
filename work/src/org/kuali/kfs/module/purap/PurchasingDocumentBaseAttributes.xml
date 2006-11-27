@@ -232,38 +232,23 @@
     <description>deliveryCampusCode description...</description>
 </attributeReference>
 
-<attribute name="deliveryCityName" forceUppercase="true">
+<attributeReference name="deliveryCityName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorCityName">
     <label>City</label>
     <shortLabel>City</shortLabel>
 
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
     <required>true</required>
-
-    <control>
-        <text size="47" />
-    </control>
 
     <summary>deliveryCityName</summary>
     <description>deliveryCityName description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="deliveryCountryCode" forceUppercase="true">
+<attributeReference name="deliveryCountryCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorCountryCode">
     <label>Delivery Country Code</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryNotRestrictedValuesFinder" />
-    </control>
-
+   
     <summary>deliveryCountryCode</summary>
     <description>deliveryCountryCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="deliveryInstructionText">
     <label>Delivery Instructions</label>
@@ -280,27 +265,17 @@
     <description>deliveryInstructionText description...</description>
 </attribute>
 
-<attribute name="deliveryPostalCode" forceUppercase="true">
+<attributeReference name="deliveryPostalCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorZipCode">
     <label>Postal Code</label>
     <shortLabel>Zip</shortLabel>
 
-    <maxLength>20</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
     <required>true</required>
-
-    <control>
-        <text size="22" />
-    </control>
-
+    
     <summary>deliveryPostalCode</summary>
     <description>deliveryPostalCode description...</description>
-</attribute>
+</attributeReference>
 
-<attributeReference name="deliveryRequiredDate" 
-		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-		sourceAttributeName="genericDate">
+<attributeReference name="deliveryRequiredDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
     <label>Delivery Required Date</label>
     <shortLabel>Required Date</shortLabel>
 
@@ -316,23 +291,15 @@
     <description>deliveryRequiredDateReasonCode description...</description>
 </attributeReference>
 
-<attribute name="deliveryStateCode" forceUppercase="true">
+<attributeReference name="deliveryStateCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorStateCode">
     <label>State</label>
     <shortLabel>State</shortLabel>
 
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
     <required>true</required>
-
-    <control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.StateValuesFinder"/>
-    </control>
 
     <summary>deliveryStateCode</summary>
     <description>deliveryStateCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="deliveryToEmailAddress">
     <label>Email Address</label>
@@ -350,36 +317,24 @@
     <description>deliveryToEmailAddress description...</description>
 </attribute>
 
-<attribute name="deliveryToName" forceUppercase="true">
+<attributeReference name="deliveryToName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorAttentionName">
+
     <label>Delivery To</label>
     <shortLabel>To</shortLabel>
 
-    <maxLength>45</maxLength>
-    <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
     <required>true</required>
-
-    <control>
-        <text size="47" />
-    </control>
 
     <summary>deliveryToName</summary>
     <description>deliveryToName description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="deliveryToPhoneNumber" forceUppercase="true">
+<attributeReference name="deliveryToPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Phone Number</label>
     <shortLabel>Phone</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern><phoneNumber /></validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
+    
     <summary>deliveryToPhoneNumber</summary>
     <description>deliveryToPhoneNumber description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="externalOrganizationB2bSupplierIdentifier" forceUppercase="true">
     <label>External OrganizationB2b Supplier Identifier</label>
@@ -435,20 +390,13 @@
     <description>institutionContactName description...</description>
 </attribute>
 
-<attribute name="institutionContactPhoneNumber" forceUppercase="true">
+<attributeReference name="institutionContactPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Contact Phone</label>
     <shortLabel>Number</shortLabel>
 
-    <maxLength>45</maxLength>
-    <validationPattern><phoneNumber /></validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>institutionContactPhoneNumber</summary>
     <description>institutionContactPhoneNumber description...</description>
-</attribute>
+</attributeReference>
 
 <attributeReference name="nonInstitutionFundAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
     <label>Non Institution Fund Account Number</label>
@@ -602,21 +550,13 @@
     <description>requestorPersonName description...</description>
 </attribute>
 
-<attribute name="requestorPersonPhoneNumber" forceUppercase="true">
+<attributeReference name="requestorPersonPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Requestor Phone</label>
     <shortLabel>Phone Number</shortLabel>
 
-    <maxLength>45</maxLength>
-    <validationPattern><phoneNumber /></validationPattern>
-    <required>true</required>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>requestorPersonPhoneNumber</summary>
     <description>requestorPersonPhoneNumber description...</description>
-</attribute>
+</attributeReference>
 
 <attributeReference name="requisitionSourceCode" sourceClassName="org.kuali.module.purap.bo.RequisitionSource" sourceAttributeName="requisitionSourceCode">
     <label>Requisition Source Code</label>
@@ -625,22 +565,13 @@
     <description>requisitionSourceCode description...</description>
 </attributeReference>
 
-<attribute name="vendorCityName" forceUppercase="true">
+<attributeReference name="vendorCityName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorCityName">
     <label>City</label>
     <shortLabel>Name</shortLabel>
 
-    <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter allowWhitespace="true"/>
-    </validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>vendorCityName</summary>
     <description>vendorCityName description...</description>
-</attribute>
+</attributeReference>
 
 <attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.module.purap.bo.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier">
     <label>Contract ID</label>
@@ -650,73 +581,37 @@
     <description>vendorContractGeneratedIdentifier description...</description>
 </attributeReference>
 
-<attribute name="vendorCountryCode" forceUppercase="true">
+<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorCountryCode">
     <label>Country</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>4</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-	<control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryNotRestrictedValuesFinder" />
-    </control>
-
+   
     <summary>vendorCountryCode</summary>
     <description>vendorCountryCode description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="vendorFaxNumber" forceUppercase="true">
+<attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Fax Number</label>
     <shortLabel>Number</shortLabel>
 
-    <maxLength>40</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-    <control>
-        <text size="42" />
-    </control>
-
     <summary>vendorFaxNumber</summary>
     <description>vendorFaxNumber description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="vendorLine1Address" forceUppercase="true">
+<attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorLine1Address">
     <label>Address 1</label>
     <shortLabel>Address</shortLabel>
-
-    <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter allowWhitespace="true"/>
-    </validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
+    
     <summary>vendorLine1Address</summary>
     <description>vendorLine1Address description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="vendorLine2Address" forceUppercase="true">
+<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorLine2Address">
     <label>Address 2</label>
     <shortLabel>Address</shortLabel>
 
-    <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter allowWhitespace="true"/>
-    </validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>vendorLine2Address</summary>
     <description>vendorLine2Address description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="vendorNoteText" forceUppercase="true">
     <label>Notes To Vendor</label>
@@ -735,39 +630,21 @@
     <description>vendorNoteText description...</description>
 </attribute>
 
-<attribute name="vendorPhoneNumber" forceUppercase="true">
+<attributeReference name="vendorPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Phone Number</label>
     <shortLabel>Number</shortLabel>
 
-    <maxLength>45</maxLength>
-    <validationPattern>
-        <anyCharacter allowWhitespace="true"/>
-    </validationPattern>
-
-    <control>
-        <text size="47" />
-    </control>
-
     <summary>vendorPhoneNumber</summary>
     <description>vendorPhoneNumber description...</description>
-</attribute>
+</attributeReference>
 
-<attribute name="vendorPostalCode" forceUppercase="true">
+<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorZipCode">
     <label>Postal Code</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>20</maxLength>
-    <validationPattern>
-        <anyCharacter allowWhitespace="true"/>
-    </validationPattern>
-
-    <control>
-        <text size="22" />
-    </control>
-
+    
     <summary>vendorPostalCode</summary>
     <description>vendorPostalCode description...</description>
-</attribute>
+</attributeReference>
 
 <attribute name="vendorRestrictedIndicator" forceUppercase="true">
     <label>Vendor Restricted Indicator</label>
@@ -783,22 +660,13 @@
     <description>vendorRestrictedIndicator description...</description>
 </attribute>
 
-<attribute name="vendorStateCode" forceUppercase="true">
+<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="vendorStateCode">
     <label>State</label>
     <shortLabel>Code</shortLabel>
-
-    <maxLength>2</maxLength>
-    <validationPattern>
-        <anyCharacter />
-    </validationPattern>
-
-	<control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.StateValuesFinder" />
-    </control>
-
+    
     <summary>vendorStateCode</summary>
     <description>vendorStateCode description...</description>
-</attribute>
+</attributeReference>
 
 <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

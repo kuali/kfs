@@ -224,7 +224,7 @@
     <description>deliveryBuildingRoomNumber description...</description>
 </attribute>
 
-<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.chart.bo.Campus" sourceAttributeName="campusCode">
+<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="campusCode">
     <label>Delivery Campus</label>
     <shortLabel>Del. Campus</shortLabel>
     

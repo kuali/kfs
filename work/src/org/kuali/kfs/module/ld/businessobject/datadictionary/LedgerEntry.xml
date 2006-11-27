@@ -39,6 +39,7 @@
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
+                <field attributeName="financialSystemOriginationCode" />
                 <field attributeName="grade" />
                 <field attributeName="hrmsCompany" />
                 <field attributeName="laborLedgerOriginalAccountNumber" />
@@ -101,6 +102,7 @@
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialObjectTypeCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
+                <lookupField attributeName="financialSystemOriginationCode" required="false" />
                 <lookupField attributeName="grade" required="false" />
                 <lookupField attributeName="hrmsCompany" required="false" />
                 <lookupField attributeName="laborLedgerOriginalAccountNumber" required="false" />
@@ -149,6 +151,7 @@
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
+                <field attributeName="financialSystemOriginationCode" />
                 <field attributeName="grade" />
                 <field attributeName="hrmsCompany" />
                 <field attributeName="laborLedgerOriginalAccountNumber" />
@@ -366,6 +369,17 @@
                 <summary>financialSubObjectCode</summary>
                 <description>financialSubObjectCode description...</description>
 			</attribute>
+
+            <attribute name="financialSystemOriginationCode" forceUppercase="false">
+                <label>Origin Code</label>
+                <shortLabel>Origin Code</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>originCode</summary>
+                <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
+            </attribute>
 
             <attribute name="grade" forceUppercase="true">
                 <label>Grade</label>

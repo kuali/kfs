@@ -55,7 +55,8 @@ public class LedgerEntry extends BusinessObjectBase {
 	private String financialObjectTypeCode;
 	private String universityFiscalPeriodCode;
 	private String financialDocumentTypeCode;
-	private String financialDocumentNumber;
+    private String financialSystemOriginationCode;
+    private String financialDocumentNumber;
 	private Integer transactionLedgerEntrySequenceNumber;
 	private String positionNumber;
 	private String projectCode;
@@ -113,6 +114,7 @@ public class LedgerEntry extends BusinessObjectBase {
     private ProjectCode project;
     private DocumentHeader documentHeader;
     private CalculatedSalaryFoundationCompany company;
+    private OriginationCode financialSystemOrigination;
     
 	/**
 	 * Default constructor.
@@ -320,6 +322,22 @@ public class LedgerEntry extends BusinessObjectBase {
 		return financialDocumentTypeCode;
 	}
 
+    /**
+     * Gets the financialSystemOriginationCode attribute. 
+     * @return Returns the financialSystemOriginationCode.
+     */
+    public String getFinancialSystemOriginationCode() {
+        return financialSystemOriginationCode;
+    }
+
+    /**
+     * Sets the financialSystemOriginationCode attribute value.
+     * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
+     */
+    public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
+        this.financialSystemOriginationCode = financialSystemOriginationCode;
+    }    
+    
 	/**
 	 * Sets the financialDocumentTypeCode attribute.
 	 * 
@@ -1456,6 +1474,23 @@ public class LedgerEntry extends BusinessObjectBase {
      */
     public void setCompany(CalculatedSalaryFoundationCompany company) {
         this.company = company;
+    }    
+
+    /**
+     * Gets the financialSystemOrigination attribute. 
+     * @return Returns the financialSystemOrigination.
+     */
+    public OriginationCode getFinancialSystemOrigination() {
+        return financialSystemOrigination;
+    }
+
+    /**
+     * Sets the financialSystemOrigination attribute value.
+     * @param financialSystemOrigination The financialSystemOrigination to set.
+     * @deprecated
+     */
+    public void setFinancialSystemOrigination(OriginationCode financialSystemOrigination) {
+        this.financialSystemOrigination = financialSystemOrigination;
     }    
     
     /**

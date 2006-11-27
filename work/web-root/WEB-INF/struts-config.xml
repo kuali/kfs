@@ -72,8 +72,8 @@
 
     <global-exceptions>
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
+        <exception type="org.kuali.core.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
         <exception type="org.kuali.module.financial.exceptions.CashDrawerStateException" key="unused" path="/cashManagementStatus.do" />
-
         <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/jsp/core/Exception.jsp" />
         <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/jsp/core/Exception.jsp" />
     </global-exceptions>
@@ -84,7 +84,6 @@
         <forward name="save" path="/index.jsp" redirect="true" />
         <forward name="cancel" path="/index.jsp" redirect="true" />
         <forward name="close" path="/index.jsp" redirect="true" />
-
         <forward name="portal" path="/index.jsp" redirect="true" />
     </global-forwards>
 
@@ -107,6 +106,10 @@
         </action>
 
         <action path="/authorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
+            <forward name="basic" path="/jsp/core/authorizationException.jsp" />
+        </action>
+        
+        <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
             <forward name="basic" path="/jsp/core/authorizationException.jsp" />
         </action>
 

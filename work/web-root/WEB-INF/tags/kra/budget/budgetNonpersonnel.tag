@@ -1,5 +1,5 @@
 <%--
- Copyright 2006 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
  
  $Source$
  
@@ -83,7 +83,18 @@
                 <tbody>
                 <tr>
                   <th class="bord-l-b"><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelSubCategoryCode}" skipHelpUrl="true" noColon="true" /></div></th>
-                  <th class="bord-l-b"><div align="left"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelDescription}" skipHelpUrl="true" noColon="true" /></div></th>
+                  <th class="bord-l-b">
+                    <div align="left">
+                      <c:choose>
+                        <c:when test="${KraConstants.SUBCONTRACTOR_CATEGORY_CODE ne nonpersonnelCategory.code}">
+                          <kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetNonpersonnelDescription}" skipHelpUrl="true" noColon="true" />
+                        </c:when>
+                        <c:otherwise>
+                          Name
+                        </c:otherwise>
+                      </c:choose>
+                    </div>
+                  </th>
                   <c:if test="${! viewOnly }"><th class="bord-l-b"><div align="center">Copy to Future Periods </div></th></c:if>
                   <th class="bord-l-b"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.agencyRequestAmount}" skipHelpUrl="true" noColon="true" /></div></th>
                   <th class="bord-l-b"><div align="center"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetNonpersonnel.attributes.budgetInstitutionCostShareAmount}" skipHelpUrl="true" noColon="true" /></div></th>

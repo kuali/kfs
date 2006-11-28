@@ -19,7 +19,9 @@
 package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -58,18 +60,19 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
 	private boolean positionSalaryChangeIndicator;
 
     private ObjectCode financialObject;
-	private BudgetConstructionSalaryFunding budgetConstructionSalaryFunding;
 	private Chart chartOfAccounts;
 	private Account account;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
-    
     private BudgetConstructionPosition budgetConstructionPosition;
+
+    private List budgetConstructionSalaryFunding;
     
 	/**
 	 * Default constructor.
 	 */
 	public PendingBudgetConstructionAppointmentFunding() {
+        budgetConstructionSalaryFunding = new ArrayList();
 
 	}
 
@@ -559,26 +562,6 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
 	}
 
 	/**
-	 * Gets the budgetConstructionSalaryFunding attribute.
-	 * 
-	 * @return Returns the budgetConstructionSalaryFunding
-	 * 
-	 */
-	public BudgetConstructionSalaryFunding getBudgetConstructionSalaryFunding() { 
-		return budgetConstructionSalaryFunding;
-	}
-
-	/**
-	 * Sets the budgetConstructionSalaryFunding attribute.
-	 * 
-	 * @param budgetConstructionSalaryFunding The budgetConstructionSalaryFunding to set.
-	 * @deprecated
-	 */
-	public void setBudgetConstructionSalaryFunding(BudgetConstructionSalaryFunding budgetConstructionSalaryFunding) {
-		this.budgetConstructionSalaryFunding = budgetConstructionSalaryFunding;
-	}
-
-	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
 	 * @return Returns the chartOfAccounts
@@ -670,6 +653,26 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
      */
     public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
         this.budgetConstructionPosition = budgetConstructionPosition;
+    }
+
+    /**
+     * Gets the budgetConstructionSalaryFunding list.
+     * 
+     * @return Returns the budgetConstructionSalaryFunding list
+     * 
+     */
+    public List getBudgetConstructionSalaryFunding() { 
+        return budgetConstructionSalaryFunding;
+    }
+
+    /**
+     * Sets the budgetConstructionSalaryFunding list.
+     * 
+     * @param budgetConstructionSalaryFunding The budgetConstructionSalaryFunding list to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionSalaryFunding(List budgetConstructionSalaryFunding) {
+        this.budgetConstructionSalaryFunding = budgetConstructionSalaryFunding;
     }
 
 	/**

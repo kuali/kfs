@@ -24,6 +24,8 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * 
@@ -43,6 +45,9 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
     private ObjectCode financialObject;
 	private Account account;
 	private Chart chartOfAccounts;
+    private SubAccount subAccount;
+    private SubObjCd financialSubObject;
+    private PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding;
 
 	/**
 	 * Default constructor.
@@ -300,7 +305,61 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 		this.chartOfAccounts = chartOfAccounts;
 	}
 
-	/**
+    /**
+     * Gets the subAccount attribute. 
+     * @return Returns the subAccount.
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * Sets the subAccount attribute value.
+     * @param subAccount The subAccount to set.
+     * @deprecated
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+    
+    /**
+     * Gets the financialSubObject attribute. 
+     * @return Returns the financialSubObject.
+     */
+    public SubObjCd getFinancialSubObject() {
+        return financialSubObject;
+    }
+
+    /**
+     * Sets the financialSubObject attribute value.
+     * @param financialSubObject The financialSubObject to set.
+     * @deprecated
+     */
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+        this.financialSubObject = financialSubObject;
+    }
+
+    /**
+     * Gets the pendingAppointmentFunding attribute.
+     * 
+     * @return Returns the pendingAppointmentFunding
+     * 
+     */
+    public PendingBudgetConstructionAppointmentFunding getPendingAppointmentFunding() { 
+        return pendingAppointmentFunding;
+    }
+
+    /**
+     * Sets the pendingAppointmentFunding attribute.
+     * 
+     * @param pendingAppointmentFunding The pendingAppointmentFunding to set.
+     * @deprecated
+     */
+    public void setPendingAppointmentFunding(PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding) {
+        this.pendingAppointmentFunding = pendingAppointmentFunding;
+    }
+
+/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

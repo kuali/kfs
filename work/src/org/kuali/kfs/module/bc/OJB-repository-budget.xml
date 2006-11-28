@@ -519,6 +519,16 @@
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
 	</reference-descriptor>
+	<reference-descriptor name="pendingAppointmentFunding" class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+		<foreignkey field-ref="financialObjectCode" />
+		<foreignkey field-ref="financialSubObjectCode" />
+		<foreignkey field-ref="positionNumber" />
+		<foreignkey field-ref="emplid" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber" table="LD_BCN_SAL_SSN_T">
@@ -738,16 +748,6 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
-	<reference-descriptor name="budgetConstructionSalaryFunding" class-ref="org.kuali.module.budget.bo.BudgetConstructionSalaryFunding" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-		<foreignkey field-ref="subAccountNumber" />
-		<foreignkey field-ref="financialObjectCode" />
-		<foreignkey field-ref="financialSubObjectCode" />
-		<foreignkey field-ref="positionNumber" />
-		<foreignkey field-ref="emplid" />
-	</reference-descriptor>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
@@ -771,6 +771,23 @@
 		<foreignkey field-ref="positionNumber" />
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
+	<collection-descriptor name="budgetConstructionSalaryFunding" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionSalaryFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="positionNumber" sort="ASC" />
+		<orderby name="universityFiscalYear" sort="ASC" />
+		<orderby name="chartOfAccountsCode" sort="ASC" />
+		<orderby name="accountNumber" sort="ASC" />
+		<orderby name="subAccountNumber" sort="ASC" />
+		<orderby name="financialObjectCode" sort="ASC" />
+		<orderby name="financialSubObjectCode" sort="ASC" />
+		<inverse-foreignkey field-ref="universityFiscalYear" />
+		<inverse-foreignkey field-ref="chartOfAccountsCode" />
+		<inverse-foreignkey field-ref="accountNumber" />
+		<inverse-foreignkey field-ref="subAccountNumber" />
+		<inverse-foreignkey field-ref="financialObjectCode" />
+		<inverse-foreignkey field-ref="financialSubObjectCode" />
+		<inverse-foreignkey field-ref="positionNumber" />
+		<inverse-foreignkey field-ref="emplid" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionAccountSummary" table="LD_BCN_ACCT_SUMM_T">

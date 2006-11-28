@@ -32,7 +32,7 @@ import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.core.datadictionary.AttributeReferenceDefinition;
 import org.kuali.core.datadictionary.DataDictionaryEntryBase;
 import org.kuali.core.inquiry.KualiInquirableImpl;
-import org.kuali.core.lookup.KualiLookupableImpl;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
@@ -86,14 +86,14 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
             if (!"financialObject.financialObjectType.financialReportingSortCode".equals(attributeName)) {
-                inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClassGl(businessObject, attributeName);
+                inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClassGl(businessObject, attributeName);
             }
             else {
                 return "";
             }
         }
         else {
-            Map primitiveReference = KualiLookupableImpl.getPrimitiveReference(businessObject, attributeName);
+            Map primitiveReference = LookupUtils.getPrimitiveReference(businessObject, attributeName);
             if (primitiveReference != null && !primitiveReference.isEmpty()) {
                 attributeRefName = (String) primitiveReference.keySet().iterator().next();
                 inquiryBusinessObjectClass = (Class) primitiveReference.get(attributeRefName);
@@ -351,7 +351,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         DataDictionaryEntryBase entry = (DataDictionaryEntryBase) dataDictionary.getDataDictionary().getDictionaryObjectEntry(entryName);
         if (entry != null) {
             attributeDefinition = entry.getAttributeDefinition(attributeName);
-            inquiryBusinessObjectClass = KualiLookupableImpl.getNestedReferenceClass(businessObject, attributeName);
+            inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClass(businessObject, attributeName);
         }
 
         if (attributeDefinition instanceof AttributeReferenceDefinition) {

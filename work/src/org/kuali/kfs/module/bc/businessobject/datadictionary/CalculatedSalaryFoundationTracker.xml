@@ -2,7 +2,7 @@
 <!--
  Copyright 2005-2006 The Kuali Foundation.
  
- $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/ld/businessobject/datadictionary/CalculatedSalaryFoundationTracker.xml,v $
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/businessobject/datadictionary/CalculatedSalaryFoundationTracker.xml,v $
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker">
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker">
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>

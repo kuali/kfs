@@ -116,7 +116,6 @@ public class LaborOriginEntry extends BusinessObjectBase {
     private AccountingPeriod payrollEndDateFiscalPeriod;
     private SubAccount laborLedgerOriginalSubAccount;
     private SubObjCd laborLedgerOriginalFinancialSubObject;
-    private CalculatedSalaryFoundationCompany company;
     private Options option;
     private UniversityDate reversalDate;
     private OriginEntryGroup originEntryGroup;
@@ -1313,23 +1312,6 @@ public class LaborOriginEntry extends BusinessObjectBase {
      */
     public void setBalanceType(BalanceTyp balanceType) {
         this.balanceType = balanceType;
-    }
-
-    /**
-     * Gets the company attribute. 
-     * @return Returns the company.
-     */
-    public CalculatedSalaryFoundationCompany getCompany() {
-        return company;
-    }
-
-    /**
-     * Sets the company attribute value.
-     * @param company The company to set.
-     * @deprecated
-     */
-    public void setCompany(CalculatedSalaryFoundationCompany company) {
-        this.company = company;
     }
 
     /**

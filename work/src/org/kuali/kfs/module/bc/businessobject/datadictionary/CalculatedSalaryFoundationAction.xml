@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/businessobject/datadictionary/CalculatedSalaryFoundationAction.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.CalculatedSalaryFoundationAction">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Calculated Salary Foundation Action Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="action" />
+                <field attributeName="actionReason" />
+                <field attributeName="csfFundingStatusCode" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Calculated Salary Foundation Action Lookup</title>
+
+            <instructions>Look up a Calculated Salary Foundation Action</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="action" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="action" required="false" />
+                <lookupField attributeName="actionReason" required="false" />
+                <lookupField attributeName="csfFundingStatusCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="action" />
+                <field attributeName="actionReason" />
+                <field attributeName="csfFundingStatusCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="action" forceUppercase="true">
+                <label>Action</label>
+                <shortLabel>Action</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>action</summary>
+                <description>action description...</description>
+			</attribute>
+
+            <attribute name="actionReason" forceUppercase="true">
+                <label>Action Reason</label>
+                <shortLabel>Reason</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>actionReason</summary>
+                <description>actionReason description...</description>
+			</attribute>
+
+            <attribute name="csfFundingStatusCode" forceUppercase="true">
+                <label>Csf Funding Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>csfFundingStatusCode</summary>
+                <description>csfFundingStatusCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

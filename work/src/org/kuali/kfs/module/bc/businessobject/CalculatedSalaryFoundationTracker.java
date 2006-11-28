@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation.
  * 
- * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/ld/businessobject/CalculatedSalaryFoundationTracker.java,v $
+ * $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/businessobject/CalculatedSalaryFoundationTracker.java,v $
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.kuali.module.labor.bo;
+package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
 import java.sql.Date;

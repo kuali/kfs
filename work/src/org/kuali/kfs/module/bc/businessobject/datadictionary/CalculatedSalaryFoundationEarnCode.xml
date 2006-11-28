@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/bc/businessobject/datadictionary/CalculatedSalaryFoundationEarnCode.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.budget.bo.CalculatedSalaryFoundationEarnCode">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Calculated Salary Foundation Earn Code Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="csfEligibleFlag" />
+                <field attributeName="description" />
+                <field attributeName="earnCodeRegularEarnings" />
+                <field attributeName="effectiveDate" />
+                <field attributeName="hrmsCompany" />
+                <field attributeName="payGroup" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Calculated Salary Foundation Earn Code Lookup</title>
+
+            <instructions>Look up a Calculated Salary Foundation Earn Code</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="payGroup" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="csfEligibleFlag" required="false" />
+                <lookupField attributeName="description" required="false" />
+                <lookupField attributeName="earnCodeRegularEarnings" required="false" />
+                <lookupField attributeName="effectiveDate" required="false" />
+                <lookupField attributeName="hrmsCompany" required="false" />
+                <lookupField attributeName="payGroup" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="csfEligibleFlag" />
+                <field attributeName="description" />
+                <field attributeName="earnCodeRegularEarnings" />
+                <field attributeName="effectiveDate" />
+                <field attributeName="hrmsCompany" />
+                <field attributeName="payGroup" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="csfEligibleFlag" forceUppercase="true">
+                <label>Csf Eligible Flag</label>
+                <shortLabel>Flag</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>csfEligibleFlag</summary>
+                <description>csfEligibleFlag description...</description>
+			</attribute>
+
+            <attribute name="description" forceUppercase="true">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>description</summary>
+                <description>description description...</description>
+			</attribute>
+
+            <attribute name="earnCodeRegularEarnings" forceUppercase="true">
+                <label>Earn Code Regular Earnings</label>
+                <shortLabel>Earnings</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>earnCodeRegularEarnings</summary>
+                <description>earnCodeRegularEarnings description...</description>
+			</attribute>
+
+            <attribute name="effectiveDate" forceUppercase="true">
+                <label>Effective Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>effectiveDate</summary>
+                <description>effectiveDate description...</description>
+			</attribute>
+
+            <attribute name="hrmsCompany" forceUppercase="true">
+                <label>Hrms Company</label>
+                <shortLabel>Company</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>hrmsCompany</summary>
+                <description>hrmsCompany description...</description>
+			</attribute>
+
+            <attribute name="payGroup" forceUppercase="true">
+                <label>Pay Group</label>
+                <shortLabel>Group</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>payGroup</summary>
+                <description>payGroup description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

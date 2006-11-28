@@ -113,7 +113,6 @@ public class LedgerEntry extends BusinessObjectBase {
     private OriginationCode referenceOriginationCode;
     private ProjectCode project;
     private DocumentHeader documentHeader;
-    private CalculatedSalaryFoundationCompany company;
     private OriginationCode financialSystemOrigination;
     
 	/**
@@ -1458,23 +1457,6 @@ public class LedgerEntry extends BusinessObjectBase {
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }
-
-    /**
-     * Gets the company attribute. 
-     * @return Returns the company.
-     */
-    public CalculatedSalaryFoundationCompany getCompany() {
-        return company;
-    }
-
-    /**
-     * Sets the company attribute value.
-     * @param company The company to set.
-     * @deprecated
-     */
-    public void setCompany(CalculatedSalaryFoundationCompany company) {
-        this.company = company;
-    }    
 
     /**
      * Gets the financialSystemOrigination attribute. 

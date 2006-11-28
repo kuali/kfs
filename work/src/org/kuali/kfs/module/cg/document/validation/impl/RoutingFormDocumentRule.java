@@ -46,8 +46,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
         RoutingFormDocument routingFormDocument = (RoutingFormDocument) researchDocument;
 
-        // TODO validation commented out because it prevents from leaving Main Page
-//        SpringServiceLocator.getDictionaryValidationService().validateDocumentRecursively(routingFormDocument, 1);
+        SpringServiceLocator.getDictionaryValidationService().validateDocumentRecursively(routingFormDocument, 1);
 
         valid &= GlobalVariables.getErrorMap().isEmpty();
         

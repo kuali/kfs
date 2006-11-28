@@ -77,7 +77,7 @@
                 <validationPattern>
                     <alphaNumeric exactLength="5" />
                 </validationPattern>
-                <required>true</required>
+                <required>false</required>
                 <control>
                     <text size="5" />
                 </control>
@@ -95,7 +95,7 @@
                 <validationPattern>
                     <anyCharacter allowWhitespace="true" />
                 </validationPattern>
-                <required>true</required>
+                <required>false</required>
                 <control>
                     <text size="30" />
                 </control>
@@ -113,7 +113,7 @@
                 <validationPattern>
                     <anyCharacter allowWhitespace="true" />
                 </validationPattern>
-                <required>true</required>
+                <required>false</required>
                 <control>
                     <text size="50" />
                 </control>
@@ -127,7 +127,7 @@
             </attributeReference>
 
             <attributeReference name="agencyTypeCode" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="code">
-                <required>true</required>
+                <required>false</required>
             </attributeReference>
 
             <attribute name="historicalIndicator" forceUppercase="false">

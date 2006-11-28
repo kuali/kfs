@@ -51,7 +51,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -72,7 +72,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -93,7 +93,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -114,7 +114,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the organizationReversionCategoryCode attribute.
      * 
-     * @return - Returns the organizationReversionCategoryCode
+     * @return Returns the organizationReversionCategoryCode
      * 
      */
     public String getOrganizationReversionCategoryCode() {
@@ -135,7 +135,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the organizationReversionCode attribute.
      * 
-     * @return - Returns the organizationReversionCode
+     * @return Returns the organizationReversionCode
      * 
      */
     public String getOrganizationReversionCode() {
@@ -156,7 +156,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the organizationReversionObjectCode attribute.
      * 
-     * @return - Returns the organizationReversionObjectCode
+     * @return Returns the organizationReversionObjectCode
      * 
      */
     public String getOrganizationReversionObjectCode() {
@@ -177,7 +177,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the organizationReversionObject attribute.
      * 
-     * @return - Returns the organizationReversionObject
+     * @return Returns the organizationReversionObject
      * 
      */
     public ObjectCode getOrganizationReversionObject() {
@@ -197,7 +197,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization() {
@@ -217,7 +217,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

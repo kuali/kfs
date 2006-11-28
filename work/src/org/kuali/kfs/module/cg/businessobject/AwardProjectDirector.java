@@ -47,7 +47,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Gets the personUniversalIdentifier attribute.
      * 
-     * @return - Returns the personUniversalIdentifier
+     * @return Returns the personUniversalIdentifier
      * 
      */
     public String getPersonUniversalIdentifier() {
@@ -68,7 +68,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      * 
-     * @return - Returns the proposalNumber
+     * @return Returns the proposalNumber
      * 
      */
     public Long getProposalNumber() {
@@ -89,7 +89,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Gets the awardPrimaryProjectDirectorIndicator attribute.
      * 
-     * @return - Returns the awardPrimaryProjectDirectorIndicator
+     * @return Returns the awardPrimaryProjectDirectorIndicator
      * 
      */
     public boolean isAwardPrimaryProjectDirectorIndicator() {
@@ -111,7 +111,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Gets the awardProjectDirectorNote1Text attribute.
      * 
-     * @return - Returns the awardProjectDirectorNote1Text
+     * @return Returns the awardProjectDirectorNote1Text
      * 
      */
     public String getAwardProjectDirectorNote1Text() {
@@ -132,7 +132,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Gets the awardProjectDirectorNote2Text attribute.
      * 
-     * @return - Returns the awardProjectDirectorNote2Text
+     * @return Returns the awardProjectDirectorNote2Text
      * 
      */
     public String getAwardProjectDirectorNote2Text() {
@@ -153,7 +153,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Gets the awardProjectDirectorNote3Text attribute.
      * 
-     * @return - Returns the awardProjectDirectorNote3Text
+     * @return Returns the awardProjectDirectorNote3Text
      * 
      */
     public String getAwardProjectDirectorNote3Text() {
@@ -174,7 +174,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * Gets the awardProjectDirectorProjectTitle attribute.
      * 
-     * @return - Returns the awardProjectDirectorProjectTitle
+     * @return Returns the awardProjectDirectorProjectTitle
      * 
      */
     public String getAwardProjectDirectorProjectTitle() {

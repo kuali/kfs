@@ -41,7 +41,7 @@ public class FunctionControlCode extends BusinessObjectBase {
     /**
      * Gets the financialSystemFunctionControlCode attribute.
      * 
-     * @return - Returns the financialSystemFunctionControlCode
+     * @return Returns the financialSystemFunctionControlCode
      * 
      */
     public String getFinancialSystemFunctionControlCode() {
@@ -62,7 +62,7 @@ public class FunctionControlCode extends BusinessObjectBase {
     /**
      * Gets the financialSystemFunctionDefaultIndicator attribute.
      * 
-     * @return - Returns the financialSystemFunctionDefaultIndicator
+     * @return Returns the financialSystemFunctionDefaultIndicator
      * 
      */
     public boolean isFinancialSystemFunctionDefaultIndicator() {
@@ -84,7 +84,7 @@ public class FunctionControlCode extends BusinessObjectBase {
     /**
      * Gets the financialSystemFunctionDescription attribute.
      * 
-     * @return - Returns the financialSystemFunctionDescription
+     * @return Returns the financialSystemFunctionDescription
      * 
      */
     public String getFinancialSystemFunctionDescription() {

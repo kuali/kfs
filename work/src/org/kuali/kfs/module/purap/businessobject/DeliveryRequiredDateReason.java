@@ -41,7 +41,7 @@ public class DeliveryRequiredDateReason extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryRequiredDateReasonCode attribute.
 	 * 
-	 * @return - Returns the deliveryRequiredDateReasonCode
+	 * @return Returns the deliveryRequiredDateReasonCode
 	 * 
 	 */
 	public String getDeliveryRequiredDateReasonCode() { 
@@ -51,7 +51,7 @@ public class DeliveryRequiredDateReason extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryRequiredDateReasonCode attribute.
 	 * 
-	 * @param - deliveryRequiredDateReasonCode The deliveryRequiredDateReasonCode to set.
+	 * @param deliveryRequiredDateReasonCode The deliveryRequiredDateReasonCode to set.
 	 * 
 	 */
 	public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode) {
@@ -62,7 +62,7 @@ public class DeliveryRequiredDateReason extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryRequiredDateReasonDescription attribute.
 	 * 
-	 * @return - Returns the deliveryRequiredDateReasonDescription
+	 * @return Returns the deliveryRequiredDateReasonDescription
 	 * 
 	 */
 	public String getDeliveryRequiredDateReasonDescription() { 
@@ -72,7 +72,7 @@ public class DeliveryRequiredDateReason extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryRequiredDateReasonDescription attribute.
 	 * 
-	 * @param - deliveryRequiredDateReasonDescription The deliveryRequiredDateReasonDescription to set.
+	 * @param deliveryRequiredDateReasonDescription The deliveryRequiredDateReasonDescription to set.
 	 * 
 	 */
 	public void setDeliveryRequiredDateReasonDescription(String deliveryRequiredDateReasonDescription) {
@@ -83,7 +83,7 @@ public class DeliveryRequiredDateReason extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class DeliveryRequiredDateReason extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class DeliveryRequiredDateReason extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

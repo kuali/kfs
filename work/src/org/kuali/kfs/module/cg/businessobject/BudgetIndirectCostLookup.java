@@ -28,7 +28,7 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class BudgetIndirectCostLookup extends BusinessObjectBase {
 
-    private String researchDocumentNumber;
+    private String documentNumber;
 	private boolean budgetOnCampusIndicator;
 	private String budgetPurposeCode;
 	private KualiDecimal budgetIndirectCostRate;
@@ -43,7 +43,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
 	}
 
     public BudgetIndirectCostLookup(Budget budget, IndirectCostLookup indirectCostLookup) {
-        this.researchDocumentNumber = budget.getResearchDocumentNumber();
+        this.documentNumber = budget.getDocumentNumber();
         this.budgetOnCampusIndicator = indirectCostLookup.getBudgetOnCampusIndicator();
         this.budgetPurposeCode = indirectCostLookup.getBudgetPurposeCode();
         this.budgetIndirectCostRate = indirectCostLookup.getBudgetIndirectCostRate();
@@ -51,18 +51,18 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
         this.indirectCostLookup = indirectCostLookup;
     }
 
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 	/**
 	 * Gets the budgetOnCampusIndicator attribute.
 	 * 
-	 * @return - Returns the budgetOnCampusIndicator
+	 * @return Returns the budgetOnCampusIndicator
 	 * 
 	 */
 	public boolean getBudgetOnCampusIndicator() { 
@@ -72,7 +72,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
 	/**
 	 * Sets the budgetOnCampusIndicator attribute.
 	 * 
-	 * @param - budgetOnCampusIndicator The budgetOnCampusIndicator to set.
+	 * @param budgetOnCampusIndicator The budgetOnCampusIndicator to set.
 	 * 
 	 */
 	public void setBudgetOnCampusIndicator(boolean budgetOnCampusIndicator) {
@@ -82,7 +82,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
 	/**
 	 * Gets the budgetPurposeCode attribute.
 	 * 
-	 * @return - Returns the budgetPurposeCode
+	 * @return Returns the budgetPurposeCode
 	 * 
 	 */
 	public String getBudgetPurposeCode() { 
@@ -92,7 +92,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
 	/**
 	 * Sets the budgetPurposeCode attribute.
 	 * 
-	 * @param - budgetPurposeCode The budgetPurposeCode to set.
+	 * @param budgetPurposeCode The budgetPurposeCode to set.
 	 * 
 	 */
 	public void setBudgetPurposeCode(String budgetPurposeCode) {
@@ -102,7 +102,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
 	/**
 	 * Gets the budgetIndirectCostRate attribute.
 	 * 
-	 * @return - Returns the budgetIndirectCostRate
+	 * @return Returns the budgetIndirectCostRate
 	 * 
 	 */
 	public KualiDecimal getBudgetIndirectCostRate() { 
@@ -112,7 +112,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
 	/**
 	 * Sets the budgetIndirectCostRate attribute.
 	 * 
-	 * @param - budgetIndirectCostRate The budgetIndirectCostRate to set.
+	 * @param budgetIndirectCostRate The budgetIndirectCostRate to set.
 	 * 
 	 */
 	public void setBudgetIndirectCostRate(KualiDecimal budgetIndirectCostRate) {
@@ -128,7 +128,7 @@ public class BudgetIndirectCostLookup extends BusinessObjectBase {
     }
     
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 			LinkedHashMap m = new LinkedHashMap();

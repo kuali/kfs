@@ -61,7 +61,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Gets the financialObjectCode attribute.
      * 
-     * @return - Returns the financialObjectCode
+     * @return Returns the financialObjectCode
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -92,7 +92,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Gets the financialSubObjectCodeName attribute.
      * 
-     * @return - Returns the financialSubObjectCodeName
+     * @return Returns the financialSubObjectCodeName
      * 
      */
     public String getFinancialSubObjectCodeName() {
@@ -112,7 +112,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Gets the financialSubObjectCdshortNm attribute.
      * 
-     * @return - Returns the financialSubObjectCdshortNm
+     * @return Returns the financialSubObjectCdshortNm
      * 
      */
     public String getFinancialSubObjectCdshortNm() {
@@ -132,7 +132,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Gets the financialSubObjectActiveIndicator attribute.
      * 
-     * @return - Returns the financialSubObjectActiveIndicator
+     * @return Returns the financialSubObjectActiveIndicator
      * 
      */
     public boolean isFinancialSubObjectActiveIndicator() {
@@ -152,7 +152,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Gets the universityFiscal attribute.
      * 
-     * @return - Returns the universityFiscal
+     * @return Returns the universityFiscal
      * 
      */
     public Options getUniversityFiscal() {
@@ -172,7 +172,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -192,7 +192,7 @@ public class SubObjCd extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {

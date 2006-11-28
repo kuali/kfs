@@ -56,7 +56,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -77,7 +77,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -98,7 +98,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -119,7 +119,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the incomeFinancialObjectCode attribute.
      * 
-     * @return - Returns the incomeFinancialObjectCode
+     * @return Returns the incomeFinancialObjectCode
      * 
      */
     public String getIncomeFinancialObjectCode() {
@@ -140,7 +140,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the expenseFinancialObjectCode attribute.
      * 
-     * @return - Returns the expenseFinancialObjectCode
+     * @return Returns the expenseFinancialObjectCode
      * 
      */
     public String getExpenseFinancialObjectCode() {
@@ -161,7 +161,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the domesticChargeAmt attribute.
      * 
-     * @return - Returns the domesticChargeAmt
+     * @return Returns the domesticChargeAmt
      * 
      */
     public KualiDecimal getDomesticChargeAmt() {
@@ -182,7 +182,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the foreignChargeAmt attribute.
      * 
-     * @return - Returns the foreignChargeAmt
+     * @return Returns the foreignChargeAmt
      * 
      */
     public KualiDecimal getForeignChargeAmt() {
@@ -203,7 +203,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -224,7 +224,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the incomeFinancialObject attribute.
      * 
-     * @return - Returns the incomeFinancialObject
+     * @return Returns the incomeFinancialObject
      * 
      */
     public ObjectCode getIncomeFinancialObject() {
@@ -245,7 +245,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the expenseFinancialObject attribute.
      * 
-     * @return - Returns the expenseFinancialObject
+     * @return Returns the expenseFinancialObject
      * 
      */
     public ObjectCode getExpenseFinancialObject() {
@@ -266,7 +266,7 @@ public class WireCharge extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {

@@ -59,7 +59,7 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
     public void setupDefaultGradAssistantRates(Budget budget) {
         for (Iterator iter = getAllGraduateAssistantRates().iterator(); iter.hasNext();) {
             GraduateAssistantRate graduateAssistantRate = (GraduateAssistantRate) iter.next();
-            BudgetGraduateAssistantRate budgetGraduateAssistantRate = new BudgetGraduateAssistantRate(budget.getResearchDocumentNumber(), graduateAssistantRate.getCampusCode(), graduateAssistantRate.getCampusMaximumPeriod1Rate(), graduateAssistantRate.getCampusMaximumPeriod2Rate(), graduateAssistantRate.getCampusMaximumPeriod3Rate(), graduateAssistantRate.getCampusMaximumPeriod4Rate(), graduateAssistantRate.getCampusMaximumPeriod5Rate(), graduateAssistantRate.getCampusMaximumPeriod6Rate(), graduateAssistantRate);
+            BudgetGraduateAssistantRate budgetGraduateAssistantRate = new BudgetGraduateAssistantRate(budget.getDocumentNumber(), graduateAssistantRate.getCampusCode(), graduateAssistantRate.getCampusMaximumPeriod1Rate(), graduateAssistantRate.getCampusMaximumPeriod2Rate(), graduateAssistantRate.getCampusMaximumPeriod3Rate(), graduateAssistantRate.getCampusMaximumPeriod4Rate(), graduateAssistantRate.getCampusMaximumPeriod5Rate(), graduateAssistantRate.getCampusMaximumPeriod6Rate(), graduateAssistantRate);
             budget.getGraduateAssistantRates().add(budgetGraduateAssistantRate);
         }
     }

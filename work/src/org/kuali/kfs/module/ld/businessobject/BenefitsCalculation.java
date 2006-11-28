@@ -52,7 +52,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -73,7 +73,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -94,7 +94,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Gets the positionBenefitTypeCode attribute.
      * 
-     * @return - Returns the positionBenefitTypeCode
+     * @return Returns the positionBenefitTypeCode
      * 
      */
     public String getPositionBenefitTypeCode() {
@@ -115,7 +115,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Gets the positionFringeBenefitPercent attribute.
      * 
-     * @return - Returns the positionFringeBenefitPercent
+     * @return Returns the positionFringeBenefitPercent
      * 
      */
     public KualiPercent getPositionFringeBenefitPercent() {
@@ -136,7 +136,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Gets the positionFringeBenefitObjectCode attribute.
      * 
-     * @return - Returns the positionFringeBenefitObjectCode
+     * @return Returns the positionFringeBenefitObjectCode
      * 
      */
     public String getPositionFringeBenefitObjectCode() {
@@ -157,7 +157,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Gets the positionFringeBenefitObject attribute.
      * 
-     * @return - Returns the positionFringeBenefitObject
+     * @return Returns the positionFringeBenefitObject
      * 
      */
     public ObjectCode getPositionFringeBenefitObject() {
@@ -177,7 +177,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -232,7 +232,7 @@ public class BenefitsCalculation extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

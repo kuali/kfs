@@ -49,7 +49,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the customerCreditCardNumber attribute.
      * 
-     * @return - Returns the customerCreditCardNumber
+     * @return Returns the customerCreditCardNumber
      * 
      */
     public String getCustomerCreditCardNumber() {
@@ -70,7 +70,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the customerCreditCardHolderName attribute.
      * 
-     * @return - Returns the customerCreditCardHolderName
+     * @return Returns the customerCreditCardHolderName
      * 
      */
     public String getCustomerCreditCardHolderName() {
@@ -91,7 +91,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the customerCreditCardIssuerName attribute.
      * 
-     * @return - Returns the customerCreditCardIssuerName
+     * @return Returns the customerCreditCardIssuerName
      * 
      */
     public String getCustomerCreditCardIssuerName() {
@@ -112,7 +112,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCreditCardTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentCreditCardTypeCode
+     * @return Returns the financialDocumentCreditCardTypeCode
      * 
      */
     public String getFinancialDocumentCreditCardTypeCode() {
@@ -133,7 +133,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the customerCreditCardExpenditureDate attribute.
      * 
-     * @return - Returns the customerCreditCardExpenditureDate
+     * @return Returns the customerCreditCardExpenditureDate
      * 
      */
     public Date getCustomerCreditCardExpenditureDate() {
@@ -154,7 +154,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the customerNumber attribute.
      * 
-     * @return - Returns the customerNumber
+     * @return Returns the customerNumber
      * 
      */
     public String getCustomerNumber() {
@@ -175,7 +175,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCreditCardVendorNumber attribute.
      * 
-     * @return - Returns the financialDocumentCreditCardVendorNumber
+     * @return Returns the financialDocumentCreditCardVendorNumber
      * 
      */
     public String getFinancialDocumentCreditCardVendorNumber() {
@@ -196,7 +196,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the customerCreditCardInformationNoteText attribute.
      * 
-     * @return - Returns the customerCreditCardInformationNoteText
+     * @return Returns the customerCreditCardInformationNoteText
      * 
      */
     public String getCustomerCreditCardInformationNoteText() {
@@ -217,7 +217,7 @@ public class CustomerCreditCardInformation extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCreditCardVendor attribute.
      * 
-     * @return - Returns the financialDocumentCreditCardVendor
+     * @return Returns the financialDocumentCreditCardVendor
      * 
      */
     public CreditCardVendor getFinancialDocumentCreditCardVendor() {

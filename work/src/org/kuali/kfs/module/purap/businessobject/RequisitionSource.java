@@ -41,7 +41,7 @@ public class RequisitionSource extends BusinessObjectBase {
 	/**
 	 * Gets the requisitionSourceCode attribute.
 	 * 
-	 * @return - Returns the requisitionSourceCode
+	 * @return Returns the requisitionSourceCode
 	 * 
 	 */
 	public String getRequisitionSourceCode() { 
@@ -51,7 +51,7 @@ public class RequisitionSource extends BusinessObjectBase {
 	/**
 	 * Sets the requisitionSourceCode attribute.
 	 * 
-	 * @param - requisitionSourceCode The requisitionSourceCode to set.
+	 * @param requisitionSourceCode The requisitionSourceCode to set.
 	 * 
 	 */
 	public void setRequisitionSourceCode(String requisitionSourceCode) {
@@ -62,7 +62,7 @@ public class RequisitionSource extends BusinessObjectBase {
 	/**
 	 * Gets the requisitionSourceDescription attribute.
 	 * 
-	 * @return - Returns the requisitionSourceDescription
+	 * @return Returns the requisitionSourceDescription
 	 * 
 	 */
 	public String getRequisitionSourceDescription() { 
@@ -72,7 +72,7 @@ public class RequisitionSource extends BusinessObjectBase {
 	/**
 	 * Sets the requisitionSourceDescription attribute.
 	 * 
-	 * @param - requisitionSourceDescription The requisitionSourceDescription to set.
+	 * @param requisitionSourceDescription The requisitionSourceDescription to set.
 	 * 
 	 */
 	public void setRequisitionSourceDescription(String requisitionSourceDescription) {
@@ -83,7 +83,7 @@ public class RequisitionSource extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class RequisitionSource extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class RequisitionSource extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

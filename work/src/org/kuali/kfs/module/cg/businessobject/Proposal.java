@@ -79,7 +79,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      * 
-     * @return - Returns the proposalNumber
+     * @return Returns the proposalNumber
      * 
      */
     public Long getProposalNumber() {
@@ -100,7 +100,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalBeginningDate attribute.
      * 
-     * @return - Returns the proposalBeginningDate
+     * @return Returns the proposalBeginningDate
      * 
      */
     public Timestamp getProposalBeginningDate() {
@@ -121,7 +121,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalEndingDate attribute.
      * 
-     * @return - Returns the proposalEndingDate
+     * @return Returns the proposalEndingDate
      * 
      */
     public Timestamp getProposalEndingDate() {
@@ -142,7 +142,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalTotalAmount attribute.
      * 
-     * @return - Returns the proposalTotalAmount
+     * @return Returns the proposalTotalAmount
      * 
      */
     public KualiDecimal getProposalTotalAmount() {
@@ -163,7 +163,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalDirectCostAmount attribute.
      * 
-     * @return - Returns the proposalDirectCostAmount
+     * @return Returns the proposalDirectCostAmount
      * 
      */
     public KualiDecimal getProposalDirectCostAmount() {
@@ -184,7 +184,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalIndirectCostAmount attribute.
      * 
-     * @return - Returns the proposalIndirectCostAmount
+     * @return Returns the proposalIndirectCostAmount
      * 
      */
     public KualiDecimal getProposalIndirectCostAmount() {
@@ -205,7 +205,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalRejectedDate attribute.
      * 
-     * @return - Returns the proposalRejectedDate
+     * @return Returns the proposalRejectedDate
      * 
      */
     public Timestamp getProposalRejectedDate() {
@@ -226,7 +226,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalLastUpdateDate attribute.
      * 
-     * @return - Returns the proposalLastUpdateDate
+     * @return Returns the proposalLastUpdateDate
      * 
      */
     public Timestamp getProposalLastUpdateDate() {
@@ -247,7 +247,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalDueDate attribute.
      * 
-     * @return - Returns the proposalDueDate
+     * @return Returns the proposalDueDate
      * 
      */
     public Timestamp getProposalDueDate() {
@@ -268,7 +268,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalTotalProjectAmount attribute.
      * 
-     * @return - Returns the proposalTotalProjectAmount
+     * @return Returns the proposalTotalProjectAmount
      * 
      */
     public KualiDecimal getProposalTotalProjectAmount() {
@@ -289,7 +289,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalSubmissionDate attribute.
      * 
-     * @return - Returns the proposalSubmissionDate
+     * @return Returns the proposalSubmissionDate
      * 
      */
     public Timestamp getProposalSubmissionDate() {
@@ -310,7 +310,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalFederalPassThroughIndicator attribute.
      * 
-     * @return - Returns the proposalFederalPassThroughIndicator
+     * @return Returns the proposalFederalPassThroughIndicator
      * 
      */
     public boolean getProposalFederalPassThroughIndicator() {
@@ -331,7 +331,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the oldProposalNumber attribute.
      * 
-     * @return - Returns the oldProposalNumber
+     * @return Returns the oldProposalNumber
      * 
      */
     public String getOldProposalNumber() {
@@ -352,7 +352,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the grantNumber attribute.
      * 
-     * @return - Returns the grantNumber
+     * @return Returns the grantNumber
      * 
      */
     public String getGrantNumber() {
@@ -373,7 +373,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalClosingDate attribute.
      * 
-     * @return - Returns the proposalClosingDate
+     * @return Returns the proposalClosingDate
      * 
      */
     public Timestamp getProposalClosingDate() {
@@ -394,7 +394,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalAwardTypeCode attribute.
      * 
-     * @return - Returns the proposalAwardTypeCode
+     * @return Returns the proposalAwardTypeCode
      * 
      */
     public String getProposalAwardTypeCode() {
@@ -415,7 +415,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the agencyNumber attribute.
      * 
-     * @return - Returns the agencyNumber
+     * @return Returns the agencyNumber
      * 
      */
     public String getAgencyNumber() {
@@ -436,7 +436,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalStatusCode attribute.
      * 
-     * @return - Returns the proposalStatusCode
+     * @return Returns the proposalStatusCode
      * 
      */
     public String getProposalStatusCode() {
@@ -457,7 +457,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the federalPassThroughAgencyNumber attribute.
      * 
-     * @return - Returns the federalPassThroughAgencyNumber
+     * @return Returns the federalPassThroughAgencyNumber
      * 
      */
     public String getFederalPassThroughAgencyNumber() {
@@ -478,7 +478,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the cfdaNumber attribute.
      * 
-     * @return - Returns the cfdaNumber
+     * @return Returns the cfdaNumber
      * 
      */
     public String getCfdaNumber() {
@@ -499,7 +499,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalFellowName attribute.
      * 
-     * @return - Returns the proposalFellowName
+     * @return Returns the proposalFellowName
      * 
      */
     public String getProposalFellowName() {
@@ -520,7 +520,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalPurposeCode attribute.
      * 
-     * @return - Returns the proposalPurposeCode
+     * @return Returns the proposalPurposeCode
      * 
      */
     public String getProposalPurposeCode() {
@@ -541,7 +541,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalProjectTitle attribute.
      * 
-     * @return - Returns the proposalProjectTitle
+     * @return Returns the proposalProjectTitle
      * 
      */
     public String getProposalProjectTitle() {
@@ -562,7 +562,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the researchType attribute.
      * 
-     * @return - Returns the researchType
+     * @return Returns the researchType
      * 
      */
     public ResearchType getResearchType() {
@@ -582,7 +582,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalAwardType attribute.
      * 
-     * @return - Returns the proposalAwardType
+     * @return Returns the proposalAwardType
      * 
      */
     public ProposalAwardType getProposalAwardType() {
@@ -602,7 +602,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the agency attribute.
      * 
-     * @return - Returns the agency
+     * @return Returns the agency
      * 
      */
     public Agency getAgency() {
@@ -622,7 +622,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalStatus attribute.
      * 
-     * @return - Returns the proposalStatus
+     * @return Returns the proposalStatus
      * 
      */
     public ProposalStatus getProposalStatus() {
@@ -642,7 +642,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the federalPassThroughAgency attribute.
      * 
-     * @return - Returns the federalPassThroughAgency
+     * @return Returns the federalPassThroughAgency
      * 
      */
     public Agency getFederalPassThroughAgency() {
@@ -662,7 +662,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalPurpose attribute.
      * 
-     * @return - Returns the proposalPurpose
+     * @return Returns the proposalPurpose
      * 
      */
     public ProposalPurpose getProposalPurpose() {
@@ -682,7 +682,7 @@ public class Proposal extends BusinessObjectBase {
     /**
      * Gets the proposalSubcontractor list.
      * 
-     * @return - Returns the proposalSubcontractor list
+     * @return Returns the proposalSubcontractor list
      * 
      */
     public List getProposalSubcontractor() {

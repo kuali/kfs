@@ -71,7 +71,7 @@ public class BudgetIndirectCostAction extends BudgetAction {
         }
 
         BudgetIndirectCost indirectCost = new BudgetIndirectCost(budgetForm.getBudgetDocument().getBudget().getIndirectCost());
-        indirectCost.setResearchDocumentNumber(budgetForm.getBudgetDocument().getFinancialDocumentNumber());
+        indirectCost.setDocumentNumber(budgetForm.getBudgetDocument().getFinancialDocumentNumber());
 
         List<BudgetIndirectCostLookup> budgetIndirectCostLookups = new ArrayList(budgetForm.getBudgetDocument().getBudget().getBudgetIndirectCostLookups());
         

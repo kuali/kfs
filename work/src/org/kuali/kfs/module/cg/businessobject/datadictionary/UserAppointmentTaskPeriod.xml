@@ -23,7 +23,7 @@
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod">
         <customAttributeEnabled>false</customAttributeEnabled>
         <attributes>
-            <attributeReference name="researchDocumentNumber" sourceClassName="org.kuali.module.kra.budget.bo.Budget" sourceAttributeName="researchDocumentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.module.kra.budget.bo.Budget" sourceAttributeName="documentNumber" />
 
             <attributeReference name="budgetUserSequenceNumber" sourceClassName="org.kuali.module.kra.budget.bo.BudgetUser" sourceAttributeName="budgetUserSequenceNumber" />
 

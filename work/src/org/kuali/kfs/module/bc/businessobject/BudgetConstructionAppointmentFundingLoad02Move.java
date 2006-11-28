@@ -64,7 +64,7 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends BusinessObje
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -112,7 +112,7 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends BusinessObje
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

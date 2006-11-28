@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiInteger;
  */
 public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements Comparable {
 
-    private String researchDocumentNumber; // RDOC_NBR
+    private String documentNumber; // RDOC_NBR
     private Integer budgetTaskSequenceNumber; // BDGT_TSK_SEQ_NBR
     private Integer budgetPeriodSequenceNumber; // BDGT_PRD_SEQ_NBR
     private KualiDecimal budgetManualIndirectCostRate; // BDGT_MAN_IDC_RT
@@ -78,7 +78,7 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     public BudgetTaskPeriodIndirectCost(BudgetTaskPeriodIndirectCost template) {
         this();
      
-        this.researchDocumentNumber = template.getResearchDocumentNumber();
+        this.documentNumber = template.getDocumentNumber();
         this.budgetTaskSequenceNumber = template.getBudgetTaskSequenceNumber();
         this.budgetPeriodSequenceNumber = template.getBudgetPeriodSequenceNumber();
         this.budgetManualIndirectCostRate = template.getBudgetManualIndirectCostRate();
@@ -89,29 +89,29 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetTaskSequenceNumber attribute.
      * 
-     * @return - Returns the budgetTaskSequenceNumber
+     * @return Returns the budgetTaskSequenceNumber
      * 
      */
     public Integer getBudgetTaskSequenceNumber() {
@@ -131,7 +131,7 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     /**
      * Gets the budgetPeriodSequenceNumber attribute.
      * 
-     * @return - Returns the budgetPeriodSequenceNumber
+     * @return Returns the budgetPeriodSequenceNumber
      * 
      */
     public Integer getBudgetPeriodSequenceNumber() {
@@ -151,7 +151,7 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     /**
      * Gets the budgetManualIndirectCostRate attribute.
      * 
-     * @return - Returns the budgetManualIndirectCostRate
+     * @return Returns the budgetManualIndirectCostRate
      * 
      */
     public KualiDecimal getBudgetManualIndirectCostRate() {
@@ -171,7 +171,7 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     /**
      * Gets the budgetManualMtdcAmount attribute.
      * 
-     * @return - Returns the budgetManualMtdcAmount
+     * @return Returns the budgetManualMtdcAmount
      * 
      */
     public KualiInteger getBudgetManualMtdcAmount() {
@@ -191,7 +191,7 @@ public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements 
     /**
      * Gets the budgetPurposeCode attribute.
      * 
-     * @return - Returns the budgetPurposeCode
+     * @return Returns the budgetPurposeCode
      * 
      */
     public String getBudgetPurposeCode() {

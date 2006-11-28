@@ -65,7 +65,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -75,7 +75,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -86,7 +86,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccountsCode
+	 * @return Returns the organizationChartOfAccountsCode
 	 * 
 	 */
 	public String getOrganizationChartOfAccountsCode() { 
@@ -96,7 +96,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @param - organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
+	 * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
 	 * 
 	 */
 	public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
@@ -107,7 +107,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -117,7 +117,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -128,7 +128,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -138,7 +138,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -149,7 +149,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the fundGroupCode attribute.
 	 * 
-	 * @return - Returns the fundGroupCode
+	 * @return Returns the fundGroupCode
 	 * 
 	 */
 	public String getFundGroupCode() { 
@@ -159,7 +159,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the fundGroupCode attribute.
 	 * 
-	 * @param - fundGroupCode The fundGroupCode to set.
+	 * @param fundGroupCode The fundGroupCode to set.
 	 * 
 	 */
 	public void setFundGroupCode(String fundGroupCode) {
@@ -170,7 +170,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the subFundGroupCode attribute.
 	 * 
-	 * @return - Returns the subFundGroupCode
+	 * @return Returns the subFundGroupCode
 	 * 
 	 */
 	public String getSubFundGroupCode() { 
@@ -180,7 +180,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the subFundGroupCode attribute.
 	 * 
-	 * @param - subFundGroupCode The subFundGroupCode to set.
+	 * @param subFundGroupCode The subFundGroupCode to set.
 	 * 
 	 */
 	public void setSubFundGroupCode(String subFundGroupCode) {
@@ -191,7 +191,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -201,7 +201,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -212,7 +212,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the subAccountNumber attribute.
 	 * 
-	 * @return - Returns the subAccountNumber
+	 * @return Returns the subAccountNumber
 	 * 
 	 */
 	public String getSubAccountNumber() { 
@@ -222,7 +222,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -233,7 +233,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the incomeExpenseCode attribute.
 	 * 
-	 * @return - Returns the incomeExpenseCode
+	 * @return Returns the incomeExpenseCode
 	 * 
 	 */
 	public String getIncomeExpenseCode() { 
@@ -243,7 +243,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the incomeExpenseCode attribute.
 	 * 
-	 * @param - incomeExpenseCode The incomeExpenseCode to set.
+	 * @param incomeExpenseCode The incomeExpenseCode to set.
 	 * 
 	 */
 	public void setIncomeExpenseCode(String incomeExpenseCode) {
@@ -254,7 +254,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the accountLineAnnualBalanceAmount attribute.
 	 * 
-	 * @return - Returns the accountLineAnnualBalanceAmount
+	 * @return Returns the accountLineAnnualBalanceAmount
 	 * 
 	 */
 	public KualiDecimal getAccountLineAnnualBalanceAmount() { 
@@ -264,7 +264,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the accountLineAnnualBalanceAmount attribute.
 	 * 
-	 * @param - accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
+	 * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
 	 * 
 	 */
 	public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
@@ -275,7 +275,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the financialBeginningBalanceLineAmount attribute.
 	 * 
-	 * @return - Returns the financialBeginningBalanceLineAmount
+	 * @return Returns the financialBeginningBalanceLineAmount
 	 * 
 	 */
 	public KualiDecimal getFinancialBeginningBalanceLineAmount() { 
@@ -285,7 +285,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the financialBeginningBalanceLineAmount attribute.
 	 * 
-	 * @param - financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
+	 * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
 	 * 
 	 */
 	public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
@@ -296,7 +296,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the subFundSortCode attribute.
 	 * 
-	 * @return - Returns the subFundSortCode
+	 * @return Returns the subFundSortCode
 	 * 
 	 */
 	public String getSubFundSortCode() { 
@@ -306,7 +306,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the subFundSortCode attribute.
 	 * 
-	 * @param - subFundSortCode The subFundSortCode to set.
+	 * @param subFundSortCode The subFundSortCode to set.
 	 * 
 	 */
 	public void setSubFundSortCode(String subFundSortCode) {
@@ -317,7 +317,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the organizationChartOfAccounts attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccounts
+	 * @return Returns the organizationChartOfAccounts
 	 * 
 	 */
 	public Chart getOrganizationChartOfAccounts() { 
@@ -327,7 +327,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the organizationChartOfAccounts attribute.
 	 * 
-	 * @param - organizationChartOfAccounts The organizationChartOfAccounts to set.
+	 * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
@@ -337,7 +337,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the organization attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return Returns the organization
 	 * 
 	 */
 	public Org getOrganization() { 
@@ -347,7 +347,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the organization attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param organization The organization to set.
 	 * @deprecated
 	 */
 	public void setOrganization(Org organization) {
@@ -357,7 +357,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -367,7 +367,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -377,7 +377,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -387,7 +387,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -446,7 +446,7 @@ public class BudgetConstructionAccountSummary extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

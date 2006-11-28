@@ -43,7 +43,7 @@ public class AicpaFunction extends BusinessObjectBase {
     /**
      * Gets the financialAicpaFunctionCode attribute.
      * 
-     * @return - Returns the financialAicpaFunctionCode
+     * @return Returns the financialAicpaFunctionCode
      * 
      */
     public String getFinancialAicpaFunctionCode() {
@@ -64,7 +64,7 @@ public class AicpaFunction extends BusinessObjectBase {
     /**
      * Gets the financialAicpaFunctionName attribute.
      * 
-     * @return - Returns the financialAicpaFunctionName
+     * @return Returns the financialAicpaFunctionName
      * 
      */
     public String getFinancialAicpaFunctionName() {

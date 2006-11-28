@@ -74,7 +74,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -84,7 +84,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param - universityFiscalYear The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -95,7 +95,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -105,7 +105,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -116,7 +116,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -126,7 +126,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param - accountNumber The accountNumber to set.
+     * @param accountNumber The accountNumber to set.
      * 
      */
     public void setAccountNumber(String accountNumber) {
@@ -137,7 +137,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the subAccountNumber attribute.
      * 
-     * @return - Returns the subAccountNumber
+     * @return Returns the subAccountNumber
      * 
      */
     public String getSubAccountNumber() {
@@ -147,7 +147,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the subAccountNumber attribute.
      * 
-     * @param - subAccountNumber The subAccountNumber to set.
+     * @param subAccountNumber The subAccountNumber to set.
      * 
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -158,7 +158,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the financialObjectCode attribute.
      * 
-     * @return - Returns the financialObjectCode
+     * @return Returns the financialObjectCode
      * 
      */
     public String getFinancialObjectCode() {
@@ -168,7 +168,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param - financialObjectCode The financialObjectCode to set.
+     * @param financialObjectCode The financialObjectCode to set.
      * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -179,7 +179,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the financialSubObjectCode attribute.
      * 
-     * @return - Returns the financialSubObjectCode
+     * @return Returns the financialSubObjectCode
      * 
      */
     public String getFinancialSubObjectCode() {
@@ -189,7 +189,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the financialSubObjectCode attribute.
      * 
-     * @param - financialSubObjectCode The financialSubObjectCode to set.
+     * @param financialSubObjectCode The financialSubObjectCode to set.
      * 
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -200,7 +200,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the positionNumber attribute.
      * 
-     * @return - Returns the positionNumber
+     * @return Returns the positionNumber
      * 
      */
     public String getPositionNumber() {
@@ -210,7 +210,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the positionNumber attribute.
      * 
-     * @param - positionNumber The positionNumber to set.
+     * @param positionNumber The positionNumber to set.
      * 
      */
     public void setPositionNumber(String positionNumber) {
@@ -221,7 +221,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the emplid attribute.
      * 
-     * @return - Returns the emplid
+     * @return Returns the emplid
      * 
      */
     public String getEmplid() {
@@ -231,7 +231,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the emplid attribute.
      * 
-     * @param - emplid The emplid to set.
+     * @param emplid The emplid to set.
      * 
      */
     public void setEmplid(String emplid) {
@@ -242,7 +242,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the csfCreateTimestamp attribute.
      * 
-     * @return - Returns the csfCreateTimestamp
+     * @return Returns the csfCreateTimestamp
      * 
      */
     public Timestamp getCsfCreateTimestamp() {
@@ -252,7 +252,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the csfCreateTimestamp attribute.
      * 
-     * @param - csfCreateTimestamp The csfCreateTimestamp to set.
+     * @param csfCreateTimestamp The csfCreateTimestamp to set.
      * 
      */
     public void setCsfCreateTimestamp(Timestamp csfCreateTimestamp) {
@@ -263,7 +263,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the csfDeleteCode attribute.
      * 
-     * @return - Returns the csfDeleteCode
+     * @return Returns the csfDeleteCode
      * 
      */
     public String getCsfDeleteCode() {
@@ -273,7 +273,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the csfDeleteCode attribute.
      * 
-     * @param - csfDeleteCode The csfDeleteCode to set.
+     * @param csfDeleteCode The csfDeleteCode to set.
      * 
      */
     public void setCsfDeleteCode(String csfDeleteCode) {
@@ -284,7 +284,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the csfAmount attribute.
      * 
-     * @return - Returns the csfAmount
+     * @return Returns the csfAmount
      * 
      */
     public KualiDecimal getCsfAmount() {
@@ -294,7 +294,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the csfAmount attribute.
      * 
-     * @param - csfAmount The csfAmount to set.
+     * @param csfAmount The csfAmount to set.
      * 
      */
     public void setCsfAmount(KualiDecimal csfAmount) {
@@ -305,7 +305,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the csfFullTimeEmploymentQuantity attribute.
      * 
-     * @return - Returns the csfFullTimeEmploymentQuantity
+     * @return Returns the csfFullTimeEmploymentQuantity
      * 
      */
     public BigDecimal getCsfFullTimeEmploymentQuantity() {
@@ -315,7 +315,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the csfFullTimeEmploymentQuantity attribute.
      * 
-     * @param - csfFullTimeEmploymentQuantity The csfFullTimeEmploymentQuantity to set.
+     * @param csfFullTimeEmploymentQuantity The csfFullTimeEmploymentQuantity to set.
      * 
      */
     public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {
@@ -326,7 +326,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the csfTimePercent attribute.
      * 
-     * @return - Returns the csfTimePercent
+     * @return Returns the csfTimePercent
      * 
      */
     public BigDecimal getCsfTimePercent() {
@@ -336,7 +336,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the csfTimePercent attribute.
      * 
-     * @param - csfTimePercent The csfTimePercent to set.
+     * @param csfTimePercent The csfTimePercent to set.
      * 
      */
     public void setCsfTimePercent(BigDecimal csfTimePercent) {
@@ -347,7 +347,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the csfFundingStatusCode attribute.
      * 
-     * @return - Returns the csfFundingStatusCode
+     * @return Returns the csfFundingStatusCode
      * 
      */
     public String getCsfFundingStatusCode() {
@@ -357,7 +357,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the csfFundingStatusCode attribute.
      * 
-     * @param - csfFundingStatusCode The csfFundingStatusCode to set.
+     * @param csfFundingStatusCode The csfFundingStatusCode to set.
      * 
      */
     public void setCsfFundingStatusCode(String csfFundingStatusCode) {
@@ -368,7 +368,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the employeeRecord attribute.
      * 
-     * @return - Returns the employeeRecord
+     * @return Returns the employeeRecord
      * 
      */
     public Integer getEmployeeRecord() {
@@ -378,7 +378,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the employeeRecord attribute.
      * 
-     * @param - employeeRecord The employeeRecord to set.
+     * @param employeeRecord The employeeRecord to set.
      * 
      */
     public void setEmployeeRecord(Integer employeeRecord) {
@@ -389,7 +389,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the earnCode attribute.
      * 
-     * @return - Returns the earnCode
+     * @return Returns the earnCode
      * 
      */
     public String getEarnCode() {
@@ -399,7 +399,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the earnCode attribute.
      * 
-     * @param - earnCode The earnCode to set.
+     * @param earnCode The earnCode to set.
      * 
      */
     public void setEarnCode(String earnCode) {
@@ -410,7 +410,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the additionalSequence attribute.
      * 
-     * @return - Returns the additionalSequence
+     * @return Returns the additionalSequence
      * 
      */
     public Integer getAdditionalSequence() {
@@ -420,7 +420,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the additionalSequence attribute.
      * 
-     * @param - additionalSequence The additionalSequence to set.
+     * @param additionalSequence The additionalSequence to set.
      * 
      */
     public void setAdditionalSequence(Integer additionalSequence) {
@@ -431,7 +431,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the effectiveDate attribute.
      * 
-     * @return - Returns the effectiveDate
+     * @return Returns the effectiveDate
      * 
      */
     public Date getEffectiveDate() {
@@ -441,7 +441,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the effectiveDate attribute.
      * 
-     * @param - effectiveDate The effectiveDate to set.
+     * @param effectiveDate The effectiveDate to set.
      * 
      */
     public void setEffectiveDate(Date effectiveDate) {
@@ -452,7 +452,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the effectiveSequence attribute.
      * 
-     * @return - Returns the effectiveSequence
+     * @return Returns the effectiveSequence
      * 
      */
     public Integer getEffectiveSequence() {
@@ -462,7 +462,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the effectiveSequence attribute.
      * 
-     * @param - effectiveSequence The effectiveSequence to set.
+     * @param effectiveSequence The effectiveSequence to set.
      * 
      */
     public void setEffectiveSequence(Integer effectiveSequence) {
@@ -473,7 +473,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the financialObject attribute.
      * 
-     * @return - Returns the financialObject
+     * @return Returns the financialObject
      * 
      */
     public ObjectCode getFinancialObject() {
@@ -483,7 +483,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the financialObject attribute.
      * 
-     * @param - financialObject The financialObject to set.
+     * @param financialObject The financialObject to set.
      * @deprecated
      */
     public void setFinancialObject(ObjectCode financialObject) {
@@ -493,7 +493,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -503,7 +503,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -513,7 +513,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -523,7 +523,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     /**
      * Sets the account attribute.
      * 
-     * @param - account The account to set.
+     * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
@@ -580,7 +580,7 @@ public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

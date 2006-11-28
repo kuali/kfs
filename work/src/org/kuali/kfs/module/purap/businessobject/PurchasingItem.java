@@ -27,7 +27,7 @@ public interface PurchasingItem {
     /**
      * Gets the ItemIdentifier attribute.
      * 
-     * @return - Returns the ItemIdentifier
+     * @return Returns the ItemIdentifier
      * 
      */
     public abstract Integer getItemIdentifier();
@@ -35,7 +35,7 @@ public interface PurchasingItem {
     /**
      * Sets the ItemIdentifier attribute.
      * 
-     * @param - ItemIdentifier The ItemIdentifier to set.
+     * @param ItemIdentifier The ItemIdentifier to set.
      * 
      */
     public abstract void setItemIdentifier(Integer ItemIdentifier);
@@ -43,7 +43,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemLineNumber attribute.
      * 
-     * @return - Returns the itemLineNumber
+     * @return Returns the itemLineNumber
      * 
      */
     public abstract Integer getItemLineNumber();
@@ -51,7 +51,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemLineNumber attribute.
      * 
-     * @param - itemLineNumber The itemLineNumber to set.
+     * @param itemLineNumber The itemLineNumber to set.
      * 
      */
     public abstract void setItemLineNumber(Integer itemLineNumber);
@@ -59,7 +59,7 @@ public interface PurchasingItem {
     /**
      * Gets the capitalAssetTransactionTypeCode attribute.
      * 
-     * @return - Returns the capitalAssetTransactionTypeCode
+     * @return Returns the capitalAssetTransactionTypeCode
      * 
      */
     public abstract String getCapitalAssetTransactionTypeCode();
@@ -67,7 +67,7 @@ public interface PurchasingItem {
     /**
      * Sets the capitalAssetTransactionTypeCode attribute.
      * 
-     * @param - capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
+     * @param capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
      * 
      */
     public abstract void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode);
@@ -75,7 +75,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemUnitOfMeasureCode attribute.
      * 
-     * @return - Returns the itemUnitOfMeasureCode
+     * @return Returns the itemUnitOfMeasureCode
      * 
      */
     public abstract String getItemUnitOfMeasureCode();
@@ -83,7 +83,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemUnitOfMeasureCode attribute.
      * 
-     * @param - itemUnitOfMeasureCode The itemUnitOfMeasureCode to set.
+     * @param itemUnitOfMeasureCode The itemUnitOfMeasureCode to set.
      * 
      */
     public abstract void setItemUnitOfMeasureCode(String itemUnitOfMeasureCode);
@@ -91,7 +91,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemCatalogNumber attribute.
      * 
-     * @return - Returns the itemCatalogNumber
+     * @return Returns the itemCatalogNumber
      * 
      */
     public abstract String getItemCatalogNumber();
@@ -99,7 +99,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemCatalogNumber attribute.
      * 
-     * @param - itemCatalogNumber The itemCatalogNumber to set.
+     * @param itemCatalogNumber The itemCatalogNumber to set.
      * 
      */
     public abstract void setItemCatalogNumber(String itemCatalogNumber);
@@ -107,7 +107,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemDescription attribute.
      * 
-     * @return - Returns the itemDescription
+     * @return Returns the itemDescription
      * 
      */
     public abstract String getItemDescription();
@@ -115,7 +115,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemDescription attribute.
      * 
-     * @param - itemDescription The itemDescription to set.
+     * @param itemDescription The itemDescription to set.
      * 
      */
     public abstract void setItemDescription(String itemDescription);
@@ -123,7 +123,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemCapitalAssetNoteText attribute.
      * 
-     * @return - Returns the itemCapitalAssetNoteText
+     * @return Returns the itemCapitalAssetNoteText
      * 
      */
     public abstract String getItemCapitalAssetNoteText();
@@ -131,7 +131,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemCapitalAssetNoteText attribute.
      * 
-     * @param - itemCapitalAssetNoteText The itemCapitalAssetNoteText to set.
+     * @param itemCapitalAssetNoteText The itemCapitalAssetNoteText to set.
      * 
      */
     public abstract void setItemCapitalAssetNoteText(String itemCapitalAssetNoteText);
@@ -139,7 +139,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemUnitPrice attribute.
      * 
-     * @return - Returns the itemUnitPrice
+     * @return Returns the itemUnitPrice
      * 
      */
     public abstract BigDecimal getItemUnitPrice();
@@ -147,7 +147,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemUnitPrice attribute.
      * 
-     * @param - itemUnitPrice The itemUnitPrice to set.
+     * @param itemUnitPrice The itemUnitPrice to set.
      * 
      */
     public abstract void setItemUnitPrice(BigDecimal itemUnitPrice);
@@ -155,7 +155,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemTypeCode attribute.
      * 
-     * @return - Returns the itemTypeCode
+     * @return Returns the itemTypeCode
      * 
      */
     public abstract String getItemTypeCode();
@@ -163,7 +163,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemTypeCode attribute.
      * 
-     * @param - itemTypeCode The itemTypeCode to set.
+     * @param itemTypeCode The itemTypeCode to set.
      * 
      */
     public abstract void setItemTypeCode(String itemTypeCode);
@@ -171,7 +171,7 @@ public interface PurchasingItem {
     /**
      * Gets the requisitionLineIdentifier attribute.
      * 
-     * @return - Returns the requisitionLineIdentifier
+     * @return Returns the requisitionLineIdentifier
      * 
      */
     public abstract String getRequisitionLineIdentifier();
@@ -179,7 +179,7 @@ public interface PurchasingItem {
     /**
      * Sets the LineIdentifier attribute.
      * 
-     * @param - LineIdentifier The LineIdentifier to set.
+     * @param LineIdentifier The LineIdentifier to set.
      * 
      */
     public abstract void setRequisitionLineIdentifier(String requisitionLineIdentifier);
@@ -187,7 +187,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemAuxiliaryPartIdentifier attribute.
      * 
-     * @return - Returns the itemAuxiliaryPartIdentifier
+     * @return Returns the itemAuxiliaryPartIdentifier
      * 
      */
     public abstract String getItemAuxiliaryPartIdentifier();
@@ -195,7 +195,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemAuxiliaryPartIdentifier attribute.
      * 
-     * @param - itemAuxiliaryPartIdentifier The itemAuxiliaryPartIdentifier to set.
+     * @param itemAuxiliaryPartIdentifier The itemAuxiliaryPartIdentifier to set.
      * 
      */
     public abstract void setItemAuxiliaryPartIdentifier(String itemAuxiliaryPartIdentifier);
@@ -203,7 +203,7 @@ public interface PurchasingItem {
     /**
      * Gets the externalOrganizationB2bProductReferenceNumber attribute.
      * 
-     * @return - Returns the externalOrganizationB2bProductReferenceNumber
+     * @return Returns the externalOrganizationB2bProductReferenceNumber
      * 
      */
     public abstract String getExternalOrganizationB2bProductReferenceNumber();
@@ -211,7 +211,7 @@ public interface PurchasingItem {
     /**
      * Sets the externalOrganizationB2bProductReferenceNumber attribute.
      * 
-     * @param - externalOrganizationB2bProductReferenceNumber The externalOrganizationB2bProductReferenceNumber to set.
+     * @param externalOrganizationB2bProductReferenceNumber The externalOrganizationB2bProductReferenceNumber to set.
      * 
      */
     public abstract void setExternalOrganizationB2bProductReferenceNumber(String externalOrganizationB2bProductReferenceNumber);
@@ -219,7 +219,7 @@ public interface PurchasingItem {
     /**
      * Gets the externalOrganizationB2bProductTypeName attribute.
      * 
-     * @return - Returns the externalOrganizationB2bProductTypeName
+     * @return Returns the externalOrganizationB2bProductTypeName
      * 
      */
     public abstract String getExternalOrganizationB2bProductTypeName();
@@ -227,7 +227,7 @@ public interface PurchasingItem {
     /**
      * Sets the externalOrganizationB2bProductTypeName attribute.
      * 
-     * @param - externalOrganizationB2bProductTypeName The externalOrganizationB2bProductTypeName to set.
+     * @param externalOrganizationB2bProductTypeName The externalOrganizationB2bProductTypeName to set.
      * 
      */
     public abstract void setExternalOrganizationB2bProductTypeName(String externalOrganizationB2bProductTypeName);
@@ -235,7 +235,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemAssignedToTradeInIndicator attribute.
      * 
-     * @return - Returns the itemAssignedToTradeInIndicator
+     * @return Returns the itemAssignedToTradeInIndicator
      * 
      */
     public abstract boolean getItemAssignedToTradeInIndicator();
@@ -243,7 +243,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemAssignedToTradeInIndicator attribute.
      * 
-     * @param - itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
+     * @param itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
      * 
      */
     public abstract void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator);
@@ -251,7 +251,7 @@ public interface PurchasingItem {
     /**
      * Gets the capitalAssetTransactionType attribute.
      * 
-     * @return - Returns the capitalAssetTransactionType
+     * @return Returns the capitalAssetTransactionType
      * 
      */
     public abstract CapitalAssetTransactionType getCapitalAssetTransactionType();
@@ -259,7 +259,7 @@ public interface PurchasingItem {
     /**
      * Sets the capitalAssetTransactionType attribute.
      * 
-     * @param - capitalAssetTransactionType The capitalAssetTransactionType to set.
+     * @param capitalAssetTransactionType The capitalAssetTransactionType to set.
      * @deprecated
      */
     public abstract void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType);
@@ -267,7 +267,7 @@ public interface PurchasingItem {
     /**
      * Gets the itemType attribute.
      * 
-     * @return - Returns the itemType
+     * @return Returns the itemType
      * 
      */
     public abstract ItemType getItemType();
@@ -275,7 +275,7 @@ public interface PurchasingItem {
     /**
      * Sets the itemType attribute.
      * 
-     * @param - itemType The itemType to set.
+     * @param itemType The itemType to set.
      * @deprecated
      */
     public abstract void setItemType(ItemType itemType);

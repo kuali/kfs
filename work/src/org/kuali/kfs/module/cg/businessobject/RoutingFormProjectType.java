@@ -21,6 +21,7 @@ package org.kuali.module.kra.routingform.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -28,7 +29,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RoutingFormProjectType extends BusinessObjectBase {
 
 	private String projectTypeCode;
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private String projectTypeDescription;
 
     private ProjectType projectType;
@@ -43,7 +44,7 @@ public class RoutingFormProjectType extends BusinessObjectBase {
 	/**
 	 * Gets the projectTypeCode attribute.
 	 * 
-	 * @return - Returns the projectTypeCode
+	 * @return Returns the projectTypeCode
 	 * 
 	 */
 	public String getProjectTypeCode() { 
@@ -53,7 +54,7 @@ public class RoutingFormProjectType extends BusinessObjectBase {
 	/**
 	 * Sets the projectTypeCode attribute.
 	 * 
-	 * @param - projectTypeCode The projectTypeCode to set.
+	 * @param projectTypeCode The projectTypeCode to set.
 	 * 
 	 */
 	public void setProjectTypeCode(String projectTypeCode) {
@@ -62,30 +63,30 @@ public class RoutingFormProjectType extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the projectTypeDescription attribute.
 	 * 
-	 * @return - Returns the projectTypeDescription
+	 * @return Returns the projectTypeDescription
 	 * 
 	 */
 	public String getProjectTypeDescription() { 
@@ -95,7 +96,7 @@ public class RoutingFormProjectType extends BusinessObjectBase {
 	/**
 	 * Sets the projectTypeDescription attribute.
 	 * 
-	 * @param - projectTypeDescription The projectTypeDescription to set.
+	 * @param projectTypeDescription The projectTypeDescription to set.
 	 * 
 	 */
 	public void setProjectTypeDescription(String projectTypeDescription) {
@@ -120,12 +121,12 @@ public class RoutingFormProjectType extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("projectTypeCode", this.projectTypeCode);
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 

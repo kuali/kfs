@@ -41,7 +41,7 @@ public class ControlAttributeType extends BusinessObjectBase {
 	/**
 	 * Gets the controlAttributeTypeCode attribute.
 	 * 
-	 * @return - Returns the controlAttributeTypeCode
+	 * @return Returns the controlAttributeTypeCode
 	 * 
 	 */
 	public String getControlAttributeTypeCode() { 
@@ -51,7 +51,7 @@ public class ControlAttributeType extends BusinessObjectBase {
 	/**
 	 * Sets the controlAttributeTypeCode attribute.
 	 * 
-	 * @param - controlAttributeTypeCode The controlAttributeTypeCode to set.
+	 * @param controlAttributeTypeCode The controlAttributeTypeCode to set.
 	 * 
 	 */
 	public void setControlAttributeTypeCode(String controlAttributeTypeCode) {
@@ -62,7 +62,7 @@ public class ControlAttributeType extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
@@ -72,7 +72,7 @@ public class ControlAttributeType extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -83,7 +83,7 @@ public class ControlAttributeType extends BusinessObjectBase {
 	/**
 	 * Gets the requiredIndicator attribute.
 	 * 
-	 * @return - Returns the requiredIndicator
+	 * @return Returns the requiredIndicator
 	 * 
 	 */
 	public boolean isRequiredIndicator() { 
@@ -93,7 +93,7 @@ public class ControlAttributeType extends BusinessObjectBase {
 	/**
 	 * Sets the requiredIndicator attribute.
 	 * 
-	 * @param - requiredIndicator The requiredIndicator to set.
+	 * @param requiredIndicator The requiredIndicator to set.
 	 * 
 	 */
 	public void setRequiredIndicator(boolean requiredIndicator) {
@@ -102,7 +102,7 @@ public class ControlAttributeType extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

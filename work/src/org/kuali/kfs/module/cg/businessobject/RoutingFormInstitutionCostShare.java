@@ -25,6 +25,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -32,7 +33,7 @@ import org.kuali.module.chart.bo.Org;
 public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 
 	private Integer routingFormCostShareSequenceNumber;
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private String accountNumber;
 	private String chartOfAccountsCode;
 	private String organizationCode;
@@ -53,7 +54,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @return - Returns the routingFormCostShareSequenceNumber
+	 * @return Returns the routingFormCostShareSequenceNumber
 	 * 
 	 */
 	public Integer getRoutingFormCostShareSequenceNumber() { 
@@ -63,7 +64,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @param - routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
+	 * @param routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
 	 * 
 	 */
 	public void setRoutingFormCostShareSequenceNumber(Integer routingFormCostShareSequenceNumber) {
@@ -72,30 +73,30 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -105,7 +106,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -116,7 +117,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -126,7 +127,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -137,7 +138,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -147,7 +148,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -158,7 +159,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormCostShareAmount attribute.
 	 * 
-	 * @return - Returns the routingFormCostShareAmount
+	 * @return Returns the routingFormCostShareAmount
 	 * 
 	 */
 	public BigDecimal getRoutingFormCostShareAmount() { 
@@ -168,7 +169,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormCostShareAmount attribute.
 	 * 
-	 * @param - routingFormCostShareAmount The routingFormCostShareAmount to set.
+	 * @param routingFormCostShareAmount The routingFormCostShareAmount to set.
 	 * 
 	 */
 	public void setRoutingFormCostShareAmount(BigDecimal routingFormCostShareAmount) {
@@ -179,7 +180,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormCostShareDescription attribute.
 	 * 
-	 * @return - Returns the routingFormCostShareDescription
+	 * @return Returns the routingFormCostShareDescription
 	 * 
 	 */
 	public String getRoutingFormCostShareDescription() { 
@@ -189,7 +190,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormCostShareDescription attribute.
 	 * 
-	 * @param - routingFormCostShareDescription The routingFormCostShareDescription to set.
+	 * @param routingFormCostShareDescription The routingFormCostShareDescription to set.
 	 * 
 	 */
 	public void setRoutingFormCostShareDescription(String routingFormCostShareDescription) {
@@ -199,7 +200,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -209,7 +210,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -219,7 +220,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -229,7 +230,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -239,7 +240,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the organization attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return Returns the organization
 	 * 
 	 */
 	public Org getOrganization() { 
@@ -249,7 +250,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the organization attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param organization The organization to set.
 	 * @deprecated
 	 */
 	public void setOrganization(Org organization) {
@@ -257,14 +258,14 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.routingFormCostShareSequenceNumber != null) {
             m.put("routingFormCostShareSequenceNumber", this.routingFormCostShareSequenceNumber.toString());
         }
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 	    return m;
     }
 }

@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -31,7 +32,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class BudgetPeriod extends BusinessObjectBase implements Comparable {
     private static final long serialVersionUID = -479888264761887048L;
 
-    private String researchDocumentNumber;
+    private String documentNumber;
     private Integer budgetPeriodSequenceNumber;
     private Date budgetPeriodBeginDate;
     private Date budgetPeriodEndDate;
@@ -44,15 +45,15 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
         super();
     }
     
-    public BudgetPeriod(String researchDocumentNumber, Integer budgetPeriodSequenceNumber) {
+    public BudgetPeriod(String documentNumber, Integer budgetPeriodSequenceNumber) {
         this();
-        this.researchDocumentNumber = researchDocumentNumber;
+        this.documentNumber = documentNumber;
         this.budgetPeriodSequenceNumber = budgetPeriodSequenceNumber;
     }
     
     public BudgetPeriod(BudgetPeriod template) {
         this();
-        this.researchDocumentNumber = template.getResearchDocumentNumber();
+        this.documentNumber = template.getDocumentNumber();
         this.budgetPeriodSequenceNumber = template.getBudgetPeriodSequenceNumber();
         this.budgetPeriodBeginDate = template.getBudgetPeriodBeginDate();
         this.budgetPeriodEndDate = template.getBudgetPeriodEndDate();
@@ -62,15 +63,15 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
     /**
      * @return Returns the budgetNumber.
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
      * @param budgetNumber The budgetNumber to set.
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -135,7 +136,7 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("budgetPeriodSequenceNumber", this.budgetPeriodSequenceNumber);
         return m;
     }
@@ -169,7 +170,7 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
             if (this.getClass().equals(obj.getClass())) {
                 BudgetPeriod other = (BudgetPeriod) obj;
 
-                if (this.getResearchDocumentNumber().equals(other.getResearchDocumentNumber()) && this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate()) && this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate())) {
+                if (this.getDocumentNumber().equals(other.getDocumentNumber()) && this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate()) && this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate())) {
                     equal = true;
                 }
             }
@@ -179,14 +180,14 @@ public class BudgetPeriod extends BusinessObjectBase implements Comparable {
     }
 
     /**
-     * Calcluates hashCode based on current values of researchDocumentNumber and budgetPeriodSequenceNumber fields. Somewhat dangerous,
+     * Calcluates hashCode based on current values of documentNumber and budgetPeriodSequenceNumber fields. Somewhat dangerous,
      * since those fields are mutable, but I don't expect people to be editing those values directly for Periods stored in hashed
      * datastructures. (this is based on Account.hashCode()) - TAD
      * 
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = getResearchDocumentNumber() + "|" + getBudgetPeriodSequenceNumber() + getBudgetPeriodBeginDate() + "|" + getBudgetPeriodEndDate();
+        String hashString = getDocumentNumber() + "|" + getBudgetPeriodSequenceNumber() + getBudgetPeriodBeginDate() + "|" + getBudgetPeriodEndDate();
 
         return hashString.hashCode();
     }

@@ -98,7 +98,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentTypeCode
+     * @return Returns the financialDocumentTypeCode
      * 
      */
     public String getFinancialDocumentTypeCode() {
@@ -136,7 +136,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Gets the finDocApprovalFromThisAmt attribute.
      * 
-     * @return - Returns the finDocApprovalFromThisAmt
+     * @return Returns the finDocApprovalFromThisAmt
      * 
      */
     public KualiDecimal getFinDocApprovalFromThisAmt() {
@@ -156,7 +156,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Gets the accountsDelegatePrmrtIndicator attribute.
      * 
-     * @return - Returns the accountsDelegatePrmrtIndicator
+     * @return Returns the accountsDelegatePrmrtIndicator
      * 
      */
     public boolean isAccountsDelegatePrmrtIndicator() {
@@ -176,7 +176,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Gets the accountDelegateActiveIndicator attribute.
      * 
-     * @return - Returns the accountDelegateActiveIndicator
+     * @return Returns the accountDelegateActiveIndicator
      * 
      */
     public boolean isAccountDelegateActiveIndicator() {
@@ -196,7 +196,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Gets the accountDelegateStartDate attribute.
      * 
-     * @return - Returns the accountDelegateStartDate
+     * @return Returns the accountDelegateStartDate
      * 
      */
     public Timestamp getAccountDelegateStartDate() {
@@ -216,7 +216,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Gets the finDocApprovalToThisAmount attribute.
      * 
-     * @return - Returns the finDocApprovalToThisAmount
+     * @return Returns the finDocApprovalToThisAmount
      * 
      */
     public KualiDecimal getFinDocApprovalToThisAmount() {
@@ -236,7 +236,7 @@ public class Delegate extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {

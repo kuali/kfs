@@ -39,7 +39,7 @@ public class RestrictedStatus extends BusinessObjectBase {
     /**
      * Gets the accountRestrictedStatusCode attribute.
      * 
-     * @return - Returns the accountRestrictedStatusCode
+     * @return Returns the accountRestrictedStatusCode
      * 
      */
     public String getAccountRestrictedStatusCode() {
@@ -59,7 +59,7 @@ public class RestrictedStatus extends BusinessObjectBase {
     /**
      * Gets the accountRestrictedStatusName attribute.
      * 
-     * @return - Returns the accountRestrictedStatusName
+     * @return Returns the accountRestrictedStatusName
      * 
      */
     public String getAccountRestrictedStatusName() {

@@ -22,13 +22,14 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private Integer routingFormResearchRiskStudySequenceNumber;
 	private String researchRiskApprovalPendingIndicator;
 	private String researchRiskExemptionNumber;
@@ -48,30 +49,30 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the routingFormResearchRiskStudySequenceNumber attribute.
 	 * 
-	 * @return - Returns the routingFormResearchRiskStudySequenceNumber
+	 * @return Returns the routingFormResearchRiskStudySequenceNumber
 	 * 
 	 */
 	public Integer getRoutingFormResearchRiskStudySequenceNumber() { 
@@ -81,7 +82,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormResearchRiskStudySequenceNumber attribute.
 	 * 
-	 * @param - routingFormResearchRiskStudySequenceNumber The routingFormResearchRiskStudySequenceNumber to set.
+	 * @param routingFormResearchRiskStudySequenceNumber The routingFormResearchRiskStudySequenceNumber to set.
 	 * 
 	 */
 	public void setRoutingFormResearchRiskStudySequenceNumber(Integer routingFormResearchRiskStudySequenceNumber) {
@@ -92,7 +93,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskApprovalPendingIndicator attribute.
 	 * 
-	 * @return - Returns the researchRiskApprovalPendingIndicator
+	 * @return Returns the researchRiskApprovalPendingIndicator
 	 * 
 	 */
 	public String getResearchRiskApprovalPendingIndicator() { 
@@ -102,7 +103,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskApprovalPendingIndicator attribute.
 	 * 
-	 * @param - researchRiskApprovalPendingIndicator The researchRiskApprovalPendingIndicator to set.
+	 * @param researchRiskApprovalPendingIndicator The researchRiskApprovalPendingIndicator to set.
 	 * 
 	 */
 	public void setResearchRiskApprovalPendingIndicator(String researchRiskApprovalPendingIndicator) {
@@ -113,7 +114,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskExemptionNumber attribute.
 	 * 
-	 * @return - Returns the researchRiskExemptionNumber
+	 * @return Returns the researchRiskExemptionNumber
 	 * 
 	 */
 	public String getResearchRiskExemptionNumber() { 
@@ -123,7 +124,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskExemptionNumber attribute.
 	 * 
-	 * @param - researchRiskExemptionNumber The researchRiskExemptionNumber to set.
+	 * @param researchRiskExemptionNumber The researchRiskExemptionNumber to set.
 	 * 
 	 */
 	public void setResearchRiskExemptionNumber(String researchRiskExemptionNumber) {
@@ -134,7 +135,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskStudyApprovalDate attribute.
 	 * 
-	 * @return - Returns the researchRiskStudyApprovalDate
+	 * @return Returns the researchRiskStudyApprovalDate
 	 * 
 	 */
 	public Date getResearchRiskStudyApprovalDate() { 
@@ -144,7 +145,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskStudyApprovalDate attribute.
 	 * 
-	 * @param - researchRiskStudyApprovalDate The researchRiskStudyApprovalDate to set.
+	 * @param researchRiskStudyApprovalDate The researchRiskStudyApprovalDate to set.
 	 * 
 	 */
 	public void setResearchRiskStudyApprovalDate(Date researchRiskStudyApprovalDate) {
@@ -155,7 +156,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskStudyNumber attribute.
 	 * 
-	 * @return - Returns the researchRiskStudyNumber
+	 * @return Returns the researchRiskStudyNumber
 	 * 
 	 */
 	public String getResearchRiskStudyNumber() { 
@@ -165,7 +166,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskStudyNumber attribute.
 	 * 
-	 * @param - researchRiskStudyNumber The researchRiskStudyNumber to set.
+	 * @param researchRiskStudyNumber The researchRiskStudyNumber to set.
 	 * 
 	 */
 	public void setResearchRiskStudyNumber(String researchRiskStudyNumber) {
@@ -176,7 +177,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskStudyName attribute.
 	 * 
-	 * @return - Returns the researchRiskStudyName
+	 * @return Returns the researchRiskStudyName
 	 * 
 	 */
 	public String getResearchRiskStudyName() { 
@@ -186,7 +187,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskStudyName attribute.
 	 * 
-	 * @param - researchRiskStudyName The researchRiskStudyName to set.
+	 * @param researchRiskStudyName The researchRiskStudyName to set.
 	 * 
 	 */
 	public void setResearchRiskStudyName(String researchRiskStudyName) {
@@ -197,7 +198,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskStudyReviewCode attribute.
 	 * 
-	 * @return - Returns the researchRiskStudyReviewCode
+	 * @return Returns the researchRiskStudyReviewCode
 	 * 
 	 */
 	public String getResearchRiskStudyReviewCode() { 
@@ -207,7 +208,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskStudyReviewCode attribute.
 	 * 
-	 * @param - researchRiskStudyReviewCode The researchRiskStudyReviewCode to set.
+	 * @param researchRiskStudyReviewCode The researchRiskStudyReviewCode to set.
 	 * 
 	 */
 	public void setResearchRiskStudyReviewCode(String researchRiskStudyReviewCode) {
@@ -218,7 +219,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskTypeCode attribute.
 	 * 
-	 * @return - Returns the researchRiskTypeCode
+	 * @return Returns the researchRiskTypeCode
 	 * 
 	 */
 	public String getResearchRiskTypeCode() { 
@@ -228,7 +229,7 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskTypeCode attribute.
 	 * 
-	 * @param - researchRiskTypeCode The researchRiskTypeCode to set.
+	 * @param researchRiskTypeCode The researchRiskTypeCode to set.
 	 * 
 	 */
 	public void setResearchRiskTypeCode(String researchRiskTypeCode) {
@@ -253,11 +254,11 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
     }
     
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.routingFormResearchRiskStudySequenceNumber != null) {
             m.put("routingFormResearchRiskStudySequenceNumber", this.routingFormResearchRiskStudySequenceNumber.toString());
         }

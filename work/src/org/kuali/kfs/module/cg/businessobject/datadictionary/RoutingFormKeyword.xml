@@ -28,7 +28,7 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="routingFormKeywordDescription" />
-                <field attributeName="researchDocumentNumber" />
+                <field attributeName="documentNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -40,18 +40,18 @@
             <defaultSort sortAscending="true">
                 <sortAttributes>
                     <sortAttribute attributeName="routingFormKeywordDescription" />
-                    <sortAttribute attributeName="researchDocumentNumber" />
+                    <sortAttribute attributeName="documentNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
                 <lookupField attributeName="routingFormKeywordDescription" required="false" />
-                <lookupField attributeName="researchDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="routingFormKeywordDescription" />
-                <field attributeName="researchDocumentNumber" />
+                <field attributeName="documentNumber" />
             </resultFields>
         </lookup>
 
@@ -72,8 +72,8 @@
                 <description>routingFormKeywordDescription description...</description>
 			</attribute>
 
-            <attribute name="researchDocumentNumber" forceUppercase="true">
-                <label>Research Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -83,8 +83,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>researchDocumentNumber</summary>
-                <description>researchDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

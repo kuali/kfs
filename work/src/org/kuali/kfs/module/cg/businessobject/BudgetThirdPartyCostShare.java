@@ -18,11 +18,7 @@
 
 package org.kuali.module.kra.budget.bo;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.kuali.core.bo.BusinessObjectBase;
 
 /**
  * 
@@ -39,7 +35,7 @@ public class BudgetThirdPartyCostShare extends BudgetAbstractCostShare {
     }
 
     public BudgetThirdPartyCostShare(BudgetThirdPartyCostShare budgetThirdPartyCostShare) {
-        this.researchDocumentNumber = budgetThirdPartyCostShare.getResearchDocumentNumber();
+        this.documentNumber = budgetThirdPartyCostShare.getDocumentNumber();
         this.budgetCostShareSequenceNumber = budgetThirdPartyCostShare.getBudgetCostShareSequenceNumber();
         this.budgetCostShareDescription = budgetThirdPartyCostShare.getBudgetCostShareDescription();
         this.budgetPeriodCostShare = budgetThirdPartyCostShare.getBudgetPeriodCostShare();
@@ -48,7 +44,7 @@ public class BudgetThirdPartyCostShare extends BudgetAbstractCostShare {
     /**
      * Gets the budgetThirdPartyCostShareSourceName attribute.
      * 
-     * @return - Returns the budgetThirdPartyCostShareSourceName
+     * @return Returns the budgetThirdPartyCostShareSourceName
      * 
      */
     public String getBudgetCostShareSourceName() {
@@ -68,7 +64,7 @@ public class BudgetThirdPartyCostShare extends BudgetAbstractCostShare {
     /**
      * Gets the budgetPeriodThirdPartyCostShare attribute.
      * 
-     * @return - Returns the budgetPeriodThirdPartyCostShare
+     * @return Returns the budgetPeriodThirdPartyCostShare
      * 
      */
     public List<BudgetPeriodThirdPartyCostShare> getBudgetPeriodCostShare() {

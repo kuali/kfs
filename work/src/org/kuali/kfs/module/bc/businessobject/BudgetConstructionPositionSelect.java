@@ -48,7 +48,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -58,7 +58,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -69,7 +69,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the positionNumber attribute.
 	 * 
-	 * @return - Returns the positionNumber
+	 * @return Returns the positionNumber
 	 * 
 	 */
 	public String getPositionNumber() { 
@@ -79,7 +79,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the positionNumber attribute.
 	 * 
-	 * @param - positionNumber The positionNumber to set.
+	 * @param positionNumber The positionNumber to set.
 	 * 
 	 */
 	public void setPositionNumber(String positionNumber) {
@@ -90,7 +90,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the universityFiscalYear attribute.
 	 * 
-	 * @return - Returns the universityFiscalYear
+	 * @return Returns the universityFiscalYear
 	 * 
 	 */
 	public Integer getUniversityFiscalYear() { 
@@ -100,7 +100,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the universityFiscalYear attribute.
 	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * @param universityFiscalYear The universityFiscalYear to set.
 	 * 
 	 */
 	public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -111,7 +111,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -121,7 +121,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -132,7 +132,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the iuPositionType attribute.
 	 * 
-	 * @return - Returns the iuPositionType
+	 * @return Returns the iuPositionType
 	 * 
 	 */
 	public String getIuPositionType() { 
@@ -142,7 +142,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the iuPositionType attribute.
 	 * 
-	 * @param - iuPositionType The iuPositionType to set.
+	 * @param iuPositionType The iuPositionType to set.
 	 * 
 	 */
 	public void setIuPositionType(String iuPositionType) {
@@ -153,7 +153,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the positionDepartmentIdentifier attribute.
 	 * 
-	 * @return - Returns the positionDepartmentIdentifier
+	 * @return Returns the positionDepartmentIdentifier
 	 * 
 	 */
 	public String getPositionDepartmentIdentifier() { 
@@ -163,7 +163,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the positionDepartmentIdentifier attribute.
 	 * 
-	 * @param - positionDepartmentIdentifier The positionDepartmentIdentifier to set.
+	 * @param positionDepartmentIdentifier The positionDepartmentIdentifier to set.
 	 * 
 	 */
 	public void setPositionDepartmentIdentifier(String positionDepartmentIdentifier) {
@@ -174,7 +174,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the setidSalary attribute.
 	 * 
-	 * @return - Returns the setidSalary
+	 * @return Returns the setidSalary
 	 * 
 	 */
 	public String getSetidSalary() { 
@@ -184,7 +184,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the setidSalary attribute.
 	 * 
-	 * @param - setidSalary The setidSalary to set.
+	 * @param setidSalary The setidSalary to set.
 	 * 
 	 */
 	public void setSetidSalary(String setidSalary) {
@@ -195,7 +195,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the salaryAdministrationPlan attribute.
 	 * 
-	 * @return - Returns the salaryAdministrationPlan
+	 * @return Returns the salaryAdministrationPlan
 	 * 
 	 */
 	public String getSalaryAdministrationPlan() { 
@@ -205,7 +205,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the salaryAdministrationPlan attribute.
 	 * 
-	 * @param - salaryAdministrationPlan The salaryAdministrationPlan to set.
+	 * @param salaryAdministrationPlan The salaryAdministrationPlan to set.
 	 * 
 	 */
 	public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
@@ -216,7 +216,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the grade attribute.
 	 * 
-	 * @return - Returns the grade
+	 * @return Returns the grade
 	 * 
 	 */
 	public String getGrade() { 
@@ -226,7 +226,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the grade attribute.
 	 * 
-	 * @param - grade The grade to set.
+	 * @param grade The grade to set.
 	 * 
 	 */
 	public void setGrade(String grade) {
@@ -237,7 +237,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the positionDescription attribute.
 	 * 
-	 * @return - Returns the positionDescription
+	 * @return Returns the positionDescription
 	 * 
 	 */
 	public String getPositionDescription() { 
@@ -247,7 +247,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the positionDescription attribute.
 	 * 
-	 * @param - positionDescription The positionDescription to set.
+	 * @param positionDescription The positionDescription to set.
 	 * 
 	 */
 	public void setPositionDescription(String positionDescription) {
@@ -258,7 +258,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Gets the personName attribute.
 	 * 
-	 * @return - Returns the personName
+	 * @return Returns the personName
 	 * 
 	 */
 	public String getPersonName() { 
@@ -268,7 +268,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
 	/**
 	 * Sets the personName attribute.
 	 * 
-	 * @param - personName The personName to set.
+	 * @param personName The personName to set.
 	 * 
 	 */
 	public void setPersonName(String personName) {
@@ -279,7 +279,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
     /**
      * Gets the budgetConstructionPosition attribute.
      * 
-     * @return - Returns the budgetConstructionPosition
+     * @return Returns the budgetConstructionPosition
      * 
      */
     public BudgetConstructionPosition getBudgetConstructionPosition() { 
@@ -289,7 +289,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
     /**
      * Sets the budgetConstructionPosition attribute.
      * 
-     * @param - budgetConstructionPosition The budgetConstructionPosition to set.
+     * @param budgetConstructionPosition The budgetConstructionPosition to set.
      * @deprecated
      */
     public void setBudgetConstructionPosition(BudgetConstructionPosition budgetConstructionPosition) {
@@ -297,7 +297,7 @@ public class BudgetConstructionPositionSelect extends BusinessObjectBase {
     }
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

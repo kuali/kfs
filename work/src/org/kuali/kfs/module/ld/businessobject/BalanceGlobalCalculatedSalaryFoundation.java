@@ -47,7 +47,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -57,7 +57,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -68,7 +68,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Gets the subAccountNumber attribute.
 	 * 
-	 * @return - Returns the subAccountNumber
+	 * @return Returns the subAccountNumber
 	 * 
 	 */
 	public String getSubAccountNumber() { 
@@ -78,7 +78,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -89,7 +89,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -99,7 +99,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -110,7 +110,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Gets the financialSubObjectCode attribute.
 	 * 
-	 * @return - Returns the financialSubObjectCode
+	 * @return Returns the financialSubObjectCode
 	 * 
 	 */
 	public String getFinancialSubObjectCode() { 
@@ -120,7 +120,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Sets the financialSubObjectCode attribute.
 	 * 
-	 * @param - financialSubObjectCode The financialSubObjectCode to set.
+	 * @param financialSubObjectCode The financialSubObjectCode to set.
 	 * 
 	 */
 	public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -131,7 +131,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Gets the budgetAmount attribute.
 	 * 
-	 * @return - Returns the budgetAmount
+	 * @return Returns the budgetAmount
 	 * 
 	 */
 	public KualiDecimal getBudgetAmount() { 
@@ -141,7 +141,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Sets the budgetAmount attribute.
 	 * 
-	 * @param - budgetAmount The budgetAmount to set.
+	 * @param budgetAmount The budgetAmount to set.
 	 * 
 	 */
 	public void setBudgetAmount(KualiDecimal budgetAmount) {
@@ -152,7 +152,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Gets the calculatedSalaryFoundationAmount attribute.
 	 * 
-	 * @return - Returns the calculatedSalaryFoundationAmount
+	 * @return Returns the calculatedSalaryFoundationAmount
 	 * 
 	 */
 	public KualiDecimal getCalculatedSalaryFoundationAmount() { 
@@ -162,7 +162,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	/**
 	 * Sets the calculatedSalaryFoundationAmount attribute.
 	 * 
-	 * @param - calculatedSalaryFoundationAmount The calculatedSalaryFoundationAmount to set.
+	 * @param calculatedSalaryFoundationAmount The calculatedSalaryFoundationAmount to set.
 	 * 
 	 */
 	public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
@@ -170,7 +170,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends BusinessObjectBase 
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

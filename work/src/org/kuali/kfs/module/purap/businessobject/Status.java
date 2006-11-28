@@ -42,7 +42,7 @@ public class Status extends BusinessObjectBase {
     /**
      * Gets the statusCode attribute.
      * 
-     * @return - Returns the statusCode
+     * @return Returns the statusCode
      * 
      */
 	public String getStatusCode() {
@@ -52,7 +52,7 @@ public class Status extends BusinessObjectBase {
     /**
      * Sets the statusCode attribute.
      * 
-     * @param - statusCode The statusCode to set.
+     * @param statusCode The statusCode to set.
      * 
      */
     public void setStatusCode(String statusCode) {
@@ -62,7 +62,7 @@ public class Status extends BusinessObjectBase {
     /**
      * Gets the statusDescription attribute.
      * 
-     * @return - Returns the statusDescription
+     * @return Returns the statusDescription
      * 
      */
     public String getStatusDescription() {
@@ -72,7 +72,7 @@ public class Status extends BusinessObjectBase {
     /**
      * Sets the statusDescription attribute.
      * 
-     * @param - statusDescription The statusDescription to set.
+     * @param statusDescription The statusDescription to set.
      * 
      */
     public void setStatusDescription(String statusDescription) {
@@ -82,7 +82,7 @@ public class Status extends BusinessObjectBase {
     /**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -92,7 +92,7 @@ public class Status extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -118,7 +118,7 @@ public class Status extends BusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

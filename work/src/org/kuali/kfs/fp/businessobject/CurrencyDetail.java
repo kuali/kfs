@@ -50,7 +50,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -71,7 +71,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentTypeCode
+     * @return Returns the financialDocumentTypeCode
      * 
      */
     public String getFinancialDocumentTypeCode() {
@@ -92,7 +92,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentColumnTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentColumnTypeCode
+     * @return Returns the financialDocumentColumnTypeCode
      * 
      */
     public String getFinancialDocumentColumnTypeCode() {
@@ -113,7 +113,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentHundredDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentHundredDollarAmount
+     * @return Returns the financialDocumentHundredDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentHundredDollarAmount() {
@@ -134,7 +134,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentFiftyDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentFiftyDollarAmount
+     * @return Returns the financialDocumentFiftyDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentFiftyDollarAmount() {
@@ -155,7 +155,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTwentyDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentTwentyDollarAmount
+     * @return Returns the financialDocumentTwentyDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentTwentyDollarAmount() {
@@ -176,7 +176,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTenDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentTenDollarAmount
+     * @return Returns the financialDocumentTenDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentTenDollarAmount() {
@@ -197,7 +197,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentFiveDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentFiveDollarAmount
+     * @return Returns the financialDocumentFiveDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentFiveDollarAmount() {
@@ -218,7 +218,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTwoDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentTwoDollarAmount
+     * @return Returns the financialDocumentTwoDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentTwoDollarAmount() {
@@ -239,7 +239,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentOneDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentOneDollarAmount
+     * @return Returns the financialDocumentOneDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentOneDollarAmount() {
@@ -260,7 +260,7 @@ public class CurrencyDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentOtherDollarAmount attribute.
      * 
-     * @return - Returns the financialDocumentOtherDollarAmount
+     * @return Returns the financialDocumentOtherDollarAmount
      * 
      */
     public KualiDecimal getFinancialDocumentOtherDollarAmount() {

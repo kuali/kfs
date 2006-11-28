@@ -23,13 +23,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
 
-    protected String researchDocumentNumber;
+    protected String documentNumber;
     protected Integer budgetCostShareSequenceNumber;
     protected String budgetCostShareDescription;
     protected List budgetPeriodCostShare;
@@ -46,18 +47,18 @@ public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
      * Populates the key fields for BudgetAbstractPeriodCostShare object. This could be done on object creation, unfortunatly at that time
      * we don't have budgetCostShareSequenceNumber set yet (object is created on page load, while sequence number is set on pressing "add"
      * on the page). Thus we opted for this solution.
-     * @param researchDocumentNumber
+     * @param documentNumber
      * @param periods
      * @param budgetAbstractCostShare
      */
-    public void populateKeyFields(String researchDocumentNumber, List<BudgetPeriod> periods) {
-        this.setResearchDocumentNumber(researchDocumentNumber);
+    public void populateKeyFields(String documentNumber, List<BudgetPeriod> periods) {
+        this.setDocumentNumber(documentNumber);
 
         for (int i = 0; i < periods.size(); i++) {
             BudgetPeriod period = periods.get(i);
             BudgetAbstractPeriodCostShare budgetAbstractPeriodCostShare = this.getBudgetPeriodCostShareItem(i);
 
-            budgetAbstractPeriodCostShare.setResearchDocumentNumber(researchDocumentNumber);
+            budgetAbstractPeriodCostShare.setDocumentNumber(documentNumber);
             budgetAbstractPeriodCostShare.setBudgetCostShareSequenceNumber(this.getBudgetCostShareSequenceNumber());
             budgetAbstractPeriodCostShare.setBudgetPeriodSequenceNumber(period.getBudgetPeriodSequenceNumber());
         }
@@ -68,29 +69,29 @@ public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
     public abstract BudgetAbstractPeriodCostShare getBudgetPeriodCostShareItem(int index);
     
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetThirdPartyCostShareSequenceNumber attribute.
      * 
-     * @return - Returns the budgetThirdPartyCostShareSequenceNumber
+     * @return Returns the budgetThirdPartyCostShareSequenceNumber
      * 
      */
     public Integer getBudgetCostShareSequenceNumber() {
@@ -110,7 +111,7 @@ public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
     /**
      * Gets the budgetThirdPartyCostShareDescription attribute.
      * 
-     * @return - Returns the budgetThirdPartyCostShareDescription
+     * @return Returns the budgetThirdPartyCostShareDescription
      * 
      */
     public String getBudgetCostShareDescription() {
@@ -133,7 +134,7 @@ public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("budgetCostShareSequenceNumber", this.budgetCostShareSequenceNumber);
 
         return m;

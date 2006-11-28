@@ -46,7 +46,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Gets the financialHigherEdFunctionCd attribute.
      * 
-     * @return - Returns the financialHigherEdFunctionCd
+     * @return Returns the financialHigherEdFunctionCd
      * 
      */
     public String getFinancialHigherEdFunctionCd() {
@@ -66,7 +66,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Gets the financialHigherEdFunctionNm attribute.
      * 
-     * @return - Returns the financialHigherEdFunctionNm
+     * @return Returns the financialHigherEdFunctionNm
      * 
      */
     public String getFinancialHigherEdFunctionNm() {
@@ -86,7 +86,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Gets the finUnivBdgtOfficeFunctionCd attribute.
      * 
-     * @return - Returns the finUnivBdgtOfficeFunctionCd
+     * @return Returns the finUnivBdgtOfficeFunctionCd
      * 
      */
     public String getFinUnivBdgtOfficeFunctionCd() {
@@ -106,7 +106,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Gets the finAicpaFunctionCode attribute.
      * 
-     * @return - Returns the finAicpaFunctionCode
+     * @return Returns the finAicpaFunctionCode
      * 
      */
     public String getFinAicpaFunctionCode() {
@@ -126,7 +126,7 @@ public class HigherEdFunction extends BusinessObjectBase {
     /**
      * Gets the financialFederalFunctionCode attribute.
      * 
-     * @return - Returns the financialFederalFunctionCode
+     * @return Returns the financialFederalFunctionCode
      * 
      */
     public String getFinancialFederalFunctionCode() {

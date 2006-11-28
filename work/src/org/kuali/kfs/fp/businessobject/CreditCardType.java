@@ -40,7 +40,7 @@ public class CreditCardType extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCreditCardTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentCreditCardTypeCode
+     * @return Returns the financialDocumentCreditCardTypeCode
      * 
      */
     public String getFinancialDocumentCreditCardTypeCode() {
@@ -61,7 +61,7 @@ public class CreditCardType extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCreditCardCompanyName attribute.
      * 
-     * @return - Returns the financialDocumentCreditCardCompanyName
+     * @return Returns the financialDocumentCreditCardCompanyName
      * 
      */
     public String getFinancialDocumentCreditCardCompanyName() {

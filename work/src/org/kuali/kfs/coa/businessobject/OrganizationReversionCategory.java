@@ -42,7 +42,7 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
     /**
      * Gets the organizationReversionCategoryCode attribute.
      * 
-     * @return - Returns the organizationReversionCategoryCode
+     * @return Returns the organizationReversionCategoryCode
      * 
      */
     public String getOrganizationReversionCategoryCode() {
@@ -63,7 +63,7 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
     /**
      * Gets the organizationReversionCategoryName attribute.
      * 
-     * @return - Returns the organizationReversionCategoryName
+     * @return Returns the organizationReversionCategoryName
      * 
      */
     public String getOrganizationReversionCategoryName() {
@@ -84,7 +84,7 @@ public class OrganizationReversionCategory extends BusinessObjectBase {
     /**
      * Gets the organizationReversionSortCode attribute.
      * 
-     * @return - Returns the organizationReversionSortCode
+     * @return Returns the organizationReversionSortCode
      * 
      */
     public String getOrganizationReversionSortCode() {

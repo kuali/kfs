@@ -51,7 +51,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingCampusCode attribute.
 	 * 
-	 * @return - Returns the billingCampusCode
+	 * @return Returns the billingCampusCode
 	 * 
 	 */
 	public String getBillingCampusCode() { 
@@ -61,7 +61,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingCampusCode attribute.
 	 * 
-	 * @param - billingCampusCode The billingCampusCode to set.
+	 * @param billingCampusCode The billingCampusCode to set.
 	 * 
 	 */
 	public void setBillingCampusCode(String billingCampusCode) {
@@ -72,7 +72,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingName attribute.
 	 * 
-	 * @return - Returns the billingName
+	 * @return Returns the billingName
 	 * 
 	 */
 	public String getBillingName() { 
@@ -82,7 +82,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingName attribute.
 	 * 
-	 * @param - billingName The billingName to set.
+	 * @param billingName The billingName to set.
 	 * 
 	 */
 	public void setBillingName(String billingName) {
@@ -93,7 +93,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingLine1Address attribute.
 	 * 
-	 * @return - Returns the billingLine1Address
+	 * @return Returns the billingLine1Address
 	 * 
 	 */
 	public String getBillingLine1Address() { 
@@ -103,7 +103,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingLine1Address attribute.
 	 * 
-	 * @param - billingLine1Address The billingLine1Address to set.
+	 * @param billingLine1Address The billingLine1Address to set.
 	 * 
 	 */
 	public void setBillingLine1Address(String billingLine1Address) {
@@ -114,7 +114,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingLine2Address attribute.
 	 * 
-	 * @return - Returns the billingLine2Address
+	 * @return Returns the billingLine2Address
 	 * 
 	 */
 	public String getBillingLine2Address() { 
@@ -124,7 +124,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingLine2Address attribute.
 	 * 
-	 * @param - billingLine2Address The billingLine2Address to set.
+	 * @param billingLine2Address The billingLine2Address to set.
 	 * 
 	 */
 	public void setBillingLine2Address(String billingLine2Address) {
@@ -135,7 +135,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingCityName attribute.
 	 * 
-	 * @return - Returns the billingCityName
+	 * @return Returns the billingCityName
 	 * 
 	 */
 	public String getBillingCityName() { 
@@ -145,7 +145,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingCityName attribute.
 	 * 
-	 * @param - billingCityName The billingCityName to set.
+	 * @param billingCityName The billingCityName to set.
 	 * 
 	 */
 	public void setBillingCityName(String billingCityName) {
@@ -156,7 +156,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingStateCode attribute.
 	 * 
-	 * @return - Returns the billingStateCode
+	 * @return Returns the billingStateCode
 	 * 
 	 */
 	public String getBillingStateCode() { 
@@ -166,7 +166,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingStateCode attribute.
 	 * 
-	 * @param - billingStateCode The billingStateCode to set.
+	 * @param billingStateCode The billingStateCode to set.
 	 * 
 	 */
 	public void setBillingStateCode(String billingStateCode) {
@@ -177,7 +177,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingPostalCode attribute.
 	 * 
-	 * @return - Returns the billingPostalCode
+	 * @return Returns the billingPostalCode
 	 * 
 	 */
 	public String getBillingPostalCode() { 
@@ -187,7 +187,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingPostalCode attribute.
 	 * 
-	 * @param - billingPostalCode The billingPostalCode to set.
+	 * @param billingPostalCode The billingPostalCode to set.
 	 * 
 	 */
 	public void setBillingPostalCode(String billingPostalCode) {
@@ -198,7 +198,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingCountryCode attribute.
 	 * 
-	 * @return - Returns the billingCountryCode
+	 * @return Returns the billingCountryCode
 	 * 
 	 */
 	public String getBillingCountryCode() { 
@@ -208,7 +208,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingCountryCode attribute.
 	 * 
-	 * @param - billingCountryCode The billingCountryCode to set.
+	 * @param billingCountryCode The billingCountryCode to set.
 	 * 
 	 */
 	public void setBillingCountryCode(String billingCountryCode) {
@@ -219,7 +219,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingPhoneNumber attribute.
 	 * 
-	 * @return - Returns the billingPhoneNumber
+	 * @return Returns the billingPhoneNumber
 	 * 
 	 */
 	public String getBillingPhoneNumber() { 
@@ -229,7 +229,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingPhoneNumber attribute.
 	 * 
-	 * @param - billingPhoneNumber The billingPhoneNumber to set.
+	 * @param billingPhoneNumber The billingPhoneNumber to set.
 	 * 
 	 */
 	public void setBillingPhoneNumber(String billingPhoneNumber) {
@@ -240,7 +240,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Gets the billingCampus attribute.
 	 * 
-	 * @return - Returns the billingCampus
+	 * @return Returns the billingCampus
 	 * 
 	 */
 	public Campus getBillingCampus() { 
@@ -250,7 +250,7 @@ public class BillingAddress extends BusinessObjectBase {
 	/**
 	 * Sets the billingCampus attribute.
 	 * 
-	 * @param - billingCampus The billingCampus to set.
+	 * @param billingCampus The billingCampus to set.
 	 * @deprecated
 	 */
 	public void setBillingCampus(Campus billingCampus) {
@@ -274,7 +274,7 @@ public class BillingAddress extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

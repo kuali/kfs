@@ -41,7 +41,7 @@ public class RecurringPaymentFrequency extends BusinessObjectBase {
 	/**
 	 * Gets the recurringPaymentFrequencyCode attribute.
 	 * 
-	 * @return - Returns the recurringPaymentFrequencyCode
+	 * @return Returns the recurringPaymentFrequencyCode
 	 * 
 	 */
 	public String getRecurringPaymentFrequencyCode() { 
@@ -51,7 +51,7 @@ public class RecurringPaymentFrequency extends BusinessObjectBase {
 	/**
 	 * Sets the recurringPaymentFrequencyCode attribute.
 	 * 
-	 * @param - recurringPaymentFrequencyCode The recurringPaymentFrequencyCode to set.
+	 * @param recurringPaymentFrequencyCode The recurringPaymentFrequencyCode to set.
 	 * 
 	 */
 	public void setRecurringPaymentFrequencyCode(String recurringPaymentFrequencyCode) {
@@ -62,7 +62,7 @@ public class RecurringPaymentFrequency extends BusinessObjectBase {
 	/**
 	 * Gets the recurringPaymentFrequencyDescription attribute.
 	 * 
-	 * @return - Returns the recurringPaymentFrequencyDescription
+	 * @return Returns the recurringPaymentFrequencyDescription
 	 * 
 	 */
 	public String getRecurringPaymentFrequencyDescription() { 
@@ -72,7 +72,7 @@ public class RecurringPaymentFrequency extends BusinessObjectBase {
 	/**
 	 * Sets the recurringPaymentFrequencyDescription attribute.
 	 * 
-	 * @param - recurringPaymentFrequencyDescription The recurringPaymentFrequencyDescription to set.
+	 * @param recurringPaymentFrequencyDescription The recurringPaymentFrequencyDescription to set.
 	 * 
 	 */
 	public void setRecurringPaymentFrequencyDescription(String recurringPaymentFrequencyDescription) {
@@ -83,7 +83,7 @@ public class RecurringPaymentFrequency extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class RecurringPaymentFrequency extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class RecurringPaymentFrequency extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

@@ -45,7 +45,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -55,7 +55,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -66,7 +66,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -76,7 +76,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -87,7 +87,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Gets the personName attribute.
 	 * 
-	 * @return - Returns the personName
+	 * @return Returns the personName
 	 * 
 	 */
 	public String getPersonName() { 
@@ -97,7 +97,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Sets the personName attribute.
 	 * 
-	 * @param - personName The personName to set.
+	 * @param personName The personName to set.
 	 * 
 	 */
 	public void setPersonName(String personName) {
@@ -108,7 +108,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Gets the setidSalary attribute.
 	 * 
-	 * @return - Returns the setidSalary
+	 * @return Returns the setidSalary
 	 * 
 	 */
 	public String getSetidSalary() { 
@@ -118,7 +118,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Sets the setidSalary attribute.
 	 * 
-	 * @param - setidSalary The setidSalary to set.
+	 * @param setidSalary The setidSalary to set.
 	 * 
 	 */
 	public void setSetidSalary(String setidSalary) {
@@ -129,7 +129,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Gets the salaryAdministrationPlan attribute.
 	 * 
-	 * @return - Returns the salaryAdministrationPlan
+	 * @return Returns the salaryAdministrationPlan
 	 * 
 	 */
 	public String getSalaryAdministrationPlan() { 
@@ -139,7 +139,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Sets the salaryAdministrationPlan attribute.
 	 * 
-	 * @param - salaryAdministrationPlan The salaryAdministrationPlan to set.
+	 * @param salaryAdministrationPlan The salaryAdministrationPlan to set.
 	 * 
 	 */
 	public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
@@ -150,7 +150,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Gets the grade attribute.
 	 * 
-	 * @return - Returns the grade
+	 * @return Returns the grade
 	 * 
 	 */
 	public String getGrade() { 
@@ -160,7 +160,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Sets the grade attribute.
 	 * 
-	 * @param - grade The grade to set.
+	 * @param grade The grade to set.
 	 * 
 	 */
 	public void setGrade(String grade) {
@@ -171,7 +171,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Gets the iuClassificationLevel attribute.
 	 * 
-	 * @return - Returns the iuClassificationLevel
+	 * @return Returns the iuClassificationLevel
 	 * 
 	 */
 	public String getIuClassificationLevel() { 
@@ -181,7 +181,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 	/**
 	 * Sets the iuClassificationLevel attribute.
 	 * 
-	 * @param - iuClassificationLevel The iuClassificationLevel to set.
+	 * @param iuClassificationLevel The iuClassificationLevel to set.
 	 * 
 	 */
 	public void setIuClassificationLevel(String iuClassificationLevel) {
@@ -190,7 +190,7 @@ public class BudgetConstructionIntendedIncumbentInitializationMove extends Busin
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

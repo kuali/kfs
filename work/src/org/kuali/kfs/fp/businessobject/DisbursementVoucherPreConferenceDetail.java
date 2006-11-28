@@ -52,7 +52,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -91,7 +91,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Gets the dvConferenceDestinationName attribute.
      * 
-     * @return - Returns the dvConferenceDestinationName
+     * @return Returns the dvConferenceDestinationName
      * 
      */
     public String getDvConferenceDestinationName() {
@@ -112,7 +112,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrConferenceStartDate attribute.
      * 
-     * @return - Returns the disbVchrConferenceStartDate
+     * @return Returns the disbVchrConferenceStartDate
      * 
      */
     public Date getDisbVchrConferenceStartDate() {
@@ -133,7 +133,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrConferenceEndDate attribute.
      * 
-     * @return - Returns the disbVchrConferenceEndDate
+     * @return Returns the disbVchrConferenceEndDate
      * 
      */
     public Date getDisbVchrConferenceEndDate() {
@@ -154,7 +154,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrConferenceTotalAmt attribute.
      * 
-     * @return - Returns the disbVchrConferenceTotalAmt
+     * @return Returns the disbVchrConferenceTotalAmt
      * 
      */
     public KualiDecimal getDisbVchrConferenceTotalAmt() {
@@ -184,7 +184,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrExpenseCode attribute.
      * 
-     * @return - Returns the disbVchrExpenseCode
+     * @return Returns the disbVchrExpenseCode
      * 
      */
     public String getDisbVchrExpenseCode() {

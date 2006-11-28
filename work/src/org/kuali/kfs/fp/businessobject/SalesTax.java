@@ -53,7 +53,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -74,7 +74,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the financialDocumentLineTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentLineTypeCode
+     * @return Returns the financialDocumentLineTypeCode
      * 
      */
     public String getFinancialDocumentLineTypeCode() {
@@ -95,7 +95,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the financialDocumentLineNumber attribute.
      * 
-     * @return - Returns the financialDocumentLineNumber
+     * @return Returns the financialDocumentLineNumber
      * 
      */
     public Integer getFinancialDocumentLineNumber() {
@@ -116,7 +116,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -137,7 +137,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -158,7 +158,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the financialDocumentGrossSalesAmount attribute.
      * 
-     * @return - Returns the financialDocumentGrossSalesAmount
+     * @return Returns the financialDocumentGrossSalesAmount
      * 
      */
     public KualiDecimal getFinancialDocumentGrossSalesAmount() {
@@ -179,7 +179,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTaxableSalesAmount attribute.
      * 
-     * @return - Returns the financialDocumentTaxableSalesAmount
+     * @return Returns the financialDocumentTaxableSalesAmount
      * 
      */
     public KualiDecimal getFinancialDocumentTaxableSalesAmount() {
@@ -200,7 +200,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the financialDocumentSaleDate attribute.
      * 
-     * @return - Returns the financialDocumentSaleDate
+     * @return Returns the financialDocumentSaleDate
      * 
      */
     public Date getFinancialDocumentSaleDate() {
@@ -221,7 +221,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -241,7 +241,7 @@ public class SalesTax extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

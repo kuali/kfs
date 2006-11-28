@@ -41,7 +41,7 @@ public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderTransmissionMethodCode attribute.
 	 * 
-	 * @return - Returns the purchaseOrderTransmissionMethodCode
+	 * @return Returns the purchaseOrderTransmissionMethodCode
 	 * 
 	 */
 	public String getPurchaseOrderTransmissionMethodCode() { 
@@ -51,7 +51,7 @@ public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderTransmissionMethodCode attribute.
 	 * 
-	 * @param - purchaseOrderTransmissionMethodCode The purchaseOrderTransmissionMethodCode to set.
+	 * @param purchaseOrderTransmissionMethodCode The purchaseOrderTransmissionMethodCode to set.
 	 * 
 	 */
 	public void setPurchaseOrderTransmissionMethodCode(String purchaseOrderTransmissionMethodCode) {
@@ -62,7 +62,7 @@ public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderTransmissionMethodDescription attribute.
 	 * 
-	 * @return - Returns the purchaseOrderTransmissionMethodDescription
+	 * @return Returns the purchaseOrderTransmissionMethodDescription
 	 * 
 	 */
 	public String getPurchaseOrderTransmissionMethodDescription() { 
@@ -72,7 +72,7 @@ public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderTransmissionMethodDescription attribute.
 	 * 
-	 * @param - purchaseOrderTransmissionMethodDescription The purchaseOrderTransmissionMethodDescription to set.
+	 * @param purchaseOrderTransmissionMethodDescription The purchaseOrderTransmissionMethodDescription to set.
 	 * 
 	 */
 	public void setPurchaseOrderTransmissionMethodDescription(String purchaseOrderTransmissionMethodDescription) {
@@ -83,7 +83,7 @@ public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

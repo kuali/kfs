@@ -50,7 +50,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemoItemIdentifier attribute.
 	 * 
-	 * @return - Returns the creditMemoItemIdentifier
+	 * @return Returns the creditMemoItemIdentifier
 	 * 
 	 */
 	public Integer getCreditMemoItemIdentifier() { 
@@ -60,7 +60,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemoItemIdentifier attribute.
 	 * 
-	 * @param - creditMemoItemIdentifier The creditMemoItemIdentifier to set.
+	 * @param creditMemoItemIdentifier The creditMemoItemIdentifier to set.
 	 * 
 	 */
 	public void setCreditMemoItemIdentifier(Integer creditMemoItemIdentifier) {
@@ -71,7 +71,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemoIdentifier attribute.
 	 * 
-	 * @return - Returns the creditMemoIdentifier
+	 * @return Returns the creditMemoIdentifier
 	 * 
 	 */
 	public Integer getCreditMemoIdentifier() { 
@@ -81,7 +81,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemoIdentifier attribute.
 	 * 
-	 * @param - creditMemoIdentifier The creditMemoIdentifier to set.
+	 * @param creditMemoIdentifier The creditMemoIdentifier to set.
 	 * 
 	 */
 	public void setCreditMemoIdentifier(Integer creditMemoIdentifier) {
@@ -92,7 +92,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the itemLineNumber attribute.
 	 * 
-	 * @return - Returns the itemLineNumber
+	 * @return Returns the itemLineNumber
 	 * 
 	 */
 	public Integer getItemLineNumber() { 
@@ -102,7 +102,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the itemLineNumber attribute.
 	 * 
-	 * @param - itemLineNumber The itemLineNumber to set.
+	 * @param itemLineNumber The itemLineNumber to set.
 	 * 
 	 */
 	public void setItemLineNumber(Integer itemLineNumber) {
@@ -113,7 +113,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the itemTypeCode attribute.
 	 * 
-	 * @return - Returns the itemTypeCode
+	 * @return Returns the itemTypeCode
 	 * 
 	 */
 	public String getItemTypeCode() { 
@@ -123,7 +123,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the itemTypeCode attribute.
 	 * 
-	 * @param - itemTypeCode The itemTypeCode to set.
+	 * @param itemTypeCode The itemTypeCode to set.
 	 * 
 	 */
 	public void setItemTypeCode(String itemTypeCode) {
@@ -134,7 +134,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the itemCreditQuantity attribute.
 	 * 
-	 * @return - Returns the itemCreditQuantity
+	 * @return Returns the itemCreditQuantity
 	 * 
 	 */
 	public KualiDecimal getItemCreditQuantity() { 
@@ -144,7 +144,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the itemCreditQuantity attribute.
 	 * 
-	 * @param - itemCreditQuantity The itemCreditQuantity to set.
+	 * @param itemCreditQuantity The itemCreditQuantity to set.
 	 * 
 	 */
 	public void setItemCreditQuantity(KualiDecimal itemCreditQuantity) {
@@ -155,7 +155,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the itemUnitPrice attribute.
 	 * 
-	 * @return - Returns the itemUnitPrice
+	 * @return Returns the itemUnitPrice
 	 * 
 	 */
 	public BigDecimal getItemUnitPrice() { 
@@ -165,7 +165,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the itemUnitPrice attribute.
 	 * 
-	 * @param - itemUnitPrice The itemUnitPrice to set.
+	 * @param itemUnitPrice The itemUnitPrice to set.
 	 * 
 	 */
 	public void setItemUnitPrice(BigDecimal itemUnitPrice) {
@@ -176,7 +176,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the itemExtendedPrice attribute.
 	 * 
-	 * @return - Returns the itemExtendedPrice
+	 * @return Returns the itemExtendedPrice
 	 * 
 	 */
 	public KualiDecimal getItemExtendedPrice() { 
@@ -186,7 +186,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the itemExtendedPrice attribute.
 	 * 
-	 * @param - itemExtendedPrice The itemExtendedPrice to set.
+	 * @param itemExtendedPrice The itemExtendedPrice to set.
 	 * 
 	 */
 	public void setItemExtendedPrice(KualiDecimal itemExtendedPrice) {
@@ -197,7 +197,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the itemAssignedToTradeInIndicator attribute.
 	 * 
-	 * @return - Returns the itemAssignedToTradeInIndicator
+	 * @return Returns the itemAssignedToTradeInIndicator
 	 * 
 	 */
 	public boolean getItemAssignedToTradeInIndicator() { 
@@ -207,7 +207,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the itemAssignedToTradeInIndicator attribute.
 	 * 
-	 * @param - itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
+	 * @param itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
 	 * 
 	 */
 	public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
@@ -218,7 +218,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemo attribute.
 	 * 
-	 * @return - Returns the creditMemo
+	 * @return Returns the creditMemo
 	 * 
 	 */
 	public CreditMemo getCreditMemo() { 
@@ -228,7 +228,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemo attribute.
 	 * 
-	 * @param - creditMemo The creditMemo to set.
+	 * @param creditMemo The creditMemo to set.
 	 * @deprecated
 	 */
 	public void setCreditMemo(CreditMemo creditMemo) {
@@ -236,7 +236,7 @@ public class CreditMemoItem extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

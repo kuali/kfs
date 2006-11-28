@@ -52,7 +52,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -62,7 +62,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -73,7 +73,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -83,7 +83,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -94,7 +94,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the reportsToChartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the reportsToChartOfAccountsCode
+	 * @return Returns the reportsToChartOfAccountsCode
 	 * 
 	 */
 	public String getReportsToChartOfAccountsCode() { 
@@ -104,7 +104,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the reportsToChartOfAccountsCode attribute.
 	 * 
-	 * @param - reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
+	 * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
 	 * 
 	 */
 	public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
@@ -115,7 +115,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the reportsToOrganizationCode attribute.
 	 * 
-	 * @return - Returns the reportsToOrganizationCode
+	 * @return Returns the reportsToOrganizationCode
 	 * 
 	 */
 	public String getReportsToOrganizationCode() { 
@@ -125,7 +125,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the reportsToOrganizationCode attribute.
 	 * 
-	 * @param - reportsToOrganizationCode The reportsToOrganizationCode to set.
+	 * @param reportsToOrganizationCode The reportsToOrganizationCode to set.
 	 * 
 	 */
 	public void setReportsToOrganizationCode(String reportsToOrganizationCode) {
@@ -136,7 +136,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the responsibilityCenterCode attribute.
 	 * 
-	 * @return - Returns the responsibilityCenterCode
+	 * @return Returns the responsibilityCenterCode
 	 * 
 	 */
 	public String getResponsibilityCenterCode() { 
@@ -146,7 +146,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the responsibilityCenterCode attribute.
 	 * 
-	 * @param - responsibilityCenterCode The responsibilityCenterCode to set.
+	 * @param responsibilityCenterCode The responsibilityCenterCode to set.
 	 * 
 	 */
 	public void setResponsibilityCenterCode(String responsibilityCenterCode) {
@@ -157,7 +157,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -167,7 +167,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -177,7 +177,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the organization attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return Returns the organization
 	 * 
 	 */
 	public Org getOrganization() { 
@@ -187,7 +187,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the organization attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param organization The organization to set.
 	 * @deprecated
 	 */
 	public void setOrganization(Org organization) {
@@ -197,7 +197,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the reportsToChartOfAccounts attribute.
 	 * 
-	 * @return - Returns the reportsToChartOfAccounts
+	 * @return Returns the reportsToChartOfAccounts
 	 * 
 	 */
 	public Chart getReportsToChartOfAccounts() { 
@@ -207,7 +207,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the reportsToChartOfAccounts attribute.
 	 * 
-	 * @param - reportsToChartOfAccounts The reportsToChartOfAccounts to set.
+	 * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
@@ -217,7 +217,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Gets the reportsToOrganization attribute.
 	 * 
-	 * @return - Returns the reportsToOrganization
+	 * @return Returns the reportsToOrganization
 	 * 
 	 */
 	public Org getReportsToOrganization() { 
@@ -227,7 +227,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
 	/**
 	 * Sets the reportsToOrganization attribute.
 	 * 
-	 * @param - reportsToOrganization The reportsToOrganization to set.
+	 * @param reportsToOrganization The reportsToOrganization to set.
 	 * @deprecated
 	 */
 	public void setReportsToOrganization(Org reportsToOrganization) {
@@ -252,7 +252,7 @@ public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
     }
    
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

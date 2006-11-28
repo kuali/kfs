@@ -145,7 +145,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialObjectCode attribute.
      * 
-     * @return - Returns the financialObjectCode
+     * @return Returns the financialObjectCode
      * 
      */
     public String getFinancialObjectCode() {
@@ -165,7 +165,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialObjectCodeName attribute.
      * 
-     * @return - Returns the financialObjectCodeName
+     * @return Returns the financialObjectCodeName
      * 
      */
     public String getFinancialObjectCodeName() {
@@ -185,7 +185,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialObjectCodeShortName attribute.
      * 
-     * @return - Returns the financialObjectCodeShortName
+     * @return Returns the financialObjectCodeShortName
      * 
      */
     public String getFinancialObjectCodeShortName() {
@@ -205,7 +205,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the historicalFinancialObjectCode attribute.
      * 
-     * @return - Returns the historicalFinancialObjectCode
+     * @return Returns the historicalFinancialObjectCode
      * 
      */
     public String getHistoricalFinancialObjectCode() {
@@ -225,7 +225,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialObjectActiveCode attribute.
      * 
-     * @return - Returns the financialObjectActiveCode
+     * @return Returns the financialObjectActiveCode
      * 
      */
     public boolean isFinancialObjectActiveCode() {
@@ -245,7 +245,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialBudgetAggregationCd attribute.
      * 
-     * @return - Returns the financialBudgetAggregationCd
+     * @return Returns the financialBudgetAggregationCd
      * 
      */
     /*public BudgetAggregationCode getFinancialBudgetAggregation() {
@@ -265,7 +265,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the universityFiscal attribute.
      * 
-     * @return - Returns the universityFiscal
+     * @return Returns the universityFiscal
      * 
      */
     public Options getUniversityFiscal() {
@@ -285,7 +285,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the nextYearFinancialObject attribute.
      * 
-     * @return - Returns the nextYearFinancialObject
+     * @return Returns the nextYearFinancialObject
      * 
      */
     public ObjectCode getNextYearFinancialObject() {
@@ -305,7 +305,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialObjectLevel attribute.
      * 
-     * @return - Returns the financialObjectLevel
+     * @return Returns the financialObjectLevel
      * 
      */
     public ObjLevel getFinancialObjectLevel() {
@@ -325,7 +325,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -345,7 +345,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the reportsToChartOfAccounts attribute.
      * 
-     * @return - Returns the reportsToChartOfAccounts
+     * @return Returns the reportsToChartOfAccounts
      * 
      */
     public Chart getReportsToChartOfAccounts() {
@@ -365,7 +365,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the reportsToFinancialObject attribute.
      * 
-     * @return - Returns the reportsToFinancialObject
+     * @return Returns the reportsToFinancialObject
      * 
      */
     public ObjectCode getReportsToFinancialObject() {
@@ -385,7 +385,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialObjectType attribute.
      * 
-     * @return - Returns the financialObjectType
+     * @return Returns the financialObjectType
      * 
      */
     public ObjectType getFinancialObjectType() {
@@ -405,7 +405,7 @@ public class ObjectCode extends BusinessObjectBase implements Summarizable {
     /**
      * Gets the financialObjectSubType attribute.
      * 
-     * @return - Returns the financialObjectSubType
+     * @return Returns the financialObjectSubType
      * 
      */
     public ObjSubTyp getFinancialObjectSubType() {

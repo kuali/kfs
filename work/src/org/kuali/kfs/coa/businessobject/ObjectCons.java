@@ -101,7 +101,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Gets the finConsolidationObjectName attribute.
      * 
-     * @return - Returns the finConsolidationObjectName
+     * @return Returns the finConsolidationObjectName
      * 
      */
     public String getFinConsolidationObjectName() {
@@ -121,7 +121,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Gets the finConsolidationObjShortName attribute.
      * 
-     * @return - Returns the finConsolidationObjShortName
+     * @return Returns the finConsolidationObjShortName
      * 
      */
     public String getFinConsolidationObjShortName() {
@@ -141,7 +141,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Gets the finConsolidationObjActiveIndicator attribute.
      * 
-     * @return - Returns the finConsolidationObjActiveIndicator
+     * @return Returns the finConsolidationObjActiveIndicator
      * 
      */
     public boolean isFinConsolidationObjActiveIndicator() {
@@ -161,7 +161,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Gets the financialReportingSortCode attribute.
      * 
-     * @return - Returns the financialReportingSortCode
+     * @return Returns the financialReportingSortCode
      * 
      */
     public String getFinancialReportingSortCode() {
@@ -181,7 +181,7 @@ public class ObjectCons extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

@@ -43,7 +43,7 @@ public class FiscalYearFunctionControl extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -64,7 +64,7 @@ public class FiscalYearFunctionControl extends BusinessObjectBase {
     /**
      * Gets the financialSystemFunctionControlCode attribute.
      * 
-     * @return - Returns the financialSystemFunctionControlCode
+     * @return Returns the financialSystemFunctionControlCode
      * 
      */
     public String getFinancialSystemFunctionControlCode() {
@@ -85,7 +85,7 @@ public class FiscalYearFunctionControl extends BusinessObjectBase {
     /**
      * Gets the financialSystemFunctionActiveIndicator attribute.
      * 
-     * @return - Returns the financialSystemFunctionActiveIndicator
+     * @return Returns the financialSystemFunctionActiveIndicator
      * 
      */
     public boolean isFinancialSystemFunctionActiveIndicator() {

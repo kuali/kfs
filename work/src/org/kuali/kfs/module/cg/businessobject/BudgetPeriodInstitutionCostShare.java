@@ -18,12 +18,6 @@
 
 package org.kuali.module.kra.budget.bo;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.util.KualiInteger;
-import org.kuali.module.chart.bo.Chart;
-
 /**
  * 
  */
@@ -42,7 +36,7 @@ public class BudgetPeriodInstitutionCostShare extends BudgetAbstractPeriodCostSh
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -58,18 +52,18 @@ public class BudgetPeriodInstitutionCostShare extends BudgetAbstractPeriodCostSh
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      */
     public String getOrganizationCode() {
         return organizationCode;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the organizationCode attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;

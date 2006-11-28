@@ -27,13 +27,14 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.budget.service.impl.BudgetPersonnelServiceImpl.PeriodSalary;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Comparable {
 
-    private String researchDocumentNumber;
+    private String documentNumber;
     private Integer budgetTaskSequenceNumber;
     private Integer budgetPeriodSequenceNumber;
     private Integer budgetUserSequenceNumber;
@@ -116,29 +117,29 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetTaskSequenceNumber attribute.
      * 
-     * @return - Returns the budgetTaskSequenceNumber
+     * @return Returns the budgetTaskSequenceNumber
      * 
      */
     public Integer getBudgetTaskSequenceNumber() {
@@ -158,7 +159,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the budgetPeriodSequenceNumber attribute.
      * 
-     * @return - Returns the budgetPeriodSequenceNumber
+     * @return Returns the budgetPeriodSequenceNumber
      * 
      */
     public Integer getBudgetPeriodSequenceNumber() {
@@ -178,7 +179,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the budgetUserSequenceNumber attribute.
      * 
-     * @return - Returns the budgetUserSequenceNumber
+     * @return Returns the budgetUserSequenceNumber
      * 
      */
     public Integer getBudgetUserSequenceNumber() {
@@ -208,7 +209,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionAppointmentTypeCode attribute.
      * 
-     * @return - Returns the institutionAppointmentTypeCode
+     * @return Returns the institutionAppointmentTypeCode
      * 
      */
     public void setInstitutionAppointmentTypeCode(String institutionAppointmentTypeCode) {
@@ -218,7 +219,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the agencyFringeBenefitTotalAmount attribute.
      * 
-     * @return - Returns the agencyFringeBenefitTotalAmount
+     * @return Returns the agencyFringeBenefitTotalAmount
      * 
      */
     public KualiInteger getAgencyFringeBenefitTotalAmount() {
@@ -238,7 +239,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the agencyPercentEffortAmount attribute.
      * 
-     * @return - Returns the agencyPercentEffortAmount
+     * @return Returns the agencyPercentEffortAmount
      * 
      */
     public KualiInteger getAgencyPercentEffortAmount() {
@@ -258,7 +259,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the agencyRequestTotalAmount attribute.
      * 
-     * @return - Returns the agencyRequestTotalAmount
+     * @return Returns the agencyRequestTotalAmount
      * 
      */
     public KualiInteger getAgencyRequestTotalAmount() {
@@ -278,7 +279,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the personWeeksAmount attribute.
      * 
-     * @return - Returns the personWeeksAmount
+     * @return Returns the personWeeksAmount
      * 
      */
     public Integer getPersonWeeksAmount() {
@@ -298,7 +299,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the personWeeksJustificationText attribute.
      * 
-     * @return - Returns the personWeeksJustificationText
+     * @return Returns the personWeeksJustificationText
      * 
      */
     public String getPersonWeeksJustificationText() {
@@ -318,7 +319,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionCostShareFringeBenefitTotalAmount attribute.
      * 
-     * @return - Returns the institutionCostShareFringeBenefitTotalAmount
+     * @return Returns the institutionCostShareFringeBenefitTotalAmount
      * 
      */
     public KualiInteger getInstitutionCostShareFringeBenefitTotalAmount() {
@@ -338,7 +339,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionCostSharePercentEffortAmount attribute.
      * 
-     * @return - Returns the institutionCostSharePercentEffortAmount
+     * @return Returns the institutionCostSharePercentEffortAmount
      * 
      */
     public KualiInteger getInstitutionCostSharePercentEffortAmount() {
@@ -358,7 +359,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionCostShareRequestTotalAmount attribute.
      * 
-     * @return - Returns the institutionCostShareRequestTotalAmount
+     * @return Returns the institutionCostShareRequestTotalAmount
      * 
      */
     public KualiInteger getInstitutionCostShareRequestTotalAmount() {
@@ -378,7 +379,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the userBudgetPeriodSalaryAmount attribute.
      * 
-     * @return - Returns the userBudgetPeriodSalaryAmount
+     * @return Returns the userBudgetPeriodSalaryAmount
      * 
      */
     public KualiInteger getUserBudgetPeriodSalaryAmount() {
@@ -398,7 +399,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the userAgencyHours attribute.
      * 
-     * @return - Returns the userAgencyHours
+     * @return Returns the userAgencyHours
      * 
      */
     public KualiInteger getUserAgencyHours() {
@@ -418,7 +419,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the userHourlyRate attribute.
      * 
-     * @return - Returns the userHourlyRate
+     * @return Returns the userHourlyRate
      * 
      */
     public KualiDecimal getUserHourlyRate() {
@@ -438,7 +439,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the userInstitutionHours attribute.
      * 
-     * @return - Returns the userInstitutionHours
+     * @return Returns the userInstitutionHours
      * 
      */
     public KualiInteger getUserInstitutionHours() {
@@ -458,7 +459,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the agencyFullTimeEquivalentPercent attribute.
      * 
-     * @return - Returns the agencyFullTimeEquivalentPercent
+     * @return Returns the agencyFullTimeEquivalentPercent
      * 
      */
     public KualiInteger getAgencyFullTimeEquivalentPercent() {
@@ -490,7 +491,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the agencyHealthInsuranceAmount attribute.
      * 
-     * @return - Returns the agencyHealthInsuranceAmount
+     * @return Returns the agencyHealthInsuranceAmount
      * 
      */
     public KualiInteger getAgencyHealthInsuranceAmount() {
@@ -510,7 +511,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the agencyRequestedFeesAmount attribute.
      * 
-     * @return - Returns the agencyRequestedFeesAmount
+     * @return Returns the agencyRequestedFeesAmount
      * 
      */
     public KualiInteger getAgencyRequestedFeesAmount() {
@@ -530,7 +531,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the agencySalaryAmount attribute.
      * 
-     * @return - Returns the agencySalaryAmount
+     * @return Returns the agencySalaryAmount
      * 
      */
     public KualiInteger getAgencySalaryAmount() {
@@ -550,7 +551,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionFullTimeEquivalentPercent attribute.
      * 
-     * @return - Returns the institutionFullTimeEquivalentPercent
+     * @return Returns the institutionFullTimeEquivalentPercent
      * 
      */
     public KualiInteger getInstitutionFullTimeEquivalentPercent() {
@@ -570,7 +571,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionHealthInsuranceAmount attribute.
      * 
-     * @return - Returns the institutionHealthInsuranceAmount
+     * @return Returns the institutionHealthInsuranceAmount
      * 
      */
     public KualiInteger getInstitutionHealthInsuranceAmount() {
@@ -590,7 +591,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionRequestedFeesAmount attribute.
      * 
-     * @return - Returns the institutionRequestedFeesAmount
+     * @return Returns the institutionRequestedFeesAmount
      * 
      */
     public KualiInteger getInstitutionRequestedFeesAmount() {
@@ -610,7 +611,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionSalaryAmount attribute.
      * 
-     * @return - Returns the institutionSalaryAmount
+     * @return Returns the institutionSalaryAmount
      * 
      */
     public KualiInteger getInstitutionSalaryAmount() {
@@ -630,7 +631,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the userCreditHoursNumber attribute.
      * 
-     * @return - Returns the userCreditHoursNumber
+     * @return Returns the userCreditHoursNumber
      * 
      */
     public KualiInteger getUserCreditHoursNumber() {
@@ -650,7 +651,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the userCreditHourAmount attribute.
      * 
-     * @return - Returns the userCreditHourAmount
+     * @return Returns the userCreditHourAmount
      * 
      */
     public KualiDecimal getUserCreditHourAmount() {
@@ -670,7 +671,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the userMiscellaneousFeeAmount attribute.
      * 
-     * @return - Returns the userMiscellaneousFeeAmount
+     * @return Returns the userMiscellaneousFeeAmount
      * 
      */
     public KualiInteger getUserMiscellaneousFeeAmount() {
@@ -703,7 +704,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     /**
      * Gets the institutionAppointmentType attribute.
      * 
-     * @return - Returns the institutionAppointmentType
+     * @return Returns the institutionAppointmentType
      * 
      */
     public BudgetFringeRate getBudgetFringeRate() {
@@ -762,7 +763,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.getResearchDocumentNumber());
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         m.put("budgetUserSequenceNumber", this.getBudgetUserSequenceNumber());
         m.put("institutionAppointmentTypeCode", this.getInstitutionAppointmentTypeCode());
         m.put("budgetTaskSequenceNumber", this.getBudgetTaskSequenceNumber());
@@ -883,7 +884,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
 
         if (ObjectUtils.isNotNull(obj) && obj instanceof UserAppointmentTaskPeriod) {
             UserAppointmentTaskPeriod objCompare = (UserAppointmentTaskPeriod) obj;
-            equals &= this.researchDocumentNumber.equals(objCompare.getResearchDocumentNumber());
+            equals &= this.documentNumber.equals(objCompare.getDocumentNumber());
             if (this.getAgencyFringeBenefitTotalAmount() == null && objCompare.getAgencyFringeBenefitTotalAmount() == null) {
             }
             else {
@@ -1064,7 +1065,7 @@ public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Com
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getResearchDocumentNumber() + "|" + this.getPersonWeeksJustificationText() + "|" + this.getInstitutionAppointmentTypeCode() + "|" + this.getAgencyFringeBenefitTotalAmount().toString() + "|" + this.getAgencyFullTimeEquivalentPercent().toString() + "|" + this.getAgencyHealthInsuranceAmount().toString() + "|" + this.getAgencyPercentEffortAmount().toString() + "|" + this.getAgencyRequestedFeesAmount().toString() + "|" + this.getAgencySalaryAmount().toString() + "|" + this.getBudgetFringeRate().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetUserSequenceNumber().toString() + "|" + this.getPeriod().toString() + "|" + this.getPeriodSalary().toString() + "|" + this.getPersonWeeksAmount().toString() + "|" + this.getTask().toString() + "|" + this.getTotalFeeRemissionsAmount().toString() + "|" + this.getTotalFringeAmount().toString() + "|" + this.getTotalFteAmount().toString()
+        String hashString = this.getDocumentNumber() + "|" + this.getPersonWeeksJustificationText() + "|" + this.getInstitutionAppointmentTypeCode() + "|" + this.getAgencyFringeBenefitTotalAmount().toString() + "|" + this.getAgencyFullTimeEquivalentPercent().toString() + "|" + this.getAgencyHealthInsuranceAmount().toString() + "|" + this.getAgencyPercentEffortAmount().toString() + "|" + this.getAgencyRequestedFeesAmount().toString() + "|" + this.getAgencySalaryAmount().toString() + "|" + this.getBudgetFringeRate().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetUserSequenceNumber().toString() + "|" + this.getPeriod().toString() + "|" + this.getPeriodSalary().toString() + "|" + this.getPersonWeeksAmount().toString() + "|" + this.getTask().toString() + "|" + this.getTotalFeeRemissionsAmount().toString() + "|" + this.getTotalFringeAmount().toString() + "|" + this.getTotalFteAmount().toString()
                 + "|" + this.getTotalGradAsstSalaryAmount().toString() + "|" + this.getTotalHealthInsuranceAmount().toString() + "|" + this.getTotalPercentEffort().toString() + "|" + this.getTotalSalaryAmount().toString() + "|" + this.getInstitutionCostShareFringeBenefitTotalAmount().toString() + "|" + this.getInstitutionCostSharePercentEffortAmount().toString() + "|" + this.getInstitutionCostShareRequestTotalAmount().toString() + "|" + this.getInstitutionFullTimeEquivalentPercent().toString() + "|" + this.getInstitutionHealthInsuranceAmount().toString() + "|" + this.getInstitutionRequestedFeesAmount().toString() + "|" + this.getInstitutionSalaryAmount().toString() + "|" + this.getUserAgencyHours().toString() + "|" + this.getUserBudgetPeriodSalaryAmount().toString() + "|" + this.getUserCreditHourAmount().toString() + "|" + this.getUserCreditHoursNumber().toString() + "|" + this.getUserHourlyRate().toString() + "|" + this.getUserMiscellaneousFeeAmount().toString() + "|"
                 + this.getUserInstitutionHours().toString();
         return hashString.hashCode();

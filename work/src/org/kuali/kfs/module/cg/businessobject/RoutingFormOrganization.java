@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -31,7 +32,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 
 	private String chartOfAccountsCode;
 	private String organizationCode;
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private boolean budgetIndicator;
 	private boolean routingFormPrimaryOrganizationIndicator;
 
@@ -48,7 +49,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -58,7 +59,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -69,7 +70,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -79,7 +80,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -88,30 +89,30 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the budgetIndicator attribute.
 	 * 
-	 * @return - Returns the budgetIndicator
+	 * @return Returns the budgetIndicator
 	 * 
 	 */
 	public boolean getBudgetIndicator() { 
@@ -121,7 +122,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Sets the budgetIndicator attribute.
 	 * 
-	 * @param - budgetIndicator The budgetIndicator to set.
+	 * @param budgetIndicator The budgetIndicator to set.
 	 * 
 	 */
 	public void setBudgetIndicator(boolean budgetIndicator) {
@@ -131,7 +132,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormPrimaryOrganizationIndicator attribute.
 	 * 
-	 * @return - Returns the routingFormPrimaryOrganizationIndicator
+	 * @return Returns the routingFormPrimaryOrganizationIndicator
 	 * 
 	 */
 	public boolean getRoutingFormPrimaryOrganizationIndicator() { 
@@ -141,7 +142,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormPrimaryOrganizationIndicator attribute.
 	 * 
-	 * @param - routingFormPrimaryOrganizationIndicator The routingFormPrimaryOrganizationIndicator to set.
+	 * @param routingFormPrimaryOrganizationIndicator The routingFormPrimaryOrganizationIndicator to set.
 	 * 
 	 */
 	public void setRoutingFormPrimaryOrganizationIndicator(boolean routingFormPrimaryOrganizationIndicator) {
@@ -152,7 +153,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -162,7 +163,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -172,7 +173,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Gets the organization attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return Returns the organization
 	 * 
 	 */
 	public Org getOrganization() { 
@@ -182,7 +183,7 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	/**
 	 * Sets the organization attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param organization The organization to set.
 	 * @deprecated
 	 */
 	public void setOrganization(Org organization) {
@@ -190,13 +191,13 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 	    return m;
     }
 }

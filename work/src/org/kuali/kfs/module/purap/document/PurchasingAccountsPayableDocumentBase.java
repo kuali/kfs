@@ -69,7 +69,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
@@ -83,7 +83,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     /**
      * Gets the vendorHeaderGeneratedIdentifier attribute.
      * 
-     * @return - Returns the vendorHeaderGeneratedIdentifier
+     * @return Returns the vendorHeaderGeneratedIdentifier
      * 
      */
     public Integer getVendorHeaderGeneratedIdentifier() { 
@@ -93,7 +93,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     /**
      * Sets the vendorHeaderGeneratedIdentifier attribute.
      * 
-     * @param - vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
      * 
      */
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
@@ -104,7 +104,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     /**
      * Gets the vendorDetailAssignedIdentifier attribute.
      * 
-     * @return - Returns the vendorDetailAssignedIdentifier
+     * @return Returns the vendorDetailAssignedIdentifier
      * 
      */
     public Integer getVendorDetailAssignedIdentifier() { 
@@ -114,7 +114,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     /**
      * Sets the vendorDetailAssignedIdentifier attribute.
      * 
-     * @param - vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+     * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
      * 
      */
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
@@ -124,7 +124,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     /**
      * Gets the vendorCustomerNumber attribute.
      * 
-     * @return - Returns the vendorCustomerNumber
+     * @return Returns the vendorCustomerNumber
      * 
      */
     public String getVendorCustomerNumber() { 
@@ -134,7 +134,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     /**
      * Sets the vendorCustomerNumber attribute.
      * 
-     * @param - vendorCustomerNumber The vendorCustomerNumber to set.
+     * @param vendorCustomerNumber The vendorCustomerNumber to set.
      * 
      */
     public void setVendorCustomerNumber(String vendorCustomerNumber) {

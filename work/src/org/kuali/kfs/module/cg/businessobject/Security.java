@@ -41,7 +41,7 @@ public class Security extends BusinessObjectBase {
     /**
      * Gets the personUniversalIdentifier attribute.
      * 
-     * @return - Returns the personUniversalIdentifier
+     * @return Returns the personUniversalIdentifier
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;

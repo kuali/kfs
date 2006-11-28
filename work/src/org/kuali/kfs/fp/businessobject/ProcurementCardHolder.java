@@ -64,7 +64,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -85,7 +85,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the transactionCreditCardNumber attribute.
      * 
-     * @return - Returns the transactionCreditCardNumber
+     * @return Returns the transactionCreditCardNumber
      * 
      */
     public String getTransactionCreditCardNumber() {
@@ -106,7 +106,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderName attribute.
      * 
-     * @return - Returns the cardHolderName
+     * @return Returns the cardHolderName
      * 
      */
     public String getCardHolderName() {
@@ -127,7 +127,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderAlternateName attribute.
      * 
-     * @return - Returns the cardHolderAlternateName
+     * @return Returns the cardHolderAlternateName
      * 
      */
     public String getCardHolderAlternateName() {
@@ -148,7 +148,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderLine1Address attribute.
      * 
-     * @return - Returns the cardHolderLine1Address
+     * @return Returns the cardHolderLine1Address
      * 
      */
     public String getCardHolderLine1Address() {
@@ -169,7 +169,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderLine2Address attribute.
      * 
-     * @return - Returns the cardHolderLine2Address
+     * @return Returns the cardHolderLine2Address
      * 
      */
     public String getCardHolderLine2Address() {
@@ -190,7 +190,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderCityName attribute.
      * 
-     * @return - Returns the cardHolderCityName
+     * @return Returns the cardHolderCityName
      * 
      */
     public String getCardHolderCityName() {
@@ -211,7 +211,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderStateCode attribute.
      * 
-     * @return - Returns the cardHolderStateCode
+     * @return Returns the cardHolderStateCode
      * 
      */
     public String getCardHolderStateCode() {
@@ -232,7 +232,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderZipCode attribute.
      * 
-     * @return - Returns the cardHolderZipCode
+     * @return Returns the cardHolderZipCode
      * 
      */
     public String getCardHolderZipCode() {
@@ -253,7 +253,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardHolderWorkPhoneNumber attribute.
      * 
-     * @return - Returns the cardHolderWorkPhoneNumber
+     * @return Returns the cardHolderWorkPhoneNumber
      * 
      */
     public String getCardHolderWorkPhoneNumber() {
@@ -274,7 +274,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardLimit attribute.
      * 
-     * @return - Returns the cardLimit
+     * @return Returns the cardLimit
      * 
      */
     public KualiDecimal getCardLimit() {
@@ -295,7 +295,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardCycleAmountLimit attribute.
      * 
-     * @return - Returns the cardCycleAmountLimit
+     * @return Returns the cardCycleAmountLimit
      * 
      */
     public KualiDecimal getCardCycleAmountLimit() {
@@ -316,7 +316,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardCycleVolumeLimit attribute.
      * 
-     * @return - Returns the cardCycleVolumeLimit
+     * @return Returns the cardCycleVolumeLimit
      * 
      */
     public KualiDecimal getCardCycleVolumeLimit() {
@@ -337,7 +337,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardStatusCode attribute.
      * 
-     * @return - Returns the cardStatusCode
+     * @return Returns the cardStatusCode
      * 
      */
     public String getCardStatusCode() {
@@ -358,7 +358,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the cardNoteText attribute.
      * 
-     * @return - Returns the cardNoteText
+     * @return Returns the cardNoteText
      * 
      */
     public String getCardNoteText() {
@@ -379,7 +379,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -400,7 +400,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -421,7 +421,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the subAccountNumber attribute.
      * 
-     * @return - Returns the subAccountNumber
+     * @return Returns the subAccountNumber
      * 
      */
     public String getSubAccountNumber() {
@@ -442,7 +442,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -462,7 +462,7 @@ public class ProcurementCardHolder extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

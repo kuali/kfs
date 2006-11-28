@@ -49,7 +49,7 @@ public class IndirectCostLookup extends BusinessObjectBase {
     /**
      * Gets the budgetOnCampusIndicator attribute.
      * 
-     * @return - Returns the budgetOnCampusIndicator
+     * @return Returns the budgetOnCampusIndicator
      * 
      */
     public boolean getBudgetOnCampusIndicator() {
@@ -69,7 +69,7 @@ public class IndirectCostLookup extends BusinessObjectBase {
     /**
      * Gets the budgetPurposeCode attribute.
      * 
-     * @return - Returns the budgetPurposeCode
+     * @return Returns the budgetPurposeCode
      * 
      */
     public String getBudgetPurposeCode() {
@@ -89,7 +89,7 @@ public class IndirectCostLookup extends BusinessObjectBase {
     /**
      * Gets the budgetIndirectCostRate attribute.
      * 
-     * @return - Returns the budgetIndirectCostRate
+     * @return Returns the budgetIndirectCostRate
      * 
      */
     public KualiDecimal getBudgetIndirectCostRate() {

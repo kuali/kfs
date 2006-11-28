@@ -34,7 +34,7 @@ public class ObjSubTyp extends KualiCodeBase {
     /**
      * Gets the financialObjectSubTypeCode attribute.
      * 
-     * @return - Returns the financialObjectSubTypeCode
+     * @return Returns the financialObjectSubTypeCode
      * 
      */
     public String getFinancialObjectSubTypeCode() {
@@ -55,7 +55,7 @@ public class ObjSubTyp extends KualiCodeBase {
     /**
      * Gets the financialObjectSubTypeName attribute.
      * 
-     * @return - Returns the financialObjectSubTypeName
+     * @return Returns the financialObjectSubTypeName
      * 
      */
     public String getFinancialObjectSubTypeName() {

@@ -297,7 +297,7 @@ public class AppointmentType extends BusinessObjectBase {
     /**
      * Gets the appointmentTypeEffectiveDateItems attribute.
      * 
-     * @return - Returns the appointmentTypeEffectiveDateItems
+     * @return Returns the appointmentTypeEffectiveDateItems
      * 
      */
     public List getAppointmentTypeEffectiveDateItems() {

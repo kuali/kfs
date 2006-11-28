@@ -22,13 +22,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
 
-    protected String researchDocumentNumber;
+    protected String documentNumber;
     protected Integer budgetPeriodSequenceNumber;
     protected Integer budgetCostShareSequenceNumber;
     protected KualiInteger budgetCostShareAmount;
@@ -41,29 +42,29 @@ public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetThirdPartyCostShareAmount attribute.
      * 
-     * @return - Returns the budgetThirdPartyCostShareAmount
+     * @return Returns the budgetThirdPartyCostShareAmount
      * 
      */
     public Integer getBudgetPeriodSequenceNumber() {
@@ -83,7 +84,7 @@ public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
     /**
      * Gets the budgetThirdPartyCostShareAmount attribute.
      * 
-     * @return - Returns the budgetThirdPartyCostShareAmount
+     * @return Returns the budgetThirdPartyCostShareAmount
      * 
      */
     public Integer getBudgetCostShareSequenceNumber() {
@@ -103,7 +104,7 @@ public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
     /**
      * Gets the budgetThirdPartyCostShareAmount attribute.
      * 
-     * @return - Returns the budgetThirdPartyCostShareAmount
+     * @return Returns the budgetThirdPartyCostShareAmount
      * 
      */
     public KualiInteger getBudgetCostShareAmount() {
@@ -126,7 +127,7 @@ public abstract class BudgetAbstractPeriodCostShare extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("budgetPeriodSequenceNumber", this.budgetPeriodSequenceNumber);
         m.put("budgetCostShareSequenceNumber", this.budgetCostShareSequenceNumber);
 

@@ -47,7 +47,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -57,7 +57,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -68,7 +68,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the positionNumber attribute.
 	 * 
-	 * @return - Returns the positionNumber
+	 * @return Returns the positionNumber
 	 * 
 	 */
 	public String getPositionNumber() { 
@@ -78,7 +78,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the positionNumber attribute.
 	 * 
-	 * @param - positionNumber The positionNumber to set.
+	 * @param positionNumber The positionNumber to set.
 	 * 
 	 */
 	public void setPositionNumber(String positionNumber) {
@@ -89,7 +89,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the personName attribute.
 	 * 
-	 * @return - Returns the personName
+	 * @return Returns the personName
 	 * 
 	 */
 	public String getPersonName() { 
@@ -99,7 +99,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the personName attribute.
 	 * 
-	 * @param - personName The personName to set.
+	 * @param personName The personName to set.
 	 * 
 	 */
 	public void setPersonName(String personName) {
@@ -110,7 +110,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the setidSalary attribute.
 	 * 
-	 * @return - Returns the setidSalary
+	 * @return Returns the setidSalary
 	 * 
 	 */
 	public String getSetidSalary() { 
@@ -120,7 +120,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the setidSalary attribute.
 	 * 
-	 * @param - setidSalary The setidSalary to set.
+	 * @param setidSalary The setidSalary to set.
 	 * 
 	 */
 	public void setSetidSalary(String setidSalary) {
@@ -131,7 +131,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the salaryAdministrationPlan attribute.
 	 * 
-	 * @return - Returns the salaryAdministrationPlan
+	 * @return Returns the salaryAdministrationPlan
 	 * 
 	 */
 	public String getSalaryAdministrationPlan() { 
@@ -141,7 +141,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the salaryAdministrationPlan attribute.
 	 * 
-	 * @param - salaryAdministrationPlan The salaryAdministrationPlan to set.
+	 * @param salaryAdministrationPlan The salaryAdministrationPlan to set.
 	 * 
 	 */
 	public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
@@ -152,7 +152,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the grade attribute.
 	 * 
-	 * @return - Returns the grade
+	 * @return Returns the grade
 	 * 
 	 */
 	public String getGrade() { 
@@ -162,7 +162,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the grade attribute.
 	 * 
-	 * @param - grade The grade to set.
+	 * @param grade The grade to set.
 	 * 
 	 */
 	public void setGrade(String grade) {
@@ -173,7 +173,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the unionCode attribute.
 	 * 
-	 * @return - Returns the unionCode
+	 * @return Returns the unionCode
 	 * 
 	 */
 	public String getUnionCode() { 
@@ -183,7 +183,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the unionCode attribute.
 	 * 
-	 * @param - unionCode The unionCode to set.
+	 * @param unionCode The unionCode to set.
 	 * 
 	 */
 	public void setUnionCode(String unionCode) {
@@ -194,7 +194,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Gets the appointmentRequestedPayRate attribute.
 	 * 
-	 * @return - Returns the appointmentRequestedPayRate
+	 * @return Returns the appointmentRequestedPayRate
 	 * 
 	 */
 	public BigDecimal getAppointmentRequestedPayRate() { 
@@ -204,7 +204,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 	/**
 	 * Sets the appointmentRequestedPayRate attribute.
 	 * 
-	 * @param - appointmentRequestedPayRate The appointmentRequestedPayRate to set.
+	 * @param appointmentRequestedPayRate The appointmentRequestedPayRate to set.
 	 * 
 	 */
 	public void setAppointmentRequestedPayRate(BigDecimal appointmentRequestedPayRate) {
@@ -213,7 +213,7 @@ public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

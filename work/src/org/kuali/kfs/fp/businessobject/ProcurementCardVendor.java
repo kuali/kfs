@@ -49,7 +49,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -70,7 +70,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTransactionLineNumber attribute.
      * 
-     * @return - Returns the financialDocumentTransactionLineNumber
+     * @return Returns the financialDocumentTransactionLineNumber
      * 
      */
     public Integer getFinancialDocumentTransactionLineNumber() {
@@ -91,7 +91,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the vendorName attribute.
      * 
-     * @return - Returns the vendorName
+     * @return Returns the vendorName
      * 
      */
     public String getVendorName() {
@@ -112,7 +112,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the vendorLine1Address attribute.
      * 
-     * @return - Returns the vendorLine1Address
+     * @return Returns the vendorLine1Address
      * 
      */
     public String getVendorLine1Address() {
@@ -133,7 +133,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the vendorLine2Address attribute.
      * 
-     * @return - Returns the vendorLine2Address
+     * @return Returns the vendorLine2Address
      * 
      */
     public String getVendorLine2Address() {
@@ -154,7 +154,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the vendorCityName attribute.
      * 
-     * @return - Returns the vendorCityName
+     * @return Returns the vendorCityName
      * 
      */
     public String getVendorCityName() {
@@ -175,7 +175,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the vendorStateCode attribute.
      * 
-     * @return - Returns the vendorStateCode
+     * @return Returns the vendorStateCode
      * 
      */
     public String getVendorStateCode() {
@@ -196,7 +196,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the vendorZipCode attribute.
      * 
-     * @return - Returns the vendorZipCode
+     * @return Returns the vendorZipCode
      * 
      */
     public String getVendorZipCode() {
@@ -217,7 +217,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the visaVendorIdentifier attribute.
      * 
-     * @return - Returns the visaVendorIdentifier
+     * @return Returns the visaVendorIdentifier
      * 
      */
     public String getVisaVendorIdentifier() {
@@ -238,7 +238,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the vendorOrderNumber attribute.
      * 
-     * @return - Returns the vendorOrderNumber
+     * @return Returns the vendorOrderNumber
      * 
      */
     public String getVendorOrderNumber() {
@@ -259,7 +259,7 @@ public class ProcurementCardVendor extends BusinessObjectBase {
     /**
      * Gets the transactionMerchantCategoryCode attribute.
      * 
-     * @return - Returns the transactionMerchantCategoryCode
+     * @return Returns the transactionMerchantCategoryCode
      * 
      */
     public String getTransactionMerchantCategoryCode() {

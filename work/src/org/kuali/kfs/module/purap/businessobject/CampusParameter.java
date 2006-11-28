@@ -45,7 +45,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Gets the campusCode attribute.
 	 * 
-	 * @return - Returns the campusCode
+	 * @return Returns the campusCode
 	 * 
 	 */
 	public String getCampusCode() { 
@@ -55,7 +55,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Sets the campusCode attribute.
 	 * 
-	 * @param - campusCode The campusCode to set.
+	 * @param campusCode The campusCode to set.
 	 * 
 	 */
 	public void setCampusCode(String campusCode) {
@@ -66,7 +66,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Gets the campusPurchasingDirectorName attribute.
 	 * 
-	 * @return - Returns the campusPurchasingDirectorName
+	 * @return Returns the campusPurchasingDirectorName
 	 * 
 	 */
 	public String getCampusPurchasingDirectorName() { 
@@ -76,7 +76,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Sets the campusPurchasingDirectorName attribute.
 	 * 
-	 * @param - campusPurchasingDirectorName The campusPurchasingDirectorName to set.
+	 * @param campusPurchasingDirectorName The campusPurchasingDirectorName to set.
 	 * 
 	 */
 	public void setCampusPurchasingDirectorName(String campusPurchasingDirectorName) {
@@ -87,7 +87,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Gets the campusPurchasingDirectorTitle attribute.
 	 * 
-	 * @return - Returns the campusPurchasingDirectorTitle
+	 * @return Returns the campusPurchasingDirectorTitle
 	 * 
 	 */
 	public String getCampusPurchasingDirectorTitle() { 
@@ -97,7 +97,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Sets the campusPurchasingDirectorTitle attribute.
 	 * 
-	 * @param - campusPurchasingDirectorTitle The campusPurchasingDirectorTitle to set.
+	 * @param campusPurchasingDirectorTitle The campusPurchasingDirectorTitle to set.
 	 * 
 	 */
 	public void setCampusPurchasingDirectorTitle(String campusPurchasingDirectorTitle) {
@@ -108,7 +108,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Gets the campusAccountsPayableEmailAddress attribute.
 	 * 
-	 * @return - Returns the campusAccountsPayableEmailAddress
+	 * @return Returns the campusAccountsPayableEmailAddress
 	 * 
 	 */
 	public String getCampusAccountsPayableEmailAddress() { 
@@ -118,7 +118,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Sets the campusAccountsPayableEmailAddress attribute.
 	 * 
-	 * @param - campusAccountsPayableEmailAddress The campusAccountsPayableEmailAddress to set.
+	 * @param campusAccountsPayableEmailAddress The campusAccountsPayableEmailAddress to set.
 	 * 
 	 */
 	public void setCampusAccountsPayableEmailAddress(String campusAccountsPayableEmailAddress) {
@@ -129,7 +129,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Gets the campus attribute.
 	 * 
-	 * @return - Returns the campus
+	 * @return Returns the campus
 	 * 
 	 */
 	public Campus getCampus() { 
@@ -139,7 +139,7 @@ public class CampusParameter extends BusinessObjectBase {
 	/**
 	 * Sets the campus attribute.
 	 * 
-	 * @param - campus The campus to set.
+	 * @param campus The campus to set.
 	 * @deprecated
 	 */
 	public void setCampus(Campus campus) {
@@ -147,7 +147,7 @@ public class CampusParameter extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

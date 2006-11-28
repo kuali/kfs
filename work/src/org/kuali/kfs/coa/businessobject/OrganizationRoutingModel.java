@@ -59,7 +59,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -80,7 +80,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -101,7 +101,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the organizationRoutingModelName attribute.
      * 
-     * @return - Returns the organizationRoutingModelName
+     * @return Returns the organizationRoutingModelName
      * 
      */
     public String getOrganizationRoutingModelName() {
@@ -122,7 +122,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the accountDelegateUniversalId attribute.
      * 
-     * @return - Returns the accountDelegateUniversalId
+     * @return Returns the accountDelegateUniversalId
      * 
      */
     public String getAccountDelegateUniversalId() {
@@ -143,7 +143,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentTypeCode
+     * @return Returns the financialDocumentTypeCode
      * 
      */
     public String getFinancialDocumentTypeCode() {
@@ -164,7 +164,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the approvalFromThisAmount attribute.
      * 
-     * @return - Returns the approvalFromThisAmount
+     * @return Returns the approvalFromThisAmount
      * 
      */
     public KualiDecimal getApprovalFromThisAmount() {
@@ -185,7 +185,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the approvalToThisAmount attribute.
      * 
-     * @return - Returns the approvalToThisAmount
+     * @return Returns the approvalToThisAmount
      * 
      */
     public KualiDecimal getApprovalToThisAmount() {
@@ -206,7 +206,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the accountDelegatePrimaryRoutingIndicator attribute.
      * 
-     * @return - Returns the accountDelegatePrimaryRoutingIndicator
+     * @return Returns the accountDelegatePrimaryRoutingIndicator
      * 
      */
     public boolean getAccountDelegatePrimaryRoutingIndicator() {
@@ -227,7 +227,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the accountDelegateStartDate attribute.
      * 
-     * @return - Returns the accountDelegateStartDate
+     * @return Returns the accountDelegateStartDate
      * 
      */
     public Date getAccountDelegateStartDate() {
@@ -248,7 +248,7 @@ public class OrganizationRoutingModel extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

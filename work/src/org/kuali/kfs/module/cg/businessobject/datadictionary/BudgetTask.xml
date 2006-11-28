@@ -27,7 +27,7 @@
             <title>Budget Task</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="researchDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="budgetTaskSequenceNumber" />
                 <field attributeName="budgetTaskName" />
                 <field attributeName="objectId" />
@@ -40,16 +40,16 @@
 
             <instructions>Lookup an Budget Task</instructions>
 
-            <defaultSort attributeName="researchDocumentNumber" sortAscending="true" />
+            <defaultSort attributeName="documentNumber" sortAscending="true" />
 
             <lookupFields>
-                <lookupField attributeName="researchDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="budgetTaskSequenceNumber" required="false" />
                 <lookupField attributeName="budgetTaskName" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="researchDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="budgetTaskSequenceNumber" />
                 <field attributeName="budgetTaskName" />
                 <field attributeName="budgetTaskOnCampus" />
@@ -60,7 +60,7 @@
 
         <attributes>
 
-            <attribute name="researchDocumentNumber" forceUppercase="true">
+            <attribute name="documentNumber" forceUppercase="true">
                 <label>Budget Number</label>
                 <shortLabel>Budget Number</shortLabel>
 

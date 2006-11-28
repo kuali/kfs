@@ -53,7 +53,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -74,7 +74,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the depositFinancialSystemOriginationCode attribute.
      * 
-     * @return - Returns the depositFinancialSystemOriginationCode
+     * @return Returns the depositFinancialSystemOriginationCode
      * 
      */
     public String getDepositFinancialSystemOriginationCode() {
@@ -95,7 +95,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentDepositNumber attribute.
      * 
-     * @return - Returns the financialDocumentDepositNumber
+     * @return Returns the financialDocumentDepositNumber
      * 
      */
     public String getFinancialDocumentDepositNumber() {
@@ -116,7 +116,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCheckAmount attribute.
      * 
-     * @return - Returns the financialDocumentCheckAmount
+     * @return Returns the financialDocumentCheckAmount
      * 
      */
     public KualiDecimal getFinancialDocumentCheckAmount() {
@@ -137,7 +137,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentAdvanceDepositAmount attribute.
      * 
-     * @return - Returns the financialDocumentAdvanceDepositAmount
+     * @return Returns the financialDocumentAdvanceDepositAmount
      * 
      */
     public KualiDecimal getFinancialDocumentAdvanceDepositAmount() {
@@ -158,7 +158,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentRevolvingFundAmount attribute.
      * 
-     * @return - Returns the financialDocumentRevolvingFundAmount
+     * @return Returns the financialDocumentRevolvingFundAmount
      * 
      */
     public KualiDecimal getFinancialDocumentRevolvingFundAmount() {
@@ -179,7 +179,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNextCreditCardLineNumber attribute.
      * 
-     * @return - Returns the financialDocumentNextCreditCardLineNumber
+     * @return Returns the financialDocumentNextCreditCardLineNumber
      * 
      */
     public Integer getFinancialDocumentNextCreditCardLineNumber() {
@@ -200,7 +200,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCashAmount attribute.
      * 
-     * @return - Returns the financialDocumentCashAmount
+     * @return Returns the financialDocumentCashAmount
      * 
      */
     public KualiDecimal getFinancialDocumentCashAmount() {
@@ -221,7 +221,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentCreditCardAmount attribute.
      * 
-     * @return - Returns the financialDocumentCreditCardAmount
+     * @return Returns the financialDocumentCreditCardAmount
      * 
      */
     public KualiDecimal getFinancialDocumentCreditCardAmount() {
@@ -242,7 +242,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTotalCoinAmount attribute.
      * 
-     * @return - Returns the financialDocumentTotalCoinAmount
+     * @return Returns the financialDocumentTotalCoinAmount
      * 
      */
     public KualiDecimal getFinancialDocumentTotalCoinAmount() {
@@ -263,7 +263,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the financialDocumentChangeOutAmount attribute.
      * 
-     * @return - Returns the financialDocumentChangeOutAmount
+     * @return Returns the financialDocumentChangeOutAmount
      * 
      */
     public KualiDecimal getFinancialDocumentChangeOutAmount() {
@@ -284,7 +284,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the nextCheckLineNumber attribute.
      * 
-     * @return - Returns the nextCheckLineNumber
+     * @return Returns the nextCheckLineNumber
      * 
      */
     public Integer getNextCheckLineNumber() {
@@ -305,7 +305,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the nextAdvanceDepositLineNumber attribute.
      * 
-     * @return - Returns the nextAdvanceDepositLineNumber
+     * @return Returns the nextAdvanceDepositLineNumber
      * 
      */
     public Integer getNextAdvanceDepositLineNumber() {
@@ -326,7 +326,7 @@ public class CashieringDocument extends BusinessObjectBase {
     /**
      * Gets the nextRevolvingFundLineNumber attribute.
      * 
-     * @return - Returns the nextRevolvingFundLineNumber
+     * @return Returns the nextRevolvingFundLineNumber
      * 
      */
     public Integer getNextRevolvingFundLineNumber() {

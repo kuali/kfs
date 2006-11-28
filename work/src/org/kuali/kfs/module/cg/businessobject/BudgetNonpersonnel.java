@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -30,7 +31,7 @@ import org.kuali.core.util.ObjectUtils;
 public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable {
     private static final long serialVersionUID = -7058371220805374107L;
 
-    private String researchDocumentNumber;
+    private String documentNumber;
     private Integer budgetTaskSequenceNumber;
     private Integer budgetPeriodSequenceNumber;
     private String budgetNonpersonnelCategoryCode;
@@ -75,7 +76,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
      * @param budgetNonpersonnel to be used to copy source
      */
     public BudgetNonpersonnel(BudgetNonpersonnel budgetNonpersonnel) {
-        researchDocumentNumber = budgetNonpersonnel.getResearchDocumentNumber();
+        documentNumber = budgetNonpersonnel.getDocumentNumber();
         budgetTaskSequenceNumber = budgetNonpersonnel.getBudgetTaskSequenceNumber();
         budgetPeriodSequenceNumber = budgetNonpersonnel.getBudgetPeriodSequenceNumber();
         budgetNonpersonnelCategoryCode = budgetNonpersonnel.getBudgetNonpersonnelCategoryCode();
@@ -195,21 +196,21 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return Returns the researchDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute value.
+     * Sets the documentNumber attribute value.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -412,7 +413,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("budgetTaskSequenceNumber", this.budgetTaskSequenceNumber);
         m.put("budgetPeriodSequenceNumber", this.budgetPeriodSequenceNumber);
         m.put("budgetNonpersonnelCategoryCode", this.budgetNonpersonnelCategoryCode);
@@ -564,7 +565,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
 
         if (ObjectUtils.isNotNull(obj) && obj instanceof BudgetNonpersonnel) {
             BudgetNonpersonnel objCompare = (BudgetNonpersonnel) obj;
-            equals &= this.researchDocumentNumber.equals(objCompare.getResearchDocumentNumber());
+            equals &= this.documentNumber.equals(objCompare.getDocumentNumber());
             equals &= this.agencyCopyIndicator == objCompare.getAgencyCopyIndicator();
             equals &= this.budgetThirdPartyCostShareCopyIndicator == objCompare.getBudgetThirdPartyCostShareCopyIndicator();
             equals &= this.budgetInstitutionCostShareCopyIndicator == objCompare.getBudgetInstitutionCostShareCopyIndicator();
@@ -649,7 +650,7 @@ public class BudgetNonpersonnel extends BusinessObjectBase implements Comparable
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getResearchDocumentNumber() + "|" + this.getBudgetNonpersonnelCategoryCode() + "|" + this.getBudgetNonpersonnelDescription() + "|" + this.getBudgetNonpersonnelSubCategoryCode() + "|" + this.getResearchDocumentNumber() + "|" + this.getSubcontractorNumber() + "|" + this.getAgencyRequestAmount().toString() + "|" + this.getAgencyRequestAmountBackup().toString() + "|" + this.getBudgetNonpersonnelSequenceNumber().toString() + "|" + this.getBudgetOriginAgencyAmount().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetOriginSequenceNumber().toString() + "|" + this.getBudgetOriginThirdPartyCostShareAmount().toString() + "|" + this.getBudgetOriginInstitutionCostShareAmount().toString() + "|" + this.getBudgetInstitutionCostShareAmountBackup().toString() + "|" + this.getNonpersonnelObjectCode().toString();
+        String hashString = this.getDocumentNumber() + "|" + this.getBudgetNonpersonnelCategoryCode() + "|" + this.getBudgetNonpersonnelDescription() + "|" + this.getBudgetNonpersonnelSubCategoryCode() + "|" + this.getDocumentNumber() + "|" + this.getSubcontractorNumber() + "|" + this.getAgencyRequestAmount().toString() + "|" + this.getAgencyRequestAmountBackup().toString() + "|" + this.getBudgetNonpersonnelSequenceNumber().toString() + "|" + this.getBudgetOriginAgencyAmount().toString() + "|" + this.getBudgetPeriodSequenceNumber().toString() + "|" + this.getBudgetTaskSequenceNumber().toString() + "|" + this.getBudgetOriginSequenceNumber().toString() + "|" + this.getBudgetOriginThirdPartyCostShareAmount().toString() + "|" + this.getBudgetOriginInstitutionCostShareAmount().toString() + "|" + this.getBudgetInstitutionCostShareAmountBackup().toString() + "|" + this.getNonpersonnelObjectCode().toString();
         return hashString.hashCode();
     }
 }

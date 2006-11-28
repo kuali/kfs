@@ -43,7 +43,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth1LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth1LineAmount
+     * @return Returns the financialDocumentMonth1LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth1LineAmount();
@@ -59,7 +59,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth2LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth2LineAmount
+     * @return Returns the financialDocumentMonth2LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth2LineAmount();
@@ -75,7 +75,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth3LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth3LineAmount
+     * @return Returns the financialDocumentMonth3LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth3LineAmount();
@@ -91,7 +91,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth4LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth4LineAmount
+     * @return Returns the financialDocumentMonth4LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth4LineAmount();
@@ -107,7 +107,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth5LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth5LineAmount
+     * @return Returns the financialDocumentMonth5LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth5LineAmount();
@@ -123,7 +123,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth6LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth6LineAmount
+     * @return Returns the financialDocumentMonth6LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth6LineAmount();
@@ -139,7 +139,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth7LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth7LineAmount
+     * @return Returns the financialDocumentMonth7LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth7LineAmount();
@@ -155,7 +155,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth8LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth8LineAmount
+     * @return Returns the financialDocumentMonth8LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth8LineAmount();
@@ -171,7 +171,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth9LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth9LineAmount
+     * @return Returns the financialDocumentMonth9LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth9LineAmount();
@@ -187,7 +187,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth10LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth10LineAmount
+     * @return Returns the financialDocumentMonth10LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth10LineAmount();
@@ -203,7 +203,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth11LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth11LineAmount
+     * @return Returns the financialDocumentMonth11LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth11LineAmount();
@@ -219,7 +219,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the financialDocumentMonth12LineAmount attribute.
      * 
-     * @return - Returns the financialDocumentMonth12LineAmount
+     * @return Returns the financialDocumentMonth12LineAmount
      * 
      */
     public abstract KualiDecimal getFinancialDocumentMonth12LineAmount();
@@ -235,7 +235,7 @@ public interface BudgetAdjustmentAccountingLine extends AccountingLine {
     /**
      * Gets the fringeBenefitIndicator attribute.
      * 
-     * @return - Returns the fringeBenefitIndicator
+     * @return Returns the fringeBenefitIndicator
      * 
      */
     public abstract boolean isFringeBenefitIndicator();

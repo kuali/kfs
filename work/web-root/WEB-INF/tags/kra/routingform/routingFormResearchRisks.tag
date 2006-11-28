@@ -22,7 +22,7 @@
 <c:set var="routingFormResearchRiskAttributes" value="${DataDictionary.RoutingFormResearchRisk.attributes}"/>
 
 <c:forEach items="${KualiForm.routingFormDocument.routingFormResearchRisks}" var="researchRisk" varStatus="researchRiskStatus">
-	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchDocumentNumber"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].documentNumber"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskTypeCode"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].objectId"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].versionNumber"/>
@@ -127,7 +127,7 @@
                 			</td>
                 			<td class="infoline">
                 				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchDocumentNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].documentNumber"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>
@@ -207,7 +207,7 @@
                 			</td>
                 			<td class="infoline">
                 				<div align=center><html:image property="methodToCall.deleteRoutingFormResearchRiskStudy.tab${currentTabIndex}.line${studyStatus.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/></div>
-                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchDocumentNumber"/>
+                				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].documentNumber"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskTypeCode"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].routingFormResearchRiskStudySequenceNumber"/>
                 				<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].objectId"/>

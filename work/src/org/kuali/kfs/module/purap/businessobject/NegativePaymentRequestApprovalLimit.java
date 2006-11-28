@@ -51,7 +51,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the negativePaymentRequestApprovalLimitIdentifier attribute.
 	 * 
-	 * @return - Returns the negativePaymentRequestApprovalLimitIdentifier
+	 * @return Returns the negativePaymentRequestApprovalLimitIdentifier
 	 * 
 	 */
 	public Integer getNegativePaymentRequestApprovalLimitIdentifier() { 
@@ -61,7 +61,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the negativePaymentRequestApprovalLimitIdentifier attribute.
 	 * 
-	 * @param - negativePaymentRequestApprovalLimitIdentifier The negativePaymentRequestApprovalLimitIdentifier to set.
+	 * @param negativePaymentRequestApprovalLimitIdentifier The negativePaymentRequestApprovalLimitIdentifier to set.
 	 * 
 	 */
 	public void setNegativePaymentRequestApprovalLimitIdentifier(Integer negativePaymentRequestApprovalLimitIdentifier) {
@@ -72,7 +72,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -82,7 +82,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -93,7 +93,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -103,7 +103,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -114,7 +114,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -124,7 +124,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -135,7 +135,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the negativePaymentRequestApprovalLimitAmount attribute.
 	 * 
-	 * @return - Returns the negativePaymentRequestApprovalLimitAmount
+	 * @return Returns the negativePaymentRequestApprovalLimitAmount
 	 * 
 	 */
 	public KualiDecimal getNegativePaymentRequestApprovalLimitAmount() { 
@@ -145,7 +145,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the negativePaymentRequestApprovalLimitAmount attribute.
 	 * 
-	 * @param - negativePaymentRequestApprovalLimitAmount The negativePaymentRequestApprovalLimitAmount to set.
+	 * @param negativePaymentRequestApprovalLimitAmount The negativePaymentRequestApprovalLimitAmount to set.
 	 * 
 	 */
 	public void setNegativePaymentRequestApprovalLimitAmount(KualiDecimal negativePaymentRequestApprovalLimitAmount) {
@@ -156,7 +156,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -166,7 +166,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -176,7 +176,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -186,7 +186,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -196,7 +196,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Gets the organization attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return Returns the organization
 	 * 
 	 */
 	public Org getOrganization() { 
@@ -206,7 +206,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	/**
 	 * Sets the organization attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param organization The organization to set.
 	 * @deprecated
 	 */
 	public void setOrganization(Org organization) {
@@ -214,7 +214,7 @@ public class NegativePaymentRequestApprovalLimit extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

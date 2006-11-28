@@ -45,7 +45,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -66,7 +66,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Gets the financialDocumentLineNumber attribute.
      * 
-     * @return - Returns the financialDocumentLineNumber
+     * @return Returns the financialDocumentLineNumber
      * 
      */
     public Integer getFinancialDocumentLineNumber() {
@@ -87,7 +87,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Gets the disbVchrPreConfDepartmentCd attribute.
      * 
-     * @return - Returns the disbVchrPreConfDepartmentCd
+     * @return Returns the disbVchrPreConfDepartmentCd
      * 
      */
     public String getDisbVchrPreConfDepartmentCd() {
@@ -108,7 +108,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Gets the dvConferenceRegistrantName attribute.
      * 
-     * @return - Returns the dvConferenceRegistrantName
+     * @return Returns the dvConferenceRegistrantName
      * 
      */
     public String getDvConferenceRegistrantName() {
@@ -129,7 +129,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Gets the dvPreConferenceRequestNumber attribute.
      * 
-     * @return - Returns the dvPreConferenceRequestNumber
+     * @return Returns the dvPreConferenceRequestNumber
      * 
      */
     public String getDvPreConferenceRequestNumber() {
@@ -150,7 +150,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
     /**
      * Gets the disbVchrExpenseAmount attribute.
      * 
-     * @return - Returns the disbVchrExpenseAmount
+     * @return Returns the disbVchrExpenseAmount
      * 
      */
     public KualiDecimal getDisbVchrExpenseAmount() {

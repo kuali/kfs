@@ -45,7 +45,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskTypeCode attribute.
 	 * 
-	 * @return - Returns the researchRiskTypeCode
+	 * @return Returns the researchRiskTypeCode
 	 * 
 	 */
 	public String getResearchRiskTypeCode() { 
@@ -55,7 +55,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskTypeCode attribute.
 	 * 
-	 * @param - researchRiskTypeCode The researchRiskTypeCode to set.
+	 * @param researchRiskTypeCode The researchRiskTypeCode to set.
 	 * 
 	 */
 	public void setResearchRiskTypeCode(String researchRiskTypeCode) {
@@ -66,7 +66,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
@@ -76,7 +76,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -87,7 +87,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskTypeDescription attribute.
 	 * 
-	 * @return - Returns the researchRiskTypeDescription
+	 * @return Returns the researchRiskTypeDescription
 	 * 
 	 */
 	public String getResearchRiskTypeDescription() { 
@@ -97,7 +97,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskTypeDescription attribute.
 	 * 
-	 * @param - researchRiskTypeDescription The researchRiskTypeDescription to set.
+	 * @param researchRiskTypeDescription The researchRiskTypeDescription to set.
 	 * 
 	 */
 	public void setResearchRiskTypeDescription(String researchRiskTypeDescription) {
@@ -108,7 +108,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Gets the researchRiskBiosafetyIndicator attribute.
 	 * 
-	 * @return - Returns the researchRiskBiosafetyIndicator
+	 * @return Returns the researchRiskBiosafetyIndicator
 	 * 
 	 */
 	public boolean isResearchRiskBiosafetyIndicator() { 
@@ -118,7 +118,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	/**
 	 * Sets the researchRiskBiosafetyIndicator attribute.
 	 * 
-	 * @param - researchRiskBiosafetyIndicator The researchRiskBiosafetyIndicator to set.
+	 * @param researchRiskBiosafetyIndicator The researchRiskBiosafetyIndicator to set.
 	 * 
 	 */
 	public void setResearchRiskBiosafetyIndicator(boolean researchRiskBiosafetyIndicator) {
@@ -159,7 +159,7 @@ public class ResearchRiskType extends BusinessObjectBase {
     }    
     
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

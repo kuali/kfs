@@ -47,7 +47,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Gets the accountsPayableElectronicInvoiceLoadSummaryIdentifier attribute.
 	 * 
-	 * @return - Returns the accountsPayableElectronicInvoiceLoadSummaryIdentifier
+	 * @return Returns the accountsPayableElectronicInvoiceLoadSummaryIdentifier
 	 * 
 	 */
 	public Long getAccountsPayableElectronicInvoiceLoadSummaryIdentifier() { 
@@ -57,7 +57,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Sets the accountsPayableElectronicInvoiceLoadSummaryIdentifier attribute.
 	 * 
-	 * @param - accountsPayableElectronicInvoiceLoadSummaryIdentifier The accountsPayableElectronicInvoiceLoadSummaryIdentifier to set.
+	 * @param accountsPayableElectronicInvoiceLoadSummaryIdentifier The accountsPayableElectronicInvoiceLoadSummaryIdentifier to set.
 	 * 
 	 */
 	public void setAccountsPayableElectronicInvoiceLoadSummaryIdentifier(Long accountsPayableElectronicInvoiceLoadSummaryIdentifier) {
@@ -68,7 +68,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Gets the vendorDunsNumber attribute.
 	 * 
-	 * @return - Returns the vendorDunsNumber
+	 * @return Returns the vendorDunsNumber
 	 * 
 	 */
 	public String getVendorDunsNumber() { 
@@ -78,7 +78,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Sets the vendorDunsNumber attribute.
 	 * 
-	 * @param - vendorDunsNumber The vendorDunsNumber to set.
+	 * @param vendorDunsNumber The vendorDunsNumber to set.
 	 * 
 	 */
 	public void setVendorDunsNumber(String vendorDunsNumber) {
@@ -89,7 +89,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Gets the fileProcessDate attribute.
 	 * 
-	 * @return - Returns the fileProcessDate
+	 * @return Returns the fileProcessDate
 	 * 
 	 */
 	public Date getFileProcessDate() { 
@@ -99,7 +99,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Sets the fileProcessDate attribute.
 	 * 
-	 * @param - fileProcessDate The fileProcessDate to set.
+	 * @param fileProcessDate The fileProcessDate to set.
 	 * 
 	 */
 	public void setFileProcessDate(Date fileProcessDate) {
@@ -110,7 +110,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceLoadSuccessCount attribute.
 	 * 
-	 * @return - Returns the invoiceLoadSuccessCount
+	 * @return Returns the invoiceLoadSuccessCount
 	 * 
 	 */
 	public Integer getInvoiceLoadSuccessCount() { 
@@ -120,7 +120,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceLoadSuccessCount attribute.
 	 * 
-	 * @param - invoiceLoadSuccessCount The invoiceLoadSuccessCount to set.
+	 * @param invoiceLoadSuccessCount The invoiceLoadSuccessCount to set.
 	 * 
 	 */
 	public void setInvoiceLoadSuccessCount(Integer invoiceLoadSuccessCount) {
@@ -131,7 +131,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceLoadSuccessAmount attribute.
 	 * 
-	 * @return - Returns the invoiceLoadSuccessAmount
+	 * @return Returns the invoiceLoadSuccessAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceLoadSuccessAmount() { 
@@ -141,7 +141,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceLoadSuccessAmount attribute.
 	 * 
-	 * @param - invoiceLoadSuccessAmount The invoiceLoadSuccessAmount to set.
+	 * @param invoiceLoadSuccessAmount The invoiceLoadSuccessAmount to set.
 	 * 
 	 */
 	public void setInvoiceLoadSuccessAmount(BigDecimal invoiceLoadSuccessAmount) {
@@ -152,7 +152,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceLoadFailCount attribute.
 	 * 
-	 * @return - Returns the invoiceLoadFailCount
+	 * @return Returns the invoiceLoadFailCount
 	 * 
 	 */
 	public Integer getInvoiceLoadFailCount() { 
@@ -162,7 +162,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceLoadFailCount attribute.
 	 * 
-	 * @param - invoiceLoadFailCount The invoiceLoadFailCount to set.
+	 * @param invoiceLoadFailCount The invoiceLoadFailCount to set.
 	 * 
 	 */
 	public void setInvoiceLoadFailCount(Integer invoiceLoadFailCount) {
@@ -173,7 +173,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceLoadFailAmount attribute.
 	 * 
-	 * @return - Returns the invoiceLoadFailAmount
+	 * @return Returns the invoiceLoadFailAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceLoadFailAmount() { 
@@ -183,7 +183,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceLoadFailAmount attribute.
 	 * 
-	 * @param - invoiceLoadFailAmount The invoiceLoadFailAmount to set.
+	 * @param invoiceLoadFailAmount The invoiceLoadFailAmount to set.
 	 * 
 	 */
 	public void setInvoiceLoadFailAmount(BigDecimal invoiceLoadFailAmount) {
@@ -191,7 +191,7 @@ public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

@@ -59,7 +59,7 @@ public interface OrganizationService {
      * 
      * @param chartOfAccountsCode - chartCode for the Org you want Accounts for
      * @param organizationCode - orgCode for the Org you want Accounts for
-     * @return - A List of Accounts that are active, and tied to this Org
+     * @return A List of Accounts that are active, and tied to this Org
      * 
      */
     public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
@@ -72,7 +72,7 @@ public interface OrganizationService {
      * 
      * @param chartOfAccountsCode - chartCode for the Org you want Child Orgs for
      * @param organizationCode - orgCode for the Org you want Child Orgs for
-     * @return - A List of Orgs that are active, and report to this Org
+     * @return A List of Orgs that are active, and report to this Org
      * 
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);

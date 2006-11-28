@@ -54,7 +54,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -64,7 +64,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -75,7 +75,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -85,7 +85,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -96,7 +96,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the positionNumber attribute.
 	 * 
-	 * @return - Returns the positionNumber
+	 * @return Returns the positionNumber
 	 * 
 	 */
 	public String getPositionNumber() { 
@@ -106,7 +106,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the positionNumber attribute.
 	 * 
-	 * @param - positionNumber The positionNumber to set.
+	 * @param positionNumber The positionNumber to set.
 	 * 
 	 */
 	public void setPositionNumber(String positionNumber) {
@@ -117,7 +117,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the universityFiscalYear attribute.
 	 * 
-	 * @return - Returns the universityFiscalYear
+	 * @return Returns the universityFiscalYear
 	 * 
 	 */
 	public Integer getUniversityFiscalYear() { 
@@ -127,7 +127,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the universityFiscalYear attribute.
 	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * @param universityFiscalYear The universityFiscalYear to set.
 	 * 
 	 */
 	public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -138,7 +138,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -148,7 +148,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -159,7 +159,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -169,7 +169,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -180,7 +180,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the subAccountNumber attribute.
 	 * 
-	 * @return - Returns the subAccountNumber
+	 * @return Returns the subAccountNumber
 	 * 
 	 */
 	public String getSubAccountNumber() { 
@@ -190,7 +190,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -201,7 +201,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -211,7 +211,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -222,7 +222,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the financialSubObjectCode attribute.
 	 * 
-	 * @return - Returns the financialSubObjectCode
+	 * @return Returns the financialSubObjectCode
 	 * 
 	 */
 	public String getFinancialSubObjectCode() { 
@@ -232,7 +232,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the financialSubObjectCode attribute.
 	 * 
-	 * @param - financialSubObjectCode The financialSubObjectCode to set.
+	 * @param financialSubObjectCode The financialSubObjectCode to set.
 	 * 
 	 */
 	public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -243,7 +243,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the financialObject attribute.
 	 * 
-	 * @return - Returns the financialObject
+	 * @return Returns the financialObject
 	 * 
 	 */
 	public ObjectCode getFinancialObject() { 
@@ -253,7 +253,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the financialObject attribute.
 	 * 
-	 * @param - financialObject The financialObject to set.
+	 * @param financialObject The financialObject to set.
 	 * @deprecated
 	 */
 	public void setFinancialObject(ObjectCode financialObject) {
@@ -263,7 +263,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -273,7 +273,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -283,7 +283,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -293,7 +293,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -301,7 +301,7 @@ public class BudgetConstructionSalaryFunding extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

@@ -41,7 +41,7 @@ public class ProposalPurpose extends BusinessObjectBase {
     /**
      * Gets the proposalPurposeCode attribute.
      * 
-     * @return - Returns the proposalPurposeCode
+     * @return Returns the proposalPurposeCode
      * 
      */
     public String getProposalPurposeCode() {
@@ -62,7 +62,7 @@ public class ProposalPurpose extends BusinessObjectBase {
     /**
      * Gets the proposalPurposeDescription attribute.
      * 
-     * @return - Returns the proposalPurposeDescription
+     * @return Returns the proposalPurposeDescription
      * 
      */
     public String getProposalPurposeDescription() {

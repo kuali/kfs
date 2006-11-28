@@ -76,7 +76,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -97,7 +97,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -118,7 +118,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationManagerUniversalId attribute.
      * 
-     * @return - Returns the organizationManagerUniversalId
+     * @return Returns the organizationManagerUniversalId
      * 
      */
     public String getOrganizationManagerUniversalId() {
@@ -139,7 +139,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationName attribute.
      * 
-     * @return - Returns the organizationName
+     * @return Returns the organizationName
      * 
      */
     public String getOrganizationName() {
@@ -160,7 +160,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the responsibilityCenterCode attribute.
      * 
-     * @return - Returns the responsibilityCenterCode
+     * @return Returns the responsibilityCenterCode
      * 
      */
     public String getResponsibilityCenterCode() {
@@ -181,7 +181,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationPhysicalCampusCode attribute.
      * 
-     * @return - Returns the organizationPhysicalCampusCode
+     * @return Returns the organizationPhysicalCampusCode
      * 
      */
     public String getOrganizationPhysicalCampusCode() {
@@ -202,7 +202,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationTypeCode attribute.
      * 
-     * @return - Returns the organizationTypeCode
+     * @return Returns the organizationTypeCode
      * 
      */
     public String getOrganizationTypeCode() {
@@ -223,7 +223,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationDefaultAccountNumber attribute.
      * 
-     * @return - Returns the organizationDefaultAccountNumber
+     * @return Returns the organizationDefaultAccountNumber
      * 
      */
     public String getOrganizationDefaultAccountNumber() {
@@ -243,7 +243,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationCityName attribute.
      * 
-     * @return - Returns the organizationCityName
+     * @return Returns the organizationCityName
      * 
      */
     public String getOrganizationCityName() {
@@ -264,7 +264,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationStateCode attribute.
      * 
-     * @return - Returns the organizationStateCode
+     * @return Returns the organizationStateCode
      * 
      */
     public String getOrganizationStateCode() {
@@ -285,7 +285,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationZipCode attribute.
      * 
-     * @return - Returns the organizationZipCode
+     * @return Returns the organizationZipCode
      * 
      */
     public String getOrganizationZipCode() {
@@ -306,7 +306,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationBeginDate attribute.
      * 
-     * @return - Returns the organizationBeginDate
+     * @return Returns the organizationBeginDate
      * 
      */
     public Date getOrganizationBeginDate() {
@@ -327,7 +327,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationEndDate attribute.
      * 
-     * @return - Returns the organizationEndDate
+     * @return Returns the organizationEndDate
      * 
      */
     public Date getOrganizationEndDate() {
@@ -348,7 +348,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the reportsToChartOfAccountsCode attribute.
      * 
-     * @return - Returns the reportsToChartOfAccountsCode
+     * @return Returns the reportsToChartOfAccountsCode
      * 
      */
     public String getReportsToChartOfAccountsCode() {
@@ -369,7 +369,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the reportsToOrganizationCode attribute.
      * 
-     * @return - Returns the reportsToOrganizationCode
+     * @return Returns the reportsToOrganizationCode
      * 
      */
     public String getReportsToOrganizationCode() {
@@ -390,7 +390,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationActiveIndicator attribute.
      * 
-     * @return - Returns the organizationActiveIndicator
+     * @return Returns the organizationActiveIndicator
      * 
      */
     public boolean isOrganizationActiveIndicator() {
@@ -412,7 +412,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationInFinancialProcessingIndicator attribute.
      * 
-     * @return - Returns the organizationInFinancialProcessingIndicator
+     * @return Returns the organizationInFinancialProcessingIndicator
      * 
      */
     public boolean isOrganizationInFinancialProcessingIndicator() {
@@ -434,7 +434,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationPlantAccountNumber attribute.
      * 
-     * @return - Returns the organizationPlantAccountNumber
+     * @return Returns the organizationPlantAccountNumber
      * 
      */
     public String getOrganizationPlantAccountNumber() {
@@ -455,7 +455,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the campusPlantAccountNumber attribute.
      * 
-     * @return - Returns the campusPlantAccountNumber
+     * @return Returns the campusPlantAccountNumber
      * 
      */
     public String getCampusPlantAccountNumber() {
@@ -476,7 +476,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationPlantChartCode attribute.
      * 
-     * @return - Returns the organizationPlantChartCode
+     * @return Returns the organizationPlantChartCode
      * 
      */
     public String getOrganizationPlantChartCode() {
@@ -497,7 +497,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the campusPlantChartCode attribute.
      * 
-     * @return - Returns the campusPlantChartCode
+     * @return Returns the campusPlantChartCode
      * 
      */
     public String getCampusPlantChartCode() {
@@ -571,7 +571,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -591,7 +591,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationDefaultAccount attribute.
      * 
-     * @return - Returns the organizationDefaultAccount
+     * @return Returns the organizationDefaultAccount
      * 
      */
     public Account getOrganizationDefaultAccount() {
@@ -611,7 +611,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization() {
@@ -631,7 +631,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationPhysicalCampus attribute.
      * 
-     * @return - Returns the organizationPhysicalCampus
+     * @return Returns the organizationPhysicalCampus
      * 
      */
     public Campus getOrganizationPhysicalCampus() {
@@ -651,7 +651,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the reportsToOrganization attribute.
      * 
-     * @return - Returns the reportsToOrganization
+     * @return Returns the reportsToOrganization
      * 
      */
     public Org getReportsToOrganization() {
@@ -671,7 +671,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the reportsToChartOfAccounts attribute.
      * 
-     * @return - Returns the reportsToChartOfAccounts
+     * @return Returns the reportsToChartOfAccounts
      * 
      */
     public Chart getReportsToChartOfAccounts() {
@@ -691,7 +691,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationPlantAccount attribute.
      * 
-     * @return - Returns the organizationPlantAccount
+     * @return Returns the organizationPlantAccount
      * 
      */
     public Account getOrganizationPlantAccount() {
@@ -711,7 +711,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the campusPlantAccount attribute.
      * 
-     * @return - Returns the campusPlantAccount
+     * @return Returns the campusPlantAccount
      * 
      */
     public Account getCampusPlantAccount() {
@@ -731,7 +731,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationPlantChart attribute.
      * 
-     * @return - Returns the organizationPlantChart
+     * @return Returns the organizationPlantChart
      * 
      */
     public Chart getOrganizationPlantChart() {
@@ -751,7 +751,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
     /**
      * Gets the campusPlantChart attribute.
      * 
-     * @return - Returns the campusPlantChart
+     * @return Returns the campusPlantChart
      * 
      */
     public Chart getCampusPlantChart() {

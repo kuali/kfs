@@ -48,7 +48,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      * 
-     * @return - Returns the proposalNumber
+     * @return Returns the proposalNumber
      * 
      */
     public Long getProposalNumber() {
@@ -69,7 +69,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -90,7 +90,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -111,7 +111,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Gets the personUniversalIdentifier attribute.
      * 
-     * @return - Returns the personUniversalIdentifier
+     * @return Returns the personUniversalIdentifier
      * 
      */
     public String getPersonUniversalIdentifier() {
@@ -132,7 +132,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -152,7 +152,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -172,7 +172,7 @@ public class AwardAccount extends BusinessObjectBase {
     /**
      * Gets the personUniversal attribute.
      * 
-     * @return - Returns the personUniversal
+     * @return Returns the personUniversal
      * 
      */
     public ContractsAndGrantsProjectDirectorView getPersonUniversal() {

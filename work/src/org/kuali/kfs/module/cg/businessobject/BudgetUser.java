@@ -29,6 +29,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
+import org.kuali.PropertyConstants;
 
 /**
  * This class...
@@ -40,42 +41,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetUser.class);
     private transient BudgetPersonnelService budgetPersonnelService;
 
-    /**
-     * Constructs a BudgetUser.java.
-     */
-    public BudgetUser() {
-        super();
-        budgetPersonnelService = SpringServiceLocator.getBudgetPersonnelService();
-    }
-    
-    public BudgetUser(String researchDocumentNumber, Integer budgetUserSequenceNumber) {
-        this();
-        this.researchDocumentNumber = researchDocumentNumber;
-        this.budgetUserSequenceNumber = budgetUserSequenceNumber;
-    }
-
-    public BudgetUser(BudgetUser budgetUser) {
-        this();
-        this.researchDocumentNumber = budgetUser.getResearchDocumentNumber();
-        this.budgetUserSequenceNumber = budgetUser.getBudgetUserSequenceNumber();
-        this.fiscalCampusCode = budgetUser.getFiscalCampusCode();
-        this.primaryDepartmentCode = budgetUser.getPrimaryDepartmentCode();
-        this.baseSalary = budgetUser.getBaseSalary();
-        this.role = budgetUser.getRole();
-        this.personSystemIdentifier = budgetUser.getPersonSystemIdentifier();
-        this.personNamePrefixText = budgetUser.getPersonNamePrefixText();
-        this.personNameSuffixText = budgetUser.getPersonNameSuffixText();
-        this.personSalaryJustificationText = budgetUser.getPersonSalaryJustificationText();
-        this.personProjectDirectorIndicator = budgetUser.isPersonProjectDirectorIndicator();
-        this.personSeniorKeyIndicator = budgetUser.isPersonSeniorKeyIndicator();
-        this.personSecretarialClericalIndicator = budgetUser.isPersonSecretarialClericalIndicator();
-        this.personPostDoctoralIndicator = budgetUser.isPersonPostDoctoralIndicator();
-        this.budgetSalaryFiscalYear = budgetUser.getBudgetSalaryFiscalYear();
-        
-        this.userAppointmentTasks = new ArrayList(budgetUser.getUserAppointmentTasks());
-    }
-
-    private String researchDocumentNumber; // RDOC_NBR
+    private String documentNumber; // RDOC_NBR
     private Integer budgetUserSequenceNumber; // BDGT_USR_SEQ_NBR
     private String fiscalCampusCode; // EMP_FSCL_CMP_CD
     private String primaryDepartmentCode; // EMP_PRM_DEPT_CD
@@ -103,9 +69,44 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     private String previousSecondaryAppointmentTypeCode;
     private String secondaryAppointmentTypeCode;
 
+    /**
+     * Constructs a BudgetUser.java.
+     */
+    public BudgetUser() {
+        super();
+        budgetPersonnelService = SpringServiceLocator.getBudgetPersonnelService();
+    }
+    
+    public BudgetUser(String documentNumber, Integer budgetUserSequenceNumber) {
+        this();
+        this.documentNumber = documentNumber;
+        this.budgetUserSequenceNumber = budgetUserSequenceNumber;
+    }
+
+    public BudgetUser(BudgetUser budgetUser) {
+        this();
+        this.documentNumber = budgetUser.getDocumentNumber();
+        this.budgetUserSequenceNumber = budgetUser.getBudgetUserSequenceNumber();
+        this.fiscalCampusCode = budgetUser.getFiscalCampusCode();
+        this.primaryDepartmentCode = budgetUser.getPrimaryDepartmentCode();
+        this.baseSalary = budgetUser.getBaseSalary();
+        this.role = budgetUser.getRole();
+        this.personSystemIdentifier = budgetUser.getPersonSystemIdentifier();
+        this.personNamePrefixText = budgetUser.getPersonNamePrefixText();
+        this.personNameSuffixText = budgetUser.getPersonNameSuffixText();
+        this.personSalaryJustificationText = budgetUser.getPersonSalaryJustificationText();
+        this.personProjectDirectorIndicator = budgetUser.isPersonProjectDirectorIndicator();
+        this.personSeniorKeyIndicator = budgetUser.isPersonSeniorKeyIndicator();
+        this.personSecretarialClericalIndicator = budgetUser.isPersonSecretarialClericalIndicator();
+        this.personPostDoctoralIndicator = budgetUser.isPersonPostDoctoralIndicator();
+        this.budgetSalaryFiscalYear = budgetUser.getBudgetSalaryFiscalYear();
+        
+        this.userAppointmentTasks = new ArrayList(budgetUser.getUserAppointmentTasks());
+    }
+
     public void initializeBudgetUser(BudgetDocument budgetDocument) {
         this.setBudgetUserSequenceNumber(budgetDocument.getPersonnelNextSequenceNumber());
-        this.setResearchDocumentNumber(budgetDocument.getFinancialDocumentNumber());
+        this.setDocumentNumber(budgetDocument.getFinancialDocumentNumber());
         this.synchronizeUserObject();
         this.createUserAppointmentTasks(budgetDocument);
     }
@@ -119,7 +120,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("userSequenceNumber", this.budgetUserSequenceNumber);
         return m;
     }
@@ -146,22 +147,22 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
 
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return Returns the researchDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
 
     /**
-     * Sets the researchDocumentNumber attribute value.
+     * Sets the documentNumber attribute value.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 
@@ -287,7 +288,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     /**
      * Gets the personNamePrefixText attribute.
      * 
-     * @return - Returns the personNamePrefixText
+     * @return Returns the personNamePrefixText
      * 
      */
     public String getPersonNamePrefixText() {
@@ -307,7 +308,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     /**
      * Gets the personNameSuffixText attribute.
      * 
-     * @return - Returns the personNameSuffixText
+     * @return Returns the personNameSuffixText
      * 
      */
     public String getPersonNameSuffixText() {
@@ -327,7 +328,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     /**
      * Gets the personPostDoctoralIndicator attribute.
      * 
-     * @return - Returns the personPostDoctoralIndicator
+     * @return Returns the personPostDoctoralIndicator
      * 
      */
     public boolean isPersonPostDoctoralIndicator() {
@@ -347,7 +348,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     /**
      * Gets the personSecretarialClericalIndicator attribute.
      * 
-     * @return - Returns the personSecretarialClericalIndicator
+     * @return Returns the personSecretarialClericalIndicator
      * 
      */
     public boolean isPersonSecretarialClericalIndicator() {
@@ -367,7 +368,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     /**
      * Gets the personSeniorKeyIndicator attribute.
      * 
-     * @return - Returns the personSeniorKeyIndicator
+     * @return Returns the personSeniorKeyIndicator
      * 
      */
     public boolean isPersonSeniorKeyIndicator() {
@@ -436,7 +437,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     public void logState() {
         LOG.info("userSequenceNumber: (" + this.budgetUserSequenceNumber + ")");
         /* LOG.info(" version: (" + this.getVersion() +")"); */
-        LOG.info("  researchDocumentNumber: (" + this.researchDocumentNumber + ")");
+        LOG.info("  documentNumber: (" + this.documentNumber + ")");
         LOG.info("  fiscalCampusCode: (" + this.fiscalCampusCode + ")");
         LOG.info("  primaryDepartmentCode: (" + this.primaryDepartmentCode + ")");
         LOG.info("  baseSalary: (" + this.baseSalary + ")");
@@ -538,7 +539,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
     /**
      * Gets the personProjectDirectorIndicator attribute.
      * 
-     * @return - Returns the personProjectDirectorIndicator
+     * @return Returns the personProjectDirectorIndicator
      * 
      */
     public boolean isPersonProjectDirectorIndicator() {

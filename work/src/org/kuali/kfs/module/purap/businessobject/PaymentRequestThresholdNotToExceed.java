@@ -44,7 +44,7 @@ public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -54,7 +54,7 @@ public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -65,7 +65,7 @@ public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 	/**
 	 * Gets the accountsPayableThresholdNotToExceedAmount attribute.
 	 * 
-	 * @return - Returns the accountsPayableThresholdNotToExceedAmount
+	 * @return Returns the accountsPayableThresholdNotToExceedAmount
 	 * 
 	 */
 	public KualiDecimal getAccountsPayableThresholdNotToExceedAmount() { 
@@ -75,7 +75,7 @@ public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 	/**
 	 * Sets the accountsPayableThresholdNotToExceedAmount attribute.
 	 * 
-	 * @param - accountsPayableThresholdNotToExceedAmount The accountsPayableThresholdNotToExceedAmount to set.
+	 * @param accountsPayableThresholdNotToExceedAmount The accountsPayableThresholdNotToExceedAmount to set.
 	 * 
 	 */
 	public void setAccountsPayableThresholdNotToExceedAmount(KualiDecimal accountsPayableThresholdNotToExceedAmount) {
@@ -86,7 +86,7 @@ public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -96,7 +96,7 @@ public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -104,7 +104,7 @@ public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

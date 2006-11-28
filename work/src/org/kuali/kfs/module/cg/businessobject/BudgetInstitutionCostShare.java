@@ -18,11 +18,7 @@
 
 package org.kuali.module.kra.budget.bo;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.kuali.core.bo.BusinessObjectBase;
 
 /**
  * 
@@ -37,7 +33,7 @@ public class BudgetInstitutionCostShare extends BudgetAbstractCostShare {
     }
 
     public BudgetInstitutionCostShare(BudgetInstitutionCostShare budgetInstitutionCostShare) {
-        this.researchDocumentNumber = budgetInstitutionCostShare.getResearchDocumentNumber();
+        this.documentNumber = budgetInstitutionCostShare.getDocumentNumber();
         this.budgetCostShareSequenceNumber = budgetInstitutionCostShare.getBudgetCostShareSequenceNumber();
         this.organizationCode = budgetInstitutionCostShare.getOrganizationCode();
         this.chartOfAccountsCode = budgetInstitutionCostShare.getChartOfAccountsCode();
@@ -48,7 +44,7 @@ public class BudgetInstitutionCostShare extends BudgetAbstractCostShare {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -68,7 +64,7 @@ public class BudgetInstitutionCostShare extends BudgetAbstractCostShare {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the documentchartOfAccountsCodeHeaderId
+     * @return Returns the documentchartOfAccountsCodeHeaderId
      * 
      */
     public String getChartOfAccountsCode() {
@@ -88,7 +84,7 @@ public class BudgetInstitutionCostShare extends BudgetAbstractCostShare {
     /**
      * Gets the budgetPeriodInstitutionCostShare attribute.
      * 
-     * @return - Returns the budgetPeriodInstitutionCostShare
+     * @return Returns the budgetPeriodInstitutionCostShare
      * 
      */
     public List<BudgetPeriodInstitutionCostShare> getBudgetPeriodCostShare() {

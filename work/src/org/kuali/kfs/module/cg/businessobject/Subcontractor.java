@@ -46,7 +46,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorNumber attribute.
      * 
-     * @return - Returns the subcontractorNumber
+     * @return Returns the subcontractorNumber
      * 
      */
     public String getSubcontractorNumber() {
@@ -66,7 +66,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorName attribute.
      * 
-     * @return - Returns the subcontractorName
+     * @return Returns the subcontractorName
      * 
      */
     public String getSubcontractorName() {
@@ -86,7 +86,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorAddressLine1 attribute.
      * 
-     * @return - Returns the subcontractorAddressLine1
+     * @return Returns the subcontractorAddressLine1
      * 
      */
     public String getSubcontractorAddressLine1() {
@@ -106,7 +106,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorAddressLine2 attribute.
      * 
-     * @return - Returns the subcontractorAddressLine2
+     * @return Returns the subcontractorAddressLine2
      * 
      */
     public String getSubcontractorAddressLine2() {
@@ -126,7 +126,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorCity attribute.
      * 
-     * @return - Returns the subcontractorCity
+     * @return Returns the subcontractorCity
      * 
      */
     public String getSubcontractorCity() {
@@ -164,7 +164,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorZipCode attribute.
      * 
-     * @return - Returns the subcontractorZipCode
+     * @return Returns the subcontractorZipCode
      * 
      */
     public String getSubcontractorZipCode() {
@@ -184,7 +184,7 @@ public class Subcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorCountryCode attribute.
      * 
-     * @return - Returns the subcontractorCountryCode
+     * @return Returns the subcontractorCountryCode
      * 
      */
     public String getSubcontractorCountryCode() {

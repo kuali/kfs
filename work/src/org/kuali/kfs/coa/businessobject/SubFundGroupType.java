@@ -41,7 +41,7 @@ public class SubFundGroupType extends BusinessObjectBase {
     /**
      * Gets the subFundGroupTypeCode attribute.
      * 
-     * @return - Returns the subFundGroupTypeCode
+     * @return Returns the subFundGroupTypeCode
      * 
      */
     public String getSubFundGroupTypeCode() {
@@ -51,7 +51,7 @@ public class SubFundGroupType extends BusinessObjectBase {
     /**
      * Sets the subFundGroupTypeCode attribute.
      * 
-     * @param - subFundGroupTypeCode The subFundGroupTypeCode to set.
+     * @param subFundGroupTypeCode The subFundGroupTypeCode to set.
      * 
      */
     public void setSubFundGroupTypeCode(String subFundGroupTypeCode) {
@@ -62,7 +62,7 @@ public class SubFundGroupType extends BusinessObjectBase {
     /**
      * Gets the subFundGroupTypeDescription attribute.
      * 
-     * @return - Returns the subFundGroupTypeDescription
+     * @return Returns the subFundGroupTypeDescription
      * 
      */
     public String getSubFundGroupTypeDescription() {
@@ -72,7 +72,7 @@ public class SubFundGroupType extends BusinessObjectBase {
     /**
      * Sets the subFundGroupTypeDescription attribute.
      * 
-     * @param - subFundGroupTypeDescription The subFundGroupTypeDescription to set.
+     * @param subFundGroupTypeDescription The subFundGroupTypeDescription to set.
      * 
      */
     public void setSubFundGroupTypeDescription(String subFundGroupTypeDescription) {
@@ -83,7 +83,7 @@ public class SubFundGroupType extends BusinessObjectBase {
     /**
      * Gets the subFundGroupTypeActiveIndicator attribute.
      * 
-     * @return - Returns the subFundGroupTypeActiveIndicator
+     * @return Returns the subFundGroupTypeActiveIndicator
      * 
      */
     public boolean getSubFundGroupTypeActiveIndicator() {
@@ -93,7 +93,7 @@ public class SubFundGroupType extends BusinessObjectBase {
     /**
      * Sets the subFundGroupTypeActiveIndicator attribute.
      * 
-     * @param - subFundGroupTypeActiveIndicator The subFundGroupTypeActiveIndicator to set.
+     * @param subFundGroupTypeActiveIndicator The subFundGroupTypeActiveIndicator to set.
      * 
      */
     public void setSubFundGroupTypeActiveIndicator(boolean subFundGroupTypeActiveIndicator) {
@@ -102,7 +102,7 @@ public class SubFundGroupType extends BusinessObjectBase {
 
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

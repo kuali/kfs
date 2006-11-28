@@ -42,7 +42,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the vendorStipulationIdentifier attribute.
 	 * 
-	 * @return - Returns the vendorStipulationIdentifier
+	 * @return Returns the vendorStipulationIdentifier
 	 * 
 	 */
 	public Integer getVendorStipulationIdentifier() { 
@@ -52,7 +52,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the vendorStipulationIdentifier attribute.
 	 * 
-	 * @param - vendorStipulationIdentifier The vendorStipulationIdentifier to set.
+	 * @param vendorStipulationIdentifier The vendorStipulationIdentifier to set.
 	 * 
 	 */
 	public void setVendorStipulationIdentifier(Integer vendorStipulationIdentifier) {
@@ -63,7 +63,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the vendorStipulationName attribute.
 	 * 
-	 * @return - Returns the vendorStipulationName
+	 * @return Returns the vendorStipulationName
 	 * 
 	 */
 	public String getVendorStipulationName() { 
@@ -73,7 +73,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the vendorStipulationName attribute.
 	 * 
-	 * @param - vendorStipulationName The vendorStipulationName to set.
+	 * @param vendorStipulationName The vendorStipulationName to set.
 	 * 
 	 */
 	public void setVendorStipulationName(String vendorStipulationName) {
@@ -84,7 +84,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the vendorStipulationDescription attribute.
 	 * 
-	 * @return - Returns the vendorStipulationDescription
+	 * @return Returns the vendorStipulationDescription
 	 * 
 	 */
 	public String getVendorStipulationDescription() { 
@@ -94,7 +94,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the vendorStipulationDescription attribute.
 	 * 
-	 * @param - vendorStipulationDescription The vendorStipulationDescription to set.
+	 * @param vendorStipulationDescription The vendorStipulationDescription to set.
 	 * 
 	 */
 	public void setVendorStipulationDescription(String vendorStipulationDescription) {
@@ -105,7 +105,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -115,7 +115,7 @@ public class VendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -124,7 +124,7 @@ public class VendorStipulation extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

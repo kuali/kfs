@@ -23,13 +23,14 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class InstitutionCostSharePersonnel extends BusinessObjectBase {
 
-    private String researchDocumentNumber;
+    private String documentNumber;
     private String chartOfAccountsCode;
     private String organizationCode;
     private String budgetInstitutionCostSharePersonnelDescription;
@@ -43,29 +44,29 @@ public class InstitutionCostSharePersonnel extends BusinessObjectBase {
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -85,7 +86,7 @@ public class InstitutionCostSharePersonnel extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -105,7 +106,7 @@ public class InstitutionCostSharePersonnel extends BusinessObjectBase {
     /**
      * Gets the budgetInstitutionCostSharePersonnelDescription attribute.
      * 
-     * @return - Returns the budgetInstitutionCostSharePersonnelDescription
+     * @return Returns the budgetInstitutionCostSharePersonnelDescription
      * 
      */
     public String getBudgetInstitutionCostSharePersonnelDescription() {
@@ -125,7 +126,7 @@ public class InstitutionCostSharePersonnel extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -148,7 +149,7 @@ public class InstitutionCostSharePersonnel extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
 
@@ -167,7 +168,7 @@ public class InstitutionCostSharePersonnel extends BusinessObjectBase {
             if (this.getClass().equals(obj.getClass())) {
                 InstitutionCostSharePersonnel other = (InstitutionCostSharePersonnel) obj;
 
-                if (this.getResearchDocumentNumber().equals(other.getResearchDocumentNumber()) && this.getChartOfAccountsCode().equals(other.getChartOfAccountsCode()) && this.getOrganizationCode().equals(other.getOrganizationCode()) && StringUtils.equals(this.getBudgetInstitutionCostSharePersonnelDescription(), other.getBudgetInstitutionCostSharePersonnelDescription())) {
+                if (this.getDocumentNumber().equals(other.getDocumentNumber()) && this.getChartOfAccountsCode().equals(other.getChartOfAccountsCode()) && this.getOrganizationCode().equals(other.getOrganizationCode()) && StringUtils.equals(this.getBudgetInstitutionCostSharePersonnelDescription(), other.getBudgetInstitutionCostSharePersonnelDescription())) {
                     equal = true;
                 }
             }
@@ -177,13 +178,13 @@ public class InstitutionCostSharePersonnel extends BusinessObjectBase {
     }
 
     /**
-     * Calculates hashCode based on current values of researchDocumentNumber, chartOfAccountsCode and organizationCode fields. This is
+     * Calculates hashCode based on current values of documentNumber, chartOfAccountsCode and organizationCode fields. This is
      * based on Account.hashCode().
      * 
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = getResearchDocumentNumber() + "|" + getChartOfAccountsCode() + "|" + getOrganizationCode();
+        String hashString = getDocumentNumber() + "|" + getChartOfAccountsCode() + "|" + getOrganizationCode();
 
         return hashString.hashCode();
     }

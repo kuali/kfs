@@ -76,7 +76,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the personUniversalIdentifier attribute.
      * 
-     * @return - Returns the personUniversalIdentifier
+     * @return Returns the personUniversalIdentifier
      * 
      */
     public String getPersonUniversalIdentifier() {
@@ -97,7 +97,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -118,7 +118,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -139,7 +139,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -160,7 +160,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the subAccountNumber attribute.
      * 
-     * @return - Returns the subAccountNumber
+     * @return Returns the subAccountNumber
      * 
      */
     public String getSubAccountNumber() {
@@ -181,7 +181,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialObjectCode attribute.
      * 
-     * @return - Returns the financialObjectCode
+     * @return Returns the financialObjectCode
      * 
      */
     public String getFinancialObjectCode() {
@@ -202,7 +202,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialSubObjectCode attribute.
      * 
-     * @return - Returns the financialSubObjectCode
+     * @return Returns the financialSubObjectCode
      * 
      */
     public String getFinancialSubObjectCode() {
@@ -223,7 +223,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialBalanceTypeCode attribute.
      * 
-     * @return - Returns the financialBalanceTypeCode
+     * @return Returns the financialBalanceTypeCode
      * 
      */
     public String getFinancialBalanceTypeCode() {
@@ -244,7 +244,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialObjectTypeCode attribute.
      * 
-     * @return - Returns the financialObjectTypeCode
+     * @return Returns the financialObjectTypeCode
      * 
      */
     public String getFinancialObjectTypeCode() {
@@ -265,7 +265,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the universityFiscalPeriodCode attribute.
      * 
-     * @return - Returns the universityFiscalPeriodCode
+     * @return Returns the universityFiscalPeriodCode
      * 
      */
     public String getUniversityFiscalPeriodCode() {
@@ -286,7 +286,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentTypeCode
+     * @return Returns the financialDocumentTypeCode
      * 
      */
     public String getFinancialDocumentTypeCode() {
@@ -307,7 +307,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialSystemOriginationCode attribute.
      * 
-     * @return - Returns the financialSystemOriginationCode
+     * @return Returns the financialSystemOriginationCode
      * 
      */
     public String getFinancialSystemOriginationCode() {
@@ -328,7 +328,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -349,7 +349,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionLedgerEntrySequenceNumber attribute.
      * 
-     * @return - Returns the transactionLedgerEntrySequenceNumber
+     * @return Returns the transactionLedgerEntrySequenceNumber
      * 
      */
     public Integer getTransactionLedgerEntrySequenceNumber() {
@@ -370,7 +370,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionLedgerEntryDescription attribute.
      * 
-     * @return - Returns the transactionLedgerEntryDescription
+     * @return Returns the transactionLedgerEntryDescription
      * 
      */
     public String getTransactionLedgerEntryDescription() {
@@ -391,7 +391,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionLedgerEntryAmount attribute.
      * 
-     * @return - Returns the transactionLedgerEntryAmount
+     * @return Returns the transactionLedgerEntryAmount
      * 
      */
     public KualiDecimal getTransactionLedgerEntryAmount() {
@@ -412,7 +412,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionDebitCreditCode attribute.
      * 
-     * @return - Returns the transactionDebitCreditCode
+     * @return Returns the transactionDebitCreditCode
      * 
      */
     public String getTransactionDebitCreditCode() {
@@ -433,7 +433,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionDate attribute.
      * 
-     * @return - Returns the transactionDate
+     * @return Returns the transactionDate
      * 
      */
     public Date getTransactionDate() {
@@ -454,7 +454,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the organizationDocumentNumber attribute.
      * 
-     * @return - Returns the organizationDocumentNumber
+     * @return Returns the organizationDocumentNumber
      * 
      */
     public String getOrganizationDocumentNumber() {
@@ -475,7 +475,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the projectCode attribute.
      * 
-     * @return - Returns the projectCode
+     * @return Returns the projectCode
      * 
      */
     public String getProjectCode() {
@@ -496,7 +496,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the organizationReferenceId attribute.
      * 
-     * @return - Returns the organizationReferenceId
+     * @return Returns the organizationReferenceId
      * 
      */
     public String getOrganizationReferenceId() {
@@ -517,7 +517,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the referenceFinancialDocumentTypeCode attribute.
      * 
-     * @return - Returns the referenceFinancialDocumentTypeCode
+     * @return Returns the referenceFinancialDocumentTypeCode
      * 
      */
     public String getReferenceFinancialDocumentTypeCode() {
@@ -538,7 +538,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the referenceFinancialSystemOriginationCode attribute.
      * 
-     * @return - Returns the referenceFinancialSystemOriginationCode
+     * @return Returns the referenceFinancialSystemOriginationCode
      * 
      */
     public String getReferenceFinancialSystemOriginationCode() {
@@ -559,7 +559,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the referenceFinancialDocumentNumber attribute.
      * 
-     * @return - Returns the referenceFinancialDocumentNumber
+     * @return Returns the referenceFinancialDocumentNumber
      * 
      */
     public String getReferenceFinancialDocumentNumber() {
@@ -580,7 +580,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialDocumentReversalDate attribute.
      * 
-     * @return - Returns the financialDocumentReversalDate
+     * @return Returns the financialDocumentReversalDate
      * 
      */
     public Date getFinancialDocumentReversalDate() {
@@ -601,7 +601,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionEncumbranceUpdateCode attribute.
      * 
-     * @return - Returns the transactionEncumbranceUpdateCode
+     * @return Returns the transactionEncumbranceUpdateCode
      * 
      */
     public String getTransactionEncumbranceUpdateCode() {
@@ -622,7 +622,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionPostingDate attribute.
      * 
-     * @return - Returns the transactionPostingDate
+     * @return Returns the transactionPostingDate
      * 
      */
     public Date getTransactionPostingDate() {
@@ -643,7 +643,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the transactionDateTimeStamp attribute.
      * 
-     * @return - Returns the transactionDateTimeStamp
+     * @return Returns the transactionDateTimeStamp
      * 
      */
     public Date getTransactionDateTimeStamp() {
@@ -664,7 +664,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the budgetYear attribute.
      * 
-     * @return - Returns the budgetYear
+     * @return Returns the budgetYear
      * 
      */
     public String getBudgetYear() {
@@ -685,7 +685,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the financialObject attribute.
      * 
-     * @return - Returns the financialObject
+     * @return Returns the financialObject
      * 
      */
     public ObjectCode getFinancialObject() {
@@ -705,7 +705,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -725,7 +725,7 @@ public class EntryMove extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

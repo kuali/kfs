@@ -35,7 +35,7 @@ public interface PurchasingAccountsPayableDocument extends TransactionalDocument
     /**
      * Sets the vendorHeaderGeneratedIdentifier attribute.
      * 
-     * @param - vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
      * 
      */
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier);
@@ -44,7 +44,7 @@ public interface PurchasingAccountsPayableDocument extends TransactionalDocument
     /**
      * Gets the vendorDetailAssignedIdentifier attribute.
      * 
-     * @return - Returns the vendorDetailAssignedIdentifier
+     * @return Returns the vendorDetailAssignedIdentifier
      * 
      */
     public Integer getVendorDetailAssignedIdentifier();
@@ -52,7 +52,7 @@ public interface PurchasingAccountsPayableDocument extends TransactionalDocument
     /**
      * Sets the vendorDetailAssignedIdentifier attribute.
      * 
-     * @param - vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+     * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
      * 
      */
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier);

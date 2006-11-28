@@ -25,6 +25,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -32,6 +33,18 @@ import org.kuali.core.util.KualiDecimal;
 
 public class BudgetGraduateAssistantRate extends BusinessObjectBase implements Comparable {
     private static final long serialVersionUID = -5360306689257897228L;
+
+    private String documentNumber;
+    private String campusCode;
+    private KualiDecimal campusMaximumPeriod1Rate;
+    private KualiDecimal campusMaximumPeriod2Rate;
+    private KualiDecimal campusMaximumPeriod3Rate;
+    private KualiDecimal campusMaximumPeriod4Rate;
+    private KualiDecimal campusMaximumPeriod5Rate;
+    private KualiDecimal campusMaximumPeriod6Rate;
+    private Timestamp lastUpdateTimestamp;
+
+    private GraduateAssistantRate graduateAssistantRate;
 
     /**
      * Default no-arg constructor.
@@ -41,13 +54,13 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
         graduateAssistantRate = new GraduateAssistantRate();
     }
 
-    public BudgetGraduateAssistantRate(String researchDocumentNumber, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate) {
-        this(researchDocumentNumber, campusCode, campusMaximumPeriod1Rate, campusMaximumPeriod2Rate, campusMaximumPeriod3Rate, campusMaximumPeriod4Rate, campusMaximumPeriod5Rate, campusMaximumPeriod3Rate, graduateAssistantRate, null, null);
+    public BudgetGraduateAssistantRate(String documentNumber, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate) {
+        this(documentNumber, campusCode, campusMaximumPeriod1Rate, campusMaximumPeriod2Rate, campusMaximumPeriod3Rate, campusMaximumPeriod4Rate, campusMaximumPeriod5Rate, campusMaximumPeriod3Rate, graduateAssistantRate, null, null);
     }
 
-    public BudgetGraduateAssistantRate(String researchDocumentNumber, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate, String objectId, Long versionNumber) {
+    public BudgetGraduateAssistantRate(String documentNumber, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate, String objectId, Long versionNumber) {
         super();
-        this.researchDocumentNumber = researchDocumentNumber;
+        this.documentNumber = documentNumber;
         this.campusCode = campusCode;
         this.campusMaximumPeriod1Rate = campusMaximumPeriod1Rate;
         this.campusMaximumPeriod2Rate = campusMaximumPeriod2Rate;
@@ -60,18 +73,6 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
         setVersionNumber(versionNumber);
     }
 
-
-    private String researchDocumentNumber;
-    private String campusCode;
-    private KualiDecimal campusMaximumPeriod1Rate;
-    private KualiDecimal campusMaximumPeriod2Rate;
-    private KualiDecimal campusMaximumPeriod3Rate;
-    private KualiDecimal campusMaximumPeriod4Rate;
-    private KualiDecimal campusMaximumPeriod5Rate;
-    private KualiDecimal campusMaximumPeriod6Rate;
-    private Timestamp lastUpdateTimestamp;
-
-    private GraduateAssistantRate graduateAssistantRate;
 
     public String getCampusCode() {
         return campusCode;
@@ -181,12 +182,12 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
         }
     }
 
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     public void afterDelete(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
@@ -242,7 +243,7 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("campusCode", this.campusCode);
         return m;
     }

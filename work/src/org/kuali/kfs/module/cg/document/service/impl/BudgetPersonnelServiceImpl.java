@@ -101,7 +101,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         UserAppointmentTask userAppointmentTask = new UserAppointmentTask();
         userAppointmentTask.setBudgetTaskSequenceNumber(budgetTaskSequenceNumber);
         userAppointmentTask.setBudgetUserSequenceNumber(budgetUser.getBudgetUserSequenceNumber());
-        userAppointmentTask.setResearchDocumentNumber(budgetUser.getResearchDocumentNumber());
+        userAppointmentTask.setDocumentNumber(budgetUser.getDocumentNumber());
         userAppointmentTask.setInstitutionAppointmentTypeCode(budgetFringeRate.getInstitutionAppointmentTypeCode());
         userAppointmentTask.setBudgetFringeRate(budgetFringeRate);
         userAppointmentTask.setSecondaryAppointment(isSecondaryAppointment);
@@ -122,7 +122,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
         UserAppointmentTaskPeriod userAppointmentTaskPeriod;
 
         userAppointmentTaskPeriod = new UserAppointmentTaskPeriod();
-        userAppointmentTaskPeriod.setResearchDocumentNumber(budgetUser.getResearchDocumentNumber());
+        userAppointmentTaskPeriod.setDocumentNumber(budgetUser.getDocumentNumber());
         userAppointmentTaskPeriod.setBudgetUserSequenceNumber(budgetUser.getBudgetUserSequenceNumber());
         userAppointmentTaskPeriod.setBudgetTaskSequenceNumber(task.getBudgetTaskSequenceNumber());
         userAppointmentTaskPeriod.setBudgetPeriodSequenceNumber(budgetPeriodSequenceNumber);
@@ -261,7 +261,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
             for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
                 BudgetPeriod budgetPeriod = new BudgetPeriod();
-                budgetPeriod.setResearchDocumentNumber(userAppointmentTaskPeriod.getResearchDocumentNumber());
+                budgetPeriod.setDocumentNumber(userAppointmentTaskPeriod.getDocumentNumber());
                 budgetPeriod.setBudgetPeriodSequenceNumber(userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber());
 
                 BudgetPeriod period = (BudgetPeriod) (ObjectUtils.retrieveObjectWithIdentitcalKey(budgetDocument.getBudget().getPeriods(), budgetPeriod));
@@ -271,7 +271,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
                     // the following should ensure that we have up to date fringe rates in the case of modification from Parameters
                     BudgetFringeRate budgetFringeRate = new BudgetFringeRate();
-                    budgetFringeRate.setResearchDocumentNumber(userAppointmentTaskPeriod.getResearchDocumentNumber());
+                    budgetFringeRate.setDocumentNumber(userAppointmentTaskPeriod.getDocumentNumber());
                     budgetFringeRate.setInstitutionAppointmentTypeCode(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode());
 
                     budgetFringeRate = (BudgetFringeRate) (ObjectUtils.retrieveObjectWithIdentitcalKey(budgetDocument.getBudget().getFringeRates(), budgetFringeRate));
@@ -308,7 +308,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                 budgetFringeRate = budgetFringeRateFromList;
             }
             else {
-                budgetFringeRate = budgetFringeRateService.getBudgetFringeRate(userAppointmentTask.getResearchDocumentNumber(), userAppointmentTask.getInstitutionAppointmentTypeCode());
+                budgetFringeRate = budgetFringeRateService.getBudgetFringeRate(userAppointmentTask.getDocumentNumber(), userAppointmentTask.getInstitutionAppointmentTypeCode());
             }
 
             // Zero out the totals
@@ -626,7 +626,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                 // loop through usreAppointmentTasks and check that the associated exists in the Task list
                 UserAppointmentTask userAppointmentTask = (UserAppointmentTask) userAppointmentTaskIter.next();
                 userAppointments.add(userAppointmentTask.getInstitutionAppointmentTypeCode());
-                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(userAppointmentTask.getResearchDocumentNumber(), userAppointmentTask.getBudgetTaskSequenceNumber()));
+                BudgetTask budgetTask = (BudgetTask) businessObjectService.retrieve(new BudgetTask(userAppointmentTask.getDocumentNumber(), userAppointmentTask.getBudgetTaskSequenceNumber()));
                 if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetTasks, budgetTask)) {
                     userAppointmentTaskIter.remove();
                 }
@@ -634,7 +634,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                     // loop through userAppointmentTaskPeriods and check each period.
                     for (Iterator userAppointmentTaskPeriodIter = userAppointmentTask.getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext();) {
                         UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
-                        BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(userAppointmentTaskPeriod.getResearchDocumentNumber(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber()));
+                        BudgetPeriod budgetPeriod = (BudgetPeriod) businessObjectService.retrieve(new BudgetPeriod(userAppointmentTaskPeriod.getDocumentNumber(), userAppointmentTaskPeriod.getBudgetPeriodSequenceNumber()));
                         if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetPeriods, budgetPeriod)) {
                             userAppointmentTaskPeriodIter.remove();
                         }

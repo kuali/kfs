@@ -29,7 +29,7 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataPresentIndicator" />
                 <field attributeName="researchRiskDescription" />
-                <field attributeName="researchDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="researchRiskTypeCode" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -41,7 +41,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="researchDocumentNumber" />
+                    <sortAttribute attributeName="documentNumber" />
                     <sortAttribute attributeName="researchRiskTypeCode" />
                 </sortAttributes>
             </defaultSort>
@@ -49,14 +49,14 @@
             <lookupFields>
                 <lookupField attributeName="dataPresentIndicator" required="false" />
                 <lookupField attributeName="researchRiskDescription" required="false" />
-                <lookupField attributeName="researchDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="dataPresentIndicator" />
                 <field attributeName="researchRiskDescription" />
-                <field attributeName="researchDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="researchRiskTypeCode" />
             </resultFields>
         </lookup>
@@ -92,8 +92,8 @@
                 <description>researchRiskDescription description...</description>
 			</attribute>
 
-            <attribute name="researchDocumentNumber" forceUppercase="true">
-                <label>Research Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -103,8 +103,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>researchDocumentNumber</summary>
-                <description>researchDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
             <attribute name="researchRiskTypeCode" forceUppercase="true">

@@ -58,7 +58,7 @@ public abstract class PolymorphicMultiColumnDiscriminator extends RowReaderDefau
      * 
      * This method should return the column(s) necessary to determine which class to cast to.
      * 
-     * @return - one or more column names
+     * @return one or more column names
      */
     public abstract String[] getDiscriminatorColumns();
 

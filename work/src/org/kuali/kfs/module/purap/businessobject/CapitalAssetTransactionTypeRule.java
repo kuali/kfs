@@ -41,7 +41,7 @@ public class CapitalAssetTransactionTypeRule extends BusinessObjectBase {
 	/**
 	 * Gets the capitalAssetTransactionTypeCode attribute.
 	 * 
-	 * @return - Returns the capitalAssetTransactionTypeCode
+	 * @return Returns the capitalAssetTransactionTypeCode
 	 * 
 	 */
 	public String getCapitalAssetTransactionTypeCode() { 
@@ -51,7 +51,7 @@ public class CapitalAssetTransactionTypeRule extends BusinessObjectBase {
 	/**
 	 * Sets the capitalAssetTransactionTypeCode attribute.
 	 * 
-	 * @param - capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
+	 * @param capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
 	 * 
 	 */
 	public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
@@ -62,7 +62,7 @@ public class CapitalAssetTransactionTypeRule extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectSubTypeCode attribute.
 	 * 
-	 * @return - Returns the financialObjectSubTypeCode
+	 * @return Returns the financialObjectSubTypeCode
 	 * 
 	 */
 	public String getFinancialObjectSubTypeCode() { 
@@ -72,7 +72,7 @@ public class CapitalAssetTransactionTypeRule extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectSubTypeCode attribute.
 	 * 
-	 * @param - financialObjectSubTypeCode The financialObjectSubTypeCode to set.
+	 * @param financialObjectSubTypeCode The financialObjectSubTypeCode to set.
 	 * 
 	 */
 	public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
@@ -83,7 +83,7 @@ public class CapitalAssetTransactionTypeRule extends BusinessObjectBase {
 	/**
 	 * Gets the capitalAssetRelationshipLimitNumber attribute.
 	 * 
-	 * @return - Returns the capitalAssetRelationshipLimitNumber
+	 * @return Returns the capitalAssetRelationshipLimitNumber
 	 * 
 	 */
 	public Integer getCapitalAssetRelationshipLimitNumber() { 
@@ -93,7 +93,7 @@ public class CapitalAssetTransactionTypeRule extends BusinessObjectBase {
 	/**
 	 * Sets the capitalAssetRelationshipLimitNumber attribute.
 	 * 
-	 * @param - capitalAssetRelationshipLimitNumber The capitalAssetRelationshipLimitNumber to set.
+	 * @param capitalAssetRelationshipLimitNumber The capitalAssetRelationshipLimitNumber to set.
 	 * 
 	 */
 	public void setCapitalAssetRelationshipLimitNumber(Integer capitalAssetRelationshipLimitNumber) {
@@ -102,7 +102,7 @@ public class CapitalAssetTransactionTypeRule extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

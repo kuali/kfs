@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 
 /**
@@ -31,7 +32,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class BudgetTask extends BusinessObjectBase implements Comparable {
 
     private static final long serialVersionUID = 2905826718156063909L;
-    private String researchDocumentNumber;
+    private String documentNumber;
     private Integer budgetTaskSequenceNumber;
     private String budgetTaskName;
     private boolean budgetTaskOnCampus;
@@ -40,31 +41,31 @@ public class BudgetTask extends BusinessObjectBase implements Comparable {
         super();
     }
 
-    public BudgetTask(String researchDocumentNumber, Integer budgetTaskSequenceNumber) {
+    public BudgetTask(String documentNumber, Integer budgetTaskSequenceNumber) {
         this();
-        this.researchDocumentNumber = researchDocumentNumber;
+        this.documentNumber = documentNumber;
         this.budgetTaskSequenceNumber = budgetTaskSequenceNumber;
     }
     
     public BudgetTask(BudgetTask template) {
-        this.researchDocumentNumber = template.getResearchDocumentNumber();
+        this.documentNumber = template.getDocumentNumber();
         this.budgetTaskSequenceNumber = template.getBudgetTaskSequenceNumber();
         this.budgetTaskName = template.getBudgetTaskName();
         this.setBudgetTaskOnCampus(template.isBudgetTaskOnCampus());
     }
 
     /**
-     * @return Returns the researchDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -116,7 +117,7 @@ public class BudgetTask extends BusinessObjectBase implements Comparable {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("budgetTaskSequenceNumber", this.budgetTaskSequenceNumber);
         return m;
 
@@ -134,7 +135,7 @@ public class BudgetTask extends BusinessObjectBase implements Comparable {
             if (this.getClass().equals(obj.getClass())) {
                 BudgetTask other = (BudgetTask) obj;
 
-                if (this.getResearchDocumentNumber().equals(other.getResearchDocumentNumber()) && this.getBudgetTaskSequenceNumber().equals(other.getBudgetTaskSequenceNumber()) && StringUtils.equals(getBudgetTaskName(), other.getBudgetTaskName())) {
+                if (this.getDocumentNumber().equals(other.getDocumentNumber()) && this.getBudgetTaskSequenceNumber().equals(other.getBudgetTaskSequenceNumber()) && StringUtils.equals(getBudgetTaskName(), other.getBudgetTaskName())) {
                     equal = true;
                 }
             }
@@ -144,14 +145,14 @@ public class BudgetTask extends BusinessObjectBase implements Comparable {
     }
 
     /**
-     * Calcluates hashCode based on current values of researchDocumentNumber, budgetTaskSequenceNumber and budgetTaskName fields. Somewhat
+     * Calcluates hashCode based on current values of documentNumber, budgetTaskSequenceNumber and budgetTaskName fields. Somewhat
      * dangerous, since those fields are mutable, but I don't expect people to be editing those values directly for Tasks stored in
      * hashed datastructures. (this is based on Account.hashCode()) - TAD
      * 
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = getResearchDocumentNumber() + "|" + getBudgetTaskSequenceNumber() + "|" + getBudgetTaskName();
+        String hashString = getDocumentNumber() + "|" + getBudgetTaskSequenceNumber() + "|" + getBudgetTaskName();
 
         return hashString.hashCode();
     }

@@ -41,7 +41,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormPurposeCode attribute.
 	 * 
-	 * @return - Returns the routingFormPurposeCode
+	 * @return Returns the routingFormPurposeCode
 	 * 
 	 */
 	public String getRoutingFormPurposeCode() { 
@@ -51,7 +51,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormPurposeCode attribute.
 	 * 
-	 * @param - routingFormPurposeCode The routingFormPurposeCode to set.
+	 * @param routingFormPurposeCode The routingFormPurposeCode to set.
 	 * 
 	 */
 	public void setRoutingFormPurposeCode(String routingFormPurposeCode) {
@@ -62,7 +62,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public String getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -72,7 +72,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(String dataObjectMaintenanceCodeActiveIndicator) {
@@ -83,7 +83,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormPurposeDescription attribute.
 	 * 
-	 * @return - Returns the routingFormPurposeDescription
+	 * @return Returns the routingFormPurposeDescription
 	 * 
 	 */
 	public String getRoutingFormPurposeDescription() { 
@@ -93,7 +93,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormPurposeDescription attribute.
 	 * 
-	 * @param - routingFormPurposeDescription The routingFormPurposeDescription to set.
+	 * @param routingFormPurposeDescription The routingFormPurposeDescription to set.
 	 * 
 	 */
 	public void setRoutingFormPurposeDescription(String routingFormPurposeDescription) {
@@ -102,7 +102,7 @@ public class RoutingFormPurpose extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

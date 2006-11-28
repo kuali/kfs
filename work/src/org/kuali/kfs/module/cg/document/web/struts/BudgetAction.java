@@ -156,7 +156,7 @@ public class BudgetAction extends KualiDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         if (IDocHandler.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
-            budgetForm.getBudgetDocument().getBudget().setResearchDocumentNumber(budgetForm.getBudgetDocument().getFinancialDocumentNumber());
+            budgetForm.getBudgetDocument().getBudget().setDocumentNumber(budgetForm.getBudgetDocument().getFinancialDocumentNumber());
             SpringServiceLocator.getBudgetService().initializeBudget(budgetForm.getBudgetDocument());
         }
         return forward;

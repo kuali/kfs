@@ -84,7 +84,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -105,7 +105,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Gets the accountFinancialObjectTypeCode attribute.
      * 
-     * @return - Returns the accountFinancialObjectTypeCode
+     * @return Returns the accountFinancialObjectTypeCode
      * 
      */
     public String getAccountFinancialObjectTypeCode() {
@@ -126,7 +126,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Gets the accountNumberFinancialObjectCode attribute.
      * 
-     * @return - Returns the accountNumberFinancialObjectCode
+     * @return Returns the accountNumberFinancialObjectCode
      * 
      */
     public String getAccountNumberFinancialObjectCode() {
@@ -147,7 +147,7 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     /**
      * Gets the chart attribute.
      * 
-     * @return - Returns the chart
+     * @return Returns the chart
      * 
      */
     public Chart getChart() {

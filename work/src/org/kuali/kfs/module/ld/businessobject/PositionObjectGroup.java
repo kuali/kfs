@@ -41,7 +41,7 @@ public class PositionObjectGroup extends BusinessObjectBase {
 	/**
 	 * Gets the positionObjectGroupCode attribute.
 	 * 
-	 * @return - Returns the positionObjectGroupCode
+	 * @return Returns the positionObjectGroupCode
 	 * 
 	 */
 	public String getPositionObjectGroupCode() { 
@@ -51,7 +51,7 @@ public class PositionObjectGroup extends BusinessObjectBase {
 	/**
 	 * Sets the positionObjectGroupCode attribute.
 	 * 
-	 * @param - positionObjectGroupCode The positionObjectGroupCode to set.
+	 * @param positionObjectGroupCode The positionObjectGroupCode to set.
 	 * 
 	 */
 	public void setPositionObjectGroupCode(String positionObjectGroupCode) {
@@ -62,7 +62,7 @@ public class PositionObjectGroup extends BusinessObjectBase {
 	/**
 	 * Gets the positionObjectGroupName attribute.
 	 * 
-	 * @return - Returns the positionObjectGroupName
+	 * @return Returns the positionObjectGroupName
 	 * 
 	 */
 	public String getPositionObjectGroupName() { 
@@ -72,7 +72,7 @@ public class PositionObjectGroup extends BusinessObjectBase {
 	/**
 	 * Sets the positionObjectGroupName attribute.
 	 * 
-	 * @param - positionObjectGroupName The positionObjectGroupName to set.
+	 * @param positionObjectGroupName The positionObjectGroupName to set.
 	 * 
 	 */
 	public void setPositionObjectGroupName(String positionObjectGroupName) {
@@ -83,7 +83,7 @@ public class PositionObjectGroup extends BusinessObjectBase {
 	/**
 	 * Gets the rowActiveIndicator attribute.
 	 * 
-	 * @return - Returns the rowActiveIndicator
+	 * @return Returns the rowActiveIndicator
 	 * 
 	 */
 	public boolean isRowActiveIndicator() { 
@@ -94,7 +94,7 @@ public class PositionObjectGroup extends BusinessObjectBase {
 	/**
 	 * Sets the rowActiveIndicator attribute.
 	 * 
-	 * @param - rowActiveIndicator The rowActiveIndicator to set.
+	 * @param rowActiveIndicator The rowActiveIndicator to set.
 	 * 
 	 */
 	public void setRowActiveIndicator(boolean rowActiveIndicator) {
@@ -103,7 +103,7 @@ public class PositionObjectGroup extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

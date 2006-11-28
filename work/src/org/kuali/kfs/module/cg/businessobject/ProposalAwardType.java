@@ -41,7 +41,7 @@ public class ProposalAwardType extends BusinessObjectBase {
     /**
      * Gets the proposalAwardTypeCode attribute.
      * 
-     * @return - Returns the proposalAwardTypeCode
+     * @return Returns the proposalAwardTypeCode
      * 
      */
     public String getProposalAwardTypeCode() {
@@ -62,7 +62,7 @@ public class ProposalAwardType extends BusinessObjectBase {
     /**
      * Gets the proposalAwardTypeDescription attribute.
      * 
-     * @return - Returns the proposalAwardTypeDescription
+     * @return Returns the proposalAwardTypeDescription
      * 
      */
     public String getProposalAwardTypeDescription() {

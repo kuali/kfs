@@ -53,7 +53,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -74,7 +74,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the federalIncomeTaxPercent attribute.
      * 
-     * @return - Returns the federalIncomeTaxPercent
+     * @return Returns the federalIncomeTaxPercent
      * 
      */
     public KualiDecimal getFederalIncomeTaxPercent() {
@@ -95,7 +95,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the stateIncomeTaxPercent attribute.
      * 
-     * @return - Returns the stateIncomeTaxPercent
+     * @return Returns the stateIncomeTaxPercent
      * 
      */
     public KualiDecimal getStateIncomeTaxPercent() {
@@ -116,7 +116,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the incomeClassCode attribute.
      * 
-     * @return - Returns the incomeClassCode
+     * @return Returns the incomeClassCode
      * 
      */
     public String getIncomeClassCode() {
@@ -137,7 +137,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the postalCountryCode attribute.
      * 
-     * @return - Returns the postalCountryCode
+     * @return Returns the postalCountryCode
      * 
      */
     public String getPostalCountryCode() {
@@ -158,7 +158,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the incomeTaxTreatyExemptCode attribute.
      * 
-     * @return - Returns the incomeTaxTreatyExemptCode
+     * @return Returns the incomeTaxTreatyExemptCode
      * 
      */
     public boolean isIncomeTaxTreatyExemptCode() {
@@ -179,7 +179,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the foreignSourceIncomeCode attribute.
      * 
-     * @return - Returns the foreignSourceIncomeCode
+     * @return Returns the foreignSourceIncomeCode
      * 
      */
     public boolean isForeignSourceIncomeCode() {
@@ -200,7 +200,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the incomeTaxGrossUpCode attribute.
      * 
-     * @return - Returns the incomeTaxGrossUpCode
+     * @return Returns the incomeTaxGrossUpCode
      * 
      */
     public boolean isIncomeTaxGrossUpCode() {
@@ -221,7 +221,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the referenceFinancialSystemOriginationCode attribute.
      * 
-     * @return - Returns the referenceFinancialSystemOriginationCode
+     * @return Returns the referenceFinancialSystemOriginationCode
      * 
      */
     public String getReferenceFinancialSystemOriginationCode() {
@@ -242,7 +242,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the referenceFinancialDocumentNumber attribute.
      * 
-     * @return - Returns the referenceFinancialDocumentNumber
+     * @return Returns the referenceFinancialDocumentNumber
      * 
      */
     public String getReferenceFinancialDocumentNumber() {
@@ -277,7 +277,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
     /**
      * Gets the incomeClass attribute.
      * 
-     * @return - Returns the incomeClass
+     * @return Returns the incomeClass
      * 
      */
     public TaxIncomeClassCode getIncomeClass() {

@@ -52,7 +52,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -73,7 +73,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Gets the universityFiscalPeriodCode attribute.
      * 
-     * @return - Returns the universityFiscalPeriodCode
+     * @return Returns the universityFiscalPeriodCode
      * 
      */
     public String getUniversityFiscalPeriodCode() {
@@ -94,7 +94,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Gets the universityFiscalPeriodName attribute.
      * 
-     * @return - Returns the universityFiscalPeriodName
+     * @return Returns the universityFiscalPeriodName
      * 
      */
     public String getUniversityFiscalPeriodName() {
@@ -115,7 +115,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Gets the universityFiscalPeriodStatusCode attribute.
      * 
-     * @return - Returns the universityFiscalPeriodStatusCode
+     * @return Returns the universityFiscalPeriodStatusCode
      * 
      */
     public String getUniversityFiscalPeriodStatusCode() {
@@ -136,7 +136,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Gets the budgetRolloverIndicator attribute.
      * 
-     * @return - Returns the budgetRolloverIndicator
+     * @return Returns the budgetRolloverIndicator
      * 
      */
     public boolean isBudgetRolloverIndicator() {
@@ -158,7 +158,7 @@ public class AccountingPeriod extends BusinessObjectBase {
     /**
      * Gets the universityFiscalPeriodEndDate attribute.
      * 
-     * @return - Returns the universityFiscalPeriodEndDate
+     * @return Returns the universityFiscalPeriodEndDate
      * 
      */
     public Date getUniversityFiscalPeriodEndDate() {

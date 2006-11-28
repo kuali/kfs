@@ -82,7 +82,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the universityFiscalYear attribute.
 	 * 
-	 * @return - Returns the universityFiscalYear
+	 * @return Returns the universityFiscalYear
 	 * 
 	 */
 	public Integer getUniversityFiscalYear() { 
@@ -92,7 +92,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the universityFiscalYear attribute.
 	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * @param universityFiscalYear The universityFiscalYear to set.
 	 * 
 	 */
 	public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -103,7 +103,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -113,7 +113,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -124,7 +124,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -134,7 +134,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -145,7 +145,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the subAccountNumber attribute.
 	 * 
-	 * @return - Returns the subAccountNumber
+	 * @return Returns the subAccountNumber
 	 * 
 	 */
 	public String getSubAccountNumber() { 
@@ -155,7 +155,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -166,7 +166,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -176,7 +176,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -187,7 +187,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the financialSubObjectCode attribute.
 	 * 
-	 * @return - Returns the financialSubObjectCode
+	 * @return Returns the financialSubObjectCode
 	 * 
 	 */
 	public String getFinancialSubObjectCode() { 
@@ -197,7 +197,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the financialSubObjectCode attribute.
 	 * 
-	 * @param - financialSubObjectCode The financialSubObjectCode to set.
+	 * @param financialSubObjectCode The financialSubObjectCode to set.
 	 * 
 	 */
 	public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -208,7 +208,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the financialBalanceTypeCode attribute.
 	 * 
-	 * @return - Returns the financialBalanceTypeCode
+	 * @return Returns the financialBalanceTypeCode
 	 * 
 	 */
 	public String getFinancialBalanceTypeCode() { 
@@ -218,7 +218,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the financialBalanceTypeCode attribute.
 	 * 
-	 * @param - financialBalanceTypeCode The financialBalanceTypeCode to set.
+	 * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
 	 * 
 	 */
 	public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -229,7 +229,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectTypeCode attribute.
 	 * 
-	 * @return - Returns the financialObjectTypeCode
+	 * @return Returns the financialObjectTypeCode
 	 * 
 	 */
 	public String getFinancialObjectTypeCode() { 
@@ -239,7 +239,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectTypeCode attribute.
 	 * 
-	 * @param - financialObjectTypeCode The financialObjectTypeCode to set.
+	 * @param financialObjectTypeCode The financialObjectTypeCode to set.
 	 * 
 	 */
 	public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -250,7 +250,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the positionNumber attribute.
 	 * 
-	 * @return - Returns the positionNumber
+	 * @return Returns the positionNumber
 	 * 
 	 */
 	public String getPositionNumber() { 
@@ -260,7 +260,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the positionNumber attribute.
 	 * 
-	 * @param - positionNumber The positionNumber to set.
+	 * @param positionNumber The positionNumber to set.
 	 * 
 	 */
 	public void setPositionNumber(String positionNumber) {
@@ -271,7 +271,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -281,7 +281,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -292,7 +292,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the accountLineAnnualBalanceAmount attribute.
 	 * 
-	 * @return - Returns the accountLineAnnualBalanceAmount
+	 * @return Returns the accountLineAnnualBalanceAmount
 	 * 
 	 */
 	public KualiDecimal getAccountLineAnnualBalanceAmount() { 
@@ -302,7 +302,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the accountLineAnnualBalanceAmount attribute.
 	 * 
-	 * @param - accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
+	 * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
 	 * 
 	 */
 	public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
@@ -313,7 +313,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the financialBeginningBalanceLineAmount attribute.
 	 * 
-	 * @return - Returns the financialBeginningBalanceLineAmount
+	 * @return Returns the financialBeginningBalanceLineAmount
 	 * 
 	 */
 	public KualiDecimal getFinancialBeginningBalanceLineAmount() { 
@@ -323,7 +323,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the financialBeginningBalanceLineAmount attribute.
 	 * 
-	 * @param - financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
+	 * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
 	 * 
 	 */
 	public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
@@ -334,7 +334,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the beginningBalanceAccountAmount attribute.
 	 * 
-	 * @return - Returns the beginningBalanceAccountAmount
+	 * @return Returns the beginningBalanceAccountAmount
 	 * 
 	 */
 	public KualiDecimal getBeginningBalanceAccountAmount() { 
@@ -344,7 +344,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the beginningBalanceAccountAmount attribute.
 	 * 
-	 * @param - beginningBalanceAccountAmount The beginningBalanceAccountAmount to set.
+	 * @param beginningBalanceAccountAmount The beginningBalanceAccountAmount to set.
 	 * 
 	 */
 	public void setBeginningBalanceAccountAmount(KualiDecimal beginningBalanceAccountAmount) {
@@ -355,7 +355,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month1AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month1AccountLineAmount
+	 * @return Returns the month1AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth1AccountLineAmount() { 
@@ -365,7 +365,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month1AccountLineAmount attribute.
 	 * 
-	 * @param - month1AccountLineAmount The month1AccountLineAmount to set.
+	 * @param month1AccountLineAmount The month1AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth1AccountLineAmount(KualiDecimal month1AccountLineAmount) {
@@ -376,7 +376,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month2AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month2AccountLineAmount
+	 * @return Returns the month2AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth2AccountLineAmount() { 
@@ -386,7 +386,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month2AccountLineAmount attribute.
 	 * 
-	 * @param - month2AccountLineAmount The month2AccountLineAmount to set.
+	 * @param month2AccountLineAmount The month2AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth2AccountLineAmount(KualiDecimal month2AccountLineAmount) {
@@ -397,7 +397,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month3AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month3AccountLineAmount
+	 * @return Returns the month3AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth3AccountLineAmount() { 
@@ -407,7 +407,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month3AccountLineAmount attribute.
 	 * 
-	 * @param - month3AccountLineAmount The month3AccountLineAmount to set.
+	 * @param month3AccountLineAmount The month3AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth3AccountLineAmount(KualiDecimal month3AccountLineAmount) {
@@ -418,7 +418,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month4AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month4AccountLineAmount
+	 * @return Returns the month4AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth4AccountLineAmount() { 
@@ -428,7 +428,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month4AccountLineAmount attribute.
 	 * 
-	 * @param - month4AccountLineAmount The month4AccountLineAmount to set.
+	 * @param month4AccountLineAmount The month4AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth4AccountLineAmount(KualiDecimal month4AccountLineAmount) {
@@ -439,7 +439,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month5AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month5AccountLineAmount
+	 * @return Returns the month5AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth5AccountLineAmount() { 
@@ -449,7 +449,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month5AccountLineAmount attribute.
 	 * 
-	 * @param - month5AccountLineAmount The month5AccountLineAmount to set.
+	 * @param month5AccountLineAmount The month5AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth5AccountLineAmount(KualiDecimal month5AccountLineAmount) {
@@ -460,7 +460,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month6AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month6AccountLineAmount
+	 * @return Returns the month6AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth6AccountLineAmount() { 
@@ -470,7 +470,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month6AccountLineAmount attribute.
 	 * 
-	 * @param - month6AccountLineAmount The month6AccountLineAmount to set.
+	 * @param month6AccountLineAmount The month6AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth6AccountLineAmount(KualiDecimal month6AccountLineAmount) {
@@ -481,7 +481,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month7AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month7AccountLineAmount
+	 * @return Returns the month7AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth7AccountLineAmount() { 
@@ -491,7 +491,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month7AccountLineAmount attribute.
 	 * 
-	 * @param - month7AccountLineAmount The month7AccountLineAmount to set.
+	 * @param month7AccountLineAmount The month7AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth7AccountLineAmount(KualiDecimal month7AccountLineAmount) {
@@ -502,7 +502,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month8AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month8AccountLineAmount
+	 * @return Returns the month8AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth8AccountLineAmount() { 
@@ -512,7 +512,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month8AccountLineAmount attribute.
 	 * 
-	 * @param - month8AccountLineAmount The month8AccountLineAmount to set.
+	 * @param month8AccountLineAmount The month8AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth8AccountLineAmount(KualiDecimal month8AccountLineAmount) {
@@ -523,7 +523,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month9AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month9AccountLineAmount
+	 * @return Returns the month9AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth9AccountLineAmount() { 
@@ -533,7 +533,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month9AccountLineAmount attribute.
 	 * 
-	 * @param - month9AccountLineAmount The month9AccountLineAmount to set.
+	 * @param month9AccountLineAmount The month9AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth9AccountLineAmount(KualiDecimal month9AccountLineAmount) {
@@ -544,7 +544,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month10AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month10AccountLineAmount
+	 * @return Returns the month10AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth10AccountLineAmount() { 
@@ -554,7 +554,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month10AccountLineAmount attribute.
 	 * 
-	 * @param - month10AccountLineAmount The month10AccountLineAmount to set.
+	 * @param month10AccountLineAmount The month10AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth10AccountLineAmount(KualiDecimal month10AccountLineAmount) {
@@ -565,7 +565,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month11AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month11AccountLineAmount
+	 * @return Returns the month11AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth11AccountLineAmount() { 
@@ -575,7 +575,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month11AccountLineAmount attribute.
 	 * 
-	 * @param - month11AccountLineAmount The month11AccountLineAmount to set.
+	 * @param month11AccountLineAmount The month11AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth11AccountLineAmount(KualiDecimal month11AccountLineAmount) {
@@ -586,7 +586,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month12AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month12AccountLineAmount
+	 * @return Returns the month12AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth12AccountLineAmount() { 
@@ -596,7 +596,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month12AccountLineAmount attribute.
 	 * 
-	 * @param - month12AccountLineAmount The month12AccountLineAmount to set.
+	 * @param month12AccountLineAmount The month12AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth12AccountLineAmount(KualiDecimal month12AccountLineAmount) {
@@ -607,7 +607,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the month13AccountLineAmount attribute.
 	 * 
-	 * @return - Returns the month13AccountLineAmount
+	 * @return Returns the month13AccountLineAmount
 	 * 
 	 */
 	public KualiDecimal getMonth13AccountLineAmount() { 
@@ -617,7 +617,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the month13AccountLineAmount attribute.
 	 * 
-	 * @param - month13AccountLineAmount The month13AccountLineAmount to set.
+	 * @param month13AccountLineAmount The month13AccountLineAmount to set.
 	 * 
 	 */
 	public void setMonth13AccountLineAmount(KualiDecimal month13AccountLineAmount) {
@@ -628,7 +628,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the transactionDateTimeStamp attribute.
 	 * 
-	 * @return - Returns the transactionDateTimeStamp
+	 * @return Returns the transactionDateTimeStamp
 	 * 
 	 */
 	public Timestamp getTransactionDateTimeStamp() { 
@@ -638,7 +638,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the transactionDateTimeStamp attribute.
 	 * 
-	 * @param - transactionDateTimeStamp The transactionDateTimeStamp to set.
+	 * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
 	 * 
 	 */
 	public void setTransactionDateTimeStamp(Timestamp transactionDateTimeStamp) {
@@ -649,7 +649,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the financialObject attribute.
 	 * 
-	 * @return - Returns the financialObject
+	 * @return Returns the financialObject
 	 * 
 	 */
 	public ObjectCode getFinancialObject() { 
@@ -659,7 +659,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the financialObject attribute.
 	 * 
-	 * @param - financialObject The financialObject to set.
+	 * @param financialObject The financialObject to set.
 	 * @deprecated
 	 */
 	public void setFinancialObject(ObjectCode financialObject) {
@@ -669,7 +669,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -679,7 +679,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -689,7 +689,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -699,7 +699,7 @@ public class LedgerBalance extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -775,7 +775,7 @@ public class LedgerBalance extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

@@ -48,7 +48,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -58,7 +58,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -69,7 +69,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -79,7 +79,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Sets the organizationCode attribute.
      * 
-     * @param - organizationCode The organizationCode to set.
+     * @param organizationCode The organizationCode to set.
      * 
      */
     public void setOrganizationCode(String organizationCode) {
@@ -90,7 +90,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Gets the organizationRoutingModelName attribute.
      * 
-     * @return - Returns the organizationRoutingModelName
+     * @return Returns the organizationRoutingModelName
      * 
      */
     public String getOrganizationRoutingModelName() {
@@ -100,7 +100,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Sets the organizationRoutingModelName attribute.
      * 
-     * @param - organizationRoutingModelName The organizationRoutingModelName to set.
+     * @param organizationRoutingModelName The organizationRoutingModelName to set.
      * 
      */
     public void setOrganizationRoutingModelName(String organizationRoutingModelName) {
@@ -111,7 +111,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization() {
@@ -121,7 +121,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * @deprecated
      */
     public void setOrganization(Org organization) {
@@ -131,7 +131,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -141,7 +141,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -167,7 +167,7 @@ public class OrganizationRoutingModelName extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();

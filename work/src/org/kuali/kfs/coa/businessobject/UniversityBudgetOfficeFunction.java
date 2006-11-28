@@ -40,7 +40,7 @@ public class UniversityBudgetOfficeFunction extends BusinessObjectBase {
     /**
      * Gets the financialUniversityBudgetOfficeFunctionCode attribute.
      * 
-     * @return - Returns the financialUniversityBudgetOfficeFunctionCode
+     * @return Returns the financialUniversityBudgetOfficeFunctionCode
      * 
      */
     public String getFinancialUniversityBudgetOfficeFunctionCode() {
@@ -61,7 +61,7 @@ public class UniversityBudgetOfficeFunction extends BusinessObjectBase {
     /**
      * Gets the financialUniversityBudgetOfficeFunctionName attribute.
      * 
-     * @return - Returns the financialUniversityBudgetOfficeFunctionName
+     * @return Returns the financialUniversityBudgetOfficeFunctionName
      * 
      */
     public String getFinancialUniversityBudgetOfficeFunctionName() {

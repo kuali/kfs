@@ -41,7 +41,7 @@ public class AwardStatus extends BusinessObjectBase {
     /**
      * Gets the awardStatusCode attribute.
      * 
-     * @return - Returns the awardStatusCode
+     * @return Returns the awardStatusCode
      * 
      */
     public String getAwardStatusCode() {
@@ -62,7 +62,7 @@ public class AwardStatus extends BusinessObjectBase {
     /**
      * Gets the awardStatusDescription attribute.
      * 
-     * @return - Returns the awardStatusDescription
+     * @return Returns the awardStatusDescription
      * 
      */
     public String getAwardStatusDescription() {

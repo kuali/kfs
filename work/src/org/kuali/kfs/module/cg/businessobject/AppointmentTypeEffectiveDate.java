@@ -49,7 +49,7 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
     /**
      * Gets the appointmentTypeCode attribute.
      * 
-     * @return - Returns the appointmentTypeCode
+     * @return Returns the appointmentTypeCode
      * 
      */
     public String getAppointmentTypeCode() {
@@ -70,7 +70,7 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
     /**
      * Gets the institutionFiscalYear attribute.
      * 
-     * @return - Returns the institutionFiscalYear
+     * @return Returns the institutionFiscalYear
      * 
      */
     public Integer getInstitutionFiscalYear() {
@@ -91,7 +91,7 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
     /**
      * Gets the appointmentTypeBeginDate attribute.
      * 
-     * @return - Returns the appointmentTypeBeginDate
+     * @return Returns the appointmentTypeBeginDate
      * 
      */
     public Date getAppointmentTypeBeginDate() {
@@ -112,7 +112,7 @@ public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
     /**
      * Gets the appointmentTypeEndDate attribute.
      * 
-     * @return - Returns the appointmentTypeEndDate
+     * @return Returns the appointmentTypeEndDate
      * 
      */
     public Date getAppointmentTypeEndDate() {

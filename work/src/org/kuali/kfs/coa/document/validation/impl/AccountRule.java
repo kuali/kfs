@@ -181,7 +181,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * This method determines whether the guidelines are required, based on business rules.
      * 
      * @param account - the populated Account bo to be evaluated
-     * @return - true if guidelines are required, false otherwise
+     * @return true if guidelines are required, false otherwise
      * 
      */
     protected boolean areGuidelinesRequired(Account account) {
@@ -206,7 +206,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * 
      * @param accountNumber - The Account Number to be tested.
      * @param illegalValues - An Array of Strings of the unallowable prefixes.
-     * @return - false if the accountNumber starts with any of the illegalPrefixes, true otherwise
+     * @return false if the accountNumber starts with any of the illegalPrefixes, true otherwise
      * 
      */
     protected boolean accountNumberStartsWithAllowedPrefix(String accountNumber, String[] illegalValues) {
@@ -231,7 +231,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * 
      * @param document - populated document containing the old and new accounts
      * @param user - the user who is trying to possibly reopen the account
-     * @return - true if: document is an edit document, old was closed and new is open, and the user is not one of the System
+     * @return true if: document is an edit document, old was closed and new is open, and the user is not one of the System
      *         Supervisors
      * 
      */
@@ -486,7 +486,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param employeeType - String value expected for Employee Type
      * @param userRoleDescription - User Role being tested, to be passed into an error message
      * 
-     * @return - true if user is of the requested employee type, false if not, true if the user object is null
+     * @return true if user is of the requested employee type, false if not, true if the user object is null
      * 
      */
     protected boolean checkUserStatusAndType(String propertyName, UniversalUser user) {

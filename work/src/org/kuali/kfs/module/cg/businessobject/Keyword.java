@@ -40,7 +40,7 @@ public class Keyword extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormKeywordDescription attribute.
 	 * 
-	 * @return - Returns the routingFormKeywordDescription
+	 * @return Returns the routingFormKeywordDescription
 	 * 
 	 */
 	public String getRoutingFormKeywordDescription() { 
@@ -50,7 +50,7 @@ public class Keyword extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormKeywordDescription attribute.
 	 * 
-	 * @param - routingFormKeywordDescription The routingFormKeywordDescription to set.
+	 * @param routingFormKeywordDescription The routingFormKeywordDescription to set.
 	 * 
 	 */
 	public void setRoutingFormKeywordDescription(String routingFormKeywordDescription) {
@@ -61,7 +61,7 @@ public class Keyword extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
@@ -71,7 +71,7 @@ public class Keyword extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -80,7 +80,7 @@ public class Keyword extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

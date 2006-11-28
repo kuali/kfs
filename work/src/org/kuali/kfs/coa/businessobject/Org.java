@@ -103,7 +103,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -123,7 +123,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationName attribute.
      * 
-     * @return - Returns the organizationName
+     * @return Returns the organizationName
      * 
      */
     public String getOrganizationName() {
@@ -143,7 +143,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationCityName attribute.
      * 
-     * @return - Returns the organizationCityName
+     * @return Returns the organizationCityName
      * 
      */
     public String getOrganizationCityName() {
@@ -163,7 +163,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationStateCode attribute.
      * 
-     * @return - Returns the organizationStateCode
+     * @return Returns the organizationStateCode
      * 
      */
     public String getOrganizationStateCode() {
@@ -183,7 +183,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationZipCode attribute.
      * 
-     * @return - Returns the organizationZipCode
+     * @return Returns the organizationZipCode
      * 
      */
     public String getOrganizationZipCode() {
@@ -203,7 +203,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationBeginDate attribute.
      * 
-     * @return - Returns the organizationBeginDate
+     * @return Returns the organizationBeginDate
      * 
      */
     public Date getOrganizationBeginDate() {
@@ -223,7 +223,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationEndDate attribute.
      * 
-     * @return - Returns the organizationEndDate
+     * @return Returns the organizationEndDate
      * 
      */
     public Date getOrganizationEndDate() {
@@ -243,7 +243,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationActiveIndicator attribute.
      * 
-     * @return - Returns the organizationActiveIndicator
+     * @return Returns the organizationActiveIndicator
      * 
      */
     public boolean isOrganizationActiveIndicator() {
@@ -263,7 +263,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationInFinancialProcessingIndicator attribute.
      * 
-     * @return - Returns the organizationInFinancialProcessingIndicator
+     * @return Returns the organizationInFinancialProcessingIndicator
      * 
      */
     public boolean isOrganizationInFinancialProcessingIndicator() {
@@ -283,7 +283,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -303,7 +303,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationDefaultAccount attribute.
      * 
-     * @return - Returns the organizationDefaultAccount
+     * @return Returns the organizationDefaultAccount
      * 
      */
     public Account getOrganizationDefaultAccount() {
@@ -338,7 +338,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the responsibilityCenter attribute.
      * 
-     * @return - Returns the responsibilityCenter
+     * @return Returns the responsibilityCenter
      * 
      */
     public ResponsibilityCenter getResponsibilityCenter() {
@@ -358,7 +358,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationPhysicalCampus attribute.
      * 
-     * @return - Returns the organizationPhysicalCampus
+     * @return Returns the organizationPhysicalCampus
      * 
      */
     public Campus getOrganizationPhysicalCampus() {
@@ -378,7 +378,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationType attribute.
      * 
-     * @return - Returns the organizationType
+     * @return Returns the organizationType
      * 
      */
     public OrgType getOrganizationType() {
@@ -398,7 +398,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the reportsToOrganization attribute.
      * 
-     * @return - Returns the reportsToOrganization
+     * @return Returns the reportsToOrganization
      * 
      */
     public Org getReportsToOrganization() {
@@ -418,7 +418,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the reportsToChartOfAccounts attribute.
      * 
-     * @return - Returns the reportsToChartOfAccounts
+     * @return Returns the reportsToChartOfAccounts
      * 
      */
     public Chart getReportsToChartOfAccounts() {
@@ -438,7 +438,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationPlantAccount attribute.
      * 
-     * @return - Returns the organizationPlantAccount
+     * @return Returns the organizationPlantAccount
      * 
      */
     public Account getOrganizationPlantAccount() {
@@ -458,7 +458,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the campusPlantAccount attribute.
      * 
-     * @return - Returns the campusPlantAccount
+     * @return Returns the campusPlantAccount
      * 
      */
     public Account getCampusPlantAccount() {
@@ -478,7 +478,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the organizationPlantChart attribute.
      * 
-     * @return - Returns the organizationPlantChart
+     * @return Returns the organizationPlantChart
      * 
      */
     public Chart getOrganizationPlantChart() {
@@ -498,7 +498,7 @@ public class Org extends BusinessObjectBase {
     /**
      * Gets the campusPlantChart attribute.
      * 
-     * @return - Returns the campusPlantChart
+     * @return Returns the campusPlantChart
      * 
      */
     public Chart getCampusPlantChart() {

@@ -92,7 +92,7 @@ public class BudgetXml {
         Element budgetElement = xmlDoc.createElement("BUDGET");
         proposalElement.appendChild(budgetElement);
 
-        budgetElement.setAttribute("BUDGET_NUMBER", budget.getResearchDocumentNumber());
+        budgetElement.setAttribute("BUDGET_NUMBER", budget.getDocumentNumber());
         budgetElement.setAttribute("CURRENT_BASE", budget.getIndirectCost().getBudgetBaseCode());
         budgetElement.setAttribute("PURPOSE", budget.getIndirectCost().getBudgetPurposeCode());
         budgetElement.setAttribute("GRANT_NUMBER", budget.getElectronicResearchAdministrationGrantNumber());

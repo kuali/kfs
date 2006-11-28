@@ -31,7 +31,7 @@ import org.kuali.module.kra.budget.bo.BudgetUser;
  * 
  */
 public interface BudgetFringeRateService {
-    // public void setFringeRate(Long researchDocumentNumber, Collection accountNumber);
+    // public void setFringeRate(Long documentNumber, Collection accountNumber);
 
     public Collection getDefaultFringeRates();
 
@@ -43,7 +43,7 @@ public interface BudgetFringeRateService {
 
     public BudgetFringeRate getBudgetFringeRateForPerson(BudgetUser budgetUser);
 
-    public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String researchDocumentNumber);
+    public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentNumber);
 
-    public BudgetFringeRate getBudgetFringeRate(String researchDocumentNumber, String institutionAppointmentTypeCode);
+    public BudgetFringeRate getBudgetFringeRate(String documentNumber, String institutionAppointmentTypeCode);
 }

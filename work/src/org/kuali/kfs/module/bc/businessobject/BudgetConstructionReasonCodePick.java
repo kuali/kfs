@@ -43,7 +43,7 @@ public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
 	/**
 	 * Gets the appointmentFundingReasonCode attribute.
 	 * 
-	 * @return - Returns the appointmentFundingReasonCode
+	 * @return Returns the appointmentFundingReasonCode
 	 * 
 	 */
 	public String getAppointmentFundingReasonCode() { 
@@ -53,7 +53,7 @@ public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
 	/**
 	 * Sets the appointmentFundingReasonCode attribute.
 	 * 
-	 * @param - appointmentFundingReasonCode The appointmentFundingReasonCode to set.
+	 * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
 	 * 
 	 */
 	public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
@@ -64,7 +64,7 @@ public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
 	/**
 	 * Gets the selectFlag attribute.
 	 * 
-	 * @return - Returns the selectFlag
+	 * @return Returns the selectFlag
 	 * 
 	 */
 	public Integer getSelectFlag() { 
@@ -74,7 +74,7 @@ public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
 	/**
 	 * Sets the selectFlag attribute.
 	 * 
-	 * @param - selectFlag The selectFlag to set.
+	 * @param selectFlag The selectFlag to set.
 	 * 
 	 */
 	public void setSelectFlag(Integer selectFlag) {
@@ -85,7 +85,7 @@ public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public Long getPersonUniversalIdentifier() { 
@@ -95,7 +95,7 @@ public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(Long personUniversalIdentifier) {
@@ -120,7 +120,7 @@ public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

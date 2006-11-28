@@ -396,7 +396,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the requisitionOrganizationReference1Text attribute.
 	 * 
-	 * @return - Returns the requisitionOrganizationReference1Text
+	 * @return Returns the requisitionOrganizationReference1Text
 	 * 
 	 */
 	public String getRequisitionOrganizationReference1Text() { 
@@ -406,7 +406,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the requisitionOrganizationReference1Text attribute.
 	 * 
-	 * @param - requisitionOrganizationReference1Text The requisitionOrganizationReference1Text to set.
+	 * @param requisitionOrganizationReference1Text The requisitionOrganizationReference1Text to set.
 	 * 
 	 */
 	public void setRequisitionOrganizationReference1Text(String requisitionOrganizationReference1Text) {
@@ -417,7 +417,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the requisitionOrganizationReference2Text attribute.
 	 * 
-	 * @return - Returns the requisitionOrganizationReference2Text
+	 * @return Returns the requisitionOrganizationReference2Text
 	 * 
 	 */
 	public String getRequisitionOrganizationReference2Text() { 
@@ -427,7 +427,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the requisitionOrganizationReference2Text attribute.
 	 * 
-	 * @param - requisitionOrganizationReference2Text The requisitionOrganizationReference2Text to set.
+	 * @param requisitionOrganizationReference2Text The requisitionOrganizationReference2Text to set.
 	 * 
 	 */
 	public void setRequisitionOrganizationReference2Text(String requisitionOrganizationReference2Text) {
@@ -438,7 +438,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the requisitionOrganizationReference3Text attribute.
 	 * 
-	 * @return - Returns the requisitionOrganizationReference3Text
+	 * @return Returns the requisitionOrganizationReference3Text
 	 * 
 	 */
 	public String getRequisitionOrganizationReference3Text() { 
@@ -448,7 +448,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the requisitionOrganizationReference3Text attribute.
 	 * 
-	 * @param - requisitionOrganizationReference3Text The requisitionOrganizationReference3Text to set.
+	 * @param requisitionOrganizationReference3Text The requisitionOrganizationReference3Text to set.
 	 * 
 	 */
 	public void setRequisitionOrganizationReference3Text(String requisitionOrganizationReference3Text) {
@@ -460,7 +460,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the alternate1VendorName attribute.
 	 * 
-	 * @return - Returns the alternate1VendorName
+	 * @return Returns the alternate1VendorName
 	 * 
 	 */
 	public String getAlternate1VendorName() { 
@@ -470,7 +470,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the alternate1VendorName attribute.
 	 * 
-	 * @param - alternate1VendorName The alternate1VendorName to set.
+	 * @param alternate1VendorName The alternate1VendorName to set.
 	 * 
 	 */
 	public void setAlternate1VendorName(String alternate1VendorName) {
@@ -481,7 +481,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the alternate2VendorName attribute.
 	 * 
-	 * @return - Returns the alternate2VendorName
+	 * @return Returns the alternate2VendorName
 	 * 
 	 */
 	public String getAlternate2VendorName() { 
@@ -491,7 +491,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the alternate2VendorName attribute.
 	 * 
-	 * @param - alternate2VendorName The alternate2VendorName to set.
+	 * @param alternate2VendorName The alternate2VendorName to set.
 	 * 
 	 */
 	public void setAlternate2VendorName(String alternate2VendorName) {
@@ -502,7 +502,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the alternate3VendorName attribute.
 	 * 
-	 * @return - Returns the alternate3VendorName
+	 * @return Returns the alternate3VendorName
 	 * 
 	 */
 	public String getAlternate3VendorName() { 
@@ -512,7 +512,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the alternate3VendorName attribute.
 	 * 
-	 * @param - alternate3VendorName The alternate3VendorName to set.
+	 * @param alternate3VendorName The alternate3VendorName to set.
 	 * 
 	 */
 	public void setAlternate3VendorName(String alternate3VendorName) {
@@ -523,7 +523,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the alternate4VendorName attribute.
 	 * 
-	 * @return - Returns the alternate4VendorName
+	 * @return Returns the alternate4VendorName
 	 * 
 	 */
 	public String getAlternate4VendorName() { 
@@ -533,7 +533,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the alternate4VendorName attribute.
 	 * 
-	 * @param - alternate4VendorName The alternate4VendorName to set.
+	 * @param alternate4VendorName The alternate4VendorName to set.
 	 * 
 	 */
 	public void setAlternate4VendorName(String alternate4VendorName) {
@@ -544,7 +544,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the alternate5VendorName attribute.
 	 * 
-	 * @return - Returns the alternate5VendorName
+	 * @return Returns the alternate5VendorName
 	 * 
 	 */
 	public String getAlternate5VendorName() { 
@@ -554,7 +554,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the alternate5VendorName attribute.
 	 * 
-	 * @param - alternate5VendorName The alternate5VendorName to set.
+	 * @param alternate5VendorName The alternate5VendorName to set.
 	 * 
 	 */
 	public void setAlternate5VendorName(String alternate5VendorName) {
@@ -565,7 +565,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Gets the organizationAutomaticPurchaseOrderLimit attribute.
 	 * 
-	 * @return - Returns the organizationAutomaticPurchaseOrderLimit
+	 * @return Returns the organizationAutomaticPurchaseOrderLimit
 	 * 
 	 */
 	public KualiDecimal getOrganizationAutomaticPurchaseOrderLimit() { 
@@ -575,7 +575,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	/**
 	 * Sets the organizationAutomaticPurchaseOrderLimit attribute.
 	 * 
-	 * @param - organizationAutomaticPurchaseOrderLimit The organizationAutomaticPurchaseOrderLimit to set.
+	 * @param organizationAutomaticPurchaseOrderLimit The organizationAutomaticPurchaseOrderLimit to set.
 	 * 
 	 */
 	public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {

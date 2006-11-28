@@ -107,7 +107,7 @@ public class SubAccount extends BusinessObjectBase {
     /**
      * Gets the subAccountName attribute.
      * 
-     * @return - Returns the subAccountName
+     * @return Returns the subAccountName
      * 
      */
     public String getSubAccountName() {
@@ -127,7 +127,7 @@ public class SubAccount extends BusinessObjectBase {
     /**
      * Gets the subAccountActiveIndicator attribute.
      * 
-     * @return - Returns the subAccountActiveIndicator
+     * @return Returns the subAccountActiveIndicator
      * 
      */
     public boolean isSubAccountActiveIndicator() {
@@ -147,7 +147,7 @@ public class SubAccount extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -167,7 +167,7 @@ public class SubAccount extends BusinessObjectBase {
     /**
      * Gets the subAccount attribute.
      * 
-     * @return - Returns the subAccount
+     * @return Returns the subAccount
      * 
      */
     public String getSubAccountNumber() {
@@ -186,7 +186,7 @@ public class SubAccount extends BusinessObjectBase {
     /**
      * Gets the financialReporting attribute.
      * 
-     * @return - Returns the financialReporting
+     * @return Returns the financialReporting
      * 
      */
     public ReportingCodes getReportingCode() {

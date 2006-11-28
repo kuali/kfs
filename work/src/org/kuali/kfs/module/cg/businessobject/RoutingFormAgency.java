@@ -23,13 +23,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.cg.bo.Agency;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class RoutingFormAgency extends BusinessObjectBase {
 
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private String agencyAddressDescription;
 	private String agencyContactName;
 	private String agencyCountryCode;
@@ -67,30 +68,30 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the agencyAddressDescription attribute.
 	 * 
-	 * @return - Returns the agencyAddressDescription
+	 * @return Returns the agencyAddressDescription
 	 * 
 	 */
 	public String getAgencyAddressDescription() { 
@@ -100,7 +101,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyAddressDescription attribute.
 	 * 
-	 * @param - agencyAddressDescription The agencyAddressDescription to set.
+	 * @param agencyAddressDescription The agencyAddressDescription to set.
 	 * 
 	 */
 	public void setAgencyAddressDescription(String agencyAddressDescription) {
@@ -111,7 +112,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyContactName attribute.
 	 * 
-	 * @return - Returns the agencyContactName
+	 * @return Returns the agencyContactName
 	 * 
 	 */
 	public String getAgencyContactName() { 
@@ -121,7 +122,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyContactName attribute.
 	 * 
-	 * @param - agencyContactName The agencyContactName to set.
+	 * @param agencyContactName The agencyContactName to set.
 	 * 
 	 */
 	public void setAgencyContactName(String agencyContactName) {
@@ -132,7 +133,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyCountryCode attribute.
 	 * 
-	 * @return - Returns the agencyCountryCode
+	 * @return Returns the agencyCountryCode
 	 * 
 	 */
 	public String getAgencyCountryCode() { 
@@ -142,7 +143,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyCountryCode attribute.
 	 * 
-	 * @param - agencyCountryCode The agencyCountryCode to set.
+	 * @param agencyCountryCode The agencyCountryCode to set.
 	 * 
 	 */
 	public void setAgencyCountryCode(String agencyCountryCode) {
@@ -153,7 +154,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyCityName attribute.
 	 * 
-	 * @return - Returns the agencyCityName
+	 * @return Returns the agencyCityName
 	 * 
 	 */
 	public String getAgencyCityName() { 
@@ -163,7 +164,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyCityName attribute.
 	 * 
-	 * @param - agencyCityName The agencyCityName to set.
+	 * @param agencyCityName The agencyCityName to set.
 	 * 
 	 */
 	public void setAgencyCityName(String agencyCityName) {
@@ -174,7 +175,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyDiskAccompanyIndicator attribute.
 	 * 
-	 * @return - Returns the agencyDiskAccompanyIndicator
+	 * @return Returns the agencyDiskAccompanyIndicator
 	 * 
 	 */
 	public boolean getAgencyDiskAccompanyIndicator() { 
@@ -184,7 +185,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyDiskAccompanyIndicator attribute.
 	 * 
-	 * @param - agencyDiskAccompanyIndicator The agencyDiskAccompanyIndicator to set.
+	 * @param agencyDiskAccompanyIndicator The agencyDiskAccompanyIndicator to set.
 	 * 
 	 */
 	public void setAgencyDiskAccompanyIndicator(boolean agencyDiskAccompanyIndicator) {
@@ -195,7 +196,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyElectronicSubmissionIndicator attribute.
 	 * 
-	 * @return - Returns the agencyElectronicSubmissionIndicator
+	 * @return Returns the agencyElectronicSubmissionIndicator
 	 * 
 	 */
 	public boolean getAgencyElectronicSubmissionIndicator() { 
@@ -205,7 +206,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyElectronicSubmissionIndicator attribute.
 	 * 
-	 * @param - agencyElectronicSubmissionIndicator The agencyElectronicSubmissionIndicator to set.
+	 * @param agencyElectronicSubmissionIndicator The agencyElectronicSubmissionIndicator to set.
 	 * 
 	 */
 	public void setAgencyElectronicSubmissionIndicator(boolean agencyElectronicSubmissionIndicator) {
@@ -216,7 +217,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine1Address attribute.
 	 * 
-	 * @return - Returns the agencyLine1Address
+	 * @return Returns the agencyLine1Address
 	 * 
 	 */
 	public String getAgencyLine1Address() { 
@@ -226,7 +227,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine1Address attribute.
 	 * 
-	 * @param - agencyLine1Address The agencyLine1Address to set.
+	 * @param agencyLine1Address The agencyLine1Address to set.
 	 * 
 	 */
 	public void setAgencyLine1Address(String agencyLine1Address) {
@@ -237,7 +238,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine2Address attribute.
 	 * 
-	 * @return - Returns the agencyLine2Address
+	 * @return Returns the agencyLine2Address
 	 * 
 	 */
 	public String getAgencyLine2Address() { 
@@ -247,7 +248,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine2Address attribute.
 	 * 
-	 * @param - agencyLine2Address The agencyLine2Address to set.
+	 * @param agencyLine2Address The agencyLine2Address to set.
 	 * 
 	 */
 	public void setAgencyLine2Address(String agencyLine2Address) {
@@ -258,7 +259,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine3Address attribute.
 	 * 
-	 * @return - Returns the agencyLine3Address
+	 * @return Returns the agencyLine3Address
 	 * 
 	 */
 	public String getAgencyLine3Address() { 
@@ -268,7 +269,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine3Address attribute.
 	 * 
-	 * @param - agencyLine3Address The agencyLine3Address to set.
+	 * @param agencyLine3Address The agencyLine3Address to set.
 	 * 
 	 */
 	public void setAgencyLine3Address(String agencyLine3Address) {
@@ -279,7 +280,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine4Address attribute.
 	 * 
-	 * @return - Returns the agencyLine4Address
+	 * @return Returns the agencyLine4Address
 	 * 
 	 */
 	public String getAgencyLine4Address() { 
@@ -289,7 +290,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine4Address attribute.
 	 * 
-	 * @param - agencyLine4Address The agencyLine4Address to set.
+	 * @param agencyLine4Address The agencyLine4Address to set.
 	 * 
 	 */
 	public void setAgencyLine4Address(String agencyLine4Address) {
@@ -300,7 +301,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine5Address attribute.
 	 * 
-	 * @return - Returns the agencyLine5Address
+	 * @return Returns the agencyLine5Address
 	 * 
 	 */
 	public String getAgencyLine5Address() { 
@@ -310,7 +311,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine5Address attribute.
 	 * 
-	 * @param - agencyLine5Address The agencyLine5Address to set.
+	 * @param agencyLine5Address The agencyLine5Address to set.
 	 * 
 	 */
 	public void setAgencyLine5Address(String agencyLine5Address) {
@@ -321,7 +322,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine6Address attribute.
 	 * 
-	 * @return - Returns the agencyLine6Address
+	 * @return Returns the agencyLine6Address
 	 * 
 	 */
 	public String getAgencyLine6Address() { 
@@ -331,7 +332,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine6Address attribute.
 	 * 
-	 * @param - agencyLine6Address The agencyLine6Address to set.
+	 * @param agencyLine6Address The agencyLine6Address to set.
 	 * 
 	 */
 	public void setAgencyLine6Address(String agencyLine6Address) {
@@ -342,7 +343,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine7Address attribute.
 	 * 
-	 * @return - Returns the agencyLine7Address
+	 * @return Returns the agencyLine7Address
 	 * 
 	 */
 	public String getAgencyLine7Address() { 
@@ -352,7 +353,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine7Address attribute.
 	 * 
-	 * @param - agencyLine7Address The agencyLine7Address to set.
+	 * @param agencyLine7Address The agencyLine7Address to set.
 	 * 
 	 */
 	public void setAgencyLine7Address(String agencyLine7Address) {
@@ -363,7 +364,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyLine8Address attribute.
 	 * 
-	 * @return - Returns the agencyLine8Address
+	 * @return Returns the agencyLine8Address
 	 * 
 	 */
 	public String getAgencyLine8Address() { 
@@ -373,7 +374,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyLine8Address attribute.
 	 * 
-	 * @param - agencyLine8Address The agencyLine8Address to set.
+	 * @param agencyLine8Address The agencyLine8Address to set.
 	 * 
 	 */
 	public void setAgencyLine8Address(String agencyLine8Address) {
@@ -384,7 +385,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyNumber attribute.
 	 * 
-	 * @return - Returns the agencyNumber
+	 * @return Returns the agencyNumber
 	 * 
 	 */
 	public String getAgencyNumber() { 
@@ -394,7 +395,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyNumber attribute.
 	 * 
-	 * @param - agencyNumber The agencyNumber to set.
+	 * @param agencyNumber The agencyNumber to set.
 	 * 
 	 */
 	public void setAgencyNumber(String agencyNumber) {
@@ -405,7 +406,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyShippingInstructionsDescription attribute.
 	 * 
-	 * @return - Returns the agencyShippingInstructionsDescription
+	 * @return Returns the agencyShippingInstructionsDescription
 	 * 
 	 */
 	public String getAgencyShippingInstructionsDescription() { 
@@ -415,7 +416,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyShippingInstructionsDescription attribute.
 	 * 
-	 * @param - agencyShippingInstructionsDescription The agencyShippingInstructionsDescription to set.
+	 * @param agencyShippingInstructionsDescription The agencyShippingInstructionsDescription to set.
 	 * 
 	 */
 	public void setAgencyShippingInstructionsDescription(String agencyShippingInstructionsDescription) {
@@ -426,7 +427,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyStateCode attribute.
 	 * 
-	 * @return - Returns the agencyStateCode
+	 * @return Returns the agencyStateCode
 	 * 
 	 */
 	public String getAgencyStateCode() { 
@@ -436,7 +437,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyStateCode attribute.
 	 * 
-	 * @param - agencyStateCode The agencyStateCode to set.
+	 * @param agencyStateCode The agencyStateCode to set.
 	 * 
 	 */
 	public void setAgencyStateCode(String agencyStateCode) {
@@ -447,7 +448,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the agencyZipCode attribute.
 	 * 
-	 * @return - Returns the agencyZipCode
+	 * @return Returns the agencyZipCode
 	 * 
 	 */
 	public String getAgencyZipCode() { 
@@ -457,7 +458,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the agencyZipCode attribute.
 	 * 
-	 * @param - agencyZipCode The agencyZipCode to set.
+	 * @param agencyZipCode The agencyZipCode to set.
 	 * 
 	 */
 	public void setAgencyZipCode(String agencyZipCode) {
@@ -468,7 +469,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @return - Returns the routingFormDueDateTypeCode
+	 * @return Returns the routingFormDueDateTypeCode
 	 * 
 	 */
 	public String getRoutingFormDueDateTypeCode() { 
@@ -478,7 +479,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @param - routingFormDueDateTypeCode The routingFormDueDateTypeCode to set.
+	 * @param routingFormDueDateTypeCode The routingFormDueDateTypeCode to set.
 	 * 
 	 */
 	public void setRoutingFormDueDateTypeCode(String routingFormDueDateTypeCode) {
@@ -489,7 +490,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormDueDate attribute.
 	 * 
-	 * @return - Returns the routingFormDueDate
+	 * @return Returns the routingFormDueDate
 	 * 
 	 */
 	public Date getRoutingFormDueDate() { 
@@ -499,7 +500,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormDueDate attribute.
 	 * 
-	 * @param - routingFormDueDate The routingFormDueDate to set.
+	 * @param routingFormDueDate The routingFormDueDate to set.
 	 * 
 	 */
 	public void setRoutingFormDueDate(Date routingFormDueDate) {
@@ -510,7 +511,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormDueTime attribute.
 	 * 
-	 * @return - Returns the routingFormDueTime
+	 * @return Returns the routingFormDueTime
 	 * 
 	 */
 	public String getRoutingFormDueTime() { 
@@ -520,7 +521,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormDueTime attribute.
 	 * 
-	 * @param - routingFormDueTime The routingFormDueTime to set.
+	 * @param routingFormDueTime The routingFormDueTime to set.
 	 * 
 	 */
 	public void setRoutingFormDueTime(String routingFormDueTime) {
@@ -531,7 +532,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormRequiredCopyNumber attribute.
 	 * 
-	 * @return - Returns the routingFormRequiredCopyNumber
+	 * @return Returns the routingFormRequiredCopyNumber
 	 * 
 	 */
 	public Integer getRoutingFormRequiredCopyNumber() { 
@@ -541,7 +542,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormRequiredCopyNumber attribute.
 	 * 
-	 * @param - routingFormRequiredCopyNumber The routingFormRequiredCopyNumber to set.
+	 * @param routingFormRequiredCopyNumber The routingFormRequiredCopyNumber to set.
 	 * 
 	 */
 	public void setRoutingFormRequiredCopyNumber(Integer routingFormRequiredCopyNumber) {
@@ -552,7 +553,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormRequiredCopyText attribute.
 	 * 
-	 * @return - Returns the routingFormRequiredCopyText
+	 * @return Returns the routingFormRequiredCopyText
 	 * 
 	 */
 	public String getRoutingFormRequiredCopyText() { 
@@ -562,7 +563,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormRequiredCopyText attribute.
 	 * 
-	 * @param - routingFormRequiredCopyText The routingFormRequiredCopyText to set.
+	 * @param routingFormRequiredCopyText The routingFormRequiredCopyText to set.
 	 * 
 	 */
 	public void setRoutingFormRequiredCopyText(String routingFormRequiredCopyText) {
@@ -573,7 +574,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormSubmitDate attribute.
 	 * 
-	 * @return - Returns the routingFormSubmitDate
+	 * @return Returns the routingFormSubmitDate
 	 * 
 	 */
 	public Date getRoutingFormSubmitDate() { 
@@ -583,7 +584,7 @@ public class RoutingFormAgency extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormSubmitDate attribute.
 	 * 
-	 * @param - routingFormSubmitDate The routingFormSubmitDate to set.
+	 * @param routingFormSubmitDate The routingFormSubmitDate to set.
 	 * 
 	 */
 	public void setRoutingFormSubmitDate(Date routingFormSubmitDate) {
@@ -608,11 +609,11 @@ public class RoutingFormAgency extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 

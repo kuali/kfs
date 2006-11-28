@@ -17,7 +17,6 @@
  */
 package org.kuali.module.kra.budget.web.struts.action;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,12 +24,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -321,14 +318,14 @@ public class BudgetParametersAction extends BudgetAction {
                     // coming back from Agency lookup - To Be Named selected
                     budget.setBudgetAgency(null);
                     budget.setBudgetAgencyNumber(null);
-                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getResearchDocumentNumber());
+                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getDocumentNumber());
                     resetModularBudget(budget, modularBudget);
                     budget.setModularBudget(modularBudget);
                 }
                 else if (request.getParameter("document.budget.budgetAgencyNumber") != null) {
                     // coming back from an Agnecy lookup - Agency selected
                     budget.setAgencyToBeNamedIndicator(false);
-                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getResearchDocumentNumber());
+                    BudgetModular modularBudget = budget.getModularBudget() != null ? budget.getModularBudget() : new BudgetModular(budget.getDocumentNumber());
                     budget.refreshReferenceObject("budgetAgency");
                     budget.getBudgetAgency().refresh();
                     if (budget.getBudgetAgency().getAgencyExtension() != null) {

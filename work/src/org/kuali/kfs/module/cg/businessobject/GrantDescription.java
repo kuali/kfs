@@ -41,7 +41,7 @@ public class GrantDescription extends BusinessObjectBase {
     /**
      * Gets the grantDescriptionCode attribute.
      * 
-     * @return - Returns the grantDescriptionCode
+     * @return Returns the grantDescriptionCode
      * 
      */
     public String getGrantDescriptionCode() {
@@ -62,7 +62,7 @@ public class GrantDescription extends BusinessObjectBase {
     /**
      * Gets the grantDescription attribute.
      * 
-     * @return - Returns the grantDescription
+     * @return Returns the grantDescription
      * 
      */
     public String getGrantDescription() {
@@ -83,7 +83,7 @@ public class GrantDescription extends BusinessObjectBase {
     /**
      * Gets the grantDescriptionActiveCode attribute.
      * 
-     * @return - Returns the grantDescriptionActiveCode
+     * @return Returns the grantDescriptionActiveCode
      * 
      */
     public String getGrantDescriptionActiveCode() {

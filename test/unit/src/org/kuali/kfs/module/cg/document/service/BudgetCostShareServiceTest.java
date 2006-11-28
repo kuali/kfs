@@ -106,7 +106,7 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         personnel.add(budgetUser1);
 
         InstitutionCostSharePersonnel universityCostSharePerson1 = new InstitutionCostSharePersonnel();
-        universityCostSharePerson1.setResearchDocumentNumber("160642");
+        universityCostSharePerson1.setDocumentNumber("160642");
         universityCostSharePerson1.setChartOfAccountsCode("BL");
         universityCostSharePerson1.setOrganizationCode("CSCI");
 
@@ -116,7 +116,7 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         personnel.add(budgetUser2);
 
         InstitutionCostSharePersonnel universityCostSharePerson2 = new InstitutionCostSharePersonnel();
-        universityCostSharePerson2.setResearchDocumentNumber("160642");
+        universityCostSharePerson2.setDocumentNumber("160642");
         universityCostSharePerson2.setChartOfAccountsCode("IN");
         universityCostSharePerson2.setOrganizationCode("CARD");
 
@@ -174,7 +174,7 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         personnel.add(budgetUser1);
 
         InstitutionCostSharePersonnel universityCostSharePerson1 = new InstitutionCostSharePersonnel();
-        universityCostSharePerson1.setResearchDocumentNumber("160642");
+        universityCostSharePerson1.setDocumentNumber("160642");
         universityCostSharePerson1.setChartOfAccountsCode("BL");
         universityCostSharePerson1.setOrganizationCode("CSCI");
 
@@ -202,7 +202,7 @@ public class BudgetCostShareServiceTest extends KualiTestBase {
         personnel.add(budgetUser2);
 
         InstitutionCostSharePersonnel universityCostSharePerson2 = new InstitutionCostSharePersonnel();
-        universityCostSharePerson2.setResearchDocumentNumber("160642");
+        universityCostSharePerson2.setDocumentNumber("160642");
         universityCostSharePerson2.setChartOfAccountsCode("IN");
         universityCostSharePerson2.setOrganizationCode("CARD");
 

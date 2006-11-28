@@ -89,7 +89,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -110,7 +110,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -131,7 +131,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsShortDescription attribute.
      * 
-     * @return - Returns the hrmsShortDescription
+     * @return Returns the hrmsShortDescription
      * 
      */
     public String getHrmsShortDescription() {
@@ -152,7 +152,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsCompany attribute.
      * 
-     * @return - Returns the hrmsCompany
+     * @return Returns the hrmsCompany
      * 
      */
     public String getHrmsCompany() {
@@ -173,7 +173,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsSetIdLocation attribute.
      * 
-     * @return - Returns the hrmsSetIdLocation
+     * @return Returns the hrmsSetIdLocation
      * 
      */
     public String getHrmsSetIdLocation() {
@@ -194,7 +194,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsLocation attribute.
      * 
-     * @return - Returns the hrmsLocation
+     * @return Returns the hrmsLocation
      * 
      */
     public String getHrmsLocation() {
@@ -215,7 +215,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsTaxLocationCode attribute.
      * 
-     * @return - Returns the hrmsTaxLocationCode
+     * @return Returns the hrmsTaxLocationCode
      * 
      */
     public String getHrmsTaxLocationCode() {
@@ -236,7 +236,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsPersonnelApproverUniversalId attribute.
      * 
-     * @return - Returns the hrmsPersonnelApproverUniversalId
+     * @return Returns the hrmsPersonnelApproverUniversalId
      * 
      */
     public String getHrmsPersonnelApproverUniversalId() {
@@ -257,7 +257,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsManagerPositionNumber attribute.
      * 
-     * @return - Returns the hrmsManagerPositionNumber
+     * @return Returns the hrmsManagerPositionNumber
      * 
      */
     public String getHrmsManagerPositionNumber() {
@@ -278,7 +278,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsBudgetYearEndDate attribute.
      * 
-     * @return - Returns the hrmsBudgetYearEndDate
+     * @return Returns the hrmsBudgetYearEndDate
      * 
      */
     public Integer getHrmsBudgetYearEndDate() {
@@ -299,7 +299,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsBudgetLevel attribute.
      * 
-     * @return - Returns the hrmsBudgetLevel
+     * @return Returns the hrmsBudgetLevel
      * 
      */
     public String getHrmsBudgetLevel() {
@@ -320,7 +320,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsGeneralLedgerExpense attribute.
      * 
-     * @return - Returns the hrmsGeneralLedgerExpense
+     * @return Returns the hrmsGeneralLedgerExpense
      * 
      */
     public String getHrmsGeneralLedgerExpense() {
@@ -341,7 +341,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsEqualEmploymentOpportunity4Function attribute.
      * 
-     * @return - Returns the hrmsEqualEmploymentOpportunity4Function
+     * @return Returns the hrmsEqualEmploymentOpportunity4Function
      * 
      */
     public String getHrmsEqualEmploymentOpportunity4Function() {
@@ -362,7 +362,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsAccidentInsurance attribute.
      * 
-     * @return - Returns the hrmsAccidentInsurance
+     * @return Returns the hrmsAccidentInsurance
      * 
      */
     public String getHrmsAccidentInsurance() {
@@ -383,7 +383,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsSocialInsuranceAccidentNumber attribute.
      * 
-     * @return - Returns the hrmsSocialInsuranceAccidentNumber
+     * @return Returns the hrmsSocialInsuranceAccidentNumber
      * 
      */
     public String getHrmsSocialInsuranceAccidentNumber() {
@@ -404,7 +404,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsHazard attribute.
      * 
-     * @return - Returns the hrmsHazard
+     * @return Returns the hrmsHazard
      * 
      */
     public String getHrmsHazard() {
@@ -425,7 +425,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsEstablishmentId attribute.
      * 
-     * @return - Returns the hrmsEstablishmentId
+     * @return Returns the hrmsEstablishmentId
      * 
      */
     public String getHrmsEstablishmentId() {
@@ -446,7 +446,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsRiskCode attribute.
      * 
-     * @return - Returns the hrmsRiskCode
+     * @return Returns the hrmsRiskCode
      * 
      */
     public String getHrmsRiskCode() {
@@ -467,7 +467,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsFullTimeEmploymentEditIndicator attribute.
      * 
-     * @return - Returns the hrmsFullTimeEmploymentEditIndicator
+     * @return Returns the hrmsFullTimeEmploymentEditIndicator
      * 
      */
     public String getHrmsFullTimeEmploymentEditIndicator() {
@@ -488,7 +488,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsDepartmentTenureFlag attribute.
      * 
-     * @return - Returns the hrmsDepartmentTenureFlag
+     * @return Returns the hrmsDepartmentTenureFlag
      * 
      */
     public String getHrmsDepartmentTenureFlag() {
@@ -509,7 +509,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsTimeAndLaborDistributionInformation attribute.
      * 
-     * @return - Returns the hrmsTimeAndLaborDistributionInformation
+     * @return Returns the hrmsTimeAndLaborDistributionInformation
      * 
      */
     public String getHrmsTimeAndLaborDistributionInformation() {
@@ -530,7 +530,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsUseBudgetsIndicator attribute.
      * 
-     * @return - Returns the hrmsUseBudgetsIndicator
+     * @return Returns the hrmsUseBudgetsIndicator
      * 
      */
     public String getHrmsUseBudgetsIndicator() {
@@ -551,7 +551,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsUseEncumbrancesIndicator attribute.
      * 
-     * @return - Returns the hrmsUseEncumbrancesIndicator
+     * @return Returns the hrmsUseEncumbrancesIndicator
      * 
      */
     public String getHrmsUseEncumbrancesIndicator() {
@@ -572,7 +572,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsUseDistributionIndicator attribute.
      * 
-     * @return - Returns the hrmsUseDistributionIndicator
+     * @return Returns the hrmsUseDistributionIndicator
      * 
      */
     public String getHrmsUseDistributionIndicator() {
@@ -593,7 +593,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsBudgetDepartmentId attribute.
      * 
-     * @return - Returns the hrmsBudgetDepartmentId
+     * @return Returns the hrmsBudgetDepartmentId
      * 
      */
     public String getHrmsBudgetDepartmentId() {
@@ -614,7 +614,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsDistributionProrateOption attribute.
      * 
-     * @return - Returns the hrmsDistributionProrateOption
+     * @return Returns the hrmsDistributionProrateOption
      * 
      */
     public String getHrmsDistributionProrateOption() {
@@ -635,7 +635,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsHealthProgramStatisticsDepartmentCode attribute.
      * 
-     * @return - Returns the hrmsHealthProgramStatisticsDepartmentCode
+     * @return Returns the hrmsHealthProgramStatisticsDepartmentCode
      * 
      */
     public String getHrmsHealthProgramStatisticsDepartmentCode() {
@@ -656,7 +656,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsHealthProgramStatisticsFaculty attribute.
      * 
-     * @return - Returns the hrmsHealthProgramStatisticsFaculty
+     * @return Returns the hrmsHealthProgramStatisticsFaculty
      * 
      */
     public String getHrmsHealthProgramStatisticsFaculty() {
@@ -677,7 +677,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsAccountingOwner attribute.
      * 
-     * @return - Returns the hrmsAccountingOwner
+     * @return Returns the hrmsAccountingOwner
      * 
      */
     public String getHrmsAccountingOwner() {
@@ -698,7 +698,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsCountryGroup attribute.
      * 
-     * @return - Returns the hrmsCountryGroup
+     * @return Returns the hrmsCountryGroup
      * 
      */
     public String getHrmsCountryGroup() {
@@ -719,7 +719,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsIuOrganizationMailDropCode attribute.
      * 
-     * @return - Returns the hrmsIuOrganizationMailDropCode
+     * @return Returns the hrmsIuOrganizationMailDropCode
      * 
      */
     public String getHrmsIuOrganizationMailDropCode() {
@@ -740,7 +740,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsIuOrganizationAddress2 attribute.
      * 
-     * @return - Returns the hrmsIuOrganizationAddress2
+     * @return Returns the hrmsIuOrganizationAddress2
      * 
      */
     public String getHrmsIuOrganizationAddress2() {
@@ -761,7 +761,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsIuOrganizationAddress3 attribute.
      * 
-     * @return - Returns the hrmsIuOrganizationAddress3
+     * @return Returns the hrmsIuOrganizationAddress3
      * 
      */
     public String getHrmsIuOrganizationAddress3() {
@@ -782,7 +782,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsIuCampusCode attribute.
      * 
-     * @return - Returns the hrmsIuCampusCode
+     * @return Returns the hrmsIuCampusCode
      * 
      */
     public String getHrmsIuCampusCode() {
@@ -803,7 +803,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsIuCampusBuilding attribute.
      * 
-     * @return - Returns the hrmsIuCampusBuilding
+     * @return Returns the hrmsIuCampusBuilding
      * 
      */
     public String getHrmsIuCampusBuilding() {
@@ -824,7 +824,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsIuCampusRoom attribute.
      * 
-     * @return - Returns the hrmsIuCampusRoom
+     * @return Returns the hrmsIuCampusRoom
      * 
      */
     public String getHrmsIuCampusRoom() {
@@ -916,7 +916,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the fiscalApproverUniversalId attribute.
      * 
-     * @return - Returns the fiscalApproverUniversalId
+     * @return Returns the fiscalApproverUniversalId
      * 
      */
     public String getFiscalApproverUniversalId() {
@@ -937,7 +937,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsLastUpdateDate attribute.
      * 
-     * @return - Returns the hrmsLastUpdateDate
+     * @return Returns the hrmsLastUpdateDate
      * 
      */
     public Timestamp getHrmsLastUpdateDate() {
@@ -958,7 +958,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -978,7 +978,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization() {
@@ -1013,7 +1013,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     /**
      * Gets the hrmsIuCampus attribute.
      * 
-     * @return - Returns the hrmsIuCampus
+     * @return Returns the hrmsIuCampus
      * 
      */
     public Campus getHrmsIuCampus() {

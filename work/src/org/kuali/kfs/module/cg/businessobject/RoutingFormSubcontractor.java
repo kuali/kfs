@@ -22,13 +22,14 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class RoutingFormSubcontractor extends BusinessObjectBase {
 
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private Integer routingFormSubcontractorSequenceNumber;
 	private BigDecimal routingFormSubcontractorAmount;
 	private String routingFormSubcontractorNumber;
@@ -42,30 +43,30 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the routingFormSubcontractorSequenceNumber attribute.
 	 * 
-	 * @return - Returns the routingFormSubcontractorSequenceNumber
+	 * @return Returns the routingFormSubcontractorSequenceNumber
 	 * 
 	 */
 	public Integer getRoutingFormSubcontractorSequenceNumber() { 
@@ -75,7 +76,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormSubcontractorSequenceNumber attribute.
 	 * 
-	 * @param - routingFormSubcontractorSequenceNumber The routingFormSubcontractorSequenceNumber to set.
+	 * @param routingFormSubcontractorSequenceNumber The routingFormSubcontractorSequenceNumber to set.
 	 * 
 	 */
 	public void setRoutingFormSubcontractorSequenceNumber(Integer routingFormSubcontractorSequenceNumber) {
@@ -86,7 +87,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormSubcontractorAmount attribute.
 	 * 
-	 * @return - Returns the routingFormSubcontractorAmount
+	 * @return Returns the routingFormSubcontractorAmount
 	 * 
 	 */
 	public BigDecimal getRoutingFormSubcontractorAmount() { 
@@ -96,7 +97,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormSubcontractorAmount attribute.
 	 * 
-	 * @param - routingFormSubcontractorAmount The routingFormSubcontractorAmount to set.
+	 * @param routingFormSubcontractorAmount The routingFormSubcontractorAmount to set.
 	 * 
 	 */
 	public void setRoutingFormSubcontractorAmount(BigDecimal routingFormSubcontractorAmount) {
@@ -107,7 +108,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormSubcontractorNumber attribute.
 	 * 
-	 * @return - Returns the routingFormSubcontractorNumber
+	 * @return Returns the routingFormSubcontractorNumber
 	 * 
 	 */
 	public String getRoutingFormSubcontractorNumber() { 
@@ -117,7 +118,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormSubcontractorNumber attribute.
 	 * 
-	 * @param - routingFormSubcontractorNumber The routingFormSubcontractorNumber to set.
+	 * @param routingFormSubcontractorNumber The routingFormSubcontractorNumber to set.
 	 * 
 	 */
 	public void setRoutingFormSubcontractorNumber(String routingFormSubcontractorNumber) {
@@ -128,7 +129,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormSubcontractorName attribute.
 	 * 
-	 * @return - Returns the routingFormSubcontractorName
+	 * @return Returns the routingFormSubcontractorName
 	 * 
 	 */
 	public String getRoutingFormSubcontractorName() { 
@@ -138,7 +139,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormSubcontractorName attribute.
 	 * 
-	 * @param - routingFormSubcontractorName The routingFormSubcontractorName to set.
+	 * @param routingFormSubcontractorName The routingFormSubcontractorName to set.
 	 * 
 	 */
 	public void setRoutingFormSubcontractorName(String routingFormSubcontractorName) {
@@ -147,11 +148,11 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.routingFormSubcontractorSequenceNumber != null) {
             m.put("routingFormSubcontractorSequenceNumber", this.routingFormSubcontractorSequenceNumber.toString());
         }

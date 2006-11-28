@@ -31,7 +31,7 @@
 <c:set var="budgetTaskAttributes" value="${DataDictionary.BudgetTask.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
-<kul:htmlControlAttribute property="document.budget.indirectCost.researchDocumentNumber" attributeEntry="${budgetIndirectCostAttributes.researchDocumentNumber}"/>
+<kul:htmlControlAttribute property="document.budget.indirectCost.documentNumber" attributeEntry="${budgetIndirectCostAttributes.documentNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.objectId" attributeEntry="${budgetIndirectCostAttributes.objectId}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.versionNumber" attributeEntry="${budgetIndirectCostAttributes.versionNumber}"/>
 <html:hidden property="document.budget.institutionCostShareIndicator"/>
@@ -140,7 +140,7 @@
 <c:set var="totalsIter" value="0"/>
 <logic:iterate id="taskPeriodLine" name="KualiForm" property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItems" indexId="ctr">
 
-<kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].researchDocumentNumber" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.researchDocumentNumber}"/>
+<kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].documentNumber" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.documentNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].objectId" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.objectId}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].versionNumber" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.versionNumber}"/>
 <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetTaskSequenceNumber" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetTaskSequenceNumber}"/>

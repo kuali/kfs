@@ -42,7 +42,7 @@ public class BudgetConstructionObjectPick extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -52,7 +52,7 @@ public class BudgetConstructionObjectPick extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -63,7 +63,7 @@ public class BudgetConstructionObjectPick extends BusinessObjectBase {
 	/**
 	 * Gets the selectFlag attribute.
 	 * 
-	 * @return - Returns the selectFlag
+	 * @return Returns the selectFlag
 	 * 
 	 */
 	public Integer getSelectFlag() { 
@@ -73,7 +73,7 @@ public class BudgetConstructionObjectPick extends BusinessObjectBase {
 	/**
 	 * Sets the selectFlag attribute.
 	 * 
-	 * @param - selectFlag The selectFlag to set.
+	 * @param selectFlag The selectFlag to set.
 	 * 
 	 */
 	public void setSelectFlag(Integer selectFlag) {
@@ -84,7 +84,7 @@ public class BudgetConstructionObjectPick extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public Long getPersonUniversalIdentifier() { 
@@ -94,7 +94,7 @@ public class BudgetConstructionObjectPick extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(Long personUniversalIdentifier) {
@@ -102,7 +102,7 @@ public class BudgetConstructionObjectPick extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

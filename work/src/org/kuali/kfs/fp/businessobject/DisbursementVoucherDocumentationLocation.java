@@ -41,7 +41,7 @@ public class DisbursementVoucherDocumentationLocation extends BusinessObjectBase
     /**
      * Gets the disbursementVoucherDocumentationLocationCode attribute.
      * 
-     * @return - Returns the disbursementVoucherDocumentationLocationCode
+     * @return Returns the disbursementVoucherDocumentationLocationCode
      * 
      */
     public String getDisbursementVoucherDocumentationLocationCode() {
@@ -62,7 +62,7 @@ public class DisbursementVoucherDocumentationLocation extends BusinessObjectBase
     /**
      * Gets the disbursementVoucherDocumentationLocationName attribute.
      * 
-     * @return - Returns the disbursementVoucherDocumentationLocationName
+     * @return Returns the disbursementVoucherDocumentationLocationName
      * 
      */
     public String getDisbursementVoucherDocumentationLocationName() {
@@ -83,7 +83,7 @@ public class DisbursementVoucherDocumentationLocation extends BusinessObjectBase
     /**
      * Gets the disbursementVoucherDocumentationLocationAddress attribute.
      * 
-     * @return - Returns the disbursementVoucherDocumentationLocationAddress
+     * @return Returns the disbursementVoucherDocumentationLocationAddress
      * 
      */
     public String getDisbursementVoucherDocumentationLocationAddress() {

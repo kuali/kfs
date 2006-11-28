@@ -224,7 +224,7 @@ public class CreditCardDetail extends BusinessObjectBase {
     /**
      * Gets the creditCardAdvanceDepositAmount attribute.
      * 
-     * @return - Returns the creditCardAdvanceDepositAmount
+     * @return Returns the creditCardAdvanceDepositAmount
      * 
      */
     public KualiDecimal getCreditCardAdvanceDepositAmount() {

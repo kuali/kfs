@@ -53,7 +53,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Gets the subFundGroupCode attribute.
      * 
-     * @return - Returns the subFundGroupCode
+     * @return Returns the subFundGroupCode
      * 
      */
     public String getSubFundGroupCode() {
@@ -72,7 +72,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Gets the subFundGroupDescription attribute.
      * 
-     * @return - Returns the subFundGroupDescription
+     * @return Returns the subFundGroupDescription
      * 
      */
     public String getSubFundGroupDescription() {
@@ -92,7 +92,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Gets the _SubfundgrpActivityIndicator_ attribute.
      * 
-     * @return - Returns the _SubfundgrpActivityIndicator_
+     * @return Returns the _SubfundgrpActivityIndicator_
      * 
      */
     public boolean getSubfundgrpActivityIndicator() {
@@ -112,7 +112,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Gets the subFundGroupTypeCode attribute.
      * 
-     * @return - Returns the subFundGroupTypeCode
+     * @return Returns the subFundGroupTypeCode
      * 
      */
     public String getSubFundGroupTypeCode() {
@@ -132,7 +132,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Gets the financialReportingSortCode attribute.
      * 
-     * @return - Returns the financialReportingSortCode
+     * @return Returns the financialReportingSortCode
      * 
      */
     public String getFinancialReportingSortCode() {
@@ -152,7 +152,7 @@ public class SubFundGroup extends BusinessObjectBase {
     /**
      * Gets the subFundGroupWagesIndicator attribute.
      * 
-     * @return - Returns the subFundGroupWagesIndicator
+     * @return Returns the subFundGroupWagesIndicator
      * 
      */
     public boolean isSubFundGroupWagesIndicator() {

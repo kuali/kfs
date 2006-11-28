@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -29,7 +30,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RoutingFormKeyword extends BusinessObjectBase {
 
 	private String routingFormKeywordDescription;
-	private String researchDocumentNumber;
+	private String documentNumber;
 
 	/**
 	 * Default constructor.
@@ -41,7 +42,7 @@ public class RoutingFormKeyword extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormKeywordDescription attribute.
 	 * 
-	 * @return - Returns the routingFormKeywordDescription
+	 * @return Returns the routingFormKeywordDescription
 	 * 
 	 */
 	public String getRoutingFormKeywordDescription() { 
@@ -51,7 +52,7 @@ public class RoutingFormKeyword extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormKeywordDescription attribute.
 	 * 
-	 * @param - routingFormKeywordDescription The routingFormKeywordDescription to set.
+	 * @param routingFormKeywordDescription The routingFormKeywordDescription to set.
 	 * 
 	 */
 	public void setRoutingFormKeywordDescription(String routingFormKeywordDescription) {
@@ -60,37 +61,37 @@ public class RoutingFormKeyword extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("routingFormKeywordDescription", this.routingFormKeywordDescription);
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 	    return m;
     }
     
     public boolean isEmpty() {
-        return StringUtils.isBlank(researchDocumentNumber) && StringUtils.isBlank(routingFormKeywordDescription);
+        return StringUtils.isBlank(documentNumber) && StringUtils.isBlank(routingFormKeywordDescription);
     }
 }

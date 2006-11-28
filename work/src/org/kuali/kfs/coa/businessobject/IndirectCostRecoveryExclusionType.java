@@ -42,7 +42,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Gets the accountIndirectCostRecoveryTypeCode attribute.
      * 
-     * @return - Returns the accountIndirectCostRecoveryTypeCode
+     * @return Returns the accountIndirectCostRecoveryTypeCode
      * 
      */
     public String getAccountIndirectCostRecoveryTypeCode() {
@@ -63,7 +63,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -84,7 +84,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Gets the financialObjectCode attribute.
      * 
-     * @return - Returns the financialObjectCode
+     * @return Returns the financialObjectCode
      * 
      */
     public String getFinancialObjectCode() {
@@ -105,7 +105,7 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
     /**
      * Gets the chart attribute.
      * 
-     * @return - Returns the chart
+     * @return Returns the chart
      * 
      */
     public Chart getChart() {

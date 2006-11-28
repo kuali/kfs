@@ -43,7 +43,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Gets the restrictedMaterialCode attribute.
 	 * 
-	 * @return - Returns the restrictedMaterialCode
+	 * @return Returns the restrictedMaterialCode
 	 * 
 	 */
 	public String getRestrictedMaterialCode() { 
@@ -53,7 +53,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Sets the restrictedMaterialCode attribute.
 	 * 
-	 * @param - restrictedMaterialCode The restrictedMaterialCode to set.
+	 * @param restrictedMaterialCode The restrictedMaterialCode to set.
 	 * 
 	 */
 	public void setRestrictedMaterialCode(String restrictedMaterialCode) {
@@ -64,7 +64,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Gets the restrictedMaterialDescription attribute.
 	 * 
-	 * @return - Returns the restrictedMaterialDescription
+	 * @return Returns the restrictedMaterialDescription
 	 * 
 	 */
 	public String getRestrictedMaterialDescription() { 
@@ -74,7 +74,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Sets the restrictedMaterialDescription attribute.
 	 * 
-	 * @param - restrictedMaterialDescription The restrictedMaterialDescription to set.
+	 * @param restrictedMaterialDescription The restrictedMaterialDescription to set.
 	 * 
 	 */
 	public void setRestrictedMaterialDescription(String restrictedMaterialDescription) {
@@ -85,7 +85,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Gets the restrictedMaterialDefaultDescription attribute.
 	 * 
-	 * @return - Returns the restrictedMaterialDefaultDescription
+	 * @return Returns the restrictedMaterialDefaultDescription
 	 * 
 	 */
 	public String getRestrictedMaterialDefaultDescription() { 
@@ -95,7 +95,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Sets the restrictedMaterialDefaultDescription attribute.
 	 * 
-	 * @param - restrictedMaterialDefaultDescription The restrictedMaterialDefaultDescription to set.
+	 * @param restrictedMaterialDefaultDescription The restrictedMaterialDefaultDescription to set.
 	 * 
 	 */
 	public void setRestrictedMaterialDefaultDescription(String restrictedMaterialDefaultDescription) {
@@ -106,7 +106,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Gets the restrictedMaterialWorkgroupName attribute.
 	 * 
-	 * @return - Returns the restrictedMaterialWorkgroupName
+	 * @return Returns the restrictedMaterialWorkgroupName
 	 * 
 	 */
 	public String getRestrictedMaterialWorkgroupName() { 
@@ -116,7 +116,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Sets the restrictedMaterialWorkgroupName attribute.
 	 * 
-	 * @param - restrictedMaterialWorkgroupName The restrictedMaterialWorkgroupName to set.
+	 * @param restrictedMaterialWorkgroupName The restrictedMaterialWorkgroupName to set.
 	 * 
 	 */
 	public void setRestrictedMaterialWorkgroupName(String restrictedMaterialWorkgroupName) {
@@ -127,7 +127,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -137,7 +137,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -145,7 +145,7 @@ public class RestrictedMaterial extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

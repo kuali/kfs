@@ -41,7 +41,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Gets the responsibilityCenterCode attribute.
      * 
-     * @return - Returns the responsibilityCenterCode
+     * @return Returns the responsibilityCenterCode
      * 
      */
     public String getResponsibilityCenterCode() {
@@ -61,7 +61,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Gets the responsibilityCenterName attribute.
      * 
-     * @return - Returns the responsibilityCenterName
+     * @return Returns the responsibilityCenterName
      * 
      */
     public String getResponsibilityCenterName() {
@@ -81,7 +81,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Gets the responsibilityCenterShortName attribute.
      * 
-     * @return - Returns the responsibilityCenterShortName
+     * @return Returns the responsibilityCenterShortName
      * 
      */
     public String getResponsibilityCenterShortName() {
@@ -101,7 +101,7 @@ public class ResponsibilityCenter extends BusinessObjectBase {
     /**
      * Gets the responsibilityCenterActiveIndicator attribute.
      * 
-     * @return - Returns the responsibilityCenterActiveIndicator
+     * @return Returns the responsibilityCenterActiveIndicator
      * 
      */
     public boolean getResponsibilityCenterActiveIndicator() {

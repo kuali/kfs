@@ -46,7 +46,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Gets the financialDocumentBankCode attribute.
      * 
-     * @return - Returns the financialDocumentBankCode
+     * @return Returns the financialDocumentBankCode
      * 
      */
     public String getFinancialDocumentBankCode() {
@@ -66,7 +66,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Gets the financialDocumentBankName attribute.
      * 
-     * @return - Returns the financialDocumentBankName
+     * @return Returns the financialDocumentBankName
      * 
      */
     public String getFinancialDocumentBankName() {
@@ -86,7 +86,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Gets the financialDocumentBankShortNm attribute.
      * 
-     * @return - Returns the financialDocumentBankShortNm
+     * @return Returns the financialDocumentBankShortNm
      * 
      */
     public String getFinancialDocumentBankShortNm() {
@@ -106,7 +106,7 @@ public class Bank extends BusinessObjectBase {
     /**
      * Gets the bankAccounts attribute.
      * 
-     * @return - Returns the bankAccounts
+     * @return Returns the bankAccounts
      * 
      */
     public List getBankAccounts() {

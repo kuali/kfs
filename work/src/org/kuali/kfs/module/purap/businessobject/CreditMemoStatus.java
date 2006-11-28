@@ -41,7 +41,7 @@ public class CreditMemoStatus extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemoStatusCode attribute.
 	 * 
-	 * @return - Returns the creditMemoStatusCode
+	 * @return Returns the creditMemoStatusCode
 	 * 
 	 */
 	public String getCreditMemoStatusCode() { 
@@ -51,7 +51,7 @@ public class CreditMemoStatus extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemoStatusCode attribute.
 	 * 
-	 * @param - creditMemoStatusCode The creditMemoStatusCode to set.
+	 * @param creditMemoStatusCode The creditMemoStatusCode to set.
 	 * 
 	 */
 	public void setCreditMemoStatusCode(String creditMemoStatusCode) {
@@ -62,7 +62,7 @@ public class CreditMemoStatus extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemoStatusDescription attribute.
 	 * 
-	 * @return - Returns the creditMemoStatusDescription
+	 * @return Returns the creditMemoStatusDescription
 	 * 
 	 */
 	public String getCreditMemoStatusDescription() { 
@@ -72,7 +72,7 @@ public class CreditMemoStatus extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemoStatusDescription attribute.
 	 * 
-	 * @param - creditMemoStatusDescription The creditMemoStatusDescription to set.
+	 * @param creditMemoStatusDescription The creditMemoStatusDescription to set.
 	 * 
 	 */
 	public void setCreditMemoStatusDescription(String creditMemoStatusDescription) {
@@ -83,7 +83,7 @@ public class CreditMemoStatus extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class CreditMemoStatus extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class CreditMemoStatus extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

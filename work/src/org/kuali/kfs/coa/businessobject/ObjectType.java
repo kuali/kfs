@@ -44,7 +44,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Gets the finObjectTypeDebitcreditCd attribute.
      * 
-     * @return - Returns the finObjectTypeDebitcreditCd
+     * @return Returns the finObjectTypeDebitcreditCd
      * 
      */
     public String getFinObjectTypeDebitcreditCd() {
@@ -64,7 +64,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Gets the finObjectTypeIcrSelectionIndicator attribute.
      * 
-     * @return - Returns the finObjectTypeIcrSelectionIndicator
+     * @return Returns the finObjectTypeIcrSelectionIndicator
      * 
      */
     public boolean isFinObjectTypeIcrSelectionIndicator() {
@@ -84,7 +84,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Gets the fundBalanceIndicator attribute.
      * 
-     * @return - Returns the fundBalanceIndicator
+     * @return Returns the fundBalanceIndicator
      * 
      */
     public boolean isFundBalanceIndicator() {
@@ -104,7 +104,7 @@ public class ObjectType extends KualiCodeBase {
     /**
      * Gets the financialReportingSortCode attribute.
      * 
-     * @return - Returns the financialReportingSortCode
+     * @return Returns the financialReportingSortCode
      * 
      */
     public String getFinancialReportingSortCode() {

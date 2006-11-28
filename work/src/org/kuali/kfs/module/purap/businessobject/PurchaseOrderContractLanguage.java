@@ -45,7 +45,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderContractLanguageIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderContractLanguageIdentifier
+	 * @return Returns the purchaseOrderContractLanguageIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderContractLanguageIdentifier() { 
@@ -55,7 +55,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderContractLanguageIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderContractLanguageIdentifier The purchaseOrderContractLanguageIdentifier to set.
+	 * @param purchaseOrderContractLanguageIdentifier The purchaseOrderContractLanguageIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderContractLanguageIdentifier(Integer purchaseOrderContractLanguageIdentifier) {
@@ -66,7 +66,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Gets the campusCode attribute.
 	 * 
-	 * @return - Returns the campusCode
+	 * @return Returns the campusCode
 	 * 
 	 */
 	public String getCampusCode() { 
@@ -76,7 +76,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Sets the campusCode attribute.
 	 * 
-	 * @param - campusCode The campusCode to set.
+	 * @param campusCode The campusCode to set.
 	 * 
 	 */
 	public void setCampusCode(String campusCode) {
@@ -87,7 +87,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderContractLanguageDescription attribute.
 	 * 
-	 * @return - Returns the purchaseOrderContractLanguageDescription
+	 * @return Returns the purchaseOrderContractLanguageDescription
 	 * 
 	 */
 	public String getPurchaseOrderContractLanguageDescription() { 
@@ -97,7 +97,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderContractLanguageDescription attribute.
 	 * 
-	 * @param - purchaseOrderContractLanguageDescription The purchaseOrderContractLanguageDescription to set.
+	 * @param purchaseOrderContractLanguageDescription The purchaseOrderContractLanguageDescription to set.
 	 * 
 	 */
 	public void setPurchaseOrderContractLanguageDescription(String purchaseOrderContractLanguageDescription) {
@@ -108,7 +108,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Gets the contractLanguageCreateDate attribute.
 	 * 
-	 * @return - Returns the contractLanguageCreateDate
+	 * @return Returns the contractLanguageCreateDate
 	 * 
 	 */
 	public Date getContractLanguageCreateDate() { 
@@ -118,7 +118,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Sets the contractLanguageCreateDate attribute.
 	 * 
-	 * @param - contractLanguageCreateDate The contractLanguageCreateDate to set.
+	 * @param contractLanguageCreateDate The contractLanguageCreateDate to set.
 	 * 
 	 */
 	public void setContractLanguageCreateDate(Date contractLanguageCreateDate) {
@@ -129,7 +129,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -139,7 +139,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -148,7 +148,7 @@ public class PurchaseOrderContractLanguage extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

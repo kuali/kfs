@@ -41,7 +41,7 @@ public class RecurringPaymentType extends BusinessObjectBase {
 	/**
 	 * Gets the recurringPaymentTypeCode attribute.
 	 * 
-	 * @return - Returns the recurringPaymentTypeCode
+	 * @return Returns the recurringPaymentTypeCode
 	 * 
 	 */
 	public String getRecurringPaymentTypeCode() { 
@@ -51,7 +51,7 @@ public class RecurringPaymentType extends BusinessObjectBase {
 	/**
 	 * Sets the recurringPaymentTypeCode attribute.
 	 * 
-	 * @param - recurringPaymentTypeCode The recurringPaymentTypeCode to set.
+	 * @param recurringPaymentTypeCode The recurringPaymentTypeCode to set.
 	 * 
 	 */
 	public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
@@ -62,7 +62,7 @@ public class RecurringPaymentType extends BusinessObjectBase {
 	/**
 	 * Gets the recurringPaymentTypeDescription attribute.
 	 * 
-	 * @return - Returns the recurringPaymentTypeDescription
+	 * @return Returns the recurringPaymentTypeDescription
 	 * 
 	 */
 	public String getRecurringPaymentTypeDescription() { 
@@ -72,7 +72,7 @@ public class RecurringPaymentType extends BusinessObjectBase {
 	/**
 	 * Sets the recurringPaymentTypeDescription attribute.
 	 * 
-	 * @param - recurringPaymentTypeDescription The recurringPaymentTypeDescription to set.
+	 * @param recurringPaymentTypeDescription The recurringPaymentTypeDescription to set.
 	 * 
 	 */
 	public void setRecurringPaymentTypeDescription(String recurringPaymentTypeDescription) {
@@ -96,7 +96,7 @@ public class RecurringPaymentType extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

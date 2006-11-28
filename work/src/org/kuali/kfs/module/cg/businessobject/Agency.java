@@ -87,7 +87,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the agencyNumber attribute.
      * 
-     * @return - Returns the agencyNumber
+     * @return Returns the agencyNumber
      * 
      */
     public String getAgencyNumber() {
@@ -107,7 +107,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the reportingName attribute.
      * 
-     * @return - Returns the reportingName
+     * @return Returns the reportingName
      * 
      */
     public String getReportingName() {
@@ -127,7 +127,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the fullName attribute.
      * 
-     * @return - Returns the fullName
+     * @return Returns the fullName
      * 
      */
     public String getFullName() {
@@ -147,7 +147,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the indirectAmount attribute.
      * 
-     * @return - Returns the indirectAmount
+     * @return Returns the indirectAmount
      * 
      */
     public KualiDecimal getIndirectAmount() {
@@ -167,7 +167,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the historicalIndicator attribute.
      * 
-     * @return - Returns the historicalIndicator
+     * @return Returns the historicalIndicator
      * 
      */
     public boolean isHistoricalIndicator() {
@@ -187,7 +187,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the inStateIndicator attribute.
      * 
-     * @return - Returns the inStateIndicator
+     * @return Returns the inStateIndicator
      * 
      */
     public boolean isInStateIndicator() {
@@ -207,7 +207,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the reportsToAgency attribute.
      * 
-     * @return - Returns the reportsToAgency
+     * @return Returns the reportsToAgency
      * 
      */
     public Agency getReportsToAgency() {
@@ -227,7 +227,7 @@ public class Agency extends BusinessObjectBase {
     /**
      * Gets the agencyType attribute.
      * 
-     * @return - Returns the agencyType
+     * @return Returns the agencyType
      * 
      */
     public AgencyType getAgencyType() {

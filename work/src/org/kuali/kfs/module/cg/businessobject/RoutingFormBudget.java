@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -30,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RoutingFormBudget extends BusinessObjectBase {
 
 	private String routingFormBudgetTypeCode;
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private Integer routingFormBudgetMaximumPeriodNumber;
 	private Integer routingFormBudgetMinimumPeriodNumber;
 	private BigDecimal routingFormBudgetDirectAmount;
@@ -49,7 +50,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormBudgetTypeCode attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetTypeCode
+	 * @return Returns the routingFormBudgetTypeCode
 	 * 
 	 */
 	public String getRoutingFormBudgetTypeCode() { 
@@ -59,7 +60,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetTypeCode attribute.
 	 * 
-	 * @param - routingFormBudgetTypeCode The routingFormBudgetTypeCode to set.
+	 * @param routingFormBudgetTypeCode The routingFormBudgetTypeCode to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetTypeCode(String routingFormBudgetTypeCode) {
@@ -68,30 +69,30 @@ public class RoutingFormBudget extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the routingFormBudgetMaximumPeriodNumber attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetMaximumPeriodNumber
+	 * @return Returns the routingFormBudgetMaximumPeriodNumber
 	 * 
 	 */
 	public Integer getRoutingFormBudgetMaximumPeriodNumber() { 
@@ -101,7 +102,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetMaximumPeriodNumber attribute.
 	 * 
-	 * @param - routingFormBudgetMaximumPeriodNumber The routingFormBudgetMaximumPeriodNumber to set.
+	 * @param routingFormBudgetMaximumPeriodNumber The routingFormBudgetMaximumPeriodNumber to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetMaximumPeriodNumber(Integer routingFormBudgetMaximumPeriodNumber) {
@@ -112,7 +113,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormBudgetMinimumPeriodNumber attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetMinimumPeriodNumber
+	 * @return Returns the routingFormBudgetMinimumPeriodNumber
 	 * 
 	 */
 	public Integer getRoutingFormBudgetMinimumPeriodNumber() { 
@@ -122,7 +123,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetMinimumPeriodNumber attribute.
 	 * 
-	 * @param - routingFormBudgetMinimumPeriodNumber The routingFormBudgetMinimumPeriodNumber to set.
+	 * @param routingFormBudgetMinimumPeriodNumber The routingFormBudgetMinimumPeriodNumber to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetMinimumPeriodNumber(Integer routingFormBudgetMinimumPeriodNumber) {
@@ -133,7 +134,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormBudgetDirectAmount attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetDirectAmount
+	 * @return Returns the routingFormBudgetDirectAmount
 	 * 
 	 */
 	public BigDecimal getRoutingFormBudgetDirectAmount() { 
@@ -143,7 +144,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetDirectAmount attribute.
 	 * 
-	 * @param - routingFormBudgetDirectAmount The routingFormBudgetDirectAmount to set.
+	 * @param routingFormBudgetDirectAmount The routingFormBudgetDirectAmount to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetDirectAmount(BigDecimal routingFormBudgetDirectAmount) {
@@ -154,7 +155,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormBudgetEndDate attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetEndDate
+	 * @return Returns the routingFormBudgetEndDate
 	 * 
 	 */
 	public Date getRoutingFormBudgetEndDate() { 
@@ -164,7 +165,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetEndDate attribute.
 	 * 
-	 * @param - routingFormBudgetEndDate The routingFormBudgetEndDate to set.
+	 * @param routingFormBudgetEndDate The routingFormBudgetEndDate to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetEndDate(Date routingFormBudgetEndDate) {
@@ -175,7 +176,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormBudgetIndirectCostAmount attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetIndirectCostAmount
+	 * @return Returns the routingFormBudgetIndirectCostAmount
 	 * 
 	 */
 	public BigDecimal getRoutingFormBudgetIndirectCostAmount() { 
@@ -185,7 +186,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetIndirectCostAmount attribute.
 	 * 
-	 * @param - routingFormBudgetIndirectCostAmount The routingFormBudgetIndirectCostAmount to set.
+	 * @param routingFormBudgetIndirectCostAmount The routingFormBudgetIndirectCostAmount to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetIndirectCostAmount(BigDecimal routingFormBudgetIndirectCostAmount) {
@@ -196,7 +197,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormBudgetIndirectCostDescription attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetIndirectCostDescription
+	 * @return Returns the routingFormBudgetIndirectCostDescription
 	 * 
 	 */
 	public String getRoutingFormBudgetIndirectCostDescription() { 
@@ -206,7 +207,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetIndirectCostDescription attribute.
 	 * 
-	 * @param - routingFormBudgetIndirectCostDescription The routingFormBudgetIndirectCostDescription to set.
+	 * @param routingFormBudgetIndirectCostDescription The routingFormBudgetIndirectCostDescription to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetIndirectCostDescription(String routingFormBudgetIndirectCostDescription) {
@@ -217,7 +218,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormBudgetStartDate attribute.
 	 * 
-	 * @return - Returns the routingFormBudgetStartDate
+	 * @return Returns the routingFormBudgetStartDate
 	 * 
 	 */
 	public Date getRoutingFormBudgetStartDate() { 
@@ -227,7 +228,7 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormBudgetStartDate attribute.
 	 * 
-	 * @param - routingFormBudgetStartDate The routingFormBudgetStartDate to set.
+	 * @param routingFormBudgetStartDate The routingFormBudgetStartDate to set.
 	 * 
 	 */
 	public void setRoutingFormBudgetStartDate(Date routingFormBudgetStartDate) {
@@ -236,12 +237,12 @@ public class RoutingFormBudget extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("routingFormBudgetTypeCode", this.routingFormBudgetTypeCode);
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 	    return m;
     }
 }

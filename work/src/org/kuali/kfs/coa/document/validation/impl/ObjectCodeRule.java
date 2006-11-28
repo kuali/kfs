@@ -297,7 +297,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * 
      * @param set - methods returns false if the Set is null
      * @param value to seek
-     * @return - true iff Set exists and contains given value
+     * @return true iff Set exists and contains given value
      */
     protected boolean permitted(Set set, Object value) {
         if (set != null) {

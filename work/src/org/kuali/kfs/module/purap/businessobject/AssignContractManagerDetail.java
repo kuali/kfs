@@ -44,7 +44,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
 	/**
 	 * Gets the financialDocumentNumber attribute.
 	 * 
-	 * @return - Returns the financialDocumentNumber
+	 * @return Returns the financialDocumentNumber
 	 * 
 	 */
 	public String getFinancialDocumentNumber() { 
@@ -54,7 +54,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentNumber attribute.
 	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
+	 * @param financialDocumentNumber The financialDocumentNumber to set.
 	 * 
 	 */
 	public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -65,7 +65,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
 	/**
 	 * Gets the requisitionIdentifier attribute.
 	 * 
-	 * @return - Returns the requisitionIdentifier
+	 * @return Returns the requisitionIdentifier
 	 * 
 	 */
 	public Integer getRequisitionIdentifier() { 
@@ -75,7 +75,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
 	/**
 	 * Sets the requisitionIdentifier attribute.
 	 * 
-	 * @param - requisitionIdentifier The requisitionIdentifier to set.
+	 * @param requisitionIdentifier The requisitionIdentifier to set.
 	 * 
 	 */
 	public void setRequisitionIdentifier(Integer requisitionIdentifier) {
@@ -86,7 +86,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
 	/**
 	 * Gets the contractManagerCode attribute.
 	 * 
-	 * @return - Returns the contractManagerCode
+	 * @return Returns the contractManagerCode
 	 * 
 	 */
 	public Integer getContractManagerCode() { 
@@ -96,7 +96,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
 	/**
 	 * Sets the contractManagerCode attribute.
 	 * 
-	 * @param - contractManagerCode The contractManagerCode to set.
+	 * @param contractManagerCode The contractManagerCode to set.
 	 * 
 	 */
 	public void setContractManagerCode(Integer contractManagerCode) {
@@ -138,7 +138,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

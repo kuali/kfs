@@ -41,7 +41,7 @@ public class PaymentRequestStatus extends BusinessObjectBase {
 	/**
 	 * Gets the paymentRequestStatusCode attribute.
 	 * 
-	 * @return - Returns the paymentRequestStatusCode
+	 * @return Returns the paymentRequestStatusCode
 	 * 
 	 */
 	public String getPaymentRequestStatusCode() { 
@@ -51,7 +51,7 @@ public class PaymentRequestStatus extends BusinessObjectBase {
 	/**
 	 * Sets the paymentRequestStatusCode attribute.
 	 * 
-	 * @param - paymentRequestStatusCode The paymentRequestStatusCode to set.
+	 * @param paymentRequestStatusCode The paymentRequestStatusCode to set.
 	 * 
 	 */
 	public void setPaymentRequestStatusCode(String paymentRequestStatusCode) {
@@ -62,7 +62,7 @@ public class PaymentRequestStatus extends BusinessObjectBase {
 	/**
 	 * Gets the paymentRequestStatusDescription attribute.
 	 * 
-	 * @return - Returns the paymentRequestStatusDescription
+	 * @return Returns the paymentRequestStatusDescription
 	 * 
 	 */
 	public String getPaymentRequestStatusDescription() { 
@@ -72,7 +72,7 @@ public class PaymentRequestStatus extends BusinessObjectBase {
 	/**
 	 * Sets the paymentRequestStatusDescription attribute.
 	 * 
-	 * @param - paymentRequestStatusDescription The paymentRequestStatusDescription to set.
+	 * @param paymentRequestStatusDescription The paymentRequestStatusDescription to set.
 	 * 
 	 */
 	public void setPaymentRequestStatusDescription(String paymentRequestStatusDescription) {
@@ -83,7 +83,7 @@ public class PaymentRequestStatus extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class PaymentRequestStatus extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class PaymentRequestStatus extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

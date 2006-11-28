@@ -52,7 +52,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the universityFiscalYear attribute.
 	 * 
-	 * @return - Returns the universityFiscalYear
+	 * @return Returns the universityFiscalYear
 	 * 
 	 */
 	public Integer getUniversityFiscalYear() { 
@@ -62,7 +62,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the universityFiscalYear attribute.
 	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * @param universityFiscalYear The universityFiscalYear to set.
 	 * 
 	 */
 	public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -73,7 +73,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -83,7 +83,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -94,7 +94,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -104,7 +104,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -115,7 +115,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the detailPositionRequiredIndicator attribute.
 	 * 
-	 * @return - Returns the detailPositionRequiredIndicator
+	 * @return Returns the detailPositionRequiredIndicator
 	 * 
 	 */
 	public boolean isDetailPositionRequiredIndicator() { 
@@ -126,7 +126,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the detailPositionRequiredIndicator attribute.
 	 * 
-	 * @param - detailPositionRequiredIndicator The detailPositionRequiredIndicator to set.
+	 * @param detailPositionRequiredIndicator The detailPositionRequiredIndicator to set.
 	 * 
 	 */
 	public void setDetailPositionRequiredIndicator(boolean detailPositionRequiredIndicator) {
@@ -137,7 +137,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectHoursRequiredIndicator attribute.
 	 * 
-	 * @return - Returns the financialObjectHoursRequiredIndicator
+	 * @return Returns the financialObjectHoursRequiredIndicator
 	 * 
 	 */
 	public boolean isFinancialObjectHoursRequiredIndicator() { 
@@ -148,7 +148,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectHoursRequiredIndicator attribute.
 	 * 
-	 * @param - financialObjectHoursRequiredIndicator The financialObjectHoursRequiredIndicator to set.
+	 * @param financialObjectHoursRequiredIndicator The financialObjectHoursRequiredIndicator to set.
 	 * 
 	 */
 	public void setFinancialObjectHoursRequiredIndicator(boolean financialObjectHoursRequiredIndicator) {
@@ -159,7 +159,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectPayTypeCode attribute.
 	 * 
-	 * @return - Returns the financialObjectPayTypeCode
+	 * @return Returns the financialObjectPayTypeCode
 	 * 
 	 */
 	public String getFinancialObjectPayTypeCode() { 
@@ -169,7 +169,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectPayTypeCode attribute.
 	 * 
-	 * @param - financialObjectPayTypeCode The financialObjectPayTypeCode to set.
+	 * @param financialObjectPayTypeCode The financialObjectPayTypeCode to set.
 	 * 
 	 */
 	public void setFinancialObjectPayTypeCode(String financialObjectPayTypeCode) {
@@ -180,7 +180,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectFringeOrSalaryCode attribute.
 	 * 
-	 * @return - Returns the financialObjectFringeOrSalaryCode
+	 * @return Returns the financialObjectFringeOrSalaryCode
 	 * 
 	 */
 	public String getFinancialObjectFringeOrSalaryCode() { 
@@ -190,7 +190,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectFringeOrSalaryCode attribute.
 	 * 
-	 * @param - financialObjectFringeOrSalaryCode The financialObjectFringeOrSalaryCode to set.
+	 * @param financialObjectFringeOrSalaryCode The financialObjectFringeOrSalaryCode to set.
 	 * 
 	 */
 	public void setFinancialObjectFringeOrSalaryCode(String financialObjectFringeOrSalaryCode) {
@@ -201,7 +201,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the positionObjectGroupCode attribute.
 	 * 
-	 * @return - Returns the positionObjectGroupCode
+	 * @return Returns the positionObjectGroupCode
 	 * 
 	 */
 	public String getPositionObjectGroupCode() { 
@@ -211,7 +211,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the positionObjectGroupCode attribute.
 	 * 
-	 * @param - positionObjectGroupCode The positionObjectGroupCode to set.
+	 * @param positionObjectGroupCode The positionObjectGroupCode to set.
 	 * 
 	 */
 	public void setPositionObjectGroupCode(String positionObjectGroupCode) {
@@ -222,7 +222,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the financialObject attribute.
 	 * 
-	 * @return - Returns the financialObject
+	 * @return Returns the financialObject
 	 * 
 	 */
 	public ObjectCode getFinancialObject() { 
@@ -232,7 +232,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the financialObject attribute.
 	 * 
-	 * @param - financialObject The financialObject to set.
+	 * @param financialObject The financialObject to set.
 	 * @deprecated
 	 */
 	public void setFinancialObject(ObjectCode financialObject) {
@@ -242,7 +242,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -252,7 +252,7 @@ public class LaborObject extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -277,7 +277,7 @@ public class LaborObject extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

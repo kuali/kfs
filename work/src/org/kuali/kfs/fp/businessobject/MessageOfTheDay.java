@@ -43,7 +43,7 @@ public class MessageOfTheDay extends BusinessObjectBase {
     /**
      * Gets the financialSystemOriginationCode attribute.
      * 
-     * @return - Returns the financialSystemOriginationCode
+     * @return Returns the financialSystemOriginationCode
      * 
      */
     public String getFinancialSystemOriginationCode() {
@@ -64,7 +64,7 @@ public class MessageOfTheDay extends BusinessObjectBase {
     /**
      * Gets the financialSystemMessageOfTheDayText attribute.
      * 
-     * @return - Returns the financialSystemMessageOfTheDayText
+     * @return Returns the financialSystemMessageOfTheDayText
      * 
      */
     public String getFinancialSystemMessageOfTheDayText() {

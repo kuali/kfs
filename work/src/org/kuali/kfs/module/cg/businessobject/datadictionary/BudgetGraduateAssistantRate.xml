@@ -25,7 +25,7 @@
         <customAttributeEnabled>true</customAttributeEnabled>
 
         <attributes>
-            <attribute name="researchDocumentNumber" forceUppercase="true">
+            <attribute name="documentNumber" forceUppercase="true">
                 <label>Budget Number</label>
                 <shortLabel>Budget Number</shortLabel>
 

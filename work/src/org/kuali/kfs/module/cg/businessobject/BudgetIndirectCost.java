@@ -32,7 +32,7 @@ import org.kuali.module.kra.budget.KraConstants;
  */
 public class BudgetIndirectCost extends BusinessObjectBase {
 
-    private String researchDocumentNumber;
+    private String documentNumber;
 
     /**
      * This is the top left of the IDC parameters form.
@@ -78,13 +78,13 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     }
 
     /**
-     * Constructor with researchDocumentNumber.
+     * Constructor with documentNumber.
      * 
-     * @param String researchDocumentNumber
+     * @param String documentNumber
      */
-    public BudgetIndirectCost(String researchDocumentNumber) {
+    public BudgetIndirectCost(String documentNumber) {
         this();
-        this.setResearchDocumentNumber(researchDocumentNumber);
+        this.setDocumentNumber(documentNumber);
     }
 
     /**
@@ -96,7 +96,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
         // First call default constructor.
         this();
 
-        this.setResearchDocumentNumber(idc.getResearchDocumentNumber());
+        this.setDocumentNumber(idc.getDocumentNumber());
         this.setVersionNumber(idc.getVersionNumber());
         this.setObjectId(idc.getObjectId());
 
@@ -111,29 +111,29 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetBaseCode attribute.
      * 
-     * @return - Returns the budgetBaseCode
+     * @return Returns the budgetBaseCode
      * 
      */
     public String getBudgetBaseCode() {
@@ -153,7 +153,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     /**
      * Gets the budgetIndirectCostCostShareIndicator attribute.
      * 
-     * @return - Returns the budgetIndirectCostCostShareIndicator
+     * @return Returns the budgetIndirectCostCostShareIndicator
      * 
      */
     public boolean getBudgetIndirectCostCostShareIndicator() {
@@ -180,7 +180,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     /**
      * Gets the budgetIndirectCostJustificationText attribute.
      * 
-     * @return - Returns the budgetIndirectCostJustificationText
+     * @return Returns the budgetIndirectCostJustificationText
      * 
      */
     public String getBudgetIndirectCostJustificationText() {
@@ -200,7 +200,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     /**
      * Gets the budgetManualMtdcIndicator attribute.
      * 
-     * @return - Returns the budgetManualMtdcIndicator
+     * @return Returns the budgetManualMtdcIndicator
      * 
      */
     public boolean getBudgetManualMtdcIndicator() {
@@ -220,7 +220,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     /**
      * Gets the budgetManualRateIndicator attribute.
      * 
-     * @return - Returns the budgetManualRateIndicator
+     * @return Returns the budgetManualRateIndicator
      * 
      */
     public String getBudgetManualRateIndicator() {
@@ -240,7 +240,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     /**
      * Gets the budgetPurposeCode attribute.
      * 
-     * @return - Returns the budgetPurposeCode
+     * @return Returns the budgetPurposeCode
      * 
      */
     public String getBudgetPurposeCode() {
@@ -260,7 +260,7 @@ public class BudgetIndirectCost extends BusinessObjectBase {
     /**
      * Gets the budgetUnrecoveredIndirectCostIndicator attribute.
      * 
-     * @return - Returns the budgetUnrecoveredIndirectCostIndicator
+     * @return Returns the budgetUnrecoveredIndirectCostIndicator
      * 
      */
     public boolean getBudgetUnrecoveredIndirectCostIndicator() {

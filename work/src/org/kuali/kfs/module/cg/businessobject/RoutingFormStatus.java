@@ -41,7 +41,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormStatusCode attribute.
 	 * 
-	 * @return - Returns the routingFormStatusCode
+	 * @return Returns the routingFormStatusCode
 	 * 
 	 */
 	public String getRoutingFormStatusCode() { 
@@ -51,7 +51,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormStatusCode attribute.
 	 * 
-	 * @param - routingFormStatusCode The routingFormStatusCode to set.
+	 * @param routingFormStatusCode The routingFormStatusCode to set.
 	 * 
 	 */
 	public void setRoutingFormStatusCode(String routingFormStatusCode) {
@@ -62,7 +62,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -72,7 +72,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -83,7 +83,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormStatusDescription attribute.
 	 * 
-	 * @return - Returns the routingFormStatusDescription
+	 * @return Returns the routingFormStatusDescription
 	 * 
 	 */
 	public String getRoutingFormStatusDescription() { 
@@ -93,7 +93,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormStatusDescription attribute.
 	 * 
-	 * @param - routingFormStatusDescription The routingFormStatusDescription to set.
+	 * @param routingFormStatusDescription The routingFormStatusDescription to set.
 	 * 
 	 */
 	public void setRoutingFormStatusDescription(String routingFormStatusDescription) {
@@ -102,7 +102,7 @@ public class RoutingFormStatus extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

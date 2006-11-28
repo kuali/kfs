@@ -59,7 +59,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -80,7 +80,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbursementVoucherBankName attribute.
      * 
-     * @return - Returns the disbursementVoucherBankName
+     * @return Returns the disbursementVoucherBankName
      * 
      */
     public String getDisbursementVoucherBankName() {
@@ -101,7 +101,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrBankRoutingNumber attribute.
      * 
-     * @return - Returns the disbVchrBankRoutingNumber
+     * @return Returns the disbVchrBankRoutingNumber
      * 
      */
     public String getDisbVchrBankRoutingNumber() {
@@ -122,7 +122,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrBankCityName attribute.
      * 
-     * @return - Returns the disbVchrBankCityName
+     * @return Returns the disbVchrBankCityName
      * 
      */
     public String getDisbVchrBankCityName() {
@@ -143,7 +143,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrBankStateCode attribute.
      * 
-     * @return - Returns the disbVchrBankStateCode
+     * @return Returns the disbVchrBankStateCode
      * 
      */
     public String getDisbVchrBankStateCode() {
@@ -164,7 +164,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrBankCountryCode attribute.
      * 
-     * @return - Returns the disbVchrBankCountryCode
+     * @return Returns the disbVchrBankCountryCode
      * 
      */
     public String getDisbVchrBankCountryCode() {
@@ -185,7 +185,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrAttentionLineText attribute.
      * 
-     * @return - Returns the disbVchrAttentionLineText
+     * @return Returns the disbVchrAttentionLineText
      * 
      */
     public String getDisbVchrAttentionLineText() {
@@ -206,7 +206,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrAdditionalWireText attribute.
      * 
-     * @return - Returns the disbVchrAdditionalWireText
+     * @return Returns the disbVchrAdditionalWireText
      * 
      */
     public String getDisbVchrAdditionalWireText() {
@@ -227,7 +227,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeAccountNumber attribute.
      * 
-     * @return - Returns the disbVchrPayeeAccountNumber
+     * @return Returns the disbVchrPayeeAccountNumber
      * 
      */
     public String getDisbVchrPayeeAccountNumber() {
@@ -248,7 +248,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrCurrencyTypeName attribute.
      * 
-     * @return - Returns the disbVchrCurrencyTypeName
+     * @return Returns the disbVchrCurrencyTypeName
      * 
      */
     public String getDisbVchrCurrencyTypeName() {
@@ -270,7 +270,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
      * Gets the disbursementVoucherForeignCurrencyTypeName attribute. This field is here because the currency type field is
      * presented in different places on screen, and value conflicts occur unless we have an alias.
      * 
-     * @return - Returns the disbursementVoucherForeignCurrencyTypeName
+     * @return Returns the disbursementVoucherForeignCurrencyTypeName
      * 
      */
     public String getDisbursementVoucherForeignCurrencyTypeName() {
@@ -292,7 +292,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbVchrCurrencyTypeCode attribute.
      * 
-     * @return - Returns the disbVchrCurrencyTypeCode
+     * @return Returns the disbVchrCurrencyTypeCode
      * 
      */
     public String getDisbVchrCurrencyTypeCode() {
@@ -314,7 +314,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
      * Gets the disbursementVoucherForeignCurrencyTypeCode attribute. This field is here because the currency type field is
      * presented in different places on screen, and value conflicts occur unless we have an alias.
      * 
-     * @return - Returns the disbursementVoucherForeignCurrencyTypeCode
+     * @return Returns the disbursementVoucherForeignCurrencyTypeCode
      * 
      */
     public String getDisbursementVoucherForeignCurrencyTypeCode() {
@@ -335,7 +335,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbursementVoucherWireTransferFeeWaiverIndicator attribute.
      * 
-     * @return - Returns the disbursementVoucherWireTransferFeeWaiverIndicator
+     * @return Returns the disbursementVoucherWireTransferFeeWaiverIndicator
      * 
      */
     public boolean isDisbursementVoucherWireTransferFeeWaiverIndicator() {
@@ -356,7 +356,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbursementVoucherPayeeAccountName attribute.
      * 
-     * @return - Returns the disbursementVoucherPayeeAccountName
+     * @return Returns the disbursementVoucherPayeeAccountName
      * 
      */
     public String getDisbursementVoucherPayeeAccountName() {
@@ -377,7 +377,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbursementVoucherPayeeAccountTypeCode attribute.
      * 
-     * @return - Returns the disbursementVoucherPayeeAccountTypeCode
+     * @return Returns the disbursementVoucherPayeeAccountTypeCode
      * 
      */
     public String getDisbursementVoucherPayeeAccountTypeCode() {
@@ -398,7 +398,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
     /**
      * Gets the disbursementVoucherAutomatedClearingHouseProfileNumber attribute.
      * 
-     * @return - Returns the disbursementVoucherAutomatedClearingHouseProfileNumber
+     * @return Returns the disbursementVoucherAutomatedClearingHouseProfileNumber
      * 
      */
     public String getDisbursementVoucherAutomatedClearingHouseProfileNumber() {

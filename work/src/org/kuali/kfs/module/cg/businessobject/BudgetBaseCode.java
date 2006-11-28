@@ -40,7 +40,7 @@ public class BudgetBaseCode extends BusinessObjectBase {
     /**
      * Gets the budgetBaseCode attribute.
      * 
-     * @return - Returns the budgetBaseCode
+     * @return Returns the budgetBaseCode
      * 
      */
     public String getBudgetBaseCode() {
@@ -60,7 +60,7 @@ public class BudgetBaseCode extends BusinessObjectBase {
     /**
      * Gets the budgetBaseDescription attribute.
      * 
-     * @return - Returns the budgetBaseDescription
+     * @return Returns the budgetBaseDescription
      * 
      */
     public String getBudgetBaseDescription() {

@@ -73,7 +73,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the shipmentReceivingIdentifier attribute.
 	 * 
-	 * @return - Returns the shipmentReceivingIdentifier
+	 * @return Returns the shipmentReceivingIdentifier
 	 * 
 	 */
 	public Integer getShipmentReceivingIdentifier() { 
@@ -83,7 +83,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the shipmentReceivingIdentifier attribute.
 	 * 
-	 * @param - shipmentReceivingIdentifier The shipmentReceivingIdentifier to set.
+	 * @param shipmentReceivingIdentifier The shipmentReceivingIdentifier to set.
 	 * 
 	 */
 	public void setShipmentReceivingIdentifier(Integer shipmentReceivingIdentifier) {
@@ -94,7 +94,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderIdentifier
+	 * @return Returns the purchaseOrderIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderIdentifier() { 
@@ -104,7 +104,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderIdentifier The purchaseOrderIdentifier to set.
+	 * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
@@ -115,7 +115,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderGeneralDescription attribute.
 	 * 
-	 * @return - Returns the purchaseOrderGeneralDescription
+	 * @return Returns the purchaseOrderGeneralDescription
 	 * 
 	 */
 	public String getPurchaseOrderGeneralDescription() { 
@@ -125,7 +125,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderGeneralDescription attribute.
 	 * 
-	 * @param - purchaseOrderGeneralDescription The purchaseOrderGeneralDescription to set.
+	 * @param purchaseOrderGeneralDescription The purchaseOrderGeneralDescription to set.
 	 * 
 	 */
 	public void setPurchaseOrderGeneralDescription(String purchaseOrderGeneralDescription) {
@@ -136,7 +136,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the carrierCode attribute.
 	 * 
-	 * @return - Returns the carrierCode
+	 * @return Returns the carrierCode
 	 * 
 	 */
 	public String getCarrierCode() { 
@@ -146,7 +146,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the carrierCode attribute.
 	 * 
-	 * @param - carrierCode The carrierCode to set.
+	 * @param carrierCode The carrierCode to set.
 	 * 
 	 */
 	public void setCarrierCode(String carrierCode) {
@@ -157,7 +157,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the shipmentTrackingNumber attribute.
 	 * 
-	 * @return - Returns the shipmentTrackingNumber
+	 * @return Returns the shipmentTrackingNumber
 	 * 
 	 */
 	public String getShipmentTrackingNumber() { 
@@ -167,7 +167,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the shipmentTrackingNumber attribute.
 	 * 
-	 * @param - shipmentTrackingNumber The shipmentTrackingNumber to set.
+	 * @param shipmentTrackingNumber The shipmentTrackingNumber to set.
 	 * 
 	 */
 	public void setShipmentTrackingNumber(String shipmentTrackingNumber) {
@@ -178,7 +178,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the shipmentReceivedDate attribute.
 	 * 
-	 * @return - Returns the shipmentReceivedDate
+	 * @return Returns the shipmentReceivedDate
 	 * 
 	 */
 	public Date getShipmentReceivedDate() { 
@@ -188,7 +188,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the shipmentReceivedDate attribute.
 	 * 
-	 * @param - shipmentReceivedDate The shipmentReceivedDate to set.
+	 * @param shipmentReceivedDate The shipmentReceivedDate to set.
 	 * 
 	 */
 	public void setShipmentReceivedDate(Date shipmentReceivedDate) {
@@ -199,7 +199,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the shipmentReceivingNoteText attribute.
 	 * 
-	 * @return - Returns the shipmentReceivingNoteText
+	 * @return Returns the shipmentReceivingNoteText
 	 * 
 	 */
 	public String getShipmentReceivingNoteText() { 
@@ -209,7 +209,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the shipmentReceivingNoteText attribute.
 	 * 
-	 * @param - shipmentReceivingNoteText The shipmentReceivingNoteText to set.
+	 * @param shipmentReceivingNoteText The shipmentReceivingNoteText to set.
 	 * 
 	 */
 	public void setShipmentReceivingNoteText(String shipmentReceivingNoteText) {
@@ -220,7 +220,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorName attribute.
 	 * 
-	 * @return - Returns the vendorName
+	 * @return Returns the vendorName
 	 * 
 	 */
 	public String getVendorName() { 
@@ -230,7 +230,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorName attribute.
 	 * 
-	 * @param - vendorName The vendorName to set.
+	 * @param vendorName The vendorName to set.
 	 * 
 	 */
 	public void setVendorName(String vendorName) {
@@ -241,7 +241,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorLine1Address attribute.
 	 * 
-	 * @return - Returns the vendorLine1Address
+	 * @return Returns the vendorLine1Address
 	 * 
 	 */
 	public String getVendorLine1Address() { 
@@ -251,7 +251,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorLine1Address attribute.
 	 * 
-	 * @param - vendorLine1Address The vendorLine1Address to set.
+	 * @param vendorLine1Address The vendorLine1Address to set.
 	 * 
 	 */
 	public void setVendorLine1Address(String vendorLine1Address) {
@@ -262,7 +262,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorLine2Address attribute.
 	 * 
-	 * @return - Returns the vendorLine2Address
+	 * @return Returns the vendorLine2Address
 	 * 
 	 */
 	public String getVendorLine2Address() { 
@@ -272,7 +272,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorLine2Address attribute.
 	 * 
-	 * @param - vendorLine2Address The vendorLine2Address to set.
+	 * @param vendorLine2Address The vendorLine2Address to set.
 	 * 
 	 */
 	public void setVendorLine2Address(String vendorLine2Address) {
@@ -282,7 +282,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorCityName attribute.
 	 * 
-	 * @return - Returns the vendorCityName
+	 * @return Returns the vendorCityName
 	 * 
 	 */
 	public String getVendorCityName() { 
@@ -292,7 +292,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorCityName attribute.
 	 * 
-	 * @param - vendorCityName The vendorCityName to set.
+	 * @param vendorCityName The vendorCityName to set.
 	 * 
 	 */
 	public void setVendorCityName(String vendorCityName) {
@@ -303,7 +303,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorStateCode attribute.
 	 * 
-	 * @return - Returns the vendorStateCode
+	 * @return Returns the vendorStateCode
 	 * 
 	 */
 	public String getVendorStateCode() { 
@@ -313,7 +313,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorStateCode attribute.
 	 * 
-	 * @param - vendorStateCode The vendorStateCode to set.
+	 * @param vendorStateCode The vendorStateCode to set.
 	 * 
 	 */
 	public void setVendorStateCode(String vendorStateCode) {
@@ -324,7 +324,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorPostalCode attribute.
 	 * 
-	 * @return - Returns the vendorPostalCode
+	 * @return Returns the vendorPostalCode
 	 * 
 	 */
 	public String getVendorPostalCode() { 
@@ -334,7 +334,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorPostalCode attribute.
 	 * 
-	 * @param - vendorPostalCode The vendorPostalCode to set.
+	 * @param vendorPostalCode The vendorPostalCode to set.
 	 * 
 	 */
 	public void setVendorPostalCode(String vendorPostalCode) {
@@ -345,7 +345,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorCountryCode attribute.
 	 * 
-	 * @return - Returns the vendorCountryCode
+	 * @return Returns the vendorCountryCode
 	 * 
 	 */
 	public String getVendorCountryCode() { 
@@ -355,7 +355,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorCountryCode attribute.
 	 * 
-	 * @param - vendorCountryCode The vendorCountryCode to set.
+	 * @param vendorCountryCode The vendorCountryCode to set.
 	 * 
 	 */
 	public void setVendorCountryCode(String vendorCountryCode) {
@@ -366,7 +366,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the vendorShippingPaymentTermsCode attribute.
 	 * 
-	 * @return - Returns the vendorShippingPaymentTermsCode
+	 * @return Returns the vendorShippingPaymentTermsCode
 	 * 
 	 */
 	public String getVendorShippingPaymentTermsCode() { 
@@ -376,7 +376,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the vendorShippingPaymentTermsCode attribute.
 	 * 
-	 * @param - vendorShippingPaymentTermsCode The vendorShippingPaymentTermsCode to set.
+	 * @param vendorShippingPaymentTermsCode The vendorShippingPaymentTermsCode to set.
 	 * 
 	 */
 	public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
@@ -387,7 +387,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryCampusCode attribute.
 	 * 
-	 * @return - Returns the deliveryCampusCode
+	 * @return Returns the deliveryCampusCode
 	 * 
 	 */
 	public String getDeliveryCampusCode() { 
@@ -397,7 +397,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryCampusCode attribute.
 	 * 
-	 * @param - deliveryCampusCode The deliveryCampusCode to set.
+	 * @param deliveryCampusCode The deliveryCampusCode to set.
 	 * 
 	 */
 	public void setDeliveryCampusCode(String deliveryCampusCode) {
@@ -408,7 +408,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryBuildingCode attribute.
 	 * 
-	 * @return - Returns the deliveryBuildingCode
+	 * @return Returns the deliveryBuildingCode
 	 * 
 	 */
 	public String getDeliveryBuildingCode() { 
@@ -418,7 +418,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryBuildingCode attribute.
 	 * 
-	 * @param - deliveryBuildingCode The deliveryBuildingCode to set.
+	 * @param deliveryBuildingCode The deliveryBuildingCode to set.
 	 * 
 	 */
 	public void setDeliveryBuildingCode(String deliveryBuildingCode) {
@@ -429,7 +429,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryBuildingName attribute.
 	 * 
-	 * @return - Returns the deliveryBuildingName
+	 * @return Returns the deliveryBuildingName
 	 * 
 	 */
 	public String getDeliveryBuildingName() { 
@@ -439,7 +439,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryBuildingName attribute.
 	 * 
-	 * @param - deliveryBuildingName The deliveryBuildingName to set.
+	 * @param deliveryBuildingName The deliveryBuildingName to set.
 	 * 
 	 */
 	public void setDeliveryBuildingName(String deliveryBuildingName) {
@@ -450,7 +450,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryBuildingRoomNumber attribute.
 	 * 
-	 * @return - Returns the deliveryBuildingRoomNumber
+	 * @return Returns the deliveryBuildingRoomNumber
 	 * 
 	 */
 	public String getDeliveryBuildingRoomNumber() { 
@@ -460,7 +460,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryBuildingRoomNumber attribute.
 	 * 
-	 * @param - deliveryBuildingRoomNumber The deliveryBuildingRoomNumber to set.
+	 * @param deliveryBuildingRoomNumber The deliveryBuildingRoomNumber to set.
 	 * 
 	 */
 	public void setDeliveryBuildingRoomNumber(String deliveryBuildingRoomNumber) {
@@ -471,7 +471,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryBuildingLine1Address attribute.
 	 * 
-	 * @return - Returns the deliveryBuildingLine1Address
+	 * @return Returns the deliveryBuildingLine1Address
 	 * 
 	 */
 	public String getDeliveryBuildingLine1Address() { 
@@ -481,7 +481,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryBuildingLine1Address attribute.
 	 * 
-	 * @param - deliveryBuildingLine1Address The deliveryBuildingLine1Address to set.
+	 * @param deliveryBuildingLine1Address The deliveryBuildingLine1Address to set.
 	 * 
 	 */
 	public void setDeliveryBuildingLine1Address(String deliveryBuildingLine1Address) {
@@ -492,7 +492,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryBuildingLine2Address attribute.
 	 * 
-	 * @return - Returns the deliveryBuildingLine2Address
+	 * @return Returns the deliveryBuildingLine2Address
 	 * 
 	 */
 	public String getDeliveryBuildingLine2Address() { 
@@ -502,7 +502,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryBuildingLine2Address attribute.
 	 * 
-	 * @param - deliveryBuildingLine2Address The deliveryBuildingLine2Address to set.
+	 * @param deliveryBuildingLine2Address The deliveryBuildingLine2Address to set.
 	 * 
 	 */
 	public void setDeliveryBuildingLine2Address(String deliveryBuildingLine2Address) {
@@ -513,7 +513,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryCityName attribute.
 	 * 
-	 * @return - Returns the deliveryCityName
+	 * @return Returns the deliveryCityName
 	 * 
 	 */
 	public String getDeliveryCityName() { 
@@ -523,7 +523,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryCityName attribute.
 	 * 
-	 * @param - deliveryCityName The deliveryCityName to set.
+	 * @param deliveryCityName The deliveryCityName to set.
 	 * 
 	 */
 	public void setDeliveryCityName(String deliveryCityName) {
@@ -534,7 +534,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryStateCode attribute.
 	 * 
-	 * @return - Returns the deliveryStateCode
+	 * @return Returns the deliveryStateCode
 	 * 
 	 */
 	public String getDeliveryStateCode() { 
@@ -544,7 +544,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryStateCode attribute.
 	 * 
-	 * @param - deliveryStateCode The deliveryStateCode to set.
+	 * @param deliveryStateCode The deliveryStateCode to set.
 	 * 
 	 */
 	public void setDeliveryStateCode(String deliveryStateCode) {
@@ -555,7 +555,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryPostalCode attribute.
 	 * 
-	 * @return - Returns the deliveryPostalCode
+	 * @return Returns the deliveryPostalCode
 	 * 
 	 */
 	public String getDeliveryPostalCode() { 
@@ -565,7 +565,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryPostalCode attribute.
 	 * 
-	 * @param - deliveryPostalCode The deliveryPostalCode to set.
+	 * @param deliveryPostalCode The deliveryPostalCode to set.
 	 * 
 	 */
 	public void setDeliveryPostalCode(String deliveryPostalCode) {
@@ -576,7 +576,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryCountryCode attribute.
 	 * 
-	 * @return - Returns the deliveryCountryCode
+	 * @return Returns the deliveryCountryCode
 	 * 
 	 */
 	public String getDeliveryCountryCode() { 
@@ -586,7 +586,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryCountryCode attribute.
 	 * 
-	 * @param - deliveryCountryCode The deliveryCountryCode to set.
+	 * @param deliveryCountryCode The deliveryCountryCode to set.
 	 * 
 	 */
 	public void setDeliveryCountryCode(String deliveryCountryCode) {
@@ -597,7 +597,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryToName attribute.
 	 * 
-	 * @return - Returns the deliveryToName
+	 * @return Returns the deliveryToName
 	 * 
 	 */
 	public String getDeliveryToName() { 
@@ -607,7 +607,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryToName attribute.
 	 * 
-	 * @param - deliveryToName The deliveryToName to set.
+	 * @param deliveryToName The deliveryToName to set.
 	 * 
 	 */
 	public void setDeliveryToName(String deliveryToName) {
@@ -618,7 +618,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryToEmailAddress attribute.
 	 * 
-	 * @return - Returns the deliveryToEmailAddress
+	 * @return Returns the deliveryToEmailAddress
 	 * 
 	 */
 	public String getDeliveryToEmailAddress() { 
@@ -628,7 +628,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryToEmailAddress attribute.
 	 * 
-	 * @param - deliveryToEmailAddress The deliveryToEmailAddress to set.
+	 * @param deliveryToEmailAddress The deliveryToEmailAddress to set.
 	 * 
 	 */
 	public void setDeliveryToEmailAddress(String deliveryToEmailAddress) {
@@ -639,7 +639,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryToPhoneNumber attribute.
 	 * 
-	 * @return - Returns the deliveryToPhoneNumber
+	 * @return Returns the deliveryToPhoneNumber
 	 * 
 	 */
 	public String getDeliveryToPhoneNumber() { 
@@ -649,7 +649,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryToPhoneNumber attribute.
 	 * 
-	 * @param - deliveryToPhoneNumber The deliveryToPhoneNumber to set.
+	 * @param deliveryToPhoneNumber The deliveryToPhoneNumber to set.
 	 * 
 	 */
 	public void setDeliveryToPhoneNumber(String deliveryToPhoneNumber) {
@@ -660,7 +660,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryRequiredDate attribute.
 	 * 
-	 * @return - Returns the deliveryRequiredDate
+	 * @return Returns the deliveryRequiredDate
 	 * 
 	 */
 	public Date getDeliveryRequiredDate() { 
@@ -670,7 +670,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryRequiredDate attribute.
 	 * 
-	 * @param - deliveryRequiredDate The deliveryRequiredDate to set.
+	 * @param deliveryRequiredDate The deliveryRequiredDate to set.
 	 * 
 	 */
 	public void setDeliveryRequiredDate(Date deliveryRequiredDate) {
@@ -681,7 +681,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryInstructionText attribute.
 	 * 
-	 * @return - Returns the deliveryInstructionText
+	 * @return Returns the deliveryInstructionText
 	 * 
 	 */
 	public String getDeliveryInstructionText() { 
@@ -691,7 +691,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryInstructionText attribute.
 	 * 
-	 * @param - deliveryInstructionText The deliveryInstructionText to set.
+	 * @param deliveryInstructionText The deliveryInstructionText to set.
 	 * 
 	 */
 	public void setDeliveryInstructionText(String deliveryInstructionText) {
@@ -702,7 +702,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the carrier attribute.
 	 * 
-	 * @return - Returns the carrier
+	 * @return Returns the carrier
 	 * 
 	 */
 	public Carrier getCarrier() { 
@@ -712,7 +712,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the carrier attribute.
 	 * 
-	 * @param - carrier The carrier to set.
+	 * @param carrier The carrier to set.
 	 * @deprecated
 	 */
 	public void setCarrier(Carrier carrier) {
@@ -722,7 +722,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Gets the deliveryCampus attribute.
 	 * 
-	 * @return - Returns the deliveryCampus
+	 * @return Returns the deliveryCampus
 	 * 
 	 */
 	public Campus getDeliveryCampus() { 
@@ -732,7 +732,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	/**
 	 * Sets the deliveryCampus attribute.
 	 * 
-	 * @param - deliveryCampus The deliveryCampus to set.
+	 * @param deliveryCampus The deliveryCampus to set.
 	 * @deprecated
 	 */
 	public void setDeliveryCampus(Campus deliveryCampus) {
@@ -740,7 +740,7 @@ public class ShipmentReceiving extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

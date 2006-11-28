@@ -41,7 +41,7 @@ public class Carrier extends BusinessObjectBase {
 	/**
 	 * Gets the carrierCode attribute.
 	 * 
-	 * @return - Returns the carrierCode
+	 * @return Returns the carrierCode
 	 * 
 	 */
 	public String getCarrierCode() { 
@@ -51,7 +51,7 @@ public class Carrier extends BusinessObjectBase {
 	/**
 	 * Sets the carrierCode attribute.
 	 * 
-	 * @param - carrierCode The carrierCode to set.
+	 * @param carrierCode The carrierCode to set.
 	 * 
 	 */
 	public void setCarrierCode(String carrierCode) {
@@ -62,7 +62,7 @@ public class Carrier extends BusinessObjectBase {
 	/**
 	 * Gets the carrierDescription attribute.
 	 * 
-	 * @return - Returns the carrierDescription
+	 * @return Returns the carrierDescription
 	 * 
 	 */
 	public String getCarrierDescription() { 
@@ -72,7 +72,7 @@ public class Carrier extends BusinessObjectBase {
 	/**
 	 * Sets the carrierDescription attribute.
 	 * 
-	 * @param - carrierDescription The carrierDescription to set.
+	 * @param carrierDescription The carrierDescription to set.
 	 * 
 	 */
 	public void setCarrierDescription(String carrierDescription) {
@@ -83,7 +83,7 @@ public class Carrier extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class Carrier extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class Carrier extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

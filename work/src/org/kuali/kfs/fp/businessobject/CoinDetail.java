@@ -49,7 +49,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -70,7 +70,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentTypeCode
+     * @return Returns the financialDocumentTypeCode
      * 
      */
     public String getFinancialDocumentTypeCode() {
@@ -91,7 +91,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentColumnTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentColumnTypeCode
+     * @return Returns the financialDocumentColumnTypeCode
      * 
      */
     public String getFinancialDocumentColumnTypeCode() {
@@ -112,7 +112,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentFiftyCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentFiftyCentAmount
+     * @return Returns the financialDocumentFiftyCentAmount
      * 
      */
     public KualiDecimal getFinancialDocumentFiftyCentAmount() {
@@ -133,7 +133,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTwentyFiveCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentTwentyFiveCentAmount
+     * @return Returns the financialDocumentTwentyFiveCentAmount
      * 
      */
     public KualiDecimal getFinancialDocumentTwentyFiveCentAmount() {
@@ -154,7 +154,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTenCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentTenCentAmount
+     * @return Returns the financialDocumentTenCentAmount
      * 
      */
     public KualiDecimal getFinancialDocumentTenCentAmount() {
@@ -175,7 +175,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentFiveCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentFiveCentAmount
+     * @return Returns the financialDocumentFiveCentAmount
      * 
      */
     public KualiDecimal getFinancialDocumentFiveCentAmount() {
@@ -196,7 +196,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentOneCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentOneCentAmount
+     * @return Returns the financialDocumentOneCentAmount
      * 
      */
     public KualiDecimal getFinancialDocumentOneCentAmount() {
@@ -217,7 +217,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentOtherCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentOtherCentAmount
+     * @return Returns the financialDocumentOtherCentAmount
      * 
      */
     public KualiDecimal getFinancialDocumentOtherCentAmount() {
@@ -238,7 +238,7 @@ public class CoinDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentHundredCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentHundredCentAmount
+     * @return Returns the financialDocumentHundredCentAmount
      * 
      */
     public KualiDecimal getFinancialDocumentHundredCentAmount() {

@@ -43,7 +43,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderItemCapitalAssetIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderItemCapitalAssetIdentifier
+	 * @return Returns the purchaseOrderItemCapitalAssetIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderItemCapitalAssetIdentifier() { 
@@ -53,7 +53,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderItemCapitalAssetIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderItemCapitalAssetIdentifier The purchaseOrderItemCapitalAssetIdentifier to set.
+	 * @param purchaseOrderItemCapitalAssetIdentifier The purchaseOrderItemCapitalAssetIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderItemCapitalAssetIdentifier(Integer purchaseOrderItemCapitalAssetIdentifier) {
@@ -64,7 +64,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderItemIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderItemIdentifier
+	 * @return Returns the purchaseOrderItemIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderItemIdentifier() { 
@@ -74,7 +74,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderItemIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderItemIdentifier The purchaseOrderItemIdentifier to set.
+	 * @param purchaseOrderItemIdentifier The purchaseOrderItemIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
@@ -84,7 +84,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the capitalAssetNumber attribute.
 	 * 
-	 * @return - Returns the capitalAssetNumber
+	 * @return Returns the capitalAssetNumber
 	 * 
 	 */
 	public Long getCapitalAssetNumber() { 
@@ -94,7 +94,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the capitalAssetNumber attribute.
 	 * 
-	 * @param - capitalAssetNumber The capitalAssetNumber to set.
+	 * @param capitalAssetNumber The capitalAssetNumber to set.
 	 * 
 	 */
 	public void setCapitalAssetNumber(Long capitalAssetNumber) {
@@ -105,7 +105,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderItem attribute.
 	 * 
-	 * @return - Returns the purchaseOrderItem
+	 * @return Returns the purchaseOrderItem
 	 * 
 	 */
 	public PurchaseOrderItem getPurchaseOrderItem() { 
@@ -115,7 +115,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderItem attribute.
 	 * 
-	 * @param - purchaseOrderItem The purchaseOrderItem to set.
+	 * @param purchaseOrderItem The purchaseOrderItem to set.
 	 * @deprecated
 	 */
 	public void setPurchaseOrderItem(PurchaseOrderItem purchaseOrderItem) {
@@ -123,7 +123,7 @@ public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

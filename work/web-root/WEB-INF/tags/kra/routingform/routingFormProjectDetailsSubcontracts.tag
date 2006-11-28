@@ -76,7 +76,7 @@
               <c:forEach items = "${KualiForm.document.routingFormSubcontractors}" var="routingFormSubcontractor" varStatus="status"  >
 				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorSequenceNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorSequenceNumber}" />
 				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" />
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].researchDocumentNumber" attributeEntry="${subcontractorAttributes.researchDocumentNumber}"/>
+				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].documentNumber" attributeEntry="${subcontractorAttributes.documentNumber}"/>
 				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].objectId" attributeEntry="${subcontractorAttributes.objectId}" />
 				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].versionNumber" attributeEntry="${subcontractorAttributes.versionNumber}"/>
 

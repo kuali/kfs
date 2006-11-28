@@ -46,7 +46,7 @@ public class AgencyExtension extends BusinessObjectBase {
     /**
      * Gets the agencyModularIndicator attribute.
      * 
-     * @return - Returns the agencyModularIndicator
+     * @return Returns the agencyModularIndicator
      * 
      */
     public boolean isAgencyModularIndicator() {
@@ -66,7 +66,7 @@ public class AgencyExtension extends BusinessObjectBase {
     /**
      * Gets the budgetModularIncrementAmount attribute.
      * 
-     * @return - Returns the budgetModularIncrementAmount
+     * @return Returns the budgetModularIncrementAmount
      * 
      */
     public KualiInteger getBudgetModularIncrementAmount() {
@@ -86,7 +86,7 @@ public class AgencyExtension extends BusinessObjectBase {
     /**
      * Gets the budgetPeriodMaximumAmount attribute.
      * 
-     * @return - Returns the budgetPeriodMaximumAmount
+     * @return Returns the budgetPeriodMaximumAmount
      * 
      */
     public KualiInteger getBudgetPeriodMaximumAmount() {
@@ -106,7 +106,7 @@ public class AgencyExtension extends BusinessObjectBase {
     /**
      * Gets the agencyNsfOutputIndicator attribute.
      * 
-     * @return - Returns the agencyNsfOutputIndicator
+     * @return Returns the agencyNsfOutputIndicator
      * 
      */
     public boolean isAgencyNsfOutputIndicator() {
@@ -126,7 +126,7 @@ public class AgencyExtension extends BusinessObjectBase {
     /**
      * Gets the agencyNumber attribute.
      * 
-     * @return - Returns the agencyNumber
+     * @return Returns the agencyNumber
      * 
      */
     public String getAgencyNumber() {
@@ -146,7 +146,7 @@ public class AgencyExtension extends BusinessObjectBase {
     /**
      * Gets the agency attribute.
      * 
-     * @return - Returns the agency
+     * @return Returns the agency
      * 
      */
     public Agency getAgency() {

@@ -46,7 +46,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderVendorStipulationIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderVendorStipulationIdentifier
+	 * @return Returns the purchaseOrderVendorStipulationIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderVendorStipulationIdentifier() { 
@@ -56,7 +56,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderVendorStipulationIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderVendorStipulationIdentifier The purchaseOrderVendorStipulationIdentifier to set.
+	 * @param purchaseOrderVendorStipulationIdentifier The purchaseOrderVendorStipulationIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderVendorStipulationIdentifier(Integer purchaseOrderVendorStipulationIdentifier) {
@@ -67,7 +67,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderIdentifier
+	 * @return Returns the purchaseOrderIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderIdentifier() { 
@@ -77,7 +77,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderIdentifier The purchaseOrderIdentifier to set.
+	 * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
@@ -88,7 +88,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the vendorStipulationDescription attribute.
 	 * 
-	 * @return - Returns the vendorStipulationDescription
+	 * @return Returns the vendorStipulationDescription
 	 * 
 	 */
 	public String getVendorStipulationDescription() { 
@@ -98,7 +98,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the vendorStipulationDescription attribute.
 	 * 
-	 * @param - vendorStipulationDescription The vendorStipulationDescription to set.
+	 * @param vendorStipulationDescription The vendorStipulationDescription to set.
 	 * 
 	 */
 	public void setVendorStipulationDescription(String vendorStipulationDescription) {
@@ -109,7 +109,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the vendorStipulationAuthorEmployeeIdentifier attribute.
 	 * 
-	 * @return - Returns the vendorStipulationAuthorEmployeeIdentifier
+	 * @return Returns the vendorStipulationAuthorEmployeeIdentifier
 	 * 
 	 */
 	public String getVendorStipulationAuthorEmployeeIdentifier() { 
@@ -119,7 +119,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the vendorStipulationAuthorEmployeeIdentifier attribute.
 	 * 
-	 * @param - vendorStipulationAuthorEmployeeIdentifier The vendorStipulationAuthorEmployeeIdentifier to set.
+	 * @param vendorStipulationAuthorEmployeeIdentifier The vendorStipulationAuthorEmployeeIdentifier to set.
 	 * 
 	 */
 	public void setVendorStipulationAuthorEmployeeIdentifier(String vendorStipulationAuthorEmployeeIdentifier) {
@@ -130,7 +130,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the vendorStipulationCreateDate attribute.
 	 * 
-	 * @return - Returns the vendorStipulationCreateDate
+	 * @return Returns the vendorStipulationCreateDate
 	 * 
 	 */
 	public Date getVendorStipulationCreateDate() { 
@@ -140,7 +140,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the vendorStipulationCreateDate attribute.
 	 * 
-	 * @param - vendorStipulationCreateDate The vendorStipulationCreateDate to set.
+	 * @param vendorStipulationCreateDate The vendorStipulationCreateDate to set.
 	 * 
 	 */
 	public void setVendorStipulationCreateDate(Date vendorStipulationCreateDate) {
@@ -151,7 +151,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrder attribute.
 	 * 
-	 * @return - Returns the purchaseOrder
+	 * @return Returns the purchaseOrder
 	 * 
 	 */
 	public PurchaseOrder getPurchaseOrder() { 
@@ -161,7 +161,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrder attribute.
 	 * 
-	 * @param - purchaseOrder The purchaseOrder to set.
+	 * @param purchaseOrder The purchaseOrder to set.
 	 * @deprecated
 	 */
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
@@ -169,7 +169,7 @@ public class PurchaseOrderVendorStipulation extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

@@ -30,6 +30,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -40,7 +41,7 @@ import org.kuali.module.cg.bo.ProjectDirector;
 public class Budget extends BusinessObjectBase {
 
     private static final long serialVersionUID = 8113894775967293272L;
-    private String researchDocumentNumber;
+    private String documentNumber;
     private Long budgetParentTrackNumber;
     private String budgetName;
     private boolean institutionCostShareIndicator;
@@ -111,9 +112,9 @@ public class Budget extends BusinessObjectBase {
 
     }
 
-    public Budget(String researchDocumentNumber) {
+    public Budget(String documentNumber) {
         this();
-        this.researchDocumentNumber = researchDocumentNumber;
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -424,7 +425,7 @@ public class Budget extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         LinkedHashMap map = new LinkedHashMap();
-        map.put("researchDocumentNumber", this.researchDocumentNumber);
+        map.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return map;
     }
 
@@ -449,17 +450,17 @@ public class Budget extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the researchDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     // /**

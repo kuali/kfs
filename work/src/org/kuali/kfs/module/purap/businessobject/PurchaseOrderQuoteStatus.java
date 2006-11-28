@@ -41,7 +41,7 @@ public class PurchaseOrderQuoteStatus extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderQuoteStatusCode attribute.
 	 * 
-	 * @return - Returns the purchaseOrderQuoteStatusCode
+	 * @return Returns the purchaseOrderQuoteStatusCode
 	 * 
 	 */
 	public String getPurchaseOrderQuoteStatusCode() { 
@@ -51,7 +51,7 @@ public class PurchaseOrderQuoteStatus extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderQuoteStatusCode attribute.
 	 * 
-	 * @param - purchaseOrderQuoteStatusCode The purchaseOrderQuoteStatusCode to set.
+	 * @param purchaseOrderQuoteStatusCode The purchaseOrderQuoteStatusCode to set.
 	 * 
 	 */
 	public void setPurchaseOrderQuoteStatusCode(String purchaseOrderQuoteStatusCode) {
@@ -62,7 +62,7 @@ public class PurchaseOrderQuoteStatus extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderQuoteStatusDescription attribute.
 	 * 
-	 * @return - Returns the purchaseOrderQuoteStatusDescription
+	 * @return Returns the purchaseOrderQuoteStatusDescription
 	 * 
 	 */
 	public String getPurchaseOrderQuoteStatusDescription() { 
@@ -72,7 +72,7 @@ public class PurchaseOrderQuoteStatus extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderQuoteStatusDescription attribute.
 	 * 
-	 * @param - purchaseOrderQuoteStatusDescription The purchaseOrderQuoteStatusDescription to set.
+	 * @param purchaseOrderQuoteStatusDescription The purchaseOrderQuoteStatusDescription to set.
 	 * 
 	 */
 	public void setPurchaseOrderQuoteStatusDescription(String purchaseOrderQuoteStatusDescription) {
@@ -83,7 +83,7 @@ public class PurchaseOrderQuoteStatus extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class PurchaseOrderQuoteStatus extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class PurchaseOrderQuoteStatus extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

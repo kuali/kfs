@@ -128,7 +128,7 @@ public class KualiWorkflowUtils {
      * statements can use required workflow functions as part of the XPath statements.
      * 
      * @param document - document
-     * @return - a fully initialized XPath instance that has access to the workflow resolver and namespace.
+     * @return a fully initialized XPath instance that has access to the workflow resolver and namespace.
      * 
      */
     public final static XPath getXPath(Document document) {

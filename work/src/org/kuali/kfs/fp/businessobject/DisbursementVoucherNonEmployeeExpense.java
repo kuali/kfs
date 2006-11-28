@@ -48,7 +48,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -69,7 +69,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Gets the financialDocumentLineNumber attribute.
      * 
-     * @return - Returns the financialDocumentLineNumber
+     * @return Returns the financialDocumentLineNumber
      * 
      */
     public Integer getFinancialDocumentLineNumber() {
@@ -90,7 +90,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Gets the disbVchrExpenseCode attribute.
      * 
-     * @return - Returns the disbVchrExpenseCode
+     * @return Returns the disbVchrExpenseCode
      * 
      */
     public String getDisbVchrExpenseCode() {
@@ -130,7 +130,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Gets the disbVchrExpenseCompanyName attribute.
      * 
-     * @return - Returns the disbVchrExpenseCompanyName
+     * @return Returns the disbVchrExpenseCompanyName
      * 
      */
     public String getDisbVchrExpenseCompanyName() {
@@ -151,7 +151,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Gets the disbVchrExpenseCompanyName attribute.
      * 
-     * @return - Returns the disbVchrExpenseCompanyName
+     * @return Returns the disbVchrExpenseCompanyName
      * 
      */
     public String getDisbVchrPrePaidExpenseCompanyName() {
@@ -172,7 +172,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Gets the disbVchrExpenseAmount attribute.
      * 
-     * @return - Returns the disbVchrExpenseAmount
+     * @return Returns the disbVchrExpenseAmount
      * 
      */
     public KualiDecimal getDisbVchrExpenseAmount() {
@@ -193,7 +193,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     /**
      * Gets the disbVchrExpense attribute.
      * 
-     * @return - Returns the disbVchrExpense
+     * @return Returns the disbVchrExpense
      * 
      */
     public TravelExpenseTypeCode getDisbVchrExpense() {

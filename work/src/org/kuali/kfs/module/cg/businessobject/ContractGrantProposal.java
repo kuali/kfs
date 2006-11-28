@@ -22,13 +22,14 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class ContractGrantProposal extends BusinessObjectBase {
 
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private Long proposalNumber;
 	private Date proposalCreateDate;
 
@@ -40,30 +41,30 @@ public class ContractGrantProposal extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the proposalNumber attribute.
 	 * 
-	 * @return - Returns the proposalNumber
+	 * @return Returns the proposalNumber
 	 * 
 	 */
 	public Long getProposalNumber() { 
@@ -73,7 +74,7 @@ public class ContractGrantProposal extends BusinessObjectBase {
 	/**
 	 * Sets the proposalNumber attribute.
 	 * 
-	 * @param - proposalNumber The proposalNumber to set.
+	 * @param proposalNumber The proposalNumber to set.
 	 * 
 	 */
 	public void setProposalNumber(Long proposalNumber) {
@@ -84,7 +85,7 @@ public class ContractGrantProposal extends BusinessObjectBase {
 	/**
 	 * Gets the proposalCreateDate attribute.
 	 * 
-	 * @return - Returns the proposalCreateDate
+	 * @return Returns the proposalCreateDate
 	 * 
 	 */
 	public Date getProposalCreateDate() { 
@@ -94,7 +95,7 @@ public class ContractGrantProposal extends BusinessObjectBase {
 	/**
 	 * Sets the proposalCreateDate attribute.
 	 * 
-	 * @param - proposalCreateDate The proposalCreateDate to set.
+	 * @param proposalCreateDate The proposalCreateDate to set.
 	 * 
 	 */
 	public void setProposalCreateDate(Date proposalCreateDate) {
@@ -103,11 +104,11 @@ public class ContractGrantProposal extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 	    return m;
     }
 }

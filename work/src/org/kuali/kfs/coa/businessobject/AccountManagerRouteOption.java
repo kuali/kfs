@@ -45,7 +45,7 @@ public class AccountManagerRouteOption extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -66,7 +66,7 @@ public class AccountManagerRouteOption extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -87,7 +87,7 @@ public class AccountManagerRouteOption extends BusinessObjectBase {
     /**
      * Gets the personUniversalIdentifier attribute.
      * 
-     * @return - Returns the personUniversalIdentifier
+     * @return Returns the personUniversalIdentifier
      * 
      */
     public String getPersonUniversalIdentifier() {
@@ -108,7 +108,7 @@ public class AccountManagerRouteOption extends BusinessObjectBase {
     /**
      * Gets the accountManagerRouteOptionIndicator attribute.
      * 
-     * @return - Returns the accountManagerRouteOptionIndicator
+     * @return Returns the accountManagerRouteOptionIndicator
      * 
      */
     public boolean isAccountManagerRouteOptionIndicator() {
@@ -130,7 +130,7 @@ public class AccountManagerRouteOption extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -150,7 +150,7 @@ public class AccountManagerRouteOption extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

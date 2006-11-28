@@ -69,10 +69,10 @@ public class BudgetCostShareServiceImpl implements BudgetCostShareService {
         }
     }
 
-    public void reconcileCostShare(String researchDocumentNumber, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel) {
+    public void reconcileCostShare(String documentNumber, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel) {
         for (BudgetUser person : personnel) {
             InstitutionCostSharePersonnel institutionCostSharePerson = new InstitutionCostSharePersonnel();
-            institutionCostSharePerson.setResearchDocumentNumber(researchDocumentNumber);
+            institutionCostSharePerson.setDocumentNumber(documentNumber);
             institutionCostSharePerson.setChartOfAccountsCode(StringUtils.defaultString(person.getFiscalCampusCode()));
             institutionCostSharePerson.setOrganizationCode(StringUtils.defaultString(person.getPrimaryDepartmentCode()));
 

@@ -25,7 +25,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
 <%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
 
-<html:hidden property="document.budget.modularBudget.researchDocumentNumber" /> 
+<html:hidden property="document.budget.modularBudget.documentNumber" /> 
 <html:hidden property="document.budget.modularBudget.budgetModularIncrementAmount" /> 
 <html:hidden property="document.budget.modularBudget.budgetModularTaskNumber" /> 
 <html:hidden property="document.budget.modularBudget.budgetModularDirectCostAmount" /> 
@@ -87,7 +87,7 @@
 				<logic:iterate id="modularPeriod" indexId="i" name="KualiForm" property="document.budget.modularBudget.budgetModularPeriods">
 					<th class="bord-l-b">
 						<div align=center><strong>Period <%= i.intValue() + 1%></strong></div>
-						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].researchDocumentNumber" /> 
+						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].documentNumber" /> 
 						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].budgetPeriodSequenceNumber" /> 
 						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].actualDirectCostAmount" /> 
 						<html:hidden property="document.budget.modularBudget.budgetModularPeriod[${i}].consortiumAmount" /> 
@@ -105,7 +105,7 @@
 				<logic:iterate id="modularPeriod" name="KualiForm" property="document.budget.modularBudget.budgetModularPeriods">
 					<td class="datacell">
 						<div align="right"><fmt:formatNumber value="${modularPeriod.actualDirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="0" /> <br/></div>
-						<html:hidden name="modularPeriod" property="researchDocumentNumber"/>
+						<html:hidden name="modularPeriod" property="documentNumber"/>
 					</td>
 				</logic:iterate>
 				<td class="datacell"><div align="right"><strong>${totalActualDirectCostAmount}</strong> <br/></div></td>

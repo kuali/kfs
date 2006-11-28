@@ -50,9 +50,9 @@ public interface BudgetCostShareService {
      * This method will add Institution Cost Share Personnel entries that have personnel entries if they don't already exist. It does
      * not add entries that don't have a chart or org set (this happens for TO BE NAMEDs).
      * 
-     * @param researchDocumentNumber
+     * @param documentNumber
      * @param personnel
      * @param institutionCostSharePersonnel
      */
-    public void reconcileCostShare(String researchDocumentNumber, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel);
+    public void reconcileCostShare(String documentNumber, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel);
 }

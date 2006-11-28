@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -29,7 +30,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RoutingFormOtherCostShare extends BusinessObjectBase {
 
 	private Integer routingFormCostShareSequenceNumber;
-	private String researchDocumentNumber;
+	private String documentNumber;
 	private String routingFormCostShareSourceName;
 	private BigDecimal routingFormCostShareAmount;
 
@@ -43,7 +44,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @return - Returns the routingFormCostShareSequenceNumber
+	 * @return Returns the routingFormCostShareSequenceNumber
 	 * 
 	 */
 	public Integer getRoutingFormCostShareSequenceNumber() { 
@@ -53,7 +54,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormCostShareSequenceNumber attribute.
 	 * 
-	 * @param - routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
+	 * @param routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
 	 * 
 	 */
 	public void setRoutingFormCostShareSequenceNumber(Integer routingFormCostShareSequenceNumber) {
@@ -62,30 +63,30 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the researchDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return - Returns the researchDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getResearchDocumentNumber() { 
-		return researchDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the researchDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param - researchDocumentNumber The researchDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setResearchDocumentNumber(String researchDocumentNumber) {
-		this.researchDocumentNumber = researchDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
 	/**
 	 * Gets the routingFormCostShareSourceName attribute.
 	 * 
-	 * @return - Returns the routingFormCostShareSourceName
+	 * @return Returns the routingFormCostShareSourceName
 	 * 
 	 */
 	public String getRoutingFormCostShareSourceName() { 
@@ -95,7 +96,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormCostShareSourceName attribute.
 	 * 
-	 * @param - routingFormCostShareSourceName The routingFormCostShareSourceName to set.
+	 * @param routingFormCostShareSourceName The routingFormCostShareSourceName to set.
 	 * 
 	 */
 	public void setRoutingFormCostShareSourceName(String routingFormCostShareSourceName) {
@@ -105,7 +106,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormCostShareAmount attribute.
 	 * 
-	 * @return - Returns the routingFormCostShareAmount
+	 * @return Returns the routingFormCostShareAmount
 	 * 
 	 */
 	public BigDecimal getRoutingFormCostShareAmount() { 
@@ -115,7 +116,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormCostShareAmount attribute.
 	 * 
-	 * @param - routingFormCostShareAmount The routingFormCostShareAmount to set.
+	 * @param routingFormCostShareAmount The routingFormCostShareAmount to set.
 	 * 
 	 */
 	public void setRoutingFormCostShareAmount(BigDecimal routingFormCostShareAmount) {
@@ -124,14 +125,14 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.routingFormCostShareSequenceNumber != null) {
             m.put("routingFormCostShareSequenceNumber", this.routingFormCostShareSequenceNumber.toString());
         }
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 	    return m;
     }
 }

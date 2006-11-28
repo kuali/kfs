@@ -41,7 +41,7 @@ public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceRejectReasonTypeCode attribute.
 	 * 
-	 * @return - Returns the invoiceRejectReasonTypeCode
+	 * @return Returns the invoiceRejectReasonTypeCode
 	 * 
 	 */
 	public String getInvoiceRejectReasonTypeCode() { 
@@ -51,7 +51,7 @@ public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceRejectReasonTypeCode attribute.
 	 * 
-	 * @param - invoiceRejectReasonTypeCode The invoiceRejectReasonTypeCode to set.
+	 * @param invoiceRejectReasonTypeCode The invoiceRejectReasonTypeCode to set.
 	 * 
 	 */
 	public void setInvoiceRejectReasonTypeCode(String invoiceRejectReasonTypeCode) {
@@ -62,7 +62,7 @@ public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceRejectReasonTypeDescription attribute.
 	 * 
-	 * @return - Returns the invoiceRejectReasonTypeDescription
+	 * @return Returns the invoiceRejectReasonTypeDescription
 	 * 
 	 */
 	public String getInvoiceRejectReasonTypeDescription() { 
@@ -72,7 +72,7 @@ public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceRejectReasonTypeDescription attribute.
 	 * 
-	 * @param - invoiceRejectReasonTypeDescription The invoiceRejectReasonTypeDescription to set.
+	 * @param invoiceRejectReasonTypeDescription The invoiceRejectReasonTypeDescription to set.
 	 * 
 	 */
 	public void setInvoiceRejectReasonTypeDescription(String invoiceRejectReasonTypeDescription) {
@@ -83,7 +83,7 @@ public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
@@ -94,7 +94,7 @@ public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -102,7 +102,7 @@ public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

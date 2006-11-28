@@ -45,16 +45,16 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
         List periods = BudgetPeriodTest.createBudgetPeriods(2);
         for (int i = 0; i < periods.size(); i++) {
             BudgetPeriod period = (BudgetPeriod) periods.get(i);
-            period.setResearchDocumentNumber("1234");
+            period.setDocumentNumber("1234");
             period.setBudgetPeriodSequenceNumber(i);
         }
 
         BudgetTask task1 = new BudgetTask();
-        task1.setResearchDocumentNumber("1234");
+        task1.setDocumentNumber("1234");
         task1.setBudgetTaskSequenceNumber(new Integer(0));
 
         BudgetTask task2 = new BudgetTask();
-        task2.setResearchDocumentNumber("1234");
+        task2.setDocumentNumber("1234");
         task2.setBudgetTaskSequenceNumber(new Integer(1));
 
         List tasks = new ArrayList();
@@ -62,7 +62,7 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
         tasks.add(task2);
 
         Budget budget = new Budget();
-        budget.setResearchDocumentNumber("1234");
+        budget.setDocumentNumber("1234");
         budget.setTasks(tasks);
         budget.setPeriods(periods);
 
@@ -77,34 +77,34 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
         getBudgetIndirectCostService().reconcileIndirectCost(budgetDocument);
 
         BudgetIndirectCost indirectCost = budgetDocument.getBudget().getIndirectCost();
-        assertEquals(indirectCost.getResearchDocumentNumber(), "1234");
+        assertEquals(indirectCost.getDocumentNumber(), "1234");
 
         List idcList = indirectCost.getBudgetTaskPeriodIndirectCostItems();
         assertEquals(idcList.size(), 4);
 
         BudgetTaskPeriodIndirectCost idc1 = (BudgetTaskPeriodIndirectCost) idcList.get(0);
-        assertEquals(idc1.getResearchDocumentNumber(), "1234");
+        assertEquals(idc1.getDocumentNumber(), "1234");
         assertEquals(idc1.getBudgetTaskSequenceNumber(), new Integer(0));
         assertEquals(idc1.getBudgetPeriodSequenceNumber(), new Integer(0));
 
         BudgetTaskPeriodIndirectCost idc2 = (BudgetTaskPeriodIndirectCost) idcList.get(1);
-        assertEquals(idc2.getResearchDocumentNumber(), "1234");
+        assertEquals(idc2.getDocumentNumber(), "1234");
         assertEquals(idc2.getBudgetTaskSequenceNumber(), new Integer(0));
         assertEquals(idc2.getBudgetPeriodSequenceNumber(), new Integer(1));
 
         BudgetTaskPeriodIndirectCost idc3 = (BudgetTaskPeriodIndirectCost) idcList.get(2);
-        assertEquals(idc3.getResearchDocumentNumber(), "1234");
+        assertEquals(idc3.getDocumentNumber(), "1234");
         assertEquals(idc3.getBudgetTaskSequenceNumber(), new Integer(1));
         assertEquals(idc3.getBudgetPeriodSequenceNumber(), new Integer(0));
 
         BudgetTaskPeriodIndirectCost idc4 = (BudgetTaskPeriodIndirectCost) idcList.get(3);
-        assertEquals(idc4.getResearchDocumentNumber(), "1234");
+        assertEquals(idc4.getDocumentNumber(), "1234");
         assertEquals(idc4.getBudgetTaskSequenceNumber(), new Integer(1));
         assertEquals(idc4.getBudgetPeriodSequenceNumber(), new Integer(1));
 
         // Test existing document to be updated
         BudgetTask newBudgetTask = new BudgetTask();
-        newBudgetTask.setResearchDocumentNumber("1234");
+        newBudgetTask.setDocumentNumber("1234");
         newBudgetTask.setBudgetTaskSequenceNumber(2);
 
         budgetDocument.getBudget().getTasks().add(newBudgetTask);
@@ -121,12 +121,12 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
         assertEquals(idcList.size(), 2);
 
         idc1 = (BudgetTaskPeriodIndirectCost) idcList.get(0);
-        assertEquals(idc1.getResearchDocumentNumber(), "1234");
+        assertEquals(idc1.getDocumentNumber(), "1234");
         assertEquals(idc1.getBudgetTaskSequenceNumber(), new Integer(0));
         assertEquals(idc1.getBudgetPeriodSequenceNumber(), new Integer(1));
 
         idc2 = (BudgetTaskPeriodIndirectCost) idcList.get(1);
-        assertEquals(idc2.getResearchDocumentNumber(), "1234");
+        assertEquals(idc2.getDocumentNumber(), "1234");
         assertEquals(idc2.getBudgetTaskSequenceNumber(), new Integer(2));
         assertEquals(idc2.getBudgetPeriodSequenceNumber(), new Integer(1));
     }
@@ -138,7 +138,7 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
         List periods = BudgetPeriodTest.createBudgetPeriods(2);
         for (int i = 0; i < periods.size(); i++) {
             BudgetPeriod period = (BudgetPeriod) periods.get(i);
-            period.setResearchDocumentNumber("1234");
+            period.setDocumentNumber("1234");
             period.setBudgetPeriodSequenceNumber(i);
         }
         budget.setPeriods(periods);

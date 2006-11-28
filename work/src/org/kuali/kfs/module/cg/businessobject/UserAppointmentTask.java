@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiInteger;
  */
 public class UserAppointmentTask extends BusinessObjectBase implements Comparable {
 
-    private String researchDocumentNumber;
+    private String documentNumber;
     private Integer budgetTaskSequenceNumber;
     private Integer budgetUserSequenceNumber;
     private String institutionAppointmentTypeCode;
@@ -63,7 +63,7 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
 
     public UserAppointmentTask(UserAppointmentTask userAppointmentTask) {
         super();
-        this.researchDocumentNumber = userAppointmentTask.getResearchDocumentNumber();
+        this.documentNumber = userAppointmentTask.getDocumentNumber();
         this.budgetTaskSequenceNumber = userAppointmentTask.getBudgetTaskSequenceNumber();
         this.budgetUserSequenceNumber = userAppointmentTask.getBudgetUserSequenceNumber();
         this.institutionAppointmentTypeCode = userAppointmentTask.getInstitutionAppointmentTypeCode();
@@ -73,29 +73,29 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
 
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetTaskSequenceNumber attribute.
      * 
-     * @return - Returns the budgetTaskSequenceNumber
+     * @return Returns the budgetTaskSequenceNumber
      * 
      */
     public Integer getBudgetTaskSequenceNumber() {
@@ -115,7 +115,7 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
     /**
      * Gets the budgetUserSequenceNumber attribute.
      * 
-     * @return - Returns the budgetUserSequenceNumber
+     * @return Returns the budgetUserSequenceNumber
      * 
      */
     public Integer getBudgetUserSequenceNumber() {
@@ -145,7 +145,7 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
     /**
      * Gets the institutionAppointmentTypeCode attribute.
      * 
-     * @return - Returns the institutionAppointmentTypeCode
+     * @return Returns the institutionAppointmentTypeCode
      * 
      */
     public void setInstitutionAppointmentTypeCode(String institutionAppointmentTypeCode) {
@@ -155,7 +155,7 @@ public class UserAppointmentTask extends BusinessObjectBase implements Comparabl
     /**
      * Gets the institutionAppointmentType attribute.
      * 
-     * @return - Returns the institutionAppointmentType
+     * @return Returns the institutionAppointmentType
      * 
      */
     public BudgetFringeRate getBudgetFringeRate() {

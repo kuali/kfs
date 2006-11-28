@@ -47,7 +47,7 @@ public class AwardOrganization extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -68,7 +68,7 @@ public class AwardOrganization extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -89,7 +89,7 @@ public class AwardOrganization extends BusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      * 
-     * @return - Returns the proposalNumber
+     * @return Returns the proposalNumber
      * 
      */
     public Long getProposalNumber() {
@@ -110,7 +110,7 @@ public class AwardOrganization extends BusinessObjectBase {
     /**
      * Gets the awardPrimaryOrganizationIndicator attribute.
      * 
-     * @return - Returns the awardPrimaryOrganizationIndicator
+     * @return Returns the awardPrimaryOrganizationIndicator
      * 
      */
     public boolean isAwardPrimaryOrganizationIndicator() {
@@ -132,7 +132,7 @@ public class AwardOrganization extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -152,7 +152,7 @@ public class AwardOrganization extends BusinessObjectBase {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization() {

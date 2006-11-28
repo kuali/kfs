@@ -41,7 +41,7 @@ public class BudgetConstructionDuration extends BusinessObjectBase {
 	/**
 	 * Gets the appointmentDurationCode attribute.
 	 * 
-	 * @return - Returns the appointmentDurationCode
+	 * @return Returns the appointmentDurationCode
 	 * 
 	 */
 	public String getAppointmentDurationCode() { 
@@ -51,7 +51,7 @@ public class BudgetConstructionDuration extends BusinessObjectBase {
 	/**
 	 * Sets the appointmentDurationCode attribute.
 	 * 
-	 * @param - appointmentDurationCode The appointmentDurationCode to set.
+	 * @param appointmentDurationCode The appointmentDurationCode to set.
 	 * 
 	 */
 	public void setAppointmentDurationCode(String appointmentDurationCode) {
@@ -62,7 +62,7 @@ public class BudgetConstructionDuration extends BusinessObjectBase {
 	/**
 	 * Gets the appointmentDurationDescription attribute.
 	 * 
-	 * @return - Returns the appointmentDurationDescription
+	 * @return Returns the appointmentDurationDescription
 	 * 
 	 */
 	public String getAppointmentDurationDescription() { 
@@ -72,7 +72,7 @@ public class BudgetConstructionDuration extends BusinessObjectBase {
 	/**
 	 * Sets the appointmentDurationDescription attribute.
 	 * 
-	 * @param - appointmentDurationDescription The appointmentDurationDescription to set.
+	 * @param appointmentDurationDescription The appointmentDurationDescription to set.
 	 * 
 	 */
 	public void setAppointmentDurationDescription(String appointmentDurationDescription) {
@@ -83,7 +83,7 @@ public class BudgetConstructionDuration extends BusinessObjectBase {
 	/**
 	 * Gets the rowActiveIndicator attribute.
 	 * 
-	 * @return - Returns the rowActiveIndicator
+	 * @return Returns the rowActiveIndicator
 	 * 
 	 */
 	public String getRowActiveIndicator() { 
@@ -93,7 +93,7 @@ public class BudgetConstructionDuration extends BusinessObjectBase {
 	/**
 	 * Sets the rowActiveIndicator attribute.
 	 * 
-	 * @param - rowActiveIndicator The rowActiveIndicator to set.
+	 * @param rowActiveIndicator The rowActiveIndicator to set.
 	 * 
 	 */
 	public void setRowActiveIndicator(String rowActiveIndicator) {
@@ -102,7 +102,7 @@ public class BudgetConstructionDuration extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

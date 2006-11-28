@@ -53,7 +53,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccountsCode
+	 * @return Returns the organizationChartOfAccountsCode
 	 * 
 	 */
 	public String getOrganizationChartOfAccountsCode() { 
@@ -63,7 +63,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @param - organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
+	 * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
 	 * 
 	 */
 	public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
@@ -74,7 +74,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -84,7 +84,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -95,7 +95,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the csfAmount attribute.
 	 * 
-	 * @return - Returns the csfAmount
+	 * @return Returns the csfAmount
 	 * 
 	 */
 	public KualiDecimal getCsfAmount() { 
@@ -105,7 +105,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the csfAmount attribute.
 	 * 
-	 * @param - csfAmount The csfAmount to set.
+	 * @param csfAmount The csfAmount to set.
 	 * 
 	 */
 	public void setCsfAmount(KualiDecimal csfAmount) {
@@ -116,7 +116,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the appointmentRequestedAmount attribute.
 	 * 
-	 * @return - Returns the appointmentRequestedAmount
+	 * @return Returns the appointmentRequestedAmount
 	 * 
 	 */
 	public KualiDecimal getAppointmentRequestedAmount() { 
@@ -126,7 +126,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the appointmentRequestedAmount attribute.
 	 * 
-	 * @param - appointmentRequestedAmount The appointmentRequestedAmount to set.
+	 * @param appointmentRequestedAmount The appointmentRequestedAmount to set.
 	 * 
 	 */
 	public void setAppointmentRequestedAmount(KualiDecimal appointmentRequestedAmount) {
@@ -137,7 +137,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the appointmentRequestedFteQuantity attribute.
 	 * 
-	 * @return - Returns the appointmentRequestedFteQuantity
+	 * @return Returns the appointmentRequestedFteQuantity
 	 * 
 	 */
 	public BigDecimal getAppointmentRequestedFteQuantity() { 
@@ -147,7 +147,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the appointmentRequestedFteQuantity attribute.
 	 * 
-	 * @param - appointmentRequestedFteQuantity The appointmentRequestedFteQuantity to set.
+	 * @param appointmentRequestedFteQuantity The appointmentRequestedFteQuantity to set.
 	 * 
 	 */
 	public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
@@ -158,7 +158,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the initialRequestedAmount attribute.
 	 * 
-	 * @return - Returns the initialRequestedAmount
+	 * @return Returns the initialRequestedAmount
 	 * 
 	 */
 	public KualiDecimal getInitialRequestedAmount() { 
@@ -168,7 +168,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the initialRequestedAmount attribute.
 	 * 
-	 * @param - initialRequestedAmount The initialRequestedAmount to set.
+	 * @param initialRequestedAmount The initialRequestedAmount to set.
 	 * 
 	 */
 	public void setInitialRequestedAmount(KualiDecimal initialRequestedAmount) {
@@ -179,7 +179,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the initialRequestedFteQuantity attribute.
 	 * 
-	 * @return - Returns the initialRequestedFteQuantity
+	 * @return Returns the initialRequestedFteQuantity
 	 * 
 	 */
 	public BigDecimal getInitialRequestedFteQuantity() { 
@@ -189,7 +189,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the initialRequestedFteQuantity attribute.
 	 * 
-	 * @param - initialRequestedFteQuantity The initialRequestedFteQuantity to set.
+	 * @param initialRequestedFteQuantity The initialRequestedFteQuantity to set.
 	 * 
 	 */
 	public void setInitialRequestedFteQuantity(BigDecimal initialRequestedFteQuantity) {
@@ -200,7 +200,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public Long getPersonUniversalIdentifier() { 
@@ -210,7 +210,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(Long personUniversalIdentifier) {
@@ -221,7 +221,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the organizationChartOfAccounts attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccounts
+	 * @return Returns the organizationChartOfAccounts
 	 * 
 	 */
 	public Chart getOrganizationChartOfAccounts() { 
@@ -231,7 +231,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the organizationChartOfAccounts attribute.
 	 * 
-	 * @param - organizationChartOfAccounts The organizationChartOfAccounts to set.
+	 * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
@@ -241,7 +241,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Gets the organization attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return Returns the organization
 	 * 
 	 */
 	public Org getOrganization() { 
@@ -251,7 +251,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	/**
 	 * Sets the organization attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param organization The organization to set.
 	 * @deprecated
 	 */
 	public void setOrganization(Org organization) {
@@ -259,7 +259,7 @@ public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

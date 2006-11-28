@@ -74,7 +74,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemIdentifier attribute.
 	 * 
-	 * @return - Returns the invoiceItemIdentifier
+	 * @return Returns the invoiceItemIdentifier
 	 * 
 	 */
 	public Integer getInvoiceItemIdentifier() { 
@@ -84,7 +84,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemIdentifier attribute.
 	 * 
-	 * @param - invoiceItemIdentifier The invoiceItemIdentifier to set.
+	 * @param invoiceItemIdentifier The invoiceItemIdentifier to set.
 	 * 
 	 */
 	public void setInvoiceItemIdentifier(Integer invoiceItemIdentifier) {
@@ -95,7 +95,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceHeaderInformationIdentifier attribute.
 	 * 
-	 * @return - Returns the invoiceHeaderInformationIdentifier
+	 * @return Returns the invoiceHeaderInformationIdentifier
 	 * 
 	 */
 	public Integer getInvoiceHeaderInformationIdentifier() { 
@@ -105,7 +105,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceHeaderInformationIdentifier attribute.
 	 * 
-	 * @param - invoiceHeaderInformationIdentifier The invoiceHeaderInformationIdentifier to set.
+	 * @param invoiceHeaderInformationIdentifier The invoiceHeaderInformationIdentifier to set.
 	 * 
 	 */
 	public void setInvoiceHeaderInformationIdentifier(Integer invoiceHeaderInformationIdentifier) {
@@ -116,7 +116,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemLineNumber attribute.
 	 * 
-	 * @return - Returns the invoiceItemLineNumber
+	 * @return Returns the invoiceItemLineNumber
 	 * 
 	 */
 	public Integer getInvoiceItemLineNumber() { 
@@ -126,7 +126,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemLineNumber attribute.
 	 * 
-	 * @param - invoiceItemLineNumber The invoiceItemLineNumber to set.
+	 * @param invoiceItemLineNumber The invoiceItemLineNumber to set.
 	 * 
 	 */
 	public void setInvoiceItemLineNumber(Integer invoiceItemLineNumber) {
@@ -137,7 +137,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemQuantity attribute.
 	 * 
-	 * @return - Returns the invoiceItemQuantity
+	 * @return Returns the invoiceItemQuantity
 	 * 
 	 */
 	public BigDecimal getInvoiceItemQuantity() { 
@@ -147,7 +147,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemQuantity attribute.
 	 * 
-	 * @param - invoiceItemQuantity The invoiceItemQuantity to set.
+	 * @param invoiceItemQuantity The invoiceItemQuantity to set.
 	 * 
 	 */
 	public void setInvoiceItemQuantity(BigDecimal invoiceItemQuantity) {
@@ -158,7 +158,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemUnitOfMeasureCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemUnitOfMeasureCode
+	 * @return Returns the invoiceItemUnitOfMeasureCode
 	 * 
 	 */
 	public String getInvoiceItemUnitOfMeasureCode() { 
@@ -168,7 +168,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemUnitOfMeasureCode attribute.
 	 * 
-	 * @param - invoiceItemUnitOfMeasureCode The invoiceItemUnitOfMeasureCode to set.
+	 * @param invoiceItemUnitOfMeasureCode The invoiceItemUnitOfMeasureCode to set.
 	 * 
 	 */
 	public void setInvoiceItemUnitOfMeasureCode(String invoiceItemUnitOfMeasureCode) {
@@ -179,7 +179,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemUnitPrice attribute.
 	 * 
-	 * @return - Returns the invoiceItemUnitPrice
+	 * @return Returns the invoiceItemUnitPrice
 	 * 
 	 */
 	public BigDecimal getInvoiceItemUnitPrice() { 
@@ -189,7 +189,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemUnitPrice attribute.
 	 * 
-	 * @param - invoiceItemUnitPrice The invoiceItemUnitPrice to set.
+	 * @param invoiceItemUnitPrice The invoiceItemUnitPrice to set.
 	 * 
 	 */
 	public void setInvoiceItemUnitPrice(BigDecimal invoiceItemUnitPrice) {
@@ -200,7 +200,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemUnitPriceCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemUnitPriceCurrencyCode
+	 * @return Returns the invoiceItemUnitPriceCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemUnitPriceCurrencyCode() { 
@@ -210,7 +210,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemUnitPriceCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemUnitPriceCurrencyCode The invoiceItemUnitPriceCurrencyCode to set.
+	 * @param invoiceItemUnitPriceCurrencyCode The invoiceItemUnitPriceCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemUnitPriceCurrencyCode(String invoiceItemUnitPriceCurrencyCode) {
@@ -221,7 +221,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemSubTotalAmount attribute.
 	 * 
-	 * @return - Returns the invoiceItemSubTotalAmount
+	 * @return Returns the invoiceItemSubTotalAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceItemSubTotalAmount() { 
@@ -231,7 +231,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemSubTotalAmount attribute.
 	 * 
-	 * @param - invoiceItemSubTotalAmount The invoiceItemSubTotalAmount to set.
+	 * @param invoiceItemSubTotalAmount The invoiceItemSubTotalAmount to set.
 	 * 
 	 */
 	public void setInvoiceItemSubTotalAmount(BigDecimal invoiceItemSubTotalAmount) {
@@ -242,7 +242,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemSubTotalCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemSubTotalCurrencyCode
+	 * @return Returns the invoiceItemSubTotalCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemSubTotalCurrencyCode() { 
@@ -252,7 +252,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemSubTotalCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemSubTotalCurrencyCode The invoiceItemSubTotalCurrencyCode to set.
+	 * @param invoiceItemSubTotalCurrencyCode The invoiceItemSubTotalCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemSubTotalCurrencyCode(String invoiceItemSubTotalCurrencyCode) {
@@ -263,7 +263,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemSpecialHandlingAmount attribute.
 	 * 
-	 * @return - Returns the invoiceItemSpecialHandlingAmount
+	 * @return Returns the invoiceItemSpecialHandlingAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceItemSpecialHandlingAmount() { 
@@ -273,7 +273,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemSpecialHandlingAmount attribute.
 	 * 
-	 * @param - invoiceItemSpecialHandlingAmount The invoiceItemSpecialHandlingAmount to set.
+	 * @param invoiceItemSpecialHandlingAmount The invoiceItemSpecialHandlingAmount to set.
 	 * 
 	 */
 	public void setInvoiceItemSpecialHandlingAmount(BigDecimal invoiceItemSpecialHandlingAmount) {
@@ -284,7 +284,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemSpecialHandlingCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemSpecialHandlingCurrencyCode
+	 * @return Returns the invoiceItemSpecialHandlingCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemSpecialHandlingCurrencyCode() { 
@@ -294,7 +294,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemSpecialHandlingCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemSpecialHandlingCurrencyCode The invoiceItemSpecialHandlingCurrencyCode to set.
+	 * @param invoiceItemSpecialHandlingCurrencyCode The invoiceItemSpecialHandlingCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemSpecialHandlingCurrencyCode(String invoiceItemSpecialHandlingCurrencyCode) {
@@ -305,7 +305,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemShippingAmount attribute.
 	 * 
-	 * @return - Returns the invoiceItemShippingAmount
+	 * @return Returns the invoiceItemShippingAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceItemShippingAmount() { 
@@ -315,7 +315,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemShippingAmount attribute.
 	 * 
-	 * @param - invoiceItemShippingAmount The invoiceItemShippingAmount to set.
+	 * @param invoiceItemShippingAmount The invoiceItemShippingAmount to set.
 	 * 
 	 */
 	public void setInvoiceItemShippingAmount(BigDecimal invoiceItemShippingAmount) {
@@ -326,7 +326,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemShippingCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemShippingCurrencyCode
+	 * @return Returns the invoiceItemShippingCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemShippingCurrencyCode() { 
@@ -336,7 +336,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemShippingCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemShippingCurrencyCode The invoiceItemShippingCurrencyCode to set.
+	 * @param invoiceItemShippingCurrencyCode The invoiceItemShippingCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemShippingCurrencyCode(String invoiceItemShippingCurrencyCode) {
@@ -347,7 +347,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemShippingDescription attribute.
 	 * 
-	 * @return - Returns the invoiceItemShippingDescription
+	 * @return Returns the invoiceItemShippingDescription
 	 * 
 	 */
 	public String getInvoiceItemShippingDescription() { 
@@ -357,7 +357,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemShippingDescription attribute.
 	 * 
-	 * @param - invoiceItemShippingDescription The invoiceItemShippingDescription to set.
+	 * @param invoiceItemShippingDescription The invoiceItemShippingDescription to set.
 	 * 
 	 */
 	public void setInvoiceItemShippingDescription(String invoiceItemShippingDescription) {
@@ -368,7 +368,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemTaxAmount attribute.
 	 * 
-	 * @return - Returns the invoiceItemTaxAmount
+	 * @return Returns the invoiceItemTaxAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceItemTaxAmount() { 
@@ -378,7 +378,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemTaxAmount attribute.
 	 * 
-	 * @param - invoiceItemTaxAmount The invoiceItemTaxAmount to set.
+	 * @param invoiceItemTaxAmount The invoiceItemTaxAmount to set.
 	 * 
 	 */
 	public void setInvoiceItemTaxAmount(BigDecimal invoiceItemTaxAmount) {
@@ -389,7 +389,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemTaxCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemTaxCurrencyCode
+	 * @return Returns the invoiceItemTaxCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemTaxCurrencyCode() { 
@@ -399,7 +399,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemTaxCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemTaxCurrencyCode The invoiceItemTaxCurrencyCode to set.
+	 * @param invoiceItemTaxCurrencyCode The invoiceItemTaxCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemTaxCurrencyCode(String invoiceItemTaxCurrencyCode) {
@@ -410,7 +410,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemTaxDescription attribute.
 	 * 
-	 * @return - Returns the invoiceItemTaxDescription
+	 * @return Returns the invoiceItemTaxDescription
 	 * 
 	 */
 	public String getInvoiceItemTaxDescription() { 
@@ -420,7 +420,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemTaxDescription attribute.
 	 * 
-	 * @param - invoiceItemTaxDescription The invoiceItemTaxDescription to set.
+	 * @param invoiceItemTaxDescription The invoiceItemTaxDescription to set.
 	 * 
 	 */
 	public void setInvoiceItemTaxDescription(String invoiceItemTaxDescription) {
@@ -431,7 +431,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemGrossAmount attribute.
 	 * 
-	 * @return - Returns the invoiceItemGrossAmount
+	 * @return Returns the invoiceItemGrossAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceItemGrossAmount() { 
@@ -441,7 +441,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemGrossAmount attribute.
 	 * 
-	 * @param - invoiceItemGrossAmount The invoiceItemGrossAmount to set.
+	 * @param invoiceItemGrossAmount The invoiceItemGrossAmount to set.
 	 * 
 	 */
 	public void setInvoiceItemGrossAmount(BigDecimal invoiceItemGrossAmount) {
@@ -452,7 +452,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemGrossCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemGrossCurrencyCode
+	 * @return Returns the invoiceItemGrossCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemGrossCurrencyCode() { 
@@ -462,7 +462,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemGrossCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemGrossCurrencyCode The invoiceItemGrossCurrencyCode to set.
+	 * @param invoiceItemGrossCurrencyCode The invoiceItemGrossCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemGrossCurrencyCode(String invoiceItemGrossCurrencyCode) {
@@ -473,7 +473,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemDiscountAmount attribute.
 	 * 
-	 * @return - Returns the invoiceItemDiscountAmount
+	 * @return Returns the invoiceItemDiscountAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceItemDiscountAmount() { 
@@ -483,7 +483,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemDiscountAmount attribute.
 	 * 
-	 * @param - invoiceItemDiscountAmount The invoiceItemDiscountAmount to set.
+	 * @param invoiceItemDiscountAmount The invoiceItemDiscountAmount to set.
 	 * 
 	 */
 	public void setInvoiceItemDiscountAmount(BigDecimal invoiceItemDiscountAmount) {
@@ -494,7 +494,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemDiscountCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemDiscountCurrencyCode
+	 * @return Returns the invoiceItemDiscountCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemDiscountCurrencyCode() { 
@@ -504,7 +504,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemDiscountCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemDiscountCurrencyCode The invoiceItemDiscountCurrencyCode to set.
+	 * @param invoiceItemDiscountCurrencyCode The invoiceItemDiscountCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemDiscountCurrencyCode(String invoiceItemDiscountCurrencyCode) {
@@ -515,7 +515,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemNetAmount attribute.
 	 * 
-	 * @return - Returns the invoiceItemNetAmount
+	 * @return Returns the invoiceItemNetAmount
 	 * 
 	 */
 	public BigDecimal getInvoiceItemNetAmount() { 
@@ -525,7 +525,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemNetAmount attribute.
 	 * 
-	 * @param - invoiceItemNetAmount The invoiceItemNetAmount to set.
+	 * @param invoiceItemNetAmount The invoiceItemNetAmount to set.
 	 * 
 	 */
 	public void setInvoiceItemNetAmount(BigDecimal invoiceItemNetAmount) {
@@ -536,7 +536,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceItemNetCurrencyCode attribute.
 	 * 
-	 * @return - Returns the invoiceItemNetCurrencyCode
+	 * @return Returns the invoiceItemNetCurrencyCode
 	 * 
 	 */
 	public String getInvoiceItemNetCurrencyCode() { 
@@ -546,7 +546,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceItemNetCurrencyCode attribute.
 	 * 
-	 * @param - invoiceItemNetCurrencyCode The invoiceItemNetCurrencyCode to set.
+	 * @param invoiceItemNetCurrencyCode The invoiceItemNetCurrencyCode to set.
 	 * 
 	 */
 	public void setInvoiceItemNetCurrencyCode(String invoiceItemNetCurrencyCode) {
@@ -557,7 +557,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemLineNumber attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemLineNumber
+	 * @return Returns the invoiceReferenceItemLineNumber
 	 * 
 	 */
 	public Integer getInvoiceReferenceItemLineNumber() { 
@@ -567,7 +567,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemLineNumber attribute.
 	 * 
-	 * @param - invoiceReferenceItemLineNumber The invoiceReferenceItemLineNumber to set.
+	 * @param invoiceReferenceItemLineNumber The invoiceReferenceItemLineNumber to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemLineNumber(Integer invoiceReferenceItemLineNumber) {
@@ -578,7 +578,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemSerialNumber attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemSerialNumber
+	 * @return Returns the invoiceReferenceItemSerialNumber
 	 * 
 	 */
 	public String getInvoiceReferenceItemSerialNumber() { 
@@ -588,7 +588,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemSerialNumber attribute.
 	 * 
-	 * @param - invoiceReferenceItemSerialNumber The invoiceReferenceItemSerialNumber to set.
+	 * @param invoiceReferenceItemSerialNumber The invoiceReferenceItemSerialNumber to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemSerialNumber(String invoiceReferenceItemSerialNumber) {
@@ -599,7 +599,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemSupplierPartIdentifier attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemSupplierPartIdentifier
+	 * @return Returns the invoiceReferenceItemSupplierPartIdentifier
 	 * 
 	 */
 	public String getInvoiceReferenceItemSupplierPartIdentifier() { 
@@ -609,7 +609,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemSupplierPartIdentifier attribute.
 	 * 
-	 * @param - invoiceReferenceItemSupplierPartIdentifier The invoiceReferenceItemSupplierPartIdentifier to set.
+	 * @param invoiceReferenceItemSupplierPartIdentifier The invoiceReferenceItemSupplierPartIdentifier to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemSupplierPartIdentifier(String invoiceReferenceItemSupplierPartIdentifier) {
@@ -620,7 +620,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemSupplierPartAuxiliaryIdentifier attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemSupplierPartAuxiliaryIdentifier
+	 * @return Returns the invoiceReferenceItemSupplierPartAuxiliaryIdentifier
 	 * 
 	 */
 	public String getInvoiceReferenceItemSupplierPartAuxiliaryIdentifier() { 
@@ -630,7 +630,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemSupplierPartAuxiliaryIdentifier attribute.
 	 * 
-	 * @param - invoiceReferenceItemSupplierPartAuxiliaryIdentifier The invoiceReferenceItemSupplierPartAuxiliaryIdentifier to set.
+	 * @param invoiceReferenceItemSupplierPartAuxiliaryIdentifier The invoiceReferenceItemSupplierPartAuxiliaryIdentifier to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemSupplierPartAuxiliaryIdentifier(String invoiceReferenceItemSupplierPartAuxiliaryIdentifier) {
@@ -641,7 +641,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemDescription attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemDescription
+	 * @return Returns the invoiceReferenceItemDescription
 	 * 
 	 */
 	public String getInvoiceReferenceItemDescription() { 
@@ -651,7 +651,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemDescription attribute.
 	 * 
-	 * @param - invoiceReferenceItemDescription The invoiceReferenceItemDescription to set.
+	 * @param invoiceReferenceItemDescription The invoiceReferenceItemDescription to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemDescription(String invoiceReferenceItemDescription) {
@@ -662,7 +662,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemManufacturerPartIdentifier attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemManufacturerPartIdentifier
+	 * @return Returns the invoiceReferenceItemManufacturerPartIdentifier
 	 * 
 	 */
 	public String getInvoiceReferenceItemManufacturerPartIdentifier() { 
@@ -672,7 +672,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemManufacturerPartIdentifier attribute.
 	 * 
-	 * @param - invoiceReferenceItemManufacturerPartIdentifier The invoiceReferenceItemManufacturerPartIdentifier to set.
+	 * @param invoiceReferenceItemManufacturerPartIdentifier The invoiceReferenceItemManufacturerPartIdentifier to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemManufacturerPartIdentifier(String invoiceReferenceItemManufacturerPartIdentifier) {
@@ -683,7 +683,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemManufacturerName attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemManufacturerName
+	 * @return Returns the invoiceReferenceItemManufacturerName
 	 * 
 	 */
 	public String getInvoiceReferenceItemManufacturerName() { 
@@ -693,7 +693,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemManufacturerName attribute.
 	 * 
-	 * @param - invoiceReferenceItemManufacturerName The invoiceReferenceItemManufacturerName to set.
+	 * @param invoiceReferenceItemManufacturerName The invoiceReferenceItemManufacturerName to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemManufacturerName(String invoiceReferenceItemManufacturerName) {
@@ -704,7 +704,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemCountryCode attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemCountryCode
+	 * @return Returns the invoiceReferenceItemCountryCode
 	 * 
 	 */
 	public String getInvoiceReferenceItemCountryCode() { 
@@ -714,7 +714,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemCountryCode attribute.
 	 * 
-	 * @param - invoiceReferenceItemCountryCode The invoiceReferenceItemCountryCode to set.
+	 * @param invoiceReferenceItemCountryCode The invoiceReferenceItemCountryCode to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemCountryCode(String invoiceReferenceItemCountryCode) {
@@ -725,7 +725,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceReferenceItemCountryName attribute.
 	 * 
-	 * @return - Returns the invoiceReferenceItemCountryName
+	 * @return Returns the invoiceReferenceItemCountryName
 	 * 
 	 */
 	public String getInvoiceReferenceItemCountryName() { 
@@ -735,7 +735,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceReferenceItemCountryName attribute.
 	 * 
-	 * @param - invoiceReferenceItemCountryName The invoiceReferenceItemCountryName to set.
+	 * @param invoiceReferenceItemCountryName The invoiceReferenceItemCountryName to set.
 	 * 
 	 */
 	public void setInvoiceReferenceItemCountryName(String invoiceReferenceItemCountryName) {
@@ -746,7 +746,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceCatalogNumber attribute.
 	 * 
-	 * @return - Returns the invoiceCatalogNumber
+	 * @return Returns the invoiceCatalogNumber
 	 * 
 	 */
 	public String getInvoiceCatalogNumber() { 
@@ -756,7 +756,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceCatalogNumber attribute.
 	 * 
-	 * @param - invoiceCatalogNumber The invoiceCatalogNumber to set.
+	 * @param invoiceCatalogNumber The invoiceCatalogNumber to set.
 	 * 
 	 */
 	public void setInvoiceCatalogNumber(String invoiceCatalogNumber) {
@@ -767,7 +767,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceHeaderInformation attribute.
 	 * 
-	 * @return - Returns the invoiceHeaderInformation
+	 * @return Returns the invoiceHeaderInformation
 	 * 
 	 */
 	public ElectronicInvoiceHeaderInformation getInvoiceHeaderInformation() { 
@@ -777,7 +777,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceHeaderInformation attribute.
 	 * 
-	 * @param - invoiceHeaderInformation The invoiceHeaderInformation to set.
+	 * @param invoiceHeaderInformation The invoiceHeaderInformation to set.
 	 * @deprecated
 	 */
 	public void setInvoiceHeaderInformation(ElectronicInvoiceHeaderInformation invoiceHeaderInformation) {
@@ -785,7 +785,7 @@ public class ElectronicInvoiceItem extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

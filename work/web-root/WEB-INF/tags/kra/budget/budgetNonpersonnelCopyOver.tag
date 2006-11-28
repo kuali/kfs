@@ -37,7 +37,7 @@
   <html:hidden property="document.nonpersonnelNextSequenceNumber" />
 
   <logic:iterate id="nonpersonnelItem" name="KualiForm" property="document.budget.nonpersonnelItems" indexId="ctr">
-	  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].researchDocumentNumber" />
+	  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].documentNumber" />
 	  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetTaskSequenceNumber" />
 	  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetPeriodSequenceNumber" />
 	  <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelCategoryCode" />
@@ -67,7 +67,7 @@
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].nonpersonnelSubCategoryName" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].budgetNonpersonnelDescription" />
 		
-		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].researchDocumentNumber" />
+		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].documentNumber" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetTaskSequenceNumber" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetPeriodSequenceNumber" />
 		      <html:hidden property="budgetNonpersonnelCopyOverFormHelper.nonpersonnelCopyOverCategoryHelper(${nonpersonnelCategory.code}).nprsItem[${iStatus.index}].periodAmount[${jStatus.index}].budgetNonpersonnelCategoryCode" />

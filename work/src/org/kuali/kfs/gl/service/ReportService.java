@@ -62,57 +62,57 @@ public interface ReportService {
     /**
      * Scrubber General Ledger Transaction Summary report
      * 
-     * @param - runDate Run date of the report
-     * @param - group Group to summarize for the report
+     * @param runDate Run date of the report
+     * @param group Group to summarize for the report
      */
     public void generateScrubberLedgerSummaryReportOnline(Date runDate, OriginEntryGroup group,String documentNumber);
 
     /**
      * Scrubber General Ledger Transaction Summary report
      * 
-     * @param - runDate Run date of the report
-     * @param - groups Groups to summarize for the report
+     * @param runDate Run date of the report
+     * @param groups Groups to summarize for the report
      */
     public void generateScrubberLedgerSummaryReportBatch(Date runDate, Collection groups);
 
     /**
      * Scrubber Statistics report for batch reports
      * 
-     * @param - runDate Run date of the report
-     * @param - scrubberReport Summary information
-     * @param - scrubberReportErrors Map of transactions with errors or warnings
+     * @param runDate Run date of the report
+     * @param scrubberReport Summary information
+     * @param scrubberReportErrors Map of transactions with errors or warnings
      */
     public void generateBatchScrubberStatisticsReport(Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors);
 
     /**
      * Scrubber Statistics report for online reports
      * 
-     * @param - runDate Run date of the report
-     * @param - scrubberReport Summary information
-     * @param - scrubberReportErrors Map of transactions with errors or warnings
+     * @param runDate Run date of the report
+     * @param scrubberReport Summary information
+     * @param scrubberReportErrors Map of transactions with errors or warnings
      */
     public void generateOnlineScrubberStatisticsReport(Integer groupId, Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors,String documentNumber);
 
     /**
      * Scrubber Demerger Statistics report
      * 
-     * @param - runDate Run date of the report
-     * @param - demergerReport Summary information
+     * @param runDate Run date of the report
+     * @param demergerReport Summary information
      */
     public void generateScrubberDemergerStatisticsReports(Date runDate, DemergerReportData demergerReport);
 
     /**
      * Scrubber Bad Balance listing report
      * 
-     * @param - runDate Run date of the report
-     * @param - groups Groups to summarize for the report
+     * @param runDate Run date of the report
+     * @param groups Groups to summarize for the report
      */
     public void generateScrubberBadBalanceTypeListingReport(Date runDate, Collection groups);
 
     /**
      * Scrubber Transaction Listing report
      * 
-     * @param - runDate Run date of the report
+     * @param runDate Run date of the report
      * @param validGroup Group with transactions
      */
     public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup,String documentNumber);
@@ -120,7 +120,7 @@ public interface ReportService {
     /**
      * Scrubber Removed Transactions report
      * 
-     * @param - runDate Run date of the report
+     * @param runDate Run date of the report
      * @param errorGroup Group with error transactions
      */
     public void generateScrubberRemovedTransactions(Date runDate, OriginEntryGroup errorGroup);
@@ -226,8 +226,8 @@ public interface ReportService {
     /**
      * Poster Reversal Transactions Listing
      * 
-     * @param - runDate Run date of the report
-     * @param - group Group with valid transactions
+     * @param runDate Run date of the report
+     * @param group Group with valid transactions
      */
     public void generatePosterReversalTransactionsListing(Date runDate, OriginEntryGroup group);
 

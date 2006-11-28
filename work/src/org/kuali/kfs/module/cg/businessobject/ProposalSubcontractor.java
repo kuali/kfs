@@ -45,7 +45,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Gets the proposalSubcontractorNumber attribute.
      * 
-     * @return - Returns the proposalSubcontractorNumber
+     * @return Returns the proposalSubcontractorNumber
      * 
      */
     public String getProposalSubcontractorNumber() {
@@ -66,7 +66,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      * 
-     * @return - Returns the proposalNumber
+     * @return Returns the proposalNumber
      * 
      */
     public Long getProposalNumber() {
@@ -87,7 +87,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorNumber attribute.
      * 
-     * @return - Returns the subcontractorNumber
+     * @return Returns the subcontractorNumber
      * 
      */
     public String getSubcontractorNumber() {
@@ -108,7 +108,7 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     /**
      * Gets the proposalSubcontractorAmount attribute.
      * 
-     * @return - Returns the proposalSubcontractorAmount
+     * @return Returns the proposalSubcontractorAmount
      * 
      */
     public KualiDecimal getProposalSubcontractorAmount() {

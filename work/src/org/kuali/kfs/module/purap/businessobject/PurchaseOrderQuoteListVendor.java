@@ -43,7 +43,7 @@ public class PurchaseOrderQuoteListVendor extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderQuoteListIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderQuoteListIdentifier
+	 * @return Returns the purchaseOrderQuoteListIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderQuoteListIdentifier() { 
@@ -53,7 +53,7 @@ public class PurchaseOrderQuoteListVendor extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderQuoteListIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderQuoteListIdentifier The purchaseOrderQuoteListIdentifier to set.
+	 * @param purchaseOrderQuoteListIdentifier The purchaseOrderQuoteListIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
@@ -64,7 +64,7 @@ public class PurchaseOrderQuoteListVendor extends BusinessObjectBase {
 	/**
 	 * Gets the vendorHeaderGeneratedIdentifier attribute.
 	 * 
-	 * @return - Returns the vendorHeaderGeneratedIdentifier
+	 * @return Returns the vendorHeaderGeneratedIdentifier
 	 * 
 	 */
 	public Integer getVendorHeaderGeneratedIdentifier() { 
@@ -74,7 +74,7 @@ public class PurchaseOrderQuoteListVendor extends BusinessObjectBase {
 	/**
 	 * Sets the vendorHeaderGeneratedIdentifier attribute.
 	 * 
-	 * @param - vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+	 * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
 	 * 
 	 */
 	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
@@ -85,7 +85,7 @@ public class PurchaseOrderQuoteListVendor extends BusinessObjectBase {
 	/**
 	 * Gets the vendorDetailAssignedIdentifier attribute.
 	 * 
-	 * @return - Returns the vendorDetailAssignedIdentifier
+	 * @return Returns the vendorDetailAssignedIdentifier
 	 * 
 	 */
 	public Integer getVendorDetailAssignedIdentifier() { 
@@ -95,7 +95,7 @@ public class PurchaseOrderQuoteListVendor extends BusinessObjectBase {
 	/**
 	 * Sets the vendorDetailAssignedIdentifier attribute.
 	 * 
-	 * @param - vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+	 * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
 	 * 
 	 */
 	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
@@ -120,7 +120,7 @@ public class PurchaseOrderQuoteListVendor extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

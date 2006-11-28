@@ -93,7 +93,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      * 
-     * @return - Returns the proposalNumber
+     * @return Returns the proposalNumber
      * 
      */
     public Long getProposalNumber() {
@@ -114,7 +114,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardBeginningDate attribute.
      * 
-     * @return - Returns the awardBeginningDate
+     * @return Returns the awardBeginningDate
      * 
      */
     public Timestamp getAwardBeginningDate() {
@@ -135,7 +135,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardEndingDate attribute.
      * 
-     * @return - Returns the awardEndingDate
+     * @return Returns the awardEndingDate
      * 
      */
     public Timestamp getAwardEndingDate() {
@@ -156,7 +156,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardTotalAmount attribute.
      * 
-     * @return - Returns the awardTotalAmount
+     * @return Returns the awardTotalAmount
      * 
      */
     public KualiDecimal getAwardTotalAmount() {
@@ -177,7 +177,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardAddendumNumber attribute.
      * 
-     * @return - Returns the awardAddendumNumber
+     * @return Returns the awardAddendumNumber
      * 
      */
     public String getAwardAddendumNumber() {
@@ -198,7 +198,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardAllocatedUniversityComputingServicesAmount attribute.
      * 
-     * @return - Returns the awardAllocatedUniversityComputingServicesAmount
+     * @return Returns the awardAllocatedUniversityComputingServicesAmount
      * 
      */
     public KualiDecimal getAwardAllocatedUniversityComputingServicesAmount() {
@@ -219,7 +219,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the agencyAwardNumber attribute.
      * 
-     * @return - Returns the agencyAwardNumber
+     * @return Returns the agencyAwardNumber
      * 
      */
     public String getAgencyAwardNumber() {
@@ -240,7 +240,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the federalPassThroughFundedAmount attribute.
      * 
-     * @return - Returns the federalPassThroughFundedAmount
+     * @return Returns the federalPassThroughFundedAmount
      * 
      */
     public KualiDecimal getFederalPassThroughFundedAmount() {
@@ -261,7 +261,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardEntryDate attribute.
      * 
-     * @return - Returns the awardEntryDate
+     * @return Returns the awardEntryDate
      * 
      */
     public Timestamp getAwardEntryDate() {
@@ -282,7 +282,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the agencyFuture1Amount attribute.
      * 
-     * @return - Returns the agencyFuture1Amount
+     * @return Returns the agencyFuture1Amount
      * 
      */
     public KualiDecimal getAgencyFuture1Amount() {
@@ -303,7 +303,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the agencyFuture2Amount attribute.
      * 
-     * @return - Returns the agencyFuture2Amount
+     * @return Returns the agencyFuture2Amount
      * 
      */
     public KualiDecimal getAgencyFuture2Amount() {
@@ -324,7 +324,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the agencyFuture3Amount attribute.
      * 
-     * @return - Returns the agencyFuture3Amount
+     * @return Returns the agencyFuture3Amount
      * 
      */
     public KualiDecimal getAgencyFuture3Amount() {
@@ -345,7 +345,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardDocumentNumber attribute.
      * 
-     * @return - Returns the awardDocumentNumber
+     * @return Returns the awardDocumentNumber
      * 
      */
     public String getAwardDocumentNumber() {
@@ -366,7 +366,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardLastUpdateDate attribute.
      * 
-     * @return - Returns the awardLastUpdateDate
+     * @return Returns the awardLastUpdateDate
      * 
      */
     public Timestamp getAwardLastUpdateDate() {
@@ -387,7 +387,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the federalPassThroughIndicator attribute.
      * 
-     * @return - Returns the federalPassThroughIndicator
+     * @return Returns the federalPassThroughIndicator
      * 
      */
     public boolean getFederalPassThroughIndicator() {
@@ -408,7 +408,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the oldProposalNumber attribute.
      * 
-     * @return - Returns the oldProposalNumber
+     * @return Returns the oldProposalNumber
      * 
      */
     public String getOldProposalNumber() {
@@ -429,7 +429,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardDirectCostAmount attribute.
      * 
-     * @return - Returns the awardDirectCostAmount
+     * @return Returns the awardDirectCostAmount
      * 
      */
     public KualiDecimal getAwardDirectCostAmount() {
@@ -450,7 +450,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardIndirectCostAmount attribute.
      * 
-     * @return - Returns the awardIndirectCostAmount
+     * @return Returns the awardIndirectCostAmount
      * 
      */
     public KualiDecimal getAwardIndirectCostAmount() {
@@ -471,7 +471,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the federalFundedAmount attribute.
      * 
-     * @return - Returns the federalFundedAmount
+     * @return Returns the federalFundedAmount
      * 
      */
     public KualiDecimal getFederalFundedAmount() {
@@ -492,7 +492,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardCreateTimestamp attribute.
      * 
-     * @return - Returns the awardCreateTimestamp
+     * @return Returns the awardCreateTimestamp
      * 
      */
     public Timestamp getAwardCreateTimestamp() {
@@ -513,7 +513,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardClosingDate attribute.
      * 
-     * @return - Returns the awardClosingDate
+     * @return Returns the awardClosingDate
      * 
      */
     public Timestamp getAwardClosingDate() {
@@ -534,7 +534,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the proposalAwardTypeCode attribute.
      * 
-     * @return - Returns the proposalAwardTypeCode
+     * @return Returns the proposalAwardTypeCode
      * 
      */
     public String getProposalAwardTypeCode() {
@@ -555,7 +555,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the financialSystemWorkgroupId attribute.
      * 
-     * @return - Returns the financialSystemWorkgroupId
+     * @return Returns the financialSystemWorkgroupId
      * 
      */
     public String getFinancialSystemWorkgroupId() {
@@ -576,7 +576,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardStatusCode attribute.
      * 
-     * @return - Returns the awardStatusCode
+     * @return Returns the awardStatusCode
      * 
      */
     public String getAwardStatusCode() {
@@ -597,7 +597,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
      * 
-     * @return - Returns the letterOfCreditFundGroupCode
+     * @return Returns the letterOfCreditFundGroupCode
      * 
      */
     public String getLetterOfCreditFundGroupCode() {
@@ -618,7 +618,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the grantDescriptionCode attribute.
      * 
-     * @return - Returns the grantDescriptionCode
+     * @return Returns the grantDescriptionCode
      * 
      */
     public String getGrantDescriptionCode() {
@@ -639,7 +639,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the agencyNumber attribute.
      * 
-     * @return - Returns the agencyNumber
+     * @return Returns the agencyNumber
      * 
      */
     public String getAgencyNumber() {
@@ -660,7 +660,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the federalPassThroughAgencyNumber attribute.
      * 
-     * @return - Returns the federalPassThroughAgencyNumber
+     * @return Returns the federalPassThroughAgencyNumber
      * 
      */
     public String getFederalPassThroughAgencyNumber() {
@@ -681,7 +681,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the agencyAnalystName attribute.
      * 
-     * @return - Returns the agencyAnalystName
+     * @return Returns the agencyAnalystName
      * 
      */
     public String getAgencyAnalystName() {
@@ -702,7 +702,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the analystTelephoneNumber attribute.
      * 
-     * @return - Returns the analystTelephoneNumber
+     * @return Returns the analystTelephoneNumber
      * 
      */
     public String getAnalystTelephoneNumber() {
@@ -723,7 +723,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardProjectTitle attribute.
      * 
-     * @return - Returns the awardProjectTitle
+     * @return Returns the awardProjectTitle
      * 
      */
     public String getAwardProjectTitle() {
@@ -744,7 +744,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardCommentText attribute.
      * 
-     * @return - Returns the awardCommentText
+     * @return Returns the awardCommentText
      * 
      */
     public String getAwardCommentText() {
@@ -765,7 +765,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardPurposeCode attribute.
      * 
-     * @return - Returns the awardPurposeCode
+     * @return Returns the awardPurposeCode
      * 
      */
     public String getAwardPurposeCode() {
@@ -786,7 +786,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the proposal attribute.
      * 
-     * @return - Returns the proposal
+     * @return Returns the proposal
      * 
      */
     public Proposal getProposal() {
@@ -806,7 +806,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the proposalAwardType attribute.
      * 
-     * @return - Returns the proposalAwardType
+     * @return Returns the proposalAwardType
      * 
      */
     public ProposalAwardType getProposalAwardType() {
@@ -826,7 +826,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardStatus attribute.
      * 
-     * @return - Returns the awardStatus
+     * @return Returns the awardStatus
      * 
      */
     public AwardStatus getAwardStatus() {
@@ -846,7 +846,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the letterOfCreditFundGroup attribute.
      * 
-     * @return - Returns the letterOfCreditFundGroup
+     * @return Returns the letterOfCreditFundGroup
      * 
      */
     public LetterOfCreditFundGroup getLetterOfCreditFundGroup() {
@@ -866,7 +866,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the grantDescription attribute.
      * 
-     * @return - Returns the grantDescription
+     * @return Returns the grantDescription
      * 
      */
     public GrantDescription getGrantDescription() {
@@ -886,7 +886,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the agency attribute.
      * 
-     * @return - Returns the agency
+     * @return Returns the agency
      * 
      */
     public Agency getAgency() {
@@ -906,7 +906,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the federalPassThroughAgency attribute.
      * 
-     * @return - Returns the federalPassThroughAgency
+     * @return Returns the federalPassThroughAgency
      * 
      */
     public Agency getFederalPassThroughAgency() {
@@ -926,7 +926,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardPurpose attribute.
      * 
-     * @return - Returns the awardPurpose
+     * @return Returns the awardPurpose
      * 
      */
     public ProposalPurpose getAwardPurpose() {
@@ -946,7 +946,7 @@ public class Award extends BusinessObjectBase {
     /**
      * Gets the awardProjectDirector list.
      * 
-     * @return - Returns the awardProjectDirector list
+     * @return Returns the awardProjectDirector list
      * 
      */
     public List getAwardProjectDirector() {

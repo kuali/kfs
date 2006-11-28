@@ -59,7 +59,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemoAccountIdentifier attribute.
 	 * 
-	 * @return - Returns the creditMemoAccountIdentifier
+	 * @return Returns the creditMemoAccountIdentifier
 	 * 
 	 */
 	public Integer getCreditMemoAccountIdentifier() { 
@@ -69,7 +69,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemoAccountIdentifier attribute.
 	 * 
-	 * @param - creditMemoAccountIdentifier The creditMemoAccountIdentifier to set.
+	 * @param creditMemoAccountIdentifier The creditMemoAccountIdentifier to set.
 	 * 
 	 */
 	public void setCreditMemoAccountIdentifier(Integer creditMemoAccountIdentifier) {
@@ -80,7 +80,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemoItemIdentifier attribute.
 	 * 
-	 * @return - Returns the creditMemoItemIdentifier
+	 * @return Returns the creditMemoItemIdentifier
 	 * 
 	 */
 	public Integer getCreditMemoItemIdentifier() { 
@@ -90,7 +90,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemoItemIdentifier attribute.
 	 * 
-	 * @param - creditMemoItemIdentifier The creditMemoItemIdentifier to set.
+	 * @param creditMemoItemIdentifier The creditMemoItemIdentifier to set.
 	 * 
 	 */
 	public void setCreditMemoItemIdentifier(Integer creditMemoItemIdentifier) {
@@ -100,7 +100,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -110,7 +110,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -121,7 +121,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -131,7 +131,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -142,7 +142,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -152,7 +152,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -163,7 +163,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the subAccountNumber attribute.
 	 * 
-	 * @return - Returns the subAccountNumber
+	 * @return Returns the subAccountNumber
 	 * 
 	 */
 	public String getSubAccountNumber() { 
@@ -173,7 +173,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -184,7 +184,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the financialSubObjectCode attribute.
 	 * 
-	 * @return - Returns the financialSubObjectCode
+	 * @return Returns the financialSubObjectCode
 	 * 
 	 */
 	public String getFinancialSubObjectCode() { 
@@ -194,7 +194,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the financialSubObjectCode attribute.
 	 * 
-	 * @param - financialSubObjectCode The financialSubObjectCode to set.
+	 * @param financialSubObjectCode The financialSubObjectCode to set.
 	 * 
 	 */
 	public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -205,7 +205,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the projectCode attribute.
 	 * 
-	 * @return - Returns the projectCode
+	 * @return Returns the projectCode
 	 * 
 	 */
 	public String getProjectCode() { 
@@ -215,7 +215,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the projectCode attribute.
 	 * 
-	 * @param - projectCode The projectCode to set.
+	 * @param projectCode The projectCode to set.
 	 * 
 	 */
 	public void setProjectCode(String projectCode) {
@@ -226,7 +226,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the organizationReferenceId attribute.
 	 * 
-	 * @return - Returns the organizationReferenceId
+	 * @return Returns the organizationReferenceId
 	 * 
 	 */
 	public String getOrganizationReferenceId() { 
@@ -236,7 +236,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the organizationReferenceId attribute.
 	 * 
-	 * @param - organizationReferenceId The organizationReferenceId to set.
+	 * @param organizationReferenceId The organizationReferenceId to set.
 	 * 
 	 */
 	public void setOrganizationReferenceId(String organizationReferenceId) {
@@ -247,7 +247,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the itemAccountTotalAmount attribute.
 	 * 
-	 * @return - Returns the itemAccountTotalAmount
+	 * @return Returns the itemAccountTotalAmount
 	 * 
 	 */
 	public KualiDecimal getItemAccountTotalAmount() { 
@@ -257,7 +257,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the itemAccountTotalAmount attribute.
 	 * 
-	 * @param - itemAccountTotalAmount The itemAccountTotalAmount to set.
+	 * @param itemAccountTotalAmount The itemAccountTotalAmount to set.
 	 * 
 	 */
 	public void setItemAccountTotalAmount(KualiDecimal itemAccountTotalAmount) {
@@ -268,7 +268,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the accountLinePercent attribute.
 	 * 
-	 * @return - Returns the accountLinePercent
+	 * @return Returns the accountLinePercent
 	 * 
 	 */
 	public BigDecimal getAccountLinePercent() { 
@@ -278,7 +278,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the accountLinePercent attribute.
 	 * 
-	 * @param - accountLinePercent The accountLinePercent to set.
+	 * @param accountLinePercent The accountLinePercent to set.
 	 * 
 	 */
 	public void setAccountLinePercent(BigDecimal accountLinePercent) {
@@ -289,7 +289,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the creditMemoItem attribute.
 	 * 
-	 * @return - Returns the creditMemoItem
+	 * @return Returns the creditMemoItem
 	 * 
 	 */
 	public CreditMemoItem getCreditMemoItem() { 
@@ -299,7 +299,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the creditMemoItem attribute.
 	 * 
-	 * @param - creditMemoItem The creditMemoItem to set.
+	 * @param creditMemoItem The creditMemoItem to set.
 	 * @deprecated
 	 */
 	public void setCreditMemoItem(CreditMemoItem creditMemoItem) {
@@ -309,7 +309,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -319,7 +319,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -329,7 +329,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -339,7 +339,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -364,7 +364,7 @@ public class CreditMemoAccount extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

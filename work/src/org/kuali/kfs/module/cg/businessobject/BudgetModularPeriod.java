@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiInteger;
 public class BudgetModularPeriod extends BusinessObjectBase {
 
     // Stored values
-    private String researchDocumentNumber;
+    private String documentNumber;
     private Integer budgetPeriodSequenceNumber;
     private KualiInteger budgetAdjustedModularDirectCostAmount;
 
@@ -44,35 +44,35 @@ public class BudgetModularPeriod extends BusinessObjectBase {
     public BudgetModularPeriod() {
     }
 
-    public BudgetModularPeriod(String researchDocumentNumber, Integer budgetPeriodSequenceNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public BudgetModularPeriod(String documentNumber, Integer budgetPeriodSequenceNumber) {
+        this.documentNumber = documentNumber;
         this.budgetPeriodSequenceNumber = budgetPeriodSequenceNumber;
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetPeriodSequenceNumber attribute.
      * 
-     * @return - Returns the budgetPeriodSequenceNumber
+     * @return Returns the budgetPeriodSequenceNumber
      * 
      */
     public Integer getBudgetPeriodSequenceNumber() {
@@ -92,7 +92,7 @@ public class BudgetModularPeriod extends BusinessObjectBase {
     /**
      * Gets the budgetAdjustedModularDirectCostAmount attribute.
      * 
-     * @return - Returns the budgetAdjustedModularDirectCostAmount
+     * @return Returns the budgetAdjustedModularDirectCostAmount
      * 
      */
     public KualiInteger getBudgetAdjustedModularDirectCostAmount() {

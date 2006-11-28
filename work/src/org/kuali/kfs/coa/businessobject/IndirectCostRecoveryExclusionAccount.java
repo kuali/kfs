@@ -43,7 +43,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -64,7 +64,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -85,7 +85,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Gets the financialObjectChartOfAccountCode attribute.
      * 
-     * @return - Returns the financialObjectChartOfAccountCode
+     * @return Returns the financialObjectChartOfAccountCode
      * 
      */
     public String getFinancialObjectChartOfAccountCode() {
@@ -106,7 +106,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Gets the financialObjectCode attribute.
      * 
-     * @return - Returns the financialObjectCode
+     * @return Returns the financialObjectCode
      * 
      */
     public String getFinancialObjectCode() {
@@ -127,7 +127,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Gets the chart attribute.
      * 
-     * @return - Returns the chart
+     * @return Returns the chart
      * 
      */
     public Chart getChart() {
@@ -147,7 +147,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -167,7 +167,7 @@ public class IndirectCostRecoveryExclusionAccount extends BusinessObjectBase {
     /**
      * Gets the financialObjectChartOfAccount attribute.
      * 
-     * @return - Returns the financialObjectChartOfAccount
+     * @return Returns the financialObjectChartOfAccount
      * 
      */
     public Chart getFinancialObjectChartOfAccount() {

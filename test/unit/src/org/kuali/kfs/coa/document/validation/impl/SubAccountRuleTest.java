@@ -82,7 +82,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * @param finReportChartCode
      * @param finReportOrgCode
      * @param finReportingCode
-     * @return - returns a SubAccount instance populated with the data provided
+     * @return returns a SubAccount instance populated with the data provided
      * 
      */
     private SubAccount newSubAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean subAccountActiveIndicator, String finReportChartCode, String finReportOrgCode, String finReportingCode) {
@@ -127,7 +127,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * @param costShareChartCode
      * @param costShareAccountNumber
      * @param costShareSubAccountNumber
-     * @return - returns a SubAccount instance populated with the data provided
+     * @return returns a SubAccount instance populated with the data provided
      * 
      */
     private SubAccount newA21SubAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean subAccountActiveIndicator, String finReportChartCode, String finReportOrgCode, String finReportingCode, String subAccountTypeCode, String icrTypeCode, String finSeriesId, String icrChartCode, String icrAccountNumber, boolean offCampusCode, String costShareChartCode, String costShareAccountNumber, String costShareSubAccountNumber) {

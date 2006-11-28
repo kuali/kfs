@@ -42,7 +42,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @return - Returns the routingFormDueDateTypeCode
+	 * @return Returns the routingFormDueDateTypeCode
 	 * 
 	 */
 	public String getRoutingFormDueDateTypeCode() { 
@@ -52,7 +52,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormDueDateTypeCode attribute.
 	 * 
-	 * @param - routingFormDueDateTypeCode The routingFormDueDateTypeCode to set.
+	 * @param routingFormDueDateTypeCode The routingFormDueDateTypeCode to set.
 	 * 
 	 */
 	public void setRoutingFormDueDateTypeCode(String routingFormDueDateTypeCode) {
@@ -63,7 +63,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -73,7 +73,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -84,7 +84,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormApprovalLeadTime attribute.
 	 * 
-	 * @return - Returns the routingFormApprovalLeadTime
+	 * @return Returns the routingFormApprovalLeadTime
 	 * 
 	 */
 	public Integer getRoutingFormApprovalLeadTime() { 
@@ -94,7 +94,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormApprovalLeadTime attribute.
 	 * 
-	 * @param - routingFormApprovalLeadTime The routingFormApprovalLeadTime to set.
+	 * @param routingFormApprovalLeadTime The routingFormApprovalLeadTime to set.
 	 * 
 	 */
 	public void setRoutingFormApprovalLeadTime(Integer routingFormApprovalLeadTime) {
@@ -105,7 +105,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Gets the routingFormDueDateDescription attribute.
 	 * 
-	 * @return - Returns the routingFormDueDateDescription
+	 * @return Returns the routingFormDueDateDescription
 	 * 
 	 */
 	public String getRoutingFormDueDateDescription() { 
@@ -115,7 +115,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 	/**
 	 * Sets the routingFormDueDateDescription attribute.
 	 * 
-	 * @param - routingFormDueDateDescription The routingFormDueDateDescription to set.
+	 * @param routingFormDueDateDescription The routingFormDueDateDescription to set.
 	 * 
 	 */
 	public void setRoutingFormDueDateDescription(String routingFormDueDateDescription) {
@@ -124,7 +124,7 @@ public class RoutingFormDueDateType extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

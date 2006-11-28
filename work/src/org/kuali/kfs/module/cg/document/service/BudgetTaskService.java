@@ -27,9 +27,9 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
  */
 public interface BudgetTaskService {
 
-    public BudgetTask getBudgetTask(String researchDocumentNumber, Integer budgetTaskSequenceNumber);
+    public BudgetTask getBudgetTask(String documentNumber, Integer budgetTaskSequenceNumber);
 
-    public BudgetTask getFirstBudgetTask(String researchDocumentNumber);
+    public BudgetTask getFirstBudgetTask(String documentNumber);
 
     /**
      * Returns the index (zero based) of a BudgetTask per the passed in budgetTaskSequenceNumber.

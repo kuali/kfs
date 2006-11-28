@@ -46,7 +46,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -67,7 +67,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Gets the finDocumentNextFromLineNbr attribute.
      * 
-     * @return - Returns the finDocumentNextFromLineNbr
+     * @return Returns the finDocumentNextFromLineNbr
      * 
      */
     public Integer getFinDocumentNextFromLineNbr() {
@@ -88,7 +88,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Gets the finDocumentNextToLineNumber attribute.
      * 
-     * @return - Returns the finDocumentNextToLineNumber
+     * @return Returns the finDocumentNextToLineNumber
      * 
      */
     public Integer getFinDocumentNextToLineNumber() {
@@ -109,7 +109,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Gets the financialDocumentPostingYear attribute.
      * 
-     * @return - Returns the financialDocumentPostingYear
+     * @return Returns the financialDocumentPostingYear
      * 
      */
     public Integer getFinancialDocumentPostingYear() {
@@ -130,7 +130,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Gets the finDocumentPostingPeriodCode attribute.
      * 
-     * @return - Returns the finDocumentPostingPeriodCode
+     * @return Returns the finDocumentPostingPeriodCode
      * 
      */
     public String getFinDocumentPostingPeriodCode() {
@@ -151,7 +151,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Gets the finDocumentExplanationText attribute.
      * 
-     * @return - Returns the finDocumentExplanationText
+     * @return Returns the finDocumentExplanationText
      * 
      */
     public String getFinDocumentExplanationText() {
@@ -172,7 +172,7 @@ public class DistributionDoc extends BusinessObjectBase {
     /**
      * Gets the financialDocument attribute.
      * 
-     * @return - Returns the financialDocument
+     * @return Returns the financialDocument
      * 
      */
     public DocumentHeader getFinancialDocument() {

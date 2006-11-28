@@ -42,7 +42,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Gets the capitalAssetTransactionTypeCode attribute.
 	 * 
-	 * @return - Returns the capitalAssetTransactionTypeCode
+	 * @return Returns the capitalAssetTransactionTypeCode
 	 * 
 	 */
 	public String getCapitalAssetTransactionTypeCode() { 
@@ -52,7 +52,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Sets the capitalAssetTransactionTypeCode attribute.
 	 * 
-	 * @param - capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
+	 * @param capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
 	 * 
 	 */
 	public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
@@ -63,7 +63,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Gets the capitalAssetTransactionTypeDescription attribute.
 	 * 
-	 * @return - Returns the capitalAssetTransactionTypeDescription
+	 * @return Returns the capitalAssetTransactionTypeDescription
 	 * 
 	 */
 	public String getCapitalAssetTransactionTypeDescription() { 
@@ -73,7 +73,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Sets the capitalAssetTransactionTypeDescription attribute.
 	 * 
-	 * @param - capitalAssetTransactionTypeDescription The capitalAssetTransactionTypeDescription to set.
+	 * @param capitalAssetTransactionTypeDescription The capitalAssetTransactionTypeDescription to set.
 	 * 
 	 */
 	public void setCapitalAssetTransactionTypeDescription(String capitalAssetTransactionTypeDescription) {
@@ -84,7 +84,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Gets the capitalAssetTransactionTypeServiceIndicator attribute.
 	 * 
-	 * @return - Returns the capitalAssetTransactionTypeServiceIndicator
+	 * @return Returns the capitalAssetTransactionTypeServiceIndicator
 	 * 
 	 */
 	public boolean getCapitalAssetTransactionTypeServiceIndicator() { 
@@ -94,7 +94,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Sets the capitalAssetTransactionTypeServiceIndicator attribute.
 	 * 
-	 * @param - capitalAssetTransactionTypeServiceIndicator The capitalAssetTransactionTypeServiceIndicator to set.
+	 * @param capitalAssetTransactionTypeServiceIndicator The capitalAssetTransactionTypeServiceIndicator to set.
 	 * 
 	 */
 	public void setCapitalAssetTransactionTypeServiceIndicator(boolean capitalAssetTransactionTypeServiceIndicator) {
@@ -105,7 +105,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -115,7 +115,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -123,7 +123,7 @@ public class CapitalAssetTransactionType extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

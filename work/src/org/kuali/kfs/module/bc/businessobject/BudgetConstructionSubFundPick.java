@@ -44,7 +44,7 @@ public class BudgetConstructionSubFundPick extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -54,7 +54,7 @@ public class BudgetConstructionSubFundPick extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -65,7 +65,7 @@ public class BudgetConstructionSubFundPick extends BusinessObjectBase {
 	/**
 	 * Gets the subFundGroupCode attribute.
 	 * 
-	 * @return - Returns the subFundGroupCode
+	 * @return Returns the subFundGroupCode
 	 * 
 	 */
 	public String getSubFundGroupCode() { 
@@ -75,7 +75,7 @@ public class BudgetConstructionSubFundPick extends BusinessObjectBase {
 	/**
 	 * Sets the subFundGroupCode attribute.
 	 * 
-	 * @param - subFundGroupCode The subFundGroupCode to set.
+	 * @param subFundGroupCode The subFundGroupCode to set.
 	 * 
 	 */
 	public void setSubFundGroupCode(String subFundGroupCode) {
@@ -86,7 +86,7 @@ public class BudgetConstructionSubFundPick extends BusinessObjectBase {
 	/**
 	 * Gets the reportFlag attribute.
 	 * 
-	 * @return - Returns the reportFlag
+	 * @return Returns the reportFlag
 	 * 
 	 */
 	public Integer getReportFlag() { 
@@ -96,7 +96,7 @@ public class BudgetConstructionSubFundPick extends BusinessObjectBase {
 	/**
 	 * Sets the reportFlag attribute.
 	 * 
-	 * @param - reportFlag The reportFlag to set.
+	 * @param reportFlag The reportFlag to set.
 	 * 
 	 */
 	public void setReportFlag(Integer reportFlag) {
@@ -121,7 +121,7 @@ public class BudgetConstructionSubFundPick extends BusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

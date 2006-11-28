@@ -42,7 +42,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -52,7 +52,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -63,7 +63,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -73,7 +73,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -84,7 +84,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -94,7 +94,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -105,7 +105,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Gets the personName attribute.
 	 * 
-	 * @return - Returns the personName
+	 * @return Returns the personName
 	 * 
 	 */
 	public String getPersonName() { 
@@ -115,7 +115,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	/**
 	 * Sets the personName attribute.
 	 * 
-	 * @param - personName The personName to set.
+	 * @param personName The personName to set.
 	 * 
 	 */
 	public void setPersonName(String personName) {
@@ -123,7 +123,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBas
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

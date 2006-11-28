@@ -91,7 +91,7 @@
               
               <c:forEach items = "${KualiForm.document.routingFormInstitutionCostShares}" var="routingFormInstitutionCostShare" varStatus="status"  >
 				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].routingFormCostShareSequenceNumber" attributeEntry="${institutionCostShareAttributes.routingFormCostShareSequenceNumber}" />
-				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].researchDocumentNumber" attributeEntry="${institutionCostShareAttributes.researchDocumentNumber}"/>
+				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].documentNumber" attributeEntry="${institutionCostShareAttributes.documentNumber}"/>
 				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].objectId" attributeEntry="${institutionCostShareAttributes.objectId}" />
 				  <htmlControlAttribute property="document.routingFormInstitutionCostShare[${status.index}].versionNumber" attributeEntry="${institutionCostShareAttributes.versionNumber}"/>
 
@@ -166,7 +166,7 @@
 
               <c:forEach items = "${KualiForm.document.routingFormOtherCostShares}" var="routingFormOtherCostShare" varStatus="status"  >
 				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].routingFormCostShareSequenceNumber" attributeEntry="${otherCostShareAttributes.routingFormCostShareSequenceNumber}" />
-				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].researchDocumentNumber" attributeEntry="${otherCostShareAttributes.researchDocumentNumber}"/>
+				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].documentNumber" attributeEntry="${otherCostShareAttributes.documentNumber}"/>
 				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].objectId" attributeEntry="${otherCostShareAttributes.objectId}" />
 				  <htmlControlAttribute property="document.routingFormOtherCostShare[${status.index}].versionNumber" attributeEntry="${otherCostShareAttributes.versionNumber}"/>
 

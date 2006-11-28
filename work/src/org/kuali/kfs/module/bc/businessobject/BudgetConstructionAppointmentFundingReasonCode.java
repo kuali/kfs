@@ -41,7 +41,7 @@ public class BudgetConstructionAppointmentFundingReasonCode extends BusinessObje
 	/**
 	 * Gets the appointmentFundingReasonCode attribute.
 	 * 
-	 * @return - Returns the appointmentFundingReasonCode
+	 * @return Returns the appointmentFundingReasonCode
 	 * 
 	 */
 	public String getAppointmentFundingReasonCode() { 
@@ -51,7 +51,7 @@ public class BudgetConstructionAppointmentFundingReasonCode extends BusinessObje
 	/**
 	 * Sets the appointmentFundingReasonCode attribute.
 	 * 
-	 * @param - appointmentFundingReasonCode The appointmentFundingReasonCode to set.
+	 * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
 	 * 
 	 */
 	public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
@@ -62,7 +62,7 @@ public class BudgetConstructionAppointmentFundingReasonCode extends BusinessObje
 	/**
 	 * Gets the appointmentFundingReasonDescription attribute.
 	 * 
-	 * @return - Returns the appointmentFundingReasonDescription
+	 * @return Returns the appointmentFundingReasonDescription
 	 * 
 	 */
 	public String getAppointmentFundingReasonDescription() { 
@@ -72,7 +72,7 @@ public class BudgetConstructionAppointmentFundingReasonCode extends BusinessObje
 	/**
 	 * Sets the appointmentFundingReasonDescription attribute.
 	 * 
-	 * @param - appointmentFundingReasonDescription The appointmentFundingReasonDescription to set.
+	 * @param appointmentFundingReasonDescription The appointmentFundingReasonDescription to set.
 	 * 
 	 */
 	public void setAppointmentFundingReasonDescription(String appointmentFundingReasonDescription) {
@@ -96,7 +96,7 @@ public class BudgetConstructionAppointmentFundingReasonCode extends BusinessObje
     }
 
     /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      

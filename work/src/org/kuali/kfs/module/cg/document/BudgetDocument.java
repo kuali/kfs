@@ -36,17 +36,15 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.module.kra.budget.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.service.BudgetPermissionsService;
+import org.kuali.PropertyConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -77,7 +75,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     public BudgetDocument() {
         super();
         budget = new Budget();
-        budget.setResearchDocumentNumber(this.financialDocumentNumber);
+        budget.setDocumentNumber(this.financialDocumentNumber);
         budgetTaskNextSequenceNumber = new Integer(1);
         budgetPeriodNextSequenceNumber = new Integer(1);
         personnelNextSequenceNumber = new Integer(1);
@@ -99,7 +97,7 @@ public class BudgetDocument extends ResearchDocumentBase {
 //        try {
 //            SpringServiceLocator.getBudgetService().prepareBudgetForSave(this);
 //        } catch (WorkflowException e) {
-//            throw new RuntimeException("no document found for researchDocumentNumber '" + this.documentHeader + "'", e);
+//            throw new RuntimeException("no document found for documentNumber '" + this.documentHeader + "'", e);
 //        }
 //    }
     
@@ -169,7 +167,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.financialDocumentNumber);
 
         return m;
     }
@@ -205,7 +203,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         }
 
         budgetPeriod.setBudgetPeriodSequenceNumber(getBudgetPeriodNextSequenceNumber());
-        budgetPeriod.setResearchDocumentNumber(this.getFinancialDocumentNumber());
+        budgetPeriod.setDocumentNumber(this.getFinancialDocumentNumber());
         this.budget.getPeriods().add(budgetPeriod);
 
         setBudgetPeriodNextSequenceNumber(new Integer(getBudgetPeriodNextSequenceNumber().intValue() + 1));
@@ -213,7 +211,7 @@ public class BudgetDocument extends ResearchDocumentBase {
 
     public void addTask(BudgetTask budgetTask) {
         budgetTask.setBudgetTaskSequenceNumber(getBudgetTaskNextSequenceNumber());
-        budgetTask.setResearchDocumentNumber(this.getFinancialDocumentNumber());
+        budgetTask.setDocumentNumber(this.getFinancialDocumentNumber());
         if (this.budget.isAgencyModularIndicator() && this.budget.getTasks().size() == 0) {
             this.budget.getModularBudget().setBudgetModularTaskNumber(budgetTask.getBudgetTaskSequenceNumber());
         }
@@ -288,7 +286,7 @@ public class BudgetDocument extends ResearchDocumentBase {
      */
     public Document copy() throws WorkflowException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Document copyDoc = super.copy();
-        ObjectUtils.setObjectPropertyDeep(((BudgetDocument) copyDoc).getBudget(), "researchDocumentNumber", String.class, copyDoc.getFinancialDocumentNumber());
+        ObjectUtils.setObjectPropertyDeep(((BudgetDocument) copyDoc).getBudget(), PropertyConstants.DOCUMENT_NUMBER, String.class, copyDoc.getFinancialDocumentNumber());
         return copyDoc;
     }
 

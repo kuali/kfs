@@ -44,7 +44,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the fundingSourceCode attribute.
      * 
-     * @return - Returns the fundingSourceCode
+     * @return Returns the fundingSourceCode
      * 
      */
     public String getFundingSourceCode();
@@ -52,7 +52,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the fundingSourceCode attribute.
      * 
-     * @param - fundingSourceCode The fundingSourceCode to set.
+     * @param fundingSourceCode The fundingSourceCode to set.
      * 
      */
     public void setFundingSourceCode(String fundingSourceCode);
@@ -60,7 +60,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the requisitionSourceCode attribute.
      * 
-     * @return - Returns the requisitionSourceCode
+     * @return Returns the requisitionSourceCode
      * 
      */
     public String getRequisitionSourceCode();
@@ -68,7 +68,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the requisitionSourceCode attribute.
      * 
-     * @param - requisitionSourceCode The requisitionSourceCode to set.
+     * @param requisitionSourceCode The requisitionSourceCode to set.
      * 
      */
     public void setRequisitionSourceCode(String requisitionSourceCode);
@@ -76,7 +76,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderTransmissionMethodCode attribute.
      * 
-     * @return - Returns the purchaseOrderTransmissionMethodCode
+     * @return Returns the purchaseOrderTransmissionMethodCode
      * 
      */
     public String getPurchaseOrderTransmissionMethodCode();
@@ -84,7 +84,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderTransmissionMethodCode attribute.
      * 
-     * @param - purchaseOrderTransmissionMethodCode The purchaseOrderTransmissionMethodCode to set.
+     * @param purchaseOrderTransmissionMethodCode The purchaseOrderTransmissionMethodCode to set.
      * 
      */
     public void setPurchaseOrderTransmissionMethodCode(String purchaseOrderTransmissionMethodCode);
@@ -92,7 +92,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderCostSourceCode attribute.
      * 
-     * @return - Returns the purchaseOrderCostSourceCode
+     * @return Returns the purchaseOrderCostSourceCode
      * 
      */
     public String getPurchaseOrderCostSourceCode();
@@ -100,7 +100,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderCostSourceCode attribute.
      * 
-     * @param - purchaseOrderCostSourceCode The purchaseOrderCostSourceCode to set.
+     * @param purchaseOrderCostSourceCode The purchaseOrderCostSourceCode to set.
      * 
      */
     public void setPurchaseOrderCostSourceCode(String purchaseOrderCostSourceCode);
@@ -108,7 +108,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryRequiredDateReasonCode attribute.
      * 
-     * @return - Returns the deliveryRequiredDateReasonCode
+     * @return Returns the deliveryRequiredDateReasonCode
      * 
      */
     public String getDeliveryRequiredDateReasonCode();
@@ -116,7 +116,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryRequiredDateReasonCode attribute.
      * 
-     * @param - deliveryRequiredDateReasonCode The deliveryRequiredDateReasonCode to set.
+     * @param deliveryRequiredDateReasonCode The deliveryRequiredDateReasonCode to set.
      * 
      */
     public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode);
@@ -124,7 +124,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the recurringPaymentTypeCode attribute.
      * 
-     * @return - Returns the recurringPaymentTypeCode
+     * @return Returns the recurringPaymentTypeCode
      * 
      */
     public String getRecurringPaymentTypeCode();
@@ -132,7 +132,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the recurringPaymentTypeCode attribute.
      * 
-     * @param - recurringPaymentTypeCode The recurringPaymentTypeCode to set.
+     * @param recurringPaymentTypeCode The recurringPaymentTypeCode to set.
      * 
      */
     public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode);
@@ -140,7 +140,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode();
@@ -148,7 +148,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode);
@@ -156,7 +156,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode();
@@ -164,7 +164,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the organizationCode attribute.
      * 
-     * @param - organizationCode The organizationCode to set.
+     * @param organizationCode The organizationCode to set.
      * 
      */
     public void setOrganizationCode(String organizationCode);
@@ -172,7 +172,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryCampusCode attribute.
      * 
-     * @return - Returns the deliveryCampusCode
+     * @return Returns the deliveryCampusCode
      * 
      */
     public String getDeliveryCampusCode();
@@ -180,7 +180,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryCampusCode attribute.
      * 
-     * @param - deliveryCampusCode The deliveryCampusCode to set.
+     * @param deliveryCampusCode The deliveryCampusCode to set.
      * 
      */
     public void setDeliveryCampusCode(String deliveryCampusCode);
@@ -188,7 +188,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderTotalLimit attribute.
      * 
-     * @return - Returns the purchaseOrderTotalLimit
+     * @return Returns the purchaseOrderTotalLimit
      * 
      */
     public KualiDecimal getPurchaseOrderTotalLimit();
@@ -196,7 +196,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderTotalLimit attribute.
      * 
-     * @param - purchaseOrderTotalLimit The purchaseOrderTotalLimit to set.
+     * @param purchaseOrderTotalLimit The purchaseOrderTotalLimit to set.
      * 
      */
     public void setPurchaseOrderTotalLimit(KualiDecimal purchaseOrderTotalLimit);
@@ -204,7 +204,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorName attribute.
      * 
-     * @return - Returns the vendorName
+     * @return Returns the vendorName
      * 
      */
     public String getVendorName();
@@ -212,7 +212,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorName attribute.
      * 
-     * @param - vendorName The vendorName to set.
+     * @param vendorName The vendorName to set.
      * 
      */
     public void setVendorName(String vendorName);
@@ -220,7 +220,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorLine1Address attribute.
      * 
-     * @return - Returns the vendorLine1Address
+     * @return Returns the vendorLine1Address
      * 
      */
     public String getVendorLine1Address();
@@ -228,7 +228,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorLine1Address attribute.
      * 
-     * @param - vendorLine1Address The vendorLine1Address to set.
+     * @param vendorLine1Address The vendorLine1Address to set.
      * 
      */
     public void setVendorLine1Address(String vendorLine1Address);
@@ -236,7 +236,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorLine2Address attribute.
      * 
-     * @return - Returns the vendorLine2Address
+     * @return Returns the vendorLine2Address
      * 
      */
     public String getVendorLine2Address();
@@ -244,7 +244,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorLine2Address attribute.
      * 
-     * @param - vendorLine2Address The vendorLine2Address to set.
+     * @param vendorLine2Address The vendorLine2Address to set.
      * 
      */
     public void setVendorLine2Address(String vendorLine2Address);
@@ -252,7 +252,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorCityName attribute.
      * 
-     * @return - Returns the vendorCityName
+     * @return Returns the vendorCityName
      * 
      */
     public String getVendorCityName();
@@ -260,7 +260,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorCityName attribute.
      * 
-     * @param - vendorCityName The vendorCityName to set.
+     * @param vendorCityName The vendorCityName to set.
      * 
      */
     public void setVendorCityName(String vendorCityName);
@@ -268,7 +268,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorStateCode attribute.
      * 
-     * @return - Returns the vendorStateCode
+     * @return Returns the vendorStateCode
      * 
      */
     public String getVendorStateCode();
@@ -276,7 +276,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorStateCode attribute.
      * 
-     * @param - vendorStateCode The vendorStateCode to set.
+     * @param vendorStateCode The vendorStateCode to set.
      * 
      */
     public void setVendorStateCode(String vendorStateCode);
@@ -284,7 +284,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorPostalCode attribute.
      * 
-     * @return - Returns the vendorPostalCode
+     * @return Returns the vendorPostalCode
      * 
      */
     public String getVendorPostalCode();
@@ -292,7 +292,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorPostalCode attribute.
      * 
-     * @param - vendorPostalCode The vendorPostalCode to set.
+     * @param vendorPostalCode The vendorPostalCode to set.
      * 
      */
     public void setVendorPostalCode(String vendorPostalCode);
@@ -300,7 +300,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorCountryCode attribute.
      * 
-     * @return - Returns the vendorCountryCode
+     * @return Returns the vendorCountryCode
      * 
      */
     public String getVendorCountryCode();
@@ -308,7 +308,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorCountryCode attribute.
      * 
-     * @param - vendorCountryCode The vendorCountryCode to set.
+     * @param vendorCountryCode The vendorCountryCode to set.
      * 
      */
     public void setVendorCountryCode(String vendorCountryCode);
@@ -316,7 +316,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorRestrictedIndicator attribute.
      * 
-     * @return - Returns the vendorRestrictedIndicator
+     * @return Returns the vendorRestrictedIndicator
      * 
      */
     public boolean getVendorRestrictedIndicator();
@@ -324,7 +324,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorRestrictedIndicator attribute.
      * 
-     * @param - vendorRestrictedIndicator The vendorRestrictedIndicator to set.
+     * @param vendorRestrictedIndicator The vendorRestrictedIndicator to set.
      * 
      */
     public void setVendorRestrictedIndicator(boolean vendorRestrictedIndicator);
@@ -332,7 +332,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorPhoneNumber attribute.
      * 
-     * @return - Returns the vendorPhoneNumber
+     * @return Returns the vendorPhoneNumber
      * 
      */
     public String getVendorPhoneNumber();
@@ -340,7 +340,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorPhoneNumber attribute.
      * 
-     * @param - vendorPhoneNumber The vendorPhoneNumber to set.
+     * @param vendorPhoneNumber The vendorPhoneNumber to set.
      * 
      */
     public void setVendorPhoneNumber(String vendorPhoneNumber);
@@ -348,7 +348,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorFaxNumber attribute.
      * 
-     * @return - Returns the vendorFaxNumber
+     * @return Returns the vendorFaxNumber
      * 
      */
     public String getVendorFaxNumber();
@@ -356,7 +356,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorFaxNumber attribute.
      * 
-     * @param - vendorFaxNumber The vendorFaxNumber to set.
+     * @param vendorFaxNumber The vendorFaxNumber to set.
      * 
      */
     public void setVendorFaxNumber(String vendorFaxNumber);
@@ -364,7 +364,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorContractGeneratedIdentifier attribute.
      * 
-     * @return - Returns the vendorContractGeneratedIdentifier
+     * @return Returns the vendorContractGeneratedIdentifier
      * 
      */
     public Integer getVendorContractGeneratedIdentifier();
@@ -372,7 +372,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorContractGeneratedIdentifier attribute.
      * 
-     * @param - vendorContractGeneratedIdentifier The vendorContractGeneratedIdentifier to set.
+     * @param vendorContractGeneratedIdentifier The vendorContractGeneratedIdentifier to set.
      * 
      */
     public void setVendorContractGeneratedIdentifier(Integer vendorContractGeneratedIdentifier);
@@ -380,7 +380,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the vendorNoteText attribute.
      * 
-     * @return - Returns the vendorNoteText
+     * @return Returns the vendorNoteText
      * 
      */
     public String getVendorNoteText();
@@ -388,7 +388,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the vendorNoteText attribute.
      * 
-     * @param - vendorNoteText The vendorNoteText to set.
+     * @param vendorNoteText The vendorNoteText to set.
      * 
      */
     public void setVendorNoteText(String vendorNoteText);
@@ -396,7 +396,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the requestorPersonName attribute.
      * 
-     * @return - Returns the requestorPersonName
+     * @return Returns the requestorPersonName
      * 
      */
     public String getRequestorPersonName();
@@ -404,7 +404,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the requestorPersonName attribute.
      * 
-     * @param - requestorPersonName The requestorPersonName to set.
+     * @param requestorPersonName The requestorPersonName to set.
      * 
      */
     public void setRequestorPersonName(String requestorPersonName);
@@ -412,7 +412,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the requestorPersonEmailAddress attribute.
      * 
-     * @return - Returns the requestorPersonEmailAddress
+     * @return Returns the requestorPersonEmailAddress
      * 
      */
     public String getRequestorPersonEmailAddress();
@@ -420,7 +420,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the requestorPersonEmailAddress attribute.
      * 
-     * @param - requestorPersonEmailAddress The requestorPersonEmailAddress to set.
+     * @param requestorPersonEmailAddress The requestorPersonEmailAddress to set.
      * 
      */
     public void setRequestorPersonEmailAddress(String requestorPersonEmailAddress);
@@ -428,7 +428,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the requestorPersonPhoneNumber attribute.
      * 
-     * @return - Returns the requestorPersonPhoneNumber
+     * @return Returns the requestorPersonPhoneNumber
      * 
      */
     public String getRequestorPersonPhoneNumber();
@@ -436,7 +436,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the requestorPersonPhoneNumber attribute.
      * 
-     * @param - requestorPersonPhoneNumber The requestorPersonPhoneNumber to set.
+     * @param requestorPersonPhoneNumber The requestorPersonPhoneNumber to set.
      * 
      */
     public void setRequestorPersonPhoneNumber(String requestorPersonPhoneNumber);
@@ -444,7 +444,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundOrgChartOfAccountsCode attribute.
      * 
-     * @return - Returns the nonInstitutionFundOrgChartOfAccountsCode
+     * @return Returns the nonInstitutionFundOrgChartOfAccountsCode
      * 
      */
     public String getNonInstitutionFundOrgChartOfAccountsCode();
@@ -452,7 +452,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundOrgChartOfAccountsCode attribute.
      * 
-     * @param - nonInstitutionFundOrgChartOfAccountsCode The nonInstitutionFundOrgChartOfAccountsCode to set.
+     * @param nonInstitutionFundOrgChartOfAccountsCode The nonInstitutionFundOrgChartOfAccountsCode to set.
      * 
      */
     public void setNonInstitutionFundOrgChartOfAccountsCode(String nonInstitutionFundOrgChartOfAccountsCode);
@@ -460,7 +460,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundOrganizationCode attribute.
      * 
-     * @return - Returns the nonInstitutionFundOrganizationCode
+     * @return Returns the nonInstitutionFundOrganizationCode
      * 
      */
     public String getNonInstitutionFundOrganizationCode();
@@ -468,7 +468,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundOrganizationCode attribute.
      * 
-     * @param - nonInstitutionFundOrganizationCode The nonInstitutionFundOrganizationCode to set.
+     * @param nonInstitutionFundOrganizationCode The nonInstitutionFundOrganizationCode to set.
      * 
      */
     public void setNonInstitutionFundOrganizationCode(String nonInstitutionFundOrganizationCode);
@@ -476,7 +476,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundChartOfAccountsCode attribute.
      * 
-     * @return - Returns the nonInstitutionFundChartOfAccountsCode
+     * @return Returns the nonInstitutionFundChartOfAccountsCode
      * 
      */
     public String getNonInstitutionFundChartOfAccountsCode();
@@ -484,7 +484,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundChartOfAccountsCode attribute.
      * 
-     * @param - nonInstitutionFundChartOfAccountsCode The nonInstitutionFundChartOfAccountsCode to set.
+     * @param nonInstitutionFundChartOfAccountsCode The nonInstitutionFundChartOfAccountsCode to set.
      * 
      */
     public void setNonInstitutionFundChartOfAccountsCode(String nonInstitutionFundChartOfAccountsCode);
@@ -492,7 +492,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundAccountNumber attribute.
      * 
-     * @return - Returns the nonInstitutionFundAccountNumber
+     * @return Returns the nonInstitutionFundAccountNumber
      * 
      */
     public String getNonInstitutionFundAccountNumber();
@@ -500,7 +500,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundAccountNumber attribute.
      * 
-     * @param - nonInstitutionFundAccountNumber The nonInstitutionFundAccountNumber to set.
+     * @param nonInstitutionFundAccountNumber The nonInstitutionFundAccountNumber to set.
      * 
      */
     public void setNonInstitutionFundAccountNumber(String nonInstitutionFundAccountNumber);
@@ -508,7 +508,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryBuildingCode attribute.
      * 
-     * @return - Returns the deliveryBuildingCode
+     * @return Returns the deliveryBuildingCode
      * 
      */
     public String getDeliveryBuildingCode();
@@ -516,7 +516,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryBuildingCode attribute.
      * 
-     * @param - deliveryBuildingCode The deliveryBuildingCode to set.
+     * @param deliveryBuildingCode The deliveryBuildingCode to set.
      * 
      */
     public void setDeliveryBuildingCode(String deliveryBuildingCode);
@@ -524,7 +524,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryBuildingName attribute.
      * 
-     * @return - Returns the deliveryBuildingName
+     * @return Returns the deliveryBuildingName
      * 
      */
     public String getDeliveryBuildingName();
@@ -532,7 +532,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryBuildingName attribute.
      * 
-     * @param - deliveryBuildingName The deliveryBuildingName to set.
+     * @param deliveryBuildingName The deliveryBuildingName to set.
      * 
      */
     public void setDeliveryBuildingName(String deliveryBuildingName);
@@ -540,7 +540,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryBuildingRoomNumber attribute.
      * 
-     * @return - Returns the deliveryBuildingRoomNumber
+     * @return Returns the deliveryBuildingRoomNumber
      * 
      */
     public String getDeliveryBuildingRoomNumber();
@@ -548,7 +548,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryBuildingRoomNumber attribute.
      * 
-     * @param - deliveryBuildingRoomNumber The deliveryBuildingRoomNumber to set.
+     * @param deliveryBuildingRoomNumber The deliveryBuildingRoomNumber to set.
      * 
      */
     public void setDeliveryBuildingRoomNumber(String deliveryBuildingRoomNumber);
@@ -556,7 +556,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryBuildingLine1Address attribute.
      * 
-     * @return - Returns the deliveryBuildingLine1Address
+     * @return Returns the deliveryBuildingLine1Address
      * 
      */
     public String getDeliveryBuildingLine1Address();
@@ -564,7 +564,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryBuildingLine1Address attribute.
      * 
-     * @param - deliveryBuildingLine1Address The deliveryBuildingLine1Address to set.
+     * @param deliveryBuildingLine1Address The deliveryBuildingLine1Address to set.
      * 
      */
     public void setDeliveryBuildingLine1Address(String deliveryBuildingLine1Address);
@@ -572,7 +572,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryBuildingLine2Address attribute.
      * 
-     * @return - Returns the deliveryBuildingLine2Address
+     * @return Returns the deliveryBuildingLine2Address
      * 
      */
     public String getDeliveryBuildingLine2Address();
@@ -580,7 +580,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryBuildingLine2Address attribute.
      * 
-     * @param - deliveryBuildingLine2Address The deliveryBuildingLine2Address to set.
+     * @param deliveryBuildingLine2Address The deliveryBuildingLine2Address to set.
      * 
      */
     public void setDeliveryBuildingLine2Address(String deliveryBuildingLine2Address);
@@ -588,7 +588,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryCityName attribute.
      * 
-     * @return - Returns the deliveryCityName
+     * @return Returns the deliveryCityName
      * 
      */
     public String getDeliveryCityName();
@@ -596,7 +596,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryCityName attribute.
      * 
-     * @param - deliveryCityName The deliveryCityName to set.
+     * @param deliveryCityName The deliveryCityName to set.
      * 
      */
     public void setDeliveryCityName(String deliveryCityName);
@@ -604,7 +604,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryStateCode attribute.
      * 
-     * @return - Returns the deliveryStateCode
+     * @return Returns the deliveryStateCode
      * 
      */
     public String getDeliveryStateCode();
@@ -612,7 +612,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryStateCode attribute.
      * 
-     * @param - deliveryStateCode The deliveryStateCode to set.
+     * @param deliveryStateCode The deliveryStateCode to set.
      * 
      */
     public void setDeliveryStateCode(String deliveryStateCode);
@@ -620,7 +620,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryPostalCode attribute.
      * 
-     * @return - Returns the deliveryPostalCode
+     * @return Returns the deliveryPostalCode
      * 
      */
     public String getDeliveryPostalCode();
@@ -628,7 +628,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryPostalCode attribute.
      * 
-     * @param - deliveryPostalCode The deliveryPostalCode to set.
+     * @param deliveryPostalCode The deliveryPostalCode to set.
      * 
      */
     public void setDeliveryPostalCode(String deliveryPostalCode);
@@ -636,7 +636,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryCountryCode attribute.
      * 
-     * @return - Returns the deliveryCountryCode
+     * @return Returns the deliveryCountryCode
      * 
      */
     public String getDeliveryCountryCode();
@@ -644,7 +644,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryCountryCode attribute.
      * 
-     * @param - deliveryCountryCode The deliveryCountryCode to set.
+     * @param deliveryCountryCode The deliveryCountryCode to set.
      * 
      */
     public void setDeliveryCountryCode(String deliveryCountryCode);
@@ -652,7 +652,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryToName attribute.
      * 
-     * @return - Returns the deliveryToName
+     * @return Returns the deliveryToName
      * 
      */
     public String getDeliveryToName();
@@ -660,7 +660,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryToName attribute.
      * 
-     * @param - deliveryToName The deliveryToName to set.
+     * @param deliveryToName The deliveryToName to set.
      * 
      */
     public void setDeliveryToName(String deliveryToName);
@@ -668,7 +668,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryToEmailAddress attribute.
      * 
-     * @return - Returns the deliveryToEmailAddress
+     * @return Returns the deliveryToEmailAddress
      * 
      */
     public String getDeliveryToEmailAddress();
@@ -676,7 +676,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryToEmailAddress attribute.
      * 
-     * @param - deliveryToEmailAddress The deliveryToEmailAddress to set.
+     * @param deliveryToEmailAddress The deliveryToEmailAddress to set.
      * 
      */
     public void setDeliveryToEmailAddress(String deliveryToEmailAddress);
@@ -684,7 +684,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryToPhoneNumber attribute.
      * 
-     * @return - Returns the deliveryToPhoneNumber
+     * @return Returns the deliveryToPhoneNumber
      * 
      */
     public String getDeliveryToPhoneNumber();
@@ -692,7 +692,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryToPhoneNumber attribute.
      * 
-     * @param - deliveryToPhoneNumber The deliveryToPhoneNumber to set.
+     * @param deliveryToPhoneNumber The deliveryToPhoneNumber to set.
      * 
      */
     public void setDeliveryToPhoneNumber(String deliveryToPhoneNumber);
@@ -700,7 +700,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryRequiredDate attribute.
      * 
-     * @return - Returns the deliveryRequiredDate
+     * @return Returns the deliveryRequiredDate
      * 
      */
     public Date getDeliveryRequiredDate();
@@ -708,7 +708,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryRequiredDate attribute.
      * 
-     * @param - deliveryRequiredDate The deliveryRequiredDate to set.
+     * @param deliveryRequiredDate The deliveryRequiredDate to set.
      * 
      */
     public void setDeliveryRequiredDate(Date deliveryRequiredDate);
@@ -716,7 +716,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryInstructionText attribute.
      * 
-     * @return - Returns the deliveryInstructionText
+     * @return Returns the deliveryInstructionText
      * 
      */
     public String getDeliveryInstructionText();
@@ -724,7 +724,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryInstructionText attribute.
      * 
-     * @param - deliveryInstructionText The deliveryInstructionText to set.
+     * @param deliveryInstructionText The deliveryInstructionText to set.
      * 
      */
     public void setDeliveryInstructionText(String deliveryInstructionText);
@@ -732,7 +732,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderBeginDate attribute.
      * 
-     * @return - Returns the purchaseOrderBeginDate
+     * @return Returns the purchaseOrderBeginDate
      * 
      */
     public Date getPurchaseOrderBeginDate();
@@ -740,7 +740,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderBeginDate attribute.
      * 
-     * @param - purchaseOrderBeginDate The purchaseOrderBeginDate to set.
+     * @param purchaseOrderBeginDate The purchaseOrderBeginDate to set.
      * 
      */
     public void setPurchaseOrderBeginDate(Date purchaseOrderBeginDate);
@@ -748,7 +748,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderEndDate attribute.
      * 
-     * @return - Returns the purchaseOrderEndDate
+     * @return Returns the purchaseOrderEndDate
      * 
      */
     public Date getPurchaseOrderEndDate();
@@ -756,7 +756,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderEndDate attribute.
      * 
-     * @param - purchaseOrderEndDate The purchaseOrderEndDate to set.
+     * @param purchaseOrderEndDate The purchaseOrderEndDate to set.
      * 
      */
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate);
@@ -764,7 +764,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the institutionContactName attribute.
      * 
-     * @return - Returns the institutionContactName
+     * @return Returns the institutionContactName
      * 
      */
     public String getInstitutionContactName();
@@ -772,7 +772,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the institutionContactName attribute.
      * 
-     * @param - institutionContactName The institutionContactName to set.
+     * @param institutionContactName The institutionContactName to set.
      * 
      */
     public void setInstitutionContactName(String institutionContactName);
@@ -780,7 +780,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the institutionContactPhoneNumber attribute.
      * 
-     * @return - Returns the institutionContactPhoneNumber
+     * @return Returns the institutionContactPhoneNumber
      * 
      */
     public String getInstitutionContactPhoneNumber();
@@ -788,7 +788,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the institutionContactPhoneNumber attribute.
      * 
-     * @param - institutionContactPhoneNumber The institutionContactPhoneNumber to set.
+     * @param institutionContactPhoneNumber The institutionContactPhoneNumber to set.
      * 
      */
     public void setInstitutionContactPhoneNumber(String institutionContactPhoneNumber);
@@ -796,7 +796,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the institutionContactEmailAddress attribute.
      * 
-     * @return - Returns the institutionContactEmailAddress
+     * @return Returns the institutionContactEmailAddress
      * 
      */
     public String getInstitutionContactEmailAddress();
@@ -804,7 +804,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the institutionContactEmailAddress attribute.
      * 
-     * @param - institutionContactEmailAddress The institutionContactEmailAddress to set.
+     * @param institutionContactEmailAddress The institutionContactEmailAddress to set.
      * 
      */
     public void setInstitutionContactEmailAddress(String institutionContactEmailAddress);
@@ -812,7 +812,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingName attribute.
      * 
-     * @return - Returns the billingName
+     * @return Returns the billingName
      * 
      */
     public String getBillingName();
@@ -820,7 +820,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingName attribute.
      * 
-     * @param - billingName The billingName to set.
+     * @param billingName The billingName to set.
      * 
      */
     public void setBillingName(String billingName);
@@ -828,7 +828,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingLine1Address attribute.
      * 
-     * @return - Returns the billingLine1Address
+     * @return Returns the billingLine1Address
      * 
      */
     public String getBillingLine1Address();
@@ -836,7 +836,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingLine1Address attribute.
      * 
-     * @param - billingLine1Address The billingLine1Address to set.
+     * @param billingLine1Address The billingLine1Address to set.
      * 
      */
     public void setBillingLine1Address(String billingLine1Address);
@@ -844,7 +844,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingLine2Address attribute.
      * 
-     * @return - Returns the billingLine2Address
+     * @return Returns the billingLine2Address
      * 
      */
     public String getBillingLine2Address();
@@ -852,7 +852,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingLine2Address attribute.
      * 
-     * @param - billingLine2Address The billingLine2Address to set.
+     * @param billingLine2Address The billingLine2Address to set.
      * 
      */
     public void setBillingLine2Address(String billingLine2Address);
@@ -860,7 +860,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingCityName attribute.
      * 
-     * @return - Returns the billingCityName
+     * @return Returns the billingCityName
      * 
      */
     public String getBillingCityName();
@@ -868,7 +868,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingCityName attribute.
      * 
-     * @param - billingCityName The billingCityName to set.
+     * @param billingCityName The billingCityName to set.
      * 
      */
     public void setBillingCityName(String billingCityName);
@@ -876,7 +876,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingStateCode attribute.
      * 
-     * @return - Returns the billingStateCode
+     * @return Returns the billingStateCode
      * 
      */
     public String getBillingStateCode();
@@ -884,7 +884,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingStateCode attribute.
      * 
-     * @param - billingStateCode The billingStateCode to set.
+     * @param billingStateCode The billingStateCode to set.
      * 
      */
     public void setBillingStateCode(String billingStateCode);
@@ -892,7 +892,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingPostalCode attribute.
      * 
-     * @return - Returns the billingPostalCode
+     * @return Returns the billingPostalCode
      * 
      */
     public String getBillingPostalCode();
@@ -900,7 +900,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingPostalCode attribute.
      * 
-     * @param - billingPostalCode The billingPostalCode to set.
+     * @param billingPostalCode The billingPostalCode to set.
      * 
      */
     public void setBillingPostalCode(String billingPostalCode);
@@ -908,7 +908,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingCountryCode attribute.
      * 
-     * @return - Returns the billingCountryCode
+     * @return Returns the billingCountryCode
      * 
      */
     public String getBillingCountryCode();
@@ -916,7 +916,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingCountryCode attribute.
      * 
-     * @param - billingCountryCode The billingCountryCode to set.
+     * @param billingCountryCode The billingCountryCode to set.
      * 
      */
     public void setBillingCountryCode(String billingCountryCode);
@@ -924,7 +924,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the billingPhoneNumber attribute.
      * 
-     * @return - Returns the billingPhoneNumber
+     * @return Returns the billingPhoneNumber
      * 
      */
     public String getBillingPhoneNumber();
@@ -932,7 +932,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the billingPhoneNumber attribute.
      * 
-     * @param - billingPhoneNumber The billingPhoneNumber to set.
+     * @param billingPhoneNumber The billingPhoneNumber to set.
      * 
      */
     public void setBillingPhoneNumber(String billingPhoneNumber);
@@ -940,7 +940,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the externalOrganizationB2bSupplierIdentifier attribute.
      * 
-     * @return - Returns the externalOrganizationB2bSupplierIdentifier
+     * @return Returns the externalOrganizationB2bSupplierIdentifier
      * 
      */
     public String getExternalOrganizationB2bSupplierIdentifier();
@@ -948,7 +948,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the externalOrganizationB2bSupplierIdentifier attribute.
      * 
-     * @param - externalOrganizationB2bSupplierIdentifier The externalOrganizationB2bSupplierIdentifier to set.
+     * @param externalOrganizationB2bSupplierIdentifier The externalOrganizationB2bSupplierIdentifier to set.
      * 
      */
     public void setExternalOrganizationB2bSupplierIdentifier(String externalOrganizationB2bSupplierIdentifier);
@@ -956,7 +956,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the contractManagerCode attribute.
      * 
-     * @return - Returns the contractManagerCode
+     * @return Returns the contractManagerCode
      * 
      */
     public Integer getContractManagerCode();
@@ -964,7 +964,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the contractManagerCode attribute.
      * 
-     * @param - contractManagerCode The contractManagerCode to set.
+     * @param contractManagerCode The contractManagerCode to set.
      * 
      */
     public void setContractManagerCode(Integer contractManagerCode);
@@ -972,7 +972,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderAutomaticIndicator attribute.
      * 
-     * @return - Returns the purchaseOrderAutomaticIndicator
+     * @return Returns the purchaseOrderAutomaticIndicator
      * 
      */
     public boolean getPurchaseOrderAutomaticIndicator();
@@ -980,7 +980,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderAutomaticIndicator attribute.
      * 
-     * @param - purchaseOrderAutomaticIndicator The purchaseOrderAutomaticIndicator to set.
+     * @param purchaseOrderAutomaticIndicator The purchaseOrderAutomaticIndicator to set.
      * 
      */
     public void setPurchaseOrderAutomaticIndicator(boolean purchaseOrderAutomaticIndicator);
@@ -988,7 +988,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the fundingSource attribute.
      * 
-     * @return - Returns the fundingSource
+     * @return Returns the fundingSource
      * 
      */
     public FundingSource getFundingSource();
@@ -996,7 +996,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the fundingSource attribute.
      * 
-     * @param - fundingSource The fundingSource to set.
+     * @param fundingSource The fundingSource to set.
      * @deprecated
      */
     public void setFundingSource(FundingSource fundingSource);
@@ -1004,7 +1004,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the requisitionSource attribute.
      * 
-     * @return - Returns the requisitionSource
+     * @return Returns the requisitionSource
      * 
      */
     public RequisitionSource getRequisitionSource();
@@ -1012,7 +1012,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the requisitionSource attribute.
      * 
-     * @param - requisitionSource The requisitionSource to set.
+     * @param requisitionSource The requisitionSource to set.
      * @deprecated
      */
     public void setRequisitionSource(RequisitionSource requisitionSource);
@@ -1020,7 +1020,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderTransmissionMethod attribute.
      * 
-     * @return - Returns the purchaseOrderTransmissionMethod
+     * @return Returns the purchaseOrderTransmissionMethod
      * 
      */
     public PurchaseOrderTransmissionMethod getPurchaseOrderTransmissionMethod();
@@ -1028,7 +1028,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderTransmissionMethod attribute.
      * 
-     * @param - purchaseOrderTransmissionMethod The purchaseOrderTransmissionMethod to set.
+     * @param purchaseOrderTransmissionMethod The purchaseOrderTransmissionMethod to set.
      * @deprecated
      */
     public void setPurchaseOrderTransmissionMethod(PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod);
@@ -1036,7 +1036,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the purchaseOrderCostSource attribute.
      * 
-     * @return - Returns the purchaseOrderCostSource
+     * @return Returns the purchaseOrderCostSource
      * 
      */
     public PurchaseOrderCostSource getPurchaseOrderCostSource();
@@ -1044,7 +1044,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the purchaseOrderCostSource attribute.
      * 
-     * @param - purchaseOrderCostSource The purchaseOrderCostSource to set.
+     * @param purchaseOrderCostSource The purchaseOrderCostSource to set.
      * @deprecated
      */
     public void setPurchaseOrderCostSource(PurchaseOrderCostSource purchaseOrderCostSource);
@@ -1052,7 +1052,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryRequiredDateReason attribute.
      * 
-     * @return - Returns the deliveryRequiredDateReason
+     * @return Returns the deliveryRequiredDateReason
      * 
      */
     public DeliveryRequiredDateReason getDeliveryRequiredDateReason();
@@ -1060,7 +1060,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryRequiredDateReason attribute.
      * 
-     * @param - deliveryRequiredDateReason The deliveryRequiredDateReason to set.
+     * @param deliveryRequiredDateReason The deliveryRequiredDateReason to set.
      * @deprecated
      */
     public void setDeliveryRequiredDateReason(DeliveryRequiredDateReason deliveryRequiredDateReason);
@@ -1068,7 +1068,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the recurringPaymentType attribute.
      * 
-     * @return - Returns the recurringPaymentType
+     * @return Returns the recurringPaymentType
      * 
      */
     public RecurringPaymentType getRecurringPaymentType();
@@ -1076,7 +1076,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the recurringPaymentType attribute.
      * 
-     * @param - recurringPaymentType The recurringPaymentType to set.
+     * @param recurringPaymentType The recurringPaymentType to set.
      * @deprecated
      */
     public void setRecurringPaymentType(RecurringPaymentType recurringPaymentType);
@@ -1084,7 +1084,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization();
@@ -1092,7 +1092,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * @deprecated
      */
     public void setOrganization(Org organization);
@@ -1100,7 +1100,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts();
@@ -1108,7 +1108,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the chartOfAccounts attribute.
      * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts);
@@ -1116,7 +1116,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the deliveryCampus attribute.
      * 
-     * @return - Returns the deliveryCampus
+     * @return Returns the deliveryCampus
      * 
      */
     public Campus getDeliveryCampus();
@@ -1124,7 +1124,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the deliveryCampus attribute.
      * 
-     * @param - deliveryCampus The deliveryCampus to set.
+     * @param deliveryCampus The deliveryCampus to set.
      * @deprecated
      */
     public void setDeliveryCampus(Campus deliveryCampus);
@@ -1132,7 +1132,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundOrgChartOfAccounts attribute.
      * 
-     * @return - Returns the nonInstitutionFundOrgChartOfAccounts
+     * @return Returns the nonInstitutionFundOrgChartOfAccounts
      * 
      */
     public Chart getNonInstitutionFundOrgChartOfAccounts();
@@ -1140,7 +1140,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundOrgChartOfAccounts attribute.
      * 
-     * @param - nonInstitutionFundOrgChartOfAccounts The nonInstitutionFundOrgChartOfAccounts to set.
+     * @param nonInstitutionFundOrgChartOfAccounts The nonInstitutionFundOrgChartOfAccounts to set.
      * @deprecated
      */
     public void setNonInstitutionFundOrgChartOfAccounts(Chart nonInstitutionFundOrgChartOfAccounts);
@@ -1148,7 +1148,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundOrganization attribute.
      * 
-     * @return - Returns the nonInstitutionFundOrganization
+     * @return Returns the nonInstitutionFundOrganization
      * 
      */
     public Org getNonInstitutionFundOrganization();
@@ -1156,7 +1156,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundOrganization attribute.
      * 
-     * @param - nonInstitutionFundOrganization The nonInstitutionFundOrganization to set.
+     * @param nonInstitutionFundOrganization The nonInstitutionFundOrganization to set.
      * @deprecated
      */
     public void setNonInstitutionFundOrganization(Org nonInstitutionFundOrganization);
@@ -1164,7 +1164,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundAccount attribute.
      * 
-     * @return - Returns the nonInstitutionFundAccount
+     * @return Returns the nonInstitutionFundAccount
      * 
      */
     public Account getNonInstitutionFundAccount();
@@ -1172,7 +1172,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundAccount attribute.
      * 
-     * @param - nonInstitutionFundAccount The nonInstitutionFundAccount to set.
+     * @param nonInstitutionFundAccount The nonInstitutionFundAccount to set.
      * @deprecated
      */
     public void setNonInstitutionFundAccount(Account nonInstitutionFundAccount);
@@ -1180,7 +1180,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Gets the nonInstitutionFundChartOfAccounts attribute.
      * 
-     * @return - Returns the nonInstitutionFundChartOfAccounts
+     * @return Returns the nonInstitutionFundChartOfAccounts
      * 
      */
     public Chart getNonInstitutionFundChartOfAccounts();
@@ -1188,7 +1188,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     /**
      * Sets the nonInstitutionFundChartOfAccounts attribute.
      * 
-     * @param - nonInstitutionFundChartOfAccounts The nonInstitutionFundChartOfAccounts to set.
+     * @param nonInstitutionFundChartOfAccounts The nonInstitutionFundChartOfAccounts to set.
      * @deprecated
      */
     public void setNonInstitutionFundChartOfAccounts(Chart nonInstitutionFundChartOfAccounts);

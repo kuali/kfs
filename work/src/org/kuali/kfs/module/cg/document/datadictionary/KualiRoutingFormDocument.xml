@@ -670,8 +670,8 @@
                 <description>routingFormSubcontractorIndicator description...</description>
       </attribute>
 
-            <attribute name="researchDocumentNumber" forceUppercase="true">
-                <label>Research Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -681,8 +681,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>researchDocumentNumber</summary>
-                <description>researchDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
       </attribute>
 
             <attribute name="researchTypeCode" forceUppercase="true">

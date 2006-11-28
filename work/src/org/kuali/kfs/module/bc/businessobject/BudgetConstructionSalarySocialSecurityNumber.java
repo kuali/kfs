@@ -48,7 +48,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -58,7 +58,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -69,7 +69,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Gets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccountsCode
+	 * @return Returns the organizationChartOfAccountsCode
 	 * 
 	 */
 	public String getOrganizationChartOfAccountsCode() { 
@@ -79,7 +79,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Sets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @param - organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
+	 * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
 	 * 
 	 */
 	public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
@@ -90,7 +90,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -100,7 +100,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -111,7 +111,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Gets the personName attribute.
 	 * 
-	 * @return - Returns the personName
+	 * @return Returns the personName
 	 * 
 	 */
 	public String getPersonName() { 
@@ -121,7 +121,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Sets the personName attribute.
 	 * 
-	 * @param - personName The personName to set.
+	 * @param personName The personName to set.
 	 * 
 	 */
 	public void setPersonName(String personName) {
@@ -132,7 +132,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -142,7 +142,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -153,7 +153,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Gets the organizationChartOfAccounts attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccounts
+	 * @return Returns the organizationChartOfAccounts
 	 * 
 	 */
 	public Chart getOrganizationChartOfAccounts() { 
@@ -163,7 +163,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
 	/**
 	 * Sets the organizationChartOfAccounts attribute.
 	 * 
-	 * @param - organizationChartOfAccounts The organizationChartOfAccounts to set.
+	 * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
@@ -173,7 +173,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization() { 
@@ -183,7 +183,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
     /**
      * Sets the organization attribute.
      * 
-     * @param - organization The organization to set.
+     * @param organization The organization to set.
      * @deprecated
      */
     public void setOrganization(Org organization) {
@@ -191,7 +191,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends BusinessObject
     }    
     
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

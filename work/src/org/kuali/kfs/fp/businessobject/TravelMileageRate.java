@@ -42,7 +42,7 @@ public class TravelMileageRate extends BusinessObjectBase {
     /**
      * Gets the mileageLimitAmount attribute.
      * 
-     * @return - Returns the mileageLimitAmount
+     * @return Returns the mileageLimitAmount
      * 
      */
     public Integer getMileageLimitAmount() {
@@ -63,7 +63,7 @@ public class TravelMileageRate extends BusinessObjectBase {
     /**
      * Gets the mileageRate attribute.
      * 
-     * @return - Returns the mileageRate
+     * @return Returns the mileageRate
      * 
      */
     public BigDecimal getMileageRate() {

@@ -49,7 +49,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the awardSubcontractorAmendmentNumber attribute.
      * 
-     * @return - Returns the awardSubcontractorAmendmentNumber
+     * @return Returns the awardSubcontractorAmendmentNumber
      * 
      */
     public String getAwardSubcontractorAmendmentNumber() {
@@ -70,7 +70,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the awardSubcontractorNumber attribute.
      * 
-     * @return - Returns the awardSubcontractorNumber
+     * @return Returns the awardSubcontractorNumber
      * 
      */
     public String getAwardSubcontractorNumber() {
@@ -91,7 +91,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorNumber attribute.
      * 
-     * @return - Returns the subcontractorNumber
+     * @return Returns the subcontractorNumber
      * 
      */
     public String getSubcontractorNumber() {
@@ -112,7 +112,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the proposalNumber attribute.
      * 
-     * @return - Returns the proposalNumber
+     * @return Returns the proposalNumber
      * 
      */
     public Long getProposalNumber() {
@@ -133,7 +133,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorAmount attribute.
      * 
-     * @return - Returns the subcontractorAmount
+     * @return Returns the subcontractorAmount
      * 
      */
     public KualiDecimal getSubcontractorAmount() {
@@ -154,7 +154,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorContactFirstName attribute.
      * 
-     * @return - Returns the subcontractorContactFirstName
+     * @return Returns the subcontractorContactFirstName
      * 
      */
     public String getSubcontractorContactFirstName() {
@@ -175,7 +175,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorContactLastName attribute.
      * 
-     * @return - Returns the subcontractorContactLastName
+     * @return Returns the subcontractorContactLastName
      * 
      */
     public String getSubcontractorContactLastName() {
@@ -196,7 +196,7 @@ public class AwardSubcontractor extends BusinessObjectBase {
     /**
      * Gets the subcontractorAuditHistoryText attribute.
      * 
-     * @return - Returns the subcontractorAuditHistoryText
+     * @return Returns the subcontractorAuditHistoryText
      * 
      */
     public String getSubcontractorAuditHistoryText() {

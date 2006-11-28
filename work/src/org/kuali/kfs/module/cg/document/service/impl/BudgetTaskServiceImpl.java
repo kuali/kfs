@@ -46,13 +46,13 @@ public class BudgetTaskServiceImpl implements BudgetTaskService {
      * 
      * @see org.kuali.service.BudgetPeriodService#getBudgetPeriod(java.lang.Long, java.lang.Integer)
      */
-    public BudgetTask getBudgetTask(String researchDocumentNumber, Integer budgetTaskSequenceNumber) {
-        return (BudgetTask) businessObjectService.retrieve(new BudgetTask(researchDocumentNumber, budgetTaskSequenceNumber));
+    public BudgetTask getBudgetTask(String documentNumber, Integer budgetTaskSequenceNumber) {
+        return (BudgetTask) businessObjectService.retrieve(new BudgetTask(documentNumber, budgetTaskSequenceNumber));
     }
 
-    public BudgetTask getFirstBudgetTask(String researchDocumentNumber) {
+    public BudgetTask getFirstBudgetTask(String documentNumber) {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.RESEARCH_DOCUMENT_NUMBER, researchDocumentNumber);
+        fieldValues.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
         List budgetTasks = new ArrayList(businessObjectService.findMatchingOrderBy(BudgetTask.class, fieldValues, PropertyConstants.BUDGET_TASK_SEQUENCE_NUMBER, true));
         
         // there should always be a budgetTask by the time we get to here, so we want an exception thrown if there's not

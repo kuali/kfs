@@ -43,7 +43,7 @@ public class PurchaseOrderQuoteList extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderQuoteListIdentifier attribute.
 	 * 
-	 * @return - Returns the purchaseOrderQuoteListIdentifier
+	 * @return Returns the purchaseOrderQuoteListIdentifier
 	 * 
 	 */
 	public Integer getPurchaseOrderQuoteListIdentifier() { 
@@ -53,7 +53,7 @@ public class PurchaseOrderQuoteList extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderQuoteListIdentifier attribute.
 	 * 
-	 * @param - purchaseOrderQuoteListIdentifier The purchaseOrderQuoteListIdentifier to set.
+	 * @param purchaseOrderQuoteListIdentifier The purchaseOrderQuoteListIdentifier to set.
 	 * 
 	 */
 	public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
@@ -64,7 +64,7 @@ public class PurchaseOrderQuoteList extends BusinessObjectBase {
 	/**
 	 * Gets the purchaseOrderQuoteListName attribute.
 	 * 
-	 * @return - Returns the purchaseOrderQuoteListName
+	 * @return Returns the purchaseOrderQuoteListName
 	 * 
 	 */
 	public String getPurchaseOrderQuoteListName() { 
@@ -74,7 +74,7 @@ public class PurchaseOrderQuoteList extends BusinessObjectBase {
 	/**
 	 * Sets the purchaseOrderQuoteListName attribute.
 	 * 
-	 * @param - purchaseOrderQuoteListName The purchaseOrderQuoteListName to set.
+	 * @param purchaseOrderQuoteListName The purchaseOrderQuoteListName to set.
 	 * 
 	 */
 	public void setPurchaseOrderQuoteListName(String purchaseOrderQuoteListName) {
@@ -85,7 +85,7 @@ public class PurchaseOrderQuoteList extends BusinessObjectBase {
 	/**
 	 * Gets the contractManagerCode attribute.
 	 * 
-	 * @return - Returns the contractManagerCode
+	 * @return Returns the contractManagerCode
 	 * 
 	 */
 	public Integer getContractManagerCode() { 
@@ -95,7 +95,7 @@ public class PurchaseOrderQuoteList extends BusinessObjectBase {
 	/**
 	 * Sets the contractManagerCode attribute.
 	 * 
-	 * @param - contractManagerCode The contractManagerCode to set.
+	 * @param contractManagerCode The contractManagerCode to set.
 	 * 
 	 */
 	public void setContractManagerCode(Integer contractManagerCode) {
@@ -103,7 +103,7 @@ public class PurchaseOrderQuoteList extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

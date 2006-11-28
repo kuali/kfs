@@ -51,7 +51,7 @@
 
   <!-- begin inner loop -->
   <logic:iterate id="graduateAssistantRatesLine" name="KualiForm" property="document.budget.graduateAssistantRates" indexId="ctr"> 
-  <c:if test="${i eq 1}"> <html:hidden property="document.budget.graduateAssistantRate[${ctr}].researchDocumentNumber" /> 
+  <c:if test="${i eq 1}"> <html:hidden property="document.budget.graduateAssistantRate[${ctr}].documentNumber" /> 
   <html:hidden property="document.budget.graduateAssistantRate[${ctr}].campusCode" /> 
   <html:hidden property="document.budget.graduateAssistantRate[${ctr}].graduateAssistantRate.campusCode" />
   <html:hidden property="document.budget.graduateAssistantRate[${ctr}].graduateAssistantRate.campus.campusName" /> 

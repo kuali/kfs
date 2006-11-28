@@ -496,7 +496,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * 
      * @param oldValue - Old value to test.
      * @param newValue - New value to test.
-     * @return - true or false, based on the algorithm described above.
+     * @return true or false, based on the algorithm described above.
      * 
      */
     protected boolean fieldsHaveChanged(String oldValue, String newValue) {
@@ -528,7 +528,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * This method determines whether the given use is a ChartManager for the chart this Org belongs to.
      * 
      * @param user - user to test
-     * @return - true if the user is the Chart Manager, false otherwise
+     * @return true if the user is the Chart Manager, false otherwise
      * 
      */
     protected boolean isChartManager(KualiUser user) {
@@ -550,7 +550,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * 
      * This method looks up in the APC system whether ther HRMS Org system is turned on.
      * 
-     * @return - true or false depending on the app configuration
+     * @return true or false depending on the app configuration
      * 
      */
     protected boolean isHrmsOrgActivated() {
@@ -596,7 +596,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * This method tests whether the specified user is part of the group that grants authorization to the Plant fields.
      * 
      * @param user - the user to test
-     * @return - true if user is part of the group, false otherwise
+     * @return true if user is part of the group, false otherwise
      * 
      */
     protected boolean isPlantAuthorized(KualiUser user) {

@@ -50,7 +50,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -71,7 +71,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -92,7 +92,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Gets the campusDescription attribute.
      * 
-     * @return - Returns the campusDescription
+     * @return Returns the campusDescription
      * 
      */
     public String getCampusDescription() {
@@ -113,7 +113,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Gets the organizationDescription attribute.
      * 
-     * @return - Returns the organizationDescription
+     * @return Returns the organizationDescription
      * 
      */
     public String getOrganizationDescription() {
@@ -134,7 +134,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Gets the responsibilityCenterDescription attribute.
      * 
-     * @return - Returns the responsibilityCenterDescription
+     * @return Returns the responsibilityCenterDescription
      * 
      */
     public String getResponsibilityCenterDescription() {
@@ -155,7 +155,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Gets the campusCode attribute.
      * 
-     * @return - Returns the campusCode
+     * @return Returns the campusCode
      * 
      */
     public String getCampusCode() {
@@ -176,7 +176,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Gets the buildingCode attribute.
      * 
-     * @return - Returns the buildingCode
+     * @return Returns the buildingCode
      * 
      */
     public String getBuildingCode() {

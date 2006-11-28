@@ -41,7 +41,7 @@ public class FundingSource extends BusinessObjectBase {
 	/**
 	 * Gets the fundingSourceCode attribute.
 	 * 
-	 * @return - Returns the fundingSourceCode
+	 * @return Returns the fundingSourceCode
 	 * 
 	 */
 	public String getFundingSourceCode() { 
@@ -51,7 +51,7 @@ public class FundingSource extends BusinessObjectBase {
 	/**
 	 * Sets the fundingSourceCode attribute.
 	 * 
-	 * @param - fundingSourceCode The fundingSourceCode to set.
+	 * @param fundingSourceCode The fundingSourceCode to set.
 	 * 
 	 */
 	public void setFundingSourceCode(String fundingSourceCode) {
@@ -62,7 +62,7 @@ public class FundingSource extends BusinessObjectBase {
 	/**
 	 * Gets the fundingSourceDescription attribute.
 	 * 
-	 * @return - Returns the fundingSourceDescription
+	 * @return Returns the fundingSourceDescription
 	 * 
 	 */
 	public String getFundingSourceDescription() { 
@@ -72,7 +72,7 @@ public class FundingSource extends BusinessObjectBase {
 	/**
 	 * Sets the fundingSourceDescription attribute.
 	 * 
-	 * @param - fundingSourceDescription The fundingSourceDescription to set.
+	 * @param fundingSourceDescription The fundingSourceDescription to set.
 	 * 
 	 */
 	public void setFundingSourceDescription(String fundingSourceDescription) {
@@ -83,7 +83,7 @@ public class FundingSource extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
@@ -93,7 +93,7 @@ public class FundingSource extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -101,7 +101,7 @@ public class FundingSource extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

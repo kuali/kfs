@@ -56,7 +56,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Gets the financialObjectLevelCode attribute.
      * 
-     * @return - Returns the financialObjectLevelCode
+     * @return Returns the financialObjectLevelCode
      * 
      */
     public String getFinancialObjectLevelCode() {
@@ -76,7 +76,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Gets the financialObjectLevelName attribute.
      * 
-     * @return - Returns the financialObjectLevelName
+     * @return Returns the financialObjectLevelName
      * 
      */
     public String getFinancialObjectLevelName() {
@@ -96,7 +96,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Gets the financialObjectLevelShortNm attribute.
      * 
-     * @return - Returns the financialObjectLevelShortNm
+     * @return Returns the financialObjectLevelShortNm
      * 
      */
     public String getFinancialObjectLevelShortNm() {
@@ -116,7 +116,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Gets the financialObjectLevelActiveIndicator attribute.
      * 
-     * @return - Returns the financialObjectLevelActiveIndicator
+     * @return Returns the financialObjectLevelActiveIndicator
      * 
      */
     public boolean isFinancialObjectLevelActiveIndicator() {
@@ -136,7 +136,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Gets the financialReportingSortCode attribute.
      * 
-     * @return - Returns the financialReportingSortCode
+     * @return Returns the financialReportingSortCode
      * 
      */
     public String getFinancialReportingSortCode() {
@@ -161,7 +161,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Gets the financialConsolidationObject attribute.
      * 
-     * @return - Returns the financialConsolidationObject
+     * @return Returns the financialConsolidationObject
      * 
      */
     public ObjectCons getFinancialConsolidationObject() {
@@ -185,7 +185,7 @@ public class ObjLevel extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {

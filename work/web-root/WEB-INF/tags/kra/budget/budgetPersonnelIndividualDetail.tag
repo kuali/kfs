@@ -63,7 +63,7 @@
                   <tbody>
                   <tr>
                     <td colspan="14" class="subhead">
-			                <html:hidden property="document.budget.personFromList[${listIndex}].researchDocumentNumber" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].documentNumber" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].budgetUserSequenceNumber" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].fiscalCampusCode" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].primaryDepartmentCode" />

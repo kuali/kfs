@@ -50,7 +50,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -71,7 +71,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentTypeCode
+     * @return Returns the financialDocumentTypeCode
      * 
      */
     public String getFinancialDocumentTypeCode() {
@@ -92,7 +92,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentColumnTypeCode attribute.
      * 
-     * @return - Returns the financialDocumentColumnTypeCode
+     * @return Returns the financialDocumentColumnTypeCode
      * 
      */
     public String getFinancialDocumentColumnTypeCode() {
@@ -113,7 +113,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentLineNumber attribute.
      * 
-     * @return - Returns the financialDocumentLineNumber
+     * @return Returns the financialDocumentLineNumber
      * 
      */
     public Integer getFinancialDocumentLineNumber() {
@@ -134,7 +134,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentRevolvingFundDate attribute.
      * 
-     * @return - Returns the financialDocumentRevolvingFundDate
+     * @return Returns the financialDocumentRevolvingFundDate
      * 
      */
     public Date getFinancialDocumentRevolvingFundDate() {
@@ -155,7 +155,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentRevolvingFundReferenceNumber attribute.
      * 
-     * @return - Returns the financialDocumentRevolvingFundReferenceNumber
+     * @return Returns the financialDocumentRevolvingFundReferenceNumber
      * 
      */
     public String getFinancialDocumentRevolvingFundReferenceNumber() {
@@ -176,7 +176,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentRevolvingFundDescription attribute.
      * 
-     * @return - Returns the financialDocumentRevolvingFundDescription
+     * @return Returns the financialDocumentRevolvingFundDescription
      * 
      */
     public String getFinancialDocumentRevolvingFundDescription() {
@@ -197,7 +197,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentRevolvingFundAmount attribute.
      * 
-     * @return - Returns the financialDocumentRevolvingFundAmount
+     * @return Returns the financialDocumentRevolvingFundAmount
      * 
      */
     public KualiDecimal getFinancialDocumentRevolvingFundAmount() {
@@ -218,7 +218,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentBankCode attribute.
      * 
-     * @return - Returns the financialDocumentBankCode
+     * @return Returns the financialDocumentBankCode
      * 
      */
     public String getFinancialDocumentBankCode() {
@@ -239,7 +239,7 @@ public class RevolvingFundDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentBankAccountNumber attribute.
      * 
-     * @return - Returns the financialDocumentBankAccountNumber
+     * @return Returns the financialDocumentBankAccountNumber
      * 
      */
     public String getFinancialDocumentBankAccountNumber() {

@@ -39,7 +39,7 @@ public class AcctType extends BusinessObjectBase {
     /**
      * Gets the accountTypeCode attribute.
      * 
-     * @return - Returns the accountTypeCode
+     * @return Returns the accountTypeCode
      * 
      */
     public String getAccountTypeCode() {
@@ -59,7 +59,7 @@ public class AcctType extends BusinessObjectBase {
     /**
      * Gets the accountTypeName attribute.
      * 
-     * @return - Returns the accountTypeName
+     * @return Returns the accountTypeName
      * 
      */
     public String getAccountTypeName() {

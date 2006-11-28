@@ -51,7 +51,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the universityFiscalYear attribute.
 	 * 
-	 * @return - Returns the universityFiscalYear
+	 * @return Returns the universityFiscalYear
 	 * 
 	 */
 	public Integer getUniversityFiscalYear() { 
@@ -61,7 +61,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the universityFiscalYear attribute.
 	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * @param universityFiscalYear The universityFiscalYear to set.
 	 * 
 	 */
 	public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -72,7 +72,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -82,7 +82,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -93,7 +93,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -103,7 +103,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -114,7 +114,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the organizationLevelCode attribute.
 	 * 
-	 * @return - Returns the organizationLevelCode
+	 * @return Returns the organizationLevelCode
 	 * 
 	 */
 	public Integer getOrganizationLevelCode() { 
@@ -124,7 +124,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the organizationLevelCode attribute.
 	 * 
-	 * @param - organizationLevelCode The organizationLevelCode to set.
+	 * @param organizationLevelCode The organizationLevelCode to set.
 	 * 
 	 */
 	public void setOrganizationLevelCode(Integer organizationLevelCode) {
@@ -135,7 +135,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccountsCode
+	 * @return Returns the organizationChartOfAccountsCode
 	 * 
 	 */
 	public String getOrganizationChartOfAccountsCode() { 
@@ -145,7 +145,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the organizationChartOfAccountsCode attribute.
 	 * 
-	 * @param - organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
+	 * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
 	 * 
 	 */
 	public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
@@ -156,7 +156,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the organizationCode attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return Returns the organizationCode
 	 * 
 	 */
 	public String getOrganizationCode() { 
@@ -166,7 +166,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the organizationCode attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param organizationCode The organizationCode to set.
 	 * 
 	 */
 	public void setOrganizationCode(String organizationCode) {
@@ -177,7 +177,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -187,7 +187,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -197,7 +197,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -207,7 +207,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -217,7 +217,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the organization attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return Returns the organization
 	 * 
 	 */
 	public Org getOrganization() { 
@@ -227,7 +227,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the organization attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param organization The organization to set.
 	 * @deprecated
 	 */
 	public void setOrganization(Org organization) {
@@ -237,7 +237,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Gets the organizationChartOfAccounts attribute.
 	 * 
-	 * @return - Returns the organizationChartOfAccounts
+	 * @return Returns the organizationChartOfAccounts
 	 * 
 	 */
 	public Chart getOrganizationChartOfAccounts() { 
@@ -247,7 +247,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	/**
 	 * Sets the organizationChartOfAccounts attribute.
 	 * 
-	 * @param - organizationChartOfAccounts The organizationChartOfAccounts to set.
+	 * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
@@ -255,7 +255,7 @@ public class BudgetConstructionAccountOrganizationHierarchy extends BusinessObje
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

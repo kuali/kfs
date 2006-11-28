@@ -40,7 +40,7 @@ public class FederalFunction extends BusinessObjectBase {
     /**
      * Gets the financialFederalFunctionCode attribute.
      * 
-     * @return - Returns the financialFederalFunctionCode
+     * @return Returns the financialFederalFunctionCode
      * 
      */
     public String getFinancialFederalFunctionCode() {
@@ -61,7 +61,7 @@ public class FederalFunction extends BusinessObjectBase {
     /**
      * Gets the financialFederalFunctionName attribute.
      * 
-     * @return - Returns the financialFederalFunctionName
+     * @return Returns the financialFederalFunctionName
      * 
      */
     public String getFinancialFederalFunctionName() {

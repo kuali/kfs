@@ -33,7 +33,7 @@ import org.kuali.core.util.KualiInteger;
 public class BudgetModular extends BusinessObjectBase {
 
     // Stored values - Budget Modular table
-    private String researchDocumentNumber;
+    private String documentNumber;
     private KualiInteger budgetModularIncrementAmount;
     private Integer budgetModularTaskNumber;
     private String budgetModularConsortiumDescription;
@@ -63,35 +63,35 @@ public class BudgetModular extends BusinessObjectBase {
         this.increments = new ArrayList();
     }
 
-    public BudgetModular(String researchDocumentNumber) {
+    public BudgetModular(String documentNumber) {
         this();
-        this.researchDocumentNumber = researchDocumentNumber;
+        this.documentNumber = documentNumber;
     }
 
     /**
-     * Gets the researchDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return - Returns the researchDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the researchDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the budgetModularIncrementAmount attribute.
      * 
-     * @return - Returns the budgetModularIncrementAmount
+     * @return Returns the budgetModularIncrementAmount
      * 
      */
     public KualiInteger getBudgetModularIncrementAmount() {
@@ -111,7 +111,7 @@ public class BudgetModular extends BusinessObjectBase {
     /**
      * Gets the budgetModularTaskNumber attribute.
      * 
-     * @return - Returns the budgetModularTaskNumber
+     * @return Returns the budgetModularTaskNumber
      * 
      */
     public Integer getBudgetModularTaskNumber() {
@@ -131,7 +131,7 @@ public class BudgetModular extends BusinessObjectBase {
     /**
      * Gets the budgetModularConsortiumDescription attribute.
      * 
-     * @return - Returns the budgetModularConsortiumDescription
+     * @return Returns the budgetModularConsortiumDescription
      * 
      */
     public String getBudgetModularConsortiumDescription() {
@@ -151,7 +151,7 @@ public class BudgetModular extends BusinessObjectBase {
     /**
      * Gets the budgetModularPersonnelDescription attribute.
      * 
-     * @return - Returns the budgetModularPersonnelDescription
+     * @return Returns the budgetModularPersonnelDescription
      * 
      */
     public String getBudgetModularPersonnelDescription() {
@@ -171,7 +171,7 @@ public class BudgetModular extends BusinessObjectBase {
     /**
      * Gets the budgetModularVariableAdjustmentDescription attribute.
      * 
-     * @return - Returns the budgetModularVariableAdjustmentDescription
+     * @return Returns the budgetModularVariableAdjustmentDescription
      * 
      */
     public String getBudgetModularVariableAdjustmentDescription() {
@@ -191,7 +191,7 @@ public class BudgetModular extends BusinessObjectBase {
     /**
      * Gets the budgetPeriodMaximumAmount attribute.
      * 
-     * @return - Returns the budgetPeriodMaximumAmount
+     * @return Returns the budgetPeriodMaximumAmount
      * 
      */
     public KualiInteger getBudgetPeriodMaximumAmount() {

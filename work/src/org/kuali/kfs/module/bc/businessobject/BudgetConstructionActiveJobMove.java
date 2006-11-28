@@ -47,7 +47,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -57,7 +57,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -68,7 +68,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -78,7 +78,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -89,7 +89,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the employeeRecord attribute.
 	 * 
-	 * @return - Returns the employeeRecord
+	 * @return Returns the employeeRecord
 	 * 
 	 */
 	public Integer getEmployeeRecord() { 
@@ -99,7 +99,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the employeeRecord attribute.
 	 * 
-	 * @param - employeeRecord The employeeRecord to set.
+	 * @param employeeRecord The employeeRecord to set.
 	 * 
 	 */
 	public void setEmployeeRecord(Integer employeeRecord) {
@@ -110,7 +110,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the effectiveDate attribute.
 	 * 
-	 * @return - Returns the effectiveDate
+	 * @return Returns the effectiveDate
 	 * 
 	 */
 	public Date getEffectiveDate() { 
@@ -120,7 +120,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the effectiveDate attribute.
 	 * 
-	 * @param - effectiveDate The effectiveDate to set.
+	 * @param effectiveDate The effectiveDate to set.
 	 * 
 	 */
 	public void setEffectiveDate(Date effectiveDate) {
@@ -131,7 +131,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the effectiveSequence attribute.
 	 * 
-	 * @return - Returns the effectiveSequence
+	 * @return Returns the effectiveSequence
 	 * 
 	 */
 	public Integer getEffectiveSequence() { 
@@ -141,7 +141,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the effectiveSequence attribute.
 	 * 
-	 * @param - effectiveSequence The effectiveSequence to set.
+	 * @param effectiveSequence The effectiveSequence to set.
 	 * 
 	 */
 	public void setEffectiveSequence(Integer effectiveSequence) {
@@ -152,7 +152,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the positionNumber attribute.
 	 * 
-	 * @return - Returns the positionNumber
+	 * @return Returns the positionNumber
 	 * 
 	 */
 	public String getPositionNumber() { 
@@ -162,7 +162,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the positionNumber attribute.
 	 * 
-	 * @param - positionNumber The positionNumber to set.
+	 * @param positionNumber The positionNumber to set.
 	 * 
 	 */
 	public void setPositionNumber(String positionNumber) {
@@ -173,7 +173,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the employeeStatus attribute.
 	 * 
-	 * @return - Returns the employeeStatus
+	 * @return Returns the employeeStatus
 	 * 
 	 */
 	public String getEmployeeStatus() { 
@@ -183,7 +183,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the employeeStatus attribute.
 	 * 
-	 * @param - employeeStatus The employeeStatus to set.
+	 * @param employeeStatus The employeeStatus to set.
 	 * 
 	 */
 	public void setEmployeeStatus(String employeeStatus) {
@@ -194,7 +194,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Gets the departmentIdentifier attribute.
 	 * 
-	 * @return - Returns the departmentIdentifier
+	 * @return Returns the departmentIdentifier
 	 * 
 	 */
 	public String getDepartmentIdentifier() { 
@@ -204,7 +204,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 	/**
 	 * Sets the departmentIdentifier attribute.
 	 * 
-	 * @param - departmentIdentifier The departmentIdentifier to set.
+	 * @param departmentIdentifier The departmentIdentifier to set.
 	 * 
 	 */
 	public void setDepartmentIdentifier(String departmentIdentifier) {
@@ -213,7 +213,7 @@ public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
 
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

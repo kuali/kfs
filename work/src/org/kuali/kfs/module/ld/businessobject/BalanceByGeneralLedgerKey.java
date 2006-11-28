@@ -49,7 +49,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the personUniversalIdentifier
+	 * @return Returns the personUniversalIdentifier
 	 * 
 	 */
 	public String getPersonUniversalIdentifier() { 
@@ -59,7 +59,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
 	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -70,7 +70,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the subAccountNumber attribute.
 	 * 
-	 * @return - Returns the subAccountNumber
+	 * @return Returns the subAccountNumber
 	 * 
 	 */
 	public String getSubAccountNumber() { 
@@ -80,7 +80,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -91,7 +91,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the financialObjectCode attribute.
 	 * 
-	 * @return - Returns the financialObjectCode
+	 * @return Returns the financialObjectCode
 	 * 
 	 */
 	public String getFinancialObjectCode() { 
@@ -101,7 +101,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the financialObjectCode attribute.
 	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
+	 * @param financialObjectCode The financialObjectCode to set.
 	 * 
 	 */
 	public void setFinancialObjectCode(String financialObjectCode) {
@@ -112,7 +112,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the financialSubObjectCode attribute.
 	 * 
-	 * @return - Returns the financialSubObjectCode
+	 * @return Returns the financialSubObjectCode
 	 * 
 	 */
 	public String getFinancialSubObjectCode() { 
@@ -122,7 +122,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the financialSubObjectCode attribute.
 	 * 
-	 * @param - financialSubObjectCode The financialSubObjectCode to set.
+	 * @param financialSubObjectCode The financialSubObjectCode to set.
 	 * 
 	 */
 	public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -133,7 +133,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the positionNumber attribute.
 	 * 
-	 * @return - Returns the positionNumber
+	 * @return Returns the positionNumber
 	 * 
 	 */
 	public String getPositionNumber() { 
@@ -143,7 +143,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the positionNumber attribute.
 	 * 
-	 * @param - positionNumber The positionNumber to set.
+	 * @param positionNumber The positionNumber to set.
 	 * 
 	 */
 	public void setPositionNumber(String positionNumber) {
@@ -154,7 +154,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the emplid attribute.
 	 * 
-	 * @return - Returns the emplid
+	 * @return Returns the emplid
 	 * 
 	 */
 	public String getEmplid() { 
@@ -164,7 +164,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the emplid attribute.
 	 * 
-	 * @param - emplid The emplid to set.
+	 * @param emplid The emplid to set.
 	 * 
 	 */
 	public void setEmplid(String emplid) {
@@ -175,7 +175,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the accountLineAnnualBalanceAmount attribute.
 	 * 
-	 * @return - Returns the accountLineAnnualBalanceAmount
+	 * @return Returns the accountLineAnnualBalanceAmount
 	 * 
 	 */
 	public KualiDecimal getAccountLineAnnualBalanceAmount() { 
@@ -185,7 +185,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the accountLineAnnualBalanceAmount attribute.
 	 * 
-	 * @param - accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
+	 * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
 	 * 
 	 */
 	public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
@@ -196,7 +196,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the beginningAndContractsAndGrantsAmount attribute.
 	 * 
-	 * @return - Returns the beginningAndContractsAndGrantsAmount
+	 * @return Returns the beginningAndContractsAndGrantsAmount
 	 * 
 	 */
 	public KualiDecimal getBeginningAndContractsAndGrantsAmount() { 
@@ -206,7 +206,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the beginningAndContractsAndGrantsAmount attribute.
 	 * 
-	 * @param - beginningAndContractsAndGrantsAmount The beginningAndContractsAndGrantsAmount to set.
+	 * @param beginningAndContractsAndGrantsAmount The beginningAndContractsAndGrantsAmount to set.
 	 * 
 	 */
 	public void setBeginningAndContractsAndGrantsAmount(KualiDecimal beginningAndContractsAndGrantsAmount) {
@@ -217,7 +217,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Gets the july1BudgetAmount attribute.
 	 * 
-	 * @return - Returns the july1BudgetAmount
+	 * @return Returns the july1BudgetAmount
 	 * 
 	 */
 	public KualiDecimal getJuly1BudgetAmount() { 
@@ -227,7 +227,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	/**
 	 * Sets the july1BudgetAmount attribute.
 	 * 
-	 * @param - july1BudgetAmount The july1BudgetAmount to set.
+	 * @param july1BudgetAmount The july1BudgetAmount to set.
 	 * 
 	 */
 	public void setJuly1BudgetAmount(KualiDecimal july1BudgetAmount) {
@@ -235,7 +235,7 @@ public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

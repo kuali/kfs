@@ -62,7 +62,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the appointmentFundingLockUserId attribute.
 	 * 
-	 * @return - Returns the appointmentFundingLockUserId
+	 * @return Returns the appointmentFundingLockUserId
 	 * 
 	 */
 	public String getAppointmentFundingLockUserId() { 
@@ -72,7 +72,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the appointmentFundingLockUserId attribute.
 	 * 
-	 * @param - appointmentFundingLockUserId The appointmentFundingLockUserId to set.
+	 * @param appointmentFundingLockUserId The appointmentFundingLockUserId to set.
 	 * 
 	 */
 	public void setAppointmentFundingLockUserId(String appointmentFundingLockUserId) {
@@ -83,7 +83,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the accountNumber
+	 * @return Returns the accountNumber
 	 * 
 	 */
 	public String getAccountNumber() { 
@@ -93,7 +93,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - accountNumber The accountNumber to set.
+	 * @param accountNumber The accountNumber to set.
 	 * 
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -104,7 +104,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the subAccountNumber attribute.
 	 * 
-	 * @return - Returns the subAccountNumber
+	 * @return Returns the subAccountNumber
 	 * 
 	 */
 	public String getSubAccountNumber() { 
@@ -114,7 +114,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the subAccountNumber attribute.
 	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
+	 * @param subAccountNumber The subAccountNumber to set.
 	 * 
 	 */
 	public void setSubAccountNumber(String subAccountNumber) {
@@ -125,7 +125,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
-	 * @return - Returns the chartOfAccountsCode
+	 * @return Returns the chartOfAccountsCode
 	 * 
 	 */
 	public String getChartOfAccountsCode() { 
@@ -135,7 +135,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccountsCode attribute.
 	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
 	 * 
 	 */
 	public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -146,7 +146,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the universityFiscalYear attribute.
 	 * 
-	 * @return - Returns the universityFiscalYear
+	 * @return Returns the universityFiscalYear
 	 * 
 	 */
 	public Integer getUniversityFiscalYear() { 
@@ -156,7 +156,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the universityFiscalYear attribute.
 	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * @param universityFiscalYear The universityFiscalYear to set.
 	 * 
 	 */
 	public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -167,7 +167,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the fill1 attribute.
 	 * 
-	 * @return - Returns the fill1
+	 * @return Returns the fill1
 	 * 
 	 */
 	public String getFill1() { 
@@ -177,7 +177,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the fill1 attribute.
 	 * 
-	 * @param - fill1 The fill1 to set.
+	 * @param fill1 The fill1 to set.
 	 * 
 	 */
 	public void setFill1(String fill1) {
@@ -188,7 +188,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the fill2 attribute.
 	 * 
-	 * @return - Returns the fill2
+	 * @return Returns the fill2
 	 * 
 	 */
 	public String getFill2() { 
@@ -198,7 +198,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the fill2 attribute.
 	 * 
-	 * @param - fill2 The fill2 to set.
+	 * @param fill2 The fill2 to set.
 	 * 
 	 */
 	public void setFill2(String fill2) {
@@ -209,7 +209,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the fill3 attribute.
 	 * 
-	 * @return - Returns the fill3
+	 * @return Returns the fill3
 	 * 
 	 */
 	public String getFill3() { 
@@ -219,7 +219,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the fill3 attribute.
 	 * 
-	 * @param - fill3 The fill3 to set.
+	 * @param fill3 The fill3 to set.
 	 * 
 	 */
 	public void setFill3(String fill3) {
@@ -230,7 +230,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the fill4 attribute.
 	 * 
-	 * @return - Returns the fill4
+	 * @return Returns the fill4
 	 * 
 	 */
 	public String getFill4() { 
@@ -240,7 +240,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the fill4 attribute.
 	 * 
-	 * @param - fill4 The fill4 to set.
+	 * @param fill4 The fill4 to set.
 	 * 
 	 */
 	public void setFill4(String fill4) {
@@ -251,7 +251,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the fill5 attribute.
 	 * 
-	 * @return - Returns the fill5
+	 * @return Returns the fill5
 	 * 
 	 */
 	public String getFill5() { 
@@ -261,7 +261,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the fill5 attribute.
 	 * 
-	 * @param - fill5 The fill5 to set.
+	 * @param fill5 The fill5 to set.
 	 * 
 	 */
 	public void setFill5(String fill5) {
@@ -272,7 +272,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the account
+	 * @return Returns the account
 	 * 
 	 */
 	public Account getAccount() { 
@@ -282,7 +282,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the account attribute.
 	 * 
-	 * @param - account The account to set.
+	 * @param account The account to set.
 	 * @deprecated
 	 */
 	public void setAccount(Account account) {
@@ -292,7 +292,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Gets the chartOfAccounts attribute.
 	 * 
-	 * @return - Returns the chartOfAccounts
+	 * @return Returns the chartOfAccounts
 	 * 
 	 */
 	public Chart getChartOfAccounts() { 
@@ -302,7 +302,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
 	/**
 	 * Sets the chartOfAccounts attribute.
 	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
+	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
 	public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -339,7 +339,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
     /**
      * Sets the appointmentFundingLockUser attribute.
      * 
-     * @param - appointmentFundingLockUser The appointmentFundingLockUser to set.
+     * @param appointmentFundingLockUser The appointmentFundingLockUser to set.
      * @deprecated
      */
     public void setAppointmentFundingLockUser(UniversalUser appointmentFundingLockUser) {
@@ -365,7 +365,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

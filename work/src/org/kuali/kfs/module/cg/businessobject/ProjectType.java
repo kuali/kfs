@@ -45,7 +45,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Gets the projectTypeCode attribute.
 	 * 
-	 * @return - Returns the projectTypeCode
+	 * @return Returns the projectTypeCode
 	 * 
 	 */
 	public String getProjectTypeCode() { 
@@ -55,7 +55,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Sets the projectTypeCode attribute.
 	 * 
-	 * @param - projectTypeCode The projectTypeCode to set.
+	 * @param projectTypeCode The projectTypeCode to set.
 	 * 
 	 */
 	public void setProjectTypeCode(String projectTypeCode) {
@@ -66,7 +66,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @return - Returns the dataObjectMaintenanceCodeActiveIndicator
+	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
 	 * 
 	 */
 	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
@@ -76,7 +76,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
-	 * @param - dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
 	 * 
 	 */
 	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -87,7 +87,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Gets the projectTypeDescription attribute.
 	 * 
-	 * @return - Returns the projectTypeDescription
+	 * @return Returns the projectTypeDescription
 	 * 
 	 */
 	public String getProjectTypeDescription() { 
@@ -97,7 +97,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Sets the projectTypeDescription attribute.
 	 * 
-	 * @param - projectTypeDescription The projectTypeDescription to set.
+	 * @param projectTypeDescription The projectTypeDescription to set.
 	 * 
 	 */
 	public void setProjectTypeDescription(String projectTypeDescription) {
@@ -108,7 +108,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Gets the sortNumber attribute.
 	 * 
-	 * @return - Returns the sortNumber
+	 * @return Returns the sortNumber
 	 * 
 	 */
 	public Integer getSortNumber() { 
@@ -118,7 +118,7 @@ public class ProjectType extends BusinessObjectBase {
 	/**
 	 * Sets the sortNumber attribute.
 	 * 
-	 * @param - sortNumber The sortNumber to set.
+	 * @param sortNumber The sortNumber to set.
 	 * 
 	 */
 	public void setSortNumber(Integer sortNumber) {
@@ -159,7 +159,7 @@ public class ProjectType extends BusinessObjectBase {
     }    
     
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

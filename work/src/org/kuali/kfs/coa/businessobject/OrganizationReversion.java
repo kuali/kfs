@@ -82,7 +82,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the universityFiscalYear attribute.
      * 
-     * @return - Returns the universityFiscalYear
+     * @return Returns the universityFiscalYear
      * 
      */
     public Integer getUniversityFiscalYear() {
@@ -103,7 +103,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -124,7 +124,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the organizationCode attribute.
      * 
-     * @return - Returns the organizationCode
+     * @return Returns the organizationCode
      * 
      */
     public String getOrganizationCode() {
@@ -145,7 +145,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the budgetReversionChartOfAccountsCode attribute.
      * 
-     * @return - Returns the budgetReversionChartOfAccountsCode
+     * @return Returns the budgetReversionChartOfAccountsCode
      * 
      */
     public String getBudgetReversionChartOfAccountsCode() {
@@ -166,7 +166,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the budgetReversionAccountNumber attribute.
      * 
-     * @return - Returns the budgetReversionAccountNumber
+     * @return Returns the budgetReversionAccountNumber
      * 
      */
     public String getBudgetReversionAccountNumber() {
@@ -187,7 +187,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the carryForwardByObjectCodeIndicator attribute.
      * 
-     * @return - Returns the carryForwardByObjectCodeIndicator
+     * @return Returns the carryForwardByObjectCodeIndicator
      * 
      */
     public boolean isCarryForwardByObjectCodeIndicator() {
@@ -209,7 +209,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the cashReversionFinancialChartOfAccountsCode attribute.
      * 
-     * @return - Returns the cashReversionFinancialChartOfAccountsCode
+     * @return Returns the cashReversionFinancialChartOfAccountsCode
      * 
      */
     public String getCashReversionFinancialChartOfAccountsCode() {
@@ -230,7 +230,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the cashReversionAccountNumber attribute.
      * 
-     * @return - Returns the cashReversionAccountNumber
+     * @return Returns the cashReversionAccountNumber
      * 
      */
     public String getCashReversionAccountNumber() {
@@ -251,7 +251,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -271,7 +271,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public List<Org> getOrganizations() {
@@ -291,7 +291,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the cashReversionAccount attribute.
      * 
-     * @return - Returns the cashReversionAccount
+     * @return Returns the cashReversionAccount
      * 
      */
     public Account getCashReversionAccount() {
@@ -311,7 +311,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the budgetReversionAccount attribute.
      * 
-     * @return - Returns the budgetReversionAccount
+     * @return Returns the budgetReversionAccount
      * 
      */
     public Account getBudgetReversionAccount() {
@@ -331,7 +331,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the budgetReversionChartOfAccounts attribute.
      * 
-     * @return - Returns the budgetReversionChartOfAccounts
+     * @return Returns the budgetReversionChartOfAccounts
      * 
      */
     public Chart getBudgetReversionChartOfAccounts() {
@@ -351,7 +351,7 @@ public class OrganizationReversion extends BusinessObjectBase {
     /**
      * Gets the cashReversionFinancialChartOfAccounts attribute.
      * 
-     * @return - Returns the cashReversionFinancialChartOfAccounts
+     * @return Returns the cashReversionFinancialChartOfAccounts
      * 
      */
     public Chart getCashReversionFinancialChartOfAccounts() {

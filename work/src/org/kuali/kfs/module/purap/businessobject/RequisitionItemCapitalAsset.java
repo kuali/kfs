@@ -43,7 +43,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the requisitionItemCapitalAssetIdentifier attribute.
 	 * 
-	 * @return - Returns the requisitionItemCapitalAssetIdentifier
+	 * @return Returns the requisitionItemCapitalAssetIdentifier
 	 * 
 	 */
 	public Integer getRequisitionItemCapitalAssetIdentifier() { 
@@ -53,7 +53,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the requisitionItemCapitalAssetIdentifier attribute.
 	 * 
-	 * @param - requisitionItemCapitalAssetIdentifier The requisitionItemCapitalAssetIdentifier to set.
+	 * @param requisitionItemCapitalAssetIdentifier The requisitionItemCapitalAssetIdentifier to set.
 	 * 
 	 */
 	public void setRequisitionItemCapitalAssetIdentifier(Integer requisitionItemCapitalAssetIdentifier) {
@@ -64,7 +64,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the requisitionItemIdentifier attribute.
 	 * 
-	 * @return - Returns the requisitionItemIdentifier
+	 * @return Returns the requisitionItemIdentifier
 	 * 
 	 */
 	public Integer getRequisitionItemIdentifier() { 
@@ -74,7 +74,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the requisitionItemIdentifier attribute.
 	 * 
-	 * @param - requisitionItemIdentifier The requisitionItemIdentifier to set.
+	 * @param requisitionItemIdentifier The requisitionItemIdentifier to set.
 	 * 
 	 */
 	public void setRequisitionItemIdentifier(Integer requisitionItemIdentifier) {
@@ -84,7 +84,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the capitalAssetNumber attribute.
 	 * 
-	 * @return - Returns the capitalAssetNumber
+	 * @return Returns the capitalAssetNumber
 	 * 
 	 */
 	public Long getCapitalAssetNumber() { 
@@ -94,7 +94,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the capitalAssetNumber attribute.
 	 * 
-	 * @param - capitalAssetNumber The capitalAssetNumber to set.
+	 * @param capitalAssetNumber The capitalAssetNumber to set.
 	 * 
 	 */
 	public void setCapitalAssetNumber(Long capitalAssetNumber) {
@@ -105,7 +105,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Gets the requisitionItem attribute.
 	 * 
-	 * @return - Returns the requisitionItem
+	 * @return Returns the requisitionItem
 	 * 
 	 */
 	public RequisitionItem getRequisitionItem() { 
@@ -115,7 +115,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	/**
 	 * Sets the requisitionItem attribute.
 	 * 
-	 * @param - requisitionItem The requisitionItem to set.
+	 * @param requisitionItem The requisitionItem to set.
 	 * @deprecated
 	 */
 	public void setRequisitionItem(RequisitionItem requisitionItem) {
@@ -123,7 +123,7 @@ public class RequisitionItemCapitalAsset extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

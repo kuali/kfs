@@ -24,7 +24,7 @@
         <customAttributeEnabled>true</customAttributeEnabled>
         <attributes>
 
-            <attribute name="researchDocumentNumber" forceUppercase="true">
+            <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Header Id</label>
                 <shortLabel>Document Header Id</shortLabel>
 

@@ -44,7 +44,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Gets the incomeClassCode attribute.
      * 
-     * @return - Returns the incomeClassCode
+     * @return Returns the incomeClassCode
      * 
      */
     public String getIncomeClassCode() {
@@ -65,7 +65,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Gets the incomeTaxTypeCode attribute.
      * 
-     * @return - Returns the incomeTaxTypeCode
+     * @return Returns the incomeTaxTypeCode
      * 
      */
     public String getIncomeTaxTypeCode() {
@@ -86,7 +86,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Gets the incomeTaxPercent attribute.
      * 
-     * @return - Returns the incomeTaxPercent
+     * @return Returns the incomeTaxPercent
      * 
      */
     public KualiDecimal getIncomeTaxPercent() {
@@ -107,7 +107,7 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
     /**
      * Gets the incomeClass attribute.
      * 
-     * @return - Returns the incomeClass
+     * @return Returns the incomeClass
      * 
      */
     public TaxIncomeClassCode getIncomeClass() {

@@ -45,7 +45,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceRejectReasonIdentifier attribute.
 	 * 
-	 * @return - Returns the invoiceRejectReasonIdentifier
+	 * @return Returns the invoiceRejectReasonIdentifier
 	 * 
 	 */
 	public Integer getInvoiceRejectReasonIdentifier() { 
@@ -55,7 +55,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceRejectReasonIdentifier attribute.
 	 * 
-	 * @param - invoiceRejectReasonIdentifier The invoiceRejectReasonIdentifier to set.
+	 * @param invoiceRejectReasonIdentifier The invoiceRejectReasonIdentifier to set.
 	 * 
 	 */
 	public void setInvoiceRejectReasonIdentifier(Integer invoiceRejectReasonIdentifier) {
@@ -66,7 +66,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceHeaderInformationIdentifier attribute.
 	 * 
-	 * @return - Returns the invoiceHeaderInformationIdentifier
+	 * @return Returns the invoiceHeaderInformationIdentifier
 	 * 
 	 */
 	public Integer getInvoiceHeaderInformationIdentifier() { 
@@ -76,7 +76,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceHeaderInformationIdentifier attribute.
 	 * 
-	 * @param - invoiceHeaderInformationIdentifier The invoiceHeaderInformationIdentifier to set.
+	 * @param invoiceHeaderInformationIdentifier The invoiceHeaderInformationIdentifier to set.
 	 * 
 	 */
 	public void setInvoiceHeaderInformationIdentifier(Integer invoiceHeaderInformationIdentifier) {
@@ -87,7 +87,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceRejectReasonTypeCode attribute.
 	 * 
-	 * @return - Returns the invoiceRejectReasonTypeCode
+	 * @return Returns the invoiceRejectReasonTypeCode
 	 * 
 	 */
 	public String getInvoiceRejectReasonTypeCode() { 
@@ -97,7 +97,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceRejectReasonTypeCode attribute.
 	 * 
-	 * @param - invoiceRejectReasonTypeCode The invoiceRejectReasonTypeCode to set.
+	 * @param invoiceRejectReasonTypeCode The invoiceRejectReasonTypeCode to set.
 	 * 
 	 */
 	public void setInvoiceRejectReasonTypeCode(String invoiceRejectReasonTypeCode) {
@@ -108,7 +108,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceRejectReasonDescription attribute.
 	 * 
-	 * @return - Returns the invoiceRejectReasonDescription
+	 * @return Returns the invoiceRejectReasonDescription
 	 * 
 	 */
 	public String getInvoiceRejectReasonDescription() { 
@@ -118,7 +118,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceRejectReasonDescription attribute.
 	 * 
-	 * @param - invoiceRejectReasonDescription The invoiceRejectReasonDescription to set.
+	 * @param invoiceRejectReasonDescription The invoiceRejectReasonDescription to set.
 	 * 
 	 */
 	public void setInvoiceRejectReasonDescription(String invoiceRejectReasonDescription) {
@@ -129,7 +129,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceHeaderInformation attribute.
 	 * 
-	 * @return - Returns the invoiceHeaderInformation
+	 * @return Returns the invoiceHeaderInformation
 	 * 
 	 */
 	public ElectronicInvoiceHeaderInformation getInvoiceHeaderInformation() { 
@@ -139,7 +139,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceHeaderInformation attribute.
 	 * 
-	 * @param - invoiceHeaderInformation The invoiceHeaderInformation to set.
+	 * @param invoiceHeaderInformation The invoiceHeaderInformation to set.
 	 * @deprecated
 	 */
 	public void setInvoiceHeaderInformation(ElectronicInvoiceHeaderInformation invoiceHeaderInformation) {
@@ -149,7 +149,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Gets the invoiceRejectReasonType attribute.
 	 * 
-	 * @return - Returns the invoiceRejectReasonType
+	 * @return Returns the invoiceRejectReasonType
 	 * 
 	 */
 	public ElectronicInvoiceRejectTypeCode getInvoiceRejectReasonType() { 
@@ -159,7 +159,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	/**
 	 * Sets the invoiceRejectReasonType attribute.
 	 * 
-	 * @param - invoiceRejectReasonType The invoiceRejectReasonType to set.
+	 * @param invoiceRejectReasonType The invoiceRejectReasonType to set.
 	 * @deprecated
 	 */
 	public void setInvoiceRejectReasonType(ElectronicInvoiceRejectTypeCode invoiceRejectReasonType) {
@@ -167,7 +167,7 @@ public class ElectronicInvoiceRejectReason extends BusinessObjectBase {
 	}
 
 	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    

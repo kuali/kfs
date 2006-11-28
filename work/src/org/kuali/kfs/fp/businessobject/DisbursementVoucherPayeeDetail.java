@@ -64,7 +64,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the financialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentNumber
+     * @return Returns the financialDocumentNumber
      * 
      */
     public String getFinancialDocumentNumber() {
@@ -85,7 +85,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPaymentReasonCode attribute.
      * 
-     * @return - Returns the disbVchrPaymentReasonCode
+     * @return Returns the disbVchrPaymentReasonCode
      * 
      */
     public String getDisbVchrPaymentReasonCode() {
@@ -106,7 +106,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrAlienPaymentCode attribute.
      * 
-     * @return - Returns the disbVchrAlienPaymentCode
+     * @return Returns the disbVchrAlienPaymentCode
      * 
      */
     public boolean isDisbVchrAlienPaymentCode() {
@@ -127,7 +127,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeIdNumber attribute.
      * 
-     * @return - Returns the disbVchrPayeeIdNumber
+     * @return Returns the disbVchrPayeeIdNumber
      * 
      */
     public String getDisbVchrPayeeIdNumber() {
@@ -148,7 +148,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeePersonName attribute.
      * 
-     * @return - Returns the disbVchrPayeePersonName
+     * @return Returns the disbVchrPayeePersonName
      * 
      */
     public String getDisbVchrPayeePersonName() {
@@ -169,7 +169,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeLine1Addr attribute.
      * 
-     * @return - Returns the disbVchrPayeeLine1Addr
+     * @return Returns the disbVchrPayeeLine1Addr
      * 
      */
     public String getDisbVchrPayeeLine1Addr() {
@@ -190,7 +190,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeLine2Addr attribute.
      * 
-     * @return - Returns the disbVchrPayeeLine2Addr
+     * @return Returns the disbVchrPayeeLine2Addr
      * 
      */
     public String getDisbVchrPayeeLine2Addr() {
@@ -211,7 +211,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeCityName attribute.
      * 
-     * @return - Returns the disbVchrPayeeCityName
+     * @return Returns the disbVchrPayeeCityName
      * 
      */
     public String getDisbVchrPayeeCityName() {
@@ -232,7 +232,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeStateCode attribute.
      * 
-     * @return - Returns the disbVchrPayeeStateCode
+     * @return Returns the disbVchrPayeeStateCode
      * 
      */
     public String getDisbVchrPayeeStateCode() {
@@ -253,7 +253,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeZipCode attribute.
      * 
-     * @return - Returns the disbVchrPayeeZipCode
+     * @return Returns the disbVchrPayeeZipCode
      * 
      */
     public String getDisbVchrPayeeZipCode() {
@@ -274,7 +274,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeCountryCode attribute.
      * 
-     * @return - Returns the disbVchrPayeeCountryCode
+     * @return Returns the disbVchrPayeeCountryCode
      * 
      */
     public String getDisbVchrPayeeCountryCode() {
@@ -295,7 +295,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrRemitPersonName attribute.
      * 
-     * @return - Returns the disbVchrRemitPersonName
+     * @return Returns the disbVchrRemitPersonName
      * 
      */
     public String getDisbVchrRemitPersonName() {
@@ -316,7 +316,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrRemitLine1Addr attribute.
      * 
-     * @return - Returns the disbVchrRemitLine1Addr
+     * @return Returns the disbVchrRemitLine1Addr
      * 
      */
     public String getDisbVchrRemitLine1Addr() {
@@ -337,7 +337,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrRemitLine2Addr attribute.
      * 
-     * @return - Returns the disbVchrRemitLine2Addr
+     * @return Returns the disbVchrRemitLine2Addr
      * 
      */
     public String getDisbVchrRemitLine2Addr() {
@@ -358,7 +358,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrRemitCityName attribute.
      * 
-     * @return - Returns the disbVchrRemitCityName
+     * @return Returns the disbVchrRemitCityName
      * 
      */
     public String getDisbVchrRemitCityName() {
@@ -379,7 +379,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrRemitStateCode attribute.
      * 
-     * @return - Returns the disbVchrRemitStateCode
+     * @return Returns the disbVchrRemitStateCode
      * 
      */
     public String getDisbVchrRemitStateCode() {
@@ -400,7 +400,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrRemitZipCode attribute.
      * 
-     * @return - Returns the disbVchrRemitZipCode
+     * @return Returns the disbVchrRemitZipCode
      * 
      */
     public String getDisbVchrRemitZipCode() {
@@ -421,7 +421,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrRemitCountryCode attribute.
      * 
-     * @return - Returns the disbVchrRemitCountryCode
+     * @return Returns the disbVchrRemitCountryCode
      * 
      */
     public String getDisbVchrRemitCountryCode() {
@@ -442,7 +442,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPayeeEmployeeCode attribute.
      * 
-     * @return - Returns the disbVchrPayeeEmployeeCode
+     * @return Returns the disbVchrPayeeEmployeeCode
      * 
      */
     public boolean isDisbVchrPayeeEmployeeCode() {
@@ -463,7 +463,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the dvPayeeRevolvingFundCode attribute.
      * 
-     * @return - Returns the dvPayeeRevolvingFundCode
+     * @return Returns the dvPayeeRevolvingFundCode
      * 
      */
     public boolean isDvPayeeRevolvingFundCode() {
@@ -484,7 +484,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     /**
      * Gets the disbVchrPaymentReason attribute.
      * 
-     * @return - Returns the disbVchrPaymentReason
+     * @return Returns the disbVchrPaymentReason
      * 
      */
     public PaymentReasonCode getDisbVchrPaymentReason() {

@@ -52,7 +52,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return - Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode
      * 
      */
     public String getChartOfAccountsCode() {
@@ -73,7 +73,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return - Returns the accountNumber
+     * @return Returns the accountNumber
      * 
      */
     public String getAccountNumber() {
@@ -94,7 +94,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the financialOffsetObjectCode attribute.
      * 
-     * @return - Returns the financialOffsetObjectCode
+     * @return Returns the financialOffsetObjectCode
      * 
      */
     public String getFinancialOffsetObjectCode() {
@@ -115,7 +115,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the financialOffsetChartOfAccountCode attribute.
      * 
-     * @return - Returns the financialOffsetChartOfAccountCode
+     * @return Returns the financialOffsetChartOfAccountCode
      * 
      */
     public String getFinancialOffsetChartOfAccountCode() {
@@ -136,7 +136,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the financialOffsetAccountNumber attribute.
      * 
-     * @return - Returns the financialOffsetAccountNumber
+     * @return Returns the financialOffsetAccountNumber
      * 
      */
     public String getFinancialOffsetAccountNumber() {
@@ -157,7 +157,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the chart attribute.
      * 
-     * @return - Returns the chart
+     * @return Returns the chart
      * 
      */
     public Chart getChart() {
@@ -177,7 +177,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the account attribute.
      * 
-     * @return - Returns the account
+     * @return Returns the account
      * 
      */
     public Account getAccount() {
@@ -197,7 +197,7 @@ public class OffsetAccount extends BusinessObjectBase {
     /**
      * Gets the financialOffsetChartOfAccount attribute.
      * 
-     * @return - Returns the financialOffsetChartOfAccount
+     * @return Returns the financialOffsetChartOfAccount
      * 
      */
     public Chart getFinancialOffsetChartOfAccount() {

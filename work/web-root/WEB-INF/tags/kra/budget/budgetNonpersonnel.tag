@@ -106,7 +106,7 @@
                 <c:if test="${! viewOnly }">
                 <tr>
                   <td class="infoline">
-		                <input type="hidden" name="newNonpersonnel[${i}].researchDocumentNumber" value="${KualiForm.document.financialDocumentNumber}" />
+		                <input type="hidden" name="newNonpersonnel[${i}].documentNumber" value="${KualiForm.document.financialDocumentNumber}" />
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetTaskSequenceNumber" value="${KualiForm.currentTaskNumber}" />
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetPeriodSequenceNumber" value="${KualiForm.currentPeriodNumber}" />
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetNonpersonnelCategoryCode" value="${nonpersonnelCategory.code}" />
@@ -166,7 +166,7 @@
 	                <c:if test="${nonpersonnelItem.budgetNonpersonnelCategoryCode eq nonpersonnelCategory.code and nonpersonnelItem.budgetPeriodSequenceNumber eq KualiForm.currentPeriodNumber and nonpersonnelItem.budgetTaskSequenceNumber eq KualiForm.currentTaskNumber}">
 		                <tr>
 		                  <td class="datacell">
-						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].researchDocumentNumber" />
+						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].documentNumber" />
 						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetTaskSequenceNumber" />
 						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetPeriodSequenceNumber" />
 						            <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetNonpersonnelCategoryCode" />
@@ -272,7 +272,7 @@
   
   <logic:iterate id="nonpersonnelItem" name="KualiForm" property="document.budget.nonpersonnelItems" indexId="ctr">
     <c:if test="${nonpersonnelItem.budgetPeriodSequenceNumber ne KualiForm.currentPeriodNumber or nonpersonnelItem.budgetTaskSequenceNumber ne KualiForm.currentTaskNumber}">
-	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].researchDocumentNumber" />
+	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].documentNumber" />
 	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].subcontractorNumber" />
 	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetTaskSequenceNumber" />
 	    <html:hidden property="document.budget.nonpersonnelItem[${ctr}].budgetPeriodSequenceNumber" />

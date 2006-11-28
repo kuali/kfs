@@ -41,7 +41,7 @@ public class LetterOfCreditFundGroup extends BusinessObjectBase {
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
      * 
-     * @return - Returns the letterOfCreditFundGroupCode
+     * @return Returns the letterOfCreditFundGroupCode
      * 
      */
     public String getLetterOfCreditFundGroupCode() {
@@ -62,7 +62,7 @@ public class LetterOfCreditFundGroup extends BusinessObjectBase {
     /**
      * Gets the letterOfCreditFundGroupDescription attribute.
      * 
-     * @return - Returns the letterOfCreditFundGroupDescription
+     * @return Returns the letterOfCreditFundGroupDescription
      * 
      */
     public String getLetterOfCreditFundGroupDescription() {

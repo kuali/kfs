@@ -32,7 +32,7 @@
 	<kra-b:budgetIndirectCost />
 
   <logic:iterate id="budgetIndirectCostLookup" name="KualiForm" property="document.budget.budgetIndirectCostLookups" indexId="i">
-      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].researchDocumentNumber" />
+      <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].documentNumber" />
       <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetOnCampusIndicator" />
       <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetPurposeCode" />
       <html:hidden property="document.budget.budgetIndirectCostLookup[${i}].budgetIndirectCostRate" />

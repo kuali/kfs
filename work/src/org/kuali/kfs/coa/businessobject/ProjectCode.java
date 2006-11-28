@@ -48,7 +48,7 @@ public class ProjectCode extends KualiCodeBase {
     /**
      * Gets the projectDescription attribute.
      * 
-     * @return - Returns the projectDescription
+     * @return Returns the projectDescription
      * 
      */
     public String getProjectDescription() {
@@ -83,7 +83,7 @@ public class ProjectCode extends KualiCodeBase {
     /**
      * Gets the chartOfAccounts attribute.
      * 
-     * @return - Returns the chartOfAccounts
+     * @return Returns the chartOfAccounts
      * 
      */
     public Chart getChartOfAccounts() {
@@ -103,7 +103,7 @@ public class ProjectCode extends KualiCodeBase {
     /**
      * Gets the organization attribute.
      * 
-     * @return - Returns the organization
+     * @return Returns the organization
      * 
      */
     public Org getOrganization() {

@@ -25,6 +25,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.PropertyConstants;
 
 /**
  * Budget Fringe Rate Business Object
@@ -34,7 +35,7 @@ import org.kuali.core.util.ObjectUtils;
 public class BudgetFringeRate extends BusinessObjectBase {
 
     private static final long serialVersionUID = -1305514388024735249L;
-    private String researchDocumentNumber;
+    private String documentNumber;
     private String institutionAppointmentTypeCode;
     private KualiDecimal contractsAndGrantsFringeRateAmount;
     private KualiDecimal institutionCostShareFringeRateAmount;
@@ -51,24 +52,24 @@ public class BudgetFringeRate extends BusinessObjectBase {
         appointmentType = new AppointmentType();
     }
     
-    public BudgetFringeRate(String researchDocumentNumber, String institutionAppointmentTypeCode) {
+    public BudgetFringeRate(String documentNumber, String institutionAppointmentTypeCode) {
         this();
-        this.researchDocumentNumber = researchDocumentNumber;
+        this.documentNumber = documentNumber;
         this.institutionAppointmentTypeCode = institutionAppointmentTypeCode;
     }
 
-    public BudgetFringeRate(String researchDocumentNumber, String institutionAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal institutionCostShareFringeRateAmount, AppointmentType appointmentType) {
-        this(researchDocumentNumber, institutionAppointmentTypeCode, contractsAndGrantsFringeRateAmount, institutionCostShareFringeRateAmount, appointmentType, null, null);
+    public BudgetFringeRate(String documentNumber, String institutionAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal institutionCostShareFringeRateAmount, AppointmentType appointmentType) {
+        this(documentNumber, institutionAppointmentTypeCode, contractsAndGrantsFringeRateAmount, institutionCostShareFringeRateAmount, appointmentType, null, null);
     }
 
-    public BudgetFringeRate(String researchDocumentNumber, AppointmentType appointmentType) {
-        this(researchDocumentNumber, appointmentType.getAppointmentTypeCode(), appointmentType.getFringeRateAmount(), appointmentType.getCostShareFringeRateAmount(), appointmentType, null, null);
+    public BudgetFringeRate(String documentNumber, AppointmentType appointmentType) {
+        this(documentNumber, appointmentType.getAppointmentTypeCode(), appointmentType.getFringeRateAmount(), appointmentType.getCostShareFringeRateAmount(), appointmentType, null, null);
     }
 
 
-    public BudgetFringeRate(String researchDocumentNumber, String institutionAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal institutionCostShareFringeRateAmount, AppointmentType appointmentType, String objectId, Long versionNumber) {
+    public BudgetFringeRate(String documentNumber, String institutionAppointmentTypeCode, KualiDecimal contractsAndGrantsFringeRateAmount, KualiDecimal institutionCostShareFringeRateAmount, AppointmentType appointmentType, String objectId, Long versionNumber) {
         super();
-        this.researchDocumentNumber = researchDocumentNumber;
+        this.documentNumber = documentNumber;
         this.institutionAppointmentTypeCode = institutionAppointmentTypeCode;
         this.contractsAndGrantsFringeRateAmount = contractsAndGrantsFringeRateAmount;
         this.institutionCostShareFringeRateAmount = institutionCostShareFringeRateAmount;
@@ -165,7 +166,7 @@ public class BudgetFringeRate extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("researchDocumentNumber", this.researchDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("institutionAppointmentTypeCode", this.institutionAppointmentTypeCode);
         return m;
     }
@@ -186,7 +187,7 @@ public class BudgetFringeRate extends BusinessObjectBase {
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getResearchDocumentNumber() + "|" + this.getInstitutionAppointmentTypeCode() + "|" + this.getAppointmentType().toString() + "|" + this.getAppointmentTypeCostShareFringeRateAmount().toString() + "|" + this.getAppointmentTypeFringeRateAmount().toString() + "|" + this.getBudgetLastUpdateTimestamp().toString() + "|" + this.getContractsAndGrantsFringeRateAmount().toString() + "|" + this.getInstitutionCostShareFringeRateAmount().toString();
+        String hashString = this.getDocumentNumber() + "|" + this.getInstitutionAppointmentTypeCode() + "|" + this.getAppointmentType().toString() + "|" + this.getAppointmentTypeCostShareFringeRateAmount().toString() + "|" + this.getAppointmentTypeFringeRateAmount().toString() + "|" + this.getBudgetLastUpdateTimestamp().toString() + "|" + this.getContractsAndGrantsFringeRateAmount().toString() + "|" + this.getInstitutionCostShareFringeRateAmount().toString();
         return hashString.hashCode();
     }
 
@@ -220,7 +221,7 @@ public class BudgetFringeRate extends BusinessObjectBase {
 
         if (ObjectUtils.isNotNull(obj) && obj instanceof BudgetFringeRate) {
             BudgetFringeRate objCompare = (BudgetFringeRate) obj;
-            equals &= this.researchDocumentNumber.equals(objCompare.getResearchDocumentNumber());
+            equals &= this.documentNumber.equals(objCompare.getDocumentNumber());
             equals &= this.institutionAppointmentTypeCode.equals(objCompare.getInstitutionAppointmentTypeCode());
             if (this.budgetLastUpdateTimestamp == null && objCompare.getBudgetLastUpdateTimestamp() == null) {
             }
@@ -257,17 +258,17 @@ public class BudgetFringeRate extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the researchDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getResearchDocumentNumber() {
-        return researchDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * @param researchDocumentNumber The researchDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setResearchDocumentNumber(String researchDocumentNumber) {
-        this.researchDocumentNumber = researchDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**

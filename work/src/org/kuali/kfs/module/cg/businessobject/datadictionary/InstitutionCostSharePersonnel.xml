@@ -27,13 +27,13 @@
             <title>Institution Cost Share Personnel</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="researchDocumentNumber" />
+                <field attributeName="documentNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <attributes>
 
-            <attribute name="researchDocumentNumber" forceUppercase="true">
+            <attribute name="documentNumber" forceUppercase="true">
                 <label>Budget Number</label>
                 <shortLabel>Budget Number</shortLabel>
 

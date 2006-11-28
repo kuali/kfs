@@ -35,11 +35,11 @@ public class BudgetIndirectCostFormHelperTest extends KualiTestBase {
     public void testInitializeTotals() {
 
         BudgetTask task1 = new BudgetTask();
-        task1.setResearchDocumentNumber("1234");
+        task1.setDocumentNumber("1234");
         task1.setBudgetTaskSequenceNumber(new Integer(0));
 
         BudgetTask task2 = new BudgetTask();
-        task2.setResearchDocumentNumber("1234");
+        task2.setDocumentNumber("1234");
         task2.setBudgetTaskSequenceNumber(new Integer(1));
 
         List tasks = new ArrayList();
@@ -49,7 +49,7 @@ public class BudgetIndirectCostFormHelperTest extends KualiTestBase {
         List periods = BudgetPeriodTest.createBudgetPeriods(2);
         for (int i = 0; i < periods.size(); i++) {
             BudgetPeriod period = (BudgetPeriod) periods.get(i);
-            period.setResearchDocumentNumber("1234");
+            period.setDocumentNumber("1234");
             period.setBudgetPeriodSequenceNumber(i);
         }
 

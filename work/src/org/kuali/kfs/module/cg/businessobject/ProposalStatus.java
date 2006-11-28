@@ -41,7 +41,7 @@ public class ProposalStatus extends BusinessObjectBase {
     /**
      * Gets the proposalStatusCode attribute.
      * 
-     * @return - Returns the proposalStatusCode
+     * @return Returns the proposalStatusCode
      * 
      */
     public String getProposalStatusCode() {
@@ -62,7 +62,7 @@ public class ProposalStatus extends BusinessObjectBase {
     /**
      * Gets the proposalStatusDescription attribute.
      * 
-     * @return - Returns the proposalStatusDescription
+     * @return Returns the proposalStatusDescription
      * 
      */
     public String getProposalStatusDescription() {

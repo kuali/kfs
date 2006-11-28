@@ -17,9 +17,6 @@
  */
 package org.kuali.core.maintenance;
 
-import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-
 import java.util.Iterator;
 import java.util.Map;
 
@@ -32,6 +29,8 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
+import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -46,7 +45,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          * newMaintainable, and null for the oldMaintainable.
          * 
          * @param newSubAccount - populated subAccount for the newMaintainable
-         * @return - a populated MaintenanceDocument instance
+         * @return a populated MaintenanceDocument instance
          * 
          */
         protected MaintenanceDocument newMaintDoc(BusinessObject newBo) {
@@ -60,7 +59,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          * 
          * @param oldSubAccount - populated subAccount for the oldMaintainable
          * @param newSubAccount - populated subAccount for the newMaintainable
-         * @return - a populated MaintenanceDocument instance
+         * @return a populated MaintenanceDocument instance
          * 
          */
         protected MaintenanceDocument newMaintDoc(BusinessObject oldBo, BusinessObject newBo) {
@@ -101,7 +100,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          * 
          * @param newBo - the populated businessObject for the newMaintainble
          * @param ruleClass - the class of rule to instantiate
-         * @return - a populated and ready-to-test rule, of the specified class
+         * @return a populated and ready-to-test rule, of the specified class
          * 
          */
         protected MaintenanceDocumentRule setupMaintDocRule(BusinessObject newBo, Class ruleClass) {
@@ -119,7 +118,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          * @param oldBo - the populated businessObject for the oldMaintainable
          * @param newBo - the populated businessObject for the newMaintainable
          * @param ruleClass - the class of rule to instantiate
-         * @return - a populated and ready-to-test rule, of the specified class
+         * @return a populated and ready-to-test rule, of the specified class
          * 
          */
         protected MaintenanceDocumentRule setupMaintDocRule(BusinessObject oldBo, BusinessObject newBo, Class ruleClass) {
@@ -136,7 +135,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          * 
          * @param maintDoc - the populated MaintenanceDocument instance
          * @param ruleClass - the class of rule to instantiate
-         * @return - a populated and ready-to-test rule, of the specified class
+         * @return a populated and ready-to-test rule, of the specified class
          */
         protected MaintenanceDocumentRule setupMaintDocRule(MaintenanceDocument maintDoc, Class ruleClass) {
 
@@ -194,7 +193,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
          * 
          * @param fieldName
          * @param errorKey
-         * @return - True if the error exists in the GlobalErrors, false if not.
+         * @return True if the error exists in the GlobalErrors, false if not.
          * 
          */
         protected boolean doesFieldErrorExist(String fieldName, String errorKey) {

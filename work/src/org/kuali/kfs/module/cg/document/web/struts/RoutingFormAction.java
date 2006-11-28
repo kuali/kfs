@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -110,7 +109,7 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         RoutingForm routingForm = (RoutingForm) form;
 
         if (IDocHandler.INITIATE_COMMAND.equals(routingForm.getCommand())) {
-            routingForm.getRoutingFormDocument().setResearchDocumentNumber(routingForm.getRoutingFormDocument().getFinancialDocumentNumber());
+            routingForm.getRoutingFormDocument().setDocumentNumber(routingForm.getRoutingFormDocument().getFinancialDocumentNumber());
             // TODO
             //SpringServiceLocator.getBudgetService().initializeBudget(routingForm.getRoutingFormDocument());
         }

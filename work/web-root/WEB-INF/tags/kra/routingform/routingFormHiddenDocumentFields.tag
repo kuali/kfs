@@ -16,7 +16,9 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ attribute name="excludeRoutingFormMainPage" required="false" %>
 
+<c:set var="excludeRoutingFormMainPage" value="${not empty excludeRoutingFormMainPage}"/>
 
    <html:hidden property="document.documentNumber" />
 
@@ -25,6 +27,10 @@
    <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
 
     <html:hidden property="auditActivated" />
+    
+    <c:if test="${!excludeRoutingFormMainPage}">
+      <html:hidden property="document.documentHeader.financialDocumentDescription" />
+    </c:if>
     
     <kul:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
     

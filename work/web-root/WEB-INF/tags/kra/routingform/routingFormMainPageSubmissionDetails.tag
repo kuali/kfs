@@ -204,8 +204,8 @@
                 </td>
               </tr>
               <tr>
-                <th align=right valign=middle>Abstract:</th>
-                <td colspan="3" align=left valign=middle nowrap ><textarea name="textfield" cols="60" rows="3"></textarea></td>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.projectAbstract}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <td colspan="3" align=left valign=middle nowrap ><kul:htmlControlAttribute property="document.projectAbstract" attributeEntry="${documentAttributes.projectAbstract}" /></td>
               </tr>
               <tr>
                 <td colspan=4 class="tab-subhead"><span class="left">Amounts &amp; Dates </span> </td>

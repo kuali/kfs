@@ -28,7 +28,7 @@
 	feedbackKey="app.krafeedback.link" headerTabActive="mainpage"
 	showTabButtons="true">
 
-<kra-rf:routingFormHiddenDocumentFields />
+<kra-rf:routingFormHiddenDocumentFields excludeRoutingFormMainPage="true" />
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

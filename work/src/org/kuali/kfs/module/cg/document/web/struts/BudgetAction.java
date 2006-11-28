@@ -304,6 +304,7 @@ public class BudgetAction extends KualiDocumentActionBase {
         SpringServiceLocator.getBudgetIndirectCostService().refreshIndirectCost(budgetForm.getBudgetDocument());
         budgetForm.setBudgetIndirectCostFormHelper(new BudgetIndirectCostFormHelper(budgetForm));
         budgetForm.setBudgetCostShareFormHelper(new BudgetCostShareFormHelper(budgetForm));
+        budgetForm.getNewInstitutionCostShare().setPermissionIndicator(true);
 
         return mapping.findForward("costshare");
     }

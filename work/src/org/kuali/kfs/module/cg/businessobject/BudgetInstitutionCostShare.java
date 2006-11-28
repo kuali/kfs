@@ -27,6 +27,7 @@ public class BudgetInstitutionCostShare extends BudgetAbstractCostShare {
 
     private String organizationCode;
     private String chartOfAccountsCode;
+    private boolean permissionIndicator;
 
     public BudgetInstitutionCostShare() {
         super();
@@ -39,6 +40,7 @@ public class BudgetInstitutionCostShare extends BudgetAbstractCostShare {
         this.chartOfAccountsCode = budgetInstitutionCostShare.getChartOfAccountsCode();
         this.budgetCostShareDescription = budgetInstitutionCostShare.getBudgetCostShareDescription();
         this.budgetPeriodCostShare = budgetInstitutionCostShare.getBudgetPeriodCostShare();
+        this.permissionIndicator = budgetInstitutionCostShare.isPermissionIndicator();
     }
 
     /**
@@ -106,5 +108,23 @@ public class BudgetInstitutionCostShare extends BudgetAbstractCostShare {
      */
     public void setBudgetPeriodCostShare(List budgetPeriodCostShare) {
         this.budgetPeriodCostShare = budgetPeriodCostShare;
+    }
+
+    /**
+     * Gets the permissionIndicator attribute.
+     * 
+     * @return - Returns the permissionIndicator
+     */
+    public boolean isPermissionIndicator() {
+        return permissionIndicator;
+    }
+
+    /**
+     * Sets the permissionIndicator attribute.
+     * 
+     * @param permissionIndicator The permissionIndicator to set.
+     */
+    public void setPermissionIndicator(boolean permissionIndicator) {
+        this.permissionIndicator = permissionIndicator;
     }
 }

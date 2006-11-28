@@ -103,6 +103,7 @@ public class BudgetCostShareAction extends BudgetAction {
 
         // Make sure new values are taken into account for calculations.
         budgetForm.setBudgetCostShareFormHelper(new BudgetCostShareFormHelper(budgetForm));
+        budgetForm.getNewInstitutionCostShare().setPermissionIndicator(true);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -208,5 +209,12 @@ public class BudgetCostShareAction extends BudgetAction {
         }
 
         return super.save(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.reload(mapping, form, request, response);
+        ((BudgetForm) form).getNewInstitutionCostShare().setPermissionIndicator(true);
+        return forward;
     }
 }

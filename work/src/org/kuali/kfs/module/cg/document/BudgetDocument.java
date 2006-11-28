@@ -36,6 +36,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.module.kra.budget.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
@@ -474,10 +475,15 @@ public class BudgetDocument extends ResearchDocumentBase {
      * @return String
      */
     public String buildCostShareOrgReportXml(boolean encloseContent) {
+        
+//        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+//                KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        
         StringBuffer xml = new StringBuffer();
         if (encloseContent) {
             xml.append("<documentContent>");
         }
+        
         List costShareItems = this.getBudget().getInstitutionCostShareItems();
         for (Iterator iter = costShareItems.iterator(); iter.hasNext();) {
             BudgetInstitutionCostShare costShare = (BudgetInstitutionCostShare) iter.next();
@@ -496,6 +502,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         if (encloseContent) {
             xml.append("</documentContent>");
         }
+        
         return xml.toString();
     }
     

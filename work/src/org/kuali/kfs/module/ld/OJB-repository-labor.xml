@@ -1127,6 +1127,7 @@
 	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR"/>
@@ -1223,6 +1224,9 @@
     </reference-descriptor>
     <reference-descriptor name="referenceFinancialSystemOrigination" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="referenceFinancialSystemOriginationCode" />
+    </reference-descriptor>
+    <reference-descriptor name="financialSystemOrigination" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialSystemOriginationCode" />
     </reference-descriptor>
     <reference-descriptor name="payrollEndDateFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="payrollEndDateFiscalYear" />

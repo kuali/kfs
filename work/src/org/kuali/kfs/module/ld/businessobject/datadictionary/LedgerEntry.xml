@@ -378,7 +378,7 @@
                     <text size="3" />
                 </control>
                 <summary>originCode</summary>
-                <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
+                <description>The code corresponding to the system which created the Labor entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
 
             <attribute name="grade" forceUppercase="true">

@@ -106,7 +106,7 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(Constants.DisbursementVoucherDocumentConstants.CLEAR_NON_EMPLOYEE_TAB_QUESTION_ID, questionText);
             if (clearTab) {
                 DisbursementVoucherNonEmployeeTravel blankDvNonEmplTrav = new DisbursementVoucherNonEmployeeTravel();
-                blankDvNonEmplTrav.setFinancialDocumentNumber(dvNonEmplTrav.getFinancialDocumentNumber());
+                blankDvNonEmplTrav.setDocumentNumber(dvNonEmplTrav.getDocumentNumber());
                 blankDvNonEmplTrav.setVersionNumber(dvNonEmplTrav.getVersionNumber());
                 dvDocument.setDvNonEmployeeTravel(blankDvNonEmplTrav);
             }

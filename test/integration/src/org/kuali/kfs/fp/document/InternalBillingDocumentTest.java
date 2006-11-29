@@ -94,7 +94,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to another user, add accountingLines for accounts not
         // controlled by this user
@@ -129,7 +129,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, add sourceAccountingLine for account not controlled by this user
         // (and add a balancing targetAccountingLine for an accessible account)
@@ -165,7 +165,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, add targetAccountingLine for accounts not
         // controlled by this user
@@ -202,7 +202,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, delete sourceAccountingLine for accounts
         // controlled by this user
@@ -239,7 +239,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, delete sourceAccountingLines for accounts
         // not controlled by this user
@@ -276,7 +276,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, delete targetAccountingLine for accounts not controlled by this user
         // (and delete matching accessible sourceLine, for balance)
@@ -312,7 +312,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, delete all accountingLines for that user
         changeCurrentUser(getTestUserName());
@@ -352,7 +352,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, update sourceAccountingLine for accounts
         // controlled by this user
@@ -398,7 +398,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, update sourceAccountingLines for accounts
         // not controlled by this user
@@ -435,7 +435,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         changeCurrentUser(getInitialUserName());
         original = buildDocument();
         routeDocument(original, getDocumentService());
-        docId = original.getFinancialDocumentNumber();
+        docId = original.getDocumentNumber();
 
         // switch user to AHORNICK, update targetAccountingLine for accounts
         // not controlled by this user

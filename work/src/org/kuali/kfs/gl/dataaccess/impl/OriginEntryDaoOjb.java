@@ -47,7 +47,6 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     private static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
     private static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
-    private static final String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
     private static final String FINANCIAL_DOCUMENT_REVERSAL_DATE = "financialDocumentReversalDate";
     private static final String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
     private static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
@@ -142,7 +141,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         criteria.addEqualTo(ENTRY_GROUP_ID, oeg.getId());
 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(OriginEntry.class, criteria);
-        q.setAttributes(new String[] { "financialDocumentNumber","financialDocumentTypeCode","financialSystemOriginationCode" });
+        q.setAttributes(new String[] { PropertyConstants.DOCUMENT_NUMBER,"financialDocumentTypeCode","financialSystemOriginationCode" });
 
         q.setDistinct(true);
 
@@ -203,7 +202,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
         qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
         qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+        qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -224,7 +223,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         if (sort == OriginEntryDao.SORT_DOCUMENT) {
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(ACCOUNT_NUMBER);
             qbc.addOrderByAscending(SUB_ACCOUNT_NUMBER);
@@ -241,7 +240,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
             qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_AMOUNT);
@@ -249,7 +248,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         } else if (sort == OriginEntryDao.SORT_REPORT ) {
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_DEBIT_CREDIT_CODE);            
             qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(ACCOUNT_NUMBER);
@@ -264,7 +263,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
             qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);            
         }
         else {
@@ -276,7 +275,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
             qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         }
 

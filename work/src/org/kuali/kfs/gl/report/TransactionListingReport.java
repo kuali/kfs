@@ -181,7 +181,7 @@ public class TransactionListingReport {
                     transactionList.addCell(cell);
                     cell = new PdfPCell(new Phrase(tran.getFinancialSystemOriginationCode(), textFont));
                     transactionList.addCell(cell);
-                    cell = new PdfPCell(new Phrase(tran.getFinancialDocumentNumber(), textFont));
+                    cell = new PdfPCell(new Phrase(tran.getDocumentNumber(), textFont));
                     transactionList.addCell(cell);
                     cell = new PdfPCell(new Phrase(tran.getTransactionLedgerEntryDescription(), textFont));
                     transactionList.addCell(cell);

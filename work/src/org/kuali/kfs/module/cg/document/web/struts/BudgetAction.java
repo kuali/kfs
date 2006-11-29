@@ -144,7 +144,7 @@ public class BudgetAction extends KualiDocumentActionBase {
     public ActionForward load(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetForm budgetForm = (BudgetForm) form;
-        budgetForm.setDocId(budgetForm.getBudgetDocument().getFinancialDocumentNumber());
+        budgetForm.setDocId(budgetForm.getBudgetDocument().getDocumentNumber());
         this.loadDocument(budgetForm);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -156,7 +156,7 @@ public class BudgetAction extends KualiDocumentActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
 
         if (IDocHandler.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
-            budgetForm.getBudgetDocument().getBudget().setDocumentNumber(budgetForm.getBudgetDocument().getFinancialDocumentNumber());
+            budgetForm.getBudgetDocument().getBudget().setDocumentNumber(budgetForm.getBudgetDocument().getDocumentNumber());
             SpringServiceLocator.getBudgetService().initializeBudget(budgetForm.getBudgetDocument());
         }
         return forward;

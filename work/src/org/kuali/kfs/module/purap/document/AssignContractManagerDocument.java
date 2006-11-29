@@ -32,14 +32,12 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
-import org.kuali.module.purap.bo.VendorAddress;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 
-    private String financialDocumentNumber;
     private String financialDocumentStatusCode;
     private String financialDocumentDescription;
     private KualiDecimal financialDocumentTotalAmount;
@@ -159,7 +157,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
             // User filled in the Contract Manager Code and it was validated in the Rules class.
                 AssignContractManagerDetail detail = new AssignContractManagerDetail();
                 detail.setContractManagerCode(req.getContractManagerCode());
-                detail.setFinancialDocumentNumber(req.getFinancialDocumentNumber());
+                detail.setDocumentNumber(req.getDocumentNumber());
                 detail.setRequisitionIdentifier(req.getIdentifier());
                 assignedRequisitions.add(detail);
             }
@@ -206,14 +204,6 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
     public void setFinancialDocumentInErrorNumber(String financialDocumentInErrorNumber) {
         this.financialDocumentInErrorNumber = financialDocumentInErrorNumber;
-    }
-
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
-    }
-
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
     }
 
     public String getFinancialDocumentStatusCode() {

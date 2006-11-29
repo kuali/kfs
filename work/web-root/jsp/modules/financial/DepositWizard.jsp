@@ -158,19 +158,19 @@ function checkAllOrNone() {
 						<td>
 						<div align="center"><html:checkbox
 							property="depositWizardHelper[${ctr}].selectedValue"
-							value="${cashReceipt.financialDocumentNumber}" /></div>
+							value="${cashReceipt.documentNumber}" /></div>
 						</td>
 						<td>
 						<div align="center"><b>${(ctr + 1)}</b></div>
 						</td>
 						<td>
 						<div align="center"><a
-							href="financialCashReceipt.do?methodToCall=docHandler&docId=${cashReceipt.documentHeader.financialDocumentNumber}&command=displayDocSearchView"
+							href="financialCashReceipt.do?methodToCall=docHandler&docId=${cashReceipt.documentHeader.documentNumber}&command=displayDocSearchView"
 							target="new"> <kul:htmlControlAttribute
-							property="depositableCashReceipt[${ctr}].financialDocumentNumber"
-							attributeEntry="${cashReceiptAttributes.financialDocumentNumber}"
+							property="depositableCashReceipt[${ctr}].documentNumber"
+							attributeEntry="${cashReceiptAttributes.documentNumber}"
 							readOnly="true" /> </a> <html:hidden
-							property="depositableCashReceipt[${ctr}].documentHeader.financialDocumentNumber" />
+							property="depositableCashReceipt[${ctr}].documentHeader.documentNumber" />
 						</div>
 						</td>
 						<td>

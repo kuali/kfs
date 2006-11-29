@@ -22,17 +22,7 @@ import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.routeDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_invalidYear;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear;
 import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE1;
 import static org.kuali.test.fixtures.UserNameFixture.CSWINSON;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
@@ -98,7 +88,7 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
     public void testWorkflowRouting() throws Exception {
         // save and route the document
         TransactionalDocument document = (TransactionalDocument) buildDocumentForWorkflowRoutingTest();
-        final String docHeaderId = document.getFinancialDocumentNumber();
+        final String docHeaderId = document.getDocumentNumber();
         routeDocument(document, getDocumentService());
 
         // the document should now be routed to VPUTMAN and RORENFRO as Fiscal Officers

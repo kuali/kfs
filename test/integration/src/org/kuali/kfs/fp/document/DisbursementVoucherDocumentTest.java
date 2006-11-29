@@ -22,16 +22,7 @@ import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.saveDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_invalidYear;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear;
 import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE7;
 import static org.kuali.test.fixtures.UserNameFixture.CSWINSON;
 import static org.kuali.test.fixtures.UserNameFixture.HSCHREIN;
@@ -85,7 +76,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         document.convertIntoCopy();
 
         // the dvParameter doc number needs to be resynced
-        dvParameter.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
+        dvParameter.setDocumentNumber(document.getDocumentNumber());
         dvParameter.setDisbVchrContactPhoneNumber("");
         dvParameter.setDisbVchrContactEmailId("");
         dvParameter.getDvPayeeDetail().setDisbVchrPayeePersonName("");
@@ -127,7 +118,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     public final void testWorkflowRouting() throws Exception {
         // save and route the document
         Document document = buildDocument();
-        final String docId = document.getFinancialDocumentNumber();
+        final String docId = document.getDocumentNumber();
         getDocumentService().routeDocument(document, "routing test doc", null);
 
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
@@ -178,7 +169,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         payeeDetail.setDisbVchrPayeeCountryCode("UK");
         payeeDetail.setDisbVchrPaymentReasonCode("B");
         payeeDetail.setDisbursementVoucherPayeeTypeCode("P");
-        payeeDetail.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
+        payeeDetail.setDocumentNumber(document.getDocumentNumber());
         // payee detail
         document.setDvPayeeDetail(payeeDetail);
         // payment info
@@ -291,7 +282,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         saveDocument(document, getDocumentService());
 
         // retrieve
-        TransactionalDocument result = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(document.getFinancialDocumentNumber());
+        TransactionalDocument result = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         // verify
         assertMatch(document, result);
 

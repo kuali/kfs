@@ -24,14 +24,14 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class CashReceiptFamilyTestUtil {
 
-    public static SourceAccountingLine buildSourceAccountingLine(String financialDocumentNumber, Integer postingYear, Integer sequenceNumber) {
+    public static SourceAccountingLine buildSourceAccountingLine(String documentNumber, Integer postingYear, Integer sequenceNumber) {
         SourceAccountingLine line = new SourceAccountingLine();
         line.setChartOfAccountsCode("BA");
         line.setAccountNumber("1031400");
         line.setFinancialObjectCode("5000");
         line.setAmount(new KualiDecimal("1.00"));
         line.setPostingYear(postingYear);
-        line.setFinancialDocumentNumber(financialDocumentNumber);
+        line.setDocumentNumber(documentNumber);
         line.setSequenceNumber(sequenceNumber);
         line.refresh();
         

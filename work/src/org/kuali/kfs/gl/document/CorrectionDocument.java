@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
@@ -35,6 +34,7 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberService;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -71,7 +71,7 @@ public class CorrectionDocument extends DocumentBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 
@@ -92,7 +92,7 @@ public class CorrectionDocument extends DocumentBase {
     }
 
     public void addCorrectionChangeGroup(CorrectionChangeGroup ccg) {
-        ccg.setFinancialDocumentNumber(financialDocumentNumber);
+        ccg.setDocumentNumber(documentNumber);
         ccg.setCorrectionChangeGroupLineNumber(correctionChangeGroupNextLineNumber++);
         correctionChangeGroup.add(ccg);
     }
@@ -114,7 +114,7 @@ public class CorrectionDocument extends DocumentBase {
             }
         }
 
-        CorrectionChangeGroup ccg = new CorrectionChangeGroup(financialDocumentNumber,groupNumber);
+        CorrectionChangeGroup ccg = new CorrectionChangeGroup(documentNumber,groupNumber);
         correctionChangeGroup.add(ccg);
 
         return ccg;
@@ -136,7 +136,7 @@ public class CorrectionDocument extends DocumentBase {
         CorrectionDocumentService correctionDocumentService = (CorrectionDocumentService) SpringServiceLocator.getBeanFactory().getBean("glCorrectionDocumentService");
         OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
 
-        String docId = getDocumentHeader().getFinancialDocumentNumber();
+        String docId = getDocumentHeader().getDocumentNumber();
         CorrectionDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
         if ( getDocumentHeader().getWorkflowDocument().stateIsFinal() ) {
@@ -167,15 +167,15 @@ public class CorrectionDocument extends DocumentBase {
     /**
      * We need to make sure this is set on all the child objects also
      * 
-     * @see org.kuali.core.document.DocumentBase#setFinancialDocumentNumber(java.lang.String)
+     * @see org.kuali.core.document.DocumentBase#setDocumentNumber(java.lang.String)
      */
     @Override
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        super.setFinancialDocumentNumber(financialDocumentNumber);
+    public void setDocumentNumber(String documentNumber) {
+        super.setDocumentNumber(documentNumber);
 
         for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
             CorrectionChangeGroup element = (CorrectionChangeGroup)iter.next();
-            element.setFinancialDocumentNumber(financialDocumentNumber);
+            element.setDocumentNumber(documentNumber);
         }
     }
 

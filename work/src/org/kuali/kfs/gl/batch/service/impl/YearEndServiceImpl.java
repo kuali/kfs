@@ -29,7 +29,6 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.service.BalanceTypService;
@@ -286,7 +285,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 922 006030 DELIMITED BY SIZE
                     // 923 006040 INTO FDOC-NBR OF GLEN-RECORD.
 
-                    activityEntry.setFinancialDocumentNumber(new StringBuffer(actualFinancial).append(balance.getAccountNumber()).toString());
+                    activityEntry.setDocumentNumber(new StringBuffer(actualFinancial).append(balance.getAccountNumber()).toString());
 
                     // 924 006050 MOVE WS-SEQ-NBR
                     // 925 006060 TO TRN-ENTR-SEQ-NBR OF GLEN-RECORD.
@@ -725,7 +724,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1095 007700 DELIMITED BY SIZE
                     // 1096 007710 INTO FDOC-NBR OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialDocumentNumber(new StringBuffer(actualFinancial).append(balance.getAccountNumber()).toString());
+                    offsetEntry.setDocumentNumber(new StringBuffer(actualFinancial).append(balance.getAccountNumber()).toString());
 
                     // 1097 007720 MOVE WS-SEQ-NBR
                     // 1098 007730 TO TRN-ENTR-SEQ-NBR OF GLEN-RECORD.

@@ -100,8 +100,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 documentService.validateAndPersistDocument(pcardDocument, new SaveOnlyDocumentEvent(pcardDocument));
             }
             catch (Exception e) {
-                LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
-                throw new RuntimeException("Error persisting document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
+                LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+                throw new RuntimeException("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
             }
         }
 
@@ -125,7 +125,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (Iterator iter = documentList.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
-                LOG.info("Routing PCDO document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + ".");
+                LOG.info("Routing PCDO document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + ".");
                 documentService.prepareWorkflowDocument(pcardDocument);
             
                 // calling workflow service to bypass business rule checks
@@ -133,11 +133,11 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                     workflowDocumentService.route(pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
             }
                 else {
-                    LOG.warn("Document " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " is already ENROUTE. Route status out of sync with FP_DOC_HEADER_T");
+                    LOG.warn("Document " + pcardDocument.getDocumentHeader().getDocumentNumber() + " is already ENROUTE. Route status out of sync with FP_DOC_HEADER_T");
                 }
             }
             catch (WorkflowException e) {
-                LOG.error("Error routing document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
+                LOG.error("Error routing document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
                 throw new RuntimeException(e.getMessage());
             }
         }
@@ -179,11 +179,11 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 pcardDocument.getDocumentHeader().setFinancialDocumentDescription("Auto Approved On " + (new TimestampFormatter()).format(currentDate) + ".");
 
                 try {
-                    LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber());
+                    LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber());
                     documentService.superUserApproveDocument(pcardDocument, "");
                 }
                 catch (WorkflowException e) {
-                    LOG.error("Error auto approving document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
+                    LOG.error("Error auto approving document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
                     throw new RuntimeException(e.getMessage());
                 }
             }
@@ -302,7 +302,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private void createCardHolderRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
         ProcurementCardHolder cardHolder = new ProcurementCardHolder();
 
-        cardHolder.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
+        cardHolder.setDocumentNumber(pcardDocument.getDocumentNumber());
         cardHolder.setAccountNumber(transaction.getAccountNumber());
         cardHolder.setCardCycleAmountLimit(transaction.getCardCycleAmountLimit());
         cardHolder.setCardCycleVolumeLimit(transaction.getCardCycleVolumeLimit());
@@ -334,7 +334,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         ProcurementCardTransactionDetail transactionDetail = new ProcurementCardTransactionDetail();
 
         // set the document transaction detail fields from the loaded transaction record
-        transactionDetail.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
+        transactionDetail.setDocumentNumber(pcardDocument.getDocumentNumber());
         transactionDetail.setFinancialDocumentTransactionLineNumber(transactionLineNumber);
         transactionDetail.setTransactionDate(transaction.getTransactionDate());
         transactionDetail.setTransactionReferenceNumber(transaction.getTransactionReferenceNumber());
@@ -374,7 +374,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private void createTransactionVendorRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
         ProcurementCardVendor transactionVendor = new ProcurementCardVendor();
 
-        transactionVendor.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
+        transactionVendor.setDocumentNumber(pcardDocument.getDocumentNumber());
         transactionVendor.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
         transactionVendor.setTransactionMerchantCategoryCode(transaction.getTransactionMerchantCategoryCode());
         transactionVendor.setVendorCityName(transaction.getVendorCityName());
@@ -423,7 +423,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private ProcurementCardTargetAccountingLine createTargetAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardTargetAccountingLine targetLine = new ProcurementCardTargetAccountingLine();
 
-        targetLine.setFinancialDocumentNumber(docTransactionDetail.getFinancialDocumentNumber());
+        targetLine.setDocumentNumber(docTransactionDetail.getDocumentNumber());
         targetLine.setFinancialDocumentTransactionLineNumber(docTransactionDetail.getFinancialDocumentTransactionLineNumber());
         targetLine.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
         targetLine.setAccountNumber(transaction.getAccountNumber());
@@ -452,7 +452,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private ProcurementCardSourceAccountingLine createSourceAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardSourceAccountingLine sourceLine = new ProcurementCardSourceAccountingLine();
 
-        sourceLine.setFinancialDocumentNumber(docTransactionDetail.getFinancialDocumentNumber());
+        sourceLine.setDocumentNumber(docTransactionDetail.getDocumentNumber());
         sourceLine.setFinancialDocumentTransactionLineNumber(docTransactionDetail.getFinancialDocumentTransactionLineNumber());
         sourceLine.setChartOfAccountsCode(getDefaultChartCode());
         sourceLine.setAccountNumber(getDefaultAccountNumber());

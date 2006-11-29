@@ -25,7 +25,7 @@
         <inquiry>
             <title>Pending Entry Inquiry</title>
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="transactionLedgerEntrySequenceNumber" />
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="transactionDate" />
@@ -93,7 +93,7 @@
         </lookup>
 
         <attributes>
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
             <attributeReference name="transactionLedgerEntrySequenceNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
             <attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code" />
             <attributeReference name="transactionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">

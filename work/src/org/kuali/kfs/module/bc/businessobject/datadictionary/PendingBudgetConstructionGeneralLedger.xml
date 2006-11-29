@@ -32,7 +32,7 @@
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="financialBeginningBalanceLineAmount" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
@@ -48,7 +48,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="financialDocumentNumber" />
+                    <sortAttribute attributeName="documentNumber" />
                 </sortAttributes>
             </defaultSort>
 
@@ -58,7 +58,7 @@
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="financialBalanceTypeCode" required="false" />
                 <lookupField attributeName="financialBeginningBalanceLineAmount" required="false" />
-                <lookupField attributeName="financialDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialObjectTypeCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
@@ -72,7 +72,7 @@
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="financialBeginningBalanceLineAmount" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
@@ -158,8 +158,8 @@
                 <description>financialBeginningBalanceLineAmount description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentNumber" forceUppercase="true">
-                <label>Financial Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -169,8 +169,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>financialDocumentNumber</summary>
-                <description>financialDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">

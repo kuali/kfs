@@ -120,7 +120,7 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     private boolean validateDocument(Document document) {
         boolean success = true;
 
-        String documentHeaderId = document.getFinancialDocumentNumber();
+        String documentHeaderId = document.getDocumentNumber();
         if (documentHeaderId == null) {
             GlobalVariables.getErrorMap().putError("documentHeaderId", KeyConstants.ERROR_REQUIRED);
             success = false;

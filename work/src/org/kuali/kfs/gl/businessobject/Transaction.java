@@ -40,7 +40,7 @@ public interface Transaction {
 
     public String getTransactionDebitCreditCode();
 
-    public String getFinancialDocumentNumber();
+    public String getDocumentNumber();
 
     public Date getFinancialDocumentReversalDate();
 

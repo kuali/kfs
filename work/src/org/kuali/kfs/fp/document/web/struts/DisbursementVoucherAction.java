@@ -153,7 +153,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         // get directory of tempate
         String directory = getServlet().getServletConfig().getServletContext().getRealPath(DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_RELATIVE_DIR);
 
-        DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(request.getParameter(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER));
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(request.getParameter(PropertyConstants.DOCUMENT_NUMBER));
 
         // set worflow document back into form to prevent document authorizer "invalid (null)
         // document.documentHeader.workflowDocument" since we are bypassing form submit and just linking directly to the action
@@ -163,7 +163,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherCoverSheetService coverSheetService = SpringServiceLocator.getDisbursementVoucherCoverSheetService();
 
         coverSheetService.generateDisbursementVoucherCoverSheet(directory, DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_NM, document, baos);
-        String fileName = document.getFinancialDocumentNumber() + "_cover_sheet.pdf";
+        String fileName = document.getDocumentNumber() + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
         return (null);
 

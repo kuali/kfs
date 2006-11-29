@@ -40,7 +40,7 @@ public class CheckBase extends BusinessObjectBase implements Check {
     private boolean interimDepositAmount;
     private Integer sequenceId;
     private KualiDecimal amount;
-    private String financialDocumentNumber;
+    private String documentNumber;
 
     /**
      * Constructs a CheckBase business object.
@@ -161,21 +161,21 @@ public class CheckBase extends BusinessObjectBase implements Check {
 
 
     /**
-     * Gets the financialDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return Returns the financialDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the financialDocumentNumber attribute value.
+     * Sets the documentNumber attribute value.
      * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -190,7 +190,7 @@ public class CheckBase extends BusinessObjectBase implements Check {
         m.put("checkDate", this.checkDate);
         m.put("interimDepositAmount", Boolean.valueOf(this.interimDepositAmount));
         m.put("description", this.description);
-        m.put("documentHeaderId", this.financialDocumentNumber);
+        m.put("documentHeaderId", this.documentNumber);
 
         return m;
     }
@@ -204,7 +204,7 @@ public class CheckBase extends BusinessObjectBase implements Check {
 
         if (StringUtils.equals(checkNumber, other.getCheckNumber())) {
             if (StringUtils.equals(description, other.getDescription())) {
-                if (StringUtils.equals(financialDocumentNumber, other.getFinancialDocumentNumber())) {
+                if (StringUtils.equals(documentNumber, other.getDocumentNumber())) {
                     if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
                         if (interimDepositAmount == other.isInterimDepositAmount()) {
 

@@ -24,13 +24,14 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder;
 import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
 
-    private String financialDocumentNumber;
+    private String documentNumber;
     private String disbVchrPaymentReasonCode;
     private boolean disbVchrAlienPaymentCode;
     private String disbVchrPayeeIdNumber;
@@ -62,24 +63,24 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return Returns the financialDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
 
     /**
-     * Sets the financialDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -570,7 +571,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 }

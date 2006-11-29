@@ -621,7 +621,7 @@ public class BudgetForm extends KualiDocumentFormBase {
      */
     public Integer getCurrentPeriodNumber() {
         if (currentPeriodNumber == null) {
-            currentPeriodNumber = SpringServiceLocator.getBudgetPeriodService().getFirstBudgetPeriod(((BudgetDocument) getDocument()).getFinancialDocumentNumber()).getBudgetPeriodSequenceNumber();
+            currentPeriodNumber = SpringServiceLocator.getBudgetPeriodService().getFirstBudgetPeriod(((BudgetDocument) getDocument()).getDocumentNumber()).getBudgetPeriodSequenceNumber();
         }
         return currentPeriodNumber;
     }
@@ -638,7 +638,7 @@ public class BudgetForm extends KualiDocumentFormBase {
      */
     public Integer getCurrentTaskNumber() {
         if (currentTaskNumber == null) {
-            currentTaskNumber = SpringServiceLocator.getBudgetTaskService().getFirstBudgetTask(((BudgetDocument) getDocument()).getFinancialDocumentNumber()).getBudgetTaskSequenceNumber();
+            currentTaskNumber = SpringServiceLocator.getBudgetTaskService().getFirstBudgetTask(((BudgetDocument) getDocument()).getDocumentNumber()).getBudgetTaskSequenceNumber();
         }
         return currentTaskNumber;
     }

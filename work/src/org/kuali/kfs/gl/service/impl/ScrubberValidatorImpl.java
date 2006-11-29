@@ -113,9 +113,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // ascii 32 or '~'. If found, it replaces that character with a space and reports a warning. This code does the ~, but not
         // the
         // less than 32 part.
-        if ((originEntry.getFinancialDocumentNumber() != null) && (originEntry.getFinancialDocumentNumber().indexOf("~") > -1)) {
-            String d = originEntry.getFinancialDocumentNumber();
-            scrubbedEntry.setFinancialDocumentNumber(d.replaceAll("~", " "));
+        if ((originEntry.getDocumentNumber() != null) && (originEntry.getDocumentNumber().indexOf("~") > -1)) {
+            String d = originEntry.getDocumentNumber();
+            scrubbedEntry.setDocumentNumber(d.replaceAll("~", " "));
             errors.add(new Message("** INVALID CHARACTER EDITED", Message.TYPE_WARNING));
         }
         if ((originEntry.getTransactionLedgerEntryDescription() != null) && (originEntry.getTransactionLedgerEntryDescription().indexOf("~") > -1)) {
@@ -548,11 +548,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private Message validateDocumentNumber(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateDocumentNumber() started");
 
-        if (!StringUtils.hasText(originEntry.getFinancialDocumentNumber())) {
+        if (!StringUtils.hasText(originEntry.getDocumentNumber())) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_NUMBER_REQUIRED), Message.TYPE_FATAL);
         }
         else {
-            workingEntry.setFinancialDocumentNumber(originEntry.getFinancialDocumentNumber());
+            workingEntry.setDocumentNumber(originEntry.getDocumentNumber());
             return null;
         }
     }

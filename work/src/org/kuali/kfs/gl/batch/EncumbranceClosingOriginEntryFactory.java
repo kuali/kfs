@@ -242,7 +242,7 @@ public class EncumbranceClosingOriginEntryFactory {
         entry.setUniversityFiscalPeriodCode("BB");
         entry.setFinancialDocumentTypeCode(encumbrance.getDocumentTypeCode());
         entry.setFinancialSystemOriginationCode(encumbrance.getOriginCode());
-        entry.setFinancialDocumentNumber(encumbrance.getDocumentNumber());
+        entry.setDocumentNumber(encumbrance.getDocumentNumber());
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         entry.setTransactionLedgerEntryDescription(encumbrance.getTransactionEncumbranceDescription());
         entry.setTransactionLedgerEntryAmount(encumbrance.getAccountLineEncumbranceAmount().subtract(encumbrance.getAccountLineEncumbranceClosedAmount()));

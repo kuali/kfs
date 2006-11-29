@@ -22,11 +22,11 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class BudgetConstructionAccountSelect extends BusinessObjectBase {
 	private String chartOfAccountsCode;
 	private String accountNumber;
 	private String subAccountNumber;
-	private String financialDocumentNumber;
+	private String documentNumber;
 	private Integer organizationLevelCode;
 	private String organizationChartOfAccountsCode;
 	private String organizationCode;
@@ -166,23 +166,23 @@ public class BudgetConstructionAccountSelect extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the financialDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return Returns the financialDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the financialDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param financialDocumentNumber The financialDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
@@ -441,7 +441,7 @@ public class BudgetConstructionAccountSelect extends BusinessObjectBase {
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
         m.put("subAccountNumber", this.subAccountNumber);
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 

@@ -71,7 +71,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
 
         getAccountingLineService().save(sline);
 
-        List<? extends SourceAccountingLine> sourceLines = getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, document.getFinancialDocumentNumber());
+        List<? extends SourceAccountingLine> sourceLines = getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, document.getDocumentNumber());
         assertTrue(sourceLines.size() > 0);
 
         AccountingLine line = sourceLines.get(0);
@@ -113,7 +113,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
     // no obvious way to test these separately, since we need to create to test save, need to save to (really) test get, and need
     // to delete so future test-runs can recreate
     public void testLifecycle() throws Exception {
-        String docNumber = document.getFinancialDocumentNumber();
+        String docNumber = document.getDocumentNumber();
         // make sure they dont' exist
         assertEquals(0, getAccountingLineService().getByDocumentHeaderId(SourceAccountingLine.class, docNumber).size());
         assertEquals(0, getAccountingLineService().getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());

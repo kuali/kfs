@@ -397,7 +397,7 @@ public class ReportServiceImpl implements ReportService {
                 StringBuffer sb1 = new StringBuffer();
                 sb1.append(t1.getFinancialDocumentTypeCode());
                 sb1.append(t1.getFinancialSystemOriginationCode());
-                sb1.append(t1.getFinancialDocumentNumber());
+                sb1.append(t1.getDocumentNumber());
                 sb1.append(t1.getChartOfAccountsCode());
                 sb1.append(t1.getAccountNumber());
                 sb1.append(t1.getSubAccountNumber());
@@ -406,7 +406,7 @@ public class ReportServiceImpl implements ReportService {
                 StringBuffer sb2 = new StringBuffer();
                 sb2.append(t2.getFinancialDocumentTypeCode());
                 sb2.append(t2.getFinancialSystemOriginationCode());
-                sb2.append(t2.getFinancialDocumentNumber());
+                sb2.append(t2.getDocumentNumber());
                 sb2.append(t2.getChartOfAccountsCode());
                 sb2.append(t2.getAccountNumber());
                 sb2.append(t2.getSubAccountNumber());
@@ -749,10 +749,10 @@ public class ReportServiceImpl implements ReportService {
         SfPageHelper helper = new SfPageHelper();
         helper.runDate = runDate;
         helper.headerFont = headerFont;
-        helper.title = "General Ledger Correction Process Report " + cDocument.getFinancialDocumentNumber();
+        helper.title = "General Ledger Correction Process Report " + cDocument.getDocumentNumber();
 
         try {
-            String filename = onlineReportsDirectory + "/glcp_" + cDocument.getFinancialDocumentNumber() + "_";
+            String filename = onlineReportsDirectory + "/glcp_" + cDocument.getDocumentNumber() + "_";
 
             filename = filename + sdf.format(runDate);
             filename = filename + ".pdf";

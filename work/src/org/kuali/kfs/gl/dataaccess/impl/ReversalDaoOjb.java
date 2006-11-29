@@ -22,8 +22,6 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -33,8 +31,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
@@ -58,8 +54,7 @@ public class ReversalDaoOjb extends PersistenceBrokerDaoSupport implements Rever
     private final static String UNIVERISTY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
     private final static String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     private final static String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
-    private final static String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
-    private final static String MAX_CONSTANT = "max(financialDocumentNumber)";
+    private final static String MAX_CONSTANT = "max(documentNumber)";
 
     public ReversalDaoOjb() {
         super();
@@ -84,7 +79,7 @@ public class ReversalDaoOjb extends PersistenceBrokerDaoSupport implements Rever
         crit.addEqualTo(UNIVERISTY_FISCAL_PERIOD_CODE, t.getUniversityFiscalPeriodCode());
         crit.addEqualTo(FINANCIAL_DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
         crit.addEqualTo(FINANCIAL_SYSTEM_ORIGINATION_CODE, t.getFinancialSystemOriginationCode());
-        crit.addEqualTo(FINANCIAL_DOCUMENT_NUMBER, t.getFinancialDocumentNumber());
+        crit.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, t.getDocumentNumber());
 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(Entry.class, crit);
         q.setAttributes(new String[] { "max(transactionLedgerEntrySequenceNumber)" });
@@ -121,7 +116,7 @@ public class ReversalDaoOjb extends PersistenceBrokerDaoSupport implements Rever
         crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, t.getUniversityFiscalPeriodCode());
         crit.addEqualTo(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
         crit.addEqualTo(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, t.getFinancialSystemOriginationCode());
-        crit.addEqualTo(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, t.getFinancialDocumentNumber());
+        crit.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, t.getDocumentNumber());
         crit.addEqualTo(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, t.getTransactionLedgerEntrySequenceNumber());
 
         QueryByCriteria qbc = QueryFactory.newQuery(Reversal.class, crit);

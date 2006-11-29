@@ -122,7 +122,7 @@ public class TestDataGeneratorTest extends KualiTestBase {
             lookupFields.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
             lookupFields.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
             lookupFields.add(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-            lookupFields.add(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER);
+            lookupFields.add(PropertyConstants.DOCUMENT_NUMBER);
             lookupFields.add(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
         }
         return lookupFields;

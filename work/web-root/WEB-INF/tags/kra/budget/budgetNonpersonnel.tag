@@ -106,7 +106,7 @@
                 <c:if test="${! viewOnly }">
                 <tr>
                   <td class="infoline">
-		                <input type="hidden" name="newNonpersonnel[${i}].documentNumber" value="${KualiForm.document.financialDocumentNumber}" />
+		                <input type="hidden" name="newNonpersonnel[${i}].documentNumber" value="${KualiForm.document.documentNumber}" />
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetTaskSequenceNumber" value="${KualiForm.currentTaskNumber}" />
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetPeriodSequenceNumber" value="${KualiForm.currentPeriodNumber}" />
 		                <input type="hidden" name="newNonpersonnel[${i}].budgetNonpersonnelCategoryCode" value="${nonpersonnelCategory.code}" />

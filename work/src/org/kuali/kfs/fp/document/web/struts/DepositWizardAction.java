@@ -36,7 +36,6 @@ import org.kuali.KeyConstants;
 import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.core.authorization.DocumentAuthorizer;
 import org.kuali.core.bo.user.KualiUser;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
@@ -112,13 +111,13 @@ public class DepositWizardAction extends KualiAction {
         if (!cd.isOpen()) {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
 
-            String cmDocId = cmDoc.getFinancialDocumentNumber();
+            String cmDocId = cmDoc.getDocumentNumber();
             String currentState = cd.getStatusCode();
 
             throw new CashDrawerStateException(verificationUnit, cmDocId, (String) f.format(CashDrawerConstants.STATUS_OPEN), (String) f.format(cd.getStatusCode()));
         }
 
-        dform.setCashManagementDocId(cmDoc.getFinancialDocumentNumber());
+        dform.setCashManagementDocId(cmDoc.getDocumentNumber());
         dform.setCashDrawerVerificationUnit(verificationUnit);
 
         dform.setDepositTypeCode(depositTypeCode);

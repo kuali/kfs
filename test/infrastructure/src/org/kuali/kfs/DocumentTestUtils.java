@@ -64,7 +64,7 @@ public class DocumentTestUtils {
     public static DocumentNote createDocumentNote(String documentHeaderId, KualiUser documentNoteAuthor, String documentNoteText) {
         java.util.Date now = new java.util.Date();
         DocumentNote documentNote = new DocumentNote();
-        documentNote.setFinancialDocumentNumber(documentHeaderId);
+        documentNote.setDocumentNumber(documentHeaderId);
         documentNote.setFinDocumentAuthorUniversalId(documentNoteAuthor.getPersonUniversalIdentifier());
         documentNote.setFinancialDocumentNoteText(documentNoteText);
         documentNote.setFinDocNotePostedDttmStamp(new java.sql.Timestamp(now.getTime()));

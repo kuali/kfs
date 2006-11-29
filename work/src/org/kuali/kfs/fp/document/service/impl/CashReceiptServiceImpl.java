@@ -157,7 +157,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     public List getPopulatedCashReceipts(String verificationUnit, String[] statii) {
         Map queryCriteria = buildCashReceiptCriteriaMap(verificationUnit, statii);
 
-        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria, PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, true));
+        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria, PropertyConstants.DOCUMENT_NUMBER, true));
 
         populateWorkflowFields(documents);
 
@@ -199,16 +199,16 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             KualiWorkflowDocument workflowDocument = null;
             DocumentHeader docHeader = cr.getDocumentHeader();
             try {
-                Long documentHeaderId = Long.valueOf(docHeader.getFinancialDocumentNumber());
+                Long documentHeaderId = Long.valueOf(docHeader.getDocumentNumber());
                 KualiUser user = GlobalVariables.getUserSession().getKualiUser();
 
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
             }
             catch (DocumentNotFoundException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + docHeader.getFinancialDocumentNumber() + "'", e);
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + docHeader.getDocumentNumber() + "'", e);
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '" + docHeader.getFinancialDocumentNumber() + "'", e);
+                throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '" + docHeader.getDocumentNumber() + "'", e);
             }
 
             docHeader.setWorkflowDocument(workflowDocument);

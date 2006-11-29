@@ -18,8 +18,6 @@
 package org.kuali.module.kra.budget.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,12 +26,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
@@ -77,7 +72,7 @@ public class BudgetTemplateAction extends BudgetAction {
         }
         
         budgetForm.setBudgetDocument(copyDoc);
-        budgetForm.setDocId(copyDoc.getFinancialDocumentNumber());
+        budgetForm.setDocId(copyDoc.getDocumentNumber());
 
         budgetForm.getBudgetDocument().setCleanseBudgetOnSave(false);
         super.save(mapping, form, request, response);

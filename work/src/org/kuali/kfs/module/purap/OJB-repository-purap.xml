@@ -603,7 +603,7 @@
 <class-descriptor class="org.kuali.module.purap.document.RequisitionDocument" table="PUR_REQS_T">
 	<field-descriptor name="identifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ID"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="fundingSourceCode" column="FND_SRC_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="statusCode" column="REQS_STAT_CD" jdbc-type="VARCHAR" index="true"/>
@@ -680,7 +680,7 @@
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <foreignkey field-ref="financialDocumentNumber" />
+        <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
@@ -834,7 +834,7 @@
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderDocument" table="PUR_PO_T">
 	<field-descriptor name="identifier" column="PO_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ID"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
@@ -928,7 +928,7 @@
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <foreignkey field-ref="financialDocumentNumber" />
+        <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
     <!-- COMMON TO ALL PURAP DOCUMENTS -->
@@ -1936,7 +1936,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.AssignContractManagerDetail" table="PUR_ASGN_CONTR_MGR_DTL_T">
-	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1950,7 +1950,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.AssignContractManagerDocument" table="FP_DOC_HEADER_T">
-    <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <!--  field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" / -->
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR" index="true" />
@@ -1964,11 +1964,11 @@
 
     <collection-descriptor name="notes" element-class-ref="org.kuali.core.document.DocumentNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="finDocNotePostedDttmStamp" sort="ASC" />
-        <inverse-foreignkey field-ref="financialDocumentNumber" />
+        <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
     <collection-descriptor name="assignContractManagerDetails" proxy="true" element-class-ref="org.kuali.module.purap.bo.AssignContractManagerDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="financialDocumentNumber" />
+        <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
 <class-descriptor class="org.kuali.module.purap.bo.SourceDocumentReference" table="PUR_SRC_DOC_REF_T">

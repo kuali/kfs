@@ -792,7 +792,7 @@ public class BalanceForwardRuleHelper {
                     // FIXME Once tests are running properly uncomment the code to include the
                     // chartOfAccountsCode in the document number. It will cause the tests to
                     // break given the current framework but is desired as an enhancement for Kuali.
-                    entry.setFinancialDocumentNumber(new StringBuffer("AC").append(balance.getAccountNumber())/* .append(balance.getChartOfAccountsCode()) */.toString());
+                    entry.setDocumentNumber(new StringBuffer("AC").append(balance.getAccountNumber())/* .append(balance.getChartOfAccountsCode()) */.toString());
 
                     // 1258 007850 MOVE WS-SEQ-NBR
                     // 1259 007860 TO TRN-ENTR-SEQ-NBR.
@@ -1106,7 +1106,7 @@ public class BalanceForwardRuleHelper {
                     // 1359 008810 DELIMITED BY SIZE
                     // 1360 008820 INTO FDOC-NBR OF GLEN-RECORD.
 
-                    activeEntry.setFinancialDocumentNumber(new StringBuffer("AC").append(balance.getAccountNumber()).toString());
+                    activeEntry.setDocumentNumber(new StringBuffer("AC").append(balance.getAccountNumber()).toString());
 
                     // 1361 008830 MOVE WS-SEQ-NBR
                     // 1362 008840 TO TRN-ENTR-SEQ-NBR OF GLEN-RECORD.

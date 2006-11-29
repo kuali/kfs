@@ -107,7 +107,7 @@
                 </description>
             </attribute>
 
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

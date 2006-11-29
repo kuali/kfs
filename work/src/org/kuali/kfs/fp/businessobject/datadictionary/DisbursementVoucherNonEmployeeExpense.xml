@@ -117,7 +117,7 @@
                 <description>A free-form text field that specifies the dollar amount of the Pre Paid Expenses</description>
             </attribute>
 
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -22,7 +22,7 @@
 	showTabButtons="true">
 
 	<html:hidden
-		property="document.procurementCardHolder.financialDocumentNumber" />
+		property="document.procurementCardHolder.documentNumber" />
 	<html:hidden property="document.procurementCardHolder.cardHolderName" />
 	<html:hidden
 		property="document.procurementCardHolder.cardHolderAlternateName" />

@@ -31,7 +31,7 @@
                 <field attributeName="budgetLockUserIdentifier" />
                 <field attributeName="budgetTransactionLockUserIdentifier" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="organizationLevelChartOfAccountsCode" />
                 <field attributeName="organizationLevelCode" />
                 <field attributeName="organizationLevelOrganizationCode" />
@@ -58,7 +58,7 @@
                 <lookupField attributeName="budgetLockUserIdentifier" required="false" />
                 <lookupField attributeName="budgetTransactionLockUserIdentifier" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="financialDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="organizationLevelChartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationLevelCode" required="false" />
                 <lookupField attributeName="organizationLevelOrganizationCode" required="false" />
@@ -71,7 +71,7 @@
                 <field attributeName="budgetLockUserIdentifier" />
                 <field attributeName="budgetTransactionLockUserIdentifier" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="organizationLevelChartOfAccountsCode" />
                 <field attributeName="organizationLevelCode" />
                 <field attributeName="organizationLevelOrganizationCode" />
@@ -142,8 +142,8 @@
                 <description>chartOfAccountsCode description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentNumber" forceUppercase="true">
-                <label>Financial Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -153,8 +153,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>financialDocumentNumber</summary>
-                <description>financialDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
             <attribute name="organizationLevelChartOfAccountsCode" forceUppercase="true">

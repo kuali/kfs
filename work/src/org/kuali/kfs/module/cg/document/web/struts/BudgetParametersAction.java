@@ -155,7 +155,7 @@ public class BudgetParametersAction extends BudgetAction {
             AppointmentType appType = (AppointmentType) iter.next();
 
             BudgetFringeRate currentFringeRate = budgetForm.getBudgetDocument().getBudget().getFringeRate(i);
-            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getFinancialDocumentNumber(), appType.getAppointmentTypeCode(), appType.getFringeRateAmount(), currentFringeRate.getInstitutionCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
+            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getDocumentNumber(), appType.getAppointmentTypeCode(), appType.getFringeRateAmount(), currentFringeRate.getInstitutionCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
 
             budgetFringeRate.set(i, bfr);
             i++;
@@ -174,7 +174,7 @@ public class BudgetParametersAction extends BudgetAction {
             AppointmentType appType = (AppointmentType) iter.next();
 
             BudgetFringeRate currentFringeRate = budgetForm.getBudgetDocument().getBudget().getFringeRate(i);
-            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getFinancialDocumentNumber(), appType.getAppointmentTypeCode(), currentFringeRate.getContractsAndGrantsFringeRateAmount(), appType.getCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
+            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getDocumentNumber(), appType.getAppointmentTypeCode(), currentFringeRate.getContractsAndGrantsFringeRateAmount(), appType.getCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
 
             budgetFringeRate.set(i, bfr);
             i++;
@@ -254,7 +254,7 @@ public class BudgetParametersAction extends BudgetAction {
                     periodRates[j] = currentGraduateAssistantRate.getCampusMaximumPeriodRate(j + 1);
                 }
             }
-            BudgetGraduateAssistantRate budgetGraduateAssistantRate = new BudgetGraduateAssistantRate(budgetForm.getDocument().getFinancialDocumentNumber(), gar.getCampusCode(), periodRates[0], periodRates[1], periodRates[2], periodRates[3], periodRates[4], periodRates[5], gar, currentGraduateAssistantRate.getObjectId(), currentGraduateAssistantRate.getVersionNumber());
+            BudgetGraduateAssistantRate budgetGraduateAssistantRate = new BudgetGraduateAssistantRate(budgetForm.getDocument().getDocumentNumber(), gar.getCampusCode(), periodRates[0], periodRates[1], periodRates[2], periodRates[3], periodRates[4], periodRates[5], gar, currentGraduateAssistantRate.getObjectId(), currentGraduateAssistantRate.getVersionNumber());
 
             graduateAssistantRate.set(i, budgetGraduateAssistantRate);
             i++;

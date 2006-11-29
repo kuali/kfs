@@ -21,14 +21,7 @@ import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodServic
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_invalidYear;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear;
 import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE5;
 import static org.kuali.test.fixtures.UserNameFixture.DFOGLE;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertEquality;
@@ -95,7 +88,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         TransactionalDocument document = buildDocument();
         getDocumentService().routeDocument(document, "saving copy source document", null);
         // collect some preCopy data
-        String preCopyId = document.getFinancialDocumentNumber();
+        String preCopyId = document.getDocumentNumber();
         String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
 
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
@@ -114,7 +107,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         document.convertIntoCopy();
         // compare to preCopy state
 
-        String postCopyId = document.getFinancialDocumentNumber();
+        String postCopyId = document.getDocumentNumber();
         assertFalse(postCopyId.equals(preCopyId));
         // verify that docStatus has changed
         // pending entries should be cleared
@@ -135,7 +128,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
             SourceAccountingLine preCopyLine = (SourceAccountingLine) preCopySourceLines.get(i);
             SourceAccountingLine postCopyLine = (SourceAccountingLine) postCopySourceLines.get(i);
 
-            assertInequality(preCopyLine.getFinancialDocumentNumber(), postCopyLine.getFinancialDocumentNumber());
+            assertInequality(preCopyLine.getDocumentNumber(), postCopyLine.getDocumentNumber());
             assertEquality(preCopyLine.getAmount(), postCopyLine.getAmount());
         }
 
@@ -145,7 +138,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
             TargetAccountingLine preCopyLine = (TargetAccountingLine) preCopyTargetLines.get(i);
             TargetAccountingLine postCopyLine = (TargetAccountingLine) postCopyTargetLines.get(i);
 
-            assertInequality(preCopyLine.getFinancialDocumentNumber(), postCopyLine.getFinancialDocumentNumber());
+            assertInequality(preCopyLine.getDocumentNumber(), postCopyLine.getDocumentNumber());
             assertEquality(preCopyLine.getAmount(), postCopyLine.getAmount());
         }
     }
@@ -165,7 +158,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         ArrayList sourceLines = new ArrayList();
         {
             SourceAccountingLine sourceLine = new SourceAccountingLine();
-            sourceLine.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
+            sourceLine.setDocumentNumber(document.getDocumentNumber());
             sourceLine.setSequenceNumber(new Integer(0));
             sourceLine.setChartOfAccountsCode("BL");
             sourceLine.setAccountNumber("1031400");
@@ -179,7 +172,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         document.setSourceAccountingLines(sourceLines);
 
 
-        String documentHeaderId = document.getFinancialDocumentNumber();
+        String documentHeaderId = document.getDocumentNumber();
         // route the original doc, wait for status change
         getDocumentService().routeDocument(document, "saving errorCorrection source document", null);
         // jv docs go straight to final
@@ -187,7 +180,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
         document = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
-        String preCorrectId = document.getFinancialDocumentNumber();
+        String preCorrectId = document.getDocumentNumber();
         String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
 
         int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
@@ -207,7 +200,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         document.convertIntoErrorCorrection();
         // compare to preCorrect state
 
-        String postCorrectId = document.getFinancialDocumentNumber();
+        String postCorrectId = document.getDocumentNumber();
         assertFalse(postCorrectId.equals(preCorrectId));
         // pending entries should be cleared
         int postCorrectPECount = document.getGeneralLedgerPendingEntries().size();
@@ -227,7 +220,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
             SourceAccountingLine preCorrectLine = (SourceAccountingLine) preCorrectSourceLines.get(i);
             SourceAccountingLine postCorrectLine = (SourceAccountingLine) postCorrectSourceLines.get(i);
 
-            assertEquality(postCorrectId, postCorrectLine.getFinancialDocumentNumber());
+            assertEquality(postCorrectId, postCorrectLine.getDocumentNumber());
             assertEquality(preCorrectLine.getAmount().negated(), postCorrectLine.getAmount());
         }
 
@@ -237,7 +230,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
             TargetAccountingLine preCorrectLine = (TargetAccountingLine) preCorrectTargetLines.get(i);
             TargetAccountingLine postCorrectLine = (TargetAccountingLine) postCorrectTargetLines.get(i);
 
-            assertEquality(postCorrectId, postCorrectLine.getFinancialDocumentNumber());
+            assertEquality(postCorrectId, postCorrectLine.getDocumentNumber());
             assertEquality(preCorrectLine.getAmount().negated(), postCorrectLine.getAmount());
         }
     }
@@ -256,7 +249,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // jv docs go straight to final
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
         // also check the Kuali (not Workflow) document status
-        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), Constants.DocumentStatusCodes.APPROVED);
+        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getDocumentNumber(), Constants.DocumentStatusCodes.APPROVED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
 

@@ -35,6 +35,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.PropertyConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -52,7 +53,7 @@ public class LaborGeneralLedgerEntry extends BusinessObjectBase {
 	private String universityFiscalPeriodCode;
 	private String financialDocumentTypeCode;
     private String financialSystemOriginationCode;
-    private String financialDocumentNumber;
+    private String documentNumber;
 	private Integer transactionLedgerEntrySequenceNumber;
 	private String transactionLedgerEntryDescription;
 	private KualiDecimal transactionLedgerEntryAmount;
@@ -316,23 +317,23 @@ public class LaborGeneralLedgerEntry extends BusinessObjectBase {
     }     
     
 	/**
-	 * Gets the financialDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return Returns the financialDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the financialDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param financialDocumentNumber The financialDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
@@ -890,7 +891,7 @@ public class LaborGeneralLedgerEntry extends BusinessObjectBase {
         m.put("financialObjectTypeCode", this.financialObjectTypeCode);
         m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.transactionLedgerEntrySequenceNumber != null) {
             m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
         }

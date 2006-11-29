@@ -99,18 +99,18 @@ public interface Check extends BusinessObject, PersistenceBrokerAware {
     public void setAmount(KualiDecimal amount);
 
     /**
-     * Gets the financialDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return Returns the financialDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getFinancialDocumentNumber();
+    public String getDocumentNumber();
 
     /**
-     * Sets the financialDocumentNumber attribute value.
+     * Sets the documentNumber attribute value.
      * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setFinancialDocumentNumber(String financialDocumentNumber);
+    public void setDocumentNumber(String documentNumber);
 
 
     /**

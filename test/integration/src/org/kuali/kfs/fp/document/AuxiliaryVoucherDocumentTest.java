@@ -22,14 +22,7 @@ import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testAddAccountingLine;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed;
 import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testRouteDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testSaveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE15;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
@@ -72,8 +65,8 @@ public class AuxiliaryVoucherDocumentTest extends KualiTestBase {
 
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
-            SourceAccountingLine line = sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
-            SourceAccountingLine balance = sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
+            SourceAccountingLine line = sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
+            SourceAccountingLine balance = sourceFixture.createAccountingLine(SourceAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber());
             balance.setDebitCreditCode(GL_DEBIT_CODE.equals(line.getDebitCreditCode()) ? GL_CREDIT_CODE : GL_DEBIT_CODE);
             document.addSourceAccountingLine(line);
             document.addSourceAccountingLine(balance);

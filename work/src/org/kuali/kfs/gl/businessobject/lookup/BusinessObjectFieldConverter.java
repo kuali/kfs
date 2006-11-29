@@ -143,7 +143,7 @@ public class BusinessObjectFieldConverter {
         propertyMappingTable.put(PropertyConstants.BALANCE_TYPE_CODE, PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
         propertyMappingTable.put(PropertyConstants.DOCUMENT_TYPE_CODE, PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
         propertyMappingTable.put(PropertyConstants.ORIGIN_CODE, PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        propertyMappingTable.put(PropertyConstants.DOCUMENT_NUMBER, PropertyConstants.FINANCIAL_DOCUMENT_NUMBER);
+        propertyMappingTable.put(PropertyConstants.DOCUMENT_NUMBER, PropertyConstants.DOCUMENT_NUMBER);
 
         return propertyMappingTable;
     }

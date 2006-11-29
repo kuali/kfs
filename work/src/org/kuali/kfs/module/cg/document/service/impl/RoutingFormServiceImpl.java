@@ -33,7 +33,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
     public void prepareRoutingFormForSave(RoutingFormDocument routingFormDocument) throws WorkflowException {
         // TODO not sure if the following is appropriate, Budget doesn't do this. But for now this works.
         if (routingFormDocument.getContractGrantProposal() != null) {
-            routingFormDocument.getContractGrantProposal().setDocumentNumber(routingFormDocument.getDocumentHeader().getFinancialDocumentNumber());
+            routingFormDocument.getContractGrantProposal().setDocumentNumber(routingFormDocument.getDocumentHeader().getDocumentNumber());
         }
     }
 

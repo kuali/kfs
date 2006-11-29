@@ -27,7 +27,7 @@
             <title>Procurement Card Holder Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="cardCycleAmountLimit" />
                 <field attributeName="cardCycleVolumeLimit" />
                 <field attributeName="cardHolderName" />
@@ -250,7 +250,7 @@
                 <shortLabel>Dflt Chrt</shortLabel>
             </attributeReference>
 
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
 
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
                 <label>Default Sub-Account</label>

@@ -28,6 +28,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
+import org.kuali.PropertyConstants;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
@@ -48,8 +49,7 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
     private final static String UNIVERISTY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
     private final static String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     private final static String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
-    private final static String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
-    private final static String MAX_CONSTANT = "max(financialDocumentNumber)";
+    private final static String MAX_CONSTANT = "max(documentNumber)";
 
 
     public EntryDaoOjb() {
@@ -83,7 +83,7 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
         crit.addEqualTo(UNIVERISTY_FISCAL_PERIOD_CODE, t.getUniversityFiscalPeriodCode());
         crit.addEqualTo(FINANCIAL_DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
         crit.addEqualTo(FINANCIAL_SYSTEM_ORIGINATION_CODE, t.getFinancialSystemOriginationCode());
-        crit.addEqualTo(FINANCIAL_DOCUMENT_NUMBER, t.getFinancialDocumentNumber());
+        crit.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, t.getDocumentNumber());
 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(Entry.class, crit);
         q.setAttributes(new String[] { "max(transactionLedgerEntrySequenceNumber)" });

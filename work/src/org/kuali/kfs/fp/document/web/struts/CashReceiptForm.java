@@ -191,9 +191,9 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
             financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }
         else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(CashReceipt.FINAL)) {
-            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(crd.getFinancialDocumentNumber());
+            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(crd.getDocumentNumber());
             if (cmd != null) {
-                String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();
+                String cmdFinancialDocNbr = cmd.getDocumentNumber();
 
                 String loadCMDocUrl = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
                 loadCMDocUrl = StringUtils.replace(loadCMDocUrl, "{0}", cmdFinancialDocNbr);
@@ -203,9 +203,9 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
             }
         }
         else if (financialDocumentStatusCode.equals(Constants.DocumentStatusCodes.APPROVED)) {
-            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(crd.getFinancialDocumentNumber());
+            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(crd.getDocumentNumber());
             if (cmd != null) {
-                String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();
+                String cmdFinancialDocNbr = cmd.getDocumentNumber();
 
                 String loadCMDocUrl = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
                 loadCMDocUrl = StringUtils.replace(loadCMDocUrl, "{0}", cmdFinancialDocNbr);

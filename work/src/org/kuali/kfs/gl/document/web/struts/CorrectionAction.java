@@ -1063,18 +1063,18 @@ public class CorrectionAction extends KualiDocumentActionBase {
         List l = doc.getCorrectionChangeGroup();
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             CorrectionChangeGroup ccg = (CorrectionChangeGroup)iter.next();
-            LOG.error("printChangeGroups() doc nbr: " + ccg.getFinancialDocumentNumber());
+            LOG.error("printChangeGroups() doc nbr: " + ccg.getDocumentNumber());
             LOG.error("printChangeGroups() ccg: " + ccg.getCorrectionChangeGroupLineNumber());
             for (Iterator iterator = ccg.getCorrectionCriteria().iterator(); iterator.hasNext();) {
                 CorrectionCriteria cc = (CorrectionCriteria)iterator.next();
-                LOG.error("printChangeGroups()      doc nbr: "  + cc.getFinancialDocumentNumber());
+                LOG.error("printChangeGroups()      doc nbr: "  + cc.getDocumentNumber());
                 LOG.error("printChangeGroups()      group nbr: " + cc.getCorrectionChangeGroupLineNumber());
                 LOG.error("printChangeGroups()      nbr:  " + cc.getCorrectionCriteriaLineNumber());
                 LOG.error("printChangeGroups()      criteria " + cc.getCorrectionCriteriaLineNumber() + " " + cc.getCorrectionFieldName() + " " + cc.getCorrectionOperatorCode() + " " + cc.getCorrectionFieldValue());
             }
             for (Iterator iterator = ccg.getCorrectionChange().iterator(); iterator.hasNext();) {
                 CorrectionChange cc = (CorrectionChange)iterator.next();
-                LOG.error("printChangeGroups()      doc nbr: "  + cc.getFinancialDocumentNumber());
+                LOG.error("printChangeGroups()      doc nbr: "  + cc.getDocumentNumber());
                 LOG.error("printChangeGroups()      group nbr: " + cc.getCorrectionChangeGroupLineNumber());
                 LOG.error("printChangeGroups()      nbr:  " + cc.getCorrectionChangeLineNumber());
                 LOG.error("printChangeGroups()      change " + cc.getCorrectionChangeLineNumber() + " " + cc.getCorrectionFieldName() + " " + cc.getCorrectionFieldValue());

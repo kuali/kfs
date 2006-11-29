@@ -22,13 +22,14 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class CorrectionChange extends BusinessObjectBase implements Comparable {
 
-    private String financialDocumentNumber;
+    private String documentNumber;
     private Integer correctionChangeGroupLineNumber;
     private Integer correctionChangeLineNumber;
     private Integer correctionStartPosition;
@@ -41,9 +42,9 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
 
     }
 
-    public CorrectionChange(String financialDocumentNumber,Integer correctionChangeGroupLineNumber,Integer correctionChangeLineNumber) {
+    public CorrectionChange(String documentNumber,Integer correctionChangeGroupLineNumber,Integer correctionChangeLineNumber) {
         super();
-        this.financialDocumentNumber = financialDocumentNumber;
+        this.documentNumber = documentNumber;
         this.correctionChangeGroupLineNumber = correctionChangeGroupLineNumber;
         this.correctionChangeLineNumber = correctionChangeLineNumber;
     }
@@ -52,12 +53,12 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
         return (versionNumber == null) && StringUtils.isEmpty(correctionFieldValue);
     }
 
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 
@@ -96,8 +97,8 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
     public int compareTo(Object o) {
         CorrectionChange cc = (CorrectionChange)o;
 
-        String thisFdocNbr = financialDocumentNumber == null ? "" : financialDocumentNumber;
-        String thatFdocNbr = cc.financialDocumentNumber == null ? "" : cc.financialDocumentNumber;
+        String thisFdocNbr = documentNumber == null ? "" : documentNumber;
+        String thatFdocNbr = cc.documentNumber == null ? "" : cc.documentNumber;
         int c = thisFdocNbr.compareTo(thatFdocNbr);
 
         if ( c == 0 ) {
@@ -121,7 +122,7 @@ public class CorrectionChange extends BusinessObjectBase implements Comparable {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.correctionChangeGroupLineNumber != null) {
             m.put("correctionChangeGroupLineNumber", this.correctionChangeGroupLineNumber.toString());
         }

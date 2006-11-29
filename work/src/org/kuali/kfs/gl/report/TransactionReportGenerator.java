@@ -250,7 +250,7 @@ public class TransactionReportGenerator {
                 errorTable.addCell(cell);
                 cell = new PdfPCell(new Phrase(transaction.getFinancialSystemOriginationCode(), textFont));
                 errorTable.addCell(cell);
-                cell = new PdfPCell(new Phrase(transaction.getFinancialDocumentNumber(), textFont));
+                cell = new PdfPCell(new Phrase(transaction.getDocumentNumber(), textFont));
                 errorTable.addCell(cell);
 
                 String squenceNumber = transaction.getUniversityFiscalYear() == null ? "NULL" : transaction.getTransactionLedgerEntrySequenceNumber().toString();

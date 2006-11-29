@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -32,14 +33,14 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class CorrectionChangeGroup extends BusinessObjectBase implements Comparable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionChangeGroup.class);
 
-    private String financialDocumentNumber;
+    private String documentNumber;
     private Integer correctionChangeGroupLineNumber;
     private Integer correctionCriteriaNextLineNumber;
     private Integer correctionChangeNextLineNumber;
     private List correctionCriteria;
     private List correctionChange;
 
-    public CorrectionChangeGroup(String financialDocumentNumber,Integer correctionChangeGroupLineNumber) {
+    public CorrectionChangeGroup(String documentNumber,Integer correctionChangeGroupLineNumber) {
         setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
 
         correctionCriteria = new ArrayList();
@@ -47,7 +48,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
         correctionCriteriaNextLineNumber = new Integer(0);
         correctionChangeNextLineNumber = new Integer(0);
 
-        setFinancialDocumentNumber(financialDocumentNumber);
+        setDocumentNumber(documentNumber);
     }
 
     public CorrectionChangeGroup() {
@@ -61,14 +62,14 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     public void addCorrectionChange(CorrectionChange cc) {
         LOG.debug("addCorrectionChange() started");
 
-        cc.setFinancialDocumentNumber(financialDocumentNumber);
+        cc.setDocumentNumber(documentNumber);
         cc.setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
         cc.setCorrectionChangeLineNumber(correctionChangeNextLineNumber++);
         correctionChange.add(cc);
     }
 
     public void addCorrectionCriteria(CorrectionCriteria cc) {
-        cc.setFinancialDocumentNumber(financialDocumentNumber);
+        cc.setDocumentNumber(documentNumber);
         cc.setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
         cc.setCorrectionCriteriaLineNumber(correctionCriteriaNextLineNumber++);
         correctionCriteria.add(cc);
@@ -100,7 +101,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
             }
         }
 
-        CorrectionChange cc = new CorrectionChange(getFinancialDocumentNumber(),correctionChangeGroupLineNumber,changeNumber);
+        CorrectionChange cc = new CorrectionChange(getDocumentNumber(),correctionChangeGroupLineNumber,changeNumber);
         correctionChange.add(cc);
         
         return cc;
@@ -114,25 +115,25 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
             }
         }
 
-        CorrectionCriteria cc = new CorrectionCriteria(getFinancialDocumentNumber(),correctionChangeGroupLineNumber,criteriaNumber);
+        CorrectionCriteria cc = new CorrectionCriteria(getDocumentNumber(),correctionChangeGroupLineNumber,criteriaNumber);
         correctionCriteria.add(cc);
         return cc;
     }
 
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
 
         for (Iterator iter = correctionCriteria.iterator(); iter.hasNext();) {
             CorrectionCriteria element = (CorrectionCriteria)iter.next();
-            element.setFinancialDocumentNumber(financialDocumentNumber);
+            element.setDocumentNumber(documentNumber);
         }
         for (Iterator iter = correctionChange.iterator(); iter.hasNext();) {
             CorrectionChange element = (CorrectionChange)iter.next();
-            element.setFinancialDocumentNumber(financialDocumentNumber);
+            element.setDocumentNumber(documentNumber);
         }
     }
 
@@ -181,8 +182,8 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
     public int compareTo(Object o) {
         CorrectionChangeGroup other = (CorrectionChangeGroup)o;
 
-        String thisFdocNbr = financialDocumentNumber == null ? "" : financialDocumentNumber;
-        String thatFdocNbr = other.financialDocumentNumber == null ? "" : other.financialDocumentNumber;
+        String thisFdocNbr = documentNumber == null ? "" : documentNumber;
+        String thatFdocNbr = other.documentNumber == null ? "" : other.documentNumber;
 
         int c = thisFdocNbr.compareTo(thatFdocNbr);
         if ( c == 0 ) {
@@ -199,7 +200,7 @@ public class CorrectionChangeGroup extends BusinessObjectBase implements Compara
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.correctionChangeGroupLineNumber != null) {
             m.put("correctionChangeGroupLineNumber", this.correctionChangeGroupLineNumber.toString());
         }

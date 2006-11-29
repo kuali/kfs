@@ -78,7 +78,7 @@
             <tr>
                 <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row">
                     <%-- Outside this th, these hidden fields would be invalid HTML. --%>
-                    <html:hidden property="document.advanceDepositDetail[${ctr}].financialDocumentNumber" />
+                    <html:hidden property="document.advanceDepositDetail[${ctr}].documentNumber" />
                     <html:hidden property="document.advanceDepositDetail[${ctr}].financialDocumentTypeCode" />
                     <html:hidden property="document.advanceDepositDetail[${ctr}].financialDocumentColumnTypeCode" />
                     <html:hidden property="document.advanceDepositDetail[${ctr}].financialDocumentLineNumber" />

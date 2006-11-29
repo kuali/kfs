@@ -39,7 +39,7 @@ public class OriginEntryKey {
         }
 
         OriginEntryKey key = (OriginEntryKey) obj;
-        return ObjectHelper.isEqual(getAccountNumber(), key.getAccountNumber()) && ObjectHelper.isEqual(getBalanceTypeCode(), key.getBalanceTypeCode()) && ObjectHelper.isEqual(getChartCode(), key.getChartCode()) && ObjectHelper.isEqual(getDocumentTypeCode(), key.getDocumentTypeCode()) && ObjectHelper.isEqual(getEntrySequenceNumber(), key.getEntrySequenceNumber()) && ObjectHelper.isEqual(getFinancialDocumentNumber(), key.getFinancialDocumentNumber()) && ObjectHelper.isEqual(getFinancialObjectCode(), key.getFinancialObjectCode()) && ObjectHelper.isEqual(getFiscalPeriodCode(), key.getFiscalPeriodCode()) && ObjectHelper.isEqual(getFiscalYear(), key.getFiscalYear()) && ObjectHelper.isEqual(getObjectTypeCode(), key.getObjectTypeCode()) && ObjectHelper.isEqual(getSubAccountNumber(), key.getSubAccountNumber()) && ObjectHelper.isEqual(getSubObjectCode(), key.getSubObjectCode()) && ObjectHelper.isEqual(getSystemOriginationCode(), key.getSystemOriginationCode());
+        return ObjectHelper.isEqual(getAccountNumber(), key.getAccountNumber()) && ObjectHelper.isEqual(getBalanceTypeCode(), key.getBalanceTypeCode()) && ObjectHelper.isEqual(getChartCode(), key.getChartCode()) && ObjectHelper.isEqual(getDocumentTypeCode(), key.getDocumentTypeCode()) && ObjectHelper.isEqual(getEntrySequenceNumber(), key.getEntrySequenceNumber()) && ObjectHelper.isEqual(getDocumentNumber(), key.getDocumentNumber()) && ObjectHelper.isEqual(getFinancialObjectCode(), key.getFinancialObjectCode()) && ObjectHelper.isEqual(getFiscalPeriodCode(), key.getFiscalPeriodCode()) && ObjectHelper.isEqual(getFiscalYear(), key.getFiscalYear()) && ObjectHelper.isEqual(getObjectTypeCode(), key.getObjectTypeCode()) && ObjectHelper.isEqual(getSubAccountNumber(), key.getSubAccountNumber()) && ObjectHelper.isEqual(getSubObjectCode(), key.getSubObjectCode()) && ObjectHelper.isEqual(getSystemOriginationCode(), key.getSystemOriginationCode());
     }
 
     /**
@@ -58,7 +58,7 @@ public class OriginEntryKey {
         key.setChartCode(entry.getChartOfAccountsCode());
         key.setDocumentTypeCode(entry.getFinancialDocumentTypeCode());
         key.setEntrySequenceNumber(entry.getTransactionLedgerEntrySequenceNumber().toString());
-        key.setFinancialDocumentNumber(entry.getFinancialDocumentNumber());
+        key.setDocumentNumber(entry.getDocumentNumber());
         key.setFinancialObjectCode(entry.getFinancialObjectCode());
         key.setFiscalPeriodCode(entry.getUniversityFiscalPeriodCode());
         key.setFiscalYear(entry.getUniversityFiscalYear().toString());
@@ -79,7 +79,7 @@ public class OriginEntryKey {
         entry.setChartOfAccountsCode(getChartCode());
         entry.setDocumentType(documentTypeService.getDocumentTypeByCode(getDocumentTypeCode()));
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(getEntrySequenceNumber()));
-        entry.setFinancialDocumentNumber(getFinancialDocumentNumber());
+        entry.setDocumentNumber(getDocumentNumber());
         entry.setFinancialObjectCode(getFinancialObjectCode());
         entry.setUniversityFiscalPeriodCode(getFiscalPeriodCode());
         entry.setUniversityFiscalYear(new Integer(getFiscalYear()));
@@ -185,21 +185,21 @@ public class OriginEntryKey {
     }
 
     /**
-     * @return Returns the financialDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getFinancialDocumentNumber() {
-        return new String(financialDocumentNumber);
+    public String getDocumentNumber() {
+        return new String(documentNumber);
     }
 
     /**
-     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        if (null != financialDocumentNumber) {
-            System.arraycopy(financialDocumentNumber, 0, this.financialDocumentNumber, 0, this.financialDocumentNumber.length);
+    public void setDocumentNumber(String documentNumber) {
+        if (null != documentNumber) {
+            System.arraycopy(documentNumber, 0, this.documentNumber, 0, this.documentNumber.length);
         }
         else {
-            Arrays.fill(this.financialDocumentNumber, (char) 0);
+            Arrays.fill(this.documentNumber, (char) 0);
         }
     }
 
@@ -362,7 +362,7 @@ public class OriginEntryKey {
 
     final private char[] systemOriginationCode = new char[2];
 
-    final private char[] financialDocumentNumber = new char[9];
+    final private char[] documentNumber = new char[9];
 
     final private char[] entrySequenceNumber = new char[5];
 }

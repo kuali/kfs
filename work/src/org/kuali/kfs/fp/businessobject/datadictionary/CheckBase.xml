@@ -82,7 +82,7 @@
                 <required>true</required>
             </attributeReference>
 
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -48,7 +48,6 @@ import org.kuali.PropertyConstants;
  */
 public class RoutingFormDocument extends ResearchDocumentBase {
 
-	private String documentNumber;
 	private boolean agencyAdditionalShippingInstructionsIndicator;
 	private boolean agencyFederalPassThroughNotAvailableIndicator;
 	private String agencyFederalPassThroughNumber;
@@ -130,7 +129,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 */
 	public RoutingFormDocument() {
         super();
-        this.setDocumentNumber(this.financialDocumentNumber);
         
         creditPercentNextSequenceNumber = new Integer(1);
         institutionCostShareNextSequenceNumber = new Integer(1);
@@ -144,27 +142,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
 	}
-
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
-
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
-
 
 	/**
 	 * Gets the agencyAdditionalShippingInstructionsIndicator attribute.

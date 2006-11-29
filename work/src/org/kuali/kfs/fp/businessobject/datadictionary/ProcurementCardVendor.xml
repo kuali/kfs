@@ -27,7 +27,7 @@
             <title>Procurement Card Transaction Vendor Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialDocumentTransactionLineNumber" />
                 <field attributeName="vendorName" />
                 <field attributeName="transactionMerchantCategoryCode" />
@@ -43,7 +43,7 @@
         </inquiry>
 
         <attributes>
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
 
             <attributeReference name="financialDocumentTransactionLineNumber" sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" sourceAttributeName="financialDocumentTransactionLineNumber" />
 

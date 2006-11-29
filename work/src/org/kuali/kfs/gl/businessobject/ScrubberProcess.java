@@ -285,7 +285,7 @@ public class ScrubberProcess {
 
             // Get all the transactions for the document in the valid group
             Integer lastId = -1;
-            Iterator<OriginEntry> transactions = originEntryService.getEntriesByDocument(validGroup, document.getFinancialDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
+            Iterator<OriginEntry> transactions = originEntryService.getEntriesByDocument(validGroup, document.getDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
 
             while (transactions.hasNext()) {
                 OriginEntry transaction = transactions.next();
@@ -374,7 +374,7 @@ public class ScrubberProcess {
                 docNbr.append(desc.substring(36, 38));
                 docNbr.append("/");
                 docNbr.append(desc.substring(38, 40));
-                transaction.setFinancialDocumentNumber(docNbr.toString());
+                transaction.setDocumentNumber(docNbr.toString());
 
                 transaction.setTransactionLedgerEntryDescription(desc.substring(0, 33));
 
@@ -456,7 +456,7 @@ public class ScrubberProcess {
 
             // Build a scrubbed entry
             OriginEntry scrubbedEntry = new OriginEntry();
-            scrubbedEntry.setFinancialDocumentNumber(unscrubbedEntry.getFinancialDocumentNumber());
+            scrubbedEntry.setDocumentNumber(unscrubbedEntry.getDocumentNumber());
             scrubbedEntry.setOrganizationDocumentNumber(unscrubbedEntry.getOrganizationDocumentNumber());
             scrubbedEntry.setOrganizationReferenceId(unscrubbedEntry.getOrganizationReferenceId());
             scrubbedEntry.setReferenceFinancialDocumentNumber(unscrubbedEntry.getReferenceFinancialDocumentNumber());
@@ -1593,14 +1593,14 @@ public class ScrubberProcess {
             finBalanceTypCd = e.getFinancialBalanceTypeCode();
             fdocTypCd = e.getFinancialDocumentTypeCode();
             fsOriginCd = e.getFinancialSystemOriginationCode();
-            fdocNbr = e.getFinancialDocumentNumber();
+            fdocNbr = e.getDocumentNumber();
             fdocReversalDt = e.getFinancialDocumentReversalDate();
             univFiscalPrdCd = e.getUniversityFiscalPeriodCode();
         }
 
         public boolean isSameUnitOfWork(OriginEntry e) {
             // Compare the key fields
-            return univFiscalYr.equals(e.getUniversityFiscalYear()) && finCoaCd.equals(e.getChartOfAccountsCode()) && accountNbr.equals(e.getAccountNumber()) && subAcctNbr.equals(e.getSubAccountNumber()) && finBalanceTypCd.equals(e.getFinancialBalanceTypeCode()) && fdocTypCd.equals(e.getFinancialDocumentTypeCode()) && fsOriginCd.equals(e.getFinancialSystemOriginationCode()) && fdocNbr.equals(e.getFinancialDocumentNumber()) && ObjectHelper.isEqual(fdocReversalDt, e.getFinancialDocumentReversalDate()) && univFiscalPrdCd.equals(e.getUniversityFiscalPeriodCode());
+            return univFiscalYr.equals(e.getUniversityFiscalYear()) && finCoaCd.equals(e.getChartOfAccountsCode()) && accountNbr.equals(e.getAccountNumber()) && subAcctNbr.equals(e.getSubAccountNumber()) && finBalanceTypCd.equals(e.getFinancialBalanceTypeCode()) && fdocTypCd.equals(e.getFinancialDocumentTypeCode()) && fsOriginCd.equals(e.getFinancialSystemOriginationCode()) && fdocNbr.equals(e.getDocumentNumber()) && ObjectHelper.isEqual(fdocReversalDt, e.getFinancialDocumentReversalDate()) && univFiscalPrdCd.equals(e.getUniversityFiscalPeriodCode());
         }
 
         public String toString() {
@@ -1616,7 +1616,7 @@ public class ScrubberProcess {
             e.setFinancialBalanceTypeCode(finBalanceTypCd);
             e.setFinancialDocumentTypeCode(fdocTypCd);
             e.setFinancialSystemOriginationCode(fsOriginCd);
-            e.setFinancialDocumentNumber(fdocNbr);
+            e.setDocumentNumber(fdocNbr);
             e.setFinancialDocumentReversalDate(fdocReversalDt);
             e.setUniversityFiscalPeriodCode(univFiscalPrdCd);
             return e;

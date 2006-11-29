@@ -194,7 +194,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
     private String buildDepositWizardUrl(CashManagementDocument cmDoc, String depositTypeCode) {
         Properties params = new Properties();
         params.setProperty("methodToCall", "startWizard");
-        params.setProperty("cmDocId", cmDoc.getFinancialDocumentNumber());
+        params.setProperty("cmDocId", cmDoc.getDocumentNumber());
         params.setProperty("depositTypeCode", depositTypeCode);
 
         String wizardActionUrl = UrlFactory.parameterizeUrl("depositWizard.do", params);
@@ -296,7 +296,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         // open the CashDrawer
         CashDrawerService cds = SpringServiceLocator.getCashDrawerService();
-        cds.openCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getFinancialDocumentNumber());
+        cds.openCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getDocumentNumber());
         try {
             SpringServiceLocator.getDocumentService().saveDocument(cmDoc);
         }

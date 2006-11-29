@@ -64,4 +64,4 @@
         <html:image src="images/buttonsmall_genpdf.gif" styleClass="globalbuttons" property="methodToCall.pdfOutput" alt="Copy current document" onclick="excludeSubmitRestriction=true"/>
       </div>
 <div class="exportlinks">Export options: 
-<a href="researchBudgetOutput.do?document.financialDocumentNumber=${KualiForm.document.financialDocumentNumber}&methodToCall=xmlOutput"><span class="export xml">XML</span></a></div>
+<a href="researchBudgetOutput.do?document.documentNumber=${KualiForm.document.documentNumber}&methodToCall=xmlOutput"><span class="export xml">XML</span></a></div>

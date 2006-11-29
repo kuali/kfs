@@ -46,7 +46,7 @@ public class InquirableFinancialDocument {
             return Constants.EMPTY_STRING;
         }
 
-        String docNumber = transaction.getFinancialDocumentNumber();
+        String docNumber = transaction.getDocumentNumber();
         String originationCode = transaction.getFinancialSystemOriginationCode();
 
         return getUrl(originationCode, docNumber);

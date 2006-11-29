@@ -240,7 +240,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
          * @param crd
          */
         public CashReceiptSummary(CashReceiptDocument crd) {
-            documentNumber = crd.getFinancialDocumentNumber();
+            documentNumber = crd.getDocumentNumber();
             description = crd.getDocumentHeader().getFinancialDocumentDescription();
             createDate = crd.getDocumentHeader().getWorkflowDocument().getCreateDate();
             totalAmount = crd.getSumTotalAmount();

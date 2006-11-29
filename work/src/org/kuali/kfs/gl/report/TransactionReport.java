@@ -265,7 +265,7 @@ public class TransactionReport {
                             warnings.addCell(cell);
                             cell = new PdfPCell(new Phrase(tran.getFinancialSystemOriginationCode(), textFont));
                             warnings.addCell(cell);
-                            cell = new PdfPCell(new Phrase(tran.getFinancialDocumentNumber(), textFont));
+                            cell = new PdfPCell(new Phrase(tran.getDocumentNumber(), textFont));
                             warnings.addCell(cell);
                             if (tran.getTransactionLedgerEntrySequenceNumber() == null) {
                                 cell = new PdfPCell(new Phrase("NULL", textFont));

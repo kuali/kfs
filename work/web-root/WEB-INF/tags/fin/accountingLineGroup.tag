@@ -241,7 +241,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         editableFields="${editableFields}"
         debitCreditAmount="${debitCreditAmount}"
         currentBaseAmount="${currentBaseAmount}"
-        hiddenFields="postingYear,overrideCode,sequenceNumber,versionNumber,financialDocumentNumber${extraHiddenFields}"
+        hiddenFields="postingYear,overrideCode,sequenceNumber,versionNumber,documentNumber${extraHiddenFields}"
         columnCountUntilAmount="${columnCountUntilAmount}"
         debitCellProperty="voucherLineHelper[${ctr}].debit"
         creditCellProperty="voucherLineHelper[${ctr}].credit"

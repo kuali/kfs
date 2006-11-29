@@ -42,7 +42,7 @@
                 <field attributeName="financialDocumentMonth7LineAmount" />
                 <field attributeName="financialDocumentMonth8LineAmount" />
                 <field attributeName="financialDocumentMonth9LineAmount" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
@@ -58,7 +58,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="financialDocumentNumber" />
+                    <sortAttribute attributeName="documentNumber" />
                 </sortAttributes>
             </defaultSort>
 
@@ -78,7 +78,7 @@
                 <lookupField attributeName="financialDocumentMonth7LineAmount" required="false" />
                 <lookupField attributeName="financialDocumentMonth8LineAmount" required="false" />
                 <lookupField attributeName="financialDocumentMonth9LineAmount" required="false" />
-                <lookupField attributeName="financialDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialObjectTypeCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
@@ -102,7 +102,7 @@
                 <field attributeName="financialDocumentMonth7LineAmount" />
                 <field attributeName="financialDocumentMonth8LineAmount" />
                 <field attributeName="financialDocumentMonth9LineAmount" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
@@ -338,8 +338,8 @@
                 <description>financialDocumentMonth9LineAmount description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentNumber" forceUppercase="true">
-                <label>Financial Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -349,8 +349,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>financialDocumentNumber</summary>
-                <description>financialDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">

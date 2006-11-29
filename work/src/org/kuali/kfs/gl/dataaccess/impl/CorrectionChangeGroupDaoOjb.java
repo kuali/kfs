@@ -24,6 +24,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
+import org.kuali.PropertyConstants;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class CorrectionChangeGroupDaoOjb extends PersistenceBrokerDaoSupport implements CorrectionChangeGroupDao {
@@ -45,7 +46,7 @@ public class CorrectionChangeGroupDaoOjb extends PersistenceBrokerDaoSupport imp
      */
     public Collection findByDocumentNumber(String documentNumber) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("financialDocumentNumber", documentNumber);
+        criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
 
         QueryByCriteria query = QueryFactory.newQuery(CorrectionChangeGroup.class, criteria);
 
@@ -60,7 +61,7 @@ public class CorrectionChangeGroupDaoOjb extends PersistenceBrokerDaoSupport imp
         LOG.debug("findByDocumentNumberAndCorrectionChangeGroupNumber() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("financialDocumentNumber", documentNumber);
+        criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
         criteria.addEqualTo("correctionChangeGroupLineNumber", CorrectionChangeGroupNumber);
      
         QueryByCriteria query = QueryFactory.newQuery(CorrectionChangeGroup.class, criteria);

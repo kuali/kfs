@@ -80,7 +80,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
         BudgetFringeRate secondaryBudgetFringeRate = null;
         if (budgetFringeRate.getAppointmentType().getRelatedAppointmentTypeCode() != null) {
-            secondaryBudgetFringeRate = budgetFringeRateService.getBudgetFringeRate(budgetDocument.getFinancialDocumentNumber(), budgetFringeRate.getAppointmentType().getRelatedAppointmentTypeCode());
+            secondaryBudgetFringeRate = budgetFringeRateService.getBudgetFringeRate(budgetDocument.getDocumentNumber(), budgetFringeRate.getAppointmentType().getRelatedAppointmentTypeCode());
             budgetUser.setSecondaryAppointmentTypeCode(secondaryBudgetFringeRate.getInstitutionAppointmentTypeCode());
         }
 
@@ -464,7 +464,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
             BudgetFringeRate secondaryBudgetFringeRate = null;
             if (budgetFringeRate.getAppointmentType().getRelatedAppointmentTypeCode() != null) {
-                secondaryBudgetFringeRate = budgetFringeRateService.getBudgetFringeRate(budgetDocument.getFinancialDocumentNumber(), budgetFringeRate.getAppointmentType().getRelatedAppointmentTypeCode());
+                secondaryBudgetFringeRate = budgetFringeRateService.getBudgetFringeRate(budgetDocument.getDocumentNumber(), budgetFringeRate.getAppointmentType().getRelatedAppointmentTypeCode());
                 budgetUser.setSecondaryAppointmentTypeCode(secondaryBudgetFringeRate.getInstitutionAppointmentTypeCode());
             } else {
                 budgetUser.setSecondaryAppointmentTypeCode(null);

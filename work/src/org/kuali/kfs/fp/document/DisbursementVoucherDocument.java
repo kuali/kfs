@@ -766,22 +766,22 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     @Override
     public void prepareForSave() {
         if (dvWireTransfer != null) {
-            dvWireTransfer.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvWireTransfer.setDocumentNumber(this.documentNumber);
         }
 
         if (dvNonResidentAlienTax != null) {
-            dvNonResidentAlienTax.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvNonResidentAlienTax.setDocumentNumber(this.documentNumber);
         }
 
-        dvPayeeDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
+        dvPayeeDetail.setDocumentNumber(this.documentNumber);
 
         if (dvNonEmployeeTravel != null) {
-            dvNonEmployeeTravel.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvNonEmployeeTravel.setDocumentNumber(this.documentNumber);
             dvNonEmployeeTravel.setTotalTravelAmount(dvNonEmployeeTravel.getTotalTravelAmount());
         }
 
         if (dvPreConferenceDetail != null) {
-            dvPreConferenceDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvPreConferenceDetail.setDocumentNumber(this.documentNumber);
             dvPreConferenceDetail.setDisbVchrConferenceTotalAmt(dvPreConferenceDetail.getDisbVchrConferenceTotalAmt());
         }
     }

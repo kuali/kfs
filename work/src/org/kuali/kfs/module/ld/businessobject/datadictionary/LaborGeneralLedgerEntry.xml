@@ -30,7 +30,7 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialDocumentReversalDate" />
                 <field attributeName="financialDocumentTypeCode" />
                 <field attributeName="financialObjectCode" />
@@ -72,7 +72,7 @@
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="financialBalanceTypeCode" required="false" />
-                <lookupField attributeName="financialDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="financialDocumentReversalDate" required="false" />
                 <lookupField attributeName="financialDocumentTypeCode" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
@@ -100,7 +100,7 @@
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialDocumentReversalDate" />
                 <field attributeName="financialDocumentTypeCode" />
                 <field attributeName="financialObjectCode" />
@@ -172,8 +172,8 @@
                 <description>financialBalanceTypeCode description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentNumber" forceUppercase="true">
-                <label>Financial Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -183,8 +183,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>financialDocumentNumber</summary>
-                <description>financialDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
             <attribute name="financialDocumentReversalDate" forceUppercase="true">

@@ -36,7 +36,7 @@
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="financialSystemOriginationCode" />
                 <field attributeName="financialDocumentTypeCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="transactionLedgerEntrySequenceNumber" />
                 <field attributeName="transactionLedgerEntryDescription" />
                 <field attributeName="transactionLedgerEntryAmount" />
@@ -86,7 +86,7 @@
 
                 <lookupField attributeName="financialDocumentTypeCode" />
                 <lookupField attributeName="financialSystemOriginationCode" />
-                <lookupField attributeName="financialDocumentNumber" />
+                <lookupField attributeName="documentNumber" />
                 <lookupField attributeName="organizationDocumentNumber" />
 
                 <lookupField attributeName="projectCode" />
@@ -117,7 +117,7 @@
 
                 <field attributeName="financialDocumentTypeCode" />
                 <field attributeName="financialSystemOriginationCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
 
                 <field attributeName="transactionLedgerEntryDescription" />
                 <field attributeName="transactionLedgerEntryAmount" />
@@ -213,7 +213,7 @@
                 <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
 
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber">
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber">
                 <description>The system generated Document Number attached to the accounting transaction. Used for tracking purposes.</description>
             </attributeReference>
 

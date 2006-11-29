@@ -899,7 +899,7 @@
                 <nextTargetLineNumber>2</nextTargetLineNumber>
                 <sourceAccountingLines class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl">
                     <org.kuali.core.bo.SourceAccountingLine>
-                        <financialDocumentNumber>162838</financialDocumentNumber>
+                        <documentNumber>162838</documentNumber>
                         <sequenceNumber>1</sequenceNumber>
                         <postingYear>2004</postingYear>
                         <amount>
@@ -997,7 +997,7 @@
                 </sourceAccountingLines>
                 <targetAccountingLines class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl">
                     <org.kuali.core.bo.TargetAccountingLine>
-                        <financialDocumentNumber>162838</financialDocumentNumber>
+                        <documentNumber>162838</documentNumber>
                         <sequenceNumber>1</sequenceNumber>
                         <postingYear>2004</postingYear>
                         <amount>
@@ -1098,7 +1098,7 @@
                 <generalLedgerPendingEntries class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl">
                     <org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                         <financialSystemOriginationCode>01</financialSystemOriginationCode>
-                        <financialDocumentNumber>162838</financialDocumentNumber>
+                        <documentNumber>162838</documentNumber>
                         <transactionLedgerEntrySequenceNumber>1</transactionLedgerEntrySequenceNumber>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <accountNumber>2823205</accountNumber>
@@ -1147,7 +1147,7 @@
                     </org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                     <org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                         <financialSystemOriginationCode>01</financialSystemOriginationCode>
-                        <financialDocumentNumber>162838</financialDocumentNumber>
+                        <documentNumber>162838</documentNumber>
                         <transactionLedgerEntrySequenceNumber>2</transactionLedgerEntrySequenceNumber>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <accountNumber>2823205</accountNumber>
@@ -1194,7 +1194,7 @@
                     </org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                     <org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                         <financialSystemOriginationCode>01</financialSystemOriginationCode>
-                        <financialDocumentNumber>162838</financialDocumentNumber>
+                        <documentNumber>162838</documentNumber>
                         <transactionLedgerEntrySequenceNumber>3</transactionLedgerEntrySequenceNumber>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <accountNumber>2831410</accountNumber>
@@ -1241,7 +1241,7 @@
                     </org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                     <org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                         <financialSystemOriginationCode>01</financialSystemOriginationCode>
-                        <financialDocumentNumber>162838</financialDocumentNumber>
+                        <documentNumber>162838</documentNumber>
                         <transactionLedgerEntrySequenceNumber>4</transactionLedgerEntrySequenceNumber>
                         <chartOfAccountsCode>BL</chartOfAccountsCode>
                         <accountNumber>2831410</accountNumber>
@@ -1287,9 +1287,9 @@
                         <versionNumber>1</versionNumber>
                     </org.kuali.module.gl.bo.GeneralLedgerPendingEntry--EnhancerByCGLIB--bb96c9d8>
                 </generalLedgerPendingEntries>
-                <financialDocumentNumber>162838</financialDocumentNumber>
+                <documentNumber>162838</documentNumber>
                 <documentHeader>
-                    <financialDocumentNumber>162838</financialDocumentNumber>
+                    <documentNumber>162838</documentNumber>
                     <financialDocumentStatusCode>R</financialDocumentStatusCode>
                     <financialDocumentDescription>test</financialDocumentDescription>
                     <notes class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">

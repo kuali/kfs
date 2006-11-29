@@ -21,13 +21,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class AssignContractManagerDetail extends BusinessObjectBase {
 
-	private String financialDocumentNumber;
+	private String documentNumber;
 	private Integer requisitionIdentifier;
 	private Integer contractManagerCode;
 
@@ -42,23 +43,23 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the financialDocumentNumber attribute.
+	 * Gets the documentNumber attribute.
 	 * 
-	 * @return Returns the financialDocumentNumber
+	 * @return Returns the documentNumber
 	 * 
 	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
+	public String getDocumentNumber() { 
+		return documentNumber;
 	}
 
 	/**
-	 * Sets the financialDocumentNumber attribute.
+	 * Sets the documentNumber attribute.
 	 * 
-	 * @param financialDocumentNumber The financialDocumentNumber to set.
+	 * @param documentNumber The documentNumber to set.
 	 * 
 	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 
@@ -142,7 +143,7 @@ public class AssignContractManagerDetail extends BusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.requisitionIdentifier != null) {
             m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
         }

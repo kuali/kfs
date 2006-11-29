@@ -209,7 +209,7 @@ public class OrganizationReversionProcess {
             // TODO Error! Line 3426
         }
 
-        entry.setFinancialDocumentNumber("AC" + entry.getAccountNumber());
+        entry.setDocumentNumber("AC" + entry.getAccountNumber());
         entry.setTransactionLedgerEntryDescription(KeyConstants.OrganizationReversionProcess.CASH_REVERTED_TO + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -242,7 +242,7 @@ public class OrganizationReversionProcess {
             // TODO Error! Line 3522
         }
 
-        entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
+        entry.setDocumentNumber("AC" + unitOfWork.accountNbr);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_TO) + organizationReversion.getCashReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash().abs());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -274,7 +274,7 @@ public class OrganizationReversionProcess {
             // TODO Error! Line 3624
         }
 
-        entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
+        entry.setDocumentNumber("AC" + unitOfWork.accountNbr);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.CASH_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -307,7 +307,7 @@ public class OrganizationReversionProcess {
             // TODO Error! Line 3722
         }
 
-        entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
+        entry.setDocumentNumber("AC" + unitOfWork.accountNbr);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_BALANCE_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCash());
         if (unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) > 0) {
@@ -359,7 +359,7 @@ public class OrganizationReversionProcess {
                 }
 
                 entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
-                entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
+                entry.setDocumentNumber("AC" + unitOfWork.accountNbr);
                 entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
                 entry.setTransactionLedgerEntryAmount(commonAmount);
 
@@ -388,7 +388,7 @@ public class OrganizationReversionProcess {
                 }
 
                 entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
-                entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
+                entry.setDocumentNumber("AC" + unitOfWork.accountNbr);
                 entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
                 entry.setTransactionLedgerEntryAmount(commonAmount);
 
@@ -430,7 +430,7 @@ public class OrganizationReversionProcess {
         entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
         entry.setFinancialDocumentTypeCode("ACLO");
         entry.setFinancialSystemOriginationCode("MF");
-        entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
+        entry.setDocumentNumber("AC" + unitOfWork.accountNbr);
         entry.setTransactionLedgerEntrySequenceNumber(1);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
@@ -462,7 +462,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         entry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_CURRENT_BUDGET);
         entry.setUniversityFiscalPeriodCode(Constants.MONTH1);
-        entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr);
+        entry.setDocumentNumber("AC" + unitOfWork.accountNbr);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_CARRIED) + paramUniversityFiscalYear);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalCarryForward());
 
@@ -495,7 +495,7 @@ public class OrganizationReversionProcess {
 
         entry.setUniversityFiscalPeriodCode(Constants.MONTH13);
 
-        entry.setFinancialDocumentNumber("AC" + entry.getAccountNumber());
+        entry.setDocumentNumber("AC" + entry.getAccountNumber());
 
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO) + organizationReversion.getBudgetReversionAccountNumber());
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion().negated());
@@ -518,7 +518,7 @@ public class OrganizationReversionProcess {
         entry.setFinancialBalanceTypeCode("RE");
         entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         entry.setUniversityFiscalPeriodCode(Constants.MONTH13);
-        entry.setFinancialDocumentNumber("AC" + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
+        entry.setDocumentNumber("AC" + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
         entry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM) + unitOfWork.accountNbr + " " + unitOfWork.subAccountNbr);
         entry.setTransactionLedgerEntryAmount(unitOfWork.getTotalReversion());
 

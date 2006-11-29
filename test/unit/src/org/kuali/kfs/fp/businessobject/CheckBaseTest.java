@@ -48,7 +48,7 @@ public class CheckBaseTest extends KualiTestBase {
         crchk.setCheckDate(DATE);
         crchk.setCheckNumber(CHECK_NUMBER);
         crchk.setDescription(DESCRIPTION);
-        crchk.setFinancialDocumentNumber(DOC_HDR_ID);
+        crchk.setDocumentNumber(DOC_HDR_ID);
         crchk.setExtendedAttributeValues(new ArrayList());
         crchk.setInterimDepositAmount(false);
         crchk.setObjectId(GUID);
@@ -61,7 +61,7 @@ public class CheckBaseTest extends KualiTestBase {
         assertEquals(DATE, crchk.getCheckDate());
         assertEquals(CHECK_NUMBER, crchk.getCheckNumber());
         assertEquals(DESCRIPTION, crchk.getDescription());
-        assertEquals(DOC_HDR_ID, crchk.getFinancialDocumentNumber());
+        assertEquals(DOC_HDR_ID, crchk.getDocumentNumber());
         assertEquals(0, crchk.getExtendedAttributeValues().size());
         assertEquals(false, crchk.isInterimDepositAmount());
         assertEquals(GUID, crchk.getObjectId());

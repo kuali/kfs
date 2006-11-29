@@ -31,7 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 public class InternalBillingItem extends BusinessObjectBase {
 
     private static final long serialVersionUID = -2830091652446423539L;
-    private String financialDocumentNumber;
+    private String documentNumber;
     private Integer itemSequenceId;
     private String itemStockNumber;
     private String itemStockDescription;
@@ -49,22 +49,22 @@ public class InternalBillingItem extends BusinessObjectBase {
 
 
     /**
-     * Gets the financialDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return Returns the financialDocumentNumber.
+     * @return Returns the documentNumber.
      */
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
 
     /**
-     * Sets the financialDocumentNumber attribute value.
+     * Sets the documentNumber attribute value.
      * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 
@@ -223,7 +223,7 @@ public class InternalBillingItem extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("docHeaderId", getFinancialDocumentNumber());
+        m.put("docHeaderId", getDocumentNumber());
         m.put("itemSequenceId", getItemSequenceId());
 
         return m;

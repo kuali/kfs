@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLine;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -449,7 +449,7 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 

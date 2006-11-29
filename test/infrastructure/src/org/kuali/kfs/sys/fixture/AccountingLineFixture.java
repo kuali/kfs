@@ -125,12 +125,12 @@ public enum AccountingLineFixture {
         return line;
     }
 
-    public <T extends AccountingLine> T createAccountingLine(Class<T> lineClass, String financialDocumentNumber, Integer postingYear, Integer sequenceNumber)
+    public <T extends AccountingLine> T createAccountingLine(Class<T> lineClass, String documentNumber, Integer postingYear, Integer sequenceNumber)
         throws InstantiationException, IllegalAccessException
     {
         T line = createLine(lineClass);
 
-        line.setFinancialDocumentNumber(financialDocumentNumber);
+        line.setDocumentNumber(documentNumber);
         line.setPostingYear(postingYear);
         line.setSequenceNumber(sequenceNumber);
 
@@ -176,12 +176,12 @@ public enum AccountingLineFixture {
     public void addAsSourceTo(TransactionalDocument document)
         throws IllegalAccessException, InstantiationException
     {
-        document.addSourceAccountingLine(createAccountingLine(SourceAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber()));
+        document.addSourceAccountingLine(createAccountingLine(SourceAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber()));
     }
     
     public void addAsTargetTo(TransactionalDocument document)
         throws IllegalAccessException, InstantiationException
     {
-        document.addTargetAccountingLine(createAccountingLine(TargetAccountingLine.class, document.getFinancialDocumentNumber(), document.getPostingYear(), document.getNextTargetLineNumber()));
+        document.addTargetAccountingLine(createAccountingLine(TargetAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextTargetLineNumber()));
     }
 }

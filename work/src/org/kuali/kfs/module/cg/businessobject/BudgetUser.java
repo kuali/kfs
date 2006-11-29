@@ -106,7 +106,7 @@ public class BudgetUser extends BusinessObjectBase implements Comparable {
 
     public void initializeBudgetUser(BudgetDocument budgetDocument) {
         this.setBudgetUserSequenceNumber(budgetDocument.getPersonnelNextSequenceNumber());
-        this.setDocumentNumber(budgetDocument.getFinancialDocumentNumber());
+        this.setDocumentNumber(budgetDocument.getDocumentNumber());
         this.synchronizeUserObject();
         this.createUserAppointmentTasks(budgetDocument);
     }

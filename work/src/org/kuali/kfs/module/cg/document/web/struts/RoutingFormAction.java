@@ -49,7 +49,7 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
             routingForm.getRoutingFormDocument().setRoutingFormResearchRisks(
                     SpringServiceLocator.getRoutingFormResearchRiskService().getAllRoutingFormDocumentResearchRisks(
-                            routingForm.getRoutingFormDocument().getFinancialDocumentNumber()));
+                            routingForm.getRoutingFormDocument().getDocumentNumber()));
         }
         
         routingForm.setTabStates(new ArrayList());
@@ -109,7 +109,7 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         RoutingForm routingForm = (RoutingForm) form;
 
         if (IDocHandler.INITIATE_COMMAND.equals(routingForm.getCommand())) {
-            routingForm.getRoutingFormDocument().setDocumentNumber(routingForm.getRoutingFormDocument().getFinancialDocumentNumber());
+            routingForm.getRoutingFormDocument().setDocumentNumber(routingForm.getRoutingFormDocument().getDocumentNumber());
             // TODO
             //SpringServiceLocator.getBudgetService().initializeBudget(routingForm.getRoutingFormDocument());
         }

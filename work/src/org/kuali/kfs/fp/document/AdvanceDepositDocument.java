@@ -124,7 +124,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase {
     public final void prepareNewAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
         advanceDepositDetail.setFinancialDocumentLineNumber(this.nextAdvanceDepositLineNumber);
         advanceDepositDetail.setFinancialDocumentColumnTypeCode(Constants.AdvanceDepositConstants.CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
-        advanceDepositDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
+        advanceDepositDetail.setDocumentNumber(this.getDocumentNumber());
         advanceDepositDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass()));
     }
 

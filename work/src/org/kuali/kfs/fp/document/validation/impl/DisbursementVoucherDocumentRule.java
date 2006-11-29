@@ -224,7 +224,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DOCUMENT);
 
-        LOG.debug("processing route rules for document " + document.getFinancialDocumentNumber());
+        LOG.debug("processing route rules for document " + document.getDocumentNumber());
 
         validateDocumentFields(dvDocument);
 

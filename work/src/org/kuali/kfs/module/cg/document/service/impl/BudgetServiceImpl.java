@@ -85,7 +85,7 @@ public class BudgetServiceImpl implements BudgetService {
         ObjectUtils.materializeObjects(budgetDocument.getBudget().getTasks());
         ObjectUtils.materializeObjects(budgetDocument.getBudget().getPeriods());
 
-        Document databaseDocument = documentService.getByDocumentHeaderId(budgetDocument.getFinancialDocumentNumber());
+        Document databaseDocument = documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
 
         Budget budget = budgetDocument.getBudget();
         String documentNumber = budget.getDocumentNumber();
@@ -154,7 +154,7 @@ public class BudgetServiceImpl implements BudgetService {
         
         BudgetDocument databaseBudgetDocument;
         try {
-            databaseBudgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getFinancialDocumentNumber());
+            databaseBudgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         } catch (WorkflowException e) {
             throw new RuntimeException("Exception retrieving document: " + e);
         }

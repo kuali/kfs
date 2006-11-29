@@ -64,7 +64,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         }
             
         // Check ad-hoc user permissions
-        BudgetAdHocPermission budgetAdHocPermission = permissionsService.getBudgetAdHocPermission(budgetDocument.getFinancialDocumentNumber(), u.getPersonUniversalIdentifier());
+        BudgetAdHocPermission budgetAdHocPermission = permissionsService.getBudgetAdHocPermission(budgetDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
         if (budgetAdHocPermission != null) {
             if (KraConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getBudgetPermissionCode())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);

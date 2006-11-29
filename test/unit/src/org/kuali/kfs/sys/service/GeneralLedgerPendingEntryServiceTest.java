@@ -82,7 +82,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
                 generalLedgerPendingEntry = (GeneralLedgerPendingEntry) (entries.next());
                 ++counter;
 
-                System.out.println(counter + ":" + generalLedgerPendingEntry.getFinancialDocumentNumber());
+                System.out.println(counter + ":" + generalLedgerPendingEntry.getDocumentNumber());
             }
         }
         catch (Exception e) {
@@ -97,7 +97,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         GeneralLedgerPendingEntry generalLedgerPendingEntry = new GeneralLedgerPendingEntry();
 
         generalLedgerPendingEntry.setFinancialSystemOriginationCode("01");
-        generalLedgerPendingEntry.setFinancialDocumentNumber(docHeaderId);
+        generalLedgerPendingEntry.setDocumentNumber(docHeaderId);
         generalLedgerPendingEntry.setChartOfAccountsCode("BA");
         generalLedgerPendingEntry.setFinancialObjectCode("1130");
         generalLedgerPendingEntry.setFinancialBalanceTypeCode("AX");

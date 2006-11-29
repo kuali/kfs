@@ -26,6 +26,7 @@ import java.util.List;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.PropertyConstants;
 
 
 /**
@@ -33,7 +34,7 @@ import org.kuali.module.financial.document.CashManagementDocument;
  */
 public class Deposit extends BusinessObjectBase {
     // primary key
-    private String financialDocumentNumber;
+    private String documentNumber;
     private Integer financialDocumentDepositLineNumber;
     // attributes
     private String depositTypeCode;
@@ -234,19 +235,19 @@ public class Deposit extends BusinessObjectBase {
 
 
     /**
-     * @return current value of financialDocumentNumber.
+     * @return current value of documentNumber.
      */
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the financialDocumentNumber attribute value.
+     * Sets the documentNumber attribute value.
      * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 
@@ -256,7 +257,7 @@ public class Deposit extends BusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", getFinancialDocumentNumber());
+        m.put(PropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         m.put("financialDocumentDepositLineNumber", getFinancialDocumentDepositLineNumber());
         return m;
     }
@@ -269,7 +270,7 @@ public class Deposit extends BusinessObjectBase {
     public boolean keysEqual(Deposit other) {
         boolean keysEqual = false;
 
-        if (getFinancialDocumentNumber().equals(other.getFinancialDocumentNumber())) {
+        if (getDocumentNumber().equals(other.getDocumentNumber())) {
             if (getFinancialDocumentDepositLineNumber().equals(other.getFinancialDocumentDepositLineNumber())) {
                 keysEqual = true;
             }

@@ -23,7 +23,7 @@
    <html:hidden property="document.documentNumber" />
 
    <html:hidden property="document.documentHeader.versionNumber" />
-   <html:hidden property="document.documentHeader.financialDocumentNumber" />
+   <html:hidden property="document.documentHeader.documentNumber" />
    <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
 
     <html:hidden property="auditActivated" />

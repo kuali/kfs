@@ -17,9 +17,6 @@
  */
 package org.kuali.module.purap.service.impl;
 
-import java.util.List;
-
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -59,8 +56,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException("Error creating PO document: " + e.getMessage());
         }
         catch (Exception e) {
-            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
-            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
+            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
         }
         return poDocument;
     }

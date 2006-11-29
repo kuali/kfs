@@ -237,7 +237,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
                 throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
             }
 
-            grossLine.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
+            grossLine.setDocumentNumber(document.getDocumentNumber());
             grossLine.setSequenceNumber(document.getNextSourceLineNumber());
             grossLine.setChartOfAccountsCode(line1.getChartOfAccountsCode());
             grossLine.setAccountNumber(line1.getAccountNumber());
@@ -345,7 +345,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             throw new InfrastructureException("unable to instantiate sourceAccountingLineClass", e);
         }
 
-        taxLine.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
+        taxLine.setDocumentNumber(document.getDocumentNumber());
         taxLine.setSequenceNumber(document.getNextSourceLineNumber());
         taxLine.setChartOfAccountsCode(chart);
         taxLine.setAccountNumber(account);

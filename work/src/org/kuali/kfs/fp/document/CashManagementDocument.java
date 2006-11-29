@@ -31,6 +31,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
+import org.kuali.PropertyConstants;
 
 /**
  * This class represents the CashManagementDocument.
@@ -262,7 +263,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", getFinancialDocumentNumber());
+        m.put(PropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         m.put("workgroupName", getWorkgroupName());
         return m;
     }

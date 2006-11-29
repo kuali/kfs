@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -50,7 +51,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 
     private static final String ENTRY_GROUP_ID = "entryGroupId";
-    private static final String FINANCIAL_DOCUMENT_NUMBER = "financialDocumentNumber";
     private static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
 
@@ -132,7 +132,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         while ( i.hasNext() ) {
             Object[] data = (Object[])i.next();
             OriginEntry oe = new OriginEntry();
-            oe.setFinancialDocumentNumber((String)data[0]);
+            oe.setDocumentNumber((String)data[0]);
             oe.setFinancialDocumentTypeCode((String)data[1]);
             oe.setFinancialSystemOriginationCode((String)data[2]);
             results.add(oe);
@@ -185,7 +185,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
         Map criteria = new HashMap();
         criteria.put(ENTRY_GROUP_ID, originEntryGroup.getId());
-        criteria.put(FINANCIAL_DOCUMENT_NUMBER, documentNumber);
+        criteria.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
         criteria.put(FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
         criteria.put(FINANCIAL_SYSTEM_ORIGINATION_CODE, originCode);
 

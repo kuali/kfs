@@ -29,7 +29,7 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="hierarchyOrganizationLevelCode" />
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="selectedOrganizationChartOfAccountsCode" />
@@ -58,7 +58,7 @@
             <lookupFields>
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="financialDocumentNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="hierarchyOrganizationLevelCode" required="false" />
                 <lookupField attributeName="personUniversalIdentifier" required="false" />
                 <lookupField attributeName="selectedOrganizationChartOfAccountsCode" required="false" />
@@ -73,7 +73,7 @@
             <resultFields>
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="hierarchyOrganizationLevelCode" />
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="selectedOrganizationChartOfAccountsCode" />
@@ -118,8 +118,8 @@
                 <description>chartOfAccountsCode description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentNumber" forceUppercase="true">
-                <label>Financial Document Number</label>
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
@@ -129,8 +129,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>financialDocumentNumber</summary>
-                <description>financialDocumentNumber description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
             <attribute name="hierarchyOrganizationLevelCode" forceUppercase="true">

@@ -80,7 +80,7 @@ public class LockServiceTest extends KualiTestBase {
         bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (bcHeader == null){
             bcHeader = new BudgetConstructionHeader();
-            bcHeader.setFinancialDocumentNumber(fdocNumber);
+            bcHeader.setDocumentNumber(fdocNumber);
             bcHeader.setAccountNumber(accountNumber);
             bcHeader.setSubAccountNumber(subAccountNumber);
             bcHeader.setChartOfAccountsCode(chartOfAccountsCode);

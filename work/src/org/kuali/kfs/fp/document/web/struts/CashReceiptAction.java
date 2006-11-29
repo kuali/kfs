@@ -104,9 +104,9 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         String directory = getServlet().getServletConfig().getServletContext().getRealPath(CashReceiptCoverSheetServiceImpl.CR_COVERSHEET_TEMPLATE_RELATIVE_DIR);
 
         // retrieve document
-        String financialDocumentNumber = request.getParameter(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER);
+        String documentNumber = request.getParameter(PropertyConstants.DOCUMENT_NUMBER);
 
-        CashReceiptDocument document = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(financialDocumentNumber);
+        CashReceiptDocument document = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
 
         // since this action isn't triggered by a post, we don't have the normal document data
         // so we have to set the document into the form manually so that later authz processing
@@ -117,7 +117,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         CashReceiptCoverSheetService coverSheetService = SpringServiceLocator.getCashReceiptCoverSheetService();
         coverSheetService.generateCoverSheet(document, directory, baos);
-        String fileName = financialDocumentNumber + "_cover_sheet.pdf";
+        String fileName = documentNumber + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
 
         return null;
@@ -199,7 +199,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
         Check newCheck = crForm.getNewCheck();
-        newCheck.setFinancialDocumentNumber(crDoc.getFinancialDocumentNumber());
+        newCheck.setDocumentNumber(crDoc.getDocumentNumber());
 
         // check business rules
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddCheckEvent(Constants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));

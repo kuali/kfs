@@ -27,7 +27,7 @@
             <title>Procurement Card Transaction Detail Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="financialDocumentNumber" />
+                <field attributeName="documentNumber" />
                 <field attributeName="financialDocumentTransactionLineNumber" />
                 <field attributeName="transactionReferenceNumber" />
                 <field attributeName="transactionBillingCurrencyCode" />
@@ -52,7 +52,7 @@
 
         <attributes>
 
-            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
 
             <attribute name="financialDocumentTransactionLineNumber" forceUppercase="true">
                 <label>Financial Document Transaction Line Number</label>

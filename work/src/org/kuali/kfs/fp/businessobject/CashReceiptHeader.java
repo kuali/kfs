@@ -25,13 +25,14 @@ import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 public class CashReceiptHeader extends BusinessObjectBase {
 
-    private String financialDocumentNumber;
+    private String documentNumber;
     private String explanation;
     private Integer nextCheckSequenceId;
     private Integer nextCreditCardCashReceiptLineNumber;
@@ -53,23 +54,23 @@ public class CashReceiptHeader extends BusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentNumber attribute.
+     * Gets the documentNumber attribute.
      * 
-     * @return Returns the financialDocumentNumber
+     * @return Returns the documentNumber
      * 
      */
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the financialDocumentNumber attribute.
+     * Sets the documentNumber attribute.
      * 
-     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * @param documentNumber The documentNumber to set.
      * 
      */
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 
@@ -286,7 +287,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 }

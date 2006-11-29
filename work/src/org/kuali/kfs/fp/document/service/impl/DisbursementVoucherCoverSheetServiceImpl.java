@@ -86,7 +86,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             String bar = "";
             String rlines = "";
 
-            String docNumber = document.getFinancialDocumentNumber();
+            String docNumber = document.getDocumentNumber();
             String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
             String payee = document.getDvPayeeDetail().getDisbVchrPayeePersonName();
 

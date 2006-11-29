@@ -112,7 +112,7 @@ public class VerifyTransactionImpl implements VerifyTransaction {
         if ((t.getFinancialSystemOriginationCode() == null) || (t.getFinancialSystemOriginationCode().trim().length() == 0)) {
             errors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_NOT_BE_NULL));
         }
-        if ((t.getFinancialDocumentNumber() == null) || (t.getFinancialDocumentNumber().trim().length() == 0)) {
+        if ((t.getDocumentNumber() == null) || (t.getDocumentNumber().trim().length() == 0)) {
             errors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BE_NULL));
         }
         if (t.getTransactionLedgerEntrySequenceNumber() == null) {

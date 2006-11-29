@@ -20,19 +20,17 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentType;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -54,7 +52,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private Integer entryId;
     private Integer entryGroupId;
     private String accountNumber;
-    private String financialDocumentNumber;
+    private String documentNumber;
     private String referenceFinancialDocumentNumber;
     private String referenceFinancialDocumentTypeCode;
     private Date financialDocumentReversalDate;
@@ -102,7 +100,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
 
     public OriginEntry(GeneralLedgerPendingEntry glpe) {
         accountNumber = glpe.getAccountNumber();
-        financialDocumentNumber = glpe.getFinancialDocumentNumber();
+        documentNumber = glpe.getDocumentNumber();
         referenceFinancialDocumentNumber = glpe.getReferenceFinancialDocumentNumber();
         referenceFinancialDocumentTypeCode = glpe.getReferenceFinancialDocumentTypeCode();
         financialDocumentReversalDate = glpe.getFinancialDocumentReversalDate();
@@ -147,7 +145,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         setFinancialBalanceTypeCode(Constants.EMPTY_STRING);
         setFinancialObjectTypeCode(Constants.EMPTY_STRING);
-        setFinancialDocumentNumber(Constants.EMPTY_STRING);
+        setDocumentNumber(Constants.EMPTY_STRING);
         setFinancialDocumentReversalDate(null);
 
         setUniversityFiscalYear(new Integer(0));
@@ -191,7 +189,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
 
     public void setTransaction(Transaction t) {
         setAccountNumber(t.getAccountNumber());
-        setFinancialDocumentNumber(t.getFinancialDocumentNumber());
+        setDocumentNumber(t.getDocumentNumber());
         setReferenceFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
         setReferenceFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
         setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
@@ -276,7 +274,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setUniversityFiscalPeriodCode(getValue(line, 29, 31));
         setFinancialDocumentTypeCode(getValue(line, 31, 35));
         setFinancialSystemOriginationCode(getValue(line, 35, 37));
-        setFinancialDocumentNumber(getValue(line, 37, 51));
+        setDocumentNumber(getValue(line, 37, 51));
         if (!"     ".equals(line.substring(51, 56)) && !"00000".equals(line.substring(51, 56))) {
             try {
                 setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
@@ -361,7 +359,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         sb.append(getField(2, universityFiscalPeriodCode));
         sb.append(getField(4, financialDocumentTypeCode));
         sb.append(getField(2, financialSystemOriginationCode));
-        sb.append(getField(14, financialDocumentNumber));
+        sb.append(getField(14, documentNumber));
 
         // This is the cobol code for transaction sequence numbers.
         // 3025 019280 IF TRN-ENTR-SEQ-NBR OF GLEN-RECORD NOT NUMERIC
@@ -425,7 +423,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         map.put("financialObjectTypeCode", financialObjectTypeCode);
         map.put("financialSubObjectCode", financialSubObjectCode);
         map.put("financialBalanceTypeCode", financialBalanceTypeCode);
-        map.put("financialDocumentNumber", financialDocumentNumber);
+        map.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
         map.put("financialDocumentTypeCode", financialDocumentTypeCode);
         map.put("financialSystemOriginationCode", financialSystemOriginationCode);
         map.put("transactionLedgerEntrySequenceNumber", transactionLedgerEntrySequenceNumber);
@@ -496,12 +494,12 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         this.transactionDebitCreditCode = transactionDebitCreditCode;
     }
 
-    public String getFinancialDocumentNumber() {
-        return financialDocumentNumber;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
-    public void setFinancialDocumentNumber(String financialDocumentNumber) {
-        this.financialDocumentNumber = financialDocumentNumber;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     public Date getFinancialDocumentReversalDate() {
@@ -844,8 +842,8 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
             setFinancialDocumentTypeCode(fieldValue);
         } else if ( "financialSystemOriginationCode".equals(fieldName) ) {
             setFinancialSystemOriginationCode(fieldValue);
-        } else if ( "financialDocumentNumber".equals(fieldName) ) {
-            setFinancialDocumentNumber(fieldValue);
+        } else if ( PropertyConstants.DOCUMENT_NUMBER.equals(fieldName) ) {
+            setDocumentNumber(fieldValue);
         } else if ( "transactionLedgerEntrySequenceNumber".equals(fieldName) ) {
             if ( StringUtils.hasText(fieldValue) ) {
                 setTransactionLedgerEntrySequenceNumber(Integer.parseInt(fieldValue));
@@ -926,8 +924,8 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
             return getFinancialDocumentTypeCode();
         } else if ( "financialSystemOriginationCode".equals(fieldName) ) {
             return getFinancialSystemOriginationCode();
-        } else if ( "financialDocumentNumber".equals(fieldName) ) {
-            return getFinancialDocumentNumber();
+        } else if ( PropertyConstants.DOCUMENT_NUMBER.equals(fieldName) ) {
+            return getDocumentNumber();
         } else if ( "transactionLedgerEntrySequenceNumber".equals(fieldName) ) {
             return getTransactionLedgerEntrySequenceNumber();
         } else if ( "transactionLedgerEntryDescription".equals(fieldName) ) {

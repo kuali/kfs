@@ -190,7 +190,7 @@ public class CashManagementDocumentRule extends FinancialDocumentRuleBase implem
             CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptHeader().getCashReceiptDocument();
             String crState = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
             if (!desiredCRStates.contains(crState)) {
-                throw new IllegalStateException("Cash receipt document number " + cashReceipt.getFinancialDocumentNumber() + " is not in an appropriate state for the associated CashManagementDocument to be submitted.");
+                throw new IllegalStateException("Cash receipt document number " + cashReceipt.getDocumentNumber() + " is not in an appropriate state for the associated CashManagementDocument to be submitted.");
             }
         }
     }

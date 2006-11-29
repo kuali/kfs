@@ -51,7 +51,7 @@
   <c:set var="baseCtr" value="0"/>
   <logic:iterate indexId="ctr" name="KualiForm" property="document.transactionEntries" id="currentTransaction">
     <table cellpadding="0" class="datatable" summary="Transaction Details">
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].financialDocumentNumber"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].documentNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].financialDocumentTransactionLineNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPostingDate"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionOriginalCurrencyCode"/>
@@ -69,7 +69,7 @@
        <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleStartDate"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleEndDate"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].versionNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.financialDocumentNumber"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.documentNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.financialDocumentTransactionLineNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorLine1Address"/>
@@ -84,7 +84,7 @@
        
        <%-- write out source (actually from lines) as hiddens since they are not displayed but need repopulated --%>
        <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].documentNumber"/>
         <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentTransactionLineNumber"/>
         <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].sequenceNumber"/>
         <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].versionNumber"/>
@@ -106,7 +106,7 @@
 	        <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.transactionCreditCardNumber}" readOnly="true"/></div></th>
 	        <td>
 	          <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardHolder" 
-               keyValues="financialDocumentNumber=${currentTransaction.financialDocumentNumber}" 
+               keyValues="documentNumber=${currentTransaction.documentNumber}" 
                render="true">
 	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber"
 	             readOnly="true" encryptValue="${!empty KualiForm.editingMode['viewOnly']}" displayMask="****************" />
@@ -125,7 +125,7 @@
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionReferenceNumber}"/></div></th>
           <td valign=top>
             <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" 
-               keyValues="financialDocumentNumber=${currentTransaction.financialDocumentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
+               keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
               <html:hidden write="true" property="document.transactionEntries[${ctr}].transactionReferenceNumber"/>
             </kul:inquiry>
@@ -135,7 +135,7 @@
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorAttributes.vendorName}"/></div></th> 
           <td valign=top>
             <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardVendor" 
-               keyValues="financialDocumentNumber=${currentTransaction.financialDocumentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
+               keyValues="documentNumber=${currentTransaction.documentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
                render="true">
               <html:hidden write="true" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName"/>
             </kul:inquiry>  
@@ -231,7 +231,7 @@
           readOnly="${!accountIsEditable}"
           editableFields="${editableFields}"
           debitCreditAmount=""
-          hiddenFields="postingYear,overrideCode,sequenceNumber,financialDocumentTransactionLineNumber,versionNumber,financialDocumentNumber"
+          hiddenFields="postingYear,overrideCode,sequenceNumber,financialDocumentTransactionLineNumber,versionNumber,documentNumber"
           columnCountUntilAmount="${columnCountUntilAmount}"
           debitCellProperty="journalLineHelper[${sCtr}].debit"
           creditCellProperty="journalLineHelper[${sCtr}].credit"

@@ -60,7 +60,7 @@ public class PurapConstants {
     };
     
     public static final int DEFAULT_TAX_NUM_DIGITS = 9;
-    public static final String NOT_ALLOWED_TAX_NUMBER = "356001673";
+    //public static final String NOT_ALLOWED_TAX_NUMBER = "356001673";
     public static final String ALL_ZEROS_TAX_NUMBER = "000000000";
        
     public static class RequisitionStatuses {

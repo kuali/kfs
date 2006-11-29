@@ -27,7 +27,7 @@ public class PurapConstants {
 
     //Miscellaneous generic constants
     public static final String NONE = "NONE";
-    public static final String CREATE_NEW_DIVISION = "Create a New Division";
+    public static final String CREATE_NEW_DIVISION = "create division";
     public static final String NAME_DELIM = ", ";
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String DASH = "-";
@@ -38,22 +38,10 @@ public class PurapConstants {
     public static final String TAX_TYPE_SSN = "SSN";
     //public static final String TAX_TYPE_ITIN = "ITIN";  //are we implementing this in Kuali??
     
-    //North American phone number formats as regular expressions
-    public static final String GENERIC_PHONE_FORMAT_1 = "\\d{3}-\\d{3}-\\d{4}";
-    public static final String GENERIC_PHONE_FORMAT_2 = "\\(\\d{3}\\)\\s\\d{3}-\\d{4}";
-    public static final String GENERIC_PHONE_FORMAT_3 = "\\d{3}\\s\\d{3}\\s\\d{4}";
-    
-    public static final String[] GENERIC_PHONE_NUMBER_FORMATS = {
-        GENERIC_PHONE_FORMAT_1,
-        GENERIC_PHONE_FORMAT_2,
-        GENERIC_PHONE_FORMAT_3
-    };
     public static final int GENERIC_DEFAULT_PHONE_NUM_DIGITS = 10;
-    
+      
     public static final int DEFAULT_TAX_NUM_DIGITS = 9;
     
-    public static final String ALL_ZEROS_TAX_NUMBER = "000000000";
-       
     public static class RequisitionStatuses {
         public static String IN_PROCESS = "INPR";
         public static String CANCELLED = "CANC";

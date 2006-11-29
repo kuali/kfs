@@ -32,8 +32,6 @@ public class PurapConstants {
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String DASH = "-";
     public static final String VENDOR_HEADER_ATTR = "vendorHeader";
-    public static int VNDR_MIN_NUM_LOOKUP_CRITERIA = 1;
-    public static int VNDR_LOOKUP_MIN_NAME_LENGTH = 2;
 
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
@@ -69,7 +67,6 @@ public class PurapConstants {
     public static final String TWO_ZEROES = "00";
     public static final String FOUR_ZEROES = "0000";
     
-    public static final KualiDecimal VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(100000);
     
     public static class RequisitionStatuses {
         public static String IN_PROCESS = "INPR";

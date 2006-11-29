@@ -26,5 +26,9 @@ public class PurapRuleConstants {
     public static String PURAP_ADMIN_GROUP = "PurapAdminGroup";
 
     // RULE NAMES
+    public static String PURAP_VENDOR_MIN_ORDER_AMOUNT = "PURAP.VENDOR_MIN_ORDER_AMOUNT";
+    public static String PURAP_NOT_ALLOWED_TAX_NUMBERS = "PURAP.NOT_ALLOWED_TAX_NUMBERS";
+    public static String PURAP_VNDR_MIN_NUM_LOOKUP_CRITERIA = "PURAP.VNDR_MIN_NUM_LOOKUP_CRITERIA";
+    public static String PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH = "PURAP.VNDR_LOOKUP_MIN_NAME_LENGTH";
 
 }

@@ -89,6 +89,9 @@
         <property name="vendorService">
             <ref bean="vendorService" />
         </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
     </bean>
     
 </beans>

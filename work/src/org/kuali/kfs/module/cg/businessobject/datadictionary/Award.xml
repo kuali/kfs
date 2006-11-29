@@ -75,79 +75,43 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="agencyAnalystName" required="false" />
-                <lookupField attributeName="agencyAwardNumber" required="false" />
-                <lookupField attributeName="agencyFuture1Amount" required="false" />
-                <lookupField attributeName="agencyFuture2Amount" required="false" />
-                <lookupField attributeName="agencyFuture3Amount" required="false" />
-                <lookupField attributeName="agencyNumber" required="false" />
-                <lookupField attributeName="analystTelephoneNumber" required="false" />
-                <lookupField attributeName="awardAddendumNumber" required="false" />
-                <lookupField attributeName="awardAllocatedUniversityComputingServicesAmount" required="false" />
-                <lookupField attributeName="awardBeginningDate" required="false" />
-                <lookupField attributeName="awardClosingDate" required="false" />
-                <lookupField attributeName="awardCommentText" required="false" />
-                <lookupField attributeName="awardCreateTimestamp" required="false" />
-                <lookupField attributeName="awardDirectCostAmount" required="false" />
-                <lookupField attributeName="awardDocumentNumber" required="false" />
-                <lookupField attributeName="awardEndingDate" required="false" />
-                <lookupField attributeName="awardEntryDate" required="false" />
-                <lookupField attributeName="awardIndirectCostAmount" required="false" />
-                <lookupField attributeName="awardLastUpdateDate" required="false" />
-                <lookupField attributeName="awardProjectTitle" required="false" />
-                <lookupField attributeName="awardPurposeCode" required="false" />
-                <lookupField attributeName="awardStatusCode" required="false" />
-                <lookupField attributeName="awardTotalAmount" required="false" />
-                <lookupField attributeName="federalFundedAmount" required="false" />
-                <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
-                <lookupField attributeName="federalPassThroughFundedAmount" required="false" />
-                <lookupField attributeName="federalPassThroughIndicator" required="false" />
-                <lookupField attributeName="financialSystemWorkgroupId" required="false" />
-                <lookupField attributeName="grantDescriptionCode" required="false" />
-                <lookupField attributeName="letterOfCreditFundGroupCode" required="false" />
-                <lookupField attributeName="oldProposalNumber" required="false" />
-                <lookupField attributeName="proposalAwardTypeCode" required="false" />
                 <lookupField attributeName="proposalNumber" required="false" />
+                <lookupField attributeName="agency.fullName" required="false" />
+                <lookupField attributeName="awardTotalAmount" required="false" />
+                <lookupField attributeName="awardBeginningDate" required="false" />
+				<lookupField attributeName="proposal.grantNumber" required="false" />
+                <lookupField attributeName="awardStatus" required="false" />
+                <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
+                <lookupField attributeName="financialSystemWorkgroupId" required="false" />
+                <lookupField attributeName="awardPurpose" required="false" />
+				
             </lookupFields>
 
             <resultFields>
-                <field attributeName="agencyAnalystName" />
-                <field attributeName="agencyAwardNumber" />
-                <field attributeName="agencyFuture1Amount" />
-                <field attributeName="agencyFuture2Amount" />
-                <field attributeName="agencyFuture3Amount" />
-                <field attributeName="agencyNumber" />
-                <field attributeName="analystTelephoneNumber" />
-                <field attributeName="awardAddendumNumber" />
-                <field attributeName="awardAllocatedUniversityComputingServicesAmount" />
-                <field attributeName="awardBeginningDate" />
-                <field attributeName="awardClosingDate" />
-                <field attributeName="awardCommentText" />
-                <field attributeName="awardCreateTimestamp" />
-                <field attributeName="awardDirectCostAmount" />
-                <field attributeName="awardDocumentNumber" />
-                <field attributeName="awardEndingDate" />
-                <field attributeName="awardEntryDate" />
-                <field attributeName="awardIndirectCostAmount" />
-                <field attributeName="awardLastUpdateDate" />
-                <field attributeName="awardProjectTitle" />
-                <field attributeName="awardPurposeCode" />
-                <field attributeName="awardStatusCode" />
-                <field attributeName="awardTotalAmount" />
-                <field attributeName="federalFundedAmount" />
-                <field attributeName="federalPassThroughAgencyNumber" />
-                <field attributeName="federalPassThroughFundedAmount" />
-                <field attributeName="federalPassThroughIndicator" />
-                <field attributeName="financialSystemWorkgroupId" />
-                <field attributeName="grantDescriptionCode" />
-                <field attributeName="letterOfCreditFundGroupCode" />
-                <field attributeName="oldProposalNumber" />
-                <field attributeName="proposalAwardTypeCode" />
                 <field attributeName="proposalNumber" />
+                <field attributeName="agency.fullName" />
+                <field attributeName="awardTotalAmount" />
+                <field attributeName="awardBeginningDate" />
+				<field attributeName="proposal.grantNumber" />
+                <field attributeName="awardStatusCode" />
+                <field attributeName="federalPassThroughAgencyNumber" />
+                <field attributeName="financialSystemWorkgroupId" />
+                <field attributeName="awardPurposeCode" />
+
             </resultFields>
         </lookup>
 
         <attributes>
+
+
+            <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
+				<description>Insert desc here...</description>
+            </attributeReference>
+
+            <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
+				<description>Insert desc here...</description>
+            </attributeReference>
+
 
             <attribute name="agencyAnalystName" forceUppercase="true">
                 <label>Agency Analyst Name</label>
@@ -284,20 +248,14 @@
                 <description>awardAllocatedUniversityComputingServicesAmount description...</description>
 			</attribute>
 
-            <attribute name="awardBeginningDate" forceUppercase="true">
+            <attributeReference name="awardBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Award Beginning Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>awardBeginningDate</summary>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>awardBeginningDate description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="awardClosingDate" forceUppercase="true">
                 <label>Award Closing Date</label>
@@ -449,6 +407,20 @@
                 <description>awardProjectTitle description...</description>
 			</attribute>
 
+            <attributeReference name="awardPurpose" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
+
+                <label>Award Purpose Code</label>
+                <shortLabel>AwardPurpose</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A proposal purpose code</description>
+            </attributeReference>
+
             <attribute name="awardPurposeCode" forceUppercase="true">
                 <label>Award Purpose Code</label>
                 <shortLabel>Code</shortLabel>
@@ -463,6 +435,20 @@
                 <summary>awardPurposeCode</summary>
                 <description>awardPurposeCode description...</description>
 			</attribute>
+
+            <attributeReference name="awardStatus" sourceClassName="org.kuali.module.cg.bo.AwardStatus" sourceAttributeName="awardStatusCode">
+
+                <label>Award Status</label>
+                <shortLabel>AwardStatus</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.AwardStatusValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>An award status code</description>
+            </attributeReference>
 
             <attribute name="awardStatusCode" forceUppercase="true">
                 <label>Award Status Code</label>
@@ -479,20 +465,15 @@
                 <description>awardStatusCode description...</description>
 			</attribute>
 
-            <attribute name="awardTotalAmount" forceUppercase="true">
+            <attributeReference name="awardTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Award Total Amount</label>
                 <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>awardTotalAmount</summary>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>awardTotalAmount description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="federalFundedAmount" forceUppercase="true">
                 <label>Federal Funded Amount</label>
@@ -646,5 +627,18 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        
+        <collections>
+            <collection name="awardProjectDirector">
+                <label>Project Director</label>
+                <shortLabel>Proj Dir</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Award project director</description>
+            </collection>
+        </collections>
+        
+        
     </businessObject>
 </dictionaryEntry>

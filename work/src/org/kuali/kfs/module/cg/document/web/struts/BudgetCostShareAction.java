@@ -66,11 +66,7 @@ public class BudgetCostShareAction extends BudgetAction {
         
         budgetForm.setBudgetCostShareFormHelper(new BudgetCostShareFormHelper(budgetForm));
         
-//        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-//                KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
-//        if (costSharePermissionCode.equals(KraConstants.COST_SHARE_PERMISSION_CODE_OPTIONAL)) {
-//            budgetForm.setDisplayCostSharePermission(true);
-//        }
+        setupBudgetCostSharePermissionDisplay(budgetForm);
 
         return forward;
     }

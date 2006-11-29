@@ -27,7 +27,12 @@
 <c:set var="budgetInstitutionCostShareAttributes" value="${DataDictionary.BudgetInstitutionCostShare.attributes}" />
 <c:set var="budgetPeriodInstitutionCostShareAttributes" value="${DataDictionary.BudgetPeriodInstitutionCostShare.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="institutionDirectColumns" value="2"/>
 
+<c:if test="${KualiForm.displayCostSharePermission}">
+	<c:set var="institutionDirectColumns" value="3"/>
+</c:if>
+	
 <c:set var="tabDescription">
 	<c:choose>
 		<c:when test="${KualiForm.document.budget.institutionCostShareIndicator}">
@@ -114,7 +119,7 @@
 						</div>
 					</td>
 					<c:if test="${!viewOnly}">
-					<td rowspan="3" class="datacell">
+					<td rowspan="${institutionDirectColumns}" class="datacell">
 						<div align="center">
 							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="./images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
 						</div>
@@ -241,20 +246,6 @@
 							</div>
 						</td>
 					</tr>
-					<%-- %>
-					<tr>
-						<th class="bord-l-b">
-							<div align="right">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetInstitutionCostShare.attributes.permissionIndicator}" useShortLabel="true" />
-							</div>
-						</th>
-						<td colspan="${KualiForm.document.periodListSize+2}" class="datacell">
-							<div align="left">
-								<kul:htmlControlAttribute property="document.budget.institutionCostSharePersonnelItem[${rowctr}].permissionIndicator" attributeEntry="${budgetInstitutionCostShareAttributes.permissionIndicator}" readOnly="${viewOnly}" />
-							</div>
-						</td>
-					</tr>
-					--%>
 				</logic:iterate>
 
 				<!------------------- Add Source ---------------------------------------------------------------->
@@ -286,7 +277,7 @@
 				
 				<c:if test="${!viewOnly}">
 				<tr>
-					<th rowspan="3" class="bord-l-b">
+					<th rowspan="${institutionDirectColumns}" class="bord-l-b">
 						add:
 					</th>
 					<th class="datacell">
@@ -316,7 +307,7 @@
 							&nbsp;
 						</div>
 					</td>
-					<td rowspan="3" class="infoline">
+					<td rowspan="${institutionDirectColumns}" class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="./images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
 						</div>
@@ -334,24 +325,26 @@
 						</div>
 					</td>
 				</tr>
+				<c:if test="${KualiForm.displayCostSharePermission}">
 				<tr>
 					<th class="bord-l-b">
 						<div align="right">
 							<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetInstitutionCostShare.attributes.permissionIndicator}" useShortLabel="true" />
 						</div>
 					</th>
-					<td colspan="${KualiForm.document.periodListSize+2}" class="infoline">
+					<td colspan="${KualiForm.document.periodListSize + 2}" class="infoline">
 						<div align="left">
 							<html:checkbox property="newInstitutionCostShare.permissionIndicator" />
 						</div>
 					</td>
 				</tr>
 				</c:if>
+				</c:if>
 
 				<!--------- Show added Sources ------------------------------------------------------------------->
 				<logic:iterate id="sources" name="KualiForm" property="document.budget.institutionCostShareItems" indexId="rowctr">
 					<tr>
-						<th rowspan="3" class="bord-l-b">
+						<th rowspan="${institutionDirectColumns}" class="bord-l-b">
 							${rowctr+1}
 						</th>
 						<th class="bord-l-b">
@@ -385,7 +378,7 @@
 							</div>
 						</td>
 						<c:if test="${!viewOnly}">
-						<td rowspan="3" class="datacell">
+						<td rowspan="${institutionDirectColumns}" class="datacell">
 							<div align="center">
 								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="./images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
 							</div>
@@ -404,6 +397,7 @@
 							</div>
 						</td>
 					</tr>
+					<c:if test="${KualiForm.displayCostSharePermission}">
 					<tr>
 						<th class="bord-l-b">
 							<div align="right">
@@ -416,6 +410,7 @@
 							</div>
 						</td>
 					</tr>
+					</c:if>
 				</logic:iterate>
 			</table>
 		</div>

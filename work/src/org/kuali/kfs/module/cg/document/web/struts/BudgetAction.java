@@ -300,6 +300,8 @@ public class BudgetAction extends KualiDocumentActionBase {
 
         // This is so that tab states are not shared between pages.
         budgetForm.newTabState(true, true);
+        
+        setupBudgetCostSharePermissionDisplay(budgetForm);
 
         SpringServiceLocator.getBudgetIndirectCostService().refreshIndirectCost(budgetForm.getBudgetDocument());
         budgetForm.setBudgetIndirectCostFormHelper(new BudgetIndirectCostFormHelper(budgetForm));
@@ -424,6 +426,14 @@ public class BudgetAction extends KualiDocumentActionBase {
             adHocRouteWorkgroups.add(adHocRouteWorkgroup);
         }
         return adHocRouteWorkgroups;
+    }
+    
+    protected static void setupBudgetCostSharePermissionDisplay(BudgetForm budgetForm) {
+        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        if (costSharePermissionCode.equals(KraConstants.COST_SHARE_PERMISSION_CODE_OPTIONAL)) {
+            budgetForm.setDisplayCostSharePermission(true);
+        }
     }
 
     /**

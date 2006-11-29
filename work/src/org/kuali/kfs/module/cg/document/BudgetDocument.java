@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiUser;
@@ -36,6 +37,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.module.kra.budget.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
@@ -44,7 +46,6 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.PropertyConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -475,8 +476,8 @@ public class BudgetDocument extends ResearchDocumentBase {
      */
     public String buildCostShareOrgReportXml(boolean encloseContent) {
         
-//        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-//                KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
+        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.BUDGET_COST_SHARE_PERMISSION_CODE);
         
         StringBuffer xml = new StringBuffer();
         if (encloseContent) {
@@ -486,7 +487,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         List costShareItems = this.getBudget().getInstitutionCostShareItems();
         for (Iterator iter = costShareItems.iterator(); iter.hasNext();) {
             BudgetInstitutionCostShare costShare = (BudgetInstitutionCostShare) iter.next();
-            if (costShare.isPermissionIndicator()) {
+            if (costShare.isPermissionIndicator() || costSharePermissionCode.equals(KraConstants.COST_SHARE_PERMISSION_CODE_TRUE)) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 if (costShare.getChartOfAccountsCode() != null) {
                     xml.append(costShare.getChartOfAccountsCode());
@@ -495,7 +496,7 @@ public class BudgetDocument extends ResearchDocumentBase {
                 if (costShare.getOrganizationCode() != null) {
                     xml.append(costShare.getOrganizationCode());
                 }
-            xml.append("</organizationCode></chartOrg>");
+                xml.append("</organizationCode></chartOrg>");
             }
         }
         if (encloseContent) {

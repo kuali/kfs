@@ -65,59 +65,42 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="agencyNumber" required="false" />
-                <lookupField attributeName="cfdaNumber" required="false" />
-                <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
-                <lookupField attributeName="grantNumber" required="false" />
-                <lookupField attributeName="oldProposalNumber" required="false" />
-                <lookupField attributeName="proposalAwardTypeCode" required="false" />
-                <lookupField attributeName="proposalBeginningDate" required="false" />
-                <lookupField attributeName="proposalClosingDate" required="false" />
-                <lookupField attributeName="proposalDirectCostAmount" required="false" />
-                <lookupField attributeName="proposalDueDate" required="false" />
-                <lookupField attributeName="proposalEndingDate" required="false" />
-                <lookupField attributeName="proposalFederalPassThroughIndicator" required="false" />
-                <lookupField attributeName="proposalFellowName" required="false" />
-                <lookupField attributeName="proposalIndirectCostAmount" required="false" />
-                <lookupField attributeName="proposalLastUpdateDate" required="false" />
                 <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="proposalProjectTitle" required="false" />
-                <lookupField attributeName="proposalPurposeCode" required="false" />
-                <lookupField attributeName="proposalRejectedDate" required="false" />
-                <lookupField attributeName="proposalStatusCode" required="false" />
-                <lookupField attributeName="proposalSubmissionDate" required="false" />
+                <lookupField attributeName="agency.fullName" required="false" />
                 <lookupField attributeName="proposalTotalAmount" required="false" />
-                <lookupField attributeName="proposalTotalProjectAmount" required="false" />
+                <lookupField attributeName="proposalBeginningDate" required="false" />
+				<lookupField attributeName="grantNumber" required="false" />
+                <lookupField attributeName="proposalStatus" required="false" />
+                <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
+                <lookupField attributeName="proposalPurpose" required="false" />
+                <lookupField attributeName="proposalFellowName" required="false" />
+				
             </lookupFields>
 
             <resultFields>
-                <field attributeName="agencyNumber" />
-                <field attributeName="cfdaNumber" />
-                <field attributeName="federalPassThroughAgencyNumber" />
-                <field attributeName="grantNumber" />
-                <field attributeName="oldProposalNumber" />
-                <field attributeName="proposalAwardTypeCode" />
-                <field attributeName="proposalBeginningDate" />
-                <field attributeName="proposalClosingDate" />
-                <field attributeName="proposalDirectCostAmount" />
-                <field attributeName="proposalDueDate" />
-                <field attributeName="proposalEndingDate" />
-                <field attributeName="proposalFederalPassThroughIndicator" />
-                <field attributeName="proposalFellowName" />
-                <field attributeName="proposalIndirectCostAmount" />
-                <field attributeName="proposalLastUpdateDate" />
                 <field attributeName="proposalNumber" />
-                <field attributeName="proposalProjectTitle" />
-                <field attributeName="proposalPurposeCode" />
-                <field attributeName="proposalRejectedDate" />
-                <field attributeName="proposalStatusCode" />
-                <field attributeName="proposalSubmissionDate" />
+                <field attributeName="agency.fullName" />
                 <field attributeName="proposalTotalAmount" />
-                <field attributeName="proposalTotalProjectAmount" />
+                <field attributeName="proposalBeginningDate" />
+				<field attributeName="grantNumber" />
+                <field attributeName="proposalStatusCode" />
+                <field attributeName="federalPassThroughAgencyNumber" />
+                <field attributeName="proposalPurposeCode" />
+                <field attributeName="proposalFellowName" />
+
             </resultFields>
+
         </lookup>
 
         <attributes>
+
+            <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
+				<description>Insert desc here...</description>
+            </attributeReference>
+
+            <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
+				<description>Insert desc here...</description>
+            </attributeReference>
 
             <attribute name="agencyNumber" forceUppercase="true">
                 <label>Agency Number</label>
@@ -209,20 +192,15 @@
                 <description>proposalAwardTypeCode description...</description>
 			</attribute>
 
-            <attribute name="proposalBeginningDate" forceUppercase="true">
+            <attributeReference name="proposalBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Proposal Beginning Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>proposalBeginningDate</summary>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>proposalBeginningDate description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="proposalClosingDate" forceUppercase="true">
                 <label>Proposal Closing Date</label>
@@ -373,6 +351,20 @@
                 <description>proposalProjectTitle description...</description>
 			</attribute>
 
+            <attributeReference name="proposalPurpose" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
+
+                <label>Proposal Purpose Code</label>
+                <shortLabel>ProposalPurpose</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A proposal purpose code</description>
+            </attributeReference>
+
             <attribute name="proposalPurposeCode" forceUppercase="true">
                 <label>Proposal Purpose Code</label>
                 <shortLabel>Code</shortLabel>
@@ -402,6 +394,20 @@
                 <summary>proposalRejectedDate</summary>
                 <description>proposalRejectedDate description...</description>
 			</attribute>
+
+            <attributeReference name="proposalStatus" sourceClassName="org.kuali.module.cg.bo.ProposalStatus" sourceAttributeName="proposalStatusCode">
+
+                <label>Proposal Status</label>
+                <shortLabel>ProposalStatus</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalStatusValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A proposal status code</description>
+            </attributeReference>
 
             <attribute name="proposalStatusCode" forceUppercase="true">
                 <label>Proposal Status Code</label>

@@ -25,7 +25,7 @@
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" />
-	<kul:generalLedgerPendingEntries />
+	<ld:laborLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />

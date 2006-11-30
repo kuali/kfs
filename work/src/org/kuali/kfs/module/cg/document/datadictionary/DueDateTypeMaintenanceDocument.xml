@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/document/datadictionary/DueDateTypeMaintenanceDocument.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.kra.routingform.bo.RoutingFormDueDateType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KRA_PRE_AWARD_ADMIN</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiDueDateTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DDT</documentTypeCode>
+
+        <label>Due Date Type Maintenance Document</label>
+        <shortLabel>DueDateTypeMainDoc</shortLabel>
+
+        <summary>Due Date Type maintenance document</summary>
+        <description>Document used to create or update Due Date Type objects</description>
+
+        <lockingKeys>
+            <field attributeName="routingFormDueDateTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Due Date Type">
+                <maintainableItems>
+                    <maintainableField name="routingFormDueDateTypeCode" required="true" />
+                    <maintainableField name="routingFormDueDateDescription" required="true" />
+                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

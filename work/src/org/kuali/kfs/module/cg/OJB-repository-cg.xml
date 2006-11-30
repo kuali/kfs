@@ -509,23 +509,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch04Move" table="CG_BUILD_AGYPRJDR_SRCH04_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="agencyAwardNumber" column="CG_AGENCY_AWD_NBR" jdbc-type="VARCHAR" />
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch05Move" table="CG_BUILD_AGYPRJDR_SRCH05_MT">
     <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />

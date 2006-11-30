@@ -509,13 +509,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch03Move" table="CG_BUILD_AGYPRJDR_SRCH03_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch04Move" table="CG_BUILD_AGYPRJDR_SRCH04_MT">
     <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />

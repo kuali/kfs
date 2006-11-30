@@ -509,18 +509,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch01Move" table="CG_BUILD_AGYPRJDR_SRCH01_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="agencyAwardNumber" column="CG_AGENCY_AWD_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="flag" column="FLAG" jdbc-type="DECIMAL" />
-    <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cg.bo.BuildAgencyAndProjectDirectorSearch02Move" table="CG_BUILD_AGYPRJDR_SRCH02_MT">
     <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />

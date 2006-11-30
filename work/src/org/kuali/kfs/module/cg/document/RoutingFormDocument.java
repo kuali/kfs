@@ -1704,12 +1704,12 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.totalSubcontractorAmount = totalSubcontractorAmount;
     }
     
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List list = new ArrayList();
-        for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {
-            list.add(researchRisk.getResearchRiskStudies());
-        }
-        return list;
-    }
+//    @Override
+//    public List buildListOfDeletionAwareLists() {
+//        List list = new ArrayList();
+//        for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {
+//            list.add(researchRisk.getResearchRiskStudies());
+//        }
+//        return list;
+//    }
 }

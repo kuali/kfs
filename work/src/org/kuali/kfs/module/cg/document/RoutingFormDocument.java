@@ -28,8 +28,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
+import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
+import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
@@ -1701,5 +1703,13 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public void setTotalSubcontractorAmount(KualiDecimal totalSubcontractorAmount) {
         this.totalSubcontractorAmount = totalSubcontractorAmount;
     }
-
+    
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List list = new ArrayList();
+        for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {
+            list.add(researchRisk.getResearchRiskStudies());
+        }
+        return list;
+    }
 }

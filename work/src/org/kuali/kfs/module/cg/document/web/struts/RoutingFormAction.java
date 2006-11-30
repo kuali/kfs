@@ -26,8 +26,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -98,8 +100,21 @@ public class RoutingFormAction extends KualiDocumentActionBase {
     }
     
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.save(mapping, form, request, response);
-        
+        RoutingForm routingForm = (RoutingForm) form;
+
+        // Check if user has permission to save
+        routingForm.populateAuthorizationFields(SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
+        if (!"TRUE".equals(routingForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+            super.save(mapping, form, request, response);
+        }
+
+        // TODO RF Audit Mode
+        /*
+        if (routingForm.isAuditActivated()) {
+            routingForm.newTabState(true, true);
+            return mapping.findForward("auditmode");
+        }
+        */
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

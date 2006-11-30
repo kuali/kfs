@@ -30,7 +30,7 @@
 
 <kra-rf:routingFormHiddenDocumentFields excludeRoutingFormMainPage="true" />
 
-	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
+	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">

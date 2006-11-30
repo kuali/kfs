@@ -31,6 +31,8 @@
     <c:if test="${!excludeRoutingFormMainPage}">
       <html:hidden property="document.documentHeader.financialDocumentDescription" />
     </c:if>
+
+    <html:hidden property="document.contractGrantProposal.versionNumber" />
     
     <kul:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
     

@@ -35,7 +35,7 @@ public class RoutingFormDocumentAuthorizer extends DocumentAuthorizerBase {
 
     public DocumentActionFlags getDocumentActionFlags(Document document, KualiUser user) {
 
-        DocumentActionFlags flags = new DocumentActionFlags();
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         flags.setCanAcknowledge(false);
         flags.setCanApprove(false);

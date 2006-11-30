@@ -52,7 +52,9 @@
                 <maintainableItems>
                     <maintainableField name="proposalPurposeCode" required="true" />
                     <maintainableField name="proposalPurposeDescription" required="true" />
-                    <maintainableField name="rowActiveIndicator" />
+                    <maintainableField name="rowActiveIndicator">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

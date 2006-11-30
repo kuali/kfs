@@ -38,10 +38,6 @@ public class PurapConstants {
     public static final String TAX_TYPE_SSN = "SSN";
     //public static final String TAX_TYPE_ITIN = "ITIN";  //are we implementing this in Kuali??
     
-    public static final int GENERIC_DEFAULT_PHONE_NUM_DIGITS = 10;
-      
-    public static final int DEFAULT_TAX_NUM_DIGITS = 9;
-    
     public static class RequisitionStatuses {
         public static String IN_PROCESS = "INPR";
         public static String CANCELLED = "CANC";

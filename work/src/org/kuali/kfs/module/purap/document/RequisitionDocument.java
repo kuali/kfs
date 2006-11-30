@@ -217,7 +217,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
       VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), 
           this.getVendorDetailAssignedIdentifier());
-        if (!(vendorDetail != null && vendorDetail.isDataObjectMaintenanceCodeActiveIndicator())) {
+        if (!(vendorDetail != null && vendorDetail.isActiveIndicator())) {
             activeVendor = false;
         }
 

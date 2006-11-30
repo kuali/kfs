@@ -52,7 +52,9 @@
                 <maintainableItems>
                     <maintainableField name="proposalAwardTypeCode" required="true" />
                     <maintainableField name="proposalAwardTypeDescription" required="true" />
-                    <maintainableField name="rowActiveIndicator" />
+                    <maintainableField name="rowActiveIndicator">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

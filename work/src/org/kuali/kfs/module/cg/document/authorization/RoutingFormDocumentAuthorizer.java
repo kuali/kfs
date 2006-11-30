@@ -45,6 +45,7 @@ public class RoutingFormDocumentAuthorizer extends DocumentAuthorizerBase {
         flags.setCanFYI(false);
         flags.setCanClose(false);
         flags.setCanSave(true);
+        flags.setCanReload(true);
 
         return flags;
     }

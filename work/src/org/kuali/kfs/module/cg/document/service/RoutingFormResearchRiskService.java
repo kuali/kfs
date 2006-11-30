@@ -23,5 +23,5 @@ import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 
 public interface RoutingFormResearchRiskService {
-    public List<RoutingFormResearchRisk> getAllRoutingFormDocumentResearchRisks(String documentNumber);
+    public List<RoutingFormResearchRisk> getAllResearchRisks(String documentNumber);
 }

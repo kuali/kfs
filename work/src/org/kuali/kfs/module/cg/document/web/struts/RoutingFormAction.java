@@ -18,6 +18,8 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
@@ -50,8 +53,7 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         // Setup research risks if this is the first entry into page.
         if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
             routingForm.getRoutingFormDocument().setRoutingFormResearchRisks(
-                    SpringServiceLocator.getRoutingFormResearchRiskService().getAllRoutingFormDocumentResearchRisks(
-                            routingForm.getRoutingFormDocument().getDocumentNumber()));
+                    SpringServiceLocator.getRoutingFormResearchRiskService().getAllResearchRisks(routingForm.getRoutingFormDocument().getDocumentNumber()));
         }
         
         routingForm.setTabStates(new ArrayList());

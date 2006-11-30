@@ -24,7 +24,6 @@
 
 	<kra-rf:routingFormHiddenDocumentFields />
 
-
 	<div class="msg-excol">
 		<div class="right">
 			<div class="excol">
@@ -43,21 +42,12 @@
 			</td>
 			<td>
 				<div id="workarea">
-				
-				<kra-rf:routingFormResearchRisks/>
-
-<%-- %>
-					<kra-rf:routingFormResearchRisksMultiLine>
-					</kra-rf:routingFormResearchRisksMultiLine>
-
-					<kra-rf:routingFormResearchRisksDescrption>
-					</kra-rf:routingFormResearchRisksDescrption>
-					--%>
-
+					<kra-rf:routingFormResearchRisks/>
 				</div>
 			</td>
 		</tr>
 	</table>
 	
-	<div class="globalbuttons"> <a href="overview.html"><img src="images/buttonsmall_save.gif" alt="save" width="53" height="18" hspace="5" border="0"></a><a href="confirm-cancel.html"><img src="images/buttonsmall_cancel.gif" alt="cancel" width="66" height="18" hspace="5" border="0"></a> </div>
+	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+
 </kul:documentPage>

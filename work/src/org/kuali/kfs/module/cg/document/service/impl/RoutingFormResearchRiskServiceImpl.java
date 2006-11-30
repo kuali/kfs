@@ -18,6 +18,7 @@
 package org.kuali.module.kra.routingform.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
@@ -29,7 +30,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
 
     private BusinessObjectService businessObjectService;
     
-    public List<RoutingFormResearchRisk> getAllRoutingFormDocumentResearchRisks(String documentNumber) {
+    public List<RoutingFormResearchRisk> getAllResearchRisks(String documentNumber) {
         List<ResearchRiskType> researchRiskTypes = getAllResearchRiskTypes();
         List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>();
         for (ResearchRiskType researchRiskType: researchRiskTypes) {
@@ -39,7 +40,8 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
     }
     
     private List<ResearchRiskType> getAllResearchRiskTypes() {
-        List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>) getBusinessObjectService().findAll(ResearchRiskType.class);
+        List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>) getBusinessObjectService().findMatchingOrderBy(
+                ResearchRiskType.class, new HashMap(), "researchRiskTypeDescription", true);
         return researchRiskTypes;
     }
 

@@ -172,6 +172,13 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
     }
     
     public void addNewResearchRiskStudyToList() {
+        // set the sequence number
+        if (this.researchRiskStudies.isEmpty()) {
+            this.newResearchRiskStudy.setRoutingFormResearchRiskStudySequenceNumber(new Integer(1));
+        } else {
+            this.newResearchRiskStudy.setRoutingFormResearchRiskStudySequenceNumber(
+                    this.researchRiskStudies.get(this.researchRiskStudies.size() - 1).getRoutingFormResearchRiskStudySequenceNumber() + 1);
+        }
         this.researchRiskStudies.add(this.newResearchRiskStudy);
         this.newResearchRiskStudy = new RoutingFormResearchRiskStudy();
     }

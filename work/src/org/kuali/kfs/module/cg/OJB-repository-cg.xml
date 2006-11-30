@@ -509,16 +509,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cg.bo.BuildProposalSearch01Move" table="CG_BUILD_PRPSL_SRCH01_MT">
-    <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="researchType" class-ref="org.kuali.module.cg.bo.ResearchType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cg.bo.BuildProposalSearch02Move" table="CG_BUILD_PRPSL_SRCH02_MT">
     <field-descriptor name="sessionIdentifier" column="SESID" jdbc-type="DECIMAL" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />

@@ -94,9 +94,6 @@
                 <field attributeName="awardBeginningDate" />
 				<field attributeName="proposal.grantNumber" />
                 <field attributeName="awardStatusCode" />
-                <field attributeName="federalPassThroughAgencyNumber" />
-                <field attributeName="financialSystemWorkgroupId" />
-                <field attributeName="awardPurposeCode" />
 
             </resultFields>
         </lookup>
@@ -438,7 +435,7 @@
 
             <attributeReference name="awardStatus" sourceClassName="org.kuali.module.cg.bo.AwardStatus" sourceAttributeName="awardStatusCode">
 
-                <label>Award Status</label>
+                <label>Award Status Code</label>
                 <shortLabel>AwardStatus</shortLabel>
                 <control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.AwardStatusValuesFinder" />

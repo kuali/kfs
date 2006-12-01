@@ -29,14 +29,20 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
-        postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
+        postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
+        
+        <purap:purapDocumentDetail
+	    	documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+	    	purchaseOrder="true"
+	    	detailSectionLabel="Purchase Order Detail" />
+	</kul:documentOverview>
 
     <purap:vendor
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
         displayPurchaseOrderFields="true" />
 
-    <purap:items
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
+    <!-- purap:items
+        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}/ -->
 
     <purap:paymentinfo
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />

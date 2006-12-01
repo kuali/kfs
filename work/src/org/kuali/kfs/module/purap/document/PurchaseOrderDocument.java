@@ -59,13 +59,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
     private String alternateVendorName;
+    private String statusChange;
+    private String statusChangeNote;
 
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
     private PaymentTermType vendorPaymentTerms;
     private ShippingTitle vendorShippingTitle;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
-
 
     /**
 	 * Default constructor.
@@ -444,6 +445,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setVendorShippingTitle(ShippingTitle vendorShippingTitle) {
         this.vendorShippingTitle = vendorShippingTitle;
+    }
+
+    public String getStatusChange() {
+        return statusChange;
+    }
+
+    public void setStatusChange(String statusChange) {
+        this.statusChange = statusChange;
+    }
+
+    public String getStatusChangeNote() {
+        return statusChangeNote;
+    }
+
+    public void setStatusChangeNote(String statusChangeNote) {
+        this.statusChangeNote = statusChangeNote;
     }
 
 }

@@ -19,10 +19,12 @@
 package org.kuali.module.kra.routingform.bo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.PropertyConstants;
 
 /**
@@ -45,7 +47,7 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
 	 */
 	public RoutingFormResearchRisk() {
         newResearchRiskStudy = new RoutingFormResearchRiskStudy();
-	    researchRiskStudies = new ArrayList();
+	    researchRiskStudies = new ArrayList<RoutingFormResearchRiskStudy>();
 	}
     
     public RoutingFormResearchRisk(String documentNumber, ResearchRiskType researchRiskType) {
@@ -199,7 +201,7 @@ public class RoutingFormResearchRisk extends BusinessObjectBase {
     public void setNewResearchRiskStudy(RoutingFormResearchRiskStudy newResearchRiskStudy) {
         this.newResearchRiskStudy = newResearchRiskStudy;
     }
-
+    
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */

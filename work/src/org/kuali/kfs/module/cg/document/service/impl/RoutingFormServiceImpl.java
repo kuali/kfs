@@ -19,6 +19,7 @@ package org.kuali.module.kra.routingform.service.impl;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
 import org.kuali.module.kra.routingform.service.RoutingFormService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -26,6 +27,10 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class RoutingFormServiceImpl implements RoutingFormService {
 
     private DocumentService documentService;
+    
+    public void initializeRoutingForm(RoutingFormDocument routingFormDocument) throws WorkflowException {
+        //TODO
+    }
 
     /**
      * @see org.kuali.module.kra.routingform.service.RoutingFormService#prepareRoutingFormForSave(org.kuali.module.kra.routingform.document.RoutingFormDocument)

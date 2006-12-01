@@ -26,6 +26,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  */
 public interface RoutingFormService {
+    
+    public void initializeRoutingForm(RoutingFormDocument routingFormDocument) throws WorkflowException;
+    
     /**
      * Prepares a Routing Form for save.
      * @param RoutingFormDocument

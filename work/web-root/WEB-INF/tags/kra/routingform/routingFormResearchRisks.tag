@@ -21,7 +21,8 @@
 <c:set var="routingFormResearchRiskStudyAttributes" value="${DataDictionary.RoutingFormResearchRiskStudy.attributes}" />
 <c:set var="routingFormResearchRiskAttributes" value="${DataDictionary.RoutingFormResearchRisk.attributes}"/>
 
-<c:forEach items="${KualiForm.routingFormDocument.routingFormResearchRisks}" var="researchRisk" varStatus="researchRiskStatus">
+<div id="workarea">
+  <c:forEach items="${KualiForm.routingFormDocument.routingFormResearchRisks}" var="researchRisk" varStatus="researchRiskStatus">
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].documentNumber"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskTypeCode"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].objectId"/>
@@ -30,8 +31,13 @@
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeDescription"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
 	
-	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'A'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false" rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}" transparentBackground="${researchRiskStatus.index == 0}">
+	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS}">
+		<kul:tab 
+			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
+			defaultOpen="false" rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" 
+			rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}" 
+			transparentBackground="${researchRiskStatus.index == 0}"
+			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">
@@ -140,8 +146,14 @@
 		</kul:tab>
 	</c:if>
 
-	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'S'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false"  rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"  transparentBackground="${researchRiskStatus.index == 0}">
+	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS}">
+		<kul:tab 
+			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
+			defaultOpen="false"
+			rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" 
+			rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"
+			transparentBackground="${researchRiskStatus.index == 0}"
+			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">
@@ -220,8 +232,14 @@
 		</kul:tab>
 	</c:if>
 	
-	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == 'D'}">
-		<kul:tab tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" defaultOpen="false"  rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"  transparentBackground="${researchRiskStatus.index == 0}">
+	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_DESCRIPTION}">
+		<kul:tab 
+			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
+			defaultOpen="false"  
+			rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" 
+			rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"  
+			transparentBackground="${researchRiskStatus.index == 0}"
+			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
 				<table cellpadding="0" cellspacing="0" summary="">
@@ -233,12 +251,12 @@
             </div>
         </kul:tab>
 	</c:if>
-
-</c:forEach>
-
-<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
+  </c:forEach>
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
 	<tr>
 		<td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
 		<td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
     </tr>
-</table>
+  </table>
+
+</div>

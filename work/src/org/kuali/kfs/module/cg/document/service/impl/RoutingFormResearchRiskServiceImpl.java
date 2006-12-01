@@ -20,28 +20,33 @@ package org.kuali.module.kra.routingform.service.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
 
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
 
     private BusinessObjectService businessObjectService;
     
-    public List<RoutingFormResearchRisk> getAllResearchRisks(String documentNumber) {
+    public void setupResearchRisks(RoutingFormDocument routingFormDocument) {
         List<ResearchRiskType> researchRiskTypes = getAllResearchRiskTypes();
         List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>();
         for (ResearchRiskType researchRiskType: researchRiskTypes) {
-            researchRisks.add(new RoutingFormResearchRisk(documentNumber, researchRiskType));
+            researchRisks.add(new RoutingFormResearchRisk(routingFormDocument.getDocumentNumber(), researchRiskType));
         }
-        return researchRisks;
+        routingFormDocument.setRoutingFormResearchRisks(researchRisks);
     }
     
     private List<ResearchRiskType> getAllResearchRiskTypes() {
+        Map criteria = new HashMap();
+        criteria.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
         List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>) getBusinessObjectService().findMatchingOrderBy(
-                ResearchRiskType.class, new HashMap(), "researchRiskTypeDescription", true);
+                ResearchRiskType.class, criteria, PropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION, true);
         return researchRiskTypes;
     }
 

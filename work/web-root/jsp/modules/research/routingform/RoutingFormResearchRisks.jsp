@@ -20,34 +20,15 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
 	htmlFormAction="researchRoutingFormResearchRisks" headerDispatch="save"
-	feedbackKey="app.krafeedback.link" headerTabActive="researchrisks">
+	feedbackKey="app.krafeedback.link" headerTabActive="researchrisks"
+	showTabButtons="true">
+	
+	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
 	<kra-rf:routingFormHiddenDocumentFields />
 
-	<div class="msg-excol">
-		<div class="right">
-			<div class="excol">
-				<input name="imageField" type="image" class="tinybutton"
-					src="images/tinybutton-expandall.gif">
-				<input name="imageField" type="image" class="tinybutton"
-					src="images/tinybutton-collapseall.gif">
-			</div>
-		</div>
-	</div>
+	<kra-rf:routingFormResearchRisks/>
 
-	<table width="100%" cellpadding="0" cellspacing="0">
-		<tr>
-			<td class="column-left">
-				<img src="images/pixel_clear.gif" alt="" width="20" height="20">
-			</td>
-			<td>
-				<div id="workarea">
-					<kra-rf:routingFormResearchRisks/>
-				</div>
-			</td>
-		</tr>
-	</table>
-	
 	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 
 </kul:documentPage>

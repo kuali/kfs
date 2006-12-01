@@ -48,16 +48,17 @@ public class RoutingFormAction extends KualiDocumentActionBase {
     }
     
     public ActionForward researchrisks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm) form;
         
-        // Setup research risks if this is the first entry into page.
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.setDocId(routingForm.getDocument().getDocumentNumber());
+        this.loadDocument(routingForm);
+        
+//      Setup research risks if this is the first entry into page.
         if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
-            routingForm.getRoutingFormDocument().setRoutingFormResearchRisks(
-                    SpringServiceLocator.getRoutingFormResearchRiskService().getAllResearchRisks(routingForm.getRoutingFormDocument().getDocumentNumber()));
+            SpringServiceLocator.getRoutingFormResearchRiskService().setupResearchRisks(routingForm.getRoutingFormDocument());
         }
         
         routingForm.setTabStates(new ArrayList());
-        
         return mapping.findForward("researchrisks");
     }
     
@@ -127,8 +128,6 @@ public class RoutingFormAction extends KualiDocumentActionBase {
 
         if (IDocHandler.INITIATE_COMMAND.equals(routingForm.getCommand())) {
             routingForm.getRoutingFormDocument().setDocumentNumber(routingForm.getRoutingFormDocument().getDocumentNumber());
-            // TODO
-            //SpringServiceLocator.getBudgetService().initializeBudget(routingForm.getRoutingFormDocument());
         }
         return forward;
     }

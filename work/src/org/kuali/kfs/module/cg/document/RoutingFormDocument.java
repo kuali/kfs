@@ -23,27 +23,26 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
-import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
-import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
-import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -1704,12 +1703,20 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.totalSubcontractorAmount = totalSubcontractorAmount;
     }
     
-//    @Override
-//    public List buildListOfDeletionAwareLists() {
-//        List list = new ArrayList();
-//        for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {
-//            list.add(researchRisk.getResearchRiskStudies());
-//        }
-//        return list;
-//    }
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List list = new ArrayList();
+        //TODO Figure out a way to add the appropriate number of lists on the 2nd pass
+        if (routingFormResearchRisks.isEmpty()) {
+            for (int i = 0; i < 6; i++) {
+                list.add(new ArrayList());
+            }
+        }
+        else {
+            for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {
+                list.add(researchRisk.getResearchRiskStudies());
+            }
+        }
+        return list;
+    }
 }

@@ -57,7 +57,7 @@ public class AwardStatusValuesFinder extends KeyValuesBase {
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             AwardStatus awardStatus = (AwardStatus) iter.next();
 
-            labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), awardStatus.getAwardStatusDescription()));
+            labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), awardStatus.getAwardStatusCode()+"-"+awardStatus.getAwardStatusDescription()));
         }
 
         return labels;

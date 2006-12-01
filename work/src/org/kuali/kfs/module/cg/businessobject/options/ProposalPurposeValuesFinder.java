@@ -55,7 +55,7 @@ public class ProposalPurposeValuesFinder extends KeyValuesBase {
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ProposalPurpose proposalPurpose = (ProposalPurpose) iter.next();
 
-            labels.add(new KeyLabelPair(proposalPurpose.getProposalPurposeCode(), proposalPurpose.getProposalPurposeDescription()));
+            labels.add(new KeyLabelPair(proposalPurpose.getProposalPurposeCode(), proposalPurpose.getProposalPurposeCode()+"-"+proposalPurpose.getProposalPurposeDescription()));
         }
 
         return labels;

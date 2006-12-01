@@ -55,7 +55,7 @@ public class ProposalStatusValuesFinder extends KeyValuesBase {
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ProposalStatus proposalStatus = (ProposalStatus) iter.next();
 
-            labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), proposalStatus.getProposalStatusDescription()));
+            labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), proposalStatus.getProposalStatusCode()+"-"+proposalStatus.getProposalStatusDescription()));
         }
 
         return labels;

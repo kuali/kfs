@@ -84,9 +84,6 @@
                 <field attributeName="proposalBeginningDate" />
 				<field attributeName="grantNumber" />
                 <field attributeName="proposalStatusCode" />
-                <field attributeName="federalPassThroughAgencyNumber" />
-                <field attributeName="proposalPurposeCode" />
-                <field attributeName="proposalFellowName" />
 
             </resultFields>
 
@@ -397,7 +394,7 @@
 
             <attributeReference name="proposalStatus" sourceClassName="org.kuali.module.cg.bo.ProposalStatus" sourceAttributeName="proposalStatusCode">
 
-                <label>Proposal Status</label>
+                <label>Proposal Status Code</label>
                 <shortLabel>ProposalStatus</shortLabel>
                 <control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalStatusValuesFinder" />

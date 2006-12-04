@@ -26,7 +26,7 @@
         <inquiry>
             <title>Project Code Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            <inquirySections><inquirySection title="Project Code Attributes"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="chartOfAccountsCode" />

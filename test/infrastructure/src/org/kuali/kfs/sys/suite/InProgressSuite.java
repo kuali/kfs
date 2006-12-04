@@ -22,13 +22,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebResponse;
-import com.meterware.httpunit.WebTable;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.w3c.dom.NodeList;
+import org.kuali.core.util.AssertionUtils;
 
 /**
  * The suite of all test classes or methods which {@link org.kuali.test.suite.RelatesTo} a Kuali JIRA issue in-progress.
@@ -40,8 +42,8 @@ public class InProgressSuite {
 
     private static Collection<String> jiraIssuesInProgress;
     private static RuntimeException initializationException = null;
-    // This public Confluence space does not require a login like JIRA does.  There could be a better way to do this in the JIRA API, though.
-    private static final String JIRA_FILTER_URL = "https://test.kuali.org/confluence/display/KULDOC/Issue+Filter+for+Unit+Test+Framework";
+    private static final String JIRA_FILTER_URL = "https://test.kuali.org/jira/secure/IssueNavigator.jspa?os_username=kuali-rss-feed-user&os_password=kuali-rss-feed-user&view=rss&status=3&tempMax=1000&reset=true&decorator=none";
+    private final static Pattern EXPECTED_JIRA_KEY = Pattern.compile("KUL\\p{Upper}+-\\p{Digit}+");
 
     private static Collection<String> getNamesOfJiraIssuesInProgress() {
         if (initializationException != null) {
@@ -52,13 +54,14 @@ public class InProgressSuite {
             try {
                 jiraIssuesInProgress = new HashSet<String>();
                 WebResponse response = new WebConversation().getResponse(new GetMethodWebRequest(JIRA_FILTER_URL));
-                WebTable results = response.getTableStartingWithPrefix("Kuali: Jira");
-                int rowCount = results.getRowCount();
-                for (int row = 2; row < rowCount; row++) {
-                    jiraIssuesInProgress.add(results.getCellAsText(row, 0));
+                NodeList keys = response.getDOM().getElementsByTagName("key");
+                for (int i = 0; i < keys.getLength(); i++) {
+                    String jiraKey = keys.item(i).getTextContent();
+                    AssertionUtils.assertThat(EXPECTED_JIRA_KEY.matcher(jiraKey).matches(), "badly formed key: " + jiraKey);
+                    jiraIssuesInProgress.add(jiraKey);
                 }
             }
-            catch (Exception e) {
+            catch (Throwable e) {
                 initializationException = new RuntimeException("test framework cannot get list of in-progress JIRA issues", e);
                 throw initializationException;
             }

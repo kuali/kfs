@@ -627,12 +627,12 @@
         
         <collections>
             <collection name="awardProjectDirector">
-                <label>Project Director</label>
-                <shortLabel>Proj Dir</shortLabel>
+                <label>Principal Investigator</label>
+                <shortLabel>Prin Invest</shortLabel>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>Award project director</description>
+                <description>Award principal investigator</description>
             </collection>
         </collections>
         

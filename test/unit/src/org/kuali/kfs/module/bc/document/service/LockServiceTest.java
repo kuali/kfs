@@ -17,14 +17,17 @@
  */
 package org.kuali.module.budget.service;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedSet;
 
 import static org.kuali.core.util.SpringServiceLocator.getLockService;
+import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
 import org.kuali.Constants.BudgetConstructionConstants.LockStatus;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.service.impl.BudgetConstructionLockStatus;
 import org.kuali.test.KualiTestBase;
@@ -39,7 +42,7 @@ import org.kuali.test.WithTestSpringContext;
 public class LockServiceTest extends KualiTestBase {
 
     private boolean runTests() { // change this to return false to prevent running tests
-        return false;
+        return true;
     }
 
     @TestsWorkflowViaDatabase
@@ -50,6 +53,7 @@ public class LockServiceTest extends KualiTestBase {
         BudgetConstructionHeader bcHeader;
         BudgetConstructionHeader bcHeaderTwo;
         BudgetConstructionPosition bcPosition;
+        PendingBudgetConstructionAppointmentFunding bcAFunding;
         BudgetConstructionLockStatus bcLockStatus;
         LockStatus lockStatus;
         SortedSet<BudgetConstructionFundingLock> fundingLocks;
@@ -61,6 +65,9 @@ public class LockServiceTest extends KualiTestBase {
         String chartOfAccountsCode = "UA";
         String accountNumber = "1912201" ;
         String subAccountNumber = "-----";
+        String financialObjectCode = "2400";
+        String financialSubObjectCode = "---";
+        String emplid = "1111111111";
         Integer universityFiscalYear = new Integer(2007);
         String positionNumber = "00013304";
         String positionDesc = "DATABASE MGR.";
@@ -68,6 +75,7 @@ public class LockServiceTest extends KualiTestBase {
         String pUIdTwo = "6162502038"; //KHUNTLEY
         boolean posExist = false;
         boolean hdrExist = false;
+        boolean bcafExist = false;
 
         
         if (!runTests()) return;
@@ -112,6 +120,33 @@ public class LockServiceTest extends KualiTestBase {
         bcPosition = null;
         bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
         assertTrue(bcPosition.getPositionNumber().equals(positionNumber));
+        
+        
+        bcAFunding = null;
+        HashMap map = new HashMap();
+        map.put("universityFiscalYear", universityFiscalYear);
+        map.put("chartOfAccountsCode", chartOfAccountsCode);
+        map.put("accountNumber", accountNumber);
+        map.put("subAccountNumber", subAccountNumber);
+        map.put("financialObjectCode", financialObjectCode);
+        map.put("financialSubObjectCode", financialSubObjectCode);
+        map.put("positionNumber", positionNumber);
+        map.put("emplid", emplid);
+        bcAFunding = (PendingBudgetConstructionAppointmentFunding) getBusinessObjectService().findByPrimaryKey(PendingBudgetConstructionAppointmentFunding.class, map);
+        if (bcAFunding == null){
+            bcAFunding = new PendingBudgetConstructionAppointmentFunding();
+            bcAFunding.setUniversityFiscalYear(universityFiscalYear);
+            bcAFunding.setChartOfAccountsCode(chartOfAccountsCode);
+            bcAFunding.setAccountNumber(accountNumber);
+            bcAFunding.setSubAccountNumber(subAccountNumber);
+            bcAFunding.setFinancialObjectCode(financialObjectCode);
+            bcAFunding.setFinancialSubObjectCode(financialSubObjectCode);
+            bcAFunding.setPositionNumber(positionNumber);
+            bcAFunding.setEmplid(emplid);
+            getBusinessObjectService().save(bcAFunding);
+        } else {
+            bcafExist = true;    
+        }
         
         //make sure funding locks we intend to use aren't there
         lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear, pUIdOne);
@@ -299,6 +334,9 @@ public class LockServiceTest extends KualiTestBase {
         if (!posExist) {
             bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
             bcHeaderDao.getPersistenceBrokerTemplate().delete(bcPosition);
+        }
+        if (!bcafExist) {
+            getBusinessObjectService().delete(bcAFunding);
         }
     }
 }

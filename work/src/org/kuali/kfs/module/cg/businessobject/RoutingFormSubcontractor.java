@@ -21,8 +21,9 @@ package org.kuali.module.kra.routingform.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.cg.bo.Subcontractor;
 
 /**
  * 
@@ -33,7 +34,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	private Integer routingFormSubcontractorSequenceNumber;
 	private BigDecimal routingFormSubcontractorAmount;
 	private String routingFormSubcontractorNumber;
-	private String routingFormSubcontractorName;
+    private Subcontractor subcontractor;
 
 	/**
 	 * Default constructor.
@@ -125,29 +126,28 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 		this.routingFormSubcontractorNumber = routingFormSubcontractorNumber;
 	}
 
+    /**
+     * Gets the subcontractor attribute.
+     * 
+     * @return Returns the subcontractor
+     * 
+     */
+	public Subcontractor getSubcontractor() {
+        return subcontractor;
+    }
 
-	/**
-	 * Gets the routingFormSubcontractorName attribute.
-	 * 
-	 * @return Returns the routingFormSubcontractorName
-	 * 
-	 */
-	public String getRoutingFormSubcontractorName() { 
-		return routingFormSubcontractorName;
-	}
+    /**
+     * Sets the subcontractor attribute.
+     * 
+     * @param subcontractor The subcontractor to set.
+     * 
+     */
+    public void setSubcontractor(Subcontractor subcontractor) {
+        this.subcontractor = subcontractor;
+    }
 
-	/**
-	 * Sets the routingFormSubcontractorName attribute.
-	 * 
-	 * @param routingFormSubcontractorName The routingFormSubcontractorName to set.
-	 * 
-	 */
-	public void setRoutingFormSubcontractorName(String routingFormSubcontractorName) {
-		this.routingFormSubcontractorName = routingFormSubcontractorName;
-	}
-
-
-	/**
+    
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

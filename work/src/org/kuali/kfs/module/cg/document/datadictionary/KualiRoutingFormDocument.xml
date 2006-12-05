@@ -464,21 +464,6 @@
                 <description>routingFormNewSpaceIndicator description...</description>
       </attribute>
 
-            <attribute name="routingFormOffCampusDescription" forceUppercase="true">
-                <label>Routing Form Off Campus Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>1000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>routingFormOffCampusDescription</summary>
-                <description>routingFormOffCampusDescription description...</description>
-      </attribute>
-
             <attribute name="routingFormOffCampusIndicator" forceUppercase="true">
                 <label>Routing Form Off Campus Indicator</label>
                 <shortLabel>Indicator</shortLabel>

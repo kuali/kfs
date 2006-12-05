@@ -77,7 +77,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private Date routingFormLastUpdateDate;
 	private Long routingFormLastUpdateSystemIdentifier;
 	private boolean routingFormNewSpaceIndicator;
-	private String routingFormOffCampusDescription;
 	private boolean routingFormOffCampusIndicator;
 	private boolean routingFormOtherOrganizationIndicator;
 	private String routingFormOtherPurposeDescription;
@@ -742,27 +741,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 */
 	public void setRoutingFormNewSpaceIndicator(boolean routingFormNewSpaceIndicator) {
 		this.routingFormNewSpaceIndicator = routingFormNewSpaceIndicator;
-	}
-
-
-	/**
-	 * Gets the routingFormOffCampusDescription attribute.
-	 * 
-	 * @return Returns the routingFormOffCampusDescription
-	 * 
-	 */
-	public String getRoutingFormOffCampusDescription() { 
-		return routingFormOffCampusDescription;
-	}
-
-	/**
-	 * Sets the routingFormOffCampusDescription attribute.
-	 * 
-	 * @param routingFormOffCampusDescription The routingFormOffCampusDescription to set.
-	 * 
-	 */
-	public void setRoutingFormOffCampusDescription(String routingFormOffCampusDescription) {
-		this.routingFormOffCampusDescription = routingFormOffCampusDescription;
 	}
 
 

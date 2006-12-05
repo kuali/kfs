@@ -29,6 +29,7 @@
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
+<c:set var="cgSubcontractorAttributes" value="${DataDictionary.Subcontractor.attributes}" />
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
@@ -42,7 +43,7 @@
             <table cellpadding=0 cellspacing="0"  summary="">
               <tr>
                 <th width="50">&nbsp;</th>
-                <th> <div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.routingFormSubcontractorName}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
+                <th> <div align="center"><kul:htmlAttributeLabel attributeEntry="${cgSubcontractorAttributes.subcontractorName}" skipHelpUrl="true" useShortLabel="false" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
                 <th>Action</th>
 
@@ -52,8 +53,8 @@
                 <td class="infoline">
                 	<div align="center">
 			    	<c:if test="${!viewOnly}">
-		                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorName" attributeEntry="${subcontractorAttributes.routingFormSubcontractorName}" />
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.routingFormSubcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.routingFormSubcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
+		                ${newRoutingFormSubcontractor.subcontractor.subcontractorName}
+			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.subcontractor.subcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.subcontractor.subcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
                     </div>
                 </td>
@@ -89,7 +90,8 @@
 	                </th>
 	                <td>
 	                	<div align="center">
-			                <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorName" attributeEntry="${subcontractorAttributes.routingFormSubcontractorName}" />
+			                ${routingFormSubcontractor.subcontractorName}
+      			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.subcontractor.subcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
 	                    </div>
 	                </td>
 	                <td>

@@ -28,7 +28,6 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="routingFormSubcontractorAmount" />
-                <field attributeName="routingFormSubcontractorName" />
                 <field attributeName="routingFormSubcontractorNumber" />
                 <field attributeName="routingFormSubcontractorSequenceNumber" />
                 <field attributeName="documentNumber" />
@@ -49,7 +48,6 @@
 
             <lookupFields>
                 <lookupField attributeName="routingFormSubcontractorAmount" required="false" />
-                <lookupField attributeName="routingFormSubcontractorName" required="false" />
                 <lookupField attributeName="routingFormSubcontractorNumber" required="false" />
                 <lookupField attributeName="routingFormSubcontractorSequenceNumber" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
@@ -57,7 +55,6 @@
 
             <resultFields>
                 <field attributeName="routingFormSubcontractorAmount" />
-                <field attributeName="routingFormSubcontractorName" />
                 <field attributeName="routingFormSubcontractorNumber" />
                 <field attributeName="routingFormSubcontractorSequenceNumber" />
                 <field attributeName="documentNumber" />
@@ -79,21 +76,6 @@
 
                 <summary>routingFormSubcontractorAmount</summary>
                 <description>routingFormSubcontractorAmount description...</description>
-			</attribute>
-
-            <attribute name="routingFormSubcontractorName" forceUppercase="true">
-                <label>Routing Form Subcontractor Name</label>
-                <shortLabel>Subcontract Name</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>routingFormSubcontractorName</summary>
-                <description>routingFormSubcontractorName description...</description>
 			</attribute>
 
             <attribute name="routingFormSubcontractorNumber" forceUppercase="true">

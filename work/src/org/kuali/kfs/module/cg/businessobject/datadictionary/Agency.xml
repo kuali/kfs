@@ -24,7 +24,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Contracts and Grants Agency Inquiry</title>
+            <title>Agency Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="agencyNumber" />
@@ -39,9 +39,9 @@
         </inquiry>
 
         <lookup>
-            <title>Contracts and Grants Agency Lookup</title>
+            <title>Agency Lookup</title>
 
-            <instructions>Lookup a Contracts and Grants Agency</instructions>
+            <instructions>Lookup an Agency</instructions>
 
             <defaultSort attributeName="fullName" sortAscending="true" />
 
@@ -83,7 +83,7 @@
                 </control>
 
                 <summary>Agency Number</summary>
-                <description>Contracts and Grants Agency Number.</description>
+                <description> Agency Number.</description>
             </attribute>
 
             <attribute name="reportingName" forceUppercase="true">
@@ -101,7 +101,7 @@
                 </control>
 
                 <summary>Agency Reporting Name</summary>
-                <description>Contracts and Grants Agency Reporting Name</description>
+                <description> Agency Reporting Name</description>
             </attribute>
 
             <attribute name="fullName" forceUppercase="true">
@@ -119,7 +119,7 @@
                 </control>
 
                 <summary>Agency Full Name</summary>
-                <description>Contracts And Grants Agency Full Name</description>
+                <description>Agency Full Name</description>
             </attribute>
             <attributeReference name="agencyType.name" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="name">
 
@@ -141,7 +141,7 @@
                 </control>
 
                 <summary>Historical Indicator</summary>
-                <description>Contracts And Grants Agency Historical Indicator</description>
+                <description>Agency Historical Indicator</description>
             </attribute>
 
             <attribute name="inStateIndicator" forceUppercase="false">

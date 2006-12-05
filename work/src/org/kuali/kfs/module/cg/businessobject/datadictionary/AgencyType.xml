@@ -24,7 +24,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Contracts and Grants Agency Type Inquiry</title>
+            <title>Agency Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
@@ -34,9 +34,9 @@
         </inquiry>
 
         <lookup>
-            <title>Contracts and Grants Agency Type Lookup</title>
+            <title>Agency Type Lookup</title>
 
-            <instructions>Lookup a Contracts and Grants Agency Type</instructions>
+            <instructions>Lookup an Agency Type</instructions>
 
             <defaultSort attributeName="code" sortAscending="false" />
 
@@ -72,8 +72,8 @@
                     <text size="1" />
                 </control>
 
-                <summary>Contracts and Grants Agency Type Code</summary>
-                <description>Contracts and Grants Agency Type Code</description>
+                <summary>Agency Type Code</summary>
+                <description>Agency Type Code</description>
             </attribute>
 
             <attribute name="name" forceUppercase="false">
@@ -92,8 +92,8 @@
                     <text size="32" />
                 </control>
 
-                <summary>Contracts and Grants Agency Type Description</summary>
-                <description>The description of the Contracts and Grants Agency Type.</description>
+                <summary>Agency Type Description</summary>
+                <description>The description of the Agency Type.</description>
             </attribute>
 
             <attribute name="active" forceUppercase="false">
@@ -107,7 +107,7 @@
                 </control>
 
                 <summary>Active Indicator</summary>
-                <description>Contracts And Grants Agency Type Active Indicator</description>
+                <description>Agency Type Active Indicator</description>
             </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

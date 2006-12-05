@@ -22,7 +22,7 @@
 <dictionaryEntry>
 
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.IndirectCostLookup">
-        <customAttributeEnabled>true</customAttributeEnabled>
+        <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
             <title>Indirect Cost Lookup Inquiry</title>
 

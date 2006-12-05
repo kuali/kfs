@@ -23,7 +23,7 @@
 <dictionaryEntry>
 
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetNonpersonnel">
-        <customAttributeEnabled>true</customAttributeEnabled>
+        <customAttributeEnabled>false</customAttributeEnabled>
 
         <attributes>
             <attribute name="budgetNonpersonnelCategoryCode" forceUppercase="true">

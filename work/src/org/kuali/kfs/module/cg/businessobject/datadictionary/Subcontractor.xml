@@ -24,9 +24,9 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Contracts and Grants Subcontractor</title>
+            <title>Subcontractor Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            <inquirySections><inquirySection title="Subcontractor Inquiry"><inquiryFields>
                 <field attributeName="subcontractorNumber" />
                 <field attributeName="subcontractorName" />
                 <field attributeName="subcontractorAddressLine1" />
@@ -39,7 +39,7 @@
         </inquiry>
 
         <lookup>
-            <title>Subcontractor</title>
+            <title>Subcontractor Lookup</title>
 
             <instructions>Lookup an Subcontractor</instructions>
 
@@ -84,7 +84,7 @@
                 </control>
 
                 <summary>Subcontractor Number</summary>
-                <description>Contracts and Grants Subcontractor Number.</description>
+                <description>Subcontractor Number.</description>
             </attribute>
 
             <attribute name="subcontractorName" forceUppercase="true">
@@ -103,7 +103,7 @@
                 </control>
 
                 <summary>Subcontractor Name</summary>
-                <description>Contracts and Grants Subcontractor Name</description>
+                <description>Subcontractor Name</description>
             </attribute>
 
             <attribute name="subcontractorAddressLine1" forceUppercase="false">
@@ -122,7 +122,7 @@
                 </control>
 
                 <summary>Subcontractor Address Line 1</summary>
-                <description>Contracts And Grants Subcontractor Address Line 1</description>
+                <description>Subcontractor Address Line 1</description>
             </attribute>
 
             <attribute name="subcontractorAddressLine2" forceUppercase="false">
@@ -140,7 +140,7 @@
                 </control>
 
                 <summary>Subcontractor Address Line 2</summary>
-                <description>Contracts And Grants Subcontractor Address Line 2</description>
+                <description>Subcontractor Address Line 2</description>
             </attribute>
 
             <attribute name="subcontractorCity" forceUppercase="false">
@@ -159,7 +159,7 @@
                 </control>
 
                 <summary>Subcontractor City</summary>
-                <description>Contracts And Grants Subcontractor City</description>
+                <description>Subcontractor City</description>
             </attribute>
 
             <attribute name="subcontractorStateCode" forceUppercase="true">

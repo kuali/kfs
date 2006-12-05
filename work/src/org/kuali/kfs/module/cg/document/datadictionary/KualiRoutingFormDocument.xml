@@ -847,6 +847,13 @@
                 <description>subcontractorNextSequenceNumber description...</description>
       </attribute>
 
+            <attributeReference name="routingFormAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
+                <label>Agency</label>
+                <shortLabel>Number</shortLabel>
+                <summary>Budget Agency</summary>
+                <description>Budget Agency...</description>
+            </attributeReference>
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

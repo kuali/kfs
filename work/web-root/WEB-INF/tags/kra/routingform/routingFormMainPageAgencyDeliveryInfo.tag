@@ -29,6 +29,7 @@
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
+<c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
 <c:set var="cfdaAttributes" value="${DataDictionary.CatalogOfFederalDomesticAssistanceReference.attributes}" />
 
@@ -44,12 +45,13 @@
             
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
               <tr>
-                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyNumber}" skipHelpUrl="true" /></th>
+                <th width="20%" align=right valign=middle>${routingFormAttributes.routingFormAgency.label}:</th>
                 <td width="30%">
-			    	<html:hidden write="true" property="document.routingFormAgency.agencyNumber" /> 
+			    	<html:hidden property="document.routingFormAgency.agencyNumber" />
+			    	<html:hidden write="true" property="document.routingFormAgency.routingFormAgency.fullName"/>
 			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber}">(select)</c:if>
 			    	<c:if test="${!viewOnly}">
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
+			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.routingFormAgency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.routingFormAgency.fullName" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDate}" skipHelpUrl="true" /></th>

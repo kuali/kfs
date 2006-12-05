@@ -118,6 +118,16 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
+    <collection-descriptor name="a21DetailLines" element-class-ref="org.kuali.module.labor.bo.A21DetailLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <orderby name="chartOfAccountsCode" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
+        <orderby name="subAccountNumber" sort="ASC" />
+        <orderby name="positionNumber" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
+        <orderby name="sourceFinancialChartOfAccountsCode" sort="ASC" />
+        <orderby name="sourceAccountNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.A21DetailLine" table="LD_A21_DETAIL_LN_T">

@@ -144,7 +144,20 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
 	}
 
-	/**
+    /**
+     * Ensures required fields for supporting objects are properly set since we don't use transient objects.
+     */
+	@Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        
+        String documentNumber = this.getDocumentHeader().getDocumentNumber();
+        
+        this.getContractGrantProposal().setDocumentNumber(documentNumber);
+        this.getRoutingFormAgency().setDocumentNumber(documentNumber);
+    }
+
+    /**
 	 * Gets the agencyAdditionalShippingInstructionsIndicator attribute.
 	 * 
 	 * @return Returns the agencyAdditionalShippingInstructionsIndicator

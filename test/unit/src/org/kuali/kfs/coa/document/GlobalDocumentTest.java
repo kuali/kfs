@@ -148,7 +148,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031467");
         bo.addAccount(account);
-        getDocumentService().saveDocument(document);
+        getDocumentService().saveDocument(document, null, null);
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
         getDocumentService().cancelDocument(document, "cancelling test document");
@@ -199,7 +199,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
 
-        getDocumentService().saveDocument(document);
+        getDocumentService().saveDocument(document, null, null);
 
         // clear the document, and re-load it from the DB
         document = null;
@@ -285,7 +285,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
 
-        getDocumentService().saveDocument(document);
+        getDocumentService().saveDocument(document, null, null);
 
         // clear the document, and re-load it from the DB
         document = null;

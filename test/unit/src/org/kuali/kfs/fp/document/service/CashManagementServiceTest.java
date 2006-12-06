@@ -850,7 +850,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         throws WorkflowException
     {
         try {
-            getDocumentService().saveDocument(doc);
+            getDocumentService().saveDocument(doc, null, null);
         }
         catch(ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.

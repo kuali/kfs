@@ -53,7 +53,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);
-        getDocumentService().saveDocument(document);
+        getDocumentService().saveDocument(document, null, null);
         LINE2_TOF.addAsSourceTo(document);
         LINE2_TOF.addAsTargetTo(document);
 

@@ -439,7 +439,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
 
         try {
-            getDocumentService().saveDocument(crDoc);
+            getDocumentService().saveDocument(crDoc, null, null);
         }
         catch(ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.

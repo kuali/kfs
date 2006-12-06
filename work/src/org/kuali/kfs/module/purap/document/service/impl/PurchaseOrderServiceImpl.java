@@ -49,7 +49,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             poDocument.populatePurchaseOrderFromRequisition(reqDocument);
             // TODO set other default info
             // TODO set initiator of document as contract manager (is that right?)
-            documentService.saveDocument(poDocument);
+            documentService.saveDocument(poDocument, null, null);
         }
         catch (WorkflowException e) {
             LOG.error("Error creating PO document: " + e.getMessage());

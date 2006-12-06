@@ -36,6 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.GeneralLedgerTestHelper;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 @WithTestSpringContext
 public class BalanceForwardStepTest extends OriginEntryTestBase {
@@ -62,6 +63,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
      * @throws Exception ## WARNING: DO NOT run this test or rename this method. WARNING ## ## WARNING: This one test takes just
      *         under 3 hours to run WARNING ## ## WARNING: over the vpn. WARNING ##
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE34)
     public void testAll() throws Exception {
 
         clearOriginEntryTables();

@@ -28,6 +28,7 @@ import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
@@ -123,6 +124,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShares;
     private List<RoutingFormOtherCostShare> routingFormOtherCostShares;
     private List<RoutingFormSubcontractor> routingFormSubcontractors;
+    private Agency federalPassThroughAgency;
    
 	/**
 	 * Default constructor.
@@ -1694,6 +1696,14 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.totalSubcontractorAmount = totalSubcontractorAmount;
     }
     
+    public Agency getFederalPassThroughAgency() {
+        return federalPassThroughAgency;
+    }
+
+    public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
+        this.federalPassThroughAgency = federalPassThroughAgency;
+    }
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List list = new ArrayList();

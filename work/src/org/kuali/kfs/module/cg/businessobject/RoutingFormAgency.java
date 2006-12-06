@@ -58,7 +58,6 @@ public class RoutingFormAgency extends BusinessObjectBase {
 
     private RoutingFormDueDateType routingFormDueDateType;
     private Agency routingFormAgency;
-    private Agency federalPassThroughAgency;
     
 	/**
 	 * Default constructor.
@@ -623,14 +622,6 @@ public class RoutingFormAgency extends BusinessObjectBase {
 
     public void setRoutingFormAgency(Agency routingFormAgency) {
         this.routingFormAgency = routingFormAgency;
-    }
-
-    public Agency getFederalPassThroughAgency() {
-        return federalPassThroughAgency;
-    }
-
-    public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
-        this.federalPassThroughAgency = federalPassThroughAgency;
     }
 
 }

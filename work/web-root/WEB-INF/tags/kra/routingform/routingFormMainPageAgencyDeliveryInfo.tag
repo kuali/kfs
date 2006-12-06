@@ -62,14 +62,11 @@
               <tr>
                 <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.agencyFederalPassThroughNumber}" skipHelpUrl="true" /></th>
 
-                <td width="30%" align=left valign=middle >
-<!-- 
-NOTE: NOT WORKING RIGHT STILL, BUT A STEP IN THE RIGHT DIRECTION
- -->                
+                <td width="30%" align=left valign=middle >     
 			    	<html:hidden property="document.agencyFederalPassThroughNumber" /> 
-			    	<html:hidden write="true" property="document.routingFormAgency.federalPassThroughAgency.fullName" /> 
+			    	<html:hidden write="true" property="document.federalPassThroughAgency.fullName" /> 
 	    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber}">(select)</c:if>
-	    			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber" tabindexOverride="5110" anchor="${currentTabIndex}" />
+	    			<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber,fullName:document.federalPassThroughAgency.fullName" tabindexOverride="5110" anchor="${currentTabIndex}" />
 
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" skipHelpUrl="true" /></th>

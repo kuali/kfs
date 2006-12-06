@@ -30,7 +30,6 @@ import org.kuali.PropertyConstants;
  */
 public class RoutingFormBudget extends BusinessObjectBase {
 
-	private String routingFormBudgetTypeCode;
 	private String documentNumber;
 	private Integer routingFormBudgetMaximumPeriodNumber;
 	private Integer routingFormBudgetMinimumPeriodNumber;
@@ -46,27 +45,6 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	public RoutingFormBudget() {
 
 	}
-
-	/**
-	 * Gets the routingFormBudgetTypeCode attribute.
-	 * 
-	 * @return Returns the routingFormBudgetTypeCode
-	 * 
-	 */
-	public String getRoutingFormBudgetTypeCode() { 
-		return routingFormBudgetTypeCode;
-	}
-
-	/**
-	 * Sets the routingFormBudgetTypeCode attribute.
-	 * 
-	 * @param routingFormBudgetTypeCode The routingFormBudgetTypeCode to set.
-	 * 
-	 */
-	public void setRoutingFormBudgetTypeCode(String routingFormBudgetTypeCode) {
-		this.routingFormBudgetTypeCode = routingFormBudgetTypeCode;
-	}
-
 
 	/**
 	 * Gets the documentNumber attribute.
@@ -241,7 +219,6 @@ public class RoutingFormBudget extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("routingFormBudgetTypeCode", this.routingFormBudgetTypeCode);
         m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
 	    return m;
     }

@@ -34,7 +34,6 @@
                 <field attributeName="routingFormBudgetMaximumPeriodNumber" />
                 <field attributeName="routingFormBudgetMinimumPeriodNumber" />
                 <field attributeName="routingFormBudgetStartDate" />
-                <field attributeName="routingFormBudgetTypeCode" />
                 <field attributeName="documentNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -46,7 +45,6 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="routingFormBudgetTypeCode" />
                     <sortAttribute attributeName="documentNumber" />
                 </sortAttributes>
             </defaultSort>
@@ -59,7 +57,6 @@
                 <lookupField attributeName="routingFormBudgetMaximumPeriodNumber" required="false" />
                 <lookupField attributeName="routingFormBudgetMinimumPeriodNumber" required="false" />
                 <lookupField attributeName="routingFormBudgetStartDate" required="false" />
-                <lookupField attributeName="routingFormBudgetTypeCode" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
             </lookupFields>
 
@@ -71,7 +68,6 @@
                 <field attributeName="routingFormBudgetMaximumPeriodNumber" />
                 <field attributeName="routingFormBudgetMinimumPeriodNumber" />
                 <field attributeName="routingFormBudgetStartDate" />
-                <field attributeName="routingFormBudgetTypeCode" />
                 <field attributeName="documentNumber" />
             </resultFields>
         </lookup>
@@ -181,21 +177,6 @@
 
                 <summary>routingFormBudgetStartDate</summary>
                 <description>routingFormBudgetStartDate description...</description>
-			</attribute>
-
-            <attribute name="routingFormBudgetTypeCode" forceUppercase="true">
-                <label>Routing Form Budget Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>routingFormBudgetTypeCode</summary>
-                <description>routingFormBudgetTypeCode description...</description>
 			</attribute>
 
             <attribute name="documentNumber" forceUppercase="true">

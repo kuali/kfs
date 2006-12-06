@@ -273,7 +273,7 @@
     <field-descriptor name="proposalProjectDirectorNote3Text" column="PRPSL_PRJDRNT3_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="proposalPrimaryProjectDirectorIndicator" column="PRPSL_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
-    <reference-descriptor name="personUniversal" class-ref="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -424,7 +424,7 @@
     <field-descriptor name="awardProjectDirectorNote2Text" column="CGAWD_PRJDRNT2_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="awardProjectDirectorNote3Text" column="CGAWD_PRJDRNT3_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="awardProjectDirectorProjectTitle" column="CGAWD_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
-    <reference-descriptor name="personUniversal" class-ref="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -443,7 +443,7 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="personUniversal" class-ref="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>

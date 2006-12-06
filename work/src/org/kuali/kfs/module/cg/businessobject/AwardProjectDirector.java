@@ -21,6 +21,7 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * 
@@ -35,7 +36,7 @@ public class AwardProjectDirector extends BusinessObjectBase {
     private String awardProjectDirectorNote3Text;
     private String awardProjectDirectorProjectTitle;
 
-    private ContractsAndGrantsProjectDirectorView personUniversal;
+    private ProjectDirector projectDirector;
 
     /**
      * Default constructor.
@@ -194,8 +195,8 @@ public class AwardProjectDirector extends BusinessObjectBase {
     /**
      * @return Returns the personUniversal.
      */
-    public ContractsAndGrantsProjectDirectorView getPersonUniversal() {
-        return personUniversal;
+    public ProjectDirector getProjectDirector() {
+        return projectDirector;
     }
 
     /**

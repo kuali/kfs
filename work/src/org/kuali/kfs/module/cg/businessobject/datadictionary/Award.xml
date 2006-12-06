@@ -84,6 +84,7 @@
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
                 <lookupField attributeName="financialSystemWorkgroupId" required="false" />
                 <lookupField attributeName="awardPurpose" required="false" />
+                <lookupField attributeName="awardAccount.accountNumber" required="false" />
 				
             </lookupFields>
 
@@ -100,6 +101,9 @@
 
         <attributes>
 
+            <attributeReference name="awardAccount.accountNumber" sourceClassName="org.kuali.module.cg.bo.AwardAccount" sourceAttributeName="accountNumber">
+   				<description>Insert desc here...</description>
+            </attributeReference>
 
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
 				<description>Insert desc here...</description>
@@ -637,6 +641,14 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>Award principal investigator</description>
+            </collection>
+            <collection name="awardAccount">
+                <label>Account</label>
+                <shortLabel>Account</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Award Account</description>
             </collection>
         </collections>
         

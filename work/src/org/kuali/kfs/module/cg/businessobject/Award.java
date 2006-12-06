@@ -65,7 +65,7 @@ public class Award extends BusinessObjectBase {
     private String awardCommentText;
     private String awardPurposeCode;
     private List awardProjectDirector;
-    private List awardAccount;
+    private List<AwardAccount> awardAccount;
     private List awardSubcontractor;
     private List awardOrganization;
     private List awardDiary;
@@ -84,7 +84,7 @@ public class Award extends BusinessObjectBase {
      */
     public Award() {
         awardProjectDirector = new ArrayList();
-        awardAccount = new ArrayList();
+        awardAccount = new ArrayList<AwardAccount>();
         awardSubcontractor = new ArrayList();
         awardOrganization = new ArrayList();
         awardDiary = new ArrayList();
@@ -966,14 +966,14 @@ public class Award extends BusinessObjectBase {
     /**
      * @return Returns the awardAccount.
      */
-    public List getAwardAccount() {
+    public List<AwardAccount> getAwardAccount() {
         return awardAccount;
     }
 
     /**
      * @param awardAccount The awardAccount to set.
      */
-    public void setAwardAccount(List awardAccount) {
+    public void setAwardAccount(List<AwardAccount> awardAccount) {
         this.awardAccount = awardAccount;
     }
 

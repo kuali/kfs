@@ -49,7 +49,8 @@ public class BudgetConstructionPositionFunding extends BusinessObjectBase {
 	private ObjectCode financialObject;
 	private Account account;
 	private Chart chartOfAccounts;
-
+    private PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -409,6 +410,23 @@ public class BudgetConstructionPositionFunding extends BusinessObjectBase {
 		this.chartOfAccounts = chartOfAccounts;
 	}
 
+    /**
+     * Gets the pendingAppointmentFunding attribute. 
+     * @return Returns the pendingAppointmentFunding.
+     */
+    public PendingBudgetConstructionAppointmentFunding getPendingAppointmentFunding() {
+        return pendingAppointmentFunding;
+    }
+
+    /**
+     * Sets the pendingAppointmentFunding attribute value.
+     * @param pendingAppointmentFunding The pendingAppointmentFunding to set.
+     * @deprecated
+     */
+    public void setPendingAppointmentFunding(PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding) {
+        this.pendingAppointmentFunding = pendingAppointmentFunding;
+    }    
+    
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -430,4 +448,6 @@ public class BudgetConstructionPositionFunding extends BusinessObjectBase {
         m.put("financialSubObjectCode", this.financialSubObjectCode);
 	    return m;
     }
+
+
 }

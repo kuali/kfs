@@ -18,7 +18,9 @@
 
 package org.kuali.module.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 
@@ -34,11 +36,14 @@ public class BudgetConstructionIntendedIncumbent extends BusinessObjectBase {
 	private String grade;
 	private String iuClassificationLevel;
 
+    private List budgetConstructionSalarySocialSecurity;
+    
 	/**
 	 * Default constructor.
 	 */
 	public BudgetConstructionIntendedIncumbent() {
-
+        budgetConstructionSalarySocialSecurity = new ArrayList();
+        
 	}
 
 	/**
@@ -166,12 +171,29 @@ public class BudgetConstructionIntendedIncumbent extends BusinessObjectBase {
 		this.iuClassificationLevel = iuClassificationLevel;
 	}
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("emplid", this.emplid);
-	    return m;
+    /**
+     * Gets the budgetConstructionSalarySocialSecurity attribute. 
+     * @return Returns the budgetConstructionSalarySocialSecurity.
+     */
+    public List getBudgetConstructionSalarySocialSecurity() {
+        return budgetConstructionSalarySocialSecurity;
     }
+
+    /**
+     * Sets the budgetConstructionSalarySocialSecurity attribute value.
+     * @param budgetConstructionSalarySocialSecurity The budgetConstructionSalarySocialSecurity to set.
+     */
+    public void setBudgetConstructionSalarySocialSecurity(List budgetConstructionSalarySocialSecurity) {
+        this.budgetConstructionSalarySocialSecurity = budgetConstructionSalarySocialSecurity;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("emplid", this.emplid);
+        return m;
+    }
+
 }

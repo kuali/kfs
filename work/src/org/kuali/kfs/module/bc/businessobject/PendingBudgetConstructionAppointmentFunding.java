@@ -67,6 +67,7 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
     private BudgetConstructionPosition budgetConstructionPosition;
 
     private List budgetConstructionSalaryFunding;
+    private List budgetConstructionAppointmentFundingReason;
     
 	/**
 	 * Default constructor.
@@ -675,11 +676,27 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
         this.budgetConstructionSalaryFunding = budgetConstructionSalaryFunding;
     }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the budgetConstructionAppointmentFundingReason attribute. 
+     * @return Returns the budgetConstructionAppointmentFundingReason.
+     */
+    public List getBudgetConstructionAppointmentFundingReason() {
+        return budgetConstructionAppointmentFundingReason;
+    }
+
+    /**
+     * Sets the budgetConstructionAppointmentFundingReason attribute value.
+     * @param budgetConstructionAppointmentFundingReason The budgetConstructionAppointmentFundingReason to set.
+     */
+    public void setBudgetConstructionAppointmentFundingReason(List budgetConstructionAppointmentFundingReason) {
+        this.budgetConstructionAppointmentFundingReason = budgetConstructionAppointmentFundingReason;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -690,6 +707,8 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
         m.put("financialSubObjectCode", this.financialSubObjectCode);
         m.put("positionNumber", this.positionNumber);
         m.put("emplid", this.emplid);
-	    return m;
+        return m;
     }
+
+
 }

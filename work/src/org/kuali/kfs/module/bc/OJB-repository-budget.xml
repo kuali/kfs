@@ -28,6 +28,7 @@
 	<field-descriptor name="organizationLevelOrganizationCode" column="ORG_OF_LVL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="budgetLockUserIdentifier" column="BDGT_LOCK_USR_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="budgetTransactionLockUserIdentifier" column="BDGT_TRNLCK_USR_ID" jdbc-type="VARCHAR"/>
+<!-- need relationship for budgetLockUserIdentifier -->
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
@@ -304,6 +305,16 @@
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
 	</reference-descriptor>
+	<reference-descriptor name="pendingAppointmentFunding" class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+		<foreignkey field-ref="financialObjectCode" />
+		<foreignkey field-ref="financialSubObjectCode" />
+		<foreignkey field-ref="positionNumber" />
+		<foreignkey field-ref="emplid" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionPosition" table="LD_BCN_POS_T">
@@ -557,6 +568,13 @@
 	<field-descriptor name="salaryAdministrationPlan" column="SAL_ADMIN_PLAN" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grade" column="GRADE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="iuClassificationLevel" column="IU_CLASSIF_LEVEL" jdbc-type="VARCHAR"/>
+	<collection-descriptor name="budgetConstructionSalarySocialSecurity" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionSalarySocialSecurityNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="personUniversalIdentifier" sort="ASC" />
+		<orderby name="organizationChartOfAccountsCode" sort="ASC" />
+		<orderby name="organizationCode" sort="ASC" />
+		<orderby name="personName" sort="ASC" />		
+		<inverse-foreignkey field-ref="emplid" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionAccountReports" table="LD_BCN_ACCT_RPTS_T">
@@ -779,6 +797,17 @@
 		<orderby name="subAccountNumber" sort="ASC" />
 		<orderby name="financialObjectCode" sort="ASC" />
 		<orderby name="financialSubObjectCode" sort="ASC" />
+		<inverse-foreignkey field-ref="universityFiscalYear" />
+		<inverse-foreignkey field-ref="chartOfAccountsCode" />
+		<inverse-foreignkey field-ref="accountNumber" />
+		<inverse-foreignkey field-ref="subAccountNumber" />
+		<inverse-foreignkey field-ref="financialObjectCode" />
+		<inverse-foreignkey field-ref="financialSubObjectCode" />
+		<inverse-foreignkey field-ref="positionNumber" />
+		<inverse-foreignkey field-ref="emplid" />
+	</collection-descriptor>
+	<collection-descriptor name="budgetConstructionAppointmentFundingReason" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReason" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="appointmentFundingReasonCode" sort="ASC" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
 		<inverse-foreignkey field-ref="accountNumber" />
@@ -1167,6 +1196,7 @@
 	<field-descriptor name="fill3" column="FILL3" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fill4" column="FILL4" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fill5" column="FILL5" jdbc-type="VARCHAR"/>
+<!--  need relationship for appointmentFundingLockUserId -->
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />

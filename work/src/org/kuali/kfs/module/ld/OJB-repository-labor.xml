@@ -104,6 +104,7 @@
     <field-descriptor name="a21LaborDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="a21LaborFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
     <field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true" />
+<!-- need relationship for emplid -->
     <reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -888,18 +889,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.bo.JobSummary" table="LD_JOB_SUM_T">
-	<field-descriptor name="physicalCampusCode" column="PHYS_CMP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="jobNumber" column="JOB_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="jobSummaryLineNumber" column="JOB_SUM_LINE_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="jobSummaryText" column="JOB_SUM_TXT" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="physicalCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="physicalCampusCode" />
-	</reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.labor.bo.July1PositionFunding" table="LD_JULY1_POS_FND_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -952,6 +941,7 @@
 	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="beginningAndContractsAndGrantsAmount" column="BEG_AND_CG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="july1BudgetAmount" column="JULY1_BDGT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+<!-- need relationship for emplid -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.BalanceGlobalCalculatedSalaryFoundation" table="LD_BAL_GLBL_CSF_T">

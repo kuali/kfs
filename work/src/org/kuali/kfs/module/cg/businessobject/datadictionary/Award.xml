@@ -76,7 +76,7 @@
 
             <lookupFields>
                 <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="agency.fullName" required="false" />
+                <lookupField attributeName="agency.agencyNumber" required="false" />
                 <lookupField attributeName="awardTotalAmount" required="false" />
                 <lookupField attributeName="awardBeginningDate" required="false" />
 				<lookupField attributeName="proposal.grantNumber" required="false" />
@@ -102,6 +102,10 @@
 
 
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
+				<description>Insert desc here...</description>
+            </attributeReference>
+
+            <attributeReference name="agency.agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
 				<description>Insert desc here...</description>
             </attributeReference>
 

@@ -104,6 +104,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private Integer otherCostShareNextSequenceNumber;
     private Integer projectDirectorNextSequenceNumber;
     private Integer subcontractorNextSequenceNumber;
+    private boolean routingFormAgencyToBeNamedIndicator;
+    private String routingFormCatalogOfFederalDomesticAssistanceNumber;    
     
     // monetary attributes
     private KualiDecimal totalInstitutionCostShareAmount = KualiDecimal.ZERO;
@@ -1719,5 +1721,37 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             }
         }
         return list;
+    }
+
+    /**
+     * Gets the routingFormAgencyToBeNamedIndicator attribute. 
+     * @return Returns the routingFormAgencyToBeNamedIndicator.
+     */
+    public boolean isRoutingFormAgencyToBeNamedIndicator() {
+        return routingFormAgencyToBeNamedIndicator;
+    }
+
+    /**
+     * Sets the routingFormAgencyToBeNamedIndicator attribute value.
+     * @param routingFormAgencyToBeNamedIndicator The routingFormAgencyToBeNamedIndicator to set.
+     */
+    public void setRoutingFormAgencyToBeNamedIndicator(boolean routingFormAgencyToBeNamedIndicator) {
+        this.routingFormAgencyToBeNamedIndicator = routingFormAgencyToBeNamedIndicator;
+    }
+
+    /**
+     * Gets the routingFormCatalogOfFederalDomesticAssistanceNumber attribute. 
+     * @return Returns the routingFormCatalogOfFederalDomesticAssistanceNumber.
+     */
+    public String getRoutingFormCatalogOfFederalDomesticAssistanceNumber() {
+        return routingFormCatalogOfFederalDomesticAssistanceNumber;
+    }
+
+    /**
+     * Sets the routingFormCatalogOfFederalDomesticAssistanceNumber attribute value.
+     * @param routingFormCatalogOfFederalDomesticAssistanceNumber The routingFormCatalogOfFederalDomesticAssistanceNumber to set.
+     */
+    public void setRoutingFormCatalogOfFederalDomesticAssistanceNumber(String routingFormCatalogOfFederalDomesticAssistanceNumber) {
+        this.routingFormCatalogOfFederalDomesticAssistanceNumber = routingFormCatalogOfFederalDomesticAssistanceNumber;
     }
 }

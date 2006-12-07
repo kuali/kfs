@@ -30,6 +30,7 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.gl.bo.Balance;
 
 /**
  * 
@@ -71,6 +72,7 @@ public class LedgerBalance extends BusinessObjectBase {
     private SubObjCd financialSubObject;    
     private ObjectType financialObjectType;
     private BalanceTyp balanceType;    
+    private Balance financialBalance;
     
 	/**
 	 * Default constructor.
@@ -775,6 +777,23 @@ public class LedgerBalance extends BusinessObjectBase {
     }
 
     /**
+     * Gets the financialBalance attribute. 
+     * @return Returns the financialBalance.
+     */
+    public Balance getFinancialBalance() {
+        return financialBalance;
+    }
+
+    /**
+     * Sets the financialBalance attribute value.
+     * @param financialBalance The financialBalance to set.
+     * @deprecated
+     */
+    public void setFinancialBalance(Balance financialBalance) {
+        this.financialBalance = financialBalance;
+    }
+    
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -793,5 +812,6 @@ public class LedgerBalance extends BusinessObjectBase {
         m.put("emplid", this.emplid);
         return m;
     }
+
 
 }

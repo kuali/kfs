@@ -39,10 +39,6 @@
 		<foreignkey field-ref="financialObjectBenefitsTypeCode" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="financialObjectBenefitsType" class-ref="org.kuali.module.labor.bo.BenefitsType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialObjectBenefitsTypeCode" />
-	</reference-descriptor>
-	
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
@@ -52,6 +48,12 @@
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
+
+    <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.BenefitsType" table="LD_BENEFITS_TYPE_T">
@@ -396,6 +398,18 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+    <reference-descriptor name="ledgerBalance" class-ref="org.kuali.module.labor.bo.LedgerBalance" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+		<foreignkey field-ref="financialObjectCode" />
+		<foreignkey field-ref="financialSubObjectCode" />
+		<foreignkey field-ref="financialBalanceTypeCode" />
+		<foreignkey field-ref="financialObjectTypeCode" />
+		<foreignkey field-ref="positionNumber" />
+		<foreignkey field-ref="emplid" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.LedgerBalance" table="LD_LDGR_BAL_T">
@@ -458,6 +472,16 @@
     <reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialBalanceTypeCode" />
     </reference-descriptor>
+	<reference-descriptor name="financialBalance" class-ref="org.kuali.module.gl.bo.Balance" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+		<foreignkey field-ref="financialObjectCode" />
+		<foreignkey field-ref="financialSubObjectCode" />
+		<foreignkey field-ref="financialBalanceTypeCode" />
+		<foreignkey field-ref="financialObjectTypeCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.A21ReportPeriod" table="LD_A21_RPT_PRD_T">
@@ -602,6 +626,11 @@
     <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
+    <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentPostingYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.SalaryExpenseTransferToLine" table="LD_EXP_TRNFR_TO_T">
@@ -655,6 +684,11 @@
     <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
+	<reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentPostingYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="financialObjectCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.LaborGeneralLedgerEntry" table="LD_LBR_GL_ENTRY_T">
@@ -768,6 +802,16 @@
         <foreignkey field-ref="a21LaborReportNumber" />
         <foreignkey field-ref="a21LaborFiscalYear" />
     </reference-descriptor>
+    <collection-descriptor name="a21DetailLineBuild" element-class-ref="org.kuali.module.labor.bo.A21DetailLineBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <orderby name="chartOfAccountsCode" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
+        <orderby name="subAccountNumber" sort="ASC" />
+        <orderby name="positionNumber" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
+        <orderby name="sourceFinancialChartOfAccountsCode" sort="ASC" />
+        <orderby name="sourceAccountNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.A21DetailLineBuild" table="LD_A21_DTL_LN_BLD_T">

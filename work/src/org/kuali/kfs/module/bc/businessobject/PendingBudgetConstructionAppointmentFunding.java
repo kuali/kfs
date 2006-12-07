@@ -65,7 +65,9 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
     private BudgetConstructionPosition budgetConstructionPosition;
-
+    private BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
+    private BudgetConstructionAccountReports budgetConstructionAccountReports;
+    
     private List budgetConstructionSalaryFunding;
     private List budgetConstructionAppointmentFundingReason;
     
@@ -693,6 +695,40 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
     }
 
     /**
+     * Gets the budgetConstructionAdministrativePost attribute. 
+     * @return Returns the budgetConstructionAdministrativePost.
+     */
+    public BudgetConstructionAdministrativePost getBudgetConstructionAdministrativePost() {
+        return budgetConstructionAdministrativePost;
+    }
+
+    /**
+     * Sets the budgetConstructionAdministrativePost attribute value.
+     * @param budgetConstructionAdministrativePost The budgetConstructionAdministrativePost to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionAdministrativePost(BudgetConstructionAdministrativePost budgetConstructionAdministrativePost) {
+        this.budgetConstructionAdministrativePost = budgetConstructionAdministrativePost;
+    }    
+
+    /**
+     * Gets the budgetConstructionAccountReports attribute. 
+     * @return Returns the budgetConstructionAccountReports.
+     */
+    public BudgetConstructionAccountReports getBudgetConstructionAccountReports() {
+        return budgetConstructionAccountReports;
+    }
+
+    /**
+     * Sets the budgetConstructionAccountReports attribute value.
+     * @param budgetConstructionAccountReports The budgetConstructionAccountReports to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionAccountReports(BudgetConstructionAccountReports budgetConstructionAccountReports) {
+        this.budgetConstructionAccountReports = budgetConstructionAccountReports;
+    }    
+    
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -709,6 +745,5 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
         m.put("emplid", this.emplid);
         return m;
     }
-
 
 }

@@ -37,12 +37,14 @@ public class BudgetConstructionIntendedIncumbent extends BusinessObjectBase {
 	private String iuClassificationLevel;
 
     private List budgetConstructionSalarySocialSecurity;
+    private List pendingBudgetConstructionAppointmentFunding;
     
 	/**
 	 * Default constructor.
 	 */
 	public BudgetConstructionIntendedIncumbent() {
         budgetConstructionSalarySocialSecurity = new ArrayList();
+        pendingBudgetConstructionAppointmentFunding = new ArrayList();
         
 	}
 
@@ -188,6 +190,22 @@ public class BudgetConstructionIntendedIncumbent extends BusinessObjectBase {
     }
 
     /**
+     * Gets the pendingBudgetConstructionAppointmentFunding attribute. 
+     * @return Returns the pendingBudgetConstructionAppointmentFunding.
+     */
+    public List getPendingBudgetConstructionAppointmentFunding() {
+        return pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
+     * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
+     */
+    public void setPendingBudgetConstructionAppointmentFunding(List pendingBudgetConstructionAppointmentFunding) {
+        this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -195,5 +213,6 @@ public class BudgetConstructionIntendedIncumbent extends BusinessObjectBase {
         m.put("emplid", this.emplid);
         return m;
     }
-
+    
+    
 }

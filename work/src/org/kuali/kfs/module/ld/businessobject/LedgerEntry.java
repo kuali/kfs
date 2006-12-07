@@ -115,6 +115,7 @@ public class LedgerEntry extends BusinessObjectBase {
     private ProjectCode project;
     private DocumentHeader documentHeader;
     private OriginationCode financialSystemOrigination;
+    private LedgerBalance ledgerBalance;
     
 	/**
 	 * Default constructor.
@@ -1474,6 +1475,23 @@ public class LedgerEntry extends BusinessObjectBase {
      */
     public void setFinancialSystemOrigination(OriginationCode financialSystemOrigination) {
         this.financialSystemOrigination = financialSystemOrigination;
+    }    
+
+    /**
+     * Gets the ledgerBalance attribute. 
+     * @return Returns the ledgerBalance.
+     */
+    public LedgerBalance getLedgerBalance() {
+        return ledgerBalance;
+    }
+
+    /**
+     * Sets the ledgerBalance attribute value.
+     * @param ledgerBalance The ledgerBalance to set.
+     * @deprecated
+     */
+    public void setLedgerBalance(LedgerBalance ledgerBalance) {
+        this.ledgerBalance = ledgerBalance;
     }    
     
     /**

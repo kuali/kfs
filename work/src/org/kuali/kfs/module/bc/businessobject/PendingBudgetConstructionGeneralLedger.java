@@ -30,6 +30,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.PropertyConstants;
 
 /**
@@ -56,9 +57,10 @@ public class PendingBudgetConstructionGeneralLedger extends BusinessObjectBase {
 	private Account account;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
-    private Balance financialBalanceType;
+    private Balance financialBalance;
     private BalanceTyp balanceType;
     private ObjectType objectType;
+    private LaborObject laborObject;
     
 	/**
 	 * Default constructor.
@@ -413,20 +415,20 @@ public class PendingBudgetConstructionGeneralLedger extends BusinessObjectBase {
     }
 
     /**
-     * Gets the financialBalanceType attribute. 
-     * @return Returns the financialBalanceType.
+     * Gets the financialBalance attribute. 
+     * @return Returns the financialBalance.
      */
-    public Balance getFinancialBalanceType() {
-        return financialBalanceType;
+    public Balance getFinancialBalance() {
+        return financialBalance;
     }
 
     /**
-     * Sets the financialBalanceType attribute value.
-     * @param financialBalanceType The financialBalanceType to set.
+     * Sets the financialBalance attribute value.
+     * @param financialBalance The financialBalance to set.
      * @deprecated
      */
-    public void setFinancialBalanceType(Balance financialBalanceType) {
-        this.financialBalanceType = financialBalanceType;
+    public void setFinancialBalance(Balance financialBalance) {
+        this.financialBalance = financialBalance;
     }
 
     /**
@@ -479,6 +481,23 @@ public class PendingBudgetConstructionGeneralLedger extends BusinessObjectBase {
     public void setBudgetConstructionHeader(BudgetConstructionHeader budgetConstructionHeader) {
         this.budgetConstructionHeader = budgetConstructionHeader;
     }    
+
+    /**
+     * Gets the laborObject attribute. 
+     * @return Returns the laborObject.
+     */
+    public LaborObject getLaborObject() {
+        return laborObject;
+    }
+
+    /**
+     * Sets the laborObject attribute value.
+     * @param laborObject The laborObject to set.
+     * @deprecated
+     */
+    public void setLaborObject(LaborObject laborObject) {
+        this.laborObject = laborObject;
+    }        
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -497,6 +516,7 @@ public class PendingBudgetConstructionGeneralLedger extends BusinessObjectBase {
         m.put("financialBalanceTypeCode", this.financialBalanceTypeCode);
         m.put("financialObjectTypeCode", this.financialObjectTypeCode);
         return m;
-    }    
-    
+    }
+
+  
 }

@@ -19,7 +19,9 @@
 package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -53,12 +55,15 @@ public class CalculatedSalaryFoundationTrackerOverride extends BusinessObjectBas
 	private Account account;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
+
+    private List calculatedSalaryFoundationTracker;
     
 	/**
 	 * Default constructor.
 	 */
 	public CalculatedSalaryFoundationTrackerOverride() {
-
+        calculatedSalaryFoundationTracker = new ArrayList();
+        
 	}
 
 	/**
@@ -427,6 +432,22 @@ public class CalculatedSalaryFoundationTrackerOverride extends BusinessObjectBas
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }    
+
+    /**
+     * Gets the calculatedSalaryFoundationTracker attribute. 
+     * @return Returns the calculatedSalaryFoundationTracker.
+     */
+    public List getCalculatedSalaryFoundationTracker() {
+        return calculatedSalaryFoundationTracker;
+    }
+
+    /**
+     * Sets the calculatedSalaryFoundationTracker attribute value.
+     * @param calculatedSalaryFoundationTracker The calculatedSalaryFoundationTracker to set.
+     */
+    public void setCalculatedSalaryFoundationTracker(List calculatedSalaryFoundationTracker) {
+        this.calculatedSalaryFoundationTracker = calculatedSalaryFoundationTracker;
+    }    
     
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -445,4 +466,6 @@ public class CalculatedSalaryFoundationTrackerOverride extends BusinessObjectBas
         m.put("emplid", this.emplid);
 	    return m;
     }
+
+
 }

@@ -58,7 +58,7 @@ public class BudgetConstructionMonthly extends BusinessObjectBase {
     private KualiDecimal financialDocumentMonth12LineAmount;
 
     private PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger;
-    private Balance financialBalanceType;
+    private Balance financialBalance;
     private ObjectCode financialObject;
     private Account account;
     private Chart chartOfAccounts;
@@ -534,23 +534,23 @@ public class BudgetConstructionMonthly extends BusinessObjectBase {
     }
 
     /**
-     * Gets the financialBalanceType attribute.
+     * Gets the financialBalance attribute.
      * 
-     * @return Returns the financialBalanceType
+     * @return Returns the financialBalance
      * 
      */
-    public Balance getFinancialBalanceType() {
-        return financialBalanceType;
+    public Balance getFinancialBalance() {
+        return financialBalance;
     }
 
     /**
-     * Sets the financialBalanceType attribute.
+     * Sets the financialBalance attribute.
      * 
-     * @param financialBalanceType The financialBalanceType to set.
+     * @param financialBalance The financialBalance to set.
      * @deprecated
      */
-    public void setFinancialBalanceType(Balance financialBalanceType) {
-        this.financialBalanceType = financialBalanceType;
+    public void setFinancialBalance(Balance financialBalance) {
+        this.financialBalance = financialBalance;
     }
 
     /**

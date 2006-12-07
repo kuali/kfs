@@ -40,7 +40,8 @@ public class PositionObjectBenefit extends BusinessObjectBase {
     private transient Options universityFiscal;
     private BenefitsCalculation benefitsCalculation;
     private BenefitsType financialObjectBenefitsType;
-
+    private LaborObject laborObject;
+    
     /**
      * Default constructor.
      */
@@ -186,6 +187,7 @@ public class PositionObjectBenefit extends BusinessObjectBase {
      * Sets the universityFiscal attribute value.
      * 
      * @param universityFiscal The universityFiscal to set.
+     * @deprecated
      */
     public void setUniversityFiscal(Options universityFiscal) {
         this.universityFiscal = universityFiscal;
@@ -205,9 +207,38 @@ public class PositionObjectBenefit extends BusinessObjectBase {
      * Sets the benefitsCalculation attribute value.
      * 
      * @param benefitsCalculation The benefitsCalculation to set.
+     * @deprecated
      */
     public void setBenefitsCalculation(BenefitsCalculation benefitsCalculation) {
         this.benefitsCalculation = benefitsCalculation;
+    }
+
+    public BenefitsType getFinancialObjectBenefitsType() {
+        return financialObjectBenefitsType;
+    }
+
+    /**
+     * @deprecated
+     */
+    public void setFinancialObjectBenefitsType(BenefitsType financialObjectBenefitsType) {
+        this.financialObjectBenefitsType = financialObjectBenefitsType;
+    }
+
+    /**
+     * Gets the laborObject attribute. 
+     * @return Returns the laborObject.
+     */
+    public LaborObject getLaborObject() {
+        return laborObject;
+    }
+
+    /**
+     * Sets the laborObject attribute value.
+     * @param laborObject The laborObject to set.
+     * @deprecated
+     */
+    public void setLaborObject(LaborObject laborObject) {
+        this.laborObject = laborObject;
     }
 
     /**
@@ -224,11 +255,5 @@ public class PositionObjectBenefit extends BusinessObjectBase {
         return m;
     }
 
-    public BenefitsType getFinancialObjectBenefitsType() {
-        return financialObjectBenefitsType;
-    }
 
-    public void setFinancialObjectBenefitsType(BenefitsType financialObjectBenefitsType) {
-        this.financialObjectBenefitsType = financialObjectBenefitsType;
-    }
 }

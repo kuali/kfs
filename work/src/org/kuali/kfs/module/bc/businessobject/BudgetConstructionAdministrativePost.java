@@ -30,7 +30,7 @@ public class BudgetConstructionAdministrativePost extends BusinessObjectBase {
 	private String emplid;
 	private String positionNumber;
 	private String administrativePost;
-
+  
 	/**
 	 * Default constructor.
 	 */
@@ -100,14 +100,14 @@ public class BudgetConstructionAdministrativePost extends BusinessObjectBase {
 		this.administrativePost = administrativePost;
 	}
 
-
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
         m.put("emplid", this.emplid);
         m.put("positionNumber", this.positionNumber);
-	    return m;
+        return m;
     }
+
 }

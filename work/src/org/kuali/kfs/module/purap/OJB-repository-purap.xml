@@ -301,6 +301,9 @@
 	<field-descriptor name="vendorPreviousTaxNumber" column="VNDR_PREV_TAX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorPreviousTaxTypeCode" column="VNDR_PREV_TAX_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorTaxChangePersonIdentifier" column="VNDR_TAX_CHG_PRSN_ID" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="vendorHeader" class-ref="org.kuali.module.purap.bo.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorPhoneNumber" table="PUR_VNDR_PHN_NBR_T">

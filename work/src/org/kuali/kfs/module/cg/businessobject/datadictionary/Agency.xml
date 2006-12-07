@@ -34,7 +34,7 @@
                 <field attributeName="historicalIndicator" />
                 <field attributeName="inStateIndicator" />
                 <field attributeName="indirectAmount" />
-                <field attributeName="reportsToAgency.agencyNumber" />
+                <field attributeName="reportsToAgencyNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -60,7 +60,7 @@
                 <field attributeName="historicalIndicator" />
                 <field attributeName="inStateIndicator" />
                 <field attributeName="indirectAmount" />
-                <field attributeName="reportsToAgency.agencyNumber" />
+                <field attributeName="reportsToAgencyNumber" />
             </resultFields>
 
         </lookup>
@@ -121,6 +121,7 @@
                 <summary>Agency Full Name</summary>
                 <description>Agency Full Name</description>
             </attribute>
+            
             <attributeReference name="agencyType.name" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="name">
 
                 <required>true</required>
@@ -169,14 +170,15 @@
                 </validationPattern>
 
                 <control>
-                    <text size="20" />
+                    <currency size="20" formattedMaxLength="12"/>
                 </control>
 
                 <summary>Indirect Amount</summary>
                 <description>Indirect Amount</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attribute>
 
-            <attributeReference name="reportsToAgency.agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
+            <attributeReference name="reportsToAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
                 <label>Reports To Agency Number</label>
                 <shortLabel>Reports To Agency Number</shortLabel>
                 <summary>Reports To Agency Number</summary>

@@ -47,6 +47,10 @@
             <field attributeName="agencyNumber" />
         </lockingKeys>
 
+        <defaultExistenceChecks>
+            <reference attributeName="agencyType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="agencyTypeCode" />
+        </defaultExistenceChecks>
+
         <maintainableSections>
             <maintainableSection title="Edit Agency">
                 <maintainableItems>
@@ -57,7 +61,7 @@
                     <maintainableField name="historicalIndicator" />
                     <maintainableField name="inStateIndicator" />
                     <maintainableField name="indirectAmount" />
-                    <maintainableField name="reportsToAgency.agencyNumber" />
+                    <maintainableField name="reportsToAgencyNumber" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

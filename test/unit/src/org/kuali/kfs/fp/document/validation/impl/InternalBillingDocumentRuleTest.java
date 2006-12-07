@@ -58,7 +58,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringServiceLocator.getDocumentService().saveDocument(null, null, null);
+            SpringServiceLocator.getDocumentService().saveDocument(null);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;

@@ -90,7 +90,7 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
                 createdDoc.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
                 createdDoc.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
 
-                getDocumentService().saveDocument(createdDoc, null, null);
+                getDocumentService().saveDocument(createdDoc);
             }
 
             {

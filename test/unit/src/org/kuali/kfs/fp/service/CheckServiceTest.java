@@ -107,7 +107,7 @@ public class CheckServiceTest extends KualiTestBase {
     private String createDocument() throws Exception{
         CashReceiptDocument document = DocumentTestUtils.createDocument(getDocumentService(), CashReceiptDocument.class);
         LINE18.addAsSourceTo(document);
-        getDocumentService().saveDocument(document, null, null);
+        getDocumentService().saveDocument(document);
         return document.getDocumentNumber();
     }
 }

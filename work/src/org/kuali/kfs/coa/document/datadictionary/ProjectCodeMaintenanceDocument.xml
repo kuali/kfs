@@ -51,7 +51,7 @@
 
         <defaultExistenceChecks>
             <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="chartOfAccountsCode" />
-            <reference attributeName="projectManagerUniversal" activeIndicatorAttributeName="activeKualiUser" attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
+            <reference attributeName="projectManagerUniversal" activeIndicatorAttributeName="activeForAnyModule" attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
             <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
         </defaultExistenceChecks>
 

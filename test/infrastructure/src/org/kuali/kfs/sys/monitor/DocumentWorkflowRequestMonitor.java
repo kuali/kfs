@@ -17,7 +17,7 @@
  */
 package org.kuali.test.monitor;
 
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
@@ -27,10 +27,10 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
 
     private final Long docHeaderId;
-    private final KualiUser user;
+    private final UniversalUser user;
     private final String actionRequestedCode;
 
-    public DocumentWorkflowRequestMonitor(Long docHeaderId, KualiUser user, String actionRequestedCode) {
+    public DocumentWorkflowRequestMonitor(Long docHeaderId, UniversalUser user, String actionRequestedCode) {
         this.docHeaderId = docHeaderId;
         this.user = user;
         this.actionRequestedCode = actionRequestedCode;

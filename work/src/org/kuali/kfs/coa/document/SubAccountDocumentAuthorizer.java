@@ -20,7 +20,8 @@ package org.kuali.module.chart.document;
 import org.kuali.Constants;
 import org.kuali.core.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
+
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
@@ -50,7 +51,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
      * @return
      * 
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, KualiUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
 
         // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions

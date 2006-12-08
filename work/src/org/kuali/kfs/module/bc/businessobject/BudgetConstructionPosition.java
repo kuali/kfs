@@ -683,7 +683,7 @@ public class BudgetConstructionPosition extends BusinessObjectBase {
      * @return Returns the positionLockUser
      */
     public UniversalUser getPositionLockUser() {
-        positionLockUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
+        positionLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
         return positionLockUser;
     }
 

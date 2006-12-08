@@ -20,7 +20,8 @@ package org.kuali.module.chart.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.chart.bo.Chart;
 
 /**
@@ -61,6 +62,6 @@ public interface ChartService {
      * @param kualiUser
      * @return
      */
-    public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser);
+    public List getChartsThatUserIsResponsibleFor(UniversalUser kualiUser);
 
 }

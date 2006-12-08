@@ -317,7 +317,7 @@ public class BudgetConstructionHeader extends BusinessObjectBase {
     }
     
     public UniversalUser getBudgetLockUser() {
-        budgetLockUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+        budgetLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
         return budgetLockUser;
     }
 
@@ -352,7 +352,7 @@ public class BudgetConstructionHeader extends BusinessObjectBase {
     }
 
     public UniversalUser getBudgetTransactionLockUser() {
-        budgetTransactionLockUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+        budgetTransactionLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         return budgetTransactionLockUser;
     }
 

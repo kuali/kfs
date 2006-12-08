@@ -27,7 +27,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.Building;
-import org.kuali.core.bo.user.KualiUser;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -38,6 +38,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.service.BalanceService;
@@ -235,7 +236,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      *         Supervisors
      * 
      */
-    protected boolean isNonSystemSupervisorEditingAClosedAccount(MaintenanceDocument document, KualiUser user) {
+    protected boolean isNonSystemSupervisorEditingAClosedAccount(MaintenanceDocument document, UniversalUser user) {
 
         boolean result = false;
 
@@ -318,7 +319,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         // we need to get the old maintanable doc here
-        if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getKualiUser())) {
+        if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getUniversalUser())) {
             success &= false;
             putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
@@ -893,14 +894,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         boolean result = true;
         UniversalUser fiscalOfficer = null;
         try {
-           fiscalOfficer=getKualiUserService().getUniversalUser(fiscalOfficerUserId);
+           fiscalOfficer=getUniversalUserService().getUniversalUser(fiscalOfficerUserId);
          }
          catch (UserNotFoundException e) {
              result = false;
              putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_EXIST);
          }
         
-        if (fiscalOfficer!=null && !getKualiUserService().isActiveKualiUser( fiscalOfficer ) ) {
+        if (fiscalOfficer!=null && !fiscalOfficer.isActiveForModule( ChartUser.MODULE_ID ) ) {
             result=false;
             putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
         }

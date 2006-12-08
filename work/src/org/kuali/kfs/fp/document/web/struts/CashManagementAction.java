@@ -34,7 +34,8 @@ import org.kuali.Constants.DepositConstants;
 import org.kuali.KeyConstants.CashManagement;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.authorization.DocumentAuthorizer;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
@@ -104,7 +105,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String workgroupName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForUser(user);
 
         String defaultDescription = SpringServiceLocator.getKualiConfigurationService().getPropertyString(CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
@@ -179,7 +180,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         }
 
         // verify user's ability to add a deposit
-        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         Map editModes = getDocumentAuthorizer().getEditMode(cmDoc, user);
         if (!editModes.containsKey(AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
             throw buildAuthorizationException("add a deposit", cmDoc);

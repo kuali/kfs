@@ -30,7 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
@@ -77,7 +78,7 @@ public class BudgetForm extends KualiDocumentFormBase {
     private BudgetAdHocPermission newAdHocPermission;
     private BudgetAdHocOrg newAdHocOrg;
     private String newAdHocWorkgroupPermissionCode;
-    private KualiUser initiator;
+    private UniversalUser initiator;
 
     private String[] deleteValues = new String[50];
 
@@ -129,7 +130,7 @@ public class BudgetForm extends KualiDocumentFormBase {
         newGraduateAssistantRate = new BudgetGraduateAssistantRate();
         newAdHocPermission = new BudgetAdHocPermission();
         newAdHocOrg = new BudgetAdHocOrg();
-        initiator = new KualiUser();
+        initiator = new UniversalUser();
         setDocument(new BudgetDocument());
         newInstitutionCostShare = new BudgetInstitutionCostShare();
         newThirdPartyCostShare = new BudgetThirdPartyCostShare();
@@ -415,7 +416,7 @@ public class BudgetForm extends KualiDocumentFormBase {
      * Gets the initiator attribute. 
      * @return Returns the initiator.
      */
-    public KualiUser getInitiator() {
+    public UniversalUser getInitiator() {
         return initiator;
     }
 
@@ -423,7 +424,7 @@ public class BudgetForm extends KualiDocumentFormBase {
      * Sets the initiator attribute value.
      * @param initiator The initiator to set.
      */
-    public void setInitiator(KualiUser initiator) {
+    public void setInitiator(UniversalUser initiator) {
         this.initiator = initiator;
     }
     
@@ -434,7 +435,7 @@ public class BudgetForm extends KualiDocumentFormBase {
      */
     public String getInitiatorOrgCode() {
         if (this.getInitiator() != null) {
-            String[] departmentIdSplit = this.getInitiator().getUniversalUser().getDeptid().split("-");
+            String[] departmentIdSplit = this.getInitiator().getDeptid().split("-");
             if (departmentIdSplit.length > 1) {
                 return departmentIdSplit[1];
             }

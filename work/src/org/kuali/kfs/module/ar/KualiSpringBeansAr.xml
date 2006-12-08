@@ -18,5 +18,33 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="ar-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>ar</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali Accounts Receivable</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="arUserService" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.ar.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserRule"><null /></property>
+    	<property name="moduleUserPreRules"><null /></property>
+	</bean>
+		
+    <bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="chartUserService">
+    		<ref bean="chartUserService" />
+    	</property>
+    </bean>
 
 </beans>

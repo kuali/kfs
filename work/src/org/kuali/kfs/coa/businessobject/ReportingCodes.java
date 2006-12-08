@@ -159,7 +159,7 @@ public class ReportingCodes extends BusinessObjectBase {
     }
 
     public UniversalUser getUniversalUser() {
-        universalUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(financialReportingCodeMgrId, universalUser);
+        universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(financialReportingCodeMgrId, universalUser);
         return universalUser;
     }
 

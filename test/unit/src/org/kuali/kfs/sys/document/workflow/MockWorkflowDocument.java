@@ -19,7 +19,7 @@ package org.kuali.workflow;
 
 import java.sql.Timestamp;
 
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 import edu.iu.uis.eden.clientapp.vo.RouteHeaderVO;
@@ -516,7 +516,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     /**
      * @see org.kuali.core.workflow.service.KualiWorkflowDocument#userIsInitiator(org.kuali.core.bo.user.KualiUser)
      */
-    public boolean userIsInitiator(KualiUser user) {
+    public boolean userIsInitiator(UniversalUser user) {
         // TODO Auto-generated method stub
         return false;
     }

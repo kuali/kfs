@@ -18,6 +18,68 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="chart-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>chart</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali Chart Of Accounts</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="chartUserService" />
+    	</property>
+    	<property name="moduleUserRule">
+    		<ref bean="chartUserRule" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean id="chartModuleAuthorizer" class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.chart.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserPreRules">
+    		<ref bean="chartUserPreRules" />
+    	</property>
+	</bean>
+		
+    <bean id="chartUserService" class="org.kuali.module.chart.service.impl.ChartUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="propertyList">
+    		<list>
+    			<value>chartOfAccountsCode</value>
+    			<value>organizationCode</value>
+    			<value>active</value>
+    		</list>
+    	</property>
+      <property name="chartUserDao">
+          <ref bean="chartUserDao" />
+      </property>
+      <property name="accountService">
+          <ref bean="accountService" />
+      </property>
+      <property name="chartService">
+          <ref bean="chartService" />
+      </property>
+    </bean>
+
+    <bean id="chartUserDao" class="org.kuali.module.chart.dao.ojb.ChartUserDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+    
+    
+    <bean id="chartUserRule" class="org.kuali.module.chart.rules.ChartUserRule" singleton="false" parent="maintenanceDocumentRuleBase">    
+    	<!--  TODO: bind in other services -->
+    </bean>
+
+    <bean id="chartUserPreRules" class="org.kuali.module.chart.rules.ChartUserPreRules" singleton="false">    
+    	<!--  TODO: bind in other services -->
+    </bean>
+
+
     <bean id="balanceTypService" class="org.kuali.module.chart.service.impl.BalanceTypServiceImpl">
         <property name="kualiCodeService">
             <ref bean="kualiCodeService" />
@@ -234,9 +296,9 @@
         </property>
     </bean>
 
-    <bean id="workflow-org.kuali.core.bo.user.KualiUser-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.module.chart.bo.ChartUser-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
-            <value>org.kuali.core.bo.user.KualiUser</value>
+            <value>org.kuali.module.chart.bo.ChartUser</value>
         </property>
     </bean>
 
@@ -248,4 +310,5 @@
 
     <bean id="OrgReviewLookupable" class="org.kuali.workflow.attribute.OrgReviewLookupableImpl" singleton="false"/>
     <bean id="accountLookupable" class="org.kuali.module.chart.lookup.KualiAccountLookupableImpl" singleton="false" parent="kualiLookupable" />
+
 </beans>

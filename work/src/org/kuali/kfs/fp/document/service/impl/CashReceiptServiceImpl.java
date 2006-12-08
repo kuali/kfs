@@ -27,7 +27,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.exceptions.UnknownDocumentIdException;
@@ -42,9 +43,6 @@ import edu.iu.uis.eden.exception.DocumentNotFoundException;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashReceiptServiceImpl implements CashReceiptService {
-    private static final String TEST_CASH_RECEIPT_CAMPUS_CD = "HI";
-    private static final String TEST_CASH_RECEIPT_VERIFICATION_UNIT = "HAWAII_CR_VERIFICATION_UNIT";
-
 
     private BusinessObjectService businessObjectService;
     private WorkflowDocumentService workflowDocumentService;
@@ -60,13 +58,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (blank) campusCode");
         }
 
-        // pretend that a lookup is actually happening
-        if (campusCode.equals(TEST_CASH_RECEIPT_CAMPUS_CD)) {
-            vunit = TEST_CASH_RECEIPT_VERIFICATION_UNIT;
-        }
-        else {
-            vunit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
-        }
+        vunit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
 
         return vunit;
     }
@@ -83,12 +75,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         }
 
         // pretend that a lookup is actually happening
-        if (unitName.equals(TEST_CASH_RECEIPT_VERIFICATION_UNIT)) {
-            campusCode = TEST_CASH_RECEIPT_CAMPUS_CD;
-        }
-        else {
-            campusCode = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
-        }
+        campusCode = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
 
         return campusCode;
     }
@@ -97,7 +84,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     /**
      * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.core.bo.user.KualiUser)
      */
-    public String getCashReceiptVerificationUnitForUser(KualiUser user) {
+    public String getCashReceiptVerificationUnitForUser(UniversalUser user) {
         String unitName = null;
 
         if (user == null) {
@@ -200,7 +187,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             DocumentHeader docHeader = cr.getDocumentHeader();
             try {
                 Long documentHeaderId = Long.valueOf(docHeader.getDocumentNumber());
-                KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+                UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
 
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
             }

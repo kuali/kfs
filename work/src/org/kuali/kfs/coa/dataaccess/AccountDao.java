@@ -20,7 +20,8 @@ package org.kuali.module.chart.dao;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 
@@ -59,7 +60,7 @@ public interface AccountDao {
      * @param kualiUser
      * @return a list of AccountResponsibility objects
      */
-    public List getAccountsThatUserIsResponsibleFor(KualiUser kualiUser);
+    public List getAccountsThatUserIsResponsibleFor(UniversalUser kualiUser);
 
     /**
      * get all accounts in the system. This is needed by a sufficient funds rebuilder job

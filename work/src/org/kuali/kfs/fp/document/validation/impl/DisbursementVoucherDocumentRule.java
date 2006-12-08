@@ -33,7 +33,7 @@ import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiUser;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.FinancialDocument;
@@ -43,6 +43,7 @@ import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.RulesUtils;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -50,6 +51,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
@@ -74,6 +76,12 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherRuleConstants, GenerateGeneralLedgerDocumentPendingEntriesRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
 
+    private static String taxGroupName;
+    private static String travelGroupName;
+    private static String wireTransferGroupName;
+    private static String frnGroupName;
+    private static String adminGroupName;
+    
     /**
      * Constructs a DisbursementVoucherDocumentRule instance.
      */
@@ -99,14 +107,14 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then
             // the line is accessible
-            if (transactionalDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvAuthorizer.isSpecialRouting(transactionalDocument, GlobalVariables.getUserSession().getKualiUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
+            if (transactionalDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvAuthorizer.isSpecialRouting(transactionalDocument, GlobalVariables.getUserSession().getUniversalUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
                 isAccessible = true;
             }
         }
 
         // report (and log) errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getUniversalUser().getPersonUserIdentifier() };
+            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier() };
             GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
         }
 
@@ -134,7 +142,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         // amounts can only decrease
         DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(dvDocument);
-        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getKualiUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
+        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getUniversalUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
             boolean approveOK = true;
 
             // users in foreign or wire workgroup can increase or decrease amounts because of currency conversion
@@ -911,7 +919,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         // initiator campus code restrictions
-        String initiatorCampusCode = getInitiator(document).getOrganization().getOrganizationPhysicalCampusCode();
+        String initiatorCampusCode = ((ChartUser)getInitiator(document).getModuleUser( ChartUser.MODULE_ID )).getOrganization().getOrganizationPhysicalCampusCode();
         executeApplicationParameterRestriction(CAMPUS_DOC_LOCATION_GROUP_NM, CAMPUS_CODE_PARM_PREFIX + initiatorCampusCode, document.getDisbursementVoucherDocumentationLocationCode(), errorKey, "Documentation location");
     }
 
@@ -1007,7 +1015,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         // if a uuid was found, check it against the initiator uuid
         if (StringUtils.isNotBlank(uuid)) {
-            KualiUser initUser = getInitiator(document);
+            UniversalUser initUser = getInitiator(document);
             if (uuid.equals(initUser.getPersonUniversalIdentifier())) {
                 GlobalVariables.getErrorMap().putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_PAYEE_INITIATOR);
             }
@@ -1288,7 +1296,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @return true if user is in group
      */
     private boolean isUserInTaxGroup() {
-        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP));
+        if ( taxGroupName == null ) {
+            taxGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TAX_WORKGROUP );
+        }
+        return GlobalVariables.getUserSession().getUniversalUser().isMember( taxGroupName );
     }
 
     /**
@@ -1297,7 +1308,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @return true if user is in group
      */
     private boolean isUserInTravelGroup() {
-        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TRAVEL_GROUP));
+        if ( travelGroupName == null ) {
+            travelGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TRAVEL_WORKGROUP );
+        }
+        return GlobalVariables.getUserSession().getUniversalUser().isMember( travelGroupName );
     }
 
     /**
@@ -1306,7 +1320,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @return true if user is in group
      */
     private boolean isUserInFRNGroup() {
-        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_FRN_GROUP));
+        if ( frnGroupName == null ) {
+            frnGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP );
+        }
+        return GlobalVariables.getUserSession().getUniversalUser().isMember( frnGroupName );
     }
 
     /**
@@ -1315,7 +1332,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @return true if user is in group
      */
     private boolean isUserInWireGroup() {
-        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_WIRE_GROUP));
+        if ( wireTransferGroupName == null ) {
+            wireTransferGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP );
+        }
+        return GlobalVariables.getUserSession().getUniversalUser().isMember( wireTransferGroupName );
     }
 
     /**
@@ -1324,7 +1344,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @return true if user is in group, false otherwise
      */
     private boolean isUserInDvAdminGroup() {
-        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_ADMIN_GROUP));
+        if ( adminGroupName == null ) {
+            adminGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_ADMIN_WORKGROUP );
+        }
+        return GlobalVariables.getUserSession().getUniversalUser().isMember( adminGroupName );
     }
 
     /**
@@ -1333,11 +1356,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @param document
      * @return <code>KualiUser</code>
      */
-    private KualiUser getInitiator(TransactionalDocument document) {
-        KualiUser initUser = null;
+    private UniversalUser getInitiator(TransactionalDocument document) {
+        UniversalUser initUser = null;
         try {
 
-            initUser = SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+            initUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
         }
         catch (UserNotFoundException e) {
             throw new RuntimeException("Document Initiator not found " + e.getMessage());

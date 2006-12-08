@@ -25,7 +25,8 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
@@ -78,10 +79,10 @@ public class ChartDaoOjb extends PersistenceBrokerDaoSupport implements ChartDao
      * @param kualiUser
      * @return a list of Charts that the user has responsibility for
      */
-    public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser) {
+    public List getChartsThatUserIsResponsibleFor(UniversalUser universalUser) {
         List chartResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("finCoaManagerUniversalId", kualiUser.getPersonUniversalIdentifier());
+        criteria.addEqualTo("finCoaManagerUniversalId", universalUser.getPersonUniversalIdentifier());
         Collection charts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
         for (Iterator iter = charts.iterator(); iter.hasNext();) {
             Chart chart = (Chart) iter.next();

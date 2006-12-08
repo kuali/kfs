@@ -17,7 +17,7 @@
  */
 package org.kuali.module.chart.service.impl;
 
-import org.kuali.core.service.KualiUserService;
+
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.dao.PriorYearAccountDao;
 import org.kuali.module.chart.service.PriorYearAccountService;
@@ -27,7 +27,6 @@ import org.kuali.module.chart.service.PriorYearAccountService;
 public class PriorYearAccountServiceImpl implements PriorYearAccountService {
 
     private PriorYearAccountDao priorYearAccountDao;
-    private KualiUserService kualiUserService;
     
     public PriorYearAccountServiceImpl() {
         super();
@@ -49,8 +48,4 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
         return priorYearAccountDao.getByPrimaryId(chartCode, accountNumber);
     }
 
-    public void setKualiUserService(KualiUserService kualiUserService) {
-        this.kualiUserService = kualiUserService;
-    }    
-    
 }

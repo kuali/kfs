@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.KualiUser;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -272,7 +272,7 @@ public class Delegate extends BusinessObjectBase {
     }
 
     public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
+        accountDelegate = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
         return accountDelegate;
     }
 

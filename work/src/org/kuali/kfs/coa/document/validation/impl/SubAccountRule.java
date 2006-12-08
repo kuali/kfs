@@ -26,7 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
@@ -72,7 +73,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getKualiUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getUniversalUser()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         checkForPartiallyEnteredReportingFields();
@@ -93,7 +94,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getKualiUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getUniversalUser()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -114,7 +115,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getKualiUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getUniversalUser()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -502,17 +503,17 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return true if user is part of the group, false otherwise
      * 
      */
-    protected boolean isCgAuthorized(KualiUser user) {
+    protected boolean isCgAuthorized(UniversalUser user) {
 
         // attempt to get the group name that grants access to the CG fields
         String allowedCgWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_WORKGROUP_PARM_NAME);
 
-        if (user.isMember(new KualiGroup(allowedCgWorkgroup))) {
-            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
+        if (user.isMember( allowedCgWorkgroup )) {
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;
         }
         else {
-            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
             return false;
         }
     }

@@ -23,9 +23,8 @@ package org.kuali.module.purap;
 public class PurapParameterConstants {
 
     // GROUP NAMES
-    public static String PURAP_ADMIN_GROUP = "PurapAdminGroup";
+    public static final String PURAP_ADMIN_GROUP = "PurapAdminGroup";
 
     // PARAMETER NAMES
-    public static String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
-
+    public static final String PAYMENT_TERMS_DUE_TYPE_DESC = "PAYMENT_TERMS_DUE_TYPE_DESC";
 }

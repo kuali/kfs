@@ -23,9 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiUserService;
+
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
@@ -40,7 +41,6 @@ public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);
 
     private AccountDao accountDao;
-    private KualiUserService kualiUserService;
 
     /**
      * Retrieves an Account object based on primary key.
@@ -75,15 +75,15 @@ public class AccountServiceImpl implements AccountService {
     /**
      * @see org.kuali.module.chart.service.AccountService#getAccountsThatUserIsResponsibleFor(org.kuali.bo.user.KualiUser)
      */
-    public List getAccountsThatUserIsResponsibleFor(KualiUser kualiUser) {
+    public List getAccountsThatUserIsResponsibleFor(UniversalUser universalUser) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieving accountsResponsible list for user " + kualiUser.getUniversalUser().getPersonName());
+            LOG.debug("retrieving accountsResponsible list for user " + universalUser.getPersonName());
         }
 
         // gets the list of accounts that the user is the Fiscal Officer of
-        List accountList = accountDao.getAccountsThatUserIsResponsibleFor(kualiUser);
+        List accountList = accountDao.getAccountsThatUserIsResponsibleFor(universalUser);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieved accountsResponsible list for user " + kualiUser.getUniversalUser().getPersonName());
+            LOG.debug("retrieved accountsResponsible list for user " + universalUser.getPersonName());
         }
         return accountList;
     }
@@ -126,10 +126,6 @@ public class AccountServiceImpl implements AccountService {
      */
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
-    }
-
-    public void setKualiUserService(KualiUserService kualiUserService) {
-        this.kualiUserService = kualiUserService;
     }
 
 }

@@ -307,7 +307,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
             CorrectionDocument document = correctionForm.getCorrectionDocument();
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
-            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getKualiUser());
+            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getUniversalUser());
 
             if ( editingMode.get(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null ) {
                 // They have saved the document and they are retreiving it to be completed

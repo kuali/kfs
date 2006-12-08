@@ -24,7 +24,8 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -46,7 +47,7 @@ public class ServiceBillingDocumentRuleUtil {
      * @return whether the current user is authorized to use the given account in the SB income section
      */
     public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, TransactionalDocumentRuleBase.AccountingLineAction action) {
-        return serviceBillingIncomeAccountIsAccessible(accountingLine, action, GlobalVariables.getUserSession().getKualiUser());
+        return serviceBillingIncomeAccountIsAccessible(accountingLine, action, GlobalVariables.getUserSession().getUniversalUser());
     }
 
     /**
@@ -57,7 +58,7 @@ public class ServiceBillingDocumentRuleUtil {
      * @param user the user for whom to check accessibility
      * @return whether the given user is authorized to use the given account in the SB income section
      */
-    public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, TransactionalDocumentRuleBase.AccountingLineAction action, KualiUser user) {
+    public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, TransactionalDocumentRuleBase.AccountingLineAction action, UniversalUser user) {
         assertThat(accountingLine.isSourceAccountingLine(), accountingLine);
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
@@ -73,12 +74,12 @@ public class ServiceBillingDocumentRuleUtil {
             return false;
         }
 
-        if (user.isMember(new KualiGroup(control.getWorkgroupName()))) {
+        if (user.isMember( control.getWorkgroupName() )) {
             return true;
         }
         else {
             if (action != null) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getUniversalUser().getPersonUserIdentifier(), control.getWorkgroupName());
+                GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPersonUserIdentifier(), control.getWorkgroupName());
             }
             return false;
         }

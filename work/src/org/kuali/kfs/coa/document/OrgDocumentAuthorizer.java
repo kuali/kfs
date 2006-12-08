@@ -21,7 +21,8 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
+
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.ApplicationParameterException;
@@ -55,7 +56,7 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
      * @return
      * 
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, KualiUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
 
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
 

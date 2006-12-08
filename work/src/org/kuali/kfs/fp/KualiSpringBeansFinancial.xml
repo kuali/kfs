@@ -18,6 +18,35 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="financial-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>financial</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali Financials</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="financialUserService" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.financial.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserRule"><null /></property>
+    	<property name="moduleUserPreRules"><null /></property>
+	</bean>
+		
+    <bean id="financialUserService" class="org.kuali.module.financial.service.impl.FinancialUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="chartUserService">
+    		<ref bean="chartUserService" />
+    	</property>
+    </bean>
+
     <bean id="travelMileageRateDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>

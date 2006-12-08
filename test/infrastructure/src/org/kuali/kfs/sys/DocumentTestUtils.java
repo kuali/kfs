@@ -17,7 +17,7 @@
  */
 package org.kuali.test;
 
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.DocumentNote;
@@ -61,7 +61,7 @@ public class DocumentTestUtils {
      * @param documentNoteText
      * @return new DocumentNote initialized with the given values
      */
-    public static DocumentNote createDocumentNote(String documentHeaderId, KualiUser documentNoteAuthor, String documentNoteText) {
+    public static DocumentNote createDocumentNote(String documentHeaderId, UniversalUser documentNoteAuthor, String documentNoteText) {
         java.util.Date now = new java.util.Date();
         DocumentNote documentNote = new DocumentNote();
         documentNote.setDocumentNumber(documentHeaderId);

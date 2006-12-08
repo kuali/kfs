@@ -18,5 +18,33 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="labor-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>labor</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali Labor Distribution</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="laborUserService" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.labor.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserRule"><null /></property>
+    	<property name="moduleUserPreRules"><null /></property>
+	</bean>
+		
+    <bean id="laborUserService" class="org.kuali.module.labor.service.impl.LaborUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="chartUserService">
+    		<ref bean="chartUserService" />
+    	</property>
+    </bean>
 
 </beans>

@@ -485,7 +485,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP))) {
+        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
             GlobalVariables.getErrorMap().putError(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(Constants.MAPPING_BASIC);
@@ -516,7 +516,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP))) {
+        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TAX_WORKGROUP ) )) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
             GlobalVariables.getErrorMap().putError(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(Constants.MAPPING_BASIC);

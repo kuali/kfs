@@ -24,7 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentAuthorizerBase;
 import org.kuali.core.document.TransactionalDocument;
@@ -38,7 +39,7 @@ public class CorrectionDocumentAuthorizer extends DocumentAuthorizerBase {
     }
 
     @Override
-    public Map getEditMode(Document document, KualiUser user) {
+    public Map getEditMode(Document document, UniversalUser user) {
         LOG.debug("getEditMode() started");
 
         String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;

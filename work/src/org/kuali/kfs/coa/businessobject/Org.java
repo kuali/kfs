@@ -321,7 +321,7 @@ public class Org extends BusinessObjectBase {
     }
 
     public UniversalUser getOrganizationManagerUniversal() {
-        organizationManagerUniversal = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
+        organizationManagerUniversal = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
         return organizationManagerUniversal;
     }
 

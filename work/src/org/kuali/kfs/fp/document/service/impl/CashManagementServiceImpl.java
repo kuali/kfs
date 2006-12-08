@@ -29,7 +29,8 @@ import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.Constants.DepositConstants;
 import org.kuali.Constants.DocumentStatusCodes;
 import org.kuali.core.authorization.DocumentAuthorizer;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
@@ -111,7 +112,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         // check user authorization
-        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
         DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
         documentAuthorizer.canInitiate(documentTypeName, user);

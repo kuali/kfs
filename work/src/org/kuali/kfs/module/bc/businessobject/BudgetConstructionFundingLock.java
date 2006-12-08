@@ -332,7 +332,7 @@ public class BudgetConstructionFundingLock extends BusinessObjectBase {
      * @return Returns the appointmentFundingLockUser. 
      */
     public UniversalUser getAppointmentFundingLockUser() {
-        appointmentFundingLockUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
+        appointmentFundingLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
         return appointmentFundingLockUser;
     }
 

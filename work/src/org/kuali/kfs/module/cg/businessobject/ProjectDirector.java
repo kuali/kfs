@@ -44,7 +44,7 @@ public class ProjectDirector extends BusinessObjectBase {
     }
 
     public UniversalUser getUniversalUser() {
-        universalUser = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
+        universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
         return universalUser;
     }
 

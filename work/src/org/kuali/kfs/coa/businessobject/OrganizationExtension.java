@@ -996,7 +996,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     }
 
     public UniversalUser getHrmsPersonnelApproverUniversal() {
-        hrmsPersonnelApproverUniversal = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
+        hrmsPersonnelApproverUniversal = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
         return hrmsPersonnelApproverUniversal;
     }
 
@@ -1031,7 +1031,7 @@ public class OrganizationExtension extends BusinessObjectBase {
     }
 
     public UniversalUser getFiscalApproverUniversal() {
-        fiscalApproverUniversal = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
+        fiscalApproverUniversal = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
         return fiscalApproverUniversal;
     }
 

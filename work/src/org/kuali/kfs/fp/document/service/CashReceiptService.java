@@ -19,7 +19,7 @@ package org.kuali.module.financial.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 
 
 public interface CashReceiptService {
@@ -44,7 +44,7 @@ public interface CashReceiptService {
      * @param user
      * @return cash receipt verificationUnit workgroupName associated with the given user
      */
-    public String getCashReceiptVerificationUnitForUser(KualiUser user);
+    public String getCashReceiptVerificationUnitForUser(UniversalUser user);
 
 
     /**

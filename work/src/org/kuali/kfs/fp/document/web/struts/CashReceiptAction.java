@@ -311,7 +311,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
         CashReceiptService crs = SpringServiceLocator.getCashReceiptService();
-        String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getKualiUser());
+        String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getUniversalUser());
         String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
         crDoc.setCampusLocationCode(campusCode);
 

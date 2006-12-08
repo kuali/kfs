@@ -18,6 +18,37 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="gl-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>gl</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali General Ledger</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="glUserService" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.gl.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserRule"><null /></property>
+    	<property name="moduleUserPreRules"><null /></property>
+	</bean>
+		
+    <bean id="glUserService" class="org.kuali.module.gl.service.impl.GlUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="chartUserService">
+    		<ref bean="chartUserService" />
+    	</property>
+    </bean>
+
+
+
 	<bean id="glGlSummaryReportStep" class="org.kuali.module.gl.batch.GlSummaryReportStep">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>

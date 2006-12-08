@@ -18,6 +18,34 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="budget-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>budget</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali Budget Construction</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="budgetUserService" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.budget.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserRule"><null /></property>
+    	<property name="moduleUserPreRules"><null /></property>
+	</bean>
+		
+    <bean id="budgetUserService" class="org.kuali.module.budget.service.impl.BudgetUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="chartUserService">
+    		<ref bean="chartUserService" />
+    	</property>
+    </bean>
 
     <bean id="lockService" class="org.kuali.module.budget.service.impl.LockServiceImpl">
         <property name="budgetConstructionDao">

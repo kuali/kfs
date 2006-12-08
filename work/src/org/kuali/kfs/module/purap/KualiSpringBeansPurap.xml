@@ -18,6 +18,34 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="purap-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>purap</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali Purchasing/Accounts Payable</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="purapUserService" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.purap.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserRule"><null /></property>
+    	<property name="moduleUserPreRules"><null /></property>
+	</bean>
+		
+    <bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="kualiConfigurationService">
+    		<ref bean="kualiConfigurationService" />
+    	</property>
+    </bean>
 
     <bean id="vendorService" class="org.kuali.module.purap.service.impl.VendorServiceImpl">
         <property name="vendorDao">

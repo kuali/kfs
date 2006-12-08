@@ -24,6 +24,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartService;
 
 public class ChartRule extends MaintenanceDocumentRuleBase {
@@ -52,13 +53,13 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
         
         UniversalUser chartManager = null;
         try {
-           chartManager = getKualiUserService().getUniversalUser( chart.getFinCoaManagerUniversalId() );
+           chartManager = getUniversalUserService().getUniversalUser( chart.getFinCoaManagerUniversalId() );
          } catch (UserNotFoundException e) {
              result = false;
              putFieldError("finCoaManagerUniversal.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
          }
         
-        if (chartManager!=null && !getKualiUserService().isActiveKualiUser( chartManager ) ) {
+        if (chartManager!=null && !chartManager.isActiveForModule( ChartUser.MODULE_ID ) ) {
             result=false;
             putFieldError("finCoaManagerUniversal.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
         }

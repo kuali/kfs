@@ -25,7 +25,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.authorization.DocumentActionFlags;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentAuthorizerBase;
 import org.kuali.core.service.KualiConfigurationService;
@@ -45,7 +46,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
      * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    public Map getEditMode(Document d, KualiUser u) {
+    public Map getEditMode(Document d, UniversalUser u) {
         
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
         BudgetPermissionsService permissionsService = SpringServiceLocator.getBudgetPermissionsService();
@@ -54,7 +55,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         KualiWorkflowDocument workflowDocument = budgetDocument.getDocumentHeader().getWorkflowDocument();
         
         // Check default user permissions
-        if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getUniversalUser().getPersonUserIdentifier())) {
+        if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getPersonUserIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
         }
         
@@ -123,7 +124,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
      * @see org.kuali.core.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
-    public DocumentActionFlags getDocumentActionFlags(Document document, KualiUser user) {
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         LOG.debug("calling BudgetDocumentAuthorizer.getDocumentActionFlags");
 
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
@@ -168,7 +169,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
      * @param user
      * @return true if the given user is allowed to modify documents of the given document type
      */
-    public boolean canModify(String documentTypeName, KualiUser user) {
+    public boolean canModify(String documentTypeName, UniversalUser user) {
         return SpringServiceLocator.getAuthorizationService().isAuthorized(user, Constants.PERMISSION_MODIFY, documentTypeName);
     }
     
@@ -179,7 +180,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
      * @param user
      * @return true if the given user is allowed to view documents of the given document type
      */
-    public boolean canView(String documentTypeName, KualiUser user) {
+    public boolean canView(String documentTypeName, UniversalUser user) {
         return SpringServiceLocator.getAuthorizationService().isAuthorized(user, Constants.PERMISSION_VIEW, documentTypeName);
     }
 }

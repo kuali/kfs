@@ -35,7 +35,8 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.core.authorization.DocumentAuthorizer;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
@@ -80,7 +81,7 @@ public class DepositWizardAction extends KualiAction {
         // check authorization manually, since the auth-check isn't inherited by this class
         String cmDocTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
         DocumentAuthorizer cmDocAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(cmDocTypeName);
-        KualiUser luser = GlobalVariables.getUserSession().getKualiUser();
+        UniversalUser luser = GlobalVariables.getUserSession().getUniversalUser();
         cmDocAuthorizer.canInitiate(cmDocTypeName, luser);
 
         // populate the outgoing form used by the JSP if it seems empty

@@ -23,7 +23,8 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSi
 
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.GlobalVariables;
@@ -155,10 +156,10 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         return subAccount;
     }
 
-    private KualiUser createKualiUser(String userid) {
-        KualiUser user = new KualiUser();
+    private UniversalUser createKualiUser(String userid) {
+        UniversalUser user = new UniversalUser();
         try {
-            user = SpringServiceLocator.getKualiUserService().getKualiUser(new AuthenticationUserId(userid));
+            user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(userid));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -282,7 +283,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      */
     public void testIsCgAuthorized_goodUser() throws UserNotFoundException {
         SubAccountRule rule = new SubAccountRule();
-        KualiUser user = GOOD_CG_USERID.getKualiUser();
+        UniversalUser user = GOOD_CG_USERID.getUniversalUser();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
@@ -299,7 +300,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      */
     public void testIsCgAuthorized_badUser() throws UserNotFoundException {
         SubAccountRule rule = new SubAccountRule();
-        KualiUser user = BAD_CG_USERID.getKualiUser();
+        UniversalUser user = BAD_CG_USERID.getUniversalUser();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());

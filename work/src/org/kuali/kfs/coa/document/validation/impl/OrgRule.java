@@ -28,7 +28,8 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.KualiUser;
+
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
@@ -36,6 +37,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.service.OrganizationService;
 
@@ -76,7 +78,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
 
         // determine whether this person is the Chart manager for this org
-        isChartManager = isChartManager(GlobalVariables.getUserSession().getKualiUser());
+        isChartManager = isChartManager(GlobalVariables.getUserSession().getUniversalUser());
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -105,7 +107,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         // determine whether this person is the Chart manager for this org
-        isChartManager = isChartManager(GlobalVariables.getUserSession().getKualiUser());
+        isChartManager = isChartManager(GlobalVariables.getUserSession().getUniversalUser());
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -133,7 +135,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         // determine whether this person is the Chart manager for this org
-        isChartManager = isChartManager(GlobalVariables.getUserSession().getKualiUser());
+        isChartManager = isChartManager(GlobalVariables.getUserSession().getUniversalUser());
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -181,7 +183,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
            plant maintainer work group.  */
         
         //get user
-        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         
         //if not authroized to edit plant fields, exit with true
         if( isPlantAuthorized(user) == false ){
@@ -531,16 +533,16 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @return true if the user is the Chart Manager, false otherwise
      * 
      */
-    protected boolean isChartManager(KualiUser user) {
+    protected boolean isChartManager(UniversalUser user) {
 
         // see if this person is manager for the requested chart
-        boolean success = user.isManagerForChart(newOrg.getChartOfAccountsCode());
+        boolean success = ((ChartUser)user.getModuleUser( ChartUser.MODULE_ID )).isManagerForChart(newOrg.getChartOfAccountsCode());
 
         if (success) {
-            LOG.info("User: [" + user.getUniversalUser().getPersonUserIdentifier() + "] " + user.getUniversalUser().getPersonName() + " is a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
+            LOG.info("User: [" + user.getPersonUserIdentifier() + "] " + user.getPersonName() + " is a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
         }
         else {
-            LOG.info("User: [" + user.getUniversalUser().getPersonUserIdentifier() + "] " + user.getUniversalUser().getPersonName() + " is NOT a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
+            LOG.info("User: [" + user.getPersonUserIdentifier() + "] " + user.getPersonName() + " is NOT a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
         }
 
         return success;
@@ -599,17 +601,17 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @return true if user is part of the group, false otherwise
      * 
      */
-    protected boolean isPlantAuthorized(KualiUser user) {
+    protected boolean isPlantAuthorized(UniversalUser user) {
 
         // attempt to get the group name that grants access to the Plant fields
         String allowedPlantWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, PLANT_WORKGROUP_PARM_NAME);
 
-        if (user.isMember(new KualiGroup(allowedPlantWorkgroup))) {
-            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
+        if (user.isMember( allowedPlantWorkgroup )) {
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");
             return true;
         }
         else {
-            LOG.info("User '" + user.getUniversalUser().getPersonUserIdentifier() + "' is not a member of the group '" + allowedPlantWorkgroup + "', so they have no access to the Plant fields.");
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is not a member of the group '" + allowedPlantWorkgroup + "', so they have no access to the Plant fields.");
             return false;
         }
     }

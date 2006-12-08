@@ -232,7 +232,7 @@ public class Chart extends BusinessObjectBase implements Summarizable {
     }
 
     public UniversalUser getFinCoaManagerUniversal() {
-        finCoaManagerUniversal = SpringServiceLocator.getKualiUserService().updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
+        finCoaManagerUniversal = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
         return finCoaManagerUniversal;
     }
 

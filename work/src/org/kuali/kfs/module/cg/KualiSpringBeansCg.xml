@@ -18,5 +18,33 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="cg-Module" class="org.kuali.core.KualiModule">
+    	<property name="moduleId">
+    		<value>cg</value>
+    	</property>
+    	<property name="moduleName">
+    		<value>Kuali Contracts and Grants</value>
+    	</property>
+    	<property name="moduleUserService">
+    		<ref bean="cgUserService" />
+    	</property>
+    	<property name="moduleAuthorizer">
+		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
+		    	<property name="packagePrefixes">
+		    		<list>
+		    			<value>org.kuali.module.cg.</value>
+		    		</list>
+		    	</property>
+		    </bean>
+    	</property>
+    	<property name="moduleUserRule"><null /></property>
+    	<property name="moduleUserPreRules"><null /></property>
+	</bean>
+		
+    <bean id="cgUserService" class="org.kuali.module.cg.service.impl.CgUserServiceImpl" parent="kualiModuleUserServiceBase">
+    	<property name="chartUserService">
+    		<ref bean="chartUserService" />
+    	</property>
+    </bean>
 
 </beans>

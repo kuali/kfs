@@ -17,6 +17,10 @@
  */
 package org.kuali.module.chart.rules;
 
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -24,7 +28,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -32,9 +35,6 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.WithTestSpringContext;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 
 @WithTestSpringContext(session = KHUNTLEY)
 public class AccountRuleTest extends ChartRuleTestBase {
@@ -395,11 +395,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-    private KualiUser getKualiUserByUserName(String userName) {
+    private UniversalUser getKualiUserByUserName(String userName) {
         AuthenticationUserId userId = new AuthenticationUserId(userName);
-        KualiUser user = null;
+        UniversalUser user = null;
         try {
-            user = SpringServiceLocator.getKualiUserService().getKualiUser(userId);
+            user = SpringServiceLocator.getUniversalUserService().getUniversalUser(userId);
         }
         catch (UserNotFoundException e) {
             assertTrue("An Exception should not be thrown.", false);

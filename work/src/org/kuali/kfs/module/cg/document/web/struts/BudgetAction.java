@@ -342,7 +342,7 @@ public class BudgetAction extends KualiDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
         
-        budgetForm.setInitiator(SpringServiceLocator.getKualiUserService().getKualiUser(
+        budgetForm.setInitiator(SpringServiceLocator.getUniversalUserService().getUniversalUser(
                 new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
         
         budgetForm.getBudgetDocument().populateDocumentForRouting();

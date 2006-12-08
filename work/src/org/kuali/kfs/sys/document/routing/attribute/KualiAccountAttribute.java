@@ -500,7 +500,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
                 String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);
                 annotation = "Routing to Account Supervisor";
-                String supervisorNetworkId = SpringServiceLocator.getKualiUserService().getUniversalUser(new UuId(accountSupervisorId)).getPersonUserIdentifier();
+                String supervisorNetworkId = SpringServiceLocator.getUniversalUserService().getUniversalUser(new UuId(accountSupervisorId)).getPersonUserIdentifier();
                 if (!StringUtils.isEmpty(supervisorNetworkId)) {
                     members.add(new AuthenticationUserId(supervisorNetworkId));
                 }
@@ -521,7 +521,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         // if we already have an ID, validate it, and then we're done
         if (StringUtils.isNotBlank(role.fiscalOfficerId)) {
             try {
-                fiscalOfficerNetworkId = SpringServiceLocator.getKualiUserService().getUniversalUser(new UuId(role.fiscalOfficerId)).getPersonUserIdentifier();
+                fiscalOfficerNetworkId = SpringServiceLocator.getUniversalUserService().getUniversalUser(new UuId(role.fiscalOfficerId)).getPersonUserIdentifier();
             }
             catch (org.kuali.core.exceptions.UserNotFoundException e) {
                 // do nothing, but leave fiscalOfficerNetworkId blank, which will get caught after this

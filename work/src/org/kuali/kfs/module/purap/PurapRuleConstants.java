@@ -31,4 +31,6 @@ public class PurapRuleConstants {
     public static String PURAP_VNDR_MIN_NUM_LOOKUP_CRITERIA = "PURAP.VNDR_MIN_NUM_LOOKUP_CRITERIA";
     public static String PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH = "PURAP.VNDR_LOOKUP_MIN_NAME_LENGTH";
 
+    public static final String ALLOWED_EMPLOYEE_TYPE_RULE = "AllowedEmployeeTypes";
+
 }

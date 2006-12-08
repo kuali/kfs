@@ -66,7 +66,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
             return accountingLine.isTargetAccountingLine() || ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(accountingLine, action);
         }
         if (!super.accountIsAccessible(transactionalDocument, accountingLine)) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getKualiUser().getUniversalUser().getPersonUserIdentifier());
+            GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier());
             return false;
         }
         return true;

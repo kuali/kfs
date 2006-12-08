@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.authorization.MaintenanceDocumentAuthorizer;
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -83,7 +83,7 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
     }
     
     private void copyICRFromAccount( MaintenanceDocument document ) {
-        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         
         // get the correct documentAuthorizer for this document
         MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) getDocumentAuthorizationService().getDocumentAuthorizer(document);

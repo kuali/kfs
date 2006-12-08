@@ -63,6 +63,9 @@ public class PurapKeyConstants {
     public static final String ERROR_US_REQUIRES_ZIP = "error.vendorMaint.vendorAddress.USRequiresZip";
     public static final String ERROR_FAX_NUMBER = "error.vendorMaint.vendorAddress.faxNumber";
     public static final String ERROR_ADDRESS_TYPE = "error.vendorMaint.vendorAddress.addressType";
+    public static final String ERROR_ADDRESS_DEFAULT_CAMPUS = "error.vendorMaint.vendorDefaultAddress.campusCode";
+    public static final String ERROR_ADDRESS_DEFAULT_CAMPUS_NOT_ALLOWED = "error.vendorMaint.vendorDefaultAddress.notAllowed";
+    
     
     // Vendor Maintenance Contract
     public static final String ERROR_VENDOR_CONTRACT_NO_APO_LIMIT = "error.vendorContract.noApoLimit";

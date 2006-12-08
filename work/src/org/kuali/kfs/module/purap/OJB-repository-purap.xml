@@ -163,6 +163,10 @@
 	<reference-descriptor name="vendorCountry" class-ref="org.kuali.core.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorCountryCode" />
 	</reference-descriptor>
+	<collection-descriptor name="vendorDefaultAddresses" proxy="true" element-class-ref="org.kuali.module.purap.bo.VendorDefaultAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <orderby name="vendorDefaultAddressGeneratedIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorAddressGeneratedIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorContact" table="PUR_VNDR_CNTCT_T">

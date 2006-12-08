@@ -151,7 +151,7 @@ public abstract class JiraRelatedSuite {
     }
 
     /**
-     * Builtes the suite of all test methods (including those within test class sub-suites)
+     * Builds the suite of all test methods (including those within test class sub-suites)
      * which do not {@link RelatesTo} a JIRA issue in the given state.
      * This method is for subclasses; it cannot be run by JUnit directly.
      *
@@ -160,7 +160,7 @@ public abstract class JiraRelatedSuite {
      * @throws java.io.IOException if the directory containing this class file cannot be scanned for other test class files
      * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood.
      *                          After this exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
-     * @throws Exception is not actually thrown, because the criteria inner classes do not throw it
+     * @throws Exception is not actually thrown, because the criteria inner class does not throw it
      */
     protected TestSuite getNegativeSuite(final State state)
         throws Exception

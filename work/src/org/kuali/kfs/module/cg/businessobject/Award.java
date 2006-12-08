@@ -66,8 +66,8 @@ public class Award extends BusinessObjectBase {
     private String awardPurposeCode;
     private List awardProjectDirector;
     private List<AwardAccount> awardAccount;
-    private List awardSubcontractor;
-    private List awardOrganization;
+    private List<AwardSubcontractor> awardSubcontractor;
+    private List<AwardOrganization> awardOrganization;
     private List awardDiary;
 
     private Proposal proposal;

@@ -187,51 +187,6 @@
                 <description>routingFormConflictOfInterestExistsIndicator description...</description>
       </attribute>
 
-            <attribute name="routingFormContactFaxNumber" forceUppercase="true">
-                <label>Routing Form Contact Fax Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>routingFormContactFaxNumber</summary>
-                <description>routingFormContactFaxNumber description...</description>
-      </attribute>
-
-            <attribute name="routingFormContactPhoneNumber" forceUppercase="true">
-                <label>Routing Form Contact Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>routingFormContactPhoneNumber</summary>
-                <description>routingFormContactPhoneNumber description...</description>
-      </attribute>
-
-            <attribute name="routingFormContactSystemsIdentifier" forceUppercase="true">
-                <label>Routing Form Contact Systems Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>routingFormContactSystemsIdentifier</summary>
-                <description>routingFormContactSystemsIdentifier description...</description>
-      </attribute>
-
             <attribute name="routingFormCostShareIndicator" forceUppercase="true">
                 <label>Routing Form Cost Share Indicator</label>
                 <shortLabel>Indicator</shortLabel>

@@ -58,9 +58,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private String routingFormBudgetNumber;
 	private boolean routingFormConflictOfInterestCurrentIndicator;
 	private boolean routingFormConflictOfInterestExistsIndicator;
-	private String routingFormContactFaxNumber;
-	private String routingFormContactPhoneNumber;
-	private Long routingFormContactSystemsIdentifier;
 	private boolean routingFormCoProjectDirectorIndicator;
 	private boolean routingFormCreditPercentIndicator;
 	private Date routingFormCreateDate;
@@ -325,69 +322,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 */
 	public void setRoutingFormConflictOfInterestExistsIndicator(boolean routingFormConflictOfInterestExistsIndicator) {
 		this.routingFormConflictOfInterestExistsIndicator = routingFormConflictOfInterestExistsIndicator;
-	}
-
-
-	/**
-	 * Gets the routingFormContactFaxNumber attribute.
-	 * 
-	 * @return Returns the routingFormContactFaxNumber
-	 * 
-	 */
-	public String getRoutingFormContactFaxNumber() { 
-		return routingFormContactFaxNumber;
-	}
-
-	/**
-	 * Sets the routingFormContactFaxNumber attribute.
-	 * 
-	 * @param routingFormContactFaxNumber The routingFormContactFaxNumber to set.
-	 * 
-	 */
-	public void setRoutingFormContactFaxNumber(String routingFormContactFaxNumber) {
-		this.routingFormContactFaxNumber = routingFormContactFaxNumber;
-	}
-
-
-	/**
-	 * Gets the routingFormContactPhoneNumber attribute.
-	 * 
-	 * @return Returns the routingFormContactPhoneNumber
-	 * 
-	 */
-	public String getRoutingFormContactPhoneNumber() { 
-		return routingFormContactPhoneNumber;
-	}
-
-	/**
-	 * Sets the routingFormContactPhoneNumber attribute.
-	 * 
-	 * @param routingFormContactPhoneNumber The routingFormContactPhoneNumber to set.
-	 * 
-	 */
-	public void setRoutingFormContactPhoneNumber(String routingFormContactPhoneNumber) {
-		this.routingFormContactPhoneNumber = routingFormContactPhoneNumber;
-	}
-
-
-	/**
-	 * Gets the routingFormContactSystemsIdentifier attribute.
-	 * 
-	 * @return Returns the routingFormContactSystemsIdentifier
-	 * 
-	 */
-	public Long getRoutingFormContactSystemsIdentifier() { 
-		return routingFormContactSystemsIdentifier;
-	}
-
-	/**
-	 * Sets the routingFormContactSystemsIdentifier attribute.
-	 * 
-	 * @param routingFormContactSystemsIdentifier The routingFormContactSystemsIdentifier to set.
-	 * 
-	 */
-	public void setRoutingFormContactSystemsIdentifier(Long routingFormContactSystemsIdentifier) {
-		this.routingFormContactSystemsIdentifier = routingFormContactSystemsIdentifier;
 	}
 
 

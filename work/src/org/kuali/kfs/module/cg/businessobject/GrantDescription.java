@@ -29,7 +29,7 @@ public class GrantDescription extends BusinessObjectBase {
 
     private String grantDescriptionCode;
     private String grantDescription;
-    private String grantDescriptionActiveCode;
+    private boolean grantDescriptionActiveCode;
 
     /**
      * Default constructor.
@@ -86,7 +86,7 @@ public class GrantDescription extends BusinessObjectBase {
      * @return Returns the grantDescriptionActiveCode
      * 
      */
-    public String getGrantDescriptionActiveCode() {
+    public boolean getGrantDescriptionActiveCode() {
         return grantDescriptionActiveCode;
     }
 
@@ -96,7 +96,7 @@ public class GrantDescription extends BusinessObjectBase {
      * @param grantDescriptionActiveCode The grantDescriptionActiveCode to set.
      * 
      */
-    public void setGrantDescriptionActiveCode(String grantDescriptionActiveCode) {
+    public void setGrantDescriptionActiveCode(boolean grantDescriptionActiveCode) {
         this.grantDescriptionActiveCode = grantDescriptionActiveCode;
     }
 

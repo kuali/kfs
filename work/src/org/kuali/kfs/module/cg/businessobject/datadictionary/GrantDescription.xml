@@ -28,8 +28,8 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="grantDescription" />
-                <field attributeName="grantDescriptionActiveCode" />
                 <field attributeName="grantDescriptionCode" />
+                <field attributeName="grantDescriptionActiveCode" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -46,14 +46,14 @@
 
             <lookupFields>
                 <lookupField attributeName="grantDescription" required="false" />
-                <lookupField attributeName="grantDescriptionActiveCode" required="false" />
                 <lookupField attributeName="grantDescriptionCode" required="false" />
+                <lookupField attributeName="grantDescriptionActiveCode" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="grantDescription" />
-                <field attributeName="grantDescriptionActiveCode" />
                 <field attributeName="grantDescriptionCode" />
+                <field attributeName="grantDescriptionActiveCode" />
             </resultFields>
         </lookup>
 
@@ -74,21 +74,6 @@
                 <description><![CDATA[&nbsp;]]></description>
 			</attribute>
 
-            <attribute name="grantDescriptionActiveCode" forceUppercase="true">
-                <label>Grant Description Active Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description><![CDATA[&nbsp;]]></description>
-			</attribute>
-
             <attribute name="grantDescriptionCode" forceUppercase="true">
                 <label>Grant Description Code</label>
                 <shortLabel>Code</shortLabel>
@@ -98,6 +83,19 @@
 
                 <control>
                     <text size="5" />
+                </control>
+
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
+			</attribute>
+            <attribute name="grantDescriptionActiveCode" forceUppercase="false">
+                <label>Active Indicator</label>
+                <shortLabel>Active Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
                 </control>
 
                 <summary><![CDATA[&nbsp;]]></summary>

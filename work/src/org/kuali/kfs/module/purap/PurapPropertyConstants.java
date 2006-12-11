@@ -23,6 +23,7 @@ public class PurapPropertyConstants {
     
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
     
+    public static final String VENDOR_HEADER_PREFIX = "vendorHeader.";
     public static final String VENDOR_NUMBER = "vendorNumber";
     public static final String VENDOR_FAX_NUMBER = "vendorFaxNumber";
     public static final String VENDOR_ADDRESS = "vendorAddresses";

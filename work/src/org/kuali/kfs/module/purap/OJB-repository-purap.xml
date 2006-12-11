@@ -99,12 +99,12 @@
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorContacts" element-class-ref="org.kuali.module.purap.bo.VendorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="true">
+    <collection-descriptor name="vendorContacts" element-class-ref="org.kuali.module.purap.bo.VendorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
         <orderby name="vendorContactTypeCode" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorContracts" element-class-ref="org.kuali.module.purap.bo.VendorContract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="true">
+    <collection-descriptor name="vendorContracts" element-class-ref="org.kuali.module.purap.bo.VendorContract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
         <orderby name="vendorContractName" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -115,7 +115,7 @@
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorPhoneNumbers" proxy="true" element-class-ref="org.kuali.module.purap.bo.VendorPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="vendorPhoneNumbers" element-class-ref="org.kuali.module.purap.bo.VendorPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
         <orderby name="vendorPhoneGeneratedIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
@@ -198,7 +198,7 @@
 	<reference-descriptor name="vendorCountry" class-ref="org.kuali.core.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorCountryCode" />
 	</reference-descriptor>
-    <collection-descriptor name="vendorContactPhoneNumbers" proxy="true" element-class-ref="org.kuali.module.purap.bo.VendorContactPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="vendorContactPhoneNumbers" element-class-ref="org.kuali.module.purap.bo.VendorContactPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="vendorContactPhoneGeneratedIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="vendorContactGeneratedIdentifier" />
     </collection-descriptor>
@@ -245,7 +245,7 @@
 	<reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.purap.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorShippingTitleCode" />
 	</reference-descriptor>
-    <collection-descriptor name="vendorContractOrganizations" proxy="true" element-class-ref="org.kuali.module.purap.bo.VendorContractOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="vendorContractOrganizations"  element-class-ref="org.kuali.module.purap.bo.VendorContractOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="organizationCode" sort="ASC" />
         <inverse-foreignkey field-ref="vendorContractGeneratedIdentifier" />

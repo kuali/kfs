@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -23,6 +24,7 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
     private Chart chartOfAccounts;
 	private Org organization;
     private RoutingFormOrganization routingFormOrganization;
+    private RoutingFormDocument routingFormDocument;
     
 	/**
 	 * Default constructor.
@@ -212,6 +214,23 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
      */
     public void setRoutingFormOrganization(RoutingFormOrganization routingFormOrganization) {
         this.routingFormOrganization = routingFormOrganization;
+    }    
+
+    /**
+     * Gets the routingFormDocument attribute. 
+     * @return Returns the routingFormDocument.
+     */
+    public RoutingFormDocument getRoutingFormDocument() {
+        return routingFormDocument;
+    }
+
+    /**
+     * Sets the routingFormDocument attribute value.
+     * @param routingFormDocument The routingFormDocument to set.
+     * @deprecated
+     */
+    public void setRoutingFormDocument(RoutingFormDocument routingFormDocument) {
+        this.routingFormDocument = routingFormDocument;
     }    
     
 	/**

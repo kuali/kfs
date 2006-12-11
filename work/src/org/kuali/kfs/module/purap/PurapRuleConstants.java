@@ -18,7 +18,7 @@ package org.kuali.module.purap;
 /**
  * Holds constants for PURAP business rules.
  */
-public class PurapRuleConstants {
+public interface PurapRuleConstants {
 
     // GROUP NAMES
     public static String PURAP_ADMIN_GROUP = "PurapAdminGroup";
@@ -28,7 +28,9 @@ public class PurapRuleConstants {
     public static String PURAP_NOT_ALLOWED_TAX_NUMBERS = "PURAP.NOT_ALLOWED_TAX_NUMBERS";
     public static String PURAP_VNDR_MIN_NUM_LOOKUP_CRITERIA = "PURAP.VNDR_MIN_NUM_LOOKUP_CRITERIA";
     public static String PURAP_VNDR_LOOKUP_MIN_NAME_LENGTH = "PURAP.VNDR_LOOKUP_MIN_NAME_LENGTH";
-
+    public static String PURAP_SSN_ALLOWED_OWNERSHIP_TYPES = "PURAP.SSN_ALLOWED_OWNERSHIP_TYPES";
+    public static String PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES = "PURAP.FEIN_ALLOWED_OWNERSHIP_TYPES";
+    
     public static final String ALLOWED_EMPLOYEE_TYPE_RULE = "AllowedEmployeeTypes";
 
 }

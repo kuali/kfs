@@ -29,8 +29,6 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
-// TODO uncomment this when the referenced class exists
-//import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.RequisitionService;

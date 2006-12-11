@@ -49,23 +49,6 @@
                 <description>Doc Header ID</description>
             </attribute>
 
-            <attribute name="budgetStatusCode" forceUppercase="true">
-                <label>Budget Status Code</label>
-                <shortLabel>Budget Status Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Budget Status Code</summary>
-                <description>Budget Status Code</description>
-            </attribute>
-
             <attribute name="budgetParentTrackNumber" forceUppercase="true">
                 <label>Parent Budget Number</label>
                 <shortLabel>parent number</shortLabel>

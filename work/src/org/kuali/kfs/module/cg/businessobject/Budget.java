@@ -46,7 +46,6 @@ public class Budget extends BusinessObjectBase {
     private String budgetProgramAnnouncementNumber;
     private String budgetProjectDirectorSystemId;
     private boolean budgetThirdPartyCostShareIndicator;
-    private String budgetStatusCode;
     private KualiDecimal budgetPersonnelInflationRate;
     private KualiDecimal budgetNonpersonnelInflationRate;
     private String electronicResearchAdministrationGrantNumber;
@@ -233,20 +232,6 @@ public class Budget extends BusinessObjectBase {
      */
     public void setBudgetProjectDirectorSystemId(String budgetProjectDirectorSystemId) {
         this.budgetProjectDirectorSystemId = budgetProjectDirectorSystemId;
-    }
-
-    /**
-     * @return Returns the budgetStatusCode.
-     */
-    public String getBudgetStatusCode() {
-        return budgetStatusCode;
-    }
-
-    /**
-     * @param budgetStatusCode The budgetStatusCode to set.
-     */
-    public void setBudgetStatusCode(String budgetStatusCode) {
-        this.budgetStatusCode = budgetStatusCode;
     }
 
     /**

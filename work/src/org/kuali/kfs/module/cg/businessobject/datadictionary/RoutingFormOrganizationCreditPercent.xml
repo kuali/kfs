@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Organization Credit Percent Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="organizationCode" />
+                        <field attributeName="organizationCreditPercent" />
+                        <field attributeName="organizationCreditRoleText" />
+                        <field attributeName="organizationFinancialAidPercent" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Organization Credit Percent Lookup</title>
+
+            <instructions>Look up a Routing Form Organization Credit Percent</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="organizationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="organizationCreditPercent" required="false" />
+                <lookupField attributeName="organizationCreditRoleText" required="false" />
+                <lookupField attributeName="organizationFinancialAidPercent" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="organizationCode" />
+                <field attributeName="organizationCreditPercent" />
+                <field attributeName="organizationCreditRoleText" />
+                <field attributeName="organizationFinancialAidPercent" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="organizationCreditPercent" forceUppercase="true">
+                <label>Organization Credit Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>organizationCreditPercent</summary>
+                <description>organizationCreditPercent description...</description>
+			</attribute>
+
+            <attribute name="organizationCreditRoleText" forceUppercase="true">
+                <label>Organization Credit Role Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>organizationCreditRoleText</summary>
+                <description>organizationCreditRoleText description...</description>
+			</attribute>
+
+            <attribute name="organizationFinancialAidPercent" forceUppercase="true">
+                <label>Organization Financial Aid Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>organizationFinancialAidPercent</summary>
+                <description>organizationFinancialAidPercent description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

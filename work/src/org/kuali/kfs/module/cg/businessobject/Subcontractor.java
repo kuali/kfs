@@ -33,7 +33,8 @@ public class Subcontractor extends BusinessObjectBase {
     private String subcontractorStateCode;
     private String subcontractorZipCode;
     private String subcontractorCountryCode;
-
+    private boolean active;
+    
     /**
      * Default no-arg constructor.
      */
@@ -200,6 +201,22 @@ public class Subcontractor extends BusinessObjectBase {
     }
 
     /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -207,4 +224,5 @@ public class Subcontractor extends BusinessObjectBase {
         m.put("subcontractorNumber", this.getSubcontractorNumber());
         return m;
     }
+
 }

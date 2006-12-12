@@ -27,7 +27,8 @@ public class BudgetBaseCode extends BusinessObjectBase {
 
     private String budgetBaseCode;
     private String budgetBaseDescription;
-
+    private boolean active;
+    
     /**
      * Default no-arg constructor.
      */
@@ -75,6 +76,22 @@ public class BudgetBaseCode extends BusinessObjectBase {
         this.budgetBaseDescription = budgetBaseDescription;
     }
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

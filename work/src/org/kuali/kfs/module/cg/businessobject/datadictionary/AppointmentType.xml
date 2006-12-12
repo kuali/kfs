@@ -33,6 +33,7 @@
                 <field attributeName="relatedAppointmentTypeCode" />
                 <field attributeName="fiscalYear" />
                 <field attributeName="lastUpdate" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -47,6 +48,9 @@
                 <lookupField attributeName="appointmentTypeCode" required="false" />
                 <lookupField attributeName="appointmentTypeAbbrieviation" required="false" />
                 <lookupField attributeName="fiscalYear" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
@@ -58,6 +62,7 @@
                 <field attributeName="relatedAppointmentTypeCode" />
                 <field attributeName="fiscalYear" />
                 <field attributeName="lastUpdate" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
         
@@ -203,24 +208,9 @@
                 <description>objectId description...</description>
             </attribute>
 
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-
-                <control>
-                    <text size="-1" />
-                </control>
-
-                <summary>versionNumber summary...</summary>
-                <description>versionNumber description...</description>
-            </attribute>
-
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
         </attributes>
         <objectLabel>Appointment Type</objectLabel>

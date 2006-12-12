@@ -25,11 +25,11 @@
             <title>Research Risk Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchRiskBiosafetyIndicator" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -45,37 +45,27 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="researchRiskBiosafetyIndicator" required="false" />
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
                 <lookupField attributeName="controlAttributeTypeCode" required="false" />
                 <lookupField attributeName="researchRiskTypeDescription" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchRiskBiosafetyIndicator" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attribute name="researchRiskBiosafetyIndicator" forceUppercase="true">
                 <label>Research Risk Biosafety Indicator</label>

@@ -28,9 +28,20 @@ public interface BudgetIndirectCostService {
 
     public void refreshIndirectCost(BudgetDocument budget);
 
+    /**
+     * Sets up active IndirectCostRate objects.
+     */
     public void setupIndirectCostRates(Budget budget);
     
+    /**
+     * Returns active BudgetBaseCodes.
+     * @return active BudgetBaseCode objects
+     */
     public List<BudgetBaseCode> getDefaultBudgetBaseCodeValues();
     
+    /**
+     * Returns active BudgetPurposeCodes.
+     * @return active BudgetPurposeCode objects
+     */
     public List<BudgetPurposeCode> getDefaultBudgetPurposeCodeValues();
 }

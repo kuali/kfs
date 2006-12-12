@@ -28,6 +28,7 @@
                 <field attributeName="budgetOnCampusIndicator" />
                 <field attributeName="budgetPurposeCode" />
                 <field attributeName="budgetIndirectCostRate" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -42,12 +43,16 @@
                 <lookupField attributeName="budgetOnCampusIndicator" required="false" />
                 <lookupField attributeName="budgetPurposeCode" required="false" />
                 <lookupField attributeName="budgetIndirectCostRate" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
                 <field attributeName="budgetOnCampusIndicator" />
                 <field attributeName="budgetPurposeCode" />
                 <field attributeName="budgetIndirectCostRate" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -89,6 +94,8 @@
                 <summary>Budget Indirect Cost Rate.</summary>
                 <description>Budget Indirect Cost Rate.</description>
             </attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>

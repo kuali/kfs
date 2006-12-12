@@ -18,9 +18,13 @@ package org.kuali.module.kra.budget.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -518,11 +522,15 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
             }
         }
     }
-    
-    
 
+    /**
+     * @see org.kuali.module.kra.budget.service.BudgetIndirectCostService#setupIndirectCostRates(org.kuali.module.kra.budget.bo.Budget)
+     */
     public void setupIndirectCostRates(Budget budget) {
-        List<IndirectCostLookup> indirectCostLookups = new ArrayList<IndirectCostLookup>(businessObjectService.findAll(IndirectCostLookup.class));
+        Map fieldValues = new HashMap();
+        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        
+        List<IndirectCostLookup> indirectCostLookups = new ArrayList<IndirectCostLookup>(businessObjectService.findMatching(IndirectCostLookup.class, fieldValues));
         List<BudgetIndirectCostLookup> budgetIndirectCostLookupList = new ArrayList();
         for (IndirectCostLookup indirectCostLookup : indirectCostLookups) {
             budgetIndirectCostLookupList.add(new BudgetIndirectCostLookup(budget, indirectCostLookup));
@@ -530,12 +538,24 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
         budget.setBudgetIndirectCostLookups(budgetIndirectCostLookupList);
     }
     
+    /**
+     * @see org.kuali.module.kra.budget.service.BudgetIndirectCostService#getDefaultBudgetBaseCodeValues()
+     */
     public List<BudgetBaseCode> getDefaultBudgetBaseCodeValues() {
-        return new ArrayList(businessObjectService.findAll(BudgetBaseCode.class));
+        Map fieldValues = new HashMap();
+        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        
+        return new ArrayList(businessObjectService.findMatching(BudgetBaseCode.class, fieldValues));
     }
     
+    /**
+     * @see org.kuali.module.kra.budget.service.BudgetIndirectCostService#getDefaultBudgetPurposeCodeValues()
+     */
     public List<BudgetPurposeCode> getDefaultBudgetPurposeCodeValues() {
-        return new ArrayList(businessObjectService.findAll(BudgetPurposeCode.class));
+        Map fieldValues = new HashMap();
+        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        
+        return new ArrayList(businessObjectService.findMatching(BudgetPurposeCode.class, fieldValues));
     }
 
     /**

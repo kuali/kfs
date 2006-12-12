@@ -27,8 +27,8 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
-                <field attributeName="active" />
                 <field attributeName="sortNumber" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 

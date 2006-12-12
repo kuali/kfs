@@ -51,7 +51,9 @@
                     <maintainableField name="budgetNonpersonnelCategoryCode" required="true" />
                     <maintainableField name="budgetNonpersonnelSubCategoryCode" required="true" />
                     <maintainableField name="budgetNonpersonnelObjectCode" required="true" />
-                    <maintainableField name="active" />
+					<maintainableField name="active" required="true">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

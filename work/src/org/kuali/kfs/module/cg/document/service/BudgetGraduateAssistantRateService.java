@@ -26,6 +26,10 @@ import org.kuali.module.kra.budget.bo.Budget;
  * 
  */
 public interface BudgetGraduateAssistantRateService {
+    /**
+     * Returns active GraduateAssistantRates.
+     * @return active GraduateAssistantRate objects
+     */
     public List getAllGraduateAssistantRates();
 
     public boolean isValidGraduateAssistantRate(KualiDecimal fringeRate);

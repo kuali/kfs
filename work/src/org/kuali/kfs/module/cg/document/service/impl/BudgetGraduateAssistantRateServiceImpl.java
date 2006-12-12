@@ -17,10 +17,13 @@
 package org.kuali.module.kra.budget.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -36,13 +39,14 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
 
     private BusinessObjectService businessObjectService;
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService#getAllGraduateAssistantRates()
      */
     public List getAllGraduateAssistantRates() {
-        return new ArrayList(businessObjectService.findAll(GraduateAssistantRate.class));
+        Map fieldValues = new HashMap();
+        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        
+        return new ArrayList(businessObjectService.findMatching(GraduateAssistantRate.class, fieldValues));
     }
 
     public boolean isValidGraduateAssistantRate(KualiDecimal fringeRate) {

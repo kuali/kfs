@@ -52,6 +52,9 @@
                     <maintainableField name="budgetOnCampusIndicator" />
                     <maintainableField name="budgetPurposeCode" required="true" />
                     <maintainableField name="budgetIndirectCostRate" required="false" />
+					<maintainableField name="active" required="true">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

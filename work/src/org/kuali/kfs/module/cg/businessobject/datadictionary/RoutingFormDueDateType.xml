@@ -22,20 +22,20 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Routing Form Due Date Type Inquiry</title>
+            <title>Due Date Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="routingFormApprovalLeadTime" />
                 <field attributeName="routingFormDueDateDescription" />
                 <field attributeName="routingFormDueDateTypeCode" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Routing Form Due Date Type Lookup</title>
+            <title>Due Date Type Lookup</title>
 
-            <instructions>Look up a Routing Form Due Date Type</instructions>
+            <instructions>Look up a Due Date Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -44,38 +44,28 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="routingFormApprovalLeadTime" required="false" />
                 <lookupField attributeName="routingFormDueDateDescription" required="false" />
                 <lookupField attributeName="routingFormDueDateTypeCode" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="routingFormApprovalLeadTime" />
                 <field attributeName="routingFormDueDateDescription" />
                 <field attributeName="routingFormDueDateTypeCode" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attribute name="routingFormApprovalLeadTime" forceUppercase="true">
-                <label>Routing Form Approval Lead Time</label>
+                <label>Approval Lead Time</label>
                 <shortLabel>Time</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -90,7 +80,7 @@
 			</attribute>
 
             <attribute name="routingFormDueDateDescription" forceUppercase="true">
-                <label>Routing Form Due Date Description</label>
+                <label>Due Date Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>20</maxLength>
@@ -105,7 +95,7 @@
 			</attribute>
 
             <attribute name="routingFormDueDateTypeCode" forceUppercase="true">
-                <label>Routing Form Due Date Type Code</label>
+                <label>Due Date Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>

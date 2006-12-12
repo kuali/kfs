@@ -16,10 +16,13 @@
 package org.kuali.module.kra.budget.service.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -53,10 +56,13 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
     }
 
     /**
-     * @param accountDao The accountDao to set.
+     * @see org.kuali.module.kra.budget.service.BudgetFringeRateService#getDefaultFringeRates()
      */
     public Collection getDefaultFringeRates() {
-        return businessObjectService.findAll(AppointmentType.class);
+        Map fieldValues = new HashMap();
+        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        
+        return businessObjectService.findMatching(AppointmentType.class, fieldValues);
     }
 
     public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentNumber) {

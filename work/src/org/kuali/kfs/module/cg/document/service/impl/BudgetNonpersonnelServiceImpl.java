@@ -68,15 +68,17 @@ public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService 
      * @throws Exception
      */
     public List getAllNonpersonnelCategories() {
+        Map fieldValuesNonpersonnelCategories = new HashMap();
+        fieldValuesNonpersonnelCategories.put(PropertyConstants.ACTIVE, true);
         List<NonpersonnelCategory> nonpersonnelCategories = 
-            new ArrayList<NonpersonnelCategory>(businessObjectService.findMatchingOrderBy(NonpersonnelCategory.class, new HashMap(), PropertyConstants.SORT_NUMBER, true));
+            new ArrayList<NonpersonnelCategory>(businessObjectService.findMatchingOrderBy(NonpersonnelCategory.class, fieldValuesNonpersonnelCategories, PropertyConstants.SORT_NUMBER, true));
         
         for(NonpersonnelCategory nonpersonnelCategory : nonpersonnelCategories) {
-            Map fieldValues = new HashMap();
-            fieldValues.put(PropertyConstants.BUDGET_NONPERSONNEL_CATEGORY_CODE, nonpersonnelCategory.getCode());
-            fieldValues.put(PropertyConstants.ACTIVE, true);
+            Map fieldValuesNonpersonnelObjectCodes = new HashMap();
+            fieldValuesNonpersonnelObjectCodes.put(PropertyConstants.BUDGET_NONPERSONNEL_CATEGORY_CODE, nonpersonnelCategory.getCode());
+            fieldValuesNonpersonnelObjectCodes.put(PropertyConstants.ACTIVE, true);
             nonpersonnelCategory.setNonpersonnelObjectCodes(
-                    new ArrayList(businessObjectService.findMatchingOrderBy(NonpersonnelObjectCode.class, fieldValues, PropertyConstants.BUDGET_NONPERSONNEL_SUB_CATEGORY_CODE, true)));
+                    new ArrayList(businessObjectService.findMatchingOrderBy(NonpersonnelObjectCode.class, fieldValuesNonpersonnelObjectCodes, PropertyConstants.BUDGET_NONPERSONNEL_SUB_CATEGORY_CODE, true)));
         }
         
         return nonpersonnelCategories;

@@ -50,7 +50,9 @@
                 <maintainableItems>
                     <maintainableField name="routingFormDueDateTypeCode" required="true" />
                     <maintainableField name="routingFormDueDateDescription" required="true" />
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

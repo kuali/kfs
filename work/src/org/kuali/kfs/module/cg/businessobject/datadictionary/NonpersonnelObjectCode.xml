@@ -25,10 +25,10 @@
             <title>Object Code Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="active" />
                 <field attributeName="budgetNonpersonnelObjectCode" />
                 <field attributeName="nonpersonnelCategory" />
                 <field attributeName="nonpersonnelSubCategory" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -42,17 +42,17 @@
             <lookupFields>
                 <lookupField attributeName="nonpersonnelCategory.name" required="false" />
                 <lookupField attributeName="nonpersonnelSubCategory.name" required="false" />
+                <lookupField attributeName="budgetNonpersonnelObjectCode" required="false" />
                 <lookupField attributeName="active" required="false">
                     <defaultValue>Y</defaultValue>
                 </lookupField>
-                <lookupField attributeName="budgetNonpersonnelObjectCode" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="nonpersonnelCategory.name" />
                 <field attributeName="nonpersonnelSubCategory.name" />
-                <field attributeName="active" />
                 <field attributeName="budgetNonpersonnelObjectCode" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -81,18 +81,7 @@
                 <description>The name assigned to this object code.</description>
             </attribute>
 
-            <attribute name="active" forceUppercase="false">
-                <label>Active</label>
-                <shortLabel>Ac.</shortLabel>
-                <maxLength>1</maxLength>
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>Active Indicator</summary>
-                <description>Indicates if code is active or inactive.</description>
-                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
-            </attribute>
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>

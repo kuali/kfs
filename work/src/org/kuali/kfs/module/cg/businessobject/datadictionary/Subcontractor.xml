@@ -33,6 +33,7 @@
                 <field attributeName="subcontractorStateCode" />
                 <field attributeName="subcontractorZipCode" />
                 <field attributeName="subcontractorCountryCode" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -50,6 +51,9 @@
                 <lookupField attributeName="subcontractorStateCode" required="false" />
                 <lookupField attributeName="subcontractorZipCode" required="false" />
                 <lookupField attributeName="subcontractorCountryCode" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
@@ -61,6 +65,7 @@
                 <field attributeName="subcontractorStateCode" />
                 <field attributeName="subcontractorZipCode" />
                 <field attributeName="subcontractorCountryCode" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -216,6 +221,8 @@
                 <summary>Country Code</summary>
                 <description>Subcontractor Country Code</description>
             </attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

@@ -27,6 +27,7 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="budgetBaseCode" />
                 <field attributeName="budgetBaseDescription" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -40,11 +41,15 @@
             <lookupFields>
                 <lookupField attributeName="budgetBaseCode" required="false" />
                 <lookupField attributeName="budgetBaseDescription" required="false" />
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
                 <field attributeName="budgetBaseCode" />
                 <field attributeName="budgetBaseDescription" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -80,6 +85,8 @@
                 <summary>Budget Base Code Description</summary>
                 <description>The description assigned to this base code.</description>
             </attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>

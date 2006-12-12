@@ -31,6 +31,10 @@ import org.kuali.module.kra.budget.bo.BudgetUser;
 public interface BudgetFringeRateService {
     // public void setFringeRate(Long documentNumber, Collection accountNumber);
 
+    /**
+     * Returns active AppointmentTypes.
+     * @return active AppointmentType objects
+     */
     public Collection getDefaultFringeRates();
 
     public boolean isValidFringeRate(KualiDecimal fringeRate);

@@ -48,13 +48,16 @@
         <maintainableSections>
             <maintainableSection title="Edit Appointment Type">
                 <maintainableItems>
-                    <maintainableField name="appointmentTypeCode" />
+                    <maintainableField name="appointmentTypeCode" required="true"/>
                     <maintainableField name="appointmentTypeDescription" />
                     <maintainableField name="appointmentTypeAbbrieviation" />
                     <maintainableField name="fringeRateAmount" />
                     <maintainableField name="costShareFringeRateAmount" />
                     <maintainableField name="fiscalYear" />
                     <maintainableField name="relatedAppointmentTypeCode" />
+					<maintainableField name="active" required="true">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

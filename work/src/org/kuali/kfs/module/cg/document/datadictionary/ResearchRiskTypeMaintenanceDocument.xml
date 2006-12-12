@@ -48,9 +48,11 @@
             <maintainableSection title="Edit Risk Type Code">
                 <maintainableItems>
                     <maintainableField name="researchRiskTypeCode" required="true" />
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                     <maintainableField name="researchRiskTypeDescription" required="false" />
                     <maintainableField name="controlAttributeTypeCode" required="true" />
+					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

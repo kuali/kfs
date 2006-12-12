@@ -136,7 +136,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         Integer nonpersonnelNextSequenceNumber = budgetForm.getBudgetDocument().getNonpersonnelNextSequenceNumber();
         
         // we are only saving nonpersonnel items, so load the doc and set the nonpersonnel items to the proper ones.
-        this.load(mapping, form, request, response);
+        super.load(mapping, form, request, response);
         budgetForm.getBudgetDocument().getBudget().setNonpersonnelItems(nonpersonnelList);
         budgetForm.getBudgetDocument().setNonpersonnelNextSequenceNumber(nonpersonnelNextSequenceNumber);
 

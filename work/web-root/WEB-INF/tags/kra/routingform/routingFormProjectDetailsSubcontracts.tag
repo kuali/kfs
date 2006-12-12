@@ -1,17 +1,17 @@
 <%--
- Copyright 2006 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+Copyright 2006 The Kuali Foundation.
+
+Licensed under the Educational Community License, Version 1.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl1.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 --%>
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
@@ -29,88 +29,77 @@
 <c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
 <c:set var="cgSubcontractorAttributes" value="${DataDictionary.Subcontractor.attributes}" />
 
-<dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
-
 <kul:tab tabTitle="Subcontracts" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
 
-          <div class="tab-container" align="center">
-            <div class="h2-container"> <span class="subhead-left">
-              <h2>Subcontracts</h2>
-
-              </span> </div>
-            <table cellpadding=0 cellspacing="0"  summary="">
-              <tr>
-                <th width="50">&nbsp;</th>
-                <th> <div align="center"><kul:htmlAttributeLabel attributeEntry="${cgSubcontractorAttributes.subcontractorName}" skipHelpUrl="true" useShortLabel="false" noColon="true" /></div></th>
-                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
-                <th>Action</th>
-
-              </tr>
-              <tr>
-                <th scope="row">add:</th>
-                <td class="infoline">
-                	<div align="center">
-			    	<c:if test="${!viewOnly}">
-		                ${newRoutingFormSubcontractor.subcontractor.subcontractorName}
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.subcontractor.subcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.subcontractor.subcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
-                	</c:if>
-                    </div>
-                </td>
-                <td class="infoline">
-                	<div align="right">
-				    	<c:if test="${!viewOnly}">
-			                <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" />
-	                	</c:if>
-                  	</div>
-                </td>
-                <td class="infoline">
-                	<div align=center>
-						<html:image property="methodToCall.insertRoutingFormSubcontractor.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add subcontractor"/>
-                	</div>
-                </td>
-              </tr>
-
-
-
-              <c:forEach items = "${KualiForm.document.routingFormSubcontractors}" var="routingFormSubcontractor" varStatus="status"  >
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorSequenceNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorSequenceNumber}" />
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" />
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].documentNumber" attributeEntry="${subcontractorAttributes.documentNumber}"/>
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].objectId" attributeEntry="${subcontractorAttributes.objectId}" />
-				  <htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].versionNumber" attributeEntry="${subcontractorAttributes.versionNumber}"/>
-
-
-	              <tr>
-	                <th scope="row">
-	                	<div align="center">
-	                		${status.index+1}
-	                	</div>
-	                </th>
-	                <td>
-	                	<div align="center">
-			                ${routingFormSubcontractor.subcontractorName}
-      			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName:subcontractorName" fieldConversions="subcontractorName:newRoutingFormSubcontractor.subcontractor.subcontractorName" tabindexOverride="5100" anchor="${currentTabIndex}" />
-	                    </div>
-	                </td>
-	                <td>
-	                	<div align="right">
-				            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" />
-	                    </div>
-	                </td>
-	                <td><div align=center>
-						<html:image property="methodToCall.deleteRoutingFormSubcontractor.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete subcontractor"/>
-	                </div></td>
-	              </tr>
-			  </c:forEach>
-
-
-
-              <tr>
-                <td colspan="2" class="total-line"  scope="row">&nbsp;</td>
-                <td class="total-line"><strong> Total: $${KualiForm.document.currencyFormattedTotalSubcontractorAmount}</strong><html:hidden write="false" property="document.totalSubcontractorAmount" /></td>
-                <td class="total-line">&nbsp;</td>
-              </tr>
-            </table>
+  <div class="tab-container" align="center">
+    <div class="h2-container"><span class="subhead-left">
+      <h2>Subcontracts</h2>
+    </span></div>
+     
+    <table cellpadding=0 cellspacing="0"  summary="">
+      <tr>
+        <th width="50">&nbsp;</th>
+        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${cgSubcontractorAttributes.subcontractorName}" skipHelpUrl="true" useShortLabel="false" noColon="true" /></div></th>
+        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <th scope="row">add:</th>
+        <td class="infoline">
+          <div align="center">
+            <c:if test="${ empty KualiForm.newRoutingFormSubcontractor.subcontractor.subcontractorName }">(select)</c:if>
+            <html:hidden property="newRoutingFormSubcontractor.subcontractor.subcontractorName" write="true" />
+            <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" />
+            <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="newRoutingFormSubcontractor.subcontractor.subcontractorName:subcontractorName,newRoutingFormSubcontractor.routingFormSubcontractorNumber:subcontractorNumber" fieldConversions="subcontractorName:newRoutingFormSubcontractor.subcontractor.subcontractorName,subcontractorNumber:newRoutingFormSubcontractor.routingFormSubcontractorNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
           </div>
+        </td>
+        <td class="infoline">
+          <div align="right">
+            <kul:htmlControlAttribute property="newRoutingFormSubcontractor.routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" styleClass="amount" />
+          </div>
+        </td>
+        <td class="infoline">
+          <div align=center>
+            <html:image property="methodToCall.insertRoutingFormSubcontractor.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add subcontractor"/>
+          </div>
+        </td>
+      </tr>
 
+      <c:forEach items = "${KualiForm.document.routingFormSubcontractors}" var="routingFormSubcontractor" varStatus="status"  >
+        <tr>
+          <th scope="row">
+            <div align="center">${status.index+1}</div>
+          </th>
+          <td>
+            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorSequenceNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorSequenceNumber}" />
+            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" attributeEntry="${subcontractorAttributes.routingFormSubcontractorNumber}" />
+            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].documentNumber" attributeEntry="${subcontractorAttributes.documentNumber}"/>
+            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].objectId" attributeEntry="${subcontractorAttributes.objectId}" />
+            <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].versionNumber" attributeEntry="${subcontractorAttributes.versionNumber}"/>
+            <div align="center">
+              <c:if test="${ empty routingFormSubcontractor.subcontractor.subcontractorName }">(select)</c:if>
+              <html:hidden property="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName" write="true" />
+              <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName:subcontractorName,document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber:subcontractorNumber" fieldConversions="subcontractorName:document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName,subcontractorNumber:document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumberr" tabindexOverride="5100" anchor="${currentTabIndex}" />
+            </div>
+          </td>
+          <td>
+            <div align="right">
+              <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" styleClass="amount" />
+            </div>
+          </td>
+          <td>
+            <div align=center>
+              <html:image property="methodToCall.deleteRoutingFormSubcontractor.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete subcontractor"/>
+            </div>
+          </td>
+        </tr>
+      </c:forEach>
+
+      <tr>
+        <td colspan="2" class="total-line"  scope="row">&nbsp;</td>
+        <td class="total-line"><strong> Total: <fmt:formatNumber value="${KualiForm.document.totalSubcontractorAmount}" type="currency" /></strong></td>
+        <td class="total-line">&nbsp;</td>
+      </tr>
+    </table>
+  </div>
 </kul:tab>

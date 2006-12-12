@@ -31,6 +31,7 @@
     </c:if>
 
     <html:hidden property="document.routingFormAgency.versionNumber" />
+    <html:hidden property="document.routingFormBudget.versionNumber" />
     <html:hidden property="document.contractGrantProposal.versionNumber" />
     
     <kul:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>

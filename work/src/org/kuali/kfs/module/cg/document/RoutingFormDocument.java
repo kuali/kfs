@@ -18,15 +18,12 @@ package org.kuali.module.kra.routingform.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
@@ -36,15 +33,15 @@ import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonal;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
-
-import com.sun.tools.javac.comp.Todo;
 
 /**
  * 
@@ -125,6 +122,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormOtherCostShare> routingFormOtherCostShares;
     private List<RoutingFormSubcontractor> routingFormSubcontractors;
     private Agency federalPassThroughAgency;
+    private List<RoutingFormPersonal> routingFormPersonnel;
+    private List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent;
     
     //Sequence numbers for keeping track of the 'next' number
     private Integer routingFormNextInstitutionCostShareSequenceNumber;
@@ -161,6 +160,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
         this.getContractGrantProposal().setDocumentNumber(documentNumber);
         this.getRoutingFormAgency().setDocumentNumber(documentNumber);
+        this.getRoutingFormBudget().setDocumentNumber(documentNumber);
     }
 
     /**
@@ -1631,6 +1631,38 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setRoutingFormAgencyToBeNamedIndicator(boolean routingFormAgencyToBeNamedIndicator) {
         this.routingFormAgencyToBeNamedIndicator = routingFormAgencyToBeNamedIndicator;
+    }
+
+    /**
+     * Gets the routingFormPersonnel attribute. 
+     * @return Returns the routingFormPersonnel.
+     */
+    public List<RoutingFormPersonal> getRoutingFormPersonnel() {
+        return routingFormPersonnel;
+    }
+
+    /**
+     * Sets the routingFormPersonnel attribute value.
+     * @param routingFormPersonnel The routingFormPersonnel to set.
+     */
+    public void setRoutingFormPersonnel(List<RoutingFormPersonal> routingFormPersonnel) {
+        this.routingFormPersonnel = routingFormPersonnel;
+    }
+
+    /**
+     * Gets the routingFormOrgCreditPercent attribute. 
+     * @return Returns the routingFormOrgCreditPercent.
+     */
+    public List<RoutingFormOrganizationCreditPercent> getRoutingFormOrgCreditPercent() {
+        return routingFormOrgCreditPercent;
+    }
+
+    /**
+     * Sets the routingFormOrgCreditPercent attribute value.
+     * @param routingFormOrgCreditPercent The routingFormOrgCreditPercent to set.
+     */
+    public void setRoutingFormOrgCreditPercent(List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent) {
+        this.routingFormOrgCreditPercent = routingFormOrgCreditPercent;
     }
 
     /**

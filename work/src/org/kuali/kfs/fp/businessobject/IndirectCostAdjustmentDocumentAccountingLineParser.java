@@ -41,7 +41,7 @@ import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConsta
  * 
  */
 public class IndirectCostAdjustmentDocumentAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, OVERRIDE_CODE, AMOUNT };
+    private static final String[] FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
 
     /**
      * @see org.kuali.core.bo.AccountingLineParserBase#getSourceAccountingLineFormat()

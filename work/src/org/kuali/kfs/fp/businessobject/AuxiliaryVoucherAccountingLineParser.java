@@ -44,7 +44,7 @@ import org.kuali.core.util.KualiDecimal;
  * 
  */
 public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBase {
-    private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, OVERRIDE_CODE, DEBIT, CREDIT };
+    private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
 
     /**
      * Constructs a AuxiliaryVoucherAccountingLineParser.java.

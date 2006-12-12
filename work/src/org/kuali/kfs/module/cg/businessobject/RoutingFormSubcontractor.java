@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**
@@ -30,7 +31,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 
 	private String documentNumber;
 	private Integer routingFormSubcontractorSequenceNumber;
-	private BigDecimal routingFormSubcontractorAmount;
+	private KualiDecimal routingFormSubcontractorAmount;
 	private String routingFormSubcontractorNumber;
     private Subcontractor subcontractor;
 
@@ -89,7 +90,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	 * @return Returns the routingFormSubcontractorAmount
 	 * 
 	 */
-	public BigDecimal getRoutingFormSubcontractorAmount() { 
+	public KualiDecimal getRoutingFormSubcontractorAmount() { 
 		return routingFormSubcontractorAmount;
 	}
 
@@ -99,7 +100,7 @@ public class RoutingFormSubcontractor extends BusinessObjectBase {
 	 * @param routingFormSubcontractorAmount The routingFormSubcontractorAmount to set.
 	 * 
 	 */
-	public void setRoutingFormSubcontractorAmount(BigDecimal routingFormSubcontractorAmount) {
+	public void setRoutingFormSubcontractorAmount(KualiDecimal routingFormSubcontractorAmount) {
 		this.routingFormSubcontractorAmount = routingFormSubcontractorAmount;
 	}
 

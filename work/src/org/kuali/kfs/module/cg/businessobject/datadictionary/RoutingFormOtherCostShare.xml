@@ -87,7 +87,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="6" />
+                    <hidden />
                 </control>
 
                 <summary>routingFormCostShareSequenceNumber</summary>
@@ -117,7 +117,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="16" />
+                    <hidden />
                 </control>
 
                 <summary>documentNumber</summary>

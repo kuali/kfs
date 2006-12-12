@@ -84,7 +84,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="7" />
+                    <hidden />
                 </control>
 
                 <summary>routingFormSubcontractorNumber</summary>
@@ -99,7 +99,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="5" />
+                    <hidden />
                 </control>
 
                 <summary>routingFormSubcontractorSequenceNumber</summary>
@@ -114,7 +114,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="16" />
+                    <hidden />
                 </control>
 
                 <summary>documentNumber</summary>

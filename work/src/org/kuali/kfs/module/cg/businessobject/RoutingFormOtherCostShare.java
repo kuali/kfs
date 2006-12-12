@@ -19,8 +19,9 @@ package org.kuali.module.kra.routingform.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
@@ -30,7 +31,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	private Integer routingFormCostShareSequenceNumber;
 	private String documentNumber;
 	private String routingFormCostShareSourceName;
-	private BigDecimal routingFormCostShareAmount;
+	private KualiDecimal routingFormCostShareAmount;
 
 	/**
 	 * Default constructor.
@@ -107,7 +108,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	 * @return Returns the routingFormCostShareAmount
 	 * 
 	 */
-	public BigDecimal getRoutingFormCostShareAmount() { 
+	public KualiDecimal getRoutingFormCostShareAmount() { 
 		return routingFormCostShareAmount;
 	}
 
@@ -117,7 +118,7 @@ public class RoutingFormOtherCostShare extends BusinessObjectBase {
 	 * @param routingFormCostShareAmount The routingFormCostShareAmount to set.
 	 * 
 	 */
-	public void setRoutingFormCostShareAmount(BigDecimal routingFormCostShareAmount) {
+	public void setRoutingFormCostShareAmount(KualiDecimal routingFormCostShareAmount) {
 		this.routingFormCostShareAmount = routingFormCostShareAmount;
 	}
 

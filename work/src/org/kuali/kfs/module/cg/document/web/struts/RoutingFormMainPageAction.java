@@ -15,6 +15,9 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +28,7 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -61,4 +65,18 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm)form;
+        
+        List referenceObjects = new ArrayList();
+
+        referenceObjects.add("routingFormSubcontractors");
+        referenceObjects.add("routingFormOtherCostShares");
+        referenceObjects.add("routingFormInstitutionCostShares");
+
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
+        
+        return super.save(mapping, form, request, response);
+    }
 }

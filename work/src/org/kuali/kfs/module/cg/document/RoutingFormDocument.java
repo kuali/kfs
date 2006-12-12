@@ -18,6 +18,7 @@ package org.kuali.module.kra.routingform.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -42,6 +43,8 @@ import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
+
+import com.sun.tools.javac.comp.Todo;
 
 /**
  * 
@@ -122,6 +125,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormOtherCostShare> routingFormOtherCostShares;
     private List<RoutingFormSubcontractor> routingFormSubcontractors;
     private Agency federalPassThroughAgency;
+    
+    //Sequence numbers for keeping track of the 'next' number
+    private Integer routingFormNextInstitutionCostShareSequenceNumber;
+    private Integer routingFormNextOtherCostShareSequenceNumber;
+    private Integer routingFormNextSubcontractorSequenceNumber;
    
 	/**
 	 * Default constructor.
@@ -1392,37 +1400,33 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     }
 
     /**
-     * This is a helper method that automatically populates document specfic information into the institution cost share
-     * (RoutingFormInstitutionCostShare) instance.
-     * 
-     * @param routingFormInstitutionCostShare
-     */
-    public final void prepareNewRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare routingFormInstitutionCostShare) {
-        routingFormInstitutionCostShare.setDocumentNumber(this.getDocumentNumber());
-    }
-
-    /**
      * 
      * This method...
      * @param routingFormInstitutionCostShare
      */
     public void addRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare routingFormInstitutionCostShare) {
+        routingFormInstitutionCostShare.setDocumentNumber(this.getDocumentNumber());
+        Integer nextSequenceNumber = this.getRoutingFormNextInstitutionCostShareSequenceNumber();
+        routingFormInstitutionCostShare.setRoutingFormCostShareSequenceNumber(nextSequenceNumber);
+        this.setRoutingFormNextInstitutionCostShareSequenceNumber(nextSequenceNumber++);
         getRoutingFormInstitutionCostShares().add(routingFormInstitutionCostShare);
-
-        // update the overall amount
-        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.add(new KualiDecimal(routingFormInstitutionCostShare.getRoutingFormCostShareAmount()));
     }
 
-    /**
-     * This method removes an institution cost share from the list and updates the total appropriately.
-     * 
-     * @param index
-     */
-    public void removeRoutingFormInstitutionCostShare(int index) {
-        RoutingFormInstitutionCostShare routingFormInstitutionCostShare = routingFormInstitutionCostShares.remove(index);
-        this.totalInstitutionCostShareAmount = this.totalInstitutionCostShareAmount.subtract(new KualiDecimal(routingFormInstitutionCostShare.getRoutingFormCostShareAmount()));
+    private Integer getRoutingFormNextInstitutionCostShareSequenceNumber() {
+        //TODO This should come from the database.
+        if (routingFormInstitutionCostShares.size() > 0) {
+            return routingFormInstitutionCostShares.get(routingFormInstitutionCostShares.size() - 1).getRoutingFormCostShareSequenceNumber() + 1;    
+        } else {
+            return 1;
+        }
+//        return routingFormNextInstitutionCostShareSequenceNumber;
     }
 
+    private void setRoutingFormNextInstitutionCostShareSequenceNumber(Integer routingFormNextInstitutionCostShareSequenceNumber) {
+        this.routingFormNextInstitutionCostShareSequenceNumber = routingFormNextInstitutionCostShareSequenceNumber;
+    }
+
+    
     /**
      * 
      * This method...
@@ -1455,37 +1459,33 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     }
 
     /**
-     * This is a helper method that automatically populates document specfic information into the other cost share
-     * (RoutingFormOtherCostShare) instance.
-     * 
-     * @param routingFormOtherCostShare
-     */
-    public final void prepareNewRoutingFormOtherCostShare(RoutingFormOtherCostShare routingFormOtherCostShare) {
-        routingFormOtherCostShare.setDocumentNumber(this.getDocumentNumber());
-    }
-
-    /**
      * 
      * This method...
      * @param routingFormOtherCostShare
      */
     public void addRoutingFormOtherCostShare(RoutingFormOtherCostShare routingFormOtherCostShare) {
+        routingFormOtherCostShare.setDocumentNumber(this.getDocumentNumber());
+        Integer nextSequenceNumber = this.getRoutingFormNextOtherCostShareSequenceNumber();
+        routingFormOtherCostShare.setRoutingFormCostShareSequenceNumber(nextSequenceNumber);
+        this.setRoutingFormNextOtherCostShareSequenceNumber(nextSequenceNumber++);
         getRoutingFormOtherCostShares().add(routingFormOtherCostShare);
-
-        // update the overall amount
-        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.add(new KualiDecimal(routingFormOtherCostShare.getRoutingFormCostShareAmount()));
     }
 
-    /**
-     * This method removes an other cost share from the list and updates the total appropriately.
-     * 
-     * @param index
-     */
-    public void removeRoutingFormOtherCostShare(int index) {
-        RoutingFormOtherCostShare routingFormOtherCostShare = routingFormOtherCostShares.remove(index);
-        this.totalOtherCostShareAmount = this.totalOtherCostShareAmount.subtract(new KualiDecimal(routingFormOtherCostShare.getRoutingFormCostShareAmount()));
+    private Integer getRoutingFormNextOtherCostShareSequenceNumber() {
+        //TODO This should come from the database.
+        if (routingFormOtherCostShares.size() > 0) {
+            return routingFormOtherCostShares.get(routingFormOtherCostShares.size() - 1).getRoutingFormCostShareSequenceNumber() + 1;    
+        } else {
+            return 1;
+        }
+//        return routingFormNextInstitutionCostShareSequenceNumber;
     }
 
+    private void setRoutingFormNextOtherCostShareSequenceNumber(Integer routingFormNextOtherCostShareSequenceNumber) {
+        this.routingFormNextOtherCostShareSequenceNumber = routingFormNextOtherCostShareSequenceNumber;
+    }
+
+    
     /**
      * 
      * This method...
@@ -1518,62 +1518,45 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     }
 
     /**
-     * This is a helper method that automatically populates document specfic information into the subcontractor
-     * (RoutingFormSubcontractor) instance.
-     * 
-     * @param routingFormSubcontractor
-     */
-    public final void prepareNewRoutingFormSubcontractor(RoutingFormSubcontractor routingFormSubcontractor) {
-        routingFormSubcontractor.setDocumentNumber(this.getDocumentNumber());
-    }
-
-    /**
      * 
      * This method...
      * @param routingFormSubcontractor
      */
     public void addRoutingFormSubcontractor(RoutingFormSubcontractor routingFormSubcontractor) {
+        routingFormSubcontractor.setDocumentNumber(this.getDocumentNumber());
+        Integer nextSequenceNumber = this.getRoutingFormNextOtherCostShareSequenceNumber();
+        routingFormSubcontractor.setRoutingFormSubcontractorSequenceNumber(nextSequenceNumber);
+        this.setRoutingFormNextOtherCostShareSequenceNumber(nextSequenceNumber++);
         getRoutingFormSubcontractors().add(routingFormSubcontractor);
-
-        // update the overall amount
-        this.totalSubcontractorAmount = this.totalSubcontractorAmount.add(new KualiDecimal(routingFormSubcontractor.getRoutingFormSubcontractorAmount()));
+        
+    }
+    
+    private Integer getRoutingFormNextSubcontractorSequenceNumber() {
+        //TODO This should come from the database.
+        if (routingFormSubcontractors.size() > 0) {
+            return routingFormSubcontractors.get(routingFormSubcontractors.size() - 1).getRoutingFormSubcontractorSequenceNumber() + 1;    
+        } else {
+            return 1;
+        }
+//        return routingFormNextSubcontractorSequenceNumber;
     }
 
-    /**
-     * This method removes a subcontractor from the list and updates the total appropriately.
-     * 
-     * @param index
-     */
-    public void removeRoutingFormSubcontractor(int index) {
-        RoutingFormSubcontractor routingFormSubcontractor = routingFormSubcontractors.remove(index);
-        this.totalSubcontractorAmount = this.totalSubcontractorAmount.subtract(new KualiDecimal(routingFormSubcontractor.getRoutingFormSubcontractorAmount()));
+    private void setRoutingFormNextSubcontractorSequenceNumber(Integer routingFormNextSubcontractorSequenceNumber) {
+        this.routingFormNextSubcontractorSequenceNumber = routingFormNextSubcontractorSequenceNumber;
     }
-
+    
     /**
      * 
      * This method...
      * @return
      */
     public KualiDecimal getTotalInstitutionCostShareAmount() {
-        return totalInstitutionCostShareAmount;
-    }
-
-    /**
-     * This method returns the institution total amount as a currency formatted string.
-     * 
-     * @return String
-     */
-    public String getCurrencyFormattedTotalInstitutionCostShareAmount() {
-        return (String) new CurrencyFormatter().format(totalInstitutionCostShareAmount);
-    }
-
-    /**
-     * 
-     * This method...
-     * @param totalInstitutionCostShareAmount
-     */
-    public void setTotalInstitutionCostShareAmount(KualiDecimal totalInstitutionCostShareAmount) {
-        this.totalInstitutionCostShareAmount = totalInstitutionCostShareAmount;
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (RoutingFormInstitutionCostShare institutionCostShare : this.getRoutingFormInstitutionCostShares()) {
+            if (institutionCostShare.getRoutingFormCostShareAmount() != null)
+                total = total.add(institutionCostShare.getRoutingFormCostShareAmount());
+        }
+        return total;
     }
 
     /**
@@ -1582,25 +1565,12 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * @return
      */
     public KualiDecimal getTotalOtherCostShareAmount() {
-        return totalOtherCostShareAmount;
-    }
-
-    /**
-     * This method returns the other cost share total amount as a currency formatted string.
-     * 
-     * @return String
-     */
-    public String getCurrencyFormattedTotalOtherCostShareAmount() {
-        return (String) new CurrencyFormatter().format(totalOtherCostShareAmount);
-    }
-
-    /**
-     * 
-     * This method...
-     * @param totalOtherCostShareAmount
-     */
-    public void setTotalOtherCostShareAmount(KualiDecimal totalOtherCostShareAmount) {
-        this.totalOtherCostShareAmount = totalOtherCostShareAmount;
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (RoutingFormOtherCostShare otherCostShare : getRoutingFormOtherCostShares()) {
+            if (otherCostShare.getRoutingFormCostShareAmount() != null)
+                total = total.add(otherCostShare.getRoutingFormCostShareAmount());
+        }
+        return total;
     }
 
     /**
@@ -1609,27 +1579,14 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * @return
      */
     public KualiDecimal getTotalSubcontractorAmount() {
-        return totalSubcontractorAmount;
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (RoutingFormSubcontractor subcontractor: getRoutingFormSubcontractors()) {
+            if (subcontractor.getRoutingFormSubcontractorAmount() != null)
+                total = total.add(subcontractor.getRoutingFormSubcontractorAmount());
+        }
+        return total;
     }
 
-    /**
-     * This method returns the subcontractor total amount as a currency formatted string.
-     * 
-     * @return String
-     */
-    public String getCurrencyFormattedTotalSubcontractorAmount() {
-        return (String) new CurrencyFormatter().format(totalSubcontractorAmount);
-    }
-
-    /**
-     * 
-     * This method...
-     * @param totalSubcontractorAmount
-     */
-    public void setTotalSubcontractorAmount(KualiDecimal totalSubcontractorAmount) {
-        this.totalSubcontractorAmount = totalSubcontractorAmount;
-    }
-    
     public Agency getFederalPassThroughAgency() {
         return federalPassThroughAgency;
     }
@@ -1641,6 +1598,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     @Override
     public List buildListOfDeletionAwareLists() {
         List list = new ArrayList();
+        
+        list.add(this.getRoutingFormSubcontractors());
+        list.add(this.getRoutingFormInstitutionCostShares());
+        list.add(this.getRoutingFormOtherCostShares());
+        
         //TODO Figure out a way to add the appropriate number of lists on the 2nd pass
         if (routingFormResearchRisks.isEmpty()) {
             for (int i = 0; i < 6; i++) {

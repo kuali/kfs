@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -35,7 +36,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	private String accountNumber;
 	private String chartOfAccountsCode;
 	private String organizationCode;
-	private BigDecimal routingFormCostShareAmount;
+	private KualiDecimal routingFormCostShareAmount;
 	private String routingFormCostShareDescription;
 
     private Account account;
@@ -160,7 +161,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	 * @return Returns the routingFormCostShareAmount
 	 * 
 	 */
-	public BigDecimal getRoutingFormCostShareAmount() { 
+	public KualiDecimal getRoutingFormCostShareAmount() { 
 		return routingFormCostShareAmount;
 	}
 
@@ -170,7 +171,7 @@ public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
 	 * @param routingFormCostShareAmount The routingFormCostShareAmount to set.
 	 * 
 	 */
-	public void setRoutingFormCostShareAmount(BigDecimal routingFormCostShareAmount) {
+	public void setRoutingFormCostShareAmount(KualiDecimal routingFormCostShareAmount) {
 		this.routingFormCostShareAmount = routingFormCostShareAmount;
 	}
 

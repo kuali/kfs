@@ -15,11 +15,6 @@
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<c:set var="routingFormProjectDetailsAttributes"
-	value="${DataDictionary['RoutingFormDocument'].attributes}" />
-<c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
-
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
 	htmlFormAction="researchRoutingFormProjectDetails"
@@ -30,41 +25,18 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
-	<SCRIPT type="text/javascript">
-	    <!--
-	        function submitForm() {
-	            document.forms[0].submit();
-	        }
-	    //-->
-	</SCRIPT>
-
 	<kra-rf:routingFormProjectDetailsCostShare editingMode="${KualiForm.editingMode}" />
-
-    <!-- TAB -->
 
 	<kra-rf:routingFormProjectDetailsSubcontracts editingMode="${KualiForm.editingMode}" />
 
-    <!-- TAB -->
-
 	<kra-rf:routingFormProjectDetailsOtherInstitutions editingMode="${KualiForm.editingMode}" />
 
-    <!-- TAB -->
-
 	<kra-rf:routingFormProjectDetailsOtherProjectDetails editingMode="${KualiForm.editingMode}" />
+  <table class="b3" summary="" border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tbody><tr>
+            <td class="footer" align="left"><img src="images/pixel_clear.gif" alt="" class="bl3" height="14" width="12"></td>
+            <td class="footer-right" align="right"><img src="images/pixel_clear.gif" alt="" class="br3" height="14" width="12"></td>
 
-
-
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
-            <tr>
-              <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-              <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
-            </tr>
-
-          </table>
-        </div>
-        <div class="globalbuttons"> <a href="overview.html"><img src="images/buttonsmall_save.gif" alt="save" width="53" height="18" hspace="5" border="0"></a><a href="confirm-cancel.html"><img src="images/buttonsmall_cancel.gif" alt="cancel" width="66" height="18" hspace="5" border="0"></a> </div></td>
-      <td class="column-right"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
-    </tr>
-  </table>
-  
+          </tr>
+        </tbody></table>
 </kul:documentPage>

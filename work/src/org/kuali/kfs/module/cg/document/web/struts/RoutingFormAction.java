@@ -129,4 +129,23 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         }
         return forward;
     }
+    
+    /**
+     * This method will load the document, which was previously saved
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward load(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.setDocId(routingForm.getDocument().getDocumentNumber());
+        this.loadDocument(routingForm);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

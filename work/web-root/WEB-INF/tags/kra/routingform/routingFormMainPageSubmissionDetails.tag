@@ -63,11 +63,11 @@
                 </td>
               </tr>
               <tr>
-                <td colspan=4 class="tab-subhead">Project Type/Reference Numbers</td>
+                <td colspan=4 class="tab-subhead">Project Type</td>
               </tr>
 
               <tr>
-                <th align=right valign=middle>Type of application:</th>
+                <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle ><table width="100%" cellpadding="0"  cellspacing="0" class="nobord">
                     <tr>
                       <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox">
@@ -103,6 +103,10 @@
                     </tr>
                   </table></td>
 
+              </tr>
+
+              <tr>
+                <td colspan=4 class="tab-subhead">Reference Numbers</td>
               </tr>
               <tr>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routingFormPriorGrantNumber}" skipHelpUrl="true" /></th>
@@ -233,7 +237,7 @@
               <tr>
 
                 <th align=right valign=middle>Total Costs:</th>
-                <td colspan="3" align=left valign=middle >$</td>
+                <td colspan="3" align=left valign=middle >$ ${KualiForm.document.routingFormBudget.routingFormBudgetDirectAmount + KualiForm.document.routingFormBudget.routingFormBudgetIndirectCostAmount} </td>
               </tr>
             </table>
           </div>

@@ -34,6 +34,7 @@ import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionSource;
+import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 
@@ -178,6 +179,23 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
         this.setVendorContract(vendorContract);
         this.setVendorContractName(vendorContract.getVendorContractName());
+    }    
+    
+    /**
+     * Convenience method to set vendor address fields based on a given VendorAddress.
+     * 
+     * @param vendorAddress
+     */
+    public void templateVendorAddress(VendorAddress vendorAddress) {
+        if (vendorAddress == null) {
+            return;
+        }
+        this.setVendorLine1Address(vendorAddress.getVendorLine1Address());
+        this.setVendorLine2Address(vendorAddress.getVendorLine2Address());
+        this.setVendorCityName(vendorAddress.getVendorCityName());
+        this.setVendorStateCode(vendorAddress.getVendorStateCode());
+        this.setVendorPostalCode(vendorAddress.getVendorZipCode());
+        this.setVendorCountryCode(vendorAddress.getVendorCountryCode());
     }    
     
     // GETTERS AND SETTERS    

@@ -24,8 +24,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -85,7 +85,14 @@ public class RequisitionAction extends PurchasingActionBase {
             refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
             ((RequisitionDocument) rqForm.getDocument()).templateVendorContract(refreshVendorContract);
         }
-
+        else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) &&
+            request.getParameter("document.vendorAddressGeneratedIdentifier") != null) {
+            Integer vendorAddressGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorAddressGeneratedIdentifier();
+            VendorAddress refreshVendorAddress = new VendorAddress();
+            refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
+            refreshVendorAddress = (VendorAddress)businessObjectService.retrieve(refreshVendorAddress);
+            ((RequisitionDocument) rqForm.getDocument()).templateVendorAddress(refreshVendorAddress);
+        }
         // Format phone numbers
         document.setInstitutionContactPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
         document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    

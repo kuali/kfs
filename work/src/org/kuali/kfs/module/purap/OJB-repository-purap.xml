@@ -514,6 +514,8 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="itemTypeDescription" column="ITM_TYP_DESC" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="quantityBasedGeneralLedgerIndicator" column="QTY_BSD_GL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="itemTypeAboveTheLineIndicator" column="ITYP_ABV_THE_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CapitalAssetTransactionType" table="PUR_AP_CPTL_AST_TRN_TYP_T">

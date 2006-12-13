@@ -28,7 +28,9 @@ public class ItemType extends BusinessObjectBase {
 	private String itemTypeCode;
 	private String itemTypeDescription;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
-
+    private boolean quantityBasedGeneralLedgerIndicator;
+    private boolean itemTypeAboveTheLineIndicator;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -98,12 +100,45 @@ public class ItemType extends BusinessObjectBase {
 		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
 	}
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("itemTypeCode", this.itemTypeCode);
-	    return m;
+    /**
+     * Gets the itemTypeAboveTheLineIndicator attribute. 
+     * @return Returns the itemTypeAboveTheLineIndicator.
+     */
+    public boolean isItemTypeAboveTheLineIndicator() {
+        return itemTypeAboveTheLineIndicator;
     }
+
+    /**
+     * Sets the itemTypeAboveTheLineIndicator attribute value.
+     * @param itemTypeAboveTheLineIndicator The itemTypeAboveTheLineIndicator to set.
+     */
+    public void setItemTypeAboveTheLineIndicator(boolean itemTypeAboveTheLineIndicator) {
+        this.itemTypeAboveTheLineIndicator = itemTypeAboveTheLineIndicator;
+    }
+
+    /**
+     * Gets the quantityBasedGeneralLedgerIndicator attribute. 
+     * @return Returns the quantityBasedGeneralLedgerIndicator.
+     */
+    public boolean isQuantityBasedGeneralLedgerIndicator() {
+        return quantityBasedGeneralLedgerIndicator;
+    }
+
+    /**
+     * Sets the quantityBasedGeneralLedgerIndicator attribute value.
+     * @param quantityBasedGeneralLedgerIndicator The quantityBasedGeneralLedgerIndicator to set.
+     */
+    public void setQuantityBasedGeneralLedgerIndicator(boolean quantityBasedGeneralLedgerIndicator) {
+        this.quantityBasedGeneralLedgerIndicator = quantityBasedGeneralLedgerIndicator;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("itemTypeCode", this.itemTypeCode);
+        return m;
+    }
+
 }

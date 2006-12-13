@@ -348,7 +348,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="3" />
+                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.PersonRoleValuesFinder" />
                 </control>
 
                 <summary>personRoleCode</summary>

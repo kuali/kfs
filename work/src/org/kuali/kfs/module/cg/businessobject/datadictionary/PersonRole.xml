@@ -12,9 +12,9 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                         <field attributeName="personRoleCode" />
                         <field attributeName="personRoleDescription" />
+                        <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -32,33 +32,21 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="personRoleCode" required="false" />
                 <lookupField attributeName="personRoleDescription" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="personRoleCode" />
                 <field attributeName="personRoleDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
-
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
 
             <attribute name="personRoleCode" forceUppercase="true">
                 <label>Person Role Code</label>
@@ -89,6 +77,8 @@
                 <summary>personRoleDescription</summary>
                 <description>personRoleDescription description...</description>
 			</attribute>
+
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

@@ -25,7 +25,6 @@
             <title>Research Risk Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="researchRiskBiosafetyIndicator" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
@@ -45,7 +44,6 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="researchRiskBiosafetyIndicator" required="false" />
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
                 <lookupField attributeName="controlAttributeTypeCode" required="false" />
                 <lookupField attributeName="researchRiskTypeDescription" required="false" />
@@ -55,7 +53,6 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="researchRiskBiosafetyIndicator" />
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
@@ -66,20 +63,6 @@
         <attributes>
 
             <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
-            <attribute name="researchRiskBiosafetyIndicator" forceUppercase="true">
-                <label>Research Risk Biosafety Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>researchRiskBiosafetyIndicator</summary>
-                <description>researchRiskBiosafetyIndicator description...</description>
-			</attribute>
 
             <attribute name="researchRiskTypeCode" forceUppercase="true">
                 <label>Research Risk Type Code</label>

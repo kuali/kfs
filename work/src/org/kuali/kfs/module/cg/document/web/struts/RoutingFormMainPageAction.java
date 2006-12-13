@@ -30,10 +30,29 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonal;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
+    
+    public ActionForward addPersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        RoutingForm routingForm = (RoutingForm) form;
+
+        routingForm.getRoutingFormDocument().addPerson(routingForm.getNewRoutingFormPersonal());
+        routingForm.setNewRoutingFormPersonal(new RoutingFormPersonal());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deletePersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        int lineToDelete = getLineToDelete(request);
+        routingForm.getRoutingFormDocument().getRoutingFormPersonnel().remove(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
     public ActionForward insertRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

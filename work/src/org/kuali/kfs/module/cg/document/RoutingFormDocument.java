@@ -27,6 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
+import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
@@ -147,6 +148,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
+        routingFormPersonnel = new ArrayList<RoutingFormPersonal>();
 	}
 
     /**
@@ -1531,6 +1533,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
     }
     
+    public void addPerson(RoutingFormPersonal routingFormPersonal) {
+        routingFormPersonal.setDocumentNumber(this.getDocumentNumber());
+        routingFormPersonnel.add(routingFormPersonal);
+    }
+    
     private Integer getRoutingFormNextSubcontractorSequenceNumber() {
         //TODO This should come from the database.
         if (routingFormSubcontractors.size() > 0) {
@@ -1602,6 +1609,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         list.add(this.getRoutingFormSubcontractors());
         list.add(this.getRoutingFormInstitutionCostShares());
         list.add(this.getRoutingFormOtherCostShares());
+        list.add(this.getRoutingFormPersonnel());
+        list.add(this.getRoutingFormKeywords());
         
         //TODO Figure out a way to add the appropriate number of lists on the 2nd pass
         if (routingFormResearchRisks.isEmpty()) {
@@ -1649,6 +1658,18 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormPersonnel = routingFormPersonnel;
     }
 
+    /**
+     * Gets index i from the routingFormPersonnel list. 
+     * @param index
+     * @return Person at index i
+     */
+    public RoutingFormPersonal getRoutingFormPerson(int index) {
+        while (getRoutingFormPersonnel().size() <= index) {
+            getRoutingFormPersonnel().add(new RoutingFormPersonal());
+        }
+        return (RoutingFormPersonal) getRoutingFormPersonnel().get(index);
+    }
+    
     /**
      * Gets the routingFormOrgCreditPercent attribute. 
      * @return Returns the routingFormOrgCreditPercent.

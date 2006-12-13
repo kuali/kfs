@@ -209,37 +209,38 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.projectAbstract}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="3" align=left valign=middle nowrap ><kul:htmlControlAttribute property="document.projectAbstract" attributeEntry="${documentAttributes.projectAbstract}" /></td>
               </tr>
-              <tr>
-                <td colspan=4 class="tab-subhead"><span class="left">Amounts &amp; Dates </span> </td>
+            </table>
 
+            <table cellpadding=0 cellspacing="0"  summary="">
+              <tr>
+                <td colspan=6 class="tab-subhead"><span class="left">Amounts &amp; Dates </span> </td>
               </tr>
               <tr>
-                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
-                <td width="30%" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}"  />
-                </td>
-                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" skipHelpUrl="true" useShortLabel="true" /></th>
-                <td width="30%" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" datePicker="true" />
-                </td>
-              </tr>
-
-              <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}" skipHelpUrl="true" useShortLabel="true" /></th>
-                <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}"  />
-                </td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" skipHelpUrl="true" useShortLabel="true" /></th>
-                <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" datePicker="true" />
-                </td>
+                <th>&nbsp;</th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true"/></div></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true"/></div></th>
+                <th>Total Costs</th>
+                <th><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" skipHelpUrl="true" useShortLabel="true" noColon="true"/></th>
+                <th><kul:htmlAttributeLabel attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" skipHelpUrl="true" useShortLabel="true" noColon="true"/></th>
               </tr>
               <tr>
-
-                <th align=right valign=middle>Total Costs:</th>
-                <td colspan="3" align=left valign=middle >$ ${KualiForm.document.routingFormBudget.routingFormBudgetDirectAmount + KualiForm.document.routingFormBudget.routingFormBudgetIndirectCostAmount} </td>
+                <th scope="row"><div align="right">Current Period:</div></th>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}"  /></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}"  /></div></td>
+                <td><div align="right">$ ${KualiForm.document.routingFormBudget.routingFormBudgetDirectAmount + KualiForm.document.routingFormBudget.routingFormBudgetIndirectCostAmount} </div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" datePicker="true" /></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" datePicker="true" /></div></td>
+              </tr>
+              <tr>
+                <th scope="row"><div align="right">Total Periods:</div></th>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
               </tr>
             </table>
+
           </div>
 
 </kul:tab>

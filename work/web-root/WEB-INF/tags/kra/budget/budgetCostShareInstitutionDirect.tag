@@ -327,7 +327,7 @@
 				<tr>
 					<th class="bord-l-b">
 						<div align="right">
-							<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetInstitutionCostShare.attributes.permissionIndicator}" useShortLabel="true" />
+							Include source in permissions?
 						</div>
 					</th>
 					<td colspan="${KualiForm.document.periodListSize + 2}" class="infoline">
@@ -399,7 +399,7 @@
 					<tr>
 						<th class="bord-l-b">
 							<div align="right">
-								<kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetInstitutionCostShare.attributes.permissionIndicator}" useShortLabel="true" />
+								Include source in permissions?
 							</div>
 						</th>
 						<td colspan="${KualiForm.document.periodListSize+2}" class="datacell">

@@ -18,9 +18,10 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
  */
 public class RoutingFormPersonnel extends BusinessObjectBase {
 
-	private Long personSystemIdentifier;
 	private String documentNumber;
-	private String chartOfAccountsCode;
+    private Integer routingFormPersonSequenceNumber;
+    private Long personSystemIdentifier;
+    private String chartOfAccountsCode;
 	private String organizationCode;
 	private Integer personCreditPercent;
 	private Integer personFinancialAidPercent;
@@ -39,7 +40,9 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
 	private String personPhoneNumber;
 	private String personFaxNumber;
 	private String personEmailAddress;
-
+    private String personRoleText;
+    private boolean personToBeNamedIndicator;
+    
     private Org organization;
 	private Chart chartOfAccounts;
     private State personState;
@@ -55,27 +58,6 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
 	public RoutingFormPersonnel() {
 
 	}
-
-	/**
-	 * Gets the personSystemIdentifier attribute.
-	 * 
-	 * @return Returns the personSystemIdentifier
-	 * 
-	 */
-	public Long getPersonSystemIdentifier() { 
-		return personSystemIdentifier;
-	}
-
-	/**
-	 * Sets the personSystemIdentifier attribute.
-	 * 
-	 * @param personSystemIdentifier The personSystemIdentifier to set.
-	 * 
-	 */
-	public void setPersonSystemIdentifier(Long personSystemIdentifier) {
-		this.personSystemIdentifier = personSystemIdentifier;
-	}
-
 
 	/**
 	 * Gets the documentNumber attribute.
@@ -97,7 +79,42 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
 		this.documentNumber = documentNumber;
 	}
 
+    /**
+     * Gets the routingFormPersonSequenceNumber attribute. 
+     * @return Returns the routingFormPersonSequenceNumber.
+     */
+    public Integer getRoutingFormPersonSequenceNumber() {
+        return routingFormPersonSequenceNumber;
+    }
 
+    /**
+     * Sets the routingFormPersonSequenceNumber attribute value.
+     * @param routingFormPersonSequenceNumber The routingFormPersonSequenceNumber to set.
+     */
+    public void setRoutingFormPersonSequenceNumber(Integer routingFormPersonSequenceNumber) {
+        this.routingFormPersonSequenceNumber = routingFormPersonSequenceNumber;
+    }    
+    
+    /**
+     * Gets the personSystemIdentifier attribute.
+     * 
+     * @return Returns the personSystemIdentifier
+     * 
+     */
+    public Long getPersonSystemIdentifier() { 
+        return personSystemIdentifier;
+    }
+
+    /**
+     * Sets the personSystemIdentifier attribute.
+     * 
+     * @param personSystemIdentifier The personSystemIdentifier to set.
+     * 
+     */
+    public void setPersonSystemIdentifier(Long personSystemIdentifier) {
+        this.personSystemIdentifier = personSystemIdentifier;
+    }
+    
 	/**
 	 * Gets the chartOfAccountsCode attribute.
 	 * 
@@ -640,6 +657,38 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
     }
 
     /**
+     * Gets the personRoleText attribute. 
+     * @return Returns the personRoleText.
+     */
+    public String getPersonRoleText() {
+        return personRoleText;
+    }
+
+    /**
+     * Sets the personRoleText attribute value.
+     * @param personRoleText The personRoleText to set.
+     */
+    public void setPersonRoleText(String personRoleText) {
+        this.personRoleText = personRoleText;
+    }
+
+    /**
+     * Gets the personToBeNamedIndicator attribute. 
+     * @return Returns the personToBeNamedIndicator.
+     */
+    public boolean isPersonToBeNamedIndicator() {
+        return personToBeNamedIndicator;
+    }
+
+    /**
+     * Sets the personToBeNamedIndicator attribute value.
+     * @param personToBeNamedIndicator The personToBeNamedIndicator to set.
+     */
+    public void setPersonToBeNamedIndicator(boolean personToBeNamedIndicator) {
+        this.personToBeNamedIndicator = personToBeNamedIndicator;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -650,5 +699,6 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
         m.put("documentNumber", this.documentNumber);
         return m;
     }
-
+    
+    
 }

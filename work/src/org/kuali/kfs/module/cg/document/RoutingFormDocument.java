@@ -131,7 +131,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private Integer routingFormNextInstitutionCostShareSequenceNumber;
     private Integer routingFormNextOtherCostShareSequenceNumber;
     private Integer routingFormNextSubcontractorSequenceNumber;
-   
+    private Integer routingFormPersonnelNextSequenceNumber;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -1702,5 +1703,21 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setRoutingFormCatalogOfFederalDomesticAssistanceNumber(String routingFormCatalogOfFederalDomesticAssistanceNumber) {
         this.routingFormCatalogOfFederalDomesticAssistanceNumber = routingFormCatalogOfFederalDomesticAssistanceNumber;
+    }
+
+    /**
+     * Gets the routingFormPersonnelNextSequenceNumber attribute. 
+     * @return Returns the routingFormPersonnelNextSequenceNumber.
+     */
+    public Integer getRoutingFormPersonnelNextSequenceNumber() {
+        return routingFormPersonnelNextSequenceNumber;
+    }
+
+    /**
+     * Sets the routingFormPersonnelNextSequenceNumber attribute value.
+     * @param routingFormPersonnelNextSequenceNumber The routingFormPersonnelNextSequenceNumber to set.
+     */
+    public void setRoutingFormPersonnelNextSequenceNumber(Integer routingFormPersonnelNextSequenceNumber) {
+        this.routingFormPersonnelNextSequenceNumber = routingFormPersonnelNextSequenceNumber;
     }
 }

@@ -93,6 +93,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         referenceObjects.add("routingFormSubcontractors");
         referenceObjects.add("routingFormOtherCostShares");
         referenceObjects.add("routingFormInstitutionCostShares");
+        referenceObjects.add("routingFormResearchRisks");
 
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         

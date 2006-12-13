@@ -22,4 +22,5 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 public interface RoutingFormResearchRiskService {
     public void setupResearchRisks(RoutingFormDocument routingFormDocument);
+    public int getNumberOfResearchRisks();
 }

@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.PropertyConstants;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
@@ -1300,6 +1301,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public List<RoutingFormResearchRisk> getRoutingFormResearchRisks() {
         return routingFormResearchRisks;
     }
+    
+    public void setRoutingFormResearchRisks(List<RoutingFormResearchRisk> routingFormResearchRisks) {
+        this.routingFormResearchRisks = routingFormResearchRisks;
+    }
 
     public RoutingFormResearchRisk getRoutingFormResearchRisk(int index) {
         while (getRoutingFormResearchRisks().size() <= index) {
@@ -1308,10 +1313,16 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         return (RoutingFormResearchRisk) getRoutingFormResearchRisks().get(index);
     }
     
-    public void setRoutingFormResearchRisks(List<RoutingFormResearchRisk> routingFormResearchRisks) {
-        this.routingFormResearchRisks = routingFormResearchRisks;
+    public List getAllRoutingFormResearchRiskStudies() {
+        List allStudies = new ArrayList();
+        
+        for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {
+            allStudies.addAll(researchRisk.getResearchRiskStudies());
+        }
+        
+        return allStudies;
     }
-
+    
     public void addRoutingFormResearchRisk(RoutingFormResearchRisk routingFormResearchRisk) {
         getRoutingFormResearchRisks().add(routingFormResearchRisk);
     }
@@ -1611,18 +1622,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         list.add(this.getRoutingFormOtherCostShares());
         list.add(this.getRoutingFormPersonnel());
         list.add(this.getRoutingFormKeywords());
+        list.add(this.getRoutingFormResearchRisks());
+        list.add(this.getAllRoutingFormResearchRiskStudies());
         
-        //TODO Figure out a way to add the appropriate number of lists on the 2nd pass
-        if (routingFormResearchRisks.isEmpty()) {
-            for (int i = 0; i < 6; i++) {
-                list.add(new ArrayList());
-            }
-        }
-        else {
-            for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {
-                list.add(researchRisk.getResearchRiskStudies());
-            }
-        }
         return list;
     }
 

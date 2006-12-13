@@ -40,6 +40,10 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
         routingFormDocument.setRoutingFormResearchRisks(researchRisks);
     }
     
+    public int getNumberOfResearchRisks() {
+        return getAllResearchRiskTypes().size();
+    }
+    
     private List<ResearchRiskType> getAllResearchRiskTypes() {
         Map criteria = new HashMap();
         criteria.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);

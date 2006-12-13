@@ -51,7 +51,7 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         routingForm.setDocId(routingForm.getDocument().getDocumentNumber());
         this.loadDocument(routingForm);
         
-//      Setup research risks if this is the first entry into page.
+//      Setup research risks
         if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
             SpringServiceLocator.getRoutingFormResearchRiskService().setupResearchRisks(routingForm.getRoutingFormDocument());
         }

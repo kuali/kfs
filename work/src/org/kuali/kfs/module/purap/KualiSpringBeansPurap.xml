@@ -96,7 +96,7 @@
         </property>
     </bean>
 
-    <bean id="vendorLookupable" class="org.kuali.module.purap.lookup.VendorLookupableImpl" singleton="false">
+    <bean id="vendorLookupableHelperService" class="org.kuali.module.purap.lookup.VendorLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -106,9 +106,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -120,4 +120,9 @@
         </property>
     </bean>
     
+    <bean id="vendorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    	<property name="lookupableHelperService">
+    		<ref bean="vendorLookupableHelperService"/>
+    	</property>
+    </bean>
 </beans>

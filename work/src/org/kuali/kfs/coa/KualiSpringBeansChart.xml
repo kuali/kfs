@@ -307,6 +307,13 @@
     </bean>
 
     <bean id="OrgReviewLookupable" class="org.kuali.workflow.attribute.OrgReviewLookupableImpl" singleton="false"/>
-    <bean id="accountLookupable" class="org.kuali.module.chart.lookup.KualiAccountLookupableImpl" singleton="false" parent="kualiLookupable" />
+    
+    <bean id="accountLookupableHelperService" class="org.kuali.module.chart.lookup.KualiAccountLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService"/>
+    
+    <bean id="accountLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+    	<property name="lookupableHelperService">
+    		<ref bean="accountLookupableHelperService"/>
+    	</property>
+    </bean>
 
 </beans>

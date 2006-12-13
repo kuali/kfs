@@ -68,7 +68,7 @@
 		</property>
 	</bean>
 
-    <bean id="glBalanceLookupable" class="org.kuali.module.gl.web.lookupable.BalanceLookupableImpl" singleton="false">
+    <bean id="glBalanceLookupableHelperService" class="org.kuali.module.gl.web.lookupable.BalanceLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -78,9 +78,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -94,8 +94,14 @@
             <ref bean="glPostBalance" />
         </property>
     </bean>
+    
+    <bean id="glBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glBalanceLookupableHelperService"/>
+        </property>
+    </bean>
 
-    <bean id="glEncumbranceLookupable" class="org.kuali.module.gl.web.lookupable.EncumbranceLookupableImpl" singleton="false">
+    <bean id="glEncumbranceLookupableHelperService" class="org.kuali.module.gl.web.lookupable.EncumbranceLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -105,9 +111,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -121,8 +127,14 @@
             <ref bean="glEncumbranceService" />
         </property>
     </bean>
+    
+    <bean id="glEncumbranceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glEncumbranceLookupableHelperService"/>
+        </property>
+    </bean>
 
-    <bean id="glCashBalanceLookupable" class="org.kuali.module.gl.web.lookupable.CashBalanceLookupableImpl" singleton="false">
+    <bean id="glCashBalanceLookupableHelperService" class="org.kuali.module.gl.web.lookupable.CashBalanceLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -132,9 +144,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -151,8 +163,14 @@
             <ref bean="dateTimeService" />
         </property>
     </bean>
+    
+    <bean id="glCashBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glCashBalanceLookupableHelperService"/>
+        </property>
+    </bean>
 
-    <bean id="glPendingEntryLookupableImpl" class="org.kuali.module.gl.web.lookupable.PendingEntryLookupableImpl" singleton="false">
+    <bean id="glPendingEntryLookupableHelperServiceImpl" class="org.kuali.module.gl.web.lookupable.PendingEntryLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -162,9 +180,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -178,8 +196,14 @@
             <ref bean="kualiConfigurationService" />
         </property>
     </bean>
+    
+    <bean id="glPendingEntryLookupableImpl" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glPendingEntryLookupableHelperServiceImpl"/>
+        </property>
+    </bean>
 
-    <bean id="glEntryLookupable" class="org.kuali.module.gl.web.lookupable.EntryLookupableImpl" singleton="false">
+    <bean id="glEntryLookupableHelperService" class="org.kuali.module.gl.web.lookupable.EntryLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -189,9 +213,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -209,7 +233,13 @@
         </property>
     </bean>
 
-    <bean id="glAccountBalanceLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceLookupableImpl" singleton="false">
+    <bean id="glEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glEntryLookupableHelperService"/>
+        </property>
+    </bean>
+
+    <bean id="glAccountBalanceLookupableHelperService" class="org.kuali.module.gl.web.lookupable.AccountBalanceLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -219,9 +249,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -238,8 +268,14 @@
             <ref bean="optionsService" />
         </property>
     </bean>
+    
+    <bean id="glAccountBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glAccountBalanceLookupableHelperService"/>
+        </property>
+    </bean>
 
-    <bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableImpl" singleton="false">
+    <bean id="glAccountBalanceByConsolidationLookupableHelperService" class="org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -249,9 +285,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -259,8 +295,14 @@
             <ref bean="glAccountBalanceService" />
         </property>
     </bean>
+    
+    <bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glAccountBalanceByConsolidationLookupableHelperService"/>
+        </property>
+    </bean>
 
-    <bean id="glAccountBalanceByLevelLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceByLevelLookupableImpl" singleton="false">
+    <bean id="glAccountBalanceByLevelLookupableHelperService" class="org.kuali.module.gl.web.lookupable.AccountBalanceByLevelLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -270,9 +312,9 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -280,8 +322,14 @@
             <ref bean="glAccountBalanceService" />
         </property>
     </bean>
+    
+    <bean id="glAccountBalanceByLevelLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glAccountBalanceByLevelLookupableHelperService"/>
+        </property>
+    </bean>
 
-    <bean id="glAccountBalanceByObjectLookupable" class="org.kuali.module.gl.web.lookupable.AccountBalanceByObjectLookupableImpl" singleton="false">
+    <bean id="glAccountBalanceByObjectLookupableHelperService" class="org.kuali.module.gl.web.lookupable.AccountBalanceByObjectLookupableHelperServiceImpl" singleton="false">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -291,14 +339,20 @@
         <property name="businessObjectDictionaryService">
             <ref bean="businessObjectDictionaryService" />
         </property>
-        <property name="dictionaryValidationService">
+        <!--property name="dictionaryValidationService">
             <ref bean="dictionaryValidationService" />
-        </property>
+        </property-->
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
         <property name="accountBalanceService">
             <ref bean="glAccountBalanceService" />
+        </property>
+    </bean>
+    
+    <bean id="glAccountBalanceByObjectLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="glAccountBalanceByObjectLookupableHelperService"/>
         </property>
     </bean>
 

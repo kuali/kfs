@@ -40,8 +40,6 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * <code>AuxiliaryVocherDocument</code> accounting line parser
- * 
- * 
  */
 public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBase {
     private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
@@ -54,7 +52,6 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
     }
 
     /**
-     * 
      * @see org.kuali.core.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
      *      org.kuali.core.bo.SourceAccountingLine, java.lang.String)
      */
@@ -66,31 +63,33 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
         String creditValue = attributeValueMap.remove(CREDIT);
         KualiDecimal amount = null;
         String debitCreditCode = null;
-        if(StringUtils.isNotBlank(debitValue) && StringUtils.isNotBlank(creditValue)) {
-            String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
-            throw new AccountingLineParserException("invalid format - only one amount allowed: " + DEBIT + "=" + debitValue + " and " + CREDIT + "=" + creditValue + " for " + accountingLineAsString, ERROR_TOO_MANY_AMOUNTS, errorParameters);
-        } else {            
-            if (StringUtils.isNotBlank(debitValue)) {
-                try {
-                    amount = new KualiDecimal(debitValue);
+
+        if (StringUtils.isNotBlank(debitValue)) {
+            try {
+                amount = new KualiDecimal(debitValue);
+                if (amount.isNonZero()) {
                     debitCreditCode = Constants.GL_DEBIT_CODE;
                 }
-                catch (NumberFormatException e) {
-                    String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), accountingLineAsString };
-                    throw new AccountingLineParserException("invalid (NaN) '" + DEBIT + "=" + debitValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
-                }
             }
-            else {
-                try {
-                    amount = new KualiDecimal(creditValue);
-                    debitCreditCode = Constants.GL_CREDIT_CODE;
-                }
-                catch (NumberFormatException e) {
-                    String[] errorParameters = { creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
-                    throw new AccountingLineParserException("invalid (NaN) '" + CREDIT + "=" + creditValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
-                }
+            catch (NumberFormatException e) {
+                String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), accountingLineAsString };
+                throw new AccountingLineParserException("invalid (NaN) '" + DEBIT + "=" + debitValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
             }
         }
+
+        if (StringUtils.isNotBlank(creditValue)) {
+            try {
+                amount = new KualiDecimal(creditValue);
+                if (amount.isNonZero()) {
+                    debitCreditCode = Constants.GL_CREDIT_CODE;
+                }
+            }
+            catch (NumberFormatException e) {
+                String[] errorParameters = { creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
+                throw new AccountingLineParserException("invalid (NaN) '" + CREDIT + "=" + creditValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+            }
+        }
+        
         sourceAccountingLine.setAmount(amount);
         sourceAccountingLine.setDebitCreditCode(debitCreditCode);
     }

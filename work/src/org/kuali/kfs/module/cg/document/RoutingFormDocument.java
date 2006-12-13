@@ -36,7 +36,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormPersonal;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
@@ -123,7 +123,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormOtherCostShare> routingFormOtherCostShares;
     private List<RoutingFormSubcontractor> routingFormSubcontractors;
     private Agency federalPassThroughAgency;
-    private List<RoutingFormPersonal> routingFormPersonnel;
+    private List<RoutingFormPersonnel> routingFormPersonnel;
     private List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent;
     
     //Sequence numbers for keeping track of the 'next' number
@@ -148,7 +148,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
-        routingFormPersonnel = new ArrayList<RoutingFormPersonal>();
+        routingFormPersonnel = new ArrayList<RoutingFormPersonnel>();
 	}
 
     /**
@@ -1533,9 +1533,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
     }
     
-    public void addPerson(RoutingFormPersonal routingFormPersonal) {
-        routingFormPersonal.setDocumentNumber(this.getDocumentNumber());
-        routingFormPersonnel.add(routingFormPersonal);
+    public void addPerson(RoutingFormPersonnel routingFormPersonnel) {
+        routingFormPersonnel.setDocumentNumber(this.getDocumentNumber());
+        this.routingFormPersonnel.add(routingFormPersonnel);
     }
     
     private Integer getRoutingFormNextSubcontractorSequenceNumber() {
@@ -1646,7 +1646,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * Gets the routingFormPersonnel attribute. 
      * @return Returns the routingFormPersonnel.
      */
-    public List<RoutingFormPersonal> getRoutingFormPersonnel() {
+    public List<RoutingFormPersonnel> getRoutingFormPersonnel() {
         return routingFormPersonnel;
     }
 
@@ -1654,7 +1654,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * Sets the routingFormPersonnel attribute value.
      * @param routingFormPersonnel The routingFormPersonnel to set.
      */
-    public void setRoutingFormPersonnel(List<RoutingFormPersonal> routingFormPersonnel) {
+    public void setRoutingFormPersonnel(List<RoutingFormPersonnel> routingFormPersonnel) {
         this.routingFormPersonnel = routingFormPersonnel;
     }
 
@@ -1663,11 +1663,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * @param index
      * @return Person at index i
      */
-    public RoutingFormPersonal getRoutingFormPerson(int index) {
+    public RoutingFormPersonnel getRoutingFormPerson(int index) {
         while (getRoutingFormPersonnel().size() <= index) {
-            getRoutingFormPersonnel().add(new RoutingFormPersonal());
+            getRoutingFormPersonnel().add(new RoutingFormPersonnel());
         }
-        return (RoutingFormPersonal) getRoutingFormPersonnel().get(index);
+        return (RoutingFormPersonnel) getRoutingFormPersonnel().get(index);
     }
     
     /**

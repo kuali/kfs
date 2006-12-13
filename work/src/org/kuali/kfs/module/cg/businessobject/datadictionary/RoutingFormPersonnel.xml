@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormPersonnel">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Routing Form Personnel Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="organizationCode" />
+                        <field attributeName="personCityName" />
+                        <field attributeName="personCountryCode" />
+                        <field attributeName="personCountyName" />
+                        <field attributeName="personCreditPercent" />
+                        <field attributeName="personDivisionText" />
+                        <field attributeName="personEmailAddress" />
+                        <field attributeName="personFaxNumber" />
+                        <field attributeName="personFinancialAidPercent" />
+                        <field attributeName="personLine1Address" />
+                        <field attributeName="personLine2Address" />
+                        <field attributeName="personPhoneNumber" />
+                        <field attributeName="personPositionTitle" />
+                        <field attributeName="personPrefixText" />
+                        <field attributeName="personRoleCode" />
+                        <field attributeName="personStateCode" />
+                        <field attributeName="personSuffixText" />
+                        <field attributeName="personSystemIdentifier" />
+                        <field attributeName="personZipCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Routing Form Personnel Lookup</title>
+
+            <instructions>Look up a Routing Form Person</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="personSystemIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="personCityName" required="false" />
+                <lookupField attributeName="personCountryCode" required="false" />
+                <lookupField attributeName="personCountyName" required="false" />
+                <lookupField attributeName="personCreditPercent" required="false" />
+                <lookupField attributeName="personDivisionText" required="false" />
+                <lookupField attributeName="personEmailAddress" required="false" />
+                <lookupField attributeName="personFaxNumber" required="false" />
+                <lookupField attributeName="personFinancialAidPercent" required="false" />
+                <lookupField attributeName="personLine1Address" required="false" />
+                <lookupField attributeName="personLine2Address" required="false" />
+                <lookupField attributeName="personPhoneNumber" required="false" />
+                <lookupField attributeName="personPositionTitle" required="false" />
+                <lookupField attributeName="personPrefixText" required="false" />
+                <lookupField attributeName="personRoleCode" required="false" />
+                <lookupField attributeName="personStateCode" required="false" />
+                <lookupField attributeName="personSuffixText" required="false" />
+                <lookupField attributeName="personSystemIdentifier" required="false" />
+                <lookupField attributeName="personZipCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="organizationCode" />
+                <field attributeName="personCityName" />
+                <field attributeName="personCountryCode" />
+                <field attributeName="personCountyName" />
+                <field attributeName="personCreditPercent" />
+                <field attributeName="personDivisionText" />
+                <field attributeName="personEmailAddress" />
+                <field attributeName="personFaxNumber" />
+                <field attributeName="personFinancialAidPercent" />
+                <field attributeName="personLine1Address" />
+                <field attributeName="personLine2Address" />
+                <field attributeName="personPhoneNumber" />
+                <field attributeName="personPositionTitle" />
+                <field attributeName="personPrefixText" />
+                <field attributeName="personRoleCode" />
+                <field attributeName="personStateCode" />
+                <field attributeName="personSuffixText" />
+                <field attributeName="personSystemIdentifier" />
+                <field attributeName="personZipCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Org</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="personCityName" forceUppercase="true">
+                <label>Person City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>personCityName</summary>
+                <description>personCityName description...</description>
+			</attribute>
+
+            <attribute name="personCountryCode" forceUppercase="true">
+                <label>Person Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>personCountryCode</summary>
+                <description>personCountryCode description...</description>
+			</attribute>
+
+            <attribute name="personCountyName" forceUppercase="true">
+                <label>Person County Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>personCountyName</summary>
+                <description>personCountyName description...</description>
+			</attribute>
+
+            <attribute name="personCreditPercent" forceUppercase="true">
+                <label>% Credit</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>personCreditPercent</summary>
+                <description>personCreditPercent description...</description>
+			</attribute>
+
+            <attribute name="personDivisionText" forceUppercase="true">
+                <label>Person Division Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>personDivisionText</summary>
+                <description>personDivisionText description...</description>
+			</attribute>
+
+            <attribute name="personEmailAddress" forceUppercase="true">
+                <label>Person Email Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>personEmailAddress</summary>
+                <description>personEmailAddress description...</description>
+			</attribute>
+
+            <attribute name="personFaxNumber" forceUppercase="true">
+                <label>Person Fax Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personFaxNumber</summary>
+                <description>personFaxNumber description...</description>
+			</attribute>
+
+            <attribute name="personFinancialAidPercent" forceUppercase="true">
+                <label>% F&amp;A</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>personFinancialAidPercent</summary>
+                <description>personFinancialAidPercent description...</description>
+			</attribute>
+
+            <attribute name="personLine1Address" forceUppercase="true">
+                <label>Person Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>personLine1Address</summary>
+                <description>personLine1Address description...</description>
+			</attribute>
+
+            <attribute name="personLine2Address" forceUppercase="true">
+                <label>Person Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>personLine2Address</summary>
+                <description>personLine2Address description...</description>
+			</attribute>
+
+            <attribute name="personPhoneNumber" forceUppercase="true">
+                <label>Person Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personPhoneNumber</summary>
+                <description>personPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="personPositionTitle" forceUppercase="true">
+                <label>Person Position Title</label>
+                <shortLabel>Title</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>personPositionTitle</summary>
+                <description>personPositionTitle description...</description>
+			</attribute>
+
+            <attribute name="personPrefixText" forceUppercase="true">
+                <label>Person Prefix Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>15</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="17" />
+                </control>
+
+                <summary>personPrefixText</summary>
+                <description>personPrefixText description...</description>
+			</attribute>
+
+            <attribute name="personRoleCode" forceUppercase="true">
+                <label>Role</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>personRoleCode</summary>
+                <description>personRoleCode description...</description>
+			</attribute>
+
+            <attribute name="personStateCode" forceUppercase="true">
+                <label>Person State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>personStateCode</summary>
+                <description>personStateCode description...</description>
+			</attribute>
+
+            <attribute name="personSuffixText" forceUppercase="true">
+                <label>Person Suffix Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>15</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="17" />
+                </control>
+
+                <summary>personSuffixText</summary>
+                <description>personSuffixText description...</description>
+			</attribute>
+
+            <attribute name="personSystemIdentifier" forceUppercase="true">
+                <label>Person System Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>personSystemIdentifier</summary>
+                <description>personSystemIdentifier description...</description>
+			</attribute>
+
+            <attribute name="personZipCode" forceUppercase="true">
+                <label>Person Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personZipCode</summary>
+                <description>personZipCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

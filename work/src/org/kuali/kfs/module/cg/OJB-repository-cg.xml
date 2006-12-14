@@ -188,6 +188,9 @@
     <reference-descriptor name="proposalPurpose" class-ref="org.kuali.module.cg.bo.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalPurposeCode" />
     </reference-descriptor>
+    <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="cfdaNumber" />
+    </reference-descriptor>
     <collection-descriptor name="proposalSubcontractor" element-class-ref="org.kuali.module.cg.bo.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="proposalSubcontractorNumber" sort="ASC" />
         <orderby name="subcontractorNumber" sort="ASC" />

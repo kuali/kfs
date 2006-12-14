@@ -63,6 +63,7 @@ public class Proposal extends BusinessObjectBase {
     private ProposalStatus proposalStatus;
     private Agency federalPassThroughAgency;
     private ProposalPurpose proposalPurpose;
+    private CatalogOfFederalDomesticAssistanceReference cfda;
 
     /**
      * Default constructor.
@@ -675,6 +676,26 @@ public class Proposal extends BusinessObjectBase {
      */
     public void setProposalPurpose(ProposalPurpose proposalPurpose) {
         this.proposalPurpose = proposalPurpose;
+    }
+
+    /**
+     * Gets the cfda attribute.
+     *
+     * @return Returns the cfda
+     *
+     */
+    public CatalogOfFederalDomesticAssistanceReference getCfda() {
+        return cfda;
+    }
+
+    /**
+     * Sets the cfda attribute.
+     *
+     * @param cfda The cfda to set.
+     * @deprecated
+     */
+    public void setCfda(CatalogOfFederalDomesticAssistanceReference cfda) {
+        this.cfda = cfda;
     }
 
     /**

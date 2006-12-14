@@ -68,9 +68,9 @@
                 <lookupField attributeName="proposalTotalAmount" required="false" />
                 <lookupField attributeName="proposalBeginningDate" required="false" />
 				<lookupField attributeName="grantNumber" required="false" />
-                <lookupField attributeName="proposalStatus" required="false" />
+                <lookupField attributeName="proposalStatusCode" required="false" />
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
-                <lookupField attributeName="proposalPurpose" required="false" />
+                <lookupField attributeName="proposalPurposeCode" required="false" />
                 <lookupField attributeName="proposalFellowName" required="false" />
 				
             </lookupFields>
@@ -177,7 +177,7 @@
 			</attribute>
 
             <attribute name="proposalAwardTypeCode" forceUppercase="true">
-                <label>Proposal Award Type Code</label>
+                <label>Proposal Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -191,7 +191,7 @@
                 <description>proposalAwardTypeCode description...</description>
 			</attribute>
 
-            <attributeReference name="proposalBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+            <attributeReference name="proposalBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Beginning Date</label>
                 <shortLabel>Date</shortLabel>
 
@@ -201,20 +201,13 @@
                 <description>proposalBeginningDate description...</description>
 			</attributeReference>
 
-            <attribute name="proposalClosingDate" forceUppercase="true">
+            <attributeReference name="proposalClosingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Closing Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
                 <summary>proposalClosingDate</summary>
                 <description>proposalClosingDate description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="proposalDirectCostAmount" forceUppercase="true">
                 <label>Proposal Direct Cost Amount</label>
@@ -231,35 +224,21 @@
                 <description>proposalDirectCostAmount description...</description>
 			</attribute>
 
-            <attribute name="proposalDueDate" forceUppercase="true">
+            <attributeReference name="proposalDueDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Due Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
                 <summary>proposalDueDate</summary>
                 <description>proposalDueDate description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="proposalEndingDate" forceUppercase="true">
+            <attributeReference name="proposalEndingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Ending Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
                 <summary>proposalEndingDate</summary>
                 <description>proposalEndingDate description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="proposalFederalPassThroughIndicator" forceUppercase="true">
                 <label>Proposal Federal Pass Through Indicator</label>
@@ -305,20 +284,13 @@
                 <description>proposalIndirectCostAmount description...</description>
 			</attribute>
 
-            <attribute name="proposalLastUpdateDate" forceUppercase="true">
+            <attributeReference name="proposalLastUpdateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Last Update Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
                 <summary>proposalLastUpdateDate</summary>
                 <description>proposalLastUpdateDate description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="proposalNumber" forceUppercase="true">
                 <label>Proposal Number</label>
@@ -350,7 +322,7 @@
                 <description>proposalProjectTitle description...</description>
 			</attribute>
 
-            <attributeReference name="proposalPurpose" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
+            <attributeReference name="proposalPurposeCode" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
 
                 <label>Proposal Purpose Code</label>
                 <shortLabel>ProposalPurpose</shortLabel>
@@ -364,37 +336,15 @@
                 <description>A proposal purpose code</description>
             </attributeReference>
 
-            <attribute name="proposalPurposeCode" forceUppercase="true">
-                <label>Proposal Purpose Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>proposalPurposeCode</summary>
-                <description>proposalPurposeCode description...</description>
-			</attribute>
-
-            <attribute name="proposalRejectedDate" forceUppercase="true">
+            <attributeReference name="proposalRejectedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Rejected Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
                 <summary>proposalRejectedDate</summary>
                 <description>proposalRejectedDate description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attributeReference name="proposalStatus" sourceClassName="org.kuali.module.cg.bo.ProposalStatus" sourceAttributeName="proposalStatusCode">
+            <attributeReference name="proposalStatusCode" sourceClassName="org.kuali.module.cg.bo.ProposalStatus" sourceAttributeName="proposalStatusCode">
 
                 <label>Proposal Status Code</label>
                 <shortLabel>ProposalStatus</shortLabel>
@@ -408,35 +358,13 @@
                 <description>A proposal status code</description>
             </attributeReference>
 
-            <attribute name="proposalStatusCode" forceUppercase="true">
-                <label>Proposal Status Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>proposalStatusCode</summary>
-                <description>proposalStatusCode description...</description>
-			</attribute>
-
-            <attribute name="proposalSubmissionDate" forceUppercase="true">
+            <attributeReference name="proposalSubmissionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Submission Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
                 <summary>proposalSubmissionDate</summary>
                 <description>proposalSubmissionDate description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="proposalTotalAmount" forceUppercase="true">
                 <label>Proposal Total Amount</label>

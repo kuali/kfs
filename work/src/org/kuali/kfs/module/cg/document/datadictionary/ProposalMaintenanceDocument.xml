@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ $Source: /opt/cvs/kfs/work/src/org/kuali/kfs/module/cg/document/datadictionary/ProposalMaintenanceDocument.xml,v $
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.cg.bo.Proposal</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <!--maintainableClass>org.kuali.module.cg.maintenance.ProposalMaintainableImpl</maintainableClass-->
+        <!--businessRulesClass>org.kuali.module.chart.rules.AccountRule</businessRulesClass-->
+        <!--preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass-->
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiProposalMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PRPL</documentTypeCode>
+
+		<!--webScriptFile>chart/accountDocument.js</webScriptFile-->
+
+        <label>Proposal Maintenance Document</label>
+        <shortLabel>PrpslMaintDoc</shortLabel>
+
+        <summary>Proposal maintenance document</summary>
+        <description>Document used to create or update Proposal objects</description>
+		<!--help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT" /-->
+
+        <lockingKeys>
+            <field attributeName="proposalNumber" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="proposalStatus" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalStatusCode" />
+            <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="agencyNumber" />
+            <reference attributeName="proposalAwardType" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalAwardTypeCode" />
+            <reference attributeName="proposalPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalPurposeCode" />
+            <!-- todo: add grantNumber BO, relation, and existence check? -->
+            <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
+            <reference attributeName="cfda" activeIndicatorAttributeName="cfdaStatusCode" attributeToHighlightOnFail="cfdaNumber" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Proposal Maintenance">
+                <maintainableItems>
+                    <maintainableField name="proposalNumber" required="true" readOnly="true" >
+                        <defaultValueFinderClass>org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder</defaultValueFinderClass>
+                    </maintainableField>
+                    <maintainableField name="proposalStatusCode" required="true" />
+                    <maintainableField name="agencyNumber" required="true" />
+                    <maintainableField name="proposalProjectTitle" required="true" />
+                    <maintainableField name="proposalBeginningDate" required="true" />
+                    <maintainableField name="proposalEndingDate" required="true" />
+                    <maintainableField name="proposalDirectCostAmount" required="true" />
+                    <maintainableField name="proposalIndirectCostAmount" required="true" />
+                    <maintainableField name="proposalTotalAmount" readOnly="true" />
+                    <maintainableField name="proposalSubmissionDate" required="true" />
+                    <maintainableField name="proposalClosingDate" readOnly="true" />
+                    <maintainableField name="proposalAwardTypeCode" required="true" />
+                    <maintainableField name="proposalPurposeCode" required="true" />
+                    <maintainableField name="grantNumber" />
+                    <maintainableField name="proposalFederalPassThroughIndicator" />
+                    <maintainableField name="federalPassThroughAgencyNumber" />
+                    <maintainableField name="cfdaNumber" />
+                    <maintainableField name="proposalFellowName" />
+                    <maintainableField name="proposalDueDate" />
+                    <maintainableField name="proposalRejectedDate" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

@@ -465,6 +465,16 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                 secondaryBudgetFringeRate = budgetFringeRateService.getBudgetFringeRate(budgetDocument.getDocumentNumber(), budgetFringeRate.getAppointmentType().getRelatedAppointmentTypeCode());
                 budgetUser.setSecondaryAppointmentTypeCode(secondaryBudgetFringeRate.getInstitutionAppointmentTypeCode());
             } else {
+                if (budgetUser.getSecondaryAppointmentTypeCode() != null && budgetUser.getSecondaryAppointmentTypeCode().equals(budgetUser.getAppointmentTypeCode())) {
+                    //previous secondary appointment type is the same as the current appointment type - convert previous secondary to new primary
+                    for (Iterator i = budgetUser.getUserAppointmentTasks().iterator(); i.hasNext(); ) {
+                        //using iterator instead of enhanced for-loop so I can use iter.remove()
+                        UserAppointmentTask userAppointmentTask = (UserAppointmentTask)i.next();
+                        if (userAppointmentTask.getInstitutionAppointmentTypeCode().equals(budgetUser.getAppointmentTypeCode())) {
+                            i.remove();
+                        }
+                    }
+                }
                 budgetUser.setSecondaryAppointmentTypeCode(null);
             }
             

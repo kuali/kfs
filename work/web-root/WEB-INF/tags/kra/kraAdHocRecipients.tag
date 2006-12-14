@@ -30,7 +30,6 @@
     <c:set var="displayReadOnly" value="true" />
 </c:if>
 
-<%-- <c:if test="${KualiForm.documentActionFlags.canAdHocRoute and not KualiForm.suppressAllButtons}"> --%>
 	<kul:tabTop tabTitle="Ad Hoc Recipients" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
     	<div class="tab-container" align=center>     
 			<div class="h2-container">
@@ -329,4 +328,3 @@
 	        </table>
 	    </div>
 	</kul:tabTop>
-<%-- </c:if> --%>

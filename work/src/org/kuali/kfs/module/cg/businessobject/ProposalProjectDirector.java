@@ -28,9 +28,6 @@ public class ProposalProjectDirector extends BusinessObjectBase {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;
-    private String proposalProjectDirectorNote1Text;
-    private String proposalProjectDirectorNote2Text;
-    private String proposalProjectDirectorNote3Text;
     private boolean proposalPrimaryProjectDirectorIndicator;
     private String proposalProjectDirectorProjectTitle;
 
@@ -82,69 +79,6 @@ public class ProposalProjectDirector extends BusinessObjectBase {
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
-    }
-
-
-    /**
-     * Gets the proposalProjectDirectorNote1Text attribute.
-     * 
-     * @return Returns the proposalProjectDirectorNote1Text
-     * 
-     */
-    public String getProposalProjectDirectorNote1Text() {
-        return proposalProjectDirectorNote1Text;
-    }
-
-    /**
-     * Sets the proposalProjectDirectorNote1Text attribute.
-     * 
-     * @param proposalProjectDirectorNote1Text The proposalProjectDirectorNote1Text to set.
-     * 
-     */
-    public void setProposalProjectDirectorNote1Text(String proposalProjectDirectorNote1Text) {
-        this.proposalProjectDirectorNote1Text = proposalProjectDirectorNote1Text;
-    }
-
-
-    /**
-     * Gets the proposalProjectDirectorNote2Text attribute.
-     * 
-     * @return Returns the proposalProjectDirectorNote2Text
-     * 
-     */
-    public String getProposalProjectDirectorNote2Text() {
-        return proposalProjectDirectorNote2Text;
-    }
-
-    /**
-     * Sets the proposalProjectDirectorNote2Text attribute.
-     * 
-     * @param proposalProjectDirectorNote2Text The proposalProjectDirectorNote2Text to set.
-     * 
-     */
-    public void setProposalProjectDirectorNote2Text(String proposalProjectDirectorNote2Text) {
-        this.proposalProjectDirectorNote2Text = proposalProjectDirectorNote2Text;
-    }
-
-
-    /**
-     * Gets the proposalProjectDirectorNote3Text attribute.
-     * 
-     * @return Returns the proposalProjectDirectorNote3Text
-     * 
-     */
-    public String getProposalProjectDirectorNote3Text() {
-        return proposalProjectDirectorNote3Text;
-    }
-
-    /**
-     * Sets the proposalProjectDirectorNote3Text attribute.
-     * 
-     * @param proposalProjectDirectorNote3Text The proposalProjectDirectorNote3Text to set.
-     * 
-     */
-    public void setProposalProjectDirectorNote3Text(String proposalProjectDirectorNote3Text) {
-        this.proposalProjectDirectorNote3Text = proposalProjectDirectorNote3Text;
     }
 
 

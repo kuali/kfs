@@ -269,9 +269,6 @@
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalProjectDirectorNote1Text" column="PRPSL_PRJDRNT1_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalProjectDirectorNote2Text" column="PRPSL_PRJDRNT2_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalProjectDirectorNote3Text" column="PRPSL_PRJDRNT3_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="proposalPrimaryProjectDirectorIndicator" column="PRPSL_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -421,9 +418,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="awardPrimaryProjectDirectorIndicator" column="CGAWD_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <field-descriptor name="awardProjectDirectorNote1Text" column="CGAWD_PRJDRNT1_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardProjectDirectorNote2Text" column="CGAWD_PRJDRNT2_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardProjectDirectorNote3Text" column="CGAWD_PRJDRNT3_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="awardProjectDirectorProjectTitle" column="CGAWD_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personUniversalIdentifier" />

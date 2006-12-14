@@ -28,9 +28,6 @@
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="proposalNumber" />
                 <field attributeName="proposalPrimaryProjectDirectorIndicator" />
-                <field attributeName="proposalProjectDirectorNote1Text" />
-                <field attributeName="proposalProjectDirectorNote2Text" />
-                <field attributeName="proposalProjectDirectorNote3Text" />
                 <field attributeName="proposalProjectDirectorProjectTitle" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -50,9 +47,6 @@
                 <lookupField attributeName="personUniversalIdentifier" required="false" />
                 <lookupField attributeName="proposalNumber" required="false" />
                 <lookupField attributeName="proposalPrimaryProjectDirectorIndicator" required="false" />
-                <lookupField attributeName="proposalProjectDirectorNote1Text" required="false" />
-                <lookupField attributeName="proposalProjectDirectorNote2Text" required="false" />
-                <lookupField attributeName="proposalProjectDirectorNote3Text" required="false" />
                 <lookupField attributeName="proposalProjectDirectorProjectTitle" required="false" />
             </lookupFields>
 
@@ -60,9 +54,6 @@
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="proposalNumber" />
                 <field attributeName="proposalPrimaryProjectDirectorIndicator" />
-                <field attributeName="proposalProjectDirectorNote1Text" />
-                <field attributeName="proposalProjectDirectorNote2Text" />
-                <field attributeName="proposalProjectDirectorNote3Text" />
                 <field attributeName="proposalProjectDirectorProjectTitle" />
             </resultFields>
         </lookup>
@@ -111,51 +102,6 @@
 
                 <summary>proposalPrimaryProjectDirectorIndicator</summary>
                 <description>proposalPrimaryProjectDirectorIndicator description...</description>
-			</attribute>
-
-            <attribute name="proposalProjectDirectorNote1Text" forceUppercase="true">
-                <label>Proposal Project Director Note1 Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>proposalProjectDirectorNote1Text</summary>
-                <description>proposalProjectDirectorNote1Text description...</description>
-			</attribute>
-
-            <attribute name="proposalProjectDirectorNote2Text" forceUppercase="true">
-                <label>Proposal Project Director Note2 Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>proposalProjectDirectorNote2Text</summary>
-                <description>proposalProjectDirectorNote2Text description...</description>
-			</attribute>
-
-            <attribute name="proposalProjectDirectorNote3Text" forceUppercase="true">
-                <label>Proposal Project Director Note3 Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>proposalProjectDirectorNote3Text</summary>
-                <description>proposalProjectDirectorNote3Text description...</description>
 			</attribute>
 
             <attribute name="proposalProjectDirectorProjectTitle" forceUppercase="true">

@@ -26,9 +26,6 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="awardPrimaryProjectDirectorIndicator" />
-                <field attributeName="awardProjectDirectorNote1Text" />
-                <field attributeName="awardProjectDirectorNote2Text" />
-                <field attributeName="awardProjectDirectorNote3Text" />
                 <field attributeName="awardProjectDirectorProjectTitle" />
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="proposalNumber" />
@@ -48,9 +45,6 @@
 
             <lookupFields>
                 <lookupField attributeName="awardPrimaryProjectDirectorIndicator" required="false" />
-                <lookupField attributeName="awardProjectDirectorNote1Text" required="false" />
-                <lookupField attributeName="awardProjectDirectorNote2Text" required="false" />
-                <lookupField attributeName="awardProjectDirectorNote3Text" required="false" />
                 <lookupField attributeName="awardProjectDirectorProjectTitle" required="false" />
                 <lookupField attributeName="personUniversalIdentifier" required="false" />
                 <lookupField attributeName="proposalNumber" required="false" />
@@ -58,9 +52,6 @@
 
             <resultFields>
                 <field attributeName="awardPrimaryProjectDirectorIndicator" />
-                <field attributeName="awardProjectDirectorNote1Text" />
-                <field attributeName="awardProjectDirectorNote2Text" />
-                <field attributeName="awardProjectDirectorNote3Text" />
                 <field attributeName="awardProjectDirectorProjectTitle" />
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="proposalNumber" />
@@ -81,51 +72,6 @@
 
                 <summary>awardPrimaryProjectDirectorIndicator</summary>
                 <description>awardPrimaryProjectDirectorIndicator description...</description>
-			</attribute>
-
-            <attribute name="awardProjectDirectorNote1Text" forceUppercase="true">
-                <label>Award Project Director Note1 Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>awardProjectDirectorNote1Text</summary>
-                <description>awardProjectDirectorNote1Text description...</description>
-			</attribute>
-
-            <attribute name="awardProjectDirectorNote2Text" forceUppercase="true">
-                <label>Award Project Director Note2 Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>awardProjectDirectorNote2Text</summary>
-                <description>awardProjectDirectorNote2Text description...</description>
-			</attribute>
-
-            <attribute name="awardProjectDirectorNote3Text" forceUppercase="true">
-                <label>Award Project Director Note3 Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="52" />
-                </control>
-
-                <summary>awardProjectDirectorNote3Text</summary>
-                <description>awardProjectDirectorNote3Text description...</description>
 			</attribute>
 
             <attribute name="awardProjectDirectorProjectTitle" forceUppercase="true">

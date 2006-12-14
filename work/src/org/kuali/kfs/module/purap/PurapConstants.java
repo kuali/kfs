@@ -23,6 +23,12 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class PurapConstants {
 
+    public static class Workgroups {
+        public static final String WORKGROUP_ACCOUNTS_PAYABLE = "PURAP.WORKGROUP.ACCOUNTS_PAYABLE"; 
+        public static final String WORKGROUP_PURCHASING = "PURAP.WORKGROUP.PURCHASING"; 
+        public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE"; 
+    }
+    
     //Miscellaneous generic constants
     public static final String NONE = "NONE";
     public static final String CREATE_NEW_DIVISION = "create division";

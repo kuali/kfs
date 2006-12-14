@@ -30,7 +30,8 @@ public class ResearchRiskType extends BusinessObjectBase {
 	private String researchRiskTypeDescription;
 	private boolean researchRiskBiosafetyIndicator;
     private String controlAttributeTypeCode;
-
+    private Integer researchRiskTypeSortNumber;
+    
     private ControlAttributeType controlAttributeType;
     
 	/**
@@ -140,6 +141,22 @@ public class ResearchRiskType extends BusinessObjectBase {
     }
 
     /**
+     * Gets the researchRiskTypeSortNumber attribute. 
+     * @return Returns the researchRiskTypeSortNumber.
+     */
+    public Integer getResearchRiskTypeSortNumber() {
+        return researchRiskTypeSortNumber;
+    }
+
+    /**
+     * Sets the researchRiskTypeSortNumber attribute value.
+     * @param researchRiskTypeSortNumber The researchRiskTypeSortNumber to set.
+     */
+    public void setResearchRiskTypeSortNumber(Integer researchRiskTypeSortNumber) {
+        this.researchRiskTypeSortNumber = researchRiskTypeSortNumber;
+    }        
+    
+    /**
      * Gets the controlAttributeType attribute. 
      * @return Returns the controlAttributeType.
      */
@@ -163,6 +180,6 @@ public class ResearchRiskType extends BusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("researchRiskTypeCode", this.researchRiskTypeCode);
         return m;
-    }    
+    }
 
 }

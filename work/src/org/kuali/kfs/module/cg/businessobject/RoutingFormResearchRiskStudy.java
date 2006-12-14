@@ -36,7 +36,8 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	private String researchRiskStudyName;
 	private String researchRiskStudyReviewCode;
 	private String researchRiskTypeCode;
-
+    private Date researchRiskStudyExpirationDate;
+    
     private RoutingFormResearchRisk researchRiskType;
     
 	/**
@@ -235,6 +236,22 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
 	}
 
     /**
+     * Gets the researchRiskStudyExpirationDate attribute. 
+     * @return Returns the researchRiskStudyExpirationDate.
+     */
+    public Date getResearchRiskStudyExpirationDate() {
+        return researchRiskStudyExpirationDate;
+    }
+
+    /**
+     * Sets the researchRiskStudyExpirationDate attribute value.
+     * @param researchRiskStudyExpirationDate The researchRiskStudyExpirationDate to set.
+     */
+    public void setResearchRiskStudyExpirationDate(Date researchRiskStudyExpirationDate) {
+        this.researchRiskStudyExpirationDate = researchRiskStudyExpirationDate;
+    }
+  
+    /**
      * Gets the researchRiskType attribute. 
      * @return Returns the researchRiskType.
      */
@@ -251,18 +268,17 @@ public class RoutingFormResearchRiskStudy extends BusinessObjectBase {
         this.researchRiskType = researchRiskType;
     }
     
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
         m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.routingFormResearchRiskStudySequenceNumber != null) {
             m.put("routingFormResearchRiskStudySequenceNumber", this.routingFormResearchRiskStudySequenceNumber.toString());
         }
         m.put("researchRiskTypeCode", this.researchRiskTypeCode);
         return m;
-    }
-
+    }    
 
 }

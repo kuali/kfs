@@ -14,7 +14,8 @@ public class PersonRole extends BusinessObjectBase {
 	private String personRoleCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private String personRoleDescription;
-
+    private Integer personRoleSortNumber;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -78,14 +79,30 @@ public class PersonRole extends BusinessObjectBase {
 		this.personRoleDescription = personRoleDescription;
 	}
 
-
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("personRoleCode", this.personRoleCode);
-	    return m;
+    /**
+     * Gets the personRoleSortNumber attribute. 
+     * @return Returns the personRoleSortNumber.
+     */
+    public Integer getPersonRoleSortNumber() {
+        return personRoleSortNumber;
     }
 
+    /**
+     * Sets the personRoleSortNumber attribute value.
+     * @param personRoleSortNumber The personRoleSortNumber to set.
+     */
+    public void setPersonRoleSortNumber(Integer personRoleSortNumber) {
+        this.personRoleSortNumber = personRoleSortNumber;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("personRoleCode", this.personRoleCode);
+        return m;
+    }
+  
+    
 }

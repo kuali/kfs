@@ -331,11 +331,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorAddressGeneratedIdentifier" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER"/>
-    <field-descriptor name="vendorAddressTypeCode" column="VNDR_ADDR_TYP_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorCampusCode" column="VNDR_CMP_CD" jdbc-type="VARCHAR" index="true"/>
-	<reference-descriptor name="vendorAddressType" class-ref="org.kuali.module.purap.bo.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="vendorAddressTypeCode" />
-	</reference-descriptor>
 	<reference-descriptor name="vendorCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorCampusCode" />
 	</reference-descriptor>

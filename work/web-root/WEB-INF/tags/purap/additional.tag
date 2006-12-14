@@ -54,7 +54,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonName}" property="document.requestorPersonName" readOnly="${readOnly}" />
 			        <c:if test="${!readOnly}" >
-                        <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" fieldConversions="universalUser.personName:document.requestorPersonName,universalUser.personLocalPhoneNumber:document.requestorPersonPhoneNumber,universalUser.personEmailAddress:document.requestorPersonEmailAddress" /></div>
+                        <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personName:document.requestorPersonName,personLocalPhoneNumber:document.requestorPersonPhoneNumber,personEmailAddress:document.requestorPersonEmailAddress" /></div>
 			        </c:if>
                 </td>
             </tr>
@@ -96,7 +96,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${readOnly}" />
 			        <c:if test="${!readOnly}" >
-                        <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" fieldConversions="universalUser.personName:document.institutionContactName,universalUser.personLocalPhoneNumber:document.institutionContactPhoneNumber,universalUser.personEmailAddress:document.institutionContactEmailAddress" /></div>
+                        <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" /></div>
 			        </c:if>
                 </td>
                 

@@ -22,7 +22,7 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
-              
+             
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
@@ -44,8 +44,8 @@
                     	onchange="submitForm()" 
                     	readOnly="${readOnly}"/>&nbsp;
                     <c:if test="${!readOnly}">
-                       <html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
-                    </c:if> 
+                    	<html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+                    </c:if>                
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToName}"/></div>
@@ -53,8 +53,8 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" 
                     	property="document.deliveryToName" readOnly="${readOnly}"/>
-                    <kul:lookup boClassName="org.kuali.core.bo.user.KualiUser" 
-                    	fieldConversions="universalUser.personName:document.deliveryToName,universalUser.personEmailAddress:document.deliveryToEmailAddress,universalUser.personLocalPhoneNumber:document.deliveryToPhoneNumber"/>
+                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
+                    	fieldConversions="personName:document.deliveryToName,personEmailAddress:document.deliveryToEmailAddress,personLocalPhoneNumber:document.deliveryToPhoneNumber"/>
                 </td>
             </tr>
             <tr>

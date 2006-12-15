@@ -14,6 +14,7 @@
                     <inquiryFields>
                         <field attributeName="personRoleCode" />
                         <field attributeName="personRoleDescription" />
+                        <field attributeName="personRoleSortNumber" />
                         <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                     </inquiryFields>
                 </inquirySection>
@@ -42,6 +43,7 @@
             <resultFields>
                 <field attributeName="personRoleCode" />
                 <field attributeName="personRoleDescription" />
+                <field attributeName="personRoleSortNumber" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
@@ -76,6 +78,21 @@
 
                 <summary>personRoleDescription</summary>
                 <description>personRoleDescription description...</description>
+			</attribute>
+
+            <attribute name="personRoleSortNumber" forceUppercase="true">
+                <label>Person Role Sort Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>personRoleSortNumber</summary>
+                <description>personRoleSortNumber description...</description>
 			</attribute>
 
             <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

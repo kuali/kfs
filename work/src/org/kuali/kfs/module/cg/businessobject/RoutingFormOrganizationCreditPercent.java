@@ -5,6 +5,7 @@ package org.kuali.module.kra.routingform.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -17,8 +18,8 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 	private String documentNumber;
 	private String chartOfAccountsCode;
 	private String organizationCode;
-	private Integer organizationCreditPercent;
-	private Integer organizationFinancialAidPercent;
+	private KualiInteger organizationCreditPercent;
+	private KualiInteger organizationFinancialAidPercent;
 	private String organizationCreditRoleText;
 
     private Chart chartOfAccounts;
@@ -102,7 +103,7 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 	 * @return Returns the organizationCreditPercent
 	 * 
 	 */
-	public Integer getOrganizationCreditPercent() { 
+	public KualiInteger getOrganizationCreditPercent() { 
 		return organizationCreditPercent;
 	}
 
@@ -112,7 +113,7 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 	 * @param organizationCreditPercent The organizationCreditPercent to set.
 	 * 
 	 */
-	public void setOrganizationCreditPercent(Integer organizationCreditPercent) {
+	public void setOrganizationCreditPercent(KualiInteger organizationCreditPercent) {
 		this.organizationCreditPercent = organizationCreditPercent;
 	}
 
@@ -123,7 +124,7 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 	 * @return Returns the organizationFinancialAidPercent
 	 * 
 	 */
-	public Integer getOrganizationFinancialAidPercent() { 
+	public KualiInteger getOrganizationFinancialAidPercent() { 
 		return organizationFinancialAidPercent;
 	}
 
@@ -133,7 +134,7 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 	 * @param organizationFinancialAidPercent The organizationFinancialAidPercent to set.
 	 * 
 	 */
-	public void setOrganizationFinancialAidPercent(Integer organizationFinancialAidPercent) {
+	public void setOrganizationFinancialAidPercent(KualiInteger organizationFinancialAidPercent) {
 		this.organizationFinancialAidPercent = organizationFinancialAidPercent;
 	}
 

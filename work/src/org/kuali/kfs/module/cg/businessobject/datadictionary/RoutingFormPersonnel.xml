@@ -29,6 +29,8 @@
                         <field attributeName="personPositionTitle" />
                         <field attributeName="personPrefixText" />
                         <field attributeName="personRoleCode" />
+                        <field attributeName="personRoleText" />
+                        <field attributeName="personToBeNamedIndicator" />
                         <field attributeName="personStateCode" />
                         <field attributeName="personSuffixText" />
                         <field attributeName="personSystemIdentifier" />
@@ -67,6 +69,8 @@
                 <lookupField attributeName="personPositionTitle" required="false" />
                 <lookupField attributeName="personPrefixText" required="false" />
                 <lookupField attributeName="personRoleCode" required="false" />
+                <lookupField attributeName="personRoleText" required="false" />
+                <lookupField attributeName="personToBeNamedIndicator" required="false" />
                 <lookupField attributeName="personStateCode" required="false" />
                 <lookupField attributeName="personSuffixText" required="false" />
                 <lookupField attributeName="personSystemIdentifier" required="false" />
@@ -91,6 +95,8 @@
                 <field attributeName="personPositionTitle" />
                 <field attributeName="personPrefixText" />
                 <field attributeName="personRoleCode" />
+                <field attributeName="personRoleText" />
+                <field attributeName="personToBeNamedIndicator" />
                 <field attributeName="personStateCode" />
                 <field attributeName="personSuffixText" />
                 <field attributeName="personSystemIdentifier" />
@@ -353,6 +359,35 @@
 
                 <summary>personRoleCode</summary>
                 <description>personRoleCode description...</description>
+			</attribute>
+
+            <attribute name="personRoleText" forceUppercase="true">
+                <label>Role (other)</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>50</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personRoleText</summary>
+                <description>personRoleText description...</description>
+			</attribute>
+
+            <attribute name="personToBeNamedIndicator" forceUppercase="true">
+                <label>Person To Be Named Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>personToBeNamedIndicator</summary>
+                <description>personToBeNamedIndicator description...</description>
 			</attribute>
 
             <attribute name="personStateCode" forceUppercase="true">

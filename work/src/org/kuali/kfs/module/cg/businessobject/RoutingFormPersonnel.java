@@ -9,6 +9,7 @@ import org.kuali.core.bo.Country;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -23,8 +24,8 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
     private Long personSystemIdentifier;
     private String chartOfAccountsCode;
 	private String organizationCode;
-	private Integer personCreditPercent;
-	private Integer personFinancialAidPercent;
+	private KualiInteger personCreditPercent;
+	private KualiInteger personFinancialAidPercent;
 	private String personRoleCode;
 	private String personPrefixText;
 	private String personSuffixText;
@@ -163,7 +164,7 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
 	 * @return Returns the personCreditPercent
 	 * 
 	 */
-	public Integer getPersonCreditPercent() { 
+	public KualiInteger getPersonCreditPercent() { 
 		return personCreditPercent;
 	}
 
@@ -173,7 +174,7 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
 	 * @param personCreditPercent The personCreditPercent to set.
 	 * 
 	 */
-	public void setPersonCreditPercent(Integer personCreditPercent) {
+	public void setPersonCreditPercent(KualiInteger personCreditPercent) {
 		this.personCreditPercent = personCreditPercent;
 	}
 
@@ -184,7 +185,7 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
 	 * @return Returns the personFinancialAidPercent
 	 * 
 	 */
-	public Integer getPersonFinancialAidPercent() { 
+	public KualiInteger getPersonFinancialAidPercent() { 
 		return personFinancialAidPercent;
 	}
 
@@ -194,7 +195,7 @@ public class RoutingFormPersonnel extends BusinessObjectBase {
 	 * @param personFinancialAidPercent The personFinancialAidPercent to set.
 	 * 
 	 */
-	public void setPersonFinancialAidPercent(Integer personFinancialAidPercent) {
+	public void setPersonFinancialAidPercent(KualiInteger personFinancialAidPercent) {
 		this.personFinancialAidPercent = personFinancialAidPercent;
 	}
 

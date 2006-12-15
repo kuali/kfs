@@ -50,6 +50,7 @@
                 <maintainableItems>
                     <maintainableField name="personRoleCode" required="true" />
                     <maintainableField name="personRoleDescription" required="true" />
+                    <maintainableField name="personRoleSortNumber" required="false" />
 					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
 						<defaultValue>true</defaultValue>
 					</maintainableField>

@@ -65,15 +65,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private String routingFormFellowEmailAddress;
 	private String routingFormFellowFullName;
 	private String routingFormFellowLastName;
-	private boolean routingFormForeignPartnerIndicator;
-	private boolean routingFormForeignTravelIndicator;
-	private boolean routingFormIncomeIndicator;
-	private boolean routingFormInventionIndicator;
 	private String routingFormLayDescription;
 	private Date routingFormLastUpdateDate;
 	private Long routingFormLastUpdateSystemIdentifier;
-	private boolean routingFormNewSpaceIndicator;
-	private boolean routingFormOffCampusIndicator;
 	private boolean routingFormOtherOrganizationIndicator;
 	private String routingFormOtherPurposeDescription;
 	private String routingFormOtherTypeDescription;
@@ -524,90 +518,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
 
 	/**
-	 * Gets the routingFormForeignPartnerIndicator attribute.
-	 * 
-	 * @return Returns the routingFormForeignPartnerIndicator
-	 * 
-	 */
-	public boolean getRoutingFormForeignPartnerIndicator() { 
-		return routingFormForeignPartnerIndicator;
-	}
-
-	/**
-	 * Sets the routingFormForeignPartnerIndicator attribute.
-	 * 
-	 * @param routingFormForeignPartnerIndicator The routingFormForeignPartnerIndicator to set.
-	 * 
-	 */
-	public void setRoutingFormForeignPartnerIndicator(boolean routingFormForeignPartnerIndicator) {
-		this.routingFormForeignPartnerIndicator = routingFormForeignPartnerIndicator;
-	}
-
-
-	/**
-	 * Gets the routingFormForeignTravelIndicator attribute.
-	 * 
-	 * @return Returns the routingFormForeignTravelIndicator
-	 * 
-	 */
-	public boolean getRoutingFormForeignTravelIndicator() { 
-		return routingFormForeignTravelIndicator;
-	}
-
-	/**
-	 * Sets the routingFormForeignTravelIndicator attribute.
-	 * 
-	 * @param routingFormForeignTravelIndicator The routingFormForeignTravelIndicator to set.
-	 * 
-	 */
-	public void setRoutingFormForeignTravelIndicator(boolean routingFormForeignTravelIndicator) {
-		this.routingFormForeignTravelIndicator = routingFormForeignTravelIndicator;
-	}
-
-
-	/**
-	 * Gets the routingFormIncomeIndicator attribute.
-	 * 
-	 * @return Returns the routingFormIncomeIndicator
-	 * 
-	 */
-	public boolean getRoutingFormIncomeIndicator() { 
-		return routingFormIncomeIndicator;
-	}
-
-	/**
-	 * Sets the routingFormIncomeIndicator attribute.
-	 * 
-	 * @param routingFormIncomeIndicator The routingFormIncomeIndicator to set.
-	 * 
-	 */
-	public void setRoutingFormIncomeIndicator(boolean routingFormIncomeIndicator) {
-		this.routingFormIncomeIndicator = routingFormIncomeIndicator;
-	}
-
-
-	/**
-	 * Gets the routingFormInventionIndicator attribute.
-	 * 
-	 * @return Returns the routingFormInventionIndicator
-	 * 
-	 */
-	public boolean getRoutingFormInventionIndicator() { 
-		return routingFormInventionIndicator;
-	}
-
-	/**
-	 * Sets the routingFormInventionIndicator attribute.
-	 * 
-	 * @param routingFormInventionIndicator The routingFormInventionIndicator to set.
-	 * 
-	 */
-	public void setRoutingFormInventionIndicator(boolean routingFormInventionIndicator) {
-		this.routingFormInventionIndicator = routingFormInventionIndicator;
-	}
-
-
-	/**
 	 * Gets the routingFormLayDescription attribute.
 	 * 
 	 * @return Returns the routingFormLayDescription
@@ -667,48 +577,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	 */
 	public void setRoutingFormLastUpdateSystemIdentifier(Long routingFormLastUpdateSystemIdentifier) {
 		this.routingFormLastUpdateSystemIdentifier = routingFormLastUpdateSystemIdentifier;
-	}
-
-
-	/**
-	 * Gets the routingFormNewSpaceIndicator attribute.
-	 * 
-	 * @return Returns the routingFormNewSpaceIndicator
-	 * 
-	 */
-	public boolean getRoutingFormNewSpaceIndicator() { 
-		return routingFormNewSpaceIndicator;
-	}
-
-	/**
-	 * Sets the routingFormNewSpaceIndicator attribute.
-	 * 
-	 * @param routingFormNewSpaceIndicator The routingFormNewSpaceIndicator to set.
-	 * 
-	 */
-	public void setRoutingFormNewSpaceIndicator(boolean routingFormNewSpaceIndicator) {
-		this.routingFormNewSpaceIndicator = routingFormNewSpaceIndicator;
-	}
-
-
-	/**
-	 * Gets the routingFormOffCampusIndicator attribute.
-	 * 
-	 * @return Returns the routingFormOffCampusIndicator
-	 * 
-	 */
-	public boolean getRoutingFormOffCampusIndicator() { 
-		return routingFormOffCampusIndicator;
-	}
-
-	/**
-	 * Sets the routingFormOffCampusIndicator attribute.
-	 * 
-	 * @param routingFormOffCampusIndicator The routingFormOffCampusIndicator to set.
-	 * 
-	 */
-	public void setRoutingFormOffCampusIndicator(boolean routingFormOffCampusIndicator) {
-		this.routingFormOffCampusIndicator = routingFormOffCampusIndicator;
 	}
 
 

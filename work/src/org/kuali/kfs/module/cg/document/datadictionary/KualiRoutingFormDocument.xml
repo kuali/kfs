@@ -302,62 +302,6 @@
                 <description>routingFormFellowLastName description...</description>
       </attribute>
 
-            <attribute name="routingFormForeignPartnerIndicator" forceUppercase="true">
-                <label>Routing Form Foreign Partner Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormForeignPartnerIndicator</summary>
-                <description>routingFormForeignPartnerIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormForeignTravelIndicator" forceUppercase="true">
-                <label>Routing Form Foreign Travel Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormForeignTravelIndicator</summary>
-                <description>routingFormForeignTravelIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormIncomeIndicator" forceUppercase="true">
-                <label>Routing Form Income Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormIncomeIndicator</summary>
-                <description>routingFormIncomeIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormInventionIndicator" forceUppercase="true">
-                <label>Routing Form Invention Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormInventionIndicator</summary>
-                <description>routingFormInventionIndicator description...</description>
-      </attribute>
-
             <attribute name="routingFormLastUpdateDate" forceUppercase="true">
                 <label>Routing Form Last Update Date</label>
                 <shortLabel>Date</shortLabel>
@@ -401,34 +345,6 @@
 
                 <summary>routingFormLayDescription</summary>
                 <description>routingFormLayDescription description...</description>
-      </attribute>
-
-            <attribute name="routingFormNewSpaceIndicator" forceUppercase="true">
-                <label>Routing Form New Space Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormNewSpaceIndicator</summary>
-                <description>routingFormNewSpaceIndicator description...</description>
-      </attribute>
-
-            <attribute name="routingFormOffCampusIndicator" forceUppercase="true">
-                <label>Routing Form Off Campus Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>routingFormOffCampusIndicator</summary>
-                <description>routingFormOffCampusIndicator description...</description>
       </attribute>
 
             <attribute name="routingFormOtherOrganizationIndicator" forceUppercase="true">

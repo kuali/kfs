@@ -31,6 +31,7 @@ public class ResearchRiskType extends BusinessObjectBase {
 	private boolean researchRiskBiosafetyIndicator;
     private String controlAttributeTypeCode;
     private Integer researchRiskTypeSortNumber;
+    private String researchRiskTypeNotificationGroupText;
     
     private ControlAttributeType controlAttributeType;
     
@@ -155,6 +156,22 @@ public class ResearchRiskType extends BusinessObjectBase {
     public void setResearchRiskTypeSortNumber(Integer researchRiskTypeSortNumber) {
         this.researchRiskTypeSortNumber = researchRiskTypeSortNumber;
     }        
+
+    /**
+     * Gets the researchRiskTypeNotificationGroupText attribute. 
+     * @return Returns the researchRiskTypeNotificationGroupText.
+     */
+    public String getResearchRiskTypeNotificationGroupText() {
+        return researchRiskTypeNotificationGroupText;
+    }
+
+    /**
+     * Sets the researchRiskTypeNotificationGroupText attribute value.
+     * @param researchRiskTypeNotificationGroupText The researchRiskTypeNotificationGroupText to set.
+     */
+    public void setResearchRiskTypeNotificationGroupText(String researchRiskTypeNotificationGroupText) {
+        this.researchRiskTypeNotificationGroupText = researchRiskTypeNotificationGroupText;
+    }    
     
     /**
      * Gets the controlAttributeType attribute. 

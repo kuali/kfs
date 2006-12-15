@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.kuali.module.budget.dao.*;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
+import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.core.dao.DocumentHeaderDao;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.Constants;
@@ -36,6 +37,10 @@ import org.apache.log4j.Logger;
 
 public class GenesisDaoOjb extends PersistenceBrokerDaoSupport 
              implements GenesisDao {
+
+    private FiscalYearFunctionControl fiscalYearFunctionControl;
+    private FunctionControlCode functionControlCode;
+    
     /*  turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
 
@@ -120,5 +125,5 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            return retID;
         }
     }
-
+    
 }

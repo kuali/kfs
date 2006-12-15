@@ -20,7 +20,7 @@ package org.kuali.module.budget.service.impl;
 
 import org.kuali.module.budget.service.*;
 import org.kuali.Constants;
-import org.kuali.module.budget.dao.ojb.*;
+import org.kuali.module.budget.dao.*;
 
 import java.util.*;
 import java.lang.*;
@@ -33,12 +33,12 @@ public class GenesisServiceImpl implements GenesisService {
     
     /*  settings for common fields for all document headers for budget construction */
     
+      private GenesisDao genesisDao;
         
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)
       {
           
-          GenesisDaoOjb genesisDaoOjb = new GenesisDaoOjb();
-          if (genesisDaoOjb.getBudgetConstructionControlFlag(universityFiscalYear,
+          if (genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
                   Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))
           {
               // wipe out BC HEADER with deleteByQuery
@@ -53,9 +53,9 @@ public class GenesisServiceImpl implements GenesisService {
               // a persistence broker and do a start and end
               return;
           };
-          if (genesisDaoOjb.getBudgetConstructionControlFlag(universityFiscalYear,
+          if (genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
                      Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE) &&
-                     genesisDaoOjb.getBudgetConstructionControlFlag(universityFiscalYear,
+                     genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
                       Constants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK))
           {   
               // this is the more complicated branch that updates the BC GL
@@ -105,4 +105,10 @@ public class GenesisServiceImpl implements GenesisService {
           *  to decide?              
           */ 
       }
+
+
+    public void setGenesisDao(GenesisDao genesisDao)
+    {
+        this.genesisDao = genesisDao;
+    }
 }

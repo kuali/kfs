@@ -113,37 +113,6 @@
     <field-descriptor name="cfdaMaintenanceTypeId" column="CG_CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cg.bo.AgencyAndProjectDirectorSearch" table="CG_AGYPRJDR_SRCH_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="agencyAwardNumber" column="CG_AGENCY_AWD_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="accountManagerUniversalId" column="ACCT_MGR_UNVL_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="accountName" column="ACCOUNT_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" />
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="subFundGroupCode" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cg.bo.Proposal" table="CG_PRPSL_T">
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -273,25 +242,6 @@
     <field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personUniversalIdentifier" />
-    </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.cg.bo.ProposalSearch" table="CG_PRPSL_SRCH_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="proposalTotalAmount" column="CGPRPSL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalBeginningDate" column="CGPRPSL_BEG_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="grantNumber" column="CG_GRANT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" />
-
-    <!-- access proposal object to get info on proposal status, agency, etc. -->
-    <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -482,25 +432,6 @@
     <field-descriptor name="subcontractorAuditHistoryText" column="SUBCN_AUDTHIST_TXT" jdbc-type="VARCHAR" />
     <reference-descriptor name="subcontractor" class-ref="org.kuali.module.cg.bo.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="subcontractorNumber" />
-    </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.cg.bo.AwardSearch" table="CG_AWD_SRCH_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="awardTotalAmount" column="CGAWD_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="awardBeginningDate" column="CGAWD_BEG_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="agencyAwardNumber" column="CG_AGENCY_AWD_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialSystemWorkgroupId" column="FS_WORK_GRP_ID" jdbc-type="VARCHAR" />
-
-    <!-- access award object to get info on award status, agency, etc. -->
-    <reference-descriptor name="award" class-ref="org.kuali.module.cg.bo.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
 </class-descriptor>
 

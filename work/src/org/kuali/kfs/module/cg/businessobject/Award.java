@@ -62,11 +62,11 @@ public class Award extends BusinessObjectBase {
     private String awardProjectTitle;
     private String awardCommentText;
     private String awardPurposeCode;
-    private List awardProjectDirector;
-    private List<AwardAccount> awardAccount;
-    private List<AwardSubcontractor> awardSubcontractor;
-    private List<AwardOrganization> awardOrganization;
-    private List awardDiary;
+    private List<ProjectDirector> awardProjectDirectors;
+    private List<AwardAccount> awardAccounts;
+    private List<AwardSubcontractor> awardSubcontractors;
+    private List<AwardOrganization> awardOrganizations;
+    private List<AwardDiary> awardDiaries;
 
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
@@ -81,11 +81,11 @@ public class Award extends BusinessObjectBase {
      * Default constructor.
      */
     public Award() {
-        awardProjectDirector = new ArrayList();
-        awardAccount = new ArrayList<AwardAccount>();
-        awardSubcontractor = new ArrayList();
-        awardOrganization = new ArrayList();
-        awardDiary = new ArrayList();
+        awardProjectDirectors = new ArrayList<ProjectDirector>();
+        awardAccounts = new ArrayList<AwardAccount>();
+        awardSubcontractors = new ArrayList<AwardSubcontractor>();
+        awardOrganizations = new ArrayList<AwardOrganization>();
+        awardDiaries = new ArrayList<AwardDiary>();
     }
 
     /**
@@ -942,86 +942,86 @@ public class Award extends BusinessObjectBase {
     }
 
     /**
-     * Gets the awardProjectDirector list.
+     * Gets the awardProjectDirectors list.
      * 
-     * @return Returns the awardProjectDirector list
-     * 
-     */
-    public List getAwardProjectDirector() {
-        return awardProjectDirector;
-    }
-
-    /**
-     * Sets the awardProjectDirector list.
-     * 
-     * @param awardProjectDirector The awardProjectDirector list to set.
+     * @return Returns the awardProjectDirectors list
      * 
      */
-    public void setAwardProjectDirector(List awardProjectDirector) {
-        this.awardProjectDirector = awardProjectDirector;
+    public List<ProjectDirector> getAwardProjectDirectors() {
+        return awardProjectDirectors;
     }
 
     /**
-     * @return Returns the awardAccount.
+     * Sets the awardProjectDirectors list.
+     * 
+     * @param awardProjectDirectors The awardProjectDirectors list to set.
+     * 
      */
-    public List<AwardAccount> getAwardAccount() {
-        return awardAccount;
+    public void setAwardProjectDirectors(List<ProjectDirector> awardProjectDirectors) {
+        this.awardProjectDirectors = awardProjectDirectors;
     }
 
     /**
-     * @param awardAccount The awardAccount to set.
+     * @return Returns the awardAccounts.
      */
-    public void setAwardAccount(List<AwardAccount> awardAccount) {
-        this.awardAccount = awardAccount;
+    public List<AwardAccount> getAwardAccounts() {
+        return awardAccounts;
     }
 
     /**
-     * @return Returns the awardDiary.
+     * @param awardAccounts The awardAccounts to set.
      */
-    public List getAwardDiary() {
-        return awardDiary;
+    public void setAwardAccounts(List<AwardAccount> awardAccounts) {
+        this.awardAccounts = awardAccounts;
     }
 
     /**
-     * @param awardDiary The awardDiary to set.
+     * @return Returns the awardDiaries.
      */
-    public void setAwardDiary(List awardDiary) {
-        this.awardDiary = awardDiary;
+    public List<AwardDiary> getAwardDiaries() {
+        return awardDiaries;
     }
 
     /**
-     * @return Returns the awardOrganization.
+     * @param awardDiaries The awardDiaries to set.
      */
-    public List getAwardOrganization() {
-        return awardOrganization;
+    public void setAwardDiaries(List<AwardDiary> awardDiaries) {
+        this.awardDiaries = awardDiaries;
     }
 
     /**
-     * @param awardOrganization The awardOrganization to set.
+     * @return Returns the awardOrganizations.
      */
-    public void setAwardOrganization(List awardOrganization) {
-        this.awardOrganization = awardOrganization;
+    public List<AwardOrganization> getAwardOrganizations() {
+        return awardOrganizations;
     }
 
     /**
-     * @return Returns the awardSubcontractor.
+     * @param awardOrganizations The awardOrganizations to set.
      */
-    public List getAwardSubcontractor() {
-        return awardSubcontractor;
+    public void setAwardOrganizations(List<AwardOrganization> awardOrganizations) {
+        this.awardOrganizations = awardOrganizations;
     }
 
     /**
-     * @param awardSubcontractor The awardSubcontractor to set.
+     * @return Returns the awardSubcontractors.
      */
-    public void setAwardSubcontractor(List awardSubcontractor) {
-        this.awardSubcontractor = awardSubcontractor;
+    public List<AwardSubcontractor> getAwardSubcontractors() {
+        return awardSubcontractors;
+    }
+
+    /**
+     * @param awardSubcontractors The awardSubcontractors to set.
+     */
+    public void setAwardSubcontractors(List<AwardSubcontractor> awardSubcontractors) {
+        this.awardSubcontractors = awardSubcontractors;
     }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }

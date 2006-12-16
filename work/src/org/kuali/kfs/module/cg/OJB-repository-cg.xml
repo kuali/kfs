@@ -160,21 +160,21 @@
     <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="cfdaNumber" />
     </reference-descriptor>
-    <collection-descriptor name="proposalSubcontractor" element-class-ref="org.kuali.module.cg.bo.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="proposalSubcontractors" element-class-ref="org.kuali.module.cg.bo.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="proposalSubcontractorNumber" sort="ASC" />
         <orderby name="subcontractorNumber" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
-    <collection-descriptor name="proposalOrganization" element-class-ref="org.kuali.module.cg.bo.ProposalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="proposalOrganizations" element-class-ref="org.kuali.module.cg.bo.ProposalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="organizationCode" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
-    <collection-descriptor name="proposalProjectDirector" element-class-ref="org.kuali.module.cg.bo.ProposalProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="proposalProjectDirectors" element-class-ref="org.kuali.module.cg.bo.ProposalProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="personUniversalIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
-    <collection-descriptor name="proposalDiary" element-class-ref="org.kuali.module.cg.bo.ProposalDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="proposalDiaries" element-class-ref="org.kuali.module.cg.bo.ProposalDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="proposalDiaryEntryDate" sort="DSC" />
         <orderby name="personUniversalIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
@@ -327,27 +327,27 @@
     <reference-descriptor name="awardPurpose" class-ref="org.kuali.module.cg.bo.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="awardPurposeCode" />
     </reference-descriptor>
-    <collection-descriptor name="awardProjectDirector" element-class-ref="org.kuali.module.cg.bo.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="awardProjectDirectors" element-class-ref="org.kuali.module.cg.bo.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="personUniversalIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
-    <collection-descriptor name="awardAccount" element-class-ref="org.kuali.module.cg.bo.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="awardAccounts" element-class-ref="org.kuali.module.cg.bo.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
-    <collection-descriptor name="awardSubcontractor" element-class-ref="org.kuali.module.cg.bo.AwardSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="awardSubcontractors" element-class-ref="org.kuali.module.cg.bo.AwardSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="awardSubcontractorAmendmentNumber" sort="ASC" />
         <orderby name="awardSubcontractorNumber" sort="ASC" />
         <orderby name="subcontractorNumber" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
-    <collection-descriptor name="awardOrganization" element-class-ref="org.kuali.module.cg.bo.AwardOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="awardOrganizations" element-class-ref="org.kuali.module.cg.bo.AwardOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="organizationCode" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
-    <collection-descriptor name="awardDiary" element-class-ref="org.kuali.module.cg.bo.AwardDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="awardDiaries" element-class-ref="org.kuali.module.cg.bo.AwardDiary" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <orderby name="awardDiaryEntryDate" sort="DSC" />
         <orderby name="personUniversalIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />

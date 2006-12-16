@@ -17,7 +17,6 @@ package org.kuali.module.cg.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,7 +25,6 @@ import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.cg.bo.AwardStatus;
-import org.kuali.module.chart.bo.AcctType;
 
 public class AwardStatusValuesFinder extends KeyValuesBase {
 
@@ -38,16 +36,7 @@ public class AwardStatusValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
         Collection codes = boService.findAll(AwardStatus.class);
 
-        List sortList = (List) codes;
-
-//        // calling comparator.
-//        AccountTypeCodeComparator accTypeCodeComparator = new AccountTypeCodeComparator();
-//
-//        // sort using comparator.
-//        Collections.sort(sortList, accTypeCodeComparator);
-//
-
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
 
@@ -59,6 +48,4 @@ public class AwardStatusValuesFinder extends KeyValuesBase {
 
         return labels;
     }
-
-
 }

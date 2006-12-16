@@ -36,16 +36,7 @@ public class ProposalStatusValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
         Collection codes = boService.findAll(ProposalStatus.class);
 
-        List sortList = (List) codes;
-
-//        // calling comparator.
-//        AccountTypeCodeComparator accTypeCodeComparator = new AccountTypeCodeComparator();
-//
-//        // sort using comparator.
-//        Collections.sort(sortList, accTypeCodeComparator);
-//
-
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
 
@@ -57,6 +48,4 @@ public class ProposalStatusValuesFinder extends KeyValuesBase {
 
         return labels;
     }
-
-
 }

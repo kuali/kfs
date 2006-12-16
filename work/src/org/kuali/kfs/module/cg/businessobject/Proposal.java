@@ -52,10 +52,10 @@ public class Proposal extends BusinessObjectBase {
     private String proposalFellowName;
     private String proposalPurposeCode;
     private String proposalProjectTitle;
-    private List proposalSubcontractor;
-    private List proposalOrganization;
-    private List proposalProjectDirector;
-    private List proposalDiary;
+    private List<Subcontractor> proposalSubcontractors;
+    private List<AwardOrganization> proposalOrganizations;
+    private List<ProjectDirector> proposalProjectDirectors;
+    private List<ProposalDiary> proposalDiaries;
 
     private ResearchType researchType;
     private ProposalAwardType proposalAwardType;
@@ -69,10 +69,10 @@ public class Proposal extends BusinessObjectBase {
      * Default constructor.
      */
     public Proposal() {
-        proposalSubcontractor = new ArrayList();
-        proposalOrganization = new ArrayList();
-        proposalProjectDirector = new ArrayList();
-        proposalDiary = new ArrayList();
+        proposalSubcontractors = new ArrayList<Subcontractor>();
+        proposalOrganizations = new ArrayList<AwardOrganization>();
+        proposalProjectDirectors = new ArrayList<ProjectDirector>();
+        proposalDiaries = new ArrayList<ProposalDiary>();
     }
 
     /**
@@ -699,72 +699,72 @@ public class Proposal extends BusinessObjectBase {
     }
 
     /**
-     * Gets the proposalSubcontractor list.
+     * Gets the proposalSubcontractors list.
      * 
-     * @return Returns the proposalSubcontractor list
-     * 
-     */
-    public List getProposalSubcontractor() {
-        return proposalSubcontractor;
-    }
-
-    /**
-     * Sets the proposalSubcontractor list.
-     * 
-     * @param proposalSubcontractor The proposalSubcontractor list to set.
+     * @return Returns the proposalSubcontractors list
      * 
      */
-    public void setProposalSubcontractor(List proposalSubcontractor) {
-        this.proposalSubcontractor = proposalSubcontractor;
+    public List<Subcontractor> getProposalSubcontractors() {
+        return proposalSubcontractors;
     }
 
     /**
-     * @return Returns the proposalOrganization.
+     * Sets the proposalSubcontractors list.
+     * 
+     * @param proposalSubcontractors The proposalSubcontractors list to set.
+     * 
      */
-    public List getProposalOrganization() {
-        return proposalOrganization;
+    public void setProposalSubcontractors(List<Subcontractor> proposalSubcontractors) {
+        this.proposalSubcontractors = proposalSubcontractors;
     }
 
     /**
-     * @param proposalOrganization The proposalOrganization to set.
+     * @return Returns the proposalOrganizations.
      */
-    public void setProposalOrganization(List proposalOrganization) {
-        this.proposalOrganization = proposalOrganization;
+    public List<AwardOrganization> getProposalOrganizations() {
+        return proposalOrganizations;
     }
 
     /**
-     * @return Returns the proposalProjectDirector.
+     * @param proposalOrganizations The proposalOrganizations to set.
      */
-    public List getProposalProjectDirector() {
-        return proposalProjectDirector;
+    public void setProposalOrganizations(List<AwardOrganization> proposalOrganizations) {
+        this.proposalOrganizations = proposalOrganizations;
     }
 
     /**
-     * @param proposalProjectDirector The proposalProjectDirector to set.
+     * @return Returns the proposalProjectDirectors.
      */
-    public void setProposalProjectDirector(List proposalProjectDirector) {
-        this.proposalProjectDirector = proposalProjectDirector;
+    public List<ProjectDirector> getProposalProjectDirectors() {
+        return proposalProjectDirectors;
     }
 
     /**
-     * @return Returns the proposalDiary.
+     * @param proposalProjectDirectors The proposalProjectDirectors to set.
      */
-    public List getProposalDiary() {
-        return proposalDiary;
+    public void setProposalProjectDirectors(List<ProjectDirector> proposalProjectDirectors) {
+        this.proposalProjectDirectors = proposalProjectDirectors;
     }
 
     /**
-     * @param proposalDiary The proposalDiary to set.
+     * @return Returns the proposalDiaries.
      */
-    public void setProposalDiary(List proposalDiary) {
-        this.proposalDiary = proposalDiary;
+    public List<ProposalDiary> getProposalDiaries() {
+        return proposalDiaries;
+    }
+
+    /**
+     * @param proposalDiaries The proposalDiaries to set.
+     */
+    public void setProposalDiaries(List<ProposalDiary> proposalDiaries) {
+        this.proposalDiaries = proposalDiaries;
     }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }

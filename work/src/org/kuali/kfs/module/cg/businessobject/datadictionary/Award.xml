@@ -82,9 +82,9 @@
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
                 <lookupField attributeName="financialSystemWorkgroupId" required="false" />
                 <lookupField attributeName="awardPurpose" required="false" />
-				<lookupField attributeName="awardSubcontractor.subcontractorNumber" required="false" />
-				<lookupField attributeName="awardOrganization.organizationCode" required="false" />
-                <lookupField attributeName="awardAccount.accountNumber" required="false" />
+				<lookupField attributeName="awardSubcontractors.subcontractorNumber" required="false" />
+				<lookupField attributeName="awardOrganizations.organizationCode" required="false" />
+                <lookupField attributeName="awardAccounts.accountNumber" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -99,15 +99,15 @@
 
         <attributes>
 
-            <attributeReference name="awardAccount.accountNumber" sourceClassName="org.kuali.module.cg.bo.AwardAccount" sourceAttributeName="accountNumber">
+            <attributeReference name="awardAccounts.accountNumber" sourceClassName="org.kuali.module.cg.bo.AwardAccount" sourceAttributeName="accountNumber">
    				<description>Insert desc here...</description>
             </attributeReference>
 
-            <attributeReference name="awardOrganization.organizationCode" sourceClassName="org.kuali.module.cg.bo.AwardOrganization" sourceAttributeName="organizationCode">
+            <attributeReference name="awardOrganizations.organizationCode" sourceClassName="org.kuali.module.cg.bo.AwardOrganization" sourceAttributeName="organizationCode">
    				<description>Insert desc here...</description>
             </attributeReference>
             
-            <attributeReference name="awardSubcontractor.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.AwardSubcontractor" sourceAttributeName="awardSubcontractorNumber">
+            <attributeReference name="awardSubcontractors.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.AwardSubcontractor" sourceAttributeName="awardSubcontractorNumber">
    				<description>Insert desc here...</description>
             </attributeReference>
 			
@@ -639,7 +639,7 @@
         </attributes>
         
         <collections>
-            <collection name="awardProjectDirector">
+            <collection name="awardProjectDirectors">
                 <label>Principal Investigator</label>
                 <shortLabel>Prin Invest</shortLabel>
                 <summary>
@@ -647,7 +647,7 @@
                 </summary>
                 <description>Award principal investigator</description>
             </collection>
-            <collection name="awardAccount">
+            <collection name="awardAccounts">
                 <label>Account</label>
                 <shortLabel>Account</shortLabel>
                 <summary>
@@ -655,7 +655,7 @@
                 </summary>
                 <description>Award Account</description>
             </collection>
-            <collection name="awardOrganization">
+            <collection name="awardOrganizations">
                 <label>Organization</label>
                 <shortLabel>Org</shortLabel>
                 <summary>
@@ -663,7 +663,7 @@
                 </summary>
                 <description>Award Organization</description>
             </collection>
-            <collection name="awardSubcontractor">
+            <collection name="awardSubcontractors">
                 <label>Subcontractor</label>
                 <shortLabel>Subcontractor</shortLabel>
                 <summary>
@@ -671,6 +671,7 @@
                 </summary>
                 <description>Award Subcontractor</description>
             </collection>
+            <!-- todo: awardDiaries? -->
         </collections>
         
     </businessObject>

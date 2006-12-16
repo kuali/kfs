@@ -32,7 +32,6 @@ import org.kuali.test.suite.CrossSectionSuite;
 @WithTestSpringContext
 public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
-    private MandatoryTransferEliminationCode knowGood;
     private static final String GOOD_CODE="N";
     private static final String GOOD_NAME="NEITHER";
     private static final String NONEXISTENT_CODE = "A";  // This code is not in the database.  Please do not add it, or you will break this test.

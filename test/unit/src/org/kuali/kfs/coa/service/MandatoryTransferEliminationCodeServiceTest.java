@@ -35,8 +35,8 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
     private MandatoryTransferEliminationCode knowGood;
     private static final String GOOD_CODE="N";
     private static final String GOOD_NAME="NEITHER";
-    private static final String BAD_CODE = "X";
-    private static final String BAD_NAME = "BAD";
+    private static final String NONEXISTENT_CODE = "A";  // This code is not in the database.  Please do not add it, or you will break this test.
+    private static final String NONEXISTENT_NAME = "BAD";
 
     /**
      * @see org.kuali.test.KualiTestBase#setUp()
@@ -64,13 +64,13 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
     public void stestByCode_invalid_name() {
         // test known-bad byCode
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, BAD_CODE);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
         assertNull("Known-bad code returns null object.", mtec);
     }
 
     public void testByName_invalid_name() {
         // test known-bad byName
-        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, BAD_NAME);
+        MandatoryTransferEliminationCode mtec = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, NONEXISTENT_NAME);
         assertNull("Known-bad code returns null object.", mtec);
     }
 
@@ -133,9 +133,9 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
         assertEquals(GOOD_CODE,code.getCode());
         assertEquals(GOOD_NAME,code.getName());
         
-        code = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, BAD_CODE);
+        code = (MandatoryTransferEliminationCode) getKualiCodeService().getByCode(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
         assertNull(code);
-        code = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, BAD_CODE);
+        code = (MandatoryTransferEliminationCode) getKualiCodeService().getByName(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
         assertNull(code);
     }
 }

@@ -47,7 +47,10 @@ public class GLConstants {
         static final public String OBJECT_LEVEL_CODE = "FIN_OBJ_LVL_CD";
         static final public String OBJECT_LEVEL_CODE2 = "FIN_OBJ_LEVEL_CD";
         static final public String OBJECT_CODE = "FIN_OBJECT_CD";
-
+        // amounts in the balances table
+        static final public String ANNUAL_BALANCE = "ACLN_ANNL_BAL_AMT";
+        static final public String BEGINNING_BALANCE = "FIN_BEG_BAL_LN_AMT";
+        
         static final public String UNIVERSITY_FISCAL_YEAR = "UNIV_FISCAL_YR";
         static final public String CHART_OF_ACCOUNTS_CODE = "FIN_COA_CD";
         static final public String ACCOUNT_NUMBER = "ACCOUNT_NBR";

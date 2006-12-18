@@ -67,6 +67,8 @@
                 <lookupField attributeName="agency.agencyNumber" required="false" />
                 <lookupField attributeName="proposalTotalAmount" required="false" />
                 <lookupField attributeName="proposalBeginningDate" required="false" />
+                <lookupField attributeName="proposalEndingDate" required="false" />
+                <lookupField attributeName="proposalProjectTitle" required="false" />
 				<lookupField attributeName="grantNumber" required="false" />
                 <lookupField attributeName="proposalStatusCode" required="false" />
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
@@ -80,6 +82,7 @@
                 <field attributeName="agency.fullName" />
                 <field attributeName="proposalTotalAmount" />
                 <field attributeName="proposalBeginningDate" />
+                <field attributeName="proposalEndingDate" />
 				<field attributeName="grantNumber" />
                 <field attributeName="proposalStatusCode" />
 

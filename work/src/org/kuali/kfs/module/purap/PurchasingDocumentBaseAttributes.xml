@@ -472,8 +472,16 @@
 <attributeReference name="recurringPaymentTypeCode" sourceClassName="org.kuali.module.purap.bo.RecurringPaymentType" sourceAttributeName="recurringPaymentTypeCode">
     <label>Type of Recurring Payment</label>
     <shortLabel>Code</shortLabel>
+    
+    <control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.RecurringPaymentTypeValuesFinder" />
+    </control>
+ 
+    
     <summary>recurringPaymentTypeCode</summary>
     <description>recurringPaymentTypeCode description...</description>
+    
+    
 </attributeReference>
 
 <attributeReference name="requestorPersonEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">

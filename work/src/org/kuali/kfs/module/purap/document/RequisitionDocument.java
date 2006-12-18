@@ -16,6 +16,8 @@
 
 package org.kuali.module.purap.document;
 
+import static org.kuali.core.util.SpringServiceLocator.getKualiConfigurationService;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -78,10 +80,10 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
         this.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
         this.setPurchaseOrderTransmissionMethodCode( PurapConstants.POTransmissionMethods.FAX );
+        
         this.setFundingSourceCode("IUAC");
-        // TODO set default funding source in params or make non-IU specific
-
-        // ripierce: the PostingYear has already been set before we come to this method.
+        // TODO ripierce: delete the above line and uncomment the below line after coordinating the database move. 
+//        this.setFundingSourceCode(getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup","PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
@@ -89,15 +91,12 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
 
         // Set the purchaseOrderTotalLimit
-        KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getVendorService().getApoLimitFromContract(
-          this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()) ;
-
-        if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
-            purchaseOrderTotalLimit = SpringServiceLocator.getRequisitionService().getApoLimit(this.getChartOfAccountsCode(), 
-              this.getOrganizationCode());
-        }
-        if (ObjectUtils.isNotNull(purchaseOrderTotalLimit)) {
-            this.setPurchaseOrderTotalLimit(purchaseOrderTotalLimit);
+        if (ObjectUtils.isNull(getPurchaseOrderTotalLimit())) {
+            KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getRequisitionService().getApoLimit(
+              this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode());
+            if (ObjectUtils.isNotNull(purchaseOrderTotalLimit)) {
+                this.setPurchaseOrderTotalLimit(purchaseOrderTotalLimit);
+            }
         }
 
         BillingAddress billingAddress = new BillingAddress();

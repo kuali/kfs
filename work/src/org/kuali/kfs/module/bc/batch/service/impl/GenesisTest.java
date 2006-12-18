@@ -15,16 +15,17 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.budget.dao.ojb.*;
 
 public class GenesisTest {
   public static void main(String args[])
   {
   //    unit tests for Genesis 
-      GenesisDaoOjb genesisDaoOjb = new GenesisDaoOjb();
-      GenesisServiceImpl GenesisService = new GenesisServiceImpl();
-      String testID = genesisDaoOjb.getBudgetConstructionInitiatorID();
-      System.out.println("Initiator ID = "+testID);
+  //    GenesisService genesisService = new SpringServiceLocator.getGenesisService();
+  //
+  //    String testID = genesisDaoOjb.getBudgetConstructionInitiatorID();
+  //    System.out.println("Initiator ID = "+testID);
   //
   //  Test for the fiscal year makers GL date table
   //     DateMakerServiceImpl dateMakerService = new DateMakerServiceImpl("2008",

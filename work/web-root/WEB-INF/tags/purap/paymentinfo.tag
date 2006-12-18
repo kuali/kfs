@@ -22,6 +22,9 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
+              
+<%@ attribute name="displayPurchaseOrderFields" required="false"
+              description="Boolean to indicate if PO specific fields should be displayed" %>
 
 <kul:tab tabTitle="Payment Info" defaultOpen="true">
     <div class="tab-container" align=center>
@@ -47,10 +50,57 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true"/>
                  	&nbsp;&nbsp;
                   to:
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderEndDate" datePicker="true"/>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true"/>
                </td> 
             </tr>
 		</table> 
+		
+		<c:if test="${displayPurchaseOrderFields}">
+			 <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">
+	
+	            <tr>
+	            	<th align=left valign=middle colspan="2" class="bord-l-b"> Please provide the following recurring payment information if the type of recurring payment is Fixed Schedule, Fixed Amount</th>
+	            </tr> 
+	            <tr>
+	                <th align=right valign=middle class="bord-l-b">
+	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.recurringPaymentAmount}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell"> Amount:
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount"/>
+	                 	&nbsp;&nbsp;
+	                  	First Payment Date:
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true"/>
+	              		&nbsp;&nbsp;
+	              		Frequency:
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" />
+	                </td> 
+	            </tr>
+	            <tr>
+	                <th align=right valign=middle class="bord-l-b">
+	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.initialPaymentAmount}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell"> Amount:
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" />
+	                 	&nbsp;&nbsp;
+	                  Date:
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true"/>
+	               </td> 
+	            </tr>
+	            <tr>
+	                <th align=right valign=middle class="bord-l-b">
+	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.finalPaymentAmount}" /></div>
+	                </th>
+	                <td align=left valign=middle class="datacell"> Amount:
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" />
+	                 	&nbsp;&nbsp;
+	                  Date:
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true"/>
+	               </td> 
+	            </tr>
+			</table> 
+		</c:if>
+		
+		
 		<div class="h2-container">
            	<h2>Billing Address</h2>
         </div> 

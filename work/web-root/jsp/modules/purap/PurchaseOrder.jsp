@@ -43,7 +43,8 @@
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}/ -->
 
     <purap:paymentinfo
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
+        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
+        displayPurchaseOrderFields="true"/>
 
     <purap:delivery
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />

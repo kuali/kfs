@@ -18,14 +18,19 @@ package org.kuali.module.budget.dao.ojb;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Arrays;
 
 import org.kuali.module.budget.dao.*;
+import org.kuali.module.budget.bo.*;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.core.dao.DocumentHeaderDao;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.Constants;
+import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.chart.bo.*;
+
 
 import org.apache.ojb.broker.query.*;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -123,4 +128,116 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
     }
     
+    /*
+     *  here are the routines we will use for updating budget construction GL
+     *  
+     */
+    // maps (hash maps) to return the results of the GL call
+    // --pBGL contains all the rows returned, stuffed into an object that can be 
+    //   saved to the pending budget construction general ledger
+    // --bCHdr contains one entry for each potentially new key for the budget
+    //   construction header table.
+    private Map<String,PendingBudgetConstructionGeneralLedger>  pBGL;
+    private Map<String,BudgetConstructionHeader> bCHdr;
+    private HashMap[] returnPointers;
+    // these are the indexes for each of the fields returned in the select list
+    // of the SQL statement
+    private Integer sqlChartOfAccountsCode = 0;
+    private Integer sqlAccountNumber = 1;
+    private Integer sqlSubAccountNumber = 2;
+    private Integer sqlObjectCode = 3;
+    private Integer sqlSubObjectCode = 4;
+    private Integer sqlBalanceTypeCode = 5;
+    private Integer sqlObjectTypeCode = 6;
+    private Integer sqlAccountLineAnnualBalanceAmount = 7;
+    private Integer sqlBeginningBalanceLineAmount = 8;
+    
+    public HashMap[] readGLForPBGL(Integer BaseYear)
+    {
+        pBGL      = new HashMap();
+        bCHdr     = new HashMap();
+        //
+        //  set up a report query to fetch all the GL rows we are going to need
+        Criteria criteriaID = new Criteria();
+        // we only pick up a single balance type
+        // we also use an integer fiscal year
+        // *** this is a point of change if either of these criteria change ***
+        // @@TODO We should regularize the sources for these constants
+        // they should probably all come from GL (although UNIV_FISCAL_YR is generic)
+        // we should add the two hard-wired strings at the bottom
+        criteriaID.addEqualTo(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR,
+                BaseYear);
+        criteriaID.addEqualTo(GLConstants.ColumnNames.BALANCE_TYPE_CODE,
+                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        String[] queryAttr = {GLConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE,
+                              GLConstants.ColumnNames.ACCOUNT_NUMBER,
+                              GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER,
+                              GLConstants.ColumnNames.OBJECT_CODE,
+                              GLConstants.ColumnNames.SUB_OBJECT_CODE,
+                              GLConstants.ColumnNames.BALANCE_TYPE_CODE,
+                              GLConstants.ColumnNames.FIN_OBJ_TYP_CODE,
+                              "ACLN_ANNL_BAL_AMT",
+                              "FIN_BEG_BAL_LN_AMT"};
+        ReportQueryByCriteria queryID = 
+            new ReportQueryByCriteria(Balance.class, queryAttr, criteriaID, true);
+        // @@TODO this should be in a try/catch structure.  We should catch a 
+        //        SQL error, write it to the log, and raise a more generic error
+        //        ("error reading GL Balance Table in BC batch"), and throw that
+        Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        // @@TODO now we have to iterate and create the two maps
+        // if the sum of the two balances is zero, we DO NOT want the row
+        //  return the array pointing to the two lists
+        returnPointers = new HashMap[2];
+        returnPointers[0] = (HashMap) pBGL;
+        returnPointers[1] = (HashMap) bCHdr;
+        return returnPointers;
+    }
+    //
+    // these two methods build the GL field string that triggers creation of a new
+    // budget construction header
+    public String buildHeaderTestKeyFromPBGL (PendingBudgetConstructionGeneralLedger
+            pendingBudgetConstructionGeneralLedger)
+            {
+               String headerBCTestKey = new String();
+               headerBCTestKey = pendingBudgetConstructionGeneralLedger.getChartOfAccountsCode()+
+                                 pendingBudgetConstructionGeneralLedger.getAccountNumber()+
+                                 pendingBudgetConstructionGeneralLedger.getSubAccountNumber();
+               return headerBCTestKey;
+            }
+    private String buildHeaderTestKeyFromSQLResults (Object[] sqlResult)
+    {
+        String headerBCTestKey = new String();
+        headerBCTestKey = (String) sqlResult[sqlChartOfAccountsCode]+
+                          (String) sqlResult[sqlAccountNumber]+
+                          (String) sqlResult[sqlSubAccountNumber];
+        return headerBCTestKey;
+    }
+    //
+    // these two methods build the GL field string that triggers creation of a new
+    // pending budget construction general ledger row
+    public String buildGLTestKeyFromPBGL (PendingBudgetConstructionGeneralLedger
+            pendingBudgetConstructionGeneralLedger)
+    {
+       String PBGLTestKey = new String();
+       PBGLTestKey = pendingBudgetConstructionGeneralLedger.getChartOfAccountsCode()+
+                         pendingBudgetConstructionGeneralLedger.getAccountNumber()+
+                         pendingBudgetConstructionGeneralLedger.getSubAccountNumber()+
+                         pendingBudgetConstructionGeneralLedger.getFinancialObjectCode()+
+                         pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode()+
+                         pendingBudgetConstructionGeneralLedger.getFinancialBalanceTypeCode()+
+                         pendingBudgetConstructionGeneralLedger.getFinancialObjectTypeCode();
+       return PBGLTestKey;
+    }
+    private String buildGLTestKeyFromSQLResults (Object[] sqlResult)
+    {
+        String GLTestKey = new String();
+        GLTestKey = (String) sqlResult[sqlChartOfAccountsCode]+
+                    (String) sqlResult[sqlAccountNumber]+
+                    (String) sqlResult[sqlSubAccountNumber]+
+                    (String) sqlResult[sqlObjectCode]+
+                    (String) sqlResult[sqlSubObjectCode]+
+                    (String) sqlResult[sqlBalanceTypeCode]+
+                    (String) sqlResult[sqlObjectTypeCode];
+        return GLTestKey;
+    }
 }

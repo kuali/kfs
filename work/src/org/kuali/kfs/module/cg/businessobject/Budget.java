@@ -521,7 +521,7 @@ public class Budget extends BusinessObjectBase {
      * 
      * @return Returns the nonpersonnelItems.
      */
-    public List getNonpersonnelItems() {
+    public List<BudgetNonpersonnel> getNonpersonnelItems() {
         return nonpersonnelItems;
     }
 
@@ -810,7 +810,7 @@ public class Budget extends BusinessObjectBase {
         return getAllUserAppointmentTaskPeriods(false);
     }
 
-    public List getAllUserAppointmentTaskPeriods(boolean forceRefreshPriorToSave) {
+    public List<UserAppointmentTaskPeriod> getAllUserAppointmentTaskPeriods(boolean forceRefreshPriorToSave) {
         if (allUserAppointmentTaskPeriods == null) {
             List list = new ArrayList();
             for (Iterator i = getAllUserAppointmentTasks(forceRefreshPriorToSave).iterator(); i.hasNext();) {

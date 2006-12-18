@@ -26,8 +26,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.AddressType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.VendorContract;
+import org.kuali.module.purap.bo.VendorContractOrganization;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -44,29 +46,28 @@ public class RequisitionServiceImpl implements RequisitionService {
         requisitionDao.save(requisitionDocument);
     }
     
-    /**
-     * This method gets the org_auto_po_limit for a given requisition from PUR_AP_ORG_PARM_T.
-     *
-    */
-    public KualiDecimal getApoLimit(String chart, String org) {
-        
-        if ( ObjectUtils.isNull(ObjectUtils.isNull(chart)) || ObjectUtils.isNull(org) ) {
-            return null;
-        }
-        // TODO: call vendorService to get the contract. Remove call to vendorService in the ReqDocument.
-        OrganizationParameter orgParameter = new OrganizationParameter();
-        orgParameter.setChartOfAccountsCode(chart);
-        orgParameter.setOrganizationCode(org);
-        Map parameterKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(orgParameter);
-        orgParameter = (OrganizationParameter) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(OrganizationParameter.class, parameterKeys);
-        if (ObjectUtils.isNull(orgParameter)) {
+    public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
+        if ( ObjectUtils.isNull(chart) || ObjectUtils.isNull(org) ) {
             return null;
         }
 
-        return orgParameter.getOrganizationAutomaticPurchaseOrderLimit(); // Note, it may be null.
+        KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getVendorService().getApoLimitFromContract(
+          vendorContractGeneratedIdentifier, chart, org);
+        
+        if ( ObjectUtils.isNull(purchaseOrderTotalLimit)) {
+        // We didn't find the limit on the vendor contract, get it from the org parameter table.
+            OrganizationParameter organizationParameter = new OrganizationParameter();
+            organizationParameter.setChartOfAccountsCode(chart);
+            organizationParameter.setOrganizationCode(org);
+            Map orgParamKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(organizationParameter);
+            organizationParameter = (OrganizationParameter) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
+            purchaseOrderTotalLimit = organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
+        }
+
+        return purchaseOrderTotalLimit;
     }
     
-// TODO we need a generic changeStatus method for all document status changes. where sould it go? 
+// TODO we need a generic changeStatus method for all document status changes. where should it go? 
 //    public void changeRequisitionStatus(Long docHeaderId, String statusCode, String networkId) {
 //        LOG.debug("changeRequisitionStatus() Doc ID : " + docHeaderId);
 //        Requisition r  = requisitionService.getRequisitionByDocumentId(docHeaderId);
@@ -158,7 +159,8 @@ public class RequisitionServiceImpl implements RequisitionService {
     private String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {
         String requisitionSource = requisition.getRequisitionSourceCode();
         KualiDecimal reqTotal = requisition.getTotalDollarAmount();
-        KualiDecimal apoLimit = getApoLimit(requisition.getChartOfAccountsCode(), requisition.getOrganizationCode());
+        KualiDecimal apoLimit = getApoLimit(requisition.getVendorHeaderGeneratedIdentifier(),
+          requisition.getChartOfAccountsCode(), requisition.getOrganizationCode());
 
         LOG.debug("isAPO() reqId = " + requisition.getIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
         if (apoLimit == null) {

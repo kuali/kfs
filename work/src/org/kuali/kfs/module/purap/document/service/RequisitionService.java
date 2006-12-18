@@ -23,7 +23,7 @@ public interface RequisitionService {
 
     public void save(RequisitionDocument requisitionDocument);
     
-    public KualiDecimal getApoLimit(String chart, String org);
+    public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
 
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition);
 }

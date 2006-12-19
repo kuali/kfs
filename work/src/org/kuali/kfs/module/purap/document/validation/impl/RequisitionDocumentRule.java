@@ -58,6 +58,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
     private boolean processValidation(RequisitionDocument document) {
         boolean valid = true;
+        valid &= processDocumentOverviewValidation(document);
         valid &= processVendorValidation(document);
         valid &= processItemValidation(document);
         valid &= processPaymentInfoValidation(document);
@@ -93,13 +94,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
                     errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
                 }
             }
-            if (!StringUtils.isBlank(document.getVendorFaxNumber())) {
-                PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
-                if (!phonePattern.matches(document.getVendorFaxNumber())) {
-                    valid = false;
-                    errorMap.putError(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
-                }
-            }
         }
         return valid;
     }
@@ -127,10 +121,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             }
         }   
         if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
-                if (document.getPurchaseOrderBeginDate().after(document.getPurchaseOrderEndDate())) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
-                    valid &= false;
-                }
                 if (ObjectUtils.isNull(document.getRecurringPaymentTypeCode())) {
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE, PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE);
                     

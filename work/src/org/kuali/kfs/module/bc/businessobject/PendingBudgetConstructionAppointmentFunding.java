@@ -65,6 +65,8 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
     private BudgetConstructionPosition budgetConstructionPosition;
     private BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
+    private BudgetConstructionCalculatedSalaryFoundationTracker bcnCalculatedSalaryFoundationTracker;
+    private BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
     
     private List budgetConstructionSalaryFunding;
     private List budgetConstructionAppointmentFundingReason;
@@ -727,6 +729,40 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
     }    
     
     /**
+     * Gets the budgetConstructionIntendedIncumbent attribute. 
+     * @return Returns the budgetConstructionIntendedIncumbent.
+     */
+    public BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent() {
+        return budgetConstructionIntendedIncumbent;
+    }
+
+    /**
+     * Sets the budgetConstructionIntendedIncumbent attribute value.
+     * @param budgetConstructionIntendedIncumbent The budgetConstructionIntendedIncumbent to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionIntendedIncumbent(BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent) {
+        this.budgetConstructionIntendedIncumbent = budgetConstructionIntendedIncumbent;
+    }
+
+    /**
+     * Gets the bcnCalculatedSalaryFoundationTracker attribute. 
+     * @return Returns the bcnCalculatedSalaryFoundationTracker.
+     */
+    public BudgetConstructionCalculatedSalaryFoundationTracker getBcnCalculatedSalaryFoundationTracker() {
+        return bcnCalculatedSalaryFoundationTracker;
+    }
+
+    /**
+     * Sets the bcnCalculatedSalaryFoundationTracker attribute value.
+     * @param bcnCalculatedSalaryFoundationTracker The bcnCalculatedSalaryFoundationTracker to set.
+     * @deprecated
+     */
+    public void setBcnCalculatedSalaryFoundationTracker(BudgetConstructionCalculatedSalaryFoundationTracker bcnCalculatedSalaryFoundationTracker) {
+        this.bcnCalculatedSalaryFoundationTracker = bcnCalculatedSalaryFoundationTracker;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -743,5 +779,5 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
         m.put("emplid", this.emplid);
         return m;
     }
-
+    
 }

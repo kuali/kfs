@@ -58,38 +58,43 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {
         super.performCustomSourceAccountingLinePopulation(attributeValueMap, sourceAccountingLine, accountingLineAsString);
+
         // chose debit/credit
         String debitValue = attributeValueMap.remove(DEBIT);
         String creditValue = attributeValueMap.remove(CREDIT);
+        KualiDecimal debitAmount = null;
+        try {
+            if (StringUtils.isNotBlank(debitValue)) {
+                debitAmount = new KualiDecimal(debitValue);
+            }
+        }
+        catch (NumberFormatException e) {
+            String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), accountingLineAsString };
+            throw new AccountingLineParserException("invalid (NaN) '" + DEBIT + "=" + debitValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+        }
+        KualiDecimal creditAmount = null;
+        try {
+            if (StringUtils.isNotBlank(creditValue)) {
+                creditAmount = new KualiDecimal(creditValue);
+            }
+        }
+        catch (NumberFormatException e) {
+            String[] errorParameters = { creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
+            throw new AccountingLineParserException("invalid (NaN) '" + CREDIT + "=" + creditValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
+        }
+
         KualiDecimal amount = null;
         String debitCreditCode = null;
-
-        if (StringUtils.isNotBlank(debitValue)) {
-            try {
-                amount = new KualiDecimal(debitValue);
-                if (amount.isNonZero()) {
-                    debitCreditCode = Constants.GL_DEBIT_CODE;
-                }
-            }
-            catch (NumberFormatException e) {
-                String[] errorParameters = { debitValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), DEBIT), accountingLineAsString };
-                throw new AccountingLineParserException("invalid (NaN) '" + DEBIT + "=" + debitValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
-            }
+        if (debitAmount != null && debitAmount.isNonZero()) {
+            amount = debitAmount;
+            debitCreditCode = Constants.GL_DEBIT_CODE;
         }
 
-        if (StringUtils.isNotBlank(creditValue)) {
-            try {
-                amount = new KualiDecimal(creditValue);
-                if (amount.isNonZero()) {
-                    debitCreditCode = Constants.GL_CREDIT_CODE;
-                }
-            }
-            catch (NumberFormatException e) {
-                String[] errorParameters = { creditValue, retrieveAttributeLabel(sourceAccountingLine.getClass(), CREDIT), accountingLineAsString };
-                throw new AccountingLineParserException("invalid (NaN) '" + CREDIT + "=" + creditValue + " for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
-            }
+        if (creditAmount != null && creditAmount.isNonZero()) {
+            amount = creditAmount;
+            debitCreditCode = Constants.GL_CREDIT_CODE;
         }
-        
+
         sourceAccountingLine.setAmount(amount);
         sourceAccountingLine.setDebitCreditCode(debitCreditCode);
     }

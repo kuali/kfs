@@ -1,128 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="purap-Module" class="org.kuali.core.KualiModule">
-    	<property name="moduleId">
-    		<value>purap</value>
-    	</property>
-    	<property name="moduleName">
-    		<value>Kuali Purchasing/Accounts Payable</value>
-    	</property>
-    	<property name="moduleUserService">
-    		<ref bean="purapUserService" />
-    	</property>
-    	<property name="moduleAuthorizer">
-		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
-		    	<property name="packagePrefixes">
-		    		<list>
-		    			<value>org.kuali.module.purap.</value>
-		    		</list>
-		    	</property>
-		    </bean>
-    	</property>
-    	<property name="moduleUserRule"><null /></property>
-    	<property name="moduleUserPreRules"><null /></property>
+	<bean id="purapMetaData" class="org.kuali.core.KualiModuleMetaData">
+		<property name="id" value="purap" />
+		<property name="name" value="Kuali Purchasing/Accounts Payable" />
+		<property name="transactionalizedServiceNames">
+			<list>
+				<value>purapUserService</value>
+			</list>
+		</property>
+		<property name="cachedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="cacheMethodPatterns">
+			<list>
+			</list>
+		</property>
+		<property name="loggedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="jobDetails">
+			<list>
+			</list>
+		</property>
 	</bean>
-		
-    <bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
-    	<property name="kualiConfigurationService">
-    		<ref bean="kualiConfigurationService" />
-    	</property>
-    </bean>
 
-    <bean id="vendorService" class="org.kuali.module.purap.service.impl.VendorServiceImpl">
-        <property name="vendorDao">
-            <ref bean="vendorDao" />
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
+	<bean id="purapModule" class="org.kuali.core.KualiModule">
+		<property name="metaData" ref="purapMetaData" />
+		<property name="moduleUserService" ref="purapUserService" />
+		<property name="moduleAuthorizer">
+			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.module.purap.</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserRule">
+			<null />
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
+	</bean>
 
-    <bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-        <property name="requisitionDao">
-            <ref bean="requisitionDao" />
-        </property>
-    </bean>
+	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
 
-    <bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
+	<bean id="vendorService" class="org.kuali.module.purap.service.impl.VendorServiceImpl">
+		<property name="vendorDao">
+			<ref bean="vendorDao" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 
-    <bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-    </bean>
+	<bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="requisitionDao">
+			<ref bean="requisitionDao" />
+		</property>
+	</bean>
 
-    <bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
-        <property name="jcdAlias">
-            <value>dataSource</value>
-        </property>
-    </bean>
+	<bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 
-    <bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
-        <property name="jcdAlias">
-            <value>dataSource</value>
-        </property>
-    </bean>
+	<bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
 
-    <bean id="vendorLookupableHelperService" class="org.kuali.module.purap.lookup.VendorLookupableHelperServiceImpl" singleton="false">
-        <property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
-        <property name="lookupService">
-            <ref bean="lookupService" />
-        </property>
-        <property name="businessObjectDictionaryService">
-            <ref bean="businessObjectDictionaryService" />
-        </property>
-        <!--property name="dictionaryValidationService">
-            <ref bean="dictionaryValidationService" />
-        </property-->
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
-        <property name="vendorService">
-            <ref bean="vendorService" />
-        </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-    </bean>
-    
-    <bean id="vendorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
-    	<property name="lookupableHelperService">
-    		<ref bean="vendorLookupableHelperService"/>
-    	</property>
-    </bean>
+	<bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="vendorLookupableHelperService" class="org.kuali.module.purap.lookup.VendorLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<!--property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+			</property-->
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="vendorService">
+			<ref bean="vendorService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+
+	<bean id="vendorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="vendorLookupableHelperService" />
+		</property>
+	</bean>
 </beans>

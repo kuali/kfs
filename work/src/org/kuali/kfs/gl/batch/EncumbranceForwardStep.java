@@ -38,7 +38,7 @@ public class EncumbranceForwardStep implements Step {
     /**
      * @see org.kuali.core.batch.Step#performStep()
      */
-    public boolean performStep() {
+    public boolean execute() {
         yearEndService.forwardEncumbrances();
         return true;
     }

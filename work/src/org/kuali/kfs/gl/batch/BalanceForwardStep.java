@@ -42,7 +42,7 @@ public class BalanceForwardStep implements Step {
      * 
      * @see org.kuali.core.batch.Step#performStep()
      */
-    public boolean performStep() {
+    public boolean execute() {
         yearEndService.forwardBalances();
         return true;
     }

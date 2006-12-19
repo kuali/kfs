@@ -23,7 +23,7 @@ public class CreateBackupGroupStep implements Step {
 
     private OriginEntryGroupService originEntryGroupService;
 
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         originEntryGroupService.createBackupGroup();

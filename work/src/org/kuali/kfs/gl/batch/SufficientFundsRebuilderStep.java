@@ -29,7 +29,7 @@ public class SufficientFundsRebuilderStep implements Step {
         return "GL SufficientFundsRebuilderStep";
     }
 
-    public boolean performStep() {
+    public boolean execute() {
         sufficientFundsRebuilderService.rebuildSufficientFunds();
         return true;
     }

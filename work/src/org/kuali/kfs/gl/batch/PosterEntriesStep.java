@@ -31,7 +31,7 @@ public class PosterEntriesStep implements Step {
         return "Poster of GL Entries";
     }
 
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         posterService.postMainEntries();

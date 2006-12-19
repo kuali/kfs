@@ -38,7 +38,7 @@ public class NominalActivityClosingStep implements Step {
     /**
      * @see org.kuali.core.batch.Step#performStep()
      */
-    public boolean performStep() {
+    public boolean execute() {
         yearEndService.closeNominalActivity();
         return true;
     }

@@ -25,7 +25,7 @@ public class ClearOldOriginEntryStep implements Step {
     private OriginEntryGroupService originEntryGroupService;
     private KualiConfigurationService kualiConfigurationService;
 
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         String daysStr = kualiConfigurationService.getApplicationParameterValue("glClearOldOriginEntryStep", "days");

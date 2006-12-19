@@ -1,48 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="cams-Module" class="org.kuali.core.KualiModule">
-    	<property name="moduleId">
-    		<value>cams</value>
-    	</property>
-    	<property name="moduleName">
-    		<value>Kuali Capital Asset Maintenance</value>
-    	</property>
-    	<property name="moduleUserService">
-    		<ref bean="camsUserService" />
-    	</property>
-    	<property name="moduleAuthorizer">
-		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
-		    	<property name="packagePrefixes">
-		    		<list>
-		    			<value>org.kuali.module.cams.</value>
-		    		</list>
-		    	</property>
-		    </bean>
-    	</property>
-    	<property name="moduleUserRule"><null /></property>
-    	<property name="moduleUserPreRules"><null /></property>
+	<bean id="camsMetaData" class="org.kuali.core.KualiModuleMetaData">
+		<property name="id" value="cams" />
+		<property name="name" value="Kuali Capital Asset Maintenance" />
+		<property name="transactionalizedServiceNames">
+			<list>
+				<value>camsUserService</value>
+			</list>
+		</property>
+		<property name="cachedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="cacheMethodPatterns">
+			<list>
+			</list>
+		</property>
+		<property name="loggedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="jobDetails">
+			<list>
+			</list>
+		</property>
 	</bean>
-		
-    <bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
-    	<property name="chartUserService">
-    		<ref bean="chartUserService" />
-    	</property>
-    </bean>
+
+	<bean id="camsModule" class="org.kuali.core.KualiModule">
+		<property name="metaData" ref="camsMetaData" />
+		<property name="moduleUserService" ref="camsUserService" />
+		<property name="moduleAuthorizer">
+			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.module.cams.</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserRule">
+			<null />
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
+	</bean>
+
+	<bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
+		<property name="chartUserService">
+			<ref bean="chartUserService" />
+		</property>
+	</bean>
 
 </beans>

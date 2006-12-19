@@ -124,7 +124,7 @@ public class BudgetOutputAction extends BudgetAction {
 
         // Retrieve the environment we're in.
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String env = kualiConfigurationService.getPropertyString("environment");
+        String env = kualiConfigurationService.getPropertyString(Constants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentNumber() + ".pdf");
 
@@ -165,7 +165,7 @@ public class BudgetOutputAction extends BudgetAction {
 
         // Retrieve the environment we're in.
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String env = kualiConfigurationService.getPropertyString("environment");
+        String env = kualiConfigurationService.getPropertyString(Constants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentNumber() + ".xml");
 

@@ -36,7 +36,7 @@ public class PosterIcrGenerationStep implements Step {
      * 
      * @see org.kuali.core.batch.Step#performStep()
      */
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         posterService.generateIcrTransactions();

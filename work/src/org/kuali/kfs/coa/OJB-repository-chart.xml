@@ -13,6 +13,36 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
+<!-- 
+<class-descriptor class="org.kuali.module.chart.bo.codes.BudgetAggregationCode" table="FS_CODES_DESC_T">
+    <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
+    <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+</class-descriptor>
+-->
+
+<class-descriptor class="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" table="FS_CODES_DESC_T">
+    <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
+    <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.codes.SufficientFundsCode" table="FS_CODES_DESC_T">
+    <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
+    <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+</class-descriptor>
+
+<!-- 
+    <class-descriptor class="org.kuali.module.chart.bo.codes.FederalFundedCode" table="FS_CODES_V">
+    <field-descriptor name="code"             column="CODE"       jdbc-type="VARCHAR" primarykey="true"/>
+    </class-descriptor>
+-->
+
 <class-descriptor class="org.kuali.module.chart.bo.ChartUser" table="FP_FIS_USER_T">
     <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

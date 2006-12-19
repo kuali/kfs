@@ -61,5 +61,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/opensaml-1.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/casfilter.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/quartz-1.6.0.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

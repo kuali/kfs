@@ -23,7 +23,7 @@ public class SufficientFundsSyncStep implements Step {
 
     private SufficientFundsSyncService sufficientFundsSyncService;
 
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         sufficientFundsSyncService.syncSufficientFunds();

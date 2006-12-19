@@ -29,7 +29,7 @@ public class ScrubberStep implements Step {
         return "GL ScrubberStep";
     }
 
-    public boolean performStep() {
+    public boolean execute() {
         scrubberService.scrubEntries();
         return true;
     }

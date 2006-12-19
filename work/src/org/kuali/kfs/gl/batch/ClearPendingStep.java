@@ -27,7 +27,7 @@ public class ClearPendingStep implements Step {
         super();
     }
 
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         nightlyOutService.deleteCopiedPendingLedgerEntries();

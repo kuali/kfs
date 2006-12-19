@@ -69,7 +69,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
         // Execute the step ...
         BalanceForwardStep step = (BalanceForwardStep) beanFactory.getBean("glBalanceForwardStep");
-        step.performStep();
+        step.execute();
 
         // load our services.
         OriginEntryService entryService = SpringServiceLocator.getOriginEntryService();

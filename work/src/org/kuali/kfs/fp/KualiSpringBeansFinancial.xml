@@ -1,237 +1,278 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="financial-Module" class="org.kuali.core.KualiModule">
-    	<property name="moduleId">
-    		<value>financial</value>
-    	</property>
-    	<property name="moduleName">
-    		<value>Kuali Financials</value>
-    	</property>
-    	<property name="moduleUserService">
-    		<ref bean="financialUserService" />
-    	</property>
-    	<property name="moduleAuthorizer">
-		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
-		    	<property name="packagePrefixes">
-		    		<list>
-		    			<value>org.kuali.module.financial.</value>
-		    		</list>
-		    	</property>
-		    </bean>
-    	</property>
-    	<property name="moduleUserRule"><null /></property>
-    	<property name="moduleUserPreRules"><null /></property>
+	<bean id="financialMetaData" class="org.kuali.core.KualiModuleMetaData">
+		<property name="id" value="financial" />
+		<property name="name" value="Kuali Financials" />
+		<property name="transactionalizedServiceNames">
+			<list>
+				<value>financialUserService</value>
+				<value>cashDetailTypeCodeService</value>
+				<value>cashDrawerService</value>
+				<value>cashManagementService</value>
+				<value>cashReceiptService</value>
+				<value>checkService</value>
+				<value>accountPresenceService</value>
+				<value>flexibleOffsetAccountService</value>
+				<value>serviceBillingControlService</value>
+			</list>
+		</property>
+		<property name="cachedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="cacheMethodPatterns">
+			<list>
+			</list>
+		</property>
+		<property name="loggedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="jobDetails">
+			<list>
+			</list>
+		</property>
 	</bean>
-		
-    <bean id="financialUserService" class="org.kuali.module.financial.service.impl.FinancialUserServiceImpl" parent="kualiModuleUserServiceBase">
-    	<property name="chartUserService">
-    		<ref bean="chartUserService" />
-    	</property>
-    </bean>
 
-    <bean id="travelMileageRateDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb">
-        <property name="jcdAlias">
-            <value>dataSource</value>
-        </property>
-    </bean>
+	<bean id="financialModule" class="org.kuali.core.KualiModule">
+		<property name="metaData" ref="financialMetaData" />
+		<property name="moduleUserService" ref="financialUserService" />
+		<property name="moduleAuthorizer">
+			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.module.financial.</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserRule">
+			<null />
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
+	</bean>
 
-    <bean id="disbursementVoucherTaxService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTaxServiceImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="maintenanceDocumentService">
-            <ref bean="maintenanceDocumentService" />
-        </property>
-    </bean>
+	<bean id="financialUserService" class="org.kuali.module.financial.service.impl.FinancialUserServiceImpl" parent="kualiModuleUserServiceBase">
+		<property name="chartUserService">
+			<ref bean="chartUserService" />
+		</property>
+	</bean>
 
-    <bean id="disbursementVoucherCoverSheetService" class="org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="persistenceService">
-            <ref bean="persistenceService" />
-        </property>
-    </bean>
+	<bean id="travelMileageRateDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
 
-    <bean id="disbursementVoucherTravelService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl">
-        <property name="travelMileageRateDao">
-            <ref bean="travelMileageRateDao" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-    </bean>
+	<bean id="disbursementVoucherTaxService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTaxServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="maintenanceDocumentService">
+			<ref bean="maintenanceDocumentService" />
+		</property>
+	</bean>
 
-    <bean id="checkService" class="org.kuali.module.financial.service.impl.CheckServiceImpl">
-        <property name="checkDao">
-            <ref bean="checkDao" />
-        </property>
-    </bean>
+	<bean id="disbursementVoucherCoverSheetService" class="org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
+	</bean>
 
-    <bean id="cashDrawerService" class="org.kuali.module.financial.service.impl.CashDrawerServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
+	<bean id="disbursementVoucherTravelService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl">
+		<property name="travelMileageRateDao">
+			<ref bean="travelMileageRateDao" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
 
-    <bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
-        <property name="balanceDao">
-            <ref bean="glBalanceDao" />
-        </property>
-    </bean>
+	<bean id="checkService" class="org.kuali.module.financial.service.impl.CheckServiceImpl">
+		<property name="checkDao">
+			<ref bean="checkDao" />
+		</property>
+	</bean>
 
-    <bean id="cashManagementService" class="org.kuali.module.financial.service.impl.CashManagementServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="cashDrawerService">
-            <ref bean="cashDrawerService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-    </bean>
+	<bean id="cashDrawerService" class="org.kuali.module.financial.service.impl.CashDrawerServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 
-    <bean id="flexibleOffsetAccountService" class="org.kuali.module.financial.service.impl.FlexibleOffsetAccountServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="accountService">
-        	<ref bean="accountService" />
-        </property>
-        <property name="objectCodeService">
-        	<ref bean="objectCodeService" />
-        </property>
-        <property name="dateTimeService">
-        	<ref bean="dateTimeService" />
-        </property>
-    </bean>
+	<bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
+		<property name="balanceDao">
+			<ref bean="glBalanceDao" />
+		</property>
+	</bean>
 
-    <bean id="serviceBillingControlService" class="org.kuali.module.financial.service.impl.ServiceBillingControlServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
+	<bean id="cashManagementService" class="org.kuali.module.financial.service.impl.CashManagementServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="cashDrawerService">
+			<ref bean="cashDrawerService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
 
-    <bean id="fiscalYearFunctionControlService" class="org.kuali.module.financial.service.impl.FiscalYearFunctionControlServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
+	<bean id="flexibleOffsetAccountService" class="org.kuali.module.financial.service.impl.FlexibleOffsetAccountServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
 
-    <bean id="procurementCardCreateDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardCreateDocumentServiceImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-        <property name="dataDictionaryService">
-            <ref bean="dataDictionaryService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
-        </property>
-    </bean>
+	<bean id="serviceBillingControlService" class="org.kuali.module.financial.service.impl.ServiceBillingControlServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 
-    <bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="dictionaryValidationService">
-            <ref bean="dictionaryValidationService" />
-        </property>
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-    </bean>
+	<bean id="fiscalYearFunctionControlService" class="org.kuali.module.financial.service.impl.FiscalYearFunctionControlServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 
-    <bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
-        </property>
-    </bean>
+	<bean id="procurementCardCreateDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardCreateDocumentServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+	</bean>
 
-    <bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep">
-        <property name="procurementCardLoadTransactionsService">
-            <ref bean="procurementCardLoadTransactionsService" />
-        </property>
-    </bean>
+	<bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
 
-    <bean id="createDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep">
-        <property name="procurementCardCreateDocumentService">
-            <ref bean="procurementCardCreateDocumentService" />
-        </property>
-    </bean>
+	<bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+	</bean>
 
-    <bean id="routeDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep">
-        <property name="procurementCardCreateDocumentService">
-            <ref bean="procurementCardCreateDocumentService" />
-        </property>
-    </bean>
+	<bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep">
+		<property name="procurementCardLoadTransactionsService">
+			<ref bean="procurementCardLoadTransactionsService" />
+		</property>
+	</bean>
 
-    <bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep">
-        <property name="procurementCardCreateDocumentService">
-            <ref bean="procurementCardCreateDocumentService" />
-        </property>
-    </bean>
-    
-    <bean id="cashReceiptCoverSheetService" class="org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl">
-    </bean>
-    
-    <bean id="budgetAdjustmentLaborBenefitsService" class="org.kuali.module.financial.service.impl.BudgetAdjustmentLaborBenefitsServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
-    
-    <bean id="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable" parent="workflowLookupable" singleton="false">
-        <property name="businessObjectClassName">
-            <value>org.kuali.module.financial.bo.PaymentReasonCode</value>
-        </property>
-    </bean>
+	<bean id="createDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep">
+		<property name="procurementCardCreateDocumentService">
+			<ref bean="procurementCardCreateDocumentService" />
+		</property>
+	</bean>
 
-    <bean id="workflow-org.kuali.module.financial.bo.TaxControlCode-Lookupable" parent="workflowLookupable" singleton="false">
-        <property name="businessObjectClassName">
-            <value>org.kuali.module.financial.bo.TaxControlCode</value>
-        </property>
-    </bean>
+	<bean id="routeDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep">
+		<property name="procurementCardCreateDocumentService">
+			<ref bean="procurementCardCreateDocumentService" />
+		</property>
+	</bean>
 
+	<bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep">
+		<property name="procurementCardCreateDocumentService">
+			<ref bean="procurementCardCreateDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="cashReceiptCoverSheetService" class="org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl"></bean>
+
+	<bean id="budgetAdjustmentLaborBenefitsService" class="org.kuali.module.financial.service.impl.BudgetAdjustmentLaborBenefitsServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="workflow-org.kuali.module.financial.bo.PaymentReasonCode-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.module.financial.bo.PaymentReasonCode</value>
+		</property>
+	</bean>
+
+	<bean id="workflow-org.kuali.module.financial.bo.TaxControlCode-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.module.financial.bo.TaxControlCode</value>
+		</property>
+	</bean>
+
+	<bean id="checkDao" class="org.kuali.module.financial.dao.ojb.CheckDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="cashDetailTypeCodeService" class="org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl">
+		<property name="kualiCodeService">
+			<ref bean="kualiCodeService" />
+		</property>
+	</bean>
 </beans>

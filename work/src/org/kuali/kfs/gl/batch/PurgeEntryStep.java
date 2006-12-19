@@ -41,7 +41,7 @@ public class PurgeEntryStep implements Step {
      * should NOT be transactional.
      * 
      */
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         String yearStr = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR);

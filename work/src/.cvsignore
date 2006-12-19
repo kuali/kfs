@@ -11,3 +11,6 @@ OJB.properties
 META-INF
 OJB-repository.xml
 SpringConfigurationResources.xml
+SpringBeans.xml
+SpringWebDataSource.xml
+SpringWebBeans.xml

@@ -23,7 +23,7 @@ public class OrganizationReversionEndOfYearStep implements Step {
 
     private OrganizationReversionProcessService organizationReversionProcessService;
 
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         organizationReversionProcessService.organizationReversionProcessEndOfYear();

@@ -1,48 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="labor-Module" class="org.kuali.core.KualiModule">
-    	<property name="moduleId">
-    		<value>labor</value>
-    	</property>
-    	<property name="moduleName">
-    		<value>Kuali Labor Distribution</value>
-    	</property>
-    	<property name="moduleUserService">
-    		<ref bean="laborUserService" />
-    	</property>
-    	<property name="moduleAuthorizer">
-		    <bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">    
-		    	<property name="packagePrefixes">
-		    		<list>
-		    			<value>org.kuali.module.labor.</value>
-		    		</list>
-		    	</property>
-		    </bean>
-    	</property>
-    	<property name="moduleUserRule"><null /></property>
-    	<property name="moduleUserPreRules"><null /></property>
+	<bean id="laborMetaData" class="org.kuali.core.KualiModuleMetaData">
+		<property name="id" value="labor" />
+		<property name="name" value="Kuali Labor Distribution" />
+		<property name="transactionalizedServiceNames">
+			<list>
+				<value>laborUserService</value>
+			</list>
+		</property>
+		<property name="cachedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="cacheMethodPatterns">
+			<list>
+			</list>
+		</property>
+		<property name="loggedServiceNames">
+			<list>
+			</list>
+		</property>
+		<property name="jobDetails">
+			<list>
+			</list>
+		</property>
 	</bean>
-		
-    <bean id="laborUserService" class="org.kuali.module.labor.service.impl.LaborUserServiceImpl" parent="kualiModuleUserServiceBase">
-    	<property name="chartUserService">
-    		<ref bean="chartUserService" />
-    	</property>
-    </bean>
 
+	<bean id="laborModule" class="org.kuali.core.KualiModule">
+		<property name="metaData" ref="laborMetaData" />
+		<property name="moduleUserService" ref="laborUserService" />
+		<property name="moduleAuthorizer">
+			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.module.labor.</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserRule">
+			<null />
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
+	</bean>
+
+	<bean id="laborUserService" class="org.kuali.module.labor.service.impl.LaborUserServiceImpl" parent="kualiModuleUserServiceBase">
+		<property name="chartUserService">
+			<ref bean="chartUserService" />
+		</property>
+	</bean>
 </beans>

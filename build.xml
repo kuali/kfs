@@ -9,7 +9,7 @@
 		<echoproperties />
 	</target>
 	
-	<target name="dist-test-local" depends="dist-local,make-tests" description="Prepare local configuration and tokenized resources and compile tests on a development workstation"/>
+	<target name="dist-test-local" depends="dist-local,make-tests" description="Prepare local configuration and tokenized resources and compile tests on a development workstation" />
 	
 	<target name="test-local" depends="init-project-properties,test" description="Run all unit tests and format results"/>
 
@@ -37,6 +37,9 @@
 		<condition property="load.institution.override.properties">
 			<available file="${build.institution.overrides.file}" />
 		</condition>
+		<condition property="institution.spring.beans.import" value="${institution.spring.beans.import.value}">
+			<available file="${institution.spring.beans.file}" />
+		</condition>
 		<echo message="Loaded properties in ./build.properties and set dependent properties" />
 	</target>
 
@@ -47,6 +50,7 @@
 
 	<target name="init-institution-default-properties" depends="init-institution-override-properties">
 		<property file="${build.institution.defaults.file}" />
+		<property name="institution.spring.beans.import" value="" />
 		<echo message="Loaded properties in ${build.institution.defaults.file}" />
 	</target>
 
@@ -109,6 +113,10 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="appenders" value="INFO, LogFile" />
+		<condition property="scheduler.beans" value="${quartz.scheduler.beans}">
+			<equals arg1="${use.quartz.scheduling}" arg2="true" />
+		</condition>
+		<property name="scheduler.beans" value="${no.quartz.scheduler.beans}" />
 		<filterset id="external.config.filterset">
 			<filter token="settings-root-directory" value="${settings.root.directory}" />
 			<filter token="security-root-directory" value="${security.root.directory}" />			
@@ -142,6 +150,9 @@
 			<filter token="context-docbase" value="${context.docbase}" />
 			<filter token="appenders" value="${appenders}" />
 			<filter token="batch-logger" value="" />
+			<filter token="batch-mailing-list" value="{batch.mailing.list}" />
+			<filter token="institution-spring-beans-import" value="${institution.spring.beans.import}" />
+			<filter token="scheduler-beans" value="${scheduler.beans}" />
 			<filter token="variable-ojb-properties" value="${application.ojb.properties}" />
 			<filter token="use-auto-commit" value="1" />
 		</filterset>
@@ -397,10 +408,10 @@
 		<copy todir="${plugin.lib.directory}">
 			<fileset dir="${lib.directory}" excludes="${workflow.exclude.library.list}" />
 		</copy>
-		<copy file="${build.tokenized.resources.directory}/OJB.properties" todir="${plugin.classes.directory}" overwrite="true">
+		<copy file="${build.tokenized.resources.directory}/${ojb.properties.file}" todir="${plugin.classes.directory}" overwrite="true">
 			<filterset refid="plugin.filterset" />
 		</copy>
-		<copy file="${build.tokenized.resources.directory}/OJB-repository.xml" todir="${plugin.classes.directory}" overwrite="true">
+		<copy file="${build.tokenized.resources.directory}/${ojb.repository.file}" todir="${plugin.classes.directory}" overwrite="true">
 			<filterset refid="plugin.filterset" />
 		</copy>
 		<copy file="${build.workflow.directory}/plugin/workflow.xml" todir="${plugin.metainf.directory}"/>

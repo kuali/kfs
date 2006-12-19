@@ -35,7 +35,7 @@ public class PosterReversalStep implements Step {
         return "Poster of Reversed Entries";
     }
 
-    public boolean performStep() {
+    public boolean execute() {
         LOG.debug("performStep() started");
 
         posterService.postReversalEntries();

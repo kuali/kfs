@@ -34,4 +34,6 @@ public interface GenesisDao {
     *  get the initiator ID for budget construction
     */
    public String getBudgetConstructionInitiatorID();
+   
+   public ArrayList<HashMap> readGLForPBGL(Integer BaseYear);
 }

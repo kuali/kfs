@@ -31,10 +31,22 @@ public class GenesisServiceImpl implements GenesisService {
     /*  settings for common fields for all document headers for budget construction */
     
       private GenesisDao genesisDao;
-        
+
+      public final void testStep (Integer BaseYear)
+      {
+         HashMap   pBGL;
+         HashMap   bCHdr;
+         ArrayList<HashMap> returnHash = genesisDao.readGLForPBGL(BaseYear);
+         pBGL = returnHash.get(0);
+         bCHdr = returnHash.get(1);
+         System.out.printf("number of elements in pBGL map = %d",pBGL.size());
+         System.out.printf("Number of elements in pBCHdr map = %d",bCHdr.size());
+         
+      }
+      
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)
       {
-          
+
           if (genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
                   Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))
           {
@@ -53,7 +65,7 @@ public class GenesisServiceImpl implements GenesisService {
           if (genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
                      Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE) &&
                      genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
-                      Constants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK))
+                     Constants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK))
           {   
               // this is the more complicated branch that updates the BC GL
               // there should be a private method called here, as in the first branch

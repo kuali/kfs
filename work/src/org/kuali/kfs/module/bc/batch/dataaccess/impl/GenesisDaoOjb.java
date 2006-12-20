@@ -16,6 +16,7 @@
 package org.kuali.module.budget.dao.ojb;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ import org.kuali.module.chart.bo.*;
 
 import org.apache.ojb.broker.query.*;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
-import org.apache.log4j.Logger;
+import org.apache.log4j.*;
 
 
 public class GenesisDaoOjb extends PersistenceBrokerDaoSupport 
@@ -62,6 +63,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
 
     // @@TODO maybe it isn't worth moving this home-coming queen value somewhere else
     public final static Long DEFAULT_VERSION_NUMBER = new Long(0);
+    
 
     public final Map<String,String> getBudgetConstructionControlFlags (Integer universityFiscalYear)
     {
@@ -89,7 +91,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         return controlFlags;        
     }
     
-    public final boolean getBudgetConstructionControlFlag(Integer universityFiscalYear, String FlagID)
+    public boolean getBudgetConstructionControlFlag(Integer universityFiscalYear, String FlagID)
     {
         /*  return true if a flag is on, false if it is not */
         String Result;
@@ -158,8 +160,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     private Integer sqlAccountLineAnnualBalanceAmount = 7;
     private Integer sqlBeginningBalanceLineAmount = 8;
     
-    public HashMap[] readGLForPBGL(Integer BaseYear)
+    public ArrayList<HashMap> readGLForPBGL(Integer BaseYear)
     {
+        // we apparently need to configure the log file in order to use it
         // @@TODO: should these be a "weak hash map", to optimize memory use?
        pBGL  = new HashMap();
        bCHdr = new HashMap();
@@ -183,7 +186,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                               GLConstants.ColumnNames.OBJECT_CODE,
                               GLConstants.ColumnNames.SUB_OBJECT_CODE,
                               GLConstants.ColumnNames.BALANCE_TYPE_CODE,
-                              GLConstants.ColumnNames.FIN_OBJ_TYP_CODE,
+                              GLConstants.ColumnNames.OBJECT_TYPE_CODE,
                               GLConstants.ColumnNames.ANNUAL_BALANCE,
                               GLConstants.ColumnNames.BEGINNING_BALANCE};
         ReportQueryByCriteria queryID = 
@@ -194,15 +197,21 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         // @@TODO this should be in a try/catch structure.  We should catch a 
         //        SQL error, write it to the log, and raise a more generic error
         //        ("error reading GL Balance Table in BC batch"), and throw that
-        LOG.debug("GL Query started: "+String.format("%T",new Date()));
+        LOG.debug("GL Query started: "+String.format("%tT",new Date()));
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        LOG.debug("GL Query finished: "+String.format("%T",new Date()));
+        LOG.debug("GL Query finished: "+String.format("%tT",new Date()));
         while (Results.hasNext())
         {
-            Object[] ReturnList = (Object[]) Results.next();
+            KualiDecimal BaseAmount = null;
+            Object[] ReturnList = (Object []) Results.next();
+            // @@TODO take this shit out
+            System.out.printf("fields returned = %d\n",ReturnList.length);
+            System.out.printf("value in last field = %s\n",
+                    ReturnList[sqlBeginningBalanceLineAmount].toString());
+            // @@TODO end of shit
             //
             //  exclude any rows where the amounts add to 0
-            KualiDecimal BaseAmount = 
+            BaseAmount = 
                 (KualiDecimal) ReturnList[sqlBeginningBalanceLineAmount];
             BaseAmount = 
                 BaseAmount.add((KualiDecimal) ReturnList[sqlAccountLineAnnualBalanceAmount]);
@@ -229,9 +238,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
         LOG.debug("Hash maps built: "+String.format("%T",new Date()));
         //  return the array pointing to the two lists
-        returnPointers = new HashMap[2];
-        returnPointers[0] = (HashMap) pBGL;
-        returnPointers[1] = (HashMap) bCHdr;
+        ArrayList<HashMap> returnPointers = new ArrayList<HashMap>(2);
+        returnPointers.add((HashMap) pBGL);
+        returnPointers.add((HashMap) bCHdr);
         return returnPointers;
     }
     //
@@ -301,7 +310,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        PBGLObj.setFinancialSubObjectCode((String) sqlResult[sqlSubObjectCode]);
        PBGLObj.setFinancialBalanceTypeCode((String) sqlResult[sqlBalanceTypeCode]);
        PBGLObj.setFinancialObjectTypeCode((String) sqlResult[sqlObjectTypeCode]);
-       KualiDecimal BaseAmount = 
+       KualiDecimal BaseAmount = null;
+       BaseAmount = 
            (KualiDecimal) sqlResult[sqlBeginningBalanceLineAmount];
        BaseAmount = 
            BaseAmount.add((KualiDecimal) sqlResult[sqlAccountLineAnnualBalanceAmount]);

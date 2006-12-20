@@ -25,6 +25,7 @@ public interface GenesisService {
      * GL table
     */ 
     public void stepBudgetConstructionGLLoad (Integer universityFiscalYear);
-    
+
+    public void testStep(Integer universityFiscalYear);
     
 }

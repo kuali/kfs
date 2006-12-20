@@ -81,4 +81,32 @@
 			<value>dataSource</value>
 		</property>
 	</bean>
+	
+	
+    <bean id="genesisService" class="org.kuali.module.budget.service.impl.GenesisServiceImpl">
+        <property name="genesisDao">
+            <ref bean="genesisDao" />
+        </property>
+    </bean>
+
+    <bean id="genesisDao" class="org.kuali.module.budget.dao.ojb.GenesisDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+    
+	
+    <bean id="dateMakerService" class="org.kuali.module.budget.service.impl.DateMakerServiceImpl">
+        <property name="fiscalYearMakersDao">
+            <ref bean="fiscalYearMakersDao" />
+        </property>
+    </bean>
+
+    <bean id="fiscalYearMakersDao" class="org.kuali.module.budget.dao.ojb.FiscalYearMakersDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+    
+	
 </beans>

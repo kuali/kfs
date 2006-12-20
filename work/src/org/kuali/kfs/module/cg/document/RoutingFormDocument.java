@@ -27,7 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
-import org.kuali.module.kra.budget.document.ResearchDocumentBase;
+import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
@@ -146,6 +146,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormPersonnel = new ArrayList<RoutingFormPersonnel>();
 	}
 
+    public void initialize() {
+        //no-op
+    }
+    
     /**
      * Ensures required fields for supporting objects are properly set since we don't use transient objects.
      */

@@ -31,8 +31,8 @@ import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.document.ResearchDocument;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
+import org.kuali.module.kra.document.ResearchDocument;
 
 /**
  * This class...

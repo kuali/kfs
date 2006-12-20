@@ -48,7 +48,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.WebUtils;
-import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.budget.xml.BudgetXml;

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;

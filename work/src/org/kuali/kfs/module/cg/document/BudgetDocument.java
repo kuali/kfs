@@ -36,7 +36,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
@@ -45,6 +45,7 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
+import org.kuali.module.kra.document.ResearchDocumentBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -85,6 +86,10 @@ public class BudgetDocument extends ResearchDocumentBase {
         thirdPartyCostShareNextSequenceNumber = new Integer(1);
     }
 
+    public void initialize() {
+        SpringServiceLocator.getBudgetService().initializeBudget(this);
+    }
+    
     //TODO Can't use this just yet - need to ensure that rules are run prior to this being called
 //    /**
 //     * Budget Document specific logic to perform prior to saving.

@@ -26,7 +26,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetModular;
@@ -70,6 +70,7 @@ public class BudgetServiceImpl implements BudgetService {
      */
     public void initializeBudget(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
+        budget.setDocumentNumber(budgetDocument.getDocumentNumber());
         budgetFringeRateService.setupDefaultFringeRates(budget);
         budgetGraduateAssistantRateService.setupDefaultGradAssistantRates(budget);
         budgetIndirectCostService.setupIndirectCostRates(budget);

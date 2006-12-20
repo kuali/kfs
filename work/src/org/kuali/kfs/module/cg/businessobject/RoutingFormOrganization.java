@@ -34,7 +34,6 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	private boolean budgetIndicator;
 	private boolean routingFormPrimaryOrganizationIndicator;
 
-    private Chart chartOfAccounts;
 	private Org organization;
 
 	/**
@@ -145,27 +144,6 @@ public class RoutingFormOrganization extends BusinessObjectBase {
 	 */
 	public void setRoutingFormPrimaryOrganizationIndicator(boolean routingFormPrimaryOrganizationIndicator) {
 		this.routingFormPrimaryOrganizationIndicator = routingFormPrimaryOrganizationIndicator;
-	}
-
-
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
 	}
 
 	/**

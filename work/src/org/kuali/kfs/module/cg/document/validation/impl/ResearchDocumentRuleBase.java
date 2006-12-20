@@ -19,7 +19,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentRuleBase;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.kra.budget.document.ResearchDocument;
+import org.kuali.module.kra.document.ResearchDocument;
 
 /**
  * This class...

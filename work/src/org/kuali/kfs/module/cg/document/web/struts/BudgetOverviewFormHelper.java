@@ -26,7 +26,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.bo.BudgetModularPeriod;

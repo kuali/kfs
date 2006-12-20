@@ -18,15 +18,17 @@ package org.kuali.module.kra.routingform.web.struts.form;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 
-public class RoutingForm extends KualiDocumentFormBase {
+public class RoutingForm extends ResearchDocumentFormBase {
     
     private boolean auditActivated;
     private RoutingFormKeyword newRoutingFormKeyword;
@@ -34,6 +36,7 @@ public class RoutingForm extends KualiDocumentFormBase {
     private RoutingFormOtherCostShare newRoutingFormOtherCostShare;
     private RoutingFormSubcontractor newRoutingFormSubcontractor;
     private RoutingFormPersonnel newRoutingFormPersonnel;
+    private RoutingFormOrganization newRoutingFormOrganization;
     
     public RoutingForm() {
         super();
@@ -43,6 +46,11 @@ public class RoutingForm extends KualiDocumentFormBase {
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
         
         setDocument(new RoutingFormDocument());
+    }
+    
+    @Override
+    public ResearchDocument getResearchDocument(){
+        return this.getRoutingFormDocument();
     }
     
     public RoutingFormDocument getRoutingFormDocument(){
@@ -95,5 +103,13 @@ public class RoutingForm extends KualiDocumentFormBase {
 
     public void setNewRoutingFormPersonnel(RoutingFormPersonnel newRoutingFormPersonnel) {
         this.newRoutingFormPersonnel = newRoutingFormPersonnel;
+    }
+
+    public RoutingFormOrganization getNewRoutingFormOrganization() {
+        return newRoutingFormOrganization;
+    }
+
+    public void setNewRoutingFormOrganization(RoutingFormOrganization newRotuingFormOrganization) {
+        this.newRoutingFormOrganization = newRotuingFormOrganization;
     }
 }

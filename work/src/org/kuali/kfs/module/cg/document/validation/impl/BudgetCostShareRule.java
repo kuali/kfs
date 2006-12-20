@@ -23,12 +23,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.module.kra.budget.KraKeyConstants;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
-import org.kuali.module.kra.budget.util.AuditCluster;
-import org.kuali.module.kra.budget.util.AuditError;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
+import org.kuali.module.kra.util.AuditCluster;
+import org.kuali.module.kra.util.AuditError;
 
 public class BudgetCostShareRule {
 

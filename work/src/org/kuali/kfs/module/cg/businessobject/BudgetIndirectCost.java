@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.KraConstants;
+import org.kuali.module.kra.KraConstants;
 
 /**
  * 

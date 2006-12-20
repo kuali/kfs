@@ -24,7 +24,7 @@ import org.kuali.core.document.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.KraPropertyConstants;
+import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.VendorSupplierDiversity;

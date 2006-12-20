@@ -26,17 +26,17 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.KraConstants;
-import org.kuali.module.kra.budget.KraKeyConstants;
+import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetIndirectCostService;
-import org.kuali.module.kra.budget.util.AuditCluster;
-import org.kuali.module.kra.budget.util.AuditError;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
+import org.kuali.module.kra.util.AuditCluster;
+import org.kuali.module.kra.util.AuditError;
 
 public class BudgetAuditRule {
     

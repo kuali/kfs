@@ -18,8 +18,8 @@ package org.kuali.module.kra.routingform.rules;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.document.ResearchDocument;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
+import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**

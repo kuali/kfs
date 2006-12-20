@@ -16,8 +16,6 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,16 +24,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.action.KualiDocumentActionBase;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
-public class RoutingFormAction extends KualiDocumentActionBase {
+public class RoutingFormAction extends ResearchDocumentActionBase {
     
     public ActionForward mainpage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward("mainpage");
@@ -118,34 +114,5 @@ public class RoutingFormAction extends KualiDocumentActionBase {
         */
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ActionForward forward = super.docHandler(mapping, form, request, response);
-        RoutingForm routingForm = (RoutingForm) form;
-
-        if (IDocHandler.INITIATE_COMMAND.equals(routingForm.getCommand())) {
-            routingForm.getRoutingFormDocument().setDocumentNumber(routingForm.getRoutingFormDocument().getDocumentNumber());
-        }
-        return forward;
-    }
-    
-    /**
-     * This method will load the document, which was previously saved
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward load(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        RoutingForm routingForm = (RoutingForm) form;
-        routingForm.setDocId(routingForm.getDocument().getDocumentNumber());
-        this.loadDocument(routingForm);
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
 }

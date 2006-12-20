@@ -29,7 +29,7 @@
 <c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
 <c:set var="cgSubcontractorAttributes" value="${DataDictionary.Subcontractor.attributes}" />
 
-<kul:tab tabTitle="Subcontracts" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
+<kul:tab tabTitle="Subcontracts" defaultOpen="false" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
 
   <div class="tab-container" align="center">
     <div class="h2-container"><span class="subhead-left">

@@ -37,7 +37,6 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 
     private Chart chartOfAccounts;
 	private Org organization;
-    private RoutingFormOrganization routingFormOrganization;
     private RoutingFormDocument routingFormDocument;
     
 	/**
@@ -172,27 +171,6 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 		this.organizationCreditRoleText = organizationCreditRoleText;
 	}
 
-
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
-
 	/**
 	 * Gets the organization attribute.
 	 * 
@@ -212,24 +190,7 @@ public class RoutingFormOrganizationCreditPercent extends BusinessObjectBase {
 	public void setOrganization(Org organization) {
 		this.organization = organization;
 	}
-
-    /**
-     * Gets the routingFormOrganization attribute. 
-     * @return Returns the routingFormOrganization.
-     */
-    public RoutingFormOrganization getRoutingFormOrganization() {
-        return routingFormOrganization;
-    }
-
-    /**
-     * Sets the routingFormOrganization attribute value.
-     * @param routingFormOrganization The routingFormOrganization to set.
-     * @deprecated
-     */
-    public void setRoutingFormOrganization(RoutingFormOrganization routingFormOrganization) {
-        this.routingFormOrganization = routingFormOrganization;
-    }    
-
+    
     /**
      * Gets the routingFormDocument attribute. 
      * @return Returns the routingFormDocument.

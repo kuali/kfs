@@ -22,7 +22,8 @@
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" />
+		editableAccounts="${KualiForm.editableAccounts}" 
+		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"/>
 	<ld:laborLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

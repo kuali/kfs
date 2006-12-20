@@ -60,9 +60,11 @@ public class GeneralLedgerTestHelper {
             Arrays.fill(lineChars, ' ');
             char[] lineA = line.toCharArray();
             System.arraycopy(lineA, 0, lineChars, 0, lineA.length);
+            // converts the + at pos 91 to a space
             lineChars[91] = ' ';
             int idx = 92;
             do {
+                // converts leading 0 characters for amount to spaces
                 if ('0' != lineChars[idx]) {
                     break;
                 }
@@ -80,6 +82,26 @@ public class GeneralLedgerTestHelper {
             }
 
             String lin2 = new String(lineChars);
+            
+            // KULRNE-34: in FIS, doc numbers were 9 characters long, and in Kuali, they are 14
+            // it means we need to add 5 spaces after the doc number
+            // first char after doc number is at array pos 46
+            
+            String prefix = lin2.substring(0, 46);
+            String suffix = lin2.substring(46);
+            
+            lin2 = prefix + "     " + suffix;
+            
+            // now we add 5 characters to reference doc number
+            // reference doc number ends 11 spaces from end (see OriginEntry.java)
+            prefix = lin2.substring(0, lin2.length() - 11);
+            suffix = lin2.substring(lin2.length() - 11);
+            
+            lin2 = prefix + "     " + suffix;
+            
+            // the string is too long, so we truncate 10 characters off from it
+            lin2 = lin2.substring(0, lin2.length() - 10);
+            
             expectedOutputOriginEntries.add(lin2);
         }
 

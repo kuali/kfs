@@ -78,6 +78,14 @@ public class PendingBudgetConstructionAppointmentFunding extends BusinessObjectB
         budgetConstructionSalaryFunding = new ArrayList();
 
 	}
+    
+    public KualiDecimal getPercentChange() {
+        try {
+            return (appointmentRequestedAmount.subtract(bcnCalculatedSalaryFoundationTracker.getCsfAmount())).divide(bcnCalculatedSalaryFoundationTracker.getCsfAmount()).multiply(new KualiDecimal(100));
+        } catch (NullPointerException npe) {
+            return null;
+        }
+    }
 
 	/**
 	 * Gets the universityFiscalYear attribute.

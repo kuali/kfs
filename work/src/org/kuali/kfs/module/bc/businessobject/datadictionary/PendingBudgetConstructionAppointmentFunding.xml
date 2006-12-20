@@ -189,6 +189,21 @@
                 <summary>appointmentRequestedAmount</summary>
                 <description>appointmentRequestedAmount description...</description>
 			</attribute>
+			
+			<attribute name="percentChange" forceUppercase="true">
+                <label>Requested Change Amount</label>
+                <shortLabel>%Change</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>appointmentRequestedAmount</summary>
+                <description>appointmentRequestedAmount description...</description>
+			</attribute>
 
             <attribute name="appointmentRequestedCsfAmount" forceUppercase="true">
                 <label>Appointment Requested Csf Amount</label>

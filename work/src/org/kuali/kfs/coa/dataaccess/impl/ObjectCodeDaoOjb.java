@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.ObjectCodeDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**

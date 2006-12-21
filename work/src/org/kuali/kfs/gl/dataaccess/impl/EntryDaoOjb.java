@@ -23,11 +23,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
-import org.kuali.PropertyConstants;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 

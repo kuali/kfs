@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryDaoOjb.class);

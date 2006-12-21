@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the OrganizationDao interface.

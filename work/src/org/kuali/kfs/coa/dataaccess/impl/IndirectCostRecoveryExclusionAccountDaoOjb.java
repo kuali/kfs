@@ -23,7 +23,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 

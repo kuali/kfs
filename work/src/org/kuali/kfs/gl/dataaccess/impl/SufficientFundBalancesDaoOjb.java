@@ -23,7 +23,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 

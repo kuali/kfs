@@ -26,7 +26,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
 import org.kuali.module.financial.bo.TravelMileageRate;
 import org.kuali.module.financial.dao.TravelMileageRateDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the TravelMileageRate interface.

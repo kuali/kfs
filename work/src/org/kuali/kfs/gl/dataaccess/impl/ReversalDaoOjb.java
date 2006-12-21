@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 

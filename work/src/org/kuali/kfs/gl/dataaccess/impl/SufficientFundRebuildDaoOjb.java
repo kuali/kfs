@@ -23,7 +23,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class SufficientFundRebuildDaoOjb extends PersistenceBrokerDaoSupport implements SufficientFundRebuildDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundRebuildDaoOjb.class);

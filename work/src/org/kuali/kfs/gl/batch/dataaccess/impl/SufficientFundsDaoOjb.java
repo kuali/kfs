@@ -28,7 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.dao.SufficientFundsDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implements SufficientFundsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsDaoOjb.class);

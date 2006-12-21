@@ -23,7 +23,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 

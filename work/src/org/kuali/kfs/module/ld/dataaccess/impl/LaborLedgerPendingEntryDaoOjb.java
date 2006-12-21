@@ -30,19 +30,17 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.kuali.module.gl.util.OJBUtility;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 

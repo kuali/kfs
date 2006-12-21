@@ -15,13 +15,9 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.dao.ProjectCodeDao;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**

@@ -20,10 +20,10 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
-import org.kuali.PropertyConstants;
-import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class CorrectionChangeGroupDaoOjb extends PersistenceBrokerDaoSupport implements CorrectionChangeGroupDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionChangeGroupDaoOjb.class);

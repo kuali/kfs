@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ attribute name="includeDocumenHeaderIdFields" required="false" %>
 <%@ attribute name="excludeRoutingFormMainPage" required="false" %>
 
 <c:set var="excludeRoutingFormMainPage" value="${not empty excludeRoutingFormMainPage}"/>

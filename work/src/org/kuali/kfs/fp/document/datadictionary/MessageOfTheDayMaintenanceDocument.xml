@@ -22,7 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.MessageOfTheDay</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -46,6 +46,10 @@
             <field attributeName="financialSystemOriginationCode" />
         </lockingKeys>
 
+        <defaultExistenceChecks>
+            <reference attributeName="financialSystemOrigination" attributeToHighlightOnFail="financialSystemOriginationCode" />
+        </defaultExistenceChecks>
+        
         <maintainableSections>
             <maintainableSection title="Edit Message Of The Day">
                 <maintainableItems>

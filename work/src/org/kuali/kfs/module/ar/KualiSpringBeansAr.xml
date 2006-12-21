@@ -44,6 +44,10 @@
 			<list>
 			</list>
 		</property>
+		<property name="triggers">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="arModule" class="org.kuali.core.KualiModule">

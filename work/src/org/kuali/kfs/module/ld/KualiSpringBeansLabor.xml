@@ -40,6 +40,10 @@
 			<list>
 			</list>
 		</property>
+		<property name="triggers">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="laborModule" class="org.kuali.core.KualiModule">

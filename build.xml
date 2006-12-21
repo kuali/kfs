@@ -113,10 +113,10 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="appenders" value="INFO, LogFile" />
-		<condition property="scheduler.beans" value="${quartz.scheduler.beans}">
+		<condition property="scheduler.bean" value="${scheduler.bean.xml}">
 			<equals arg1="${use.quartz.scheduling}" arg2="true" />
 		</condition>
-		<property name="scheduler.beans" value="${no.quartz.scheduler.beans}" />
+		<property name="scheduler.bean" value="" />
 		<filterset id="external.config.filterset">
 			<filter token="settings-root-directory" value="${settings.root.directory}" />
 			<filter token="security-root-directory" value="${security.root.directory}" />			
@@ -150,9 +150,9 @@
 			<filter token="context-docbase" value="${context.docbase}" />
 			<filter token="appenders" value="${appenders}" />
 			<filter token="batch-logger" value="" />
-			<filter token="batch-mailing-list" value="{batch.mailing.list}" />
+			<filter token="batch-mailing-list" value="${batch.mailing.list}" />
 			<filter token="institution-spring-beans-import" value="${institution.spring.beans.import}" />
-			<filter token="scheduler-beans" value="${scheduler.beans}" />
+			<filter token="scheduler-bean" value="${scheduler.bean}" />
 			<filter token="variable-ojb-properties" value="${application.ojb.properties}" />
 			<filter token="use-auto-commit" value="1" />
 		</filterset>

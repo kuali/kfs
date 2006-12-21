@@ -48,6 +48,10 @@
 			<list>
 			</list>
 		</property>
+		<property name="triggers">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="financialModule" class="org.kuali.core.KualiModule">

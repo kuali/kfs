@@ -67,6 +67,10 @@
 			<list>
 			</list>
 		</property>
+		<property name="triggers">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="glModule" class="org.kuali.core.KualiModule">

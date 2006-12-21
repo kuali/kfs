@@ -22,6 +22,7 @@
 		<property name="transactionalizedServiceNames">
 			<list>
 				<value>laborUserService</value>
+				<value>laborLedgerPendingEntryService</value>				
 			</list>
 		</property>
 		<property name="cachedServiceNames">
@@ -71,4 +72,11 @@
 			<ref bean="chartUserService" />
 		</property>
 	</bean>
+	
+		<bean id="laborLedgerPendingEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerPendingEntryServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
 </beans>

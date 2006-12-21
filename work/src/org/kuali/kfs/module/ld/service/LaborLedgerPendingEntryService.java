@@ -15,13 +15,9 @@
  */
 package org.kuali.module.labor.service;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.core.service.BusinessObjectService;
 
 /**
  * This interface defines methods that a LaborLedgerPendingEntry Service must provide
@@ -37,49 +33,6 @@ public interface LaborLedgerPendingEntryService {
      * @param account
      * @return
      */
-    public boolean hasPendingGeneralLedgerEntry(Account account);
-
-    /**
-     * The method finds all pending ledger entries
-     * 
-     * @return all pending ledger entries
-     */
-    public Iterator findApprovedPendingLedgerEntries();
-
-    /**
-     * 
-     * This method retrieves all pending ledger entries for the given encumbrance
-     * 
-     * @param encumbrance the encumbrance entry
-     * @param isApproved the flag that indicates whether the pending entries are approved or don't care
-     * @return all pending ledger entries of the given encumbrance
-     */
-    public Iterator findPendingLedgerEntries(Encumbrance encumbrance, boolean isApproved);
-
-    /**
-     * 
-     * This method retrieves all pending ledger entries for the given encumbrance
-     * 
-     * @param balance the balance entry
-     * @param isApproved the flag that indicates whether the pending entries are approved or don't care
-     * @param isConsolidated determine whether the search results are consolidated
-     * @return all pending ledger entries of the given encumbrance
-     */
-    public Iterator findPendingLedgerEntries(Balance balance, boolean isApproved, boolean isConsolidated);
-
-    /**
-     * 
-     * This method retrieves all pending ledger entries matching the given entry criteria
-     * 
-     * @param isApproved the flag that indicates whether the pending entries are approved or don't care
-     * @param fieldValues the input fields and values
-     * @return all pending ledger entries matching the given balance criteria
-     */
-    public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved);
-
-    /**
-     * @param fieldValues
-     * @return
-     */
-    public Collection findPendingEntries(Map fieldValues, boolean isApproved);
+    
+    public int countMatching(Class clazz, Map fieldValues);
 }

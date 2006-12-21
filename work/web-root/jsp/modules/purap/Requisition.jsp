@@ -44,7 +44,9 @@
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
 
     <purap:delivery
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" 
+        displayRequisitionFields="true"
+        />
 
     <purap:additional
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"

@@ -18,11 +18,14 @@ package org.kuali.module.purap.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.bo.Building;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.purap.bo.VendorAddress;
@@ -98,7 +101,18 @@ public class RequisitionAction extends PurchasingActionBase {
         document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
         document.setDeliveryToPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
 
-        //TODO add code to retrieve new building list        
+        if( !( Constants.KUALI_LOOKUPABLE_IMPL.equals( rqForm.getRefreshCaller() )) &&
+             ( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ))) {
+            if( document.isDeliveryBuildingOther() ) {
+                document.setDeliveryBuildingName( "Other" );
+                document.setDeliveryBuildingCode( "OTH" );
+                rqForm.setNotOtherDelBldg( false );
+            } else {
+                document.setDeliveryBuildingName( null );
+                document.setDeliveryBuildingCode( null );
+                rqForm.setNotOtherDelBldg( true );
+            }
+        }
         return super.refresh(mapping, form, request, response);
     }
 

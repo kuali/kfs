@@ -22,8 +22,12 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
+<%@ attribute name="displayRequisitionFields" required="false"
+              description="A boolean as to whether the document is a Requisition."%>
              
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="notOtherDelBldg" value="${KualiForm.notOtherDelBldg}" />
+
 
 <kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -32,21 +36,21 @@
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Delivery Section">
-
             <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryCampusCode}" /></div>
+ 				<th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingName}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute 
-                    	attributeEntry="${documentAttributes.deliveryCampusCode}" 
-                    	property="document.deliveryCampusCode" 
-                    	onchange="submitForm()" 
-                    	readOnly="${readOnly}"/>&nbsp;
-                    <c:if test="${!readOnly}">
-                    	<html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
-                    </c:if>                
-                </td>
+                    	attributeEntry="${documentAttributes.deliveryBuildingName}" 
+                    	property="document.deliveryBuildingName"
+                    	onchange="submitForm()"
+                    	readOnly="${true}"/>&nbsp;
+                    <c:if test="${notOtherDelBldg}">
+                    	<kul:lookup boClassName="org.kuali.core.bo.Building" 
+                    		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
+                    </c:if>
+                </td>           
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToName}"/></div>
                 </th>
@@ -58,19 +62,16 @@
                 </td>
             </tr>
             <tr>
-            	<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingName}"/></div>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryCampusCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute 
-                    	attributeEntry="${documentAttributes.deliveryBuildingName}" 
-                    	property="document.deliveryBuildingName"
-                    	onchange="submitForm()"
-                    	readOnly="${readOnly}"/>&nbsp;
-                    <c:if test="${!readOnly}">
-                    	<html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
-                    </c:if>
-                </td>
+                    	attributeEntry="${documentAttributes.deliveryCampusCode}" 
+                    	property="document.deliveryCampusCode" 
+                    	onchange="submitForm()" 
+                    	readOnly="${notOtherDelBldg}"/>                
+                </td>           	
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToEmailAddress}"/></div>
                 </th>
@@ -81,11 +82,14 @@
             </tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingLine1Address}"/></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" 
-                    	property="document.deliveryBuildingLine1Address"  readOnly="${readOnly}"/>
+					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingOther}"/></div>
+				</th>
+				<td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingOther}" 
+                    	property="document.deliveryBuildingOther"  readOnly="${readOnly}"/>&nbsp;
+                    <c:if test="${!readOnly}">
+                    	<html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+                    </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToPhoneNumber}"/></div>
@@ -97,12 +101,12 @@
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingLine2Address}"/></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingLine1Address}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
-                    	property="document.deliveryBuildingLine2Address" readOnly="${readOnly}"/>
-                </td>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" 
+                    	property="document.deliveryBuildingLine1Address"  readOnly="${readOnly}"/>
+                </td>			
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDate}"/></div>
                 </th>
@@ -113,11 +117,11 @@
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}"/></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingLine2Address}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
-                    	property="document.deliveryBuildingRoomNumber" readOnly="${readOnly}"/>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
+                    	property="document.deliveryBuildingLine2Address" readOnly="${readOnly}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}"/></div>
@@ -129,21 +133,30 @@
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}"/></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
+                    	property="document.deliveryBuildingRoomNumber" readOnly="${readOnly}"/>
+                </td>			
+                <th align=right valign=middle class="bord-l-b" rowspan="4">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
+                </th>
+                <td align=left valign=middle class="datacell"  rowspan="4">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
+                    	property="document.deliveryInstructionText" readOnly="${readOnly}"/>
+                </td>
+			</tr>
+			<tr>
+				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryCityName}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCityName}" 
                     	property="document.deliveryCityName" readOnly="${readOnly}"/>
                 </td>
-                <th align=right valign=middle class="bord-l-b" rowspan="3">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
-                </th>
-                <td align=left valign=middle class="datacell"  rowspan="3">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
-                    	property="document.deliveryInstructionText" readOnly="${readOnly}"/>
-                </td>
-			</tr>
-			<tr>
+            </tr>
+            <tr>			
 				<th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryStateCode}"/></div>
                 </th>

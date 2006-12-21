@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.purap.bo.PurchasingItem;
 
@@ -24,7 +25,10 @@ import org.kuali.module.purap.bo.PurchasingItem;
  * 
  */
 public class PurchasingFormBase extends KualiTransactionalDocumentFormBase {
+    
     private PurchasingItem newPurchasingItemLine;
+    private Boolean notOtherDelBldg = true;
+    
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
      */
@@ -60,4 +64,11 @@ public class PurchasingFormBase extends KualiTransactionalDocumentFormBase {
     public PurchasingItem setupNewPurchasingItemLine() {
         return null;
     }
+    public Boolean getNotOtherDelBldg() {
+        return notOtherDelBldg;
+    }
+    public void setNotOtherDelBldg(Boolean notOtherDelBldg) {
+        this.notOtherDelBldg = notOtherDelBldg;
+    }
+       
 }

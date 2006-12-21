@@ -115,6 +115,7 @@
         </headerNavigation>
         
         <allowsNoteDelete>true</allowsNoteDelete>
+        <displayTopicFieldInNotes>true</displayTopicFieldInNotes>
         <!--  attachmentTypesValuesFinderClass>org.kuali.module.kra.budget.lookup.keyvalues.BudgetBaseCodeValuesFinder</attachmentTypesValuesFinderClass -->
         
     </researchDocument>

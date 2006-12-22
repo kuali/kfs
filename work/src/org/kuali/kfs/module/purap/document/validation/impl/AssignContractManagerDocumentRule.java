@@ -58,7 +58,8 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
         AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) approveEvent.getDocument();
-        return isValid &= processValidation(acmDocument);
+//        isValid &= processValidation(acmDocument);
+        return isValid;
     }
 
     private boolean processValidation(AssignContractManagerDocument document) {
@@ -91,7 +92,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
                 Map fieldValues = new HashMap();
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
                 if ( SpringServiceLocator.getBusinessObjectService().countMatching(ContractManager.class, fieldValues) != 1 ) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_ERRORS,
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS,
                             PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE);
                     isValid = false;
                 }

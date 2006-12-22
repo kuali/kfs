@@ -103,18 +103,10 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                 // If the ContractManagerCode of the saved req is not null it means that another
                 //   AssignContractManagerDocument already assigned the contract manager.
                 //   If so we won't assign it here but will send an fyi to the initiator of this document.
-// TODO: check the logic of the following if.
                 if (ObjectUtils.isNotNull(req.getContractManagerCode()) &&
                   req.getStatusCode().equals(PurapConstants.RequisitionStatuses.CLOSED) && 
                   !req.getContractManagerCode().equals(detail.getContractManagerCode())) {
                     // TODO: send a workflow fyi here.
-                    this.getDocumentHeader().getWorkflowDocument().isFYIRequested();
-                    try {
-                        this.getDocumentHeader().getWorkflowDocument().fyi();
-                    }
-                    catch (WorkflowException e) {
-                        e.printStackTrace();
-                    }
                 } else {
                     req.setContractManagerCode(detail.getContractManagerCode());                    
                     boolean success = SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, 

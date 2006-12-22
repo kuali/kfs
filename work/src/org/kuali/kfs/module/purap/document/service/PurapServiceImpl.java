@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.util.List;
+
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.bo.StatusHistory;
@@ -43,10 +45,8 @@ public class PurapServiceImpl implements PurapService {
             return success;
         }
 
+        success &= this.updateStatusHistory(document, statusToSet);
         success = this.updateStatus(document, statusToSet);
-
-// TODO: make this work.
-//        success &= this.updateStatusHistory(document, statusToSet);
 
         LOG.debug("updateStatusAndStatusHistory(): leaving method.");
         return success;
@@ -93,13 +93,11 @@ public class PurapServiceImpl implements PurapService {
         }
 
         String oldStatus = document.getStatusCode();
-
-        StatusHistory statusHistory = new StatusHistory();
-        statusHistory.setOldStatusCode(document.getStatusCode());
-        statusHistory.setNewStatusCode(newStatus);
-        // TODO: add note, what other fields need to be filled?
+        StatusHistory statusHistory = new StatusHistory(oldStatus, newStatus);
         
-        document.getStatusHistories().add(statusHistory);
+        List statusHistories = document.getStatusHistories();
+        statusHistories.add(statusHistory);
+        document.setStatusHistories(statusHistories);
 
         success = true;
         if (success) {

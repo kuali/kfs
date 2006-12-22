@@ -20,7 +20,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
 
-<!--  c:set var="assignContractManagerAttributes" value="${DataDictionary.AssignContractManager.attributes}" / -->
 <c:set var="requisitionAttributes" value="${DataDictionary.KualiRequisitionDocument.attributes}" />
 <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
@@ -32,15 +31,6 @@
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Assign A Contract Manager">
-
-		      1<kul:displayIfErrors keyMatch="${PurapConstants.ASSIGN_CONTRACT_MANAGER_ERRORS}">
-				  <tr>
-		    		<th colspan=3>
-		        		2<kul:errors keyMatch="${PurapConstants.ASSIGN_CONTRACT_MANAGER_ERRORS}" />
-		    		</th>
-				  </tr>    
-    		  </kul:displayIfErrors>
-	
 			<c:if test="${empty KualiForm.document.unassignedRequisitions}">
 		        <th align=right valign=middle class="bord-l-b">
 		            <div align="center"><br>There are no unassigned requisitions.<br></div>

@@ -106,11 +106,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Integer contractManagerCode;
     private boolean purchaseOrderAutomaticIndicator;
 
-    private String vendorNumber; //not persisted in db
-    private Integer vendorAddressGeneratedIdentifier; //not persisted in db
-    private String vendorContractName; //not persisted in db
-    private String supplierDiversityLabel; //not persisted in db
-    private String vendorContactsLabel; //not persisted in db
+    // NOT PERSISTED IN DB
+    private String vendorNumber; 
+    private Integer vendorAddressGeneratedIdentifier;
+    private String vendorContractName;
+    private String supplierDiversityLabel;
+    private String vendorContactsLabel;
+    private String contractManagerName;
+    private boolean deliveryBuildingOther; 
     
     // REFERENCE OBJECTS
     private FundingSource fundingSource;
@@ -1679,6 +1682,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.vendorContract = vendorContract;
     }
 
+    public String getContractManagerName() {
+        return contractManagerName;
+    }
+
+    public void setContractManagerName(String contractManagerName) {
+        this.contractManagerName = contractManagerName;
+    }
 
     /**
      * Gets the items attribute. 
@@ -1688,7 +1698,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return items;
     }
 
-
     /**
      * Sets the items attribute value.
      * @param items The items to set.
@@ -1696,6 +1705,23 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setItems(List items) {
         this.items = items;
     }
+
+    /**
+     * Gets the deliveryBuildingOther attribute. 
+     * @return Returns the deliveryBuildingOther.
+     */
+    public boolean isDeliveryBuildingOther() {
+        return deliveryBuildingOther;
+    }
+
+    /**
+     * Sets the deliveryBuildingOther attribute value.
+     * @param deliveryBuildingOther The deliveryBuildingOther to set.
+     */
+    public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
+        this.deliveryBuildingOther = deliveryBuildingOther;
+    }
+
 
     public void addItem(PurchasingItem item) {
         int itemLinePosition = items.size();

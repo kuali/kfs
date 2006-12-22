@@ -434,6 +434,8 @@
 <attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
+    <required>true</required>
+    
     <summary>purchaseOrderCostSourceCode</summary>
     <description>purchaseOrderCostSourceCode description...</description>
 </attributeReference>
@@ -513,6 +515,7 @@
 <attributeReference name="requestorPersonPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
     <label>Requestor Phone</label>
     <shortLabel>Phone Number</shortLabel>
+    <required>true</required>
 
     <summary>requestorPersonPhoneNumber</summary>
     <description>requestorPersonPhoneNumber description...</description>

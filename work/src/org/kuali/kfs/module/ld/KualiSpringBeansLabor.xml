@@ -77,6 +77,13 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-	</bean>
+		</bean>
+		
+		<bean id="laborScrubberValidator" class="org.kuali.module.labor.service.impl.ScrubberValidatorImpl">
+        <property name="scrubberValidator">
+            <ref bean="glScrubberValidator" />
+        </property>
+    </bean>
+
 	
 </beans>

@@ -29,6 +29,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
@@ -102,4 +103,24 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         return valid;
     }
+    
+    /**
+     * Validate that if the PurchaseOrderTotalLimit is not null 
+     *   then the TotalDollarAmount cannot be greater than the PurchaseOrderTotalLimit. 
+     * 
+     * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
+     */
+    boolean validateTotDollarAmtIsLessThanPOTotLimit(PurchasingDocument document) {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(document.getPurchaseOrderTotalLimit()) &&
+              ObjectUtils.isNotNull(document.getTotalDollarAmount())) {
+            if (document.getTotalDollarAmount().isGreaterThan(document.getPurchaseOrderTotalLimit())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, 
+                  PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
+                valid &= false;
+            }
+        } 
+        return valid;
+    }
+
 }

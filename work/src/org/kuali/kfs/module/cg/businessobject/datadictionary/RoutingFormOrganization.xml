@@ -81,13 +81,13 @@
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
                 <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Chart</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SimpleChartValuesFinder" />
                 </control>
 
                 <summary>chartOfAccountsCode</summary>

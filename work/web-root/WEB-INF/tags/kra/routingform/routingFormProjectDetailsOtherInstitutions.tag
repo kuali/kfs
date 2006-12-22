@@ -28,8 +28,8 @@
 <c:set var="routingFormOrganizationAttributes" value="${DataDictionary.RoutingFormOrganization.attributes}" />
 
 
-<kul:tab tabTitle="Other Organizations" defaultOpen="false" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
-
+<kul:tab tabTitle="Other Organizations" defaultOpen="false" tabErrorKey="document.routingFormOrganization*" >
+  <div class="tab-container" align="center">
             <div class="h2-container">
               <h2>Other Organizations</h2>
             </div>
@@ -57,68 +57,36 @@
                 </div></td>
                 <td class="infoline"><div align="center">
                   <kul:htmlControlAttribute property="newRoutingFormOrganization.organizationCode" attributeEntry="${routingFormOrganizationAttributes.organizationCode}" />
-
+                  <kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="newRoutingFormOrganization.organizationCode:organizationCode,newRoutingFormOrganization.chartOfAccountsCode:chartOfAccountsCode" fieldConversions="organizationCode:newRoutingFormOrganization.organizationCode,chartOfAccountsCode:newRoutingFormOrganization.chartOfAccountsCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 </div></td>
-                <td class="infoline"><div align=center><a href="ib-multi09.html"><img src="images/tinybutton-add1.gif" alt="add" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
+                <td class="infoline"><div align=center><html:image property="methodToCall.insertRoutingFormOrganization.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add other organization" /></div></td>
               </tr>
-              <tr>
-                <th scope="row"><div align="center">1</div></th>
-
-                <td><div align="center"><span class="infoline">
-                    <select name="newTargetLine.chartOfAccountsCode" tabindex="0" onchange="" onblur="loadChartInfo( this.name, 'newTargetLine.chart.finChartOfAccountDescription');" style="" class="">
-                      <option value=""></option>
-                      <option value="BA" selected>BA</option>
-                      <option value="BL">BL</option>
-                      <option value="EA">EA</option>
-                      <option value="FW">FW</option>
-
-                      <option value="HO">HO</option>
-                      <option value="IA">IA</option>
-                      <option value="IN">IN</option>
-                      <option value="IU">IU</option>
-                      <option value="KO">KO</option>
-                      <option value="NW">NW</option>
-
-                      <option value="SB">SB</option>
-                      <option value="SE">SE</option>
-                      <option value="UA">UA</option>
-                    </select>
-                    </span></div></td>
-                <td><div align="center"><span class="infoline">
-                    <input name="textfield" type="text" value="CARD" size="12">
-
-                    </span> <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
-                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
-              </tr>
-              <tr>
-                <th  scope="row"><div align="center">2</div></th>
-                <td><div align="center"><span class="infoline">
-                    <select name="newTargetLine.chartOfAccountsCode" tabindex="0" onchange="" onblur="loadChartInfo( this.name, 'newTargetLine.chart.finChartOfAccountDescription');" style="" class="">
-
-                      <option value=""></option>
-                      <option value="BA">BA</option>
-                      <option value="BL">BL</option>
-                      <option value="EA">EA</option>
-                      <option value="FW">FW</option>
-                      <option value="HO">HO</option>
-
-                      <option value="IA" selected>IA</option>
-                      <option value="IN">IN</option>
-                      <option value="IU">IU</option>
-                      <option value="KO">KO</option>
-                      <option value="NW">NW</option>
-                      <option value="SB">SB</option>
-
-                      <option value="SE">SE</option>
-                      <option value="UA">UA</option>
-                    </select>
-                    </span></div></td>
-                <td><div align="center"><span class="infoline">
-                    <input name="textfield" type="text" value="UITS" size="12">
-                    </span> <a href="lookups/lookup-param1.html"><img src="images/searchicon.gif" alt="search" width=16 height=16 border=0 align="absmiddle"></a></div></td>
-
-                <td><div align=center> <a href="ib10c.html"><img src="images/tinybutton-delete1.gif" alt="delete" width=40 height=15 hspace=3 vspace=3 border=0></a></div></td>
-              </tr>
+              
+              <c:forEach items="${KualiForm.document.routingFormOrganizations}" var="routingFormOrganization" varStatus="status">
+                <tr>
+                  <th class="neutral">
+                    <div align="center">${status.index+1}</div>
+                  </th> 
+                  <td class="neutral">
+                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].documentNumber" attributeEntry="${institutionCostShareAttributes.documentNumber}" />
+                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].objectId" attributeEntry="${institutionCostShareAttributes.objectId}" />
+                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].versionNumber" attributeEntry="${institutionCostShareAttributes.versionNumber}" />
+                    <div align="center"><span class="infoline">
+                      <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].chartOfAccountsCode" attributeEntry="${routingFormOrganizationAttributes.chartOfAccountsCode}" />
+                    </span></div>
+                  </td>
+                  <td>
+                    <div align="center">
+                      <span class="infoline">
+                        <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].organizationCode" attributeEntry="${routingFormOrganizationAttributes.organizationCode}" /></span>
+                        <kul:lookup boClassName="org.kuali.module.chart.bo.Org" lookupParameters="document.routingFormOrganization[${status.index}].organizationCode:organizationCode,document.routingFormOrganization[${status.index}].chartOfAccountsCode:chartOfAccountsCode" fieldConversions="organizationCode:document.routingFormOrganization[${status.index}].organizationCode,chartOfAccountsCode:document.routingFormOrganization[${status.index}].chartOfAccountsCode" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                    </div>
+                  </td>
+                  <td class="neutral">
+                    <div align="center"><html:image property="methodToCall.deleteRoutingFormOrganization.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete institution cost share" /></div>
+                  </td>
+                </tr>
+              </c:forEach>
             </table>
-
+          </div>
         </kul:tab>

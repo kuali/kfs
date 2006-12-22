@@ -29,4 +29,10 @@ public class KraKeyConstants {
     public static final String AUDIT_PERSONNEL_STATUS = "audit.personnel.status";
     public static final String AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT = "audit.nonpersonnel.subcontractorExceesAmount";
     public static final String AUDIT_PARAMETERS_NEGATIVE_IDC = "audit.parameters.negativeIdc";
+    public static final String ERROR_INVALID_AMOUNT_POSITIVE_ONLY = "error.invalid.amount.positive.only";
+    public static final String ERROR_ORG_ALREADY_EXISTS_ON_RF = "error.org.already.exists.on.rf";
+    public static final String ERROR_ACCOUNT_ALREADY_EXISTS_ON_RF = "error.account.already.exists.on.rf";
+    public static final String ERROR_ORG_NOT_FOUND = "error.org.not.found";
+    public static final String ERROR_SUBCONTRACTOR_NOT_FOUND = "error.subcontractor.not.found";
+    public static final String ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF = "error.subcontractor.already.exists.on.rf";
 }

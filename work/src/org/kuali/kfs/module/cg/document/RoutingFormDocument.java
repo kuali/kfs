@@ -33,6 +33,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
@@ -119,6 +120,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private Agency federalPassThroughAgency;
     private List<RoutingFormPersonnel> routingFormPersonnel;
     private List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent;
+    private List<RoutingFormOrganization> routingFormOrganizations;
     
     //Sequence numbers for keeping track of the 'next' number
     private Integer routingFormNextInstitutionCostShareSequenceNumber;
@@ -144,6 +146,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
         routingFormPersonnel = new ArrayList<RoutingFormPersonnel>();
+        routingFormOrganizations = new ArrayList<RoutingFormOrganization>();
 	}
 
     public void initialize() {
@@ -1501,6 +1504,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         list.add(this.getRoutingFormKeywords());
         list.add(this.getRoutingFormResearchRisks());
         list.add(this.getAllRoutingFormResearchRiskStudies());
+        list.add(this.getRoutingFormOrganizations());
         
         return list;
     }
@@ -1595,5 +1599,32 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setPersonnelNextSequenceNumber(Integer personnelNextSequenceNumber) {
         this.personnelNextSequenceNumber = personnelNextSequenceNumber;
+    }
+
+    public List<RoutingFormOrganization> getRoutingFormOrganizations() {
+        return routingFormOrganizations;
+    }
+
+    public void setRoutingFormOrganizations(List<RoutingFormOrganization> routingFormOrganizations) {
+        this.routingFormOrganizations = routingFormOrganizations;
+    }
+    
+    /**
+     * Gets index i from the routingFormPersonnel list. 
+     * @param index
+     * @return Person at index i
+     */
+    public RoutingFormOrganization getRoutingFormOrganization(int index) {
+        while (getRoutingFormOrganizations().size() <= index) {
+            getRoutingFormOrganizations().add(new RoutingFormOrganization());
+        }
+        return (RoutingFormOrganization) getRoutingFormOrganizations().get(index);
+    }
+
+    public void addRoutingFormOrganization(RoutingFormOrganization routingFormOrganization) {
+        routingFormOrganization.setDocumentNumber(this.getDocumentNumber());
+        
+        getRoutingFormOrganizations().add(routingFormOrganization);
+        
     }
 }

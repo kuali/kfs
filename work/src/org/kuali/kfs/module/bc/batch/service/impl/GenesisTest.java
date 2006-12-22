@@ -15,21 +15,38 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import org.kuali.module.budget.service.*;
+import org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.budget.dao.ojb.*;
+
+// import these things to handle the configuration
+import org.kuali.core.service.KualiConfigurationService;
+import org.springframework.beans.factory.BeanFactory;
+//this is just for the logger, and could be taken out
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.Logger;
+import java.util.ResourceBundle;
+import org.kuali.Constants;
 
 public class GenesisTest {
   public static void main(String args[])
   {
   //    unit tests for Genesis 
-  //    GenesisService genesisService = new SpringServiceLocator.getGenesisService();
+  //    this supposedly configures a logger that everybody can fetch and use
+      PropertyConfigurator.configure(ResourceBundle.getBundle(
+        Constants.CONFIGURATION_FILE_NAME).getString(Constants.LOG4J_SETTINGS_FILE_KEY));
+     
+  //    this supposedly configures spring/ojb
+     SpringServiceLocator.initializeBatchApplicationContext();
+     BeanFactory factory = SpringServiceLocator.getBeanFactory();
+     KualiConfigurationService configService = 
+            SpringServiceLocator.getKualiConfigurationService();
+  //    
+      GenesisService genesisTestService = SpringServiceLocator.getGenesisService();
+      DateMakerService dateMakerTestService = 
+          SpringServiceLocator.getDateMakerService();
   //
-  //    String testID = genesisDaoOjb.getBudgetConstructionInitiatorID();
-  //    System.out.println("Initiator ID = "+testID);
-  //
-  //  Test for the fiscal year makers GL date table
-  //     DateMakerServiceImpl dateMakerService = new DateMakerServiceImpl("2008",
-  //                                             (Integer) 2007);
-  //    dateMakerService.DateMaker(dateMakerService.StartMarch);
+      genesisTestService.testStep(2007);
   }
 }

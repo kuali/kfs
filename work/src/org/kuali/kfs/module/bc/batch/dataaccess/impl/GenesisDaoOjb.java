@@ -15,27 +15,31 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Arrays;
+import java.util.Date;
+import java.math.*;
 
-import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.Constants;
-import org.kuali.Constants.BudgetConstructionConstants;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.dao.GenesisDao;
-import org.kuali.module.chart.bo.Account;
+import org.kuali.module.budget.dao.*;
+import org.kuali.module.budget.bo.*;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.bo.FunctionControlCode;
-import org.kuali.module.gl.GLConstants;
+import org.kuali.core.dao.DocumentHeaderDao;
+import org.kuali.core.document.DocumentHeader;
+import org.kuali.Constants;
+import org.kuali.Constants.*;
+import org.kuali.PropertyConstants;
+import org.kuali.core.util.*;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.chart.bo.*;
+
+
+import org.apache.ojb.broker.query.*;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.apache.log4j.*;
 
 
 public class GenesisDaoOjb extends PersistenceBrokerDaoSupport 
@@ -156,113 +160,30 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     private Integer sqlAccountLineAnnualBalanceAmount = 7;
     private Integer sqlBeginningBalanceLineAmount = 8;
     
-    public ArrayList<HashMap> readGLForPBGL(Integer BaseYear)
+    // public methods
+    public void initialLoadToPBGL(Integer BaseYear)
     {
-        // we apparently need to configure the log file in order to use it
-        // @@TODO: should these be a "weak hash map", to optimize memory use?
-       pBGL  = new HashMap();
-       bCHdr = new HashMap();
-       Integer RequestYear = BaseYear + 1;
-        //
-        //  set up a report query to fetch all the GL rows we are going to need
-        Criteria criteriaID = new Criteria();
-        // we only pick up a single balance type
-        // we also use an integer fiscal year
-        // *** this is a point of change if either of these criteria change ***
-        // @@TODO We should regularize the sources for these constants
-        // they should probably all come from GL (although UNIV_FISCAL_YR is generic)
-        // we should add the two hard-wired strings at the bottom to GLConstants
-        criteriaID.addEqualTo(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR,
-                BaseYear);
-        criteriaID.addEqualTo(GLConstants.ColumnNames.BALANCE_TYPE_CODE,
-                              Constants.BALANCE_TYPE_BASE_BUDGET);
-        String[] queryAttr = {GLConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE,
-                              GLConstants.ColumnNames.ACCOUNT_NUMBER,
-                              GLConstants.ColumnNames.SUB_ACCOUNT_NUMBER,
-                              GLConstants.ColumnNames.OBJECT_CODE,
-                              GLConstants.ColumnNames.SUB_OBJECT_CODE,
-                              GLConstants.ColumnNames.BALANCE_TYPE_CODE,
-                              GLConstants.ColumnNames.OBJECT_TYPE_CODE,
-                              GLConstants.ColumnNames.ANNUAL_BALANCE,
-                              GLConstants.ColumnNames.BEGINNING_BALANCE};
-        ReportQueryByCriteria queryID = 
-            new ReportQueryByCriteria(Balance.class, queryAttr, criteriaID, true);
-        //
-        // set up the hashmaps by iterating through the results
-        
-        // @@TODO this should be in a try/catch structure.  We should catch a 
-        //        SQL error, write it to the log, and raise a more generic error
-        //        ("error reading GL Balance Table in BC batch"), and throw that
-        LOG.debug("GL Query started: "+String.format("%tT",new Date()));
-        Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        LOG.debug("GL Query finished: "+String.format("%tT",new Date()));
-        while (Results.hasNext())
-        {
-            KualiDecimal BaseAmount = null;
-            Object[] ReturnList = (Object []) Results.next();
-            // @@TODO take this shit out
-            System.out.printf("fields returned = %d\n",ReturnList.length);
-            System.out.printf("value in last field = %s\n",
-                    ReturnList[sqlBeginningBalanceLineAmount].toString());
-            // @@TODO end of shit
-            //
-            //  exclude any rows where the amounts add to 0
-            BaseAmount = 
-                (KualiDecimal) ReturnList[sqlBeginningBalanceLineAmount];
-            BaseAmount = 
-                BaseAmount.add((KualiDecimal) ReturnList[sqlAccountLineAnnualBalanceAmount]);
-            if (BaseAmount.isZero())
-            {
-                break;
-            }
-            //  
-            //  we always need to build a new PGBL object
-            //  we have selected the entire key from GL_BALANCE_T
-            //  @@TODO we should throw an exception if the key already exists
-            //  this means the table has changed and this code needs to be re-written
-            String GLTestKey = buildGLTestKeyFromSQLResults(ReturnList);
-            pBGL.put(GLTestKey,
-                     newPBGLBusinessObject(RequestYear,ReturnList));
-            //  we only add a BC Header Object for a unique chart/account/subaccount
-            String HeaderTestKey = buildHeaderTestKeyFromSQLResults(ReturnList);
-            if (bCHdr.get(HeaderTestKey) == null)
-            {
-                // add a BCHeader object
-                bCHdr.put(HeaderTestKey,
-                          newBCHdrBusinessObject(RequestYear,ReturnList));
-            }
-        }
-        LOG.debug("Hash maps built: "+String.format("%T",new Date()));
-        //  return the array pointing to the two lists
-        ArrayList<HashMap> returnPointers = new ArrayList<HashMap>(2);
-        returnPointers.add((HashMap) pBGL);
-        returnPointers.add((HashMap) bCHdr);
-        return returnPointers;
+        // we will probably want several of these
+        // or we will want to overload one, so people can leave their current
+        // data in BC when they run genesis for the new year 
+        clearBothYearsPBGL(BaseYear);
+        // we have to clean out account reports to
+        // it is not fiscal year-specific
+        // this implies that last year's data can't be there, because the
+        // organization hierarchy will have changed
+        readGLForPBGL(BaseYear);
     }
-    //
-    // these two methods build the GL field string that triggers creation of a new
-    // budget construction header
-    public String buildHeaderTestKeyFromPBGL (PendingBudgetConstructionGeneralLedger
-            pendingBudgetConstructionGeneralLedger)
-            {
-               String headerBCTestKey = new String();
-               headerBCTestKey = pendingBudgetConstructionGeneralLedger.getChartOfAccountsCode()+
-                                 pendingBudgetConstructionGeneralLedger.getAccountNumber()+
-                                 pendingBudgetConstructionGeneralLedger.getSubAccountNumber();
-               return headerBCTestKey;
-            }
-    private String buildHeaderTestKeyFromSQLResults (Object[] sqlResult)
+    
+    public void updateToPBGL(Integer BaseYear)
     {
-        String headerBCTestKey = new String();
-        headerBCTestKey = (String) sqlResult[sqlChartOfAccountsCode]+
-                          (String) sqlResult[sqlAccountNumber]+
-                          (String) sqlResult[sqlSubAccountNumber];
-        return headerBCTestKey;
+        readGLForPBGL(BaseYear);
     }
+    // private working methods
+
     //
     // these two methods build the GL field string that triggers creation of a new
     // pending budget construction general ledger row
-    public String buildGLTestKeyFromPBGL (PendingBudgetConstructionGeneralLedger
+    private String buildGLTestKeyFromPBGL (PendingBudgetConstructionGeneralLedger
             pendingBudgetConstructionGeneralLedger)
     {
        String PBGLTestKey = new String();
@@ -287,6 +208,88 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                     (String) sqlResult[sqlObjectTypeCode];
         return GLTestKey;
     }
+    //
+    // these two methods build the GL field string that triggers creation of a new
+    // budget construction header
+    public String buildHeaderTestKeyFromPBGL (PendingBudgetConstructionGeneralLedger
+            pendingBudgetConstructionGeneralLedger)
+            {
+               String headerBCTestKey = new String();
+               headerBCTestKey = pendingBudgetConstructionGeneralLedger.getChartOfAccountsCode()+
+                                 pendingBudgetConstructionGeneralLedger.getAccountNumber()+
+                                 pendingBudgetConstructionGeneralLedger.getSubAccountNumber();
+               return headerBCTestKey;
+            }
+    private String buildHeaderTestKeyFromSQLResults (Object[] sqlResult)
+    {
+        String headerBCTestKey = new String();
+        headerBCTestKey = (String) sqlResult[sqlChartOfAccountsCode]+
+                          (String) sqlResult[sqlAccountNumber]+
+                          (String) sqlResult[sqlSubAccountNumber];
+        return headerBCTestKey;
+    }
+    
+    private void clearBaseYearPBGL(Integer BaseYear)
+    {
+        // remove rows from the base year
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                BaseYear);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
+                    criteriaID);
+        LOG.info(String.format("delete PBGL started at %tT for %d",new Date(),
+                BaseYear));
+        getPersistenceBrokerTemplate().deleteByQuery(queryID);
+        LOG.info(String.format("delete PBGL ended at %tT",new Date()));
+    }
+    
+    private void clearBothYearsPBGL(Integer BaseYear)
+    {
+        clearBaseYearPBGL(BaseYear);
+        clearRequestYearPBGL(BaseYear);
+    }
+    
+    private void clearRequestYearPBGL(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear + 1;
+        // remove rows from the request year
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                RequestYear);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
+                    criteriaID);
+        LOG.info(String.format("\ndelete PBGL started at %tT for %d",new Date(),
+                RequestYear));
+        getPersistenceBrokerTemplate().deleteByQuery(queryID);
+        LOG.info(String.format("\ndelete PBGL ended at %tT",new Date()));
+    }
+    
+    private BudgetConstructionHeader newBCHdrBusinessObject(Integer RequestYear,
+            Object[] sqlResult)
+    {
+       BudgetConstructionHeader hDrBC = new BudgetConstructionHeader();
+       // document number will be set in the service--we don't yet know whether this
+       // will require a new document
+       // @@TODO: get the "org of level" from account reports to
+       hDrBC.setUniversityFiscalYear(RequestYear);
+       hDrBC.setChartOfAccountsCode((String) sqlResult[sqlChartOfAccountsCode]);
+       hDrBC.setAccountNumber((String) sqlResult[sqlAccountNumber]);
+       hDrBC.setSubAccountNumber((String) sqlResult[sqlSubAccountNumber]);
+       // at the account level, this is the same as the chart
+       // all new headers start at the account level, and this object will only be used
+       // if a new header is required.
+       //  the organization and chart are always NULL at the account level
+       hDrBC.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
+       hDrBC.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+       hDrBC.setOrganizationLevelCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
+       hDrBC.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+       hDrBC.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+       hDrBC.setVersionNumber(DEFAULT_VERSION_NUMBER);
+   //  return a new header
+       return hDrBC;
+    }
     
     private PendingBudgetConstructionGeneralLedger newPBGLBusinessObject(Integer RequestYear,
                                                                          Object[] sqlResult)
@@ -306,8 +309,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        PBGLObj.setFinancialSubObjectCode((String) sqlResult[sqlSubObjectCode]);
        PBGLObj.setFinancialBalanceTypeCode((String) sqlResult[sqlBalanceTypeCode]);
        PBGLObj.setFinancialObjectTypeCode((String) sqlResult[sqlObjectTypeCode]);
-       KualiDecimal BaseAmount = null;
-       BaseAmount = 
+       KualiDecimal BaseAmount = 
            (KualiDecimal) sqlResult[sqlBeginningBalanceLineAmount];
        BaseAmount = 
            BaseAmount.add((KualiDecimal) sqlResult[sqlAccountLineAnnualBalanceAmount]);
@@ -319,31 +321,82 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        return PBGLObj;
     }
     
-    private BudgetConstructionHeader newBCHdrBusinessObject(Integer RequestYear,
-            Object[] sqlResult)
+    private void readGLForPBGL(Integer BaseYear)
     {
-       BudgetConstructionHeader hDrBC = new BudgetConstructionHeader();
-       // document number will be set in the service--we don't yet know whether this
-       // will require a new document
-       // @@TODO: get the "org of level" from account reports to
-       hDrBC.setUniversityFiscalYear(RequestYear);
-       hDrBC.setChartOfAccountsCode((String) sqlResult[sqlChartOfAccountsCode]);
-       hDrBC.setAccountNumber((String) sqlResult[sqlAccountNumber]);
-       hDrBC.setSubAccountNumber((String) sqlResult[sqlSubAccountNumber]);
-       // at the account level, this is the same as the chart
-       // all new headers start at the account level, and this object will only be used
-       // if a new header is required.
-       hDrBC.setOrganizationLevelChartOfAccountsCode((String) sqlResult[sqlChartOfAccountsCode]);
-       // the organization must come from the BC account reports to table, since this
-       // table will reflect reorganizations that are effective only in the coming
-       // budget year.  (the chart/account together are part of the key, so there is
-       // no way to get the chart from the BC account reports to table as well.)
- //@@TODO:      hDrBC.setOrganizationLevelOrganizationCode();
-       hDrBC.setOrganizationLevelCode(BudgetConstructionConstants.LEVEL_CODE_ACCOUNT_LEVEL);
-       hDrBC.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-       hDrBC.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-       hDrBC.setVersionNumber(DEFAULT_VERSION_NUMBER);
-   //  return a new header
-       return hDrBC;
+        // we apparently need to configure the log file in order to use it
+        // @@TODO: should these be a "weak hash map", to optimize memory use?
+       pBGL  = new HashMap();
+       bCHdr = new HashMap();
+       Integer RequestYear = BaseYear + 1;
+        //
+        //  set up a report query to fetch all the GL rows we are going to need
+        Criteria criteriaID = new Criteria();
+        // we only pick up a single balance type
+        // we also use an integer fiscal year
+        // *** this is a point of change if either of these criteria change ***
+        // @@TODO We should regularize the sources for these constants
+        // they should probably all come from GL (although UNIV_FISCAL_YR is generic)
+        // we should add the two hard-wired strings at the bottom to GLConstants
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                BaseYear);
+        criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
+                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.SUB_ACCOUNT_NUMBER,
+                              PropertyConstants.OBJECT_CODE,
+                              PropertyConstants.SUB_OBJECT_CODE,
+                              PropertyConstants.BALANCE_TYPE_CODE,
+                              PropertyConstants.OBJECT_TYPE_CODE,
+                              PropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT,
+                              PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT};
+        ReportQueryByCriteria queryID = 
+            new ReportQueryByCriteria(Balance.class, queryAttr, criteriaID, true);
+        //
+        // set up the hashmaps by iterating through the results
+        
+        // @@TODO this should be in a try/catch structure.  We should catch a 
+        //        SQL error, write it to the log, and raise a more generic error
+        //        ("error reading GL Balance Table in BC batch"), and throw that
+        LOG.info("\nGL Query started: "+String.format("%tT",new Date()));
+        Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        LOG.info("\nGL Query finished: "+String.format("%tT",new Date()));
+        while (Results.hasNext())
+        {
+            Object[] ReturnList = (Object []) Results.next();
+            LOG.debug(String.format("\nfields returned = %d\n",ReturnList.length));
+            LOG.debug(String.format("\nvalue in last field = %s\n",
+                    ReturnList[sqlBeginningBalanceLineAmount].toString()));
+            //
+            //  exclude any rows where the amounts add to 0
+            //  (we don't do it in the WHERE clause to be certain we are ANSI standard)
+            KualiDecimal BaseAmount = 
+                (KualiDecimal) ReturnList[sqlBeginningBalanceLineAmount];
+            BaseAmount = 
+                BaseAmount.add((KualiDecimal) ReturnList[sqlAccountLineAnnualBalanceAmount]);
+            if (BaseAmount.isZero())
+            {
+                break;
+            }
+            //  
+            //  we always need to build a new PGBL object
+            //  we have selected the entire key from GL_BALANCE_T
+            //  @@TODO we should throw an exception if the key already exists
+            //  this means the table has changed and this code needs to be re-written
+            String GLTestKey = buildGLTestKeyFromSQLResults(ReturnList);
+            pBGL.put(GLTestKey,
+                     newPBGLBusinessObject(RequestYear,ReturnList));
+            //  we only add a BC Header Object for a unique chart/account/subaccount
+            String HeaderTestKey = buildHeaderTestKeyFromSQLResults(ReturnList);
+            if (bCHdr.get(HeaderTestKey) == null)
+            {
+                // add a BCHeader object
+                bCHdr.put(HeaderTestKey,
+                          newBCHdrBusinessObject(RequestYear,ReturnList));
+            }
+        }
+        LOG.info("\nHash maps built: "+String.format("%tT",new Date()));
+        LOG.info(String.format("\nGL detail hashmap size = %d",pBGL.size()));
+        LOG.info(String.format("\nGL keys hashmap size = %d",bCHdr.size()));
     }
 }

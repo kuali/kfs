@@ -35,5 +35,6 @@ public interface GenesisDao {
     */
    public String getBudgetConstructionInitiatorID();
    
-   public ArrayList<HashMap> readGLForPBGL(Integer BaseYear);
+   public void initialLoadToPBGL(Integer currentFiscalYear);
+   public void updateToPBGL(Integer currentFiscalYear);
 }

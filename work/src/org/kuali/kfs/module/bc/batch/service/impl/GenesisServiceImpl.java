@@ -34,14 +34,7 @@ public class GenesisServiceImpl implements GenesisService {
 
       public final void testStep (Integer BaseYear)
       {
-         HashMap   pBGL;
-         HashMap   bCHdr;
-         ArrayList<HashMap> returnHash = genesisDao.readGLForPBGL(BaseYear);
-         pBGL = returnHash.get(0);
-         bCHdr = returnHash.get(1);
-         System.out.printf("number of elements in pBGL map = %d",pBGL.size());
-         System.out.printf("Number of elements in pBCHdr map = %d",bCHdr.size());
-         
+         genesisDao.updateToPBGL(BaseYear);  
       }
       
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)

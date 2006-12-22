@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ $Id: LaborObjectMaintenanceDocument.xml,v 1.1 2006-12-22 16:46:35 lprzybyl Exp $
+ Copyright 2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.labor.bo.LaborObject</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiLaborObjectMaintenanceDocument</documentTypeName>
+		<documentTypeCode>LDOB</documentTypeCode>
+
+		<label>Labor Object Maintenance Document</label>
+		<shortLabel>Lab Obj Maint Doc</shortLabel>
+		
+		<summary>Labor Object Maintenance Document</summary>
+		<description>Document used to create or update Labor objects</description>
+        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_OBJECT" />
+
+        <lockingKeys>
+			<field attributeName="universityFiscalYear" />
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="financialObjectCode" />
+		</lockingKeys>         
+
+        <defaultExistenceChecks>
+            <reference attributeName="universityFiscalYear" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />          
+            <reference attributeName="financialObject" attributeToHighlightOnFail="financialObjectCode" />
+        </defaultExistenceChecks>
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Labor Object">
+	        	<maintainableItems>
+	            	<maintainableField name="universityFiscalYear" required="true" />
+	            	<maintainableField name="chartOfAccountsCode" required="true" />
+	            	<maintainableField name="financialObjectCode" required="true"/>
+	            	<maintainableField name="versionNumber" required="false"/>
+	         	</maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

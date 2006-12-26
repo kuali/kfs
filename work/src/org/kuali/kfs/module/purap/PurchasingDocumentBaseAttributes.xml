@@ -162,13 +162,13 @@
     <description>contractManagerName description...</description>
 </attributeReference>
 
-<attribute name="deliveryBuildingName" forceUppercase="true">
+<attribute name="deliveryBuildingName">
     <label>Building</label>
     <shortLabel>Building</shortLabel>
 
     <maxLength>45</maxLength>
     <validationPattern>
-        <anyCharacter />
+        <anyCharacter allowWhitespace="true"/>
     </validationPattern>
     <required>true</required>
 

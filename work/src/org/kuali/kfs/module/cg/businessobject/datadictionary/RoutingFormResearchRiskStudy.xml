@@ -134,6 +134,21 @@
                 <summary>researchRiskStudyApprovalDate</summary>
                 <description>researchRiskStudyApprovalDate description...</description>
 			</attribute>
+			
+			<attribute name="researchRiskStudyExpirationDate" forceUppercase="true">
+                <label>Expiration Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>researchRiskStudyExpirationDate</summary>
+                <description>researchRiskStudyExpirationDate description...</description>
+			</attribute>
 
             <attribute name="researchRiskStudyName" forceUppercase="true">
                 <label>Research Risk Study Name</label>

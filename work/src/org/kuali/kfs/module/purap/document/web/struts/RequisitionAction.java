@@ -101,18 +101,6 @@ public class RequisitionAction extends PurchasingActionBase {
         document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
         document.setDeliveryToPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
 
-        if( !( Constants.KUALI_LOOKUPABLE_IMPL.equals( rqForm.getRefreshCaller() )) &&
-             ( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ))) {
-            if( document.isDeliveryBuildingOther() ) {
-                document.setDeliveryBuildingName( "Other" );
-                document.setDeliveryBuildingCode( "OTH" );
-                rqForm.setNotOtherDelBldg( false );
-            } else {
-                document.setDeliveryBuildingName( null );
-                document.setDeliveryBuildingCode( null );
-                rqForm.setNotOtherDelBldg( true );
-            }
-        }
         return super.refresh(mapping, form, request, response);
     }
 

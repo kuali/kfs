@@ -22,17 +22,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.purap.bo.VendorContract;
-import org.kuali.module.purap.bo.VendorDetail;
-import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.util.PhoneNumberUtils;
-import org.kuali.module.purap.web.struts.form.RequisitionForm;
-
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -48,8 +40,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 // TODO make sure this fits for PO
-//        RequisitionForm rqForm = (RequisitionForm) form;
-//        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
+//        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+//        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
 //        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
 //        /* refresh from requisition vendor lookup */
 //        if (document.getVendorDetail() == null &&
@@ -77,8 +69,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 //        document.setInstitutionContactPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
 //        document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
 //        document.setDeliveryToPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
-
-        //TODO add code to retrieve new building list        
+ 
         return super.refresh(mapping, form, request, response);
     }
 

@@ -22,19 +22,39 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 
 /**
  * This class handles specific Actions requests for the Purchasing Ap.
- * 
  */
 public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
-    
-    
+
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
+        
+        //Set a few fields on the delivery tag in a data-dependent manner (KULPURAP-260).
+        if (!(Constants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) && (ObjectUtils.isNotNull(document.isDeliveryBuildingOther()))) {
+            if (document.isDeliveryBuildingOther()) {
+                document.setDeliveryBuildingName("Other");
+                document.setDeliveryBuildingCode("OTH");
+                baseForm.setNotOtherDelBldg(false);
+            }
+            else {
+                document.setDeliveryBuildingName(null);
+                document.setDeliveryBuildingCode(null);
+                baseForm.setNotOtherDelBldg(true);
+            }
+        }
+        return super.refresh(mapping, form, request, response);
+    }
+
     /**
      * Add a new item to the document.
      * 
@@ -47,12 +67,13 @@ public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
      */
     public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        //TODO: should call add line event/rules here
+        // TODO: should call add line event/rules here
         PurchasingItem item = purchasingForm.getAndResetNewPurchasingItemLine();
-        PurchasingDocument purDocument = (PurchasingDocument)purchasingForm.getDocument();
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.addItem(item);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
     /**
      * Delete an item from the document.
      * 
@@ -65,9 +86,9 @@ public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
      */
     public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        //TODO: should call delete line event/rules here
-        
-        PurchasingDocument purDocument = (PurchasingDocument)purchasingForm.getDocument();
+        // TODO: should call delete line event/rules here
+
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.deleteItem(getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

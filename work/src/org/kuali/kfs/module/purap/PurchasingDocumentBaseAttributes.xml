@@ -150,32 +150,16 @@
     <label>Contract Manager</label>
     <shortLabel>Contract Manager</shortLabel>
     
-     <summary>contractManagerCode</summary>
+    <summary>contractManagerCode</summary>
     <description>contractManagerCode description...</description>
 </attributeReference>
 
-<attributeReference name="deliveryBuildingCode" sourceClassName="org.kuali.core.bo.Building" sourceAttributeName="buildingCode">
-    <label>Building Code</label>
-    <shortLabel>Bldg. Code</shortLabel>
-	
-	<required>false</required>
+<attributeReference name="contractManagerName" sourceClassName="org.kuali.module.purap.bo.ContractManager" sourceAttributeName="contractManagerName">
+    <label>Contract Manager</label>
+    <shortLabel>Contract Manager</shortLabel>
     
-    <summary>deliveryBuildingCode</summary>
-    <description>deliveryBuildingCode description...</description>
-</attributeReference>
-
-<attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line1Address">
-    <label>Address 1</label>
-    <shortLabel>Addr. 1</shortLabel>
-    <summary>deliveryBuildingLine1Address</summary>
-    <description>deliveryBuildingLine1Address description...</description>
-</attributeReference>
-
-<attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line2Address">
-    <label>Address 2</label>
-    <shortLabel>Addr. 2</shortLabel>
-    <summary>deliveryBuildingLine2Address</summary>
-    <description>deliveryBuildingLine2Address description...</description>
+    <summary>contractManagerName</summary>
+    <description>contractManagerName description...</description>
 </attributeReference>
 
 <attribute name="deliveryBuildingName" forceUppercase="true">
@@ -196,6 +180,47 @@
     <description>deliveryBuildingName description...</description>
 </attribute>
 
+<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="campusCode">
+    <label>Delivery Campus</label>
+    <shortLabel>Del. Campus</shortLabel>
+    
+    <required>true</required>
+    
+    <summary>deliveryCampusCode</summary>
+    <description>deliveryCampusCode description...</description>
+</attributeReference>
+
+<attribute name="deliveryBuildingOther">
+	<label>Other Building</label>
+	<shortLabel>Other Bldg.</shortLabel>
+	
+	<maxLength>4</maxLength>
+	
+	<control>
+		<checkbox />
+	</control>
+	
+	<summary>deliveryBuildingOther</summary>
+	<description>deliveryBuildingOther description...</description>
+</attribute>
+
+<attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line1Address">
+    <label>Address 1</label>
+    <shortLabel>Addr. 1</shortLabel>
+       
+    <required>true</required>
+    
+    <summary>deliveryBuildingLine1Address</summary>
+    <description>deliveryBuildingLine1Address description...</description>
+</attributeReference>
+
+<attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line2Address">
+    <label>Address 2</label>
+    <shortLabel>Addr. 2</shortLabel>
+    <summary>deliveryBuildingLine2Address</summary>
+    <description>deliveryBuildingLine2Address description...</description>
+</attributeReference>
+
 <attribute name="deliveryBuildingRoomNumber" forceUppercase="true">
     <label>Room</label>
     <shortLabel>Room</shortLabel>
@@ -213,14 +238,6 @@
     <summary>deliveryBuildingRoomNumber</summary>
     <description>deliveryBuildingRoomNumber description...</description>
 </attribute>
-
-<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="campusCode">
-    <label>Delivery Campus</label>
-    <shortLabel>Del. Campus</shortLabel>
-    
-    <summary>deliveryCampusCode</summary>
-    <description>deliveryCampusCode description...</description>
-</attributeReference>
 
 <attributeReference name="deliveryCityName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="cityName">
     <label>City</label>
@@ -482,8 +499,6 @@
     
     <summary>recurringPaymentTypeCode</summary>
     <description>recurringPaymentTypeCode description...</description>
-    
-    
 </attributeReference>
 
 <attributeReference name="requestorPersonEmailAddress" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="emailAddress">
@@ -515,7 +530,6 @@
 <attributeReference name="requestorPersonPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
     <label>Requestor Phone</label>
     <shortLabel>Phone Number</shortLabel>
-    <required>true</required>
 
     <summary>requestorPersonPhoneNumber</summary>
     <description>requestorPersonPhoneNumber description...</description>

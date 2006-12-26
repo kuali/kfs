@@ -364,6 +364,14 @@ public class BudgetDocument extends ResearchDocumentBase {
     public void setTaskToDelete(String taskToDelete) {
         this.taskToDelete = taskToDelete;
     }
+    
+    public String getExplanation() {
+        return this.getDocumentHeader().getExplanation();
+    }
+    
+    public void setExplanation(String explanation) {
+        this.getDocumentHeader().setExplanation(explanation);
+    }
 
     @Override
     public List buildListOfDeletionAwareLists() {

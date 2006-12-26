@@ -50,6 +50,7 @@
                     <maintainableField name="researchRiskTypeCode" required="true" />
                     <maintainableField name="researchRiskTypeDescription" required="false" />
                     <maintainableField name="controlAttributeTypeCode" required="true" />
+                    <maintainableField name="researchRiskTypeNotificationGroupText" required="false" />
 					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
 						<defaultValue>true</defaultValue>
 					</maintainableField>

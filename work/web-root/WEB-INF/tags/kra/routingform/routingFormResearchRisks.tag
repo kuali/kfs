@@ -27,6 +27,7 @@
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].versionNumber"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeCode"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeDescription"/>
+	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeNotificationGroupText"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
 	
 	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS}">

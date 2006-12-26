@@ -28,6 +28,7 @@
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
+                <field attributeName="researchRiskTypeNotificationGroupText" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -47,6 +48,7 @@
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
                 <lookupField attributeName="controlAttributeTypeCode" required="false" />
                 <lookupField attributeName="researchRiskTypeDescription" required="false" />
+                <lookupField attributeName="researchRiskTypeNotificationGroupText" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
                     <defaultValue>Y</defaultValue>
                 </lookupField>
@@ -56,6 +58,7 @@
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
+                <field attributeName="researchRiskTypeNotificationGroupText" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
@@ -107,6 +110,20 @@
                 <summary>researchRiskTypeDescription</summary>
                 <description>researchRiskTypeDescription description...</description>
 			</attribute>
+			
+			<attributeReference name="researchRiskTypeNotificationGroupText" sourceClassName="org.kuali.core.bo.AdHocRouteWorkgroup" sourceAttributeName="id">
+                <label>Research Risk Type Notification Group</label>
+                <shortLabel>Not. Group</shortLabel>
+
+                <maxLength>30</maxLength>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>researchRiskTypeNotificationGroupText</summary>
+                <description>researchRiskTypeNotificationGroupText description...</description>
+            </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

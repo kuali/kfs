@@ -189,12 +189,12 @@ public class BudgetPermissionsAction extends BudgetAction {
         budgetForm.getBudgetDocument().getBudget().setAdHocOrgs(adHocOrgs);
         budgetForm.getBudgetDocument().getBudget().setAdHocWorkgroups(adHocWorkgroups);
         
-        SpringServiceLocator.getDocumentService().updateDocument(budgetForm.getBudgetDocument());
+        ActionForward forward = super.save(mapping, budgetForm, request, response);
         
         budgetForm.getBudgetDocument().populateDocumentForRouting();
         budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
-
-        return super.save(mapping, budgetForm, request, response);
+        
+        return forward;
     }
     
     
@@ -205,10 +205,10 @@ public class BudgetPermissionsAction extends BudgetAction {
         
         budgetForm.setNewAdHocPermission(new BudgetAdHocPermission());
         budgetForm.setNewAdHocOrg(new BudgetAdHocOrg());
+        budgetForm.setNewAdHocRouteWorkgroup(new AdHocRouteWorkgroup());
+        budgetForm.setNewAdHocWorkgroupPermissionCode("");
         
         ActionForward forward = super.reload(mapping, budgetForm, request, response);
-        
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(budgetForm.getBudgetDocument().getBudget(), "adHocPermissions");
         
         return forward;
     }

@@ -38,7 +38,7 @@ public class ResearchProjectDirectorRoleAttribute extends AbstractRoleAttribute 
     
     private static final String PROJECT_DIRECTOR_ROLE_KEY = "PROJECT_DIRECTOR";
     private static final String PROJECT_DIRECTOR_ROLE_LABEL = "Project Director";
-    private static final Role ROLE = new Role(InitiatorRoleAttribute.class, PROJECT_DIRECTOR_ROLE_KEY, PROJECT_DIRECTOR_ROLE_LABEL);
+    private static final Role ROLE = new Role(ResearchProjectDirectorRoleAttribute.class, PROJECT_DIRECTOR_ROLE_KEY, PROJECT_DIRECTOR_ROLE_LABEL);
     
     private static final List ROLES;
     static {

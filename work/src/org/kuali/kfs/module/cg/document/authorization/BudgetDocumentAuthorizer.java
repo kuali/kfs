@@ -23,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.authorization.DocumentActionFlags;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentAuthorizerBase;
@@ -55,6 +54,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         // Check default user permissions
         if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getPersonUserIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
+            return finalizeEditMode(budgetDocument, permissionCode);
         }
         
         if (u.getPersonUniversalIdentifier().equals(budgetDocument.getBudget().getBudgetProjectDirectorSystemId())) {
@@ -67,6 +67,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         if (budgetAdHocPermission != null) {
             if (KraConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getBudgetPermissionCode())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
+                return finalizeEditMode(budgetDocument, permissionCode);
             } else {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
             }
@@ -89,6 +90,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         // Check ad-hoc org permissions (mod first, then read)
         if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_MOD_CODE, true), u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
+            return finalizeEditMode(budgetDocument, permissionCode);
         }
         
         if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_READ_CODE, true), u.getPersonUniversalIdentifier())) {
@@ -98,21 +100,14 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         // Check global document type permissions
         if (canModify(workflowDocument.getDocumentType(), u)) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
+            return finalizeEditMode(budgetDocument, permissionCode);
         }
         
         if (canView(workflowDocument.getDocumentType(), u)) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
         
-        // If doc is approved, full entry should become view only
-        if (permissionCode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) 
-                && budgetDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(Constants.DocumentStatusCodes.APPROVED)) {
-            permissionCode = AuthorizationConstants.EditMode.VIEW_ONLY;
-        }
-        
-        Map editModeMap = new HashMap();
-        editModeMap.put(permissionCode, "TRUE");
-        return editModeMap;
+        return finalizeEditMode(budgetDocument, permissionCode);
     }
     
     /**
@@ -158,6 +153,25 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
             return AuthorizationConstants.EditMode.VIEW_ONLY;
         }
         return AuthorizationConstants.EditMode.UNVIEWABLE;
+    }
+    
+    /**
+     * Finalize the permission code & the map and return
+     * 
+     * @param BudgetDocument budgetDocument
+     * @param String permissionCode
+     * @return Map
+     */
+    private Map finalizeEditMode(BudgetDocument budgetDocument, String permissionCode) {
+        // If doc is approved, full entry should become view only
+        if (permissionCode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) 
+                && budgetDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(Constants.DocumentStatusCodes.APPROVED)) {
+            permissionCode = AuthorizationConstants.EditMode.VIEW_ONLY;
+        }
+        
+        Map editModeMap = new HashMap();
+        editModeMap.put(permissionCode, "TRUE");
+        return editModeMap;
     }
     
     /**

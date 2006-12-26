@@ -397,6 +397,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         // this routine reads the list of GL document accounting keys from
         // the GL that are not in the budget, and creates both a workflow
         // document and a budget construction header for them
+        for (Map.Entry<String,BudgetConstructionHeader> newBCHdrRows :
+            bCHdrFromGL.entrySet())
+        {
+            
+        }
     }
     
     private String findRowDocumentNumber(String headerKey)

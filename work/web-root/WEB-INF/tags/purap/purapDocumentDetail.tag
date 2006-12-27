@@ -27,6 +27,8 @@
 <%@ attribute name="detailSectionLabel" required="true"
 			  description="The label of the detail section."%>
 
+<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+
 <div class="h2-container">
 	<h2><c:out value="${detailSectionLabel}"/></h2>
 </div>
@@ -52,13 +54,13 @@
     <tr>
         <th align=right valign=middle class="bord-l-b">
             <div align="right">
-            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManagerCode}" />
+            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManagerName}" />
             </div>
         </th>
         <td align=left valign=middle class="datacell">
             <kul:htmlControlAttribute 
-                property="document.contractManagerCode" 
-                attributeEntry="${documentAttributes.contractManagerCode}" 
+                property="document.contractManagerName" 
+                attributeEntry="${documentAttributes.contractManagerName}" 
                 readOnly="true" />
         </td>
         <th align=right valign=middle class="bord-l-b">
@@ -67,7 +69,8 @@
         <td align=left valign=middle class="datacell">
             <kul:htmlControlAttribute
                 property="document.fundingSourceCode"
-                attributeEntry="${documentAttributes.fundingSourceCode}"/>
+                attributeEntry="${documentAttributes.fundingSourceCode}"
+                readOnly="true"/>
         </td>
     </tr>
     <c:if test="${purchaseOrder}">
@@ -92,7 +95,7 @@
 	        	<kul:htmlControlAttribute 
 	                property="document.purchaseOrderConfirmedIndicator"
 	                attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
-	                readOnly="true" />
+	                readOnly="${readOnly}" />
 	        </td> 
 	    </tr>
 	 </c:if>
@@ -114,7 +117,7 @@
 	        	<kul:htmlControlAttribute 
 	                property="document.statusChange" 
 	                attributeEntry="${documentAttributes.statusChange}" 
-	                readOnly="true" />
+	                readOnly="${readOnly}" />
 	        </td>
 			<th align=right valign=middle class="bord-l-b" rowspan="2">
 	            <div align="right">
@@ -125,7 +128,7 @@
 	        	<kul:htmlControlAttribute 
 	                property="document.statusChangeNote" 
 	                attributeEntry="${documentAttributes.statusChangeNote}" 
-	                readOnly="true" />
+	                readOnly="${readOnly}" />
 	        </td>	         		
 		</tr>
 		<tr>

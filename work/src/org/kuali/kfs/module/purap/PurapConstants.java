@@ -82,5 +82,12 @@ public class PurapConstants {
     
     // Assign Contract Manager Tab Errors
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
+    
+    public static class PurchaseOrderStatuses {
+        public static String IN_PROCESS = "INPR";
+        public static String WAITING_FOR_VENDOR = "WVEN";
+        public static String WAITING_FOR_DEPARTMENT = "WDPT";
+        //TODO: Do we need the rest of these in here?  They're in a table (PUR_PO_STAT_T).
+    }
 
 }

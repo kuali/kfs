@@ -225,9 +225,12 @@
 	</c:if>
   </div></td>
   <td align="right" ><div align="right">
-  	<c:if test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
-  		<fmt:formatNumber value="${taskPeriodLine.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
-	</c:if>
+  	<c:choose>
+  		<c:when test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
+  			<fmt:formatNumber value="${taskPeriodLine.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
+		</c:when>
+		<c:otherwise>&nbsp;</c:otherwise>
+	</c:choose>
   </div></td>
   
           		</c:when>
@@ -273,9 +276,12 @@
           		<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.taskTotals[totalsIter].costShareCalculatedIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
           </b></div></td>
           <td align="right" class="infoline"><div align="right"><b>
-            <c:if test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
-          		<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.taskTotals[totalsIter].costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
-			</c:if>
+            <c:choose>
+            	<c:when test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
+          			<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.taskTotals[totalsIter].costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
+				</c:when>
+				<c:otherwise>&nbsp;</c:otherwise>
+			</c:choose>
           </b></div></td>
           
         </c:when>
@@ -340,9 +346,12 @@
 			<fmt:formatNumber value="${periodTotal.costShareCalculatedIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
 			</div></td>
 			<td align="right" ><div align="right">
-				<c:if test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
-					<fmt:formatNumber value="${periodTotal.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
-				</c:if>
+				<c:choose>
+					<c:when test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
+						<fmt:formatNumber value="${periodTotal.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
+					</c:when>
+					<c:otherwise>&nbsp;</c:otherwise>
+				</c:choose>
 			</div></td>
 		</c:when>
 		<c:otherwise>
@@ -385,9 +394,12 @@
 					
 		          </b></div></td>
 		          <td align="right" class="infoline"><div align="right"><b>
-		          	<c:if test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
-		          		<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.periodSubTotal.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
-					</c:if>
+		          	<c:choose>
+		          		<c:when test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
+		          			<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.periodSubTotal.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
+						</c:when>
+						<c:otherwise>&nbsp;</c:otherwise>
+					</c:choose>
                   </b></div></td>
 				</c:when>
 				<c:otherwise>

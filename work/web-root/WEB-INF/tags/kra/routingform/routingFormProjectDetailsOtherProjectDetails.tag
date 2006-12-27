@@ -25,112 +25,33 @@
 
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
-<c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
+<c:set var="routingFormQuestionAttributes" value="${DataDictionary.RoutingFormQuestion.attributes}" />
 
-<dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
-
-          <table width="100%" cellpadding="0"  cellspacing="0" class="tab" summary="">
-            <tr>
-              <td class="tabtable1-left"><img src="images/tab-topleft1.gif" alt="" width="12" height="29" align="absmiddle">Other Project Details</td>
-
-              <td class="tabtable1-mid1"><label>
-                <input name="RadioGroup4" type="radio" class="nobord" value="radio">
-                yes</label>
-                <label>
-                <input name="RadioGroup4" type="radio" class="nobord" value="radio">
-                no</label></td>
-              <td class="tabtable2-mid"><a id="A4" onclick="rend(this, false)"><img src="images/tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 id="F4" vspace=6></a> </td>
-
-              <td class="tabtable2-right"><img src="images/tab-topright1.gif" alt="" width="12" height="29" align="absmiddle"></td>
-            </tr>
-          </table>
-          <div class="tab-container" align="center" id="G4" style="display: none">
-            <div class="h2-container">
-              <h2>Other Project Details</h2>
-            </div>
-
-            <table cellpadding=0 cellspacing="0"  summary="">
-              <tr>
-                <td><br>
-                  <table width="100%" cellpadding="0"  cellspacing="0" class="nobord">
-                    <tr>
-                      <td width="20%" class="nobord"><div align="center">
-                          <label>
-                          <input type="radio" name="RadioGroup5" value="radio">
-                          yes</label>
-
-                          <label>
-                          <input type="radio" name="RadioGroup5" value="radio">
-                          no</label>
-                        </div></td>
-                      <td class="nobord">Is this project off campus? </td>
-                    </tr>
-                    <tr>
-                      <td class="nobord"><div align="center">
-
-                          <label>
-                          <input type="radio" name="RadioGroup6" value="radio">
-                          yes</label>
-                          <label>
-                          <input type="radio" name="RadioGroup6" value="radio">
-                          no</label>
-                        </div></td>
-                      <td class="nobord">Is program income as anticipated? </td>
-
-                    </tr>
-                    <tr>
-                      <td class="nobord"><div align="center">
-                          <label>
-                          <input type="radio" name="RadioGroup7" value="radio">
-                          yes</label>
-                          <label>
-                          <input type="radio" name="RadioGroup7" value="radio">
-
-                          no</label>
-                        </div></td>
-                      <td class="nobord">Have inventions been conceived or reduced to practice under prior research on this project?</td>
-                    </tr>
-                    <tr>
-                      <td class="nobord"><div align="center">
-                          <label>
-                          <input type="radio" name="RadioGroup8" value="radio">
-
-                          yes</label>
-                          <label>
-                          <input type="radio" name="RadioGroup8" value="radio">
-                          no</label>
-                        </div></td>
-                      <td class="nobord">Will new space or remodeling be required?</td>
-                    </tr>
-
-                    <tr>
-                      <td class="nobord"><div align="center">
-                          <label>
-                          <input type="radio" name="RadioGroup9" value="radio">
-                          yes</label>
-                          <label>
-                          <input type="radio" name="RadioGroup9" value="radio">
-                          no</label>
-
-                        </div></td>
-                      <td class="nobord">Will this project involve collaborative activities with foreign partners or will it have an international focus? </td>
-                    </tr>
-                    <tr>
-                      <td class="nobord"><div align="center">
-                          <label>
-                          <input type="radio" name="RadioGroup10" value="radio">
-                          yes</label>
-
-                          <label>
-                          <input type="radio" name="RadioGroup10" value="radio">
-                          no</label>
-                        </div></td>
-                      <td class="nobord">Does this project involve foreign travel?</td>
-                    </tr>
-                  </table>
-                  <br>
-
-                </td>
-              </tr>
-            </table>
-          </div>
+<kul:tab tabTitle="Other Project Details" defaultOpen="false" transparentBackground="false" tabErrorKey="*">
+	<div class="tab-container" align="center" id="G4" style="">
+		<div class="h2-container"><h2>Other Project Details</h2></div>
+		<table cellpadding=0 cellspacing="0" summary="">
+			<tr><td colspan="2" class="nobord">&nbsp;</td></tr>
+			<c:forEach items="${KualiForm.routingFormDocument.routingFormQuestions}" var="routingFormQuestion" varStatus="questionStatus">
+        		<tr>
+              		<td width="20%" class="nobord">
+              			<div align="center">
+              				<html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="Y"/> yes
+              				<html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="N"/> no
+              			</div>
+              		</td>
+              		<td class="nobord">
+              			${routingFormQuestion.question.questionTypeDescription}
+              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].documentNumber" />
+              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].questionTypeCode" />
+              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].versionNumber" />
+              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].objectId" />
+              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].question.questionTypeCode" />
+              			<html:hidden property="document.routingFormQuestion[${questionStatus.index}].question.questionTypeDescription" />
+              		</td>
+              	</tr>
+			</c:forEach>
+			<tr><td colspan="2" class="nobord">&nbsp;</td></tr>
+		</table>
+	</div>
+</kul:tab>

@@ -19,10 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
-import org.kuali.module.kra.budget.bo.BudgetBaseCode;
-import org.kuali.module.kra.budget.bo.BudgetPermissionType;
+import org.kuali.module.kra.KraConstants;
 
 public class RoutingFormApprovalStatusValuesFinder extends KeyValuesBase {
     
@@ -32,15 +30,9 @@ public class RoutingFormApprovalStatusValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         
- //       List<BudgetPermissionType> permissionTypeCodes = new ArrayList(SpringServiceLocator.getBudgetPermissionsService().getBudgetPermissionTypes());
- //       List permissionTypeKeyLabelPairList = new ArrayList();
- //       for (BudgetPermissionType element: permissionTypeCodes) {
-  //          permissionTypeKeyLabelPairList.add(new KeyLabelPair(element.getPermissionTypeCode(), element.getPermissionTypeDescription()));
-  //      }
-        
         List approvalTypeKeyLabelPairList = new ArrayList();
-        approvalTypeKeyLabelPairList.add(new KeyLabelPair("P", "PENDING"));
-        approvalTypeKeyLabelPairList.add(new KeyLabelPair("A", "APPROVED"));
+        approvalTypeKeyLabelPairList.add(new KeyLabelPair(KraConstants.RESEARCH_RISK_STUDY_STATUS_PENDING, "PENDING"));
+        approvalTypeKeyLabelPairList.add(new KeyLabelPair(KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED, "APPROVED"));
 
         return approvalTypeKeyLabelPairList;
     }

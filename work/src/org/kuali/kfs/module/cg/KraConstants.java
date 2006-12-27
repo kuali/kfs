@@ -126,4 +126,11 @@ public class KraConstants extends JstlConstants {
     public static final String RESEARCH_RISK_TYPE_ALL_COLUMNS = "A";
     public static final String RESEARCH_RISK_TYPE_SOME_COLUMNS = "S";
     public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "D";
+    
+    // Study Statuses
+    public static final String RESEARCH_RISK_STUDY_STATUS_APPROVED = "A";
+    public static final String RESEARCH_RISK_STUDY_STATUS_PENDING = "P";
+    
+    // Study Review Statuses
+    public static final String RESEARCH_RISK_STUDY_REVIEW_EXEMPT = "X";
 }

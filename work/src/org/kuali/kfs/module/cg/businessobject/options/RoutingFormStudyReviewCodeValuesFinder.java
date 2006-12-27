@@ -19,10 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
-import org.kuali.module.kra.budget.bo.BudgetBaseCode;
-import org.kuali.module.kra.budget.bo.BudgetPermissionType;
+import org.kuali.module.kra.KraConstants;
 
 public class RoutingFormStudyReviewCodeValuesFinder extends KeyValuesBase {
     
@@ -32,16 +30,10 @@ public class RoutingFormStudyReviewCodeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         
- //       List<BudgetPermissionType> permissionTypeCodes = new ArrayList(SpringServiceLocator.getBudgetPermissionsService().getBudgetPermissionTypes());
- //       List permissionTypeKeyLabelPairList = new ArrayList();
- //       for (BudgetPermissionType element: permissionTypeCodes) {
-  //          permissionTypeKeyLabelPairList.add(new KeyLabelPair(element.getPermissionTypeCode(), element.getPermissionTypeDescription()));
-  //      }
-        
         List StudyReviewKeyLabelPairList = new ArrayList();
         StudyReviewKeyLabelPairList.add(new KeyLabelPair("F", "FULL"));
         StudyReviewKeyLabelPairList.add(new KeyLabelPair("E", "EXPEDITED"));
-        StudyReviewKeyLabelPairList.add(new KeyLabelPair("X", "EXEMPT"));
+        StudyReviewKeyLabelPairList.add(new KeyLabelPair(KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT, "EXEMPT"));
 
         return StudyReviewKeyLabelPairList;
     }

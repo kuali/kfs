@@ -18,16 +18,20 @@ package org.kuali.module.kra.routingform.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
@@ -61,6 +65,8 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         valid &= processRoutingFormOrganizations(routingFormDocument);
         
         valid &= processRoutingFormSubcontractors(routingFormDocument);
+        
+        valid &= processRoutingFormResearchRisks(routingFormDocument);
 
         valid &= GlobalVariables.getErrorMap().isEmpty();
 
@@ -218,4 +224,68 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         return valid;
     }
     
+    /**
+     * This method validates 'Research Risks'.  It checks the following:
+     * - If Study is approved, approval date is required.
+     * - If study is not approved, approval date and expiration date must be empty.
+     * - If review status is 'exempt', exception number is required.
+     * - If review status in not 'exempt', exception number should be blank.
+     * - TODO If the Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
+     * - TODO If the Animal approval date is more than three years prior to the routing form creation date, the user must enter a more current date, or set the status to pending.
+     * 
+     * @param routingFormDocument The routingFormDocument that is being validated
+     * @return valid Does the validation pass
+     */
+    private boolean processRoutingFormResearchRisks(RoutingFormDocument routingFormDocument) {
+        
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        int i = 0;
+        for (RoutingFormResearchRisk researchRisk : routingFormDocument.getRoutingFormResearchRisks()) {
+            errorMap.addToErrorPath("routingFormResearchRisk[" + i + "]");
+            int j = 0;
+            for (RoutingFormResearchRiskStudy study : researchRisk.getResearchRiskStudies()) {
+                errorMap.addToErrorPath("researchRiskStudy[" + j + "]");
+                
+                // If study is approved, approval date is required.
+                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskApprovalPendingIndicator())
+                        && ObjectUtils.isNull(study.getResearchRiskStudyApprovalDate())) {
+                    valid = false;
+                    errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REQUIRED);
+                }
+                
+                // If study is not approved, approval date and expiration date must be empty.
+                if (!KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskApprovalPendingIndicator())) {
+                    if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
+                        valid = false;
+                        errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REMOVE);
+                    }
+                    if (ObjectUtils.isNotNull(study.getResearchRiskStudyExpirationDate())) {
+                        valid = false;
+                        errorMap.putError("researchRiskStudyExpirationDate", KraKeyConstants.ERROR_EXPIRATION_DATE_REMOVE);
+                    }
+                }
+                
+                // If review status is 'exempt', exception number is required.
+                if (KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode())
+                        && StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
+                    valid = false;
+                    errorMap.putError("researchRiskExemptionNumber", KraKeyConstants.ERROR_EXEMPTION_NUMBER_REQUIRED);
+                }
+                
+                // If review status in not 'exempt', exception number should be blank.
+                if (!KraConstants.RESEARCH_RISK_STUDY_REVIEW_EXEMPT.equals(study.getResearchRiskStudyReviewCode())
+                        && !StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
+                    valid = false;
+                    errorMap.putError("researchRiskExemptionNumber", KraKeyConstants.ERROR_EXEMPTION_NUMBER_REMOVE);
+                }
+                
+                errorMap.removeFromErrorPath("researchRiskStudy[" + j++ + "]");
+            }
+            errorMap.removeFromErrorPath("routingFormResearchRisk[" + i++ + "]");
+        }
+        
+        return valid;
+    }
 }

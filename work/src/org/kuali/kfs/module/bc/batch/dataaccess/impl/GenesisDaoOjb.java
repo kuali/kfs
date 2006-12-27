@@ -41,6 +41,12 @@ import org.apache.ojb.broker.query.*;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 import org.apache.log4j.*;
 
+//  we need this so we can create a document
+import org.kuali.core.document.Document;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.SpringServiceLocator.*;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class GenesisDaoOjb extends PersistenceBrokerDaoSupport 
              implements GenesisDao {
@@ -228,13 +234,23 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 RequestYear);
         Criteria lockID = new Criteria();
-        //@@TODO:  add these to the PropertyConstants or at least to 
-        //         BudgetConstructionConstants?    
-        lockID.addNotEqualTo("budgetLockUserIdentifier",
-                          BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         Criteria tranLockID = new Criteria();
-        tranLockID.addNotEqualTo("budgetTransacdtionLockUserIdentifier",
-                   BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        //@@TODO:  add these to the PropertyConstants or at least to 
+        //         BudgetConstructionConstants?
+        if (BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null)
+        { 
+            //  make sure that a NULL test is used in case = NULL is not supported
+            //  by the database
+            lockID.addNotNull("budgetLockUserIdentifier");
+            tranLockID.addNotNull("budgetLockUserIdentifier");
+        }
+        else
+        {
+            lockID.addNotEqualTo("budgetLockUserIdentifier",
+                          BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            tranLockID.addNotEqualTo("budgetTransacdtionLockUserIdentifier",
+                    BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        };
         lockID.addOrCriteria(tranLockID);
         criteriaID.addAndCriteria(lockID);
         //
@@ -267,6 +283,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         readGLForPBGL(BaseYear);
         createNewBCDocuments(BaseYear);
         addNewGLRowsToPBGL(BaseYear);
+        writeFinalDiagnosticCounts();
     }
     
     public void updateToPBGL(Integer BaseYear)
@@ -275,7 +292,136 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         updateCurrentPBGL(BaseYear);
         createNewBCDocuments(BaseYear);
         addNewGLRowsToPBGL(BaseYear);
+        writeFinalDiagnosticCounts();
     }
+    
+    //
+    //  two test routines to display the field values in the two business objects
+    //  produced from the GL read.  these are primarily here for initial testing
+    private void info()
+    { 
+        if (! LOG.isEnabledFor(Level.INFO))
+           {
+            return;
+           };
+       //  print one header row    
+       for (Map.Entry<String,BudgetConstructionHeader> bcHeaderRows : 
+           bCHdrFromGL.entrySet())
+       {
+           BudgetConstructionHeader toPrint = bcHeaderRows.getValue();
+           LOG.info("\n\nA sample BC header row\n");
+           LOG.info(String.format("Document Number = %s\n",toPrint.getDocumentNumber()));
+           LOG.info(String.format("University Fiscal Year = %d\n",
+                                  toPrint.getUniversityFiscalYear()));
+           LOG.info(String.format("Chart: %s\n",toPrint.getChartOfAccounts()));
+           LOG.info(String.format("Account: %s\n",toPrint.getAccountNumber()));
+           LOG.info(String.format("Subaccount: %s\n",toPrint.getSubAccountNumber()));
+           LOG.info(String.format("Organization Level Code: %d\n",
+                    toPrint.getOrganizationLevelCode()));
+           LOG.info(String.format("Chart of Level: %s\n",
+                    toPrint.getOrganizationLevelChartOfAccountsCode()));
+           LOG.info(String.format("Organization of Level: %s\n",
+                    toPrint.getOrganizationLevelOrganization()));
+           LOG.info(String.format("Lock User ID: %s\n",
+                    toPrint.getBudgetLockUserIdentifier()));
+           LOG.info(String.format("Transaction Lock User ID: %s\n",
+                    toPrint.getBudgetTransactionLockUserIdentifier()));
+           break;
+       }
+       // print one PBGL row
+       for (Map.Entry<String,PendingBudgetConstructionGeneralLedger> pBGLRows : 
+           pBGLFromGL.entrySet())
+       {
+           PendingBudgetConstructionGeneralLedger toPrint = pBGLRows.getValue();
+           LOG.info("\n\nA sample PBGL row\n");
+           LOG.info(String.format("Document Number = %s\n",
+                    toPrint.getDocumentNumber()));
+           LOG.info(String.format("University Fiscal Year = %d\n",
+                   toPrint.getUniversityFiscalYear()));
+           LOG.info(String.format("Chart: %s\n",
+                   toPrint.getChartOfAccountsCode()));
+           LOG.info(String.format("Account: %s\n",
+                   toPrint.getAccountNumber()));
+           LOG.info(String.format("Sub Account: %s\n",
+                   toPrint.getSubAccountNumber()));
+           LOG.info(String.format("Object Code: %s\n",
+                   toPrint.getFinancialObjectCode()));
+           LOG.info(String.format("Subobject Code: %s\n",
+                   toPrint.getFinancialSubObjectCode()));
+           LOG.info(String.format("Balance Type: %s\n",
+                   toPrint.getFinancialBalanceTypeCode()));
+           LOG.info(String.format("Object Type: %s\n",
+                   toPrint.getFinancialObjectTypeCode()));
+           LOG.info(String.format("Base Amount: %+15.2f\n",
+                   toPrint.getFinancialBeginningBalanceLineAmount()));
+           LOG.info(String.format("Request Amount: %+15.2f\n",
+                   toPrint.getAccountLineAnnualBalanceAmount()));
+           break;
+       }
+     }
+    
+    private void debug()
+    { 
+        if (! LOG.isEnabledFor(Level.DEBUG))
+           {
+            return;
+           };
+       //  print one header row    
+       for (Map.Entry<String,BudgetConstructionHeader> bcHeaderRows : 
+           bCHdrFromGL.entrySet())
+       {
+           BudgetConstructionHeader toPrint = bcHeaderRows.getValue();
+           LOG.debug("\n\nA sample BC header row\n");
+           LOG.debug(String.format("Document Number = %s\n",toPrint.getDocumentNumber()));
+           LOG.debug(String.format("University Fiscal Year = %d\n",
+                                  toPrint.getUniversityFiscalYear()));
+           LOG.debug(String.format("Chart: %s\n",toPrint.getChartOfAccounts()));
+           LOG.debug(String.format("Account: %s\n",toPrint.getAccountNumber()));
+           LOG.debug(String.format("Subaccount: %s\n",toPrint.getSubAccountNumber()));
+           LOG.debug(String.format("Organization Level Code: %d\n",
+                    toPrint.getOrganizationLevelCode()));
+           LOG.debug(String.format("Chart of Level: %s\n",
+                    toPrint.getOrganizationLevelChartOfAccountsCode()));
+           LOG.debug(String.format("Organization of Level: %s\n",
+                    toPrint.getOrganizationLevelOrganization()));
+           LOG.debug(String.format("Lock User ID: %s\n",
+                    toPrint.getBudgetLockUserIdentifier()));
+           LOG.debug(String.format("Transaction Lock User ID: %s\n",
+                    toPrint.getBudgetTransactionLockUserIdentifier()));
+           break;
+       }
+       // print one PBGL row
+       for (Map.Entry<String,PendingBudgetConstructionGeneralLedger> pBGLRows : 
+           pBGLFromGL.entrySet())
+       {
+           PendingBudgetConstructionGeneralLedger toPrint = pBGLRows.getValue();
+           LOG.debug("\n\nA sample PBGL row\n");
+           LOG.debug(String.format("Document Number = %s\n",
+                    toPrint.getDocumentNumber()));
+           LOG.debug(String.format("University Fiscal Year = %d\n",
+                   toPrint.getUniversityFiscalYear()));
+           LOG.debug(String.format("Chart: %s\n",
+                   toPrint.getChartOfAccountsCode()));
+           LOG.debug(String.format("Account: %s\n",
+                   toPrint.getAccountNumber()));
+           LOG.debug(String.format("Sub Account: %s\n",
+                   toPrint.getSubAccountNumber()));
+           LOG.debug(String.format("Object Code: %s\n",
+                   toPrint.getFinancialObjectCode()));
+           LOG.debug(String.format("Subobject Code: %s\n",
+                   toPrint.getFinancialSubObjectCode()));
+           LOG.debug(String.format("Balance Type: %s\n",
+                   toPrint.getFinancialBalanceTypeCode()));
+           LOG.debug(String.format("Object Type: %s\n",
+                   toPrint.getFinancialObjectTypeCode()));
+           LOG.debug(String.format("Base Amount: %+15.2f\n",
+                   toPrint.getFinancialBeginningBalanceLineAmount()));
+           LOG.debug(String.format("Request Amount: %+15.2f\n",
+                   toPrint.getAccountLineAnnualBalanceAmount()));
+           break;
+       }
+     }
+    
     //
     //
     // private working methods
@@ -394,13 +540,67 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     
     private void createNewBCDocuments(Integer BaseYear)
     {
+        // if there are no documents, just return and skip all the set up
+        if (bCHdrFromGL.size() == 0)
+        {
+            return;
+        }
+        // now we have to get the document service and the workflow service
+        DocumentService documentService = SpringServiceLocator.getDocumentService();
         // this routine reads the list of GL document accounting keys from
         // the GL that are not in the budget, and creates both a workflow
         // document and a budget construction header for them
         for (Map.Entry<String,BudgetConstructionHeader> newBCHdrRows :
             bCHdrFromGL.entrySet())
         {
-            
+            BudgetConstructionHeader headerGL = newBCHdrRows.getValue();
+            Document bCDocument;
+            try
+            {
+              //@@TODO:  it looks like these things need to be saved.
+              //         should we just save the objects in an array and
+              //         store them at the end?  
+               bCDocument = 
+               documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
+            }
+            catch (WorkflowException exxx)
+            {
+               LOG.warn(String.format("\nerror %s creating BC document for:\n"+
+                                      "Chart : %s\nAccount: %s\nSubaccount: %s\n",
+                                      exxx.getMessage(),
+                                      headerGL.getChartOfAccounts(),
+                                      headerGL.getAccountNumber(),
+                                      headerGL.getSubAccountNumber()));
+               // the document header will have no document number
+               // the relevant GL rows will NOT be written to PBGL
+               // we can try again on the next run
+               continue;
+            }
+            try
+            {
+            //@@TODO:  where do these go?  into the "inbox" of the batch user?
+              documentService.saveDocument(bCDocument);  
+            }
+            catch (WorkflowException exxx)
+            {
+               LOG.warn(String.format("\nerror %s saving BC document for:\n"+
+                                      "Chart : %s\nAccount: %s\nSubaccount: %s\n",
+                                      exxx.getMessage(),
+                                      headerGL.getChartOfAccounts(),
+                                      headerGL.getAccountNumber(),
+                                      headerGL.getSubAccountNumber()));
+               // the document header will have no document number
+               // the relevant GL rows will NOT be written to PBGL
+               // we can try again on the next run
+               continue;
+            }
+            String documentID = bCDocument.getDocumentNumber();
+            headerGL.setDocumentNumber(documentID);
+            //  store the new header, but keep the object around
+            //  we'll need it later to assign a document number to its corresponding
+            //  detail rows
+            nGLHeadersAdded = nGLHeadersAdded+1;
+            getPersistenceBrokerTemplate().store(headerGL);
         }
     }
     
@@ -561,6 +761,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         LOG.info("\nHash maps built: "+String.format("%tT",new Date()));
         LOG.info(String.format("\nGL detail hashmap size = %d",pBGLFromGL.size()));
         LOG.info(String.format("\nGL keys hashmap size = %d",bCHdrFromGL.size()));
+        info();
     }
     
     private void removeDuplicateHeader(PendingBudgetConstructionGeneralLedger currentPBGLInstance)
@@ -647,5 +848,23 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            // update the base amount and store the result if necessary
            updateBaseBudgetAmount(currentPBGLInstance);
        }
+    }
+    
+    private void writeFinalDiagnosticCounts()
+    {
+        LOG.info(String.format("\n\nRun Statistics\n\n"));
+        LOG.info(String.format("General Ledger BB Keys read: %d\n",
+                                nGLBBRowsRead));
+        LOG.info(String.format("General Ledger BB Rows read: %d\n",
+                 nGLBBKeysRead));
+        LOG.info(String.format("Existing Pending General Ledger rows: %d\n",
+                 nCurrentPBGLRows));
+        LOG.info(String.format("of these...\n"));
+        LOG.info(String.format("new BC headers written: %d\n",
+                 nGLHeadersAdded));
+        LOG.info(String.format("new PBGL rows written: %d\n",
+                 nGLRowsAdded));
+        LOG.info(String.format("current PBGL amounts updated: %d\n"));
+        
     }
 }

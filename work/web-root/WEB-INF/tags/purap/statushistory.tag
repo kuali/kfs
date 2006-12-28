@@ -76,7 +76,7 @@
 		        		</td>
 		        		<td align=left valign=middle class="datacell">
 		        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryUserIdentifier}" 
-		                    	property="document.statusHistories[${ctr}].statusHistoryUser" readOnly="true"/>
+		                    	property="document.statusHistories[${ctr}].statusHistoryUserIdentifier" readOnly="true"/>
 		        		</td>
 		        	</tr>
 	        	</logic:iterate>

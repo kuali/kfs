@@ -35,6 +35,11 @@ public interface GenesisDao {
     */
    public String getBudgetConstructionInitiatorID();
    
+   // chart and organization hierarchy
+   public void createChartForNextBudgetCycle();
+   public void rebuildOrganizationHierarchy(Integer currentFiscalYear);
+   
+   // pending budget construction general ledger
    public void initialLoadToPBGL(Integer currentFiscalYear);
    public void updateToPBGL(Integer currentFiscalYear);
 }

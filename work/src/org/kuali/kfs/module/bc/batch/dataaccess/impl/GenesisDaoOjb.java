@@ -89,10 +89,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
      *    we could override lazy evaluation at the class-descriptor level, we could 
      *    code some batch-specific joins that would get everything we need in one call.
      *    The problem with this is that the A/B descriptions would then be in multiple
-     *    tags, and changing them would be labor-intensive and error-prone.  If OJB
-     *    repositories allow headers, we could get around this by using an entity to 
-     *    describe the A fields.  This idea requires further research, on the coder's
-     *    part at least.)
+     *    tags, and changing them would be labor-intensive and error-prone.  But OJB
+     *    repositories allow headers, so we could get around this by using an entity to 
+     *    describe the A fields.  The entity would be in one place, so changes to the A
+     *    fields could also be made in one place.  The foreignkey field-ref tag B fields
+     *    are repeated in every description anyway, so things aren't always in one place
+     *    to begin with.)
      */
 
     private FiscalYearFunctionControl fiscalYearFunctionControl;
@@ -184,6 +186,165 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            String retID = (String) ((Object[]) Results.next())[0];  
            return retID;
         }
+    }
+    
+    /*
+     *   here are the routines which freeze accounting at the beginning of
+     *   budget construction (so updates can be done in parallel, or updates
+     *   for the budget year only can be done without affecting the current
+     *   chart of accounts).
+     */
+    private HashMap<String,BudgetConstructionOrganizationReports> orgRptsTo =
+        new HashMap();
+    private HashMap<String,BudgetConstructionAccountOrganizationHierarchy> orgHier =
+        new HashMap();
+    
+    //   public routines
+    
+    public void createChartForNextBudgetCycle()
+    {
+      // first we have to remove what's there
+      // (the documentation says this (1) ignores object references and (2) does
+      //  not synchronize the cache.  so, we clear the cache before and after.)
+        getPersistenceBrokerTemplate().clearCache();
+        QueryByCriteria killAcctQuery = 
+            new QueryByCriteria(BudgetConstructionAccountReports.class);
+        getPersistenceBrokerTemplate().deleteByQuery(killAcctQuery);
+        QueryByCriteria killOrgQuery =
+            new QueryByCriteria(BudgetConstructionOrganizationReports.class);
+        getPersistenceBrokerTemplate().deleteByQuery(killOrgQuery);
+        getPersistenceBrokerTemplate().clearCache();
+      // build the account table
+        buildNewAccountReportsTo();
+      // build the organization table  
+        buildNewOrganizationReportsTo();
+    }
+    
+    public void rebuildOrganizationHierarchy(Integer BaseYear)
+    {
+        // ********
+        // this routine REQUIRES that pending GL is complete
+        // we only builda hierarchy for accounts that exist in the GL
+        // ********
+        
+        Integer RequestYear = BaseYear + 1;
+        
+        //
+        // first we have to clear out what's there
+        // again, we clear the cache after doing a deleteByQuery
+        getPersistenceBrokerTemplate().clearCache();
+        QueryByCriteria killOrgHierQuery = 
+            new QueryByCriteria(BudgetConstructionAccountOrganizationHierarchy.class);
+        getPersistenceBrokerTemplate().deleteByQuery(killOrgHierQuery);
+        getPersistenceBrokerTemplate().clearCache();
+    }
+    
+    //  working methods for the BC chart update
+    
+    private void buildNewAccountReportsTo()
+    {
+        
+        Integer sqlChartOfAccountsCode = 0;
+        Integer sqlAccountNumber = 1;
+        Integer sqlReportsToChartofAccountsCode = 2;
+        Integer sqlOrganizationCode = 3;
+        
+        Long accountsAdded = new Long(0);
+        
+        Criteria criteriaID = new Criteria();
+        criteriaID.addNotEqualTo(PropertyConstants.ACCOUNT_CLOSED_INDICATOR,
+                              Constants.ParameterValues.YES);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ORGANIZATION_CODE};
+       ReportQueryByCriteria queryID = 
+       new ReportQueryByCriteria(Account.class, queryAttr, criteriaID, true);
+       Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+       while (Results.hasNext())
+       {
+           Object[] ReturnList = (Object[]) Results.next();
+           // just save this stuff, one at a time
+           // it isn't needed for anything else
+           BudgetConstructionAccountReports acctRpts = 
+               new BudgetConstructionAccountReports();
+           acctRpts.setChartOfAccountsCode((String) ReturnList[sqlChartOfAccountsCode]);
+           acctRpts.setAccountNumber((String) ReturnList[sqlAccountNumber]);
+           acctRpts.setReportsToChartOfAccountsCode((String)
+                    ReturnList[sqlReportsToChartofAccountsCode]);
+           acctRpts.setReportsToOrganizationCode((String)
+                    ReturnList[sqlOrganizationCode]);
+           acctRpts.setVersionNumber(DEFAULT_VERSION_NUMBER);
+           getPersistenceBrokerTemplate().store(acctRpts);
+           accountsAdded = accountsAdded + 1;
+       }
+       LOG.info(String.format("Account reporting lines added to budget construction %d",
+                accountsAdded));
+    }
+    
+    private void buildNewOrganizationReportsTo()
+    {
+        
+        Integer sqlChartOfAccountsCode          = 0;
+        Integer sqlOrganizationCode             = 1;
+        Integer sqlReportsToChartOfAccountsCode = 2;
+        Integer sqlReportsToOrganizationCode    = 3;
+        Integer sqlResponsibilityCenterCode     = 4;
+
+        Long organizationsAdded = new Long(0);
+        
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
+                              Constants.ParameterValues.YES);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ORGANIZATION_CODE,
+                              PropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.REPORTS_TO_ORGANIZATION_CODE,
+                              PropertyConstants.RESPONSIBILITY_CENTER_CODE};
+       ReportQueryByCriteria queryID = 
+       new ReportQueryByCriteria(Org.class, queryAttr, criteriaID, true);
+       Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+       while (Results.hasNext())
+       {
+           Object[] ReturnList = (Object[]) Results.next();
+           // just save this stuff, one at a time
+           // it isn't needed for anything else
+           BudgetConstructionOrganizationReports orgRpts = 
+               new BudgetConstructionOrganizationReports();
+           orgRpts.setChartOfAccountsCode((String) ReturnList[sqlChartOfAccountsCode]);
+           orgRpts.setOrganizationCode((String) ReturnList[sqlOrganizationCode]);
+           orgRpts.setReportsToChartOfAccountsCode((String)
+                    ReturnList[sqlReportsToChartOfAccountsCode]);
+           orgRpts.setReportsToOrganizationCode((String)
+                    ReturnList[sqlReportsToOrganizationCode]);
+           orgRpts.setResponsibilityCenterCode((String)
+                    ReturnList[sqlResponsibilityCenterCode]);
+           orgRpts.setVersionNumber(DEFAULT_VERSION_NUMBER);
+           getPersistenceBrokerTemplate().store(orgRpts);
+           organizationsAdded = organizationsAdded + 1;
+       }
+       LOG.info(String.format("Organization reporting lines added to budget construction %d",
+                organizationsAdded));
+    }
+
+    private String getOrgHierarchyKey(
+            BudgetConstructionAccountOrganizationHierarchy orgHier)
+    {
+        String TestKey = new String();
+        TestKey = orgHier.getChartOfAccountsCode()+
+                  orgHier.getAccountNumber()+
+                  orgHier.getOrganizationChartOfAccountsCode()+
+                  orgHier.getOrganizationCode();
+        return TestKey;
+    }
+    
+    private String getOrgRptsKey(
+            BudgetConstructionOrganizationReports orgRpts)
+    {
+        String TestKey = new String();
+        TestKey = orgRpts.getChartOfAccountsCode()+
+                  orgRpts.getOrganizationCode();
+        return TestKey;
     }
     
     /*
@@ -289,9 +450,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     public void updateToPBGL(Integer BaseYear)
     {
         readGLForPBGL(BaseYear);
-        updateCurrentPBGL(BaseYear);
-        createNewBCDocuments(BaseYear);
-        addNewGLRowsToPBGL(BaseYear);
+     //   updateCurrentPBGL(BaseYear);
+     //   createNewBCDocuments(BaseYear);
+     //   addNewGLRowsToPBGL(BaseYear);
         writeFinalDiagnosticCounts();
     }
     
@@ -310,22 +471,24 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        {
            BudgetConstructionHeader toPrint = bcHeaderRows.getValue();
            LOG.info("\n\nA sample BC header row\n");
-           LOG.info(String.format("Document Number = %s\n",toPrint.getDocumentNumber()));
-           LOG.info(String.format("University Fiscal Year = %d\n",
+           LOG.info(String.format("\nDocument Number = %s",toPrint.getDocumentNumber()));
+           LOG.info(String.format("\nUniversity Fiscal Year = %d",
                                   toPrint.getUniversityFiscalYear()));
-           LOG.info(String.format("Chart: %s\n",toPrint.getChartOfAccounts()));
-           LOG.info(String.format("Account: %s\n",toPrint.getAccountNumber()));
-           LOG.info(String.format("Subaccount: %s\n",toPrint.getSubAccountNumber()));
-           LOG.info(String.format("Organization Level Code: %d\n",
+           LOG.info(String.format("\nChart: %s",toPrint.getChartOfAccounts()));
+           LOG.info(String.format("\nAccount: %s",toPrint.getAccountNumber()));
+           LOG.info(String.format("\nSubaccount: %s",toPrint.getSubAccountNumber()));
+           LOG.info(String.format("\nOrganization Level Code: %d",
                     toPrint.getOrganizationLevelCode()));
-           LOG.info(String.format("Chart of Level: %s\n",
+           LOG.info(String.format("\nChart of Level: %s",
                     toPrint.getOrganizationLevelChartOfAccountsCode()));
-           LOG.info(String.format("Organization of Level: %s\n",
+           LOG.info(String.format("\nOrganization of Level: %s",
                     toPrint.getOrganizationLevelOrganization()));
-           LOG.info(String.format("Lock User ID: %s\n",
+           LOG.info(String.format("\nLock User ID: %s",
                     toPrint.getBudgetLockUserIdentifier()));
-           LOG.info(String.format("Transaction Lock User ID: %s\n",
+           LOG.info(String.format("\nTransaction Lock User ID: %s",
                     toPrint.getBudgetTransactionLockUserIdentifier()));
+           LOG.info(String.format("\nVersion Number: %d",
+                    toPrint.getVersionNumber()));
            break;
        }
        // print one PBGL row
@@ -334,28 +497,30 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        {
            PendingBudgetConstructionGeneralLedger toPrint = pBGLRows.getValue();
            LOG.info("\n\nA sample PBGL row\n");
-           LOG.info(String.format("Document Number = %s\n",
+           LOG.info(String.format("\nDocument Number = %s",
                     toPrint.getDocumentNumber()));
-           LOG.info(String.format("University Fiscal Year = %d\n",
+           LOG.info(String.format("\nUniversity Fiscal Year = %d",
                    toPrint.getUniversityFiscalYear()));
-           LOG.info(String.format("Chart: %s\n",
+           LOG.info(String.format("\nChart: %s",
                    toPrint.getChartOfAccountsCode()));
-           LOG.info(String.format("Account: %s\n",
+           LOG.info(String.format("\nAccount: %s",
                    toPrint.getAccountNumber()));
-           LOG.info(String.format("Sub Account: %s\n",
+           LOG.info(String.format("\nSub Account: %s",
                    toPrint.getSubAccountNumber()));
-           LOG.info(String.format("Object Code: %s\n",
+           LOG.info(String.format("\nObject Code: %s",
                    toPrint.getFinancialObjectCode()));
-           LOG.info(String.format("Subobject Code: %s\n",
+           LOG.info(String.format("\nSubobject Code: %s",
                    toPrint.getFinancialSubObjectCode()));
-           LOG.info(String.format("Balance Type: %s\n",
+           LOG.info(String.format("\nBalance Type: %s",
                    toPrint.getFinancialBalanceTypeCode()));
-           LOG.info(String.format("Object Type: %s\n",
+           LOG.info(String.format("\nObject Type: %s",
                    toPrint.getFinancialObjectTypeCode()));
-           LOG.info(String.format("Base Amount: %+15.2f\n",
-                   toPrint.getFinancialBeginningBalanceLineAmount()));
-           LOG.info(String.format("Request Amount: %+15.2f\n",
-                   toPrint.getAccountLineAnnualBalanceAmount()));
+           LOG.info(String.format("\nBase Amount: %s",
+                   toPrint.getFinancialBeginningBalanceLineAmount().toString()));
+           LOG.info(String.format("\nRequest Amount: %s",
+                   toPrint.getAccountLineAnnualBalanceAmount().toString()));
+           LOG.info(String.format("\nVersion Number: %d",
+                   toPrint.getVersionNumber()));
            break;
        }
      }
@@ -372,22 +537,24 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        {
            BudgetConstructionHeader toPrint = bcHeaderRows.getValue();
            LOG.debug("\n\nA sample BC header row\n");
-           LOG.debug(String.format("Document Number = %s\n",toPrint.getDocumentNumber()));
-           LOG.debug(String.format("University Fiscal Year = %d\n",
+           LOG.debug(String.format("\nDocument Number = %s",toPrint.getDocumentNumber()));
+           LOG.debug(String.format("\nUniversity Fiscal Year = %d",
                                   toPrint.getUniversityFiscalYear()));
-           LOG.debug(String.format("Chart: %s\n",toPrint.getChartOfAccounts()));
-           LOG.debug(String.format("Account: %s\n",toPrint.getAccountNumber()));
-           LOG.debug(String.format("Subaccount: %s\n",toPrint.getSubAccountNumber()));
-           LOG.debug(String.format("Organization Level Code: %d\n",
+           LOG.debug(String.format("\nChart: %s",toPrint.getChartOfAccounts()));
+           LOG.debug(String.format("\nAccount: %s",toPrint.getAccountNumber()));
+           LOG.debug(String.format("\nSubaccount: %s",toPrint.getSubAccountNumber()));
+           LOG.debug(String.format("\nOrganization Level Code: %d",
                     toPrint.getOrganizationLevelCode()));
-           LOG.debug(String.format("Chart of Level: %s\n",
+           LOG.debug(String.format("\nChart of Level: %s",
                     toPrint.getOrganizationLevelChartOfAccountsCode()));
-           LOG.debug(String.format("Organization of Level: %s\n",
+           LOG.debug(String.format("\nOrganization of Level: %s",
                     toPrint.getOrganizationLevelOrganization()));
-           LOG.debug(String.format("Lock User ID: %s\n",
+           LOG.debug(String.format("\nLock User ID: %s",
                     toPrint.getBudgetLockUserIdentifier()));
-           LOG.debug(String.format("Transaction Lock User ID: %s\n",
+           LOG.debug(String.format("\nTransaction Lock User ID: %s",
                     toPrint.getBudgetTransactionLockUserIdentifier()));
+           LOG.debug(String.format("\nVersion Number: %d",
+                   toPrint.getVersionNumber()));
            break;
        }
        // print one PBGL row
@@ -396,28 +563,30 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        {
            PendingBudgetConstructionGeneralLedger toPrint = pBGLRows.getValue();
            LOG.debug("\n\nA sample PBGL row\n");
-           LOG.debug(String.format("Document Number = %s\n",
+           LOG.debug(String.format("\nDocument Number = %s",
                     toPrint.getDocumentNumber()));
-           LOG.debug(String.format("University Fiscal Year = %d\n",
+           LOG.debug(String.format("\nUniversity Fiscal Year = %d",
                    toPrint.getUniversityFiscalYear()));
-           LOG.debug(String.format("Chart: %s\n",
+           LOG.debug(String.format("\nChart: %s",
                    toPrint.getChartOfAccountsCode()));
-           LOG.debug(String.format("Account: %s\n",
+           LOG.debug(String.format("\nAccount: %s",
                    toPrint.getAccountNumber()));
-           LOG.debug(String.format("Sub Account: %s\n",
+           LOG.debug(String.format("\nSub Account: %s",
                    toPrint.getSubAccountNumber()));
-           LOG.debug(String.format("Object Code: %s\n",
+           LOG.debug(String.format("\nObject Code: %s",
                    toPrint.getFinancialObjectCode()));
-           LOG.debug(String.format("Subobject Code: %s\n",
+           LOG.debug(String.format("\nSubobject Code: %s",
                    toPrint.getFinancialSubObjectCode()));
-           LOG.debug(String.format("Balance Type: %s\n",
+           LOG.debug(String.format("\nBalance Type: %s",
                    toPrint.getFinancialBalanceTypeCode()));
-           LOG.debug(String.format("Object Type: %s\n",
+           LOG.debug(String.format("\nObject Type: %s",
                    toPrint.getFinancialObjectTypeCode()));
-           LOG.debug(String.format("Base Amount: %+15.2f\n",
-                   toPrint.getFinancialBeginningBalanceLineAmount()));
-           LOG.debug(String.format("Request Amount: %+15.2f\n",
-                   toPrint.getAccountLineAnnualBalanceAmount()));
+           LOG.debug(String.format("\nBase Amount: %s",
+                     toPrint.getFinancialBeginningBalanceLineAmount().toString()));
+           LOG.debug(String.format("\nRequest Amount: %s",
+                   toPrint.getAccountLineAnnualBalanceAmount().toString()));
+           LOG.debug(String.format("\nVersion Number: %d",
+                   toPrint.getVersionNumber()));
            break;
        }
      }
@@ -628,7 +797,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        BudgetConstructionHeader hDrBC = new BudgetConstructionHeader();
        // document number will be set in the service--we don't yet know whether this
        // will require a new document
-       // @@TODO: get the "org of level" from account reports to
        hDrBC.setUniversityFiscalYear(RequestYear);
        hDrBC.setChartOfAccountsCode((String) sqlResult[sqlChartOfAccountsCode]);
        hDrBC.setAccountNumber((String) sqlResult[sqlAccountNumber]);
@@ -645,7 +813,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        hDrBC.setVersionNumber(DEFAULT_VERSION_NUMBER);
    //  we need to initialize the document number to null, and set it later
    //  if it doesn't get set later, the code will detect the failure and issue a warning    
-       hDrBC.setDocumentNumber("");
+       hDrBC.setDocumentNumber(null);
    //  return a new header
        return hDrBC;
     }
@@ -853,18 +1021,19 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     private void writeFinalDiagnosticCounts()
     {
         LOG.info(String.format("\n\nRun Statistics\n\n"));
-        LOG.info(String.format("General Ledger BB Keys read: %d\n",
+        LOG.info(String.format("\nGeneral Ledger BB Keys read: %d",
                                 nGLBBRowsRead));
-        LOG.info(String.format("General Ledger BB Rows read: %d\n",
+        LOG.info(String.format("\nGeneral Ledger BB Rows read: %d",
                  nGLBBKeysRead));
-        LOG.info(String.format("Existing Pending General Ledger rows: %d\n",
+        LOG.info(String.format("\nExisting Pending General Ledger rows: %d",
                  nCurrentPBGLRows));
-        LOG.info(String.format("of these...\n"));
-        LOG.info(String.format("new BC headers written: %d\n",
+        LOG.info(String.format("\nof these..."));
+        LOG.info(String.format("\nnew BC headers written: %d",
                  nGLHeadersAdded));
-        LOG.info(String.format("new PBGL rows written: %d\n",
+        LOG.info(String.format("\nnew PBGL rows written: %d",
                  nGLRowsAdded));
-        LOG.info(String.format("current PBGL amounts updated: %d\n"));
+        LOG.info(String.format("\ncurrent PBGL amounts updated: %d",
+                 nGLRowsUpdated));
         
     }
 }

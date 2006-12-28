@@ -34,6 +34,17 @@ public abstract class ResearchDocumentBase extends DocumentBase implements Resea
     public ResearchDocumentBase() {
         super();
     }
+    
+    @Override
+    public String getExplanation() {
+        return this.getDocumentHeader().getExplanation();
+    }
+    
+    @Override
+    public void setExplanation(String explanation) {
+        this.getDocumentHeader().setExplanation(explanation);
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

@@ -20,18 +20,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * This class returns list of payment method key value pairs.
- * 
- * 
  */
 public class CorrectionGroupEntriesFinder extends KeyValuesBase {
 
@@ -41,7 +37,7 @@ public class CorrectionGroupEntriesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List activeLabels = new ArrayList();
 
-        OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+        OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
 
         Collection<OriginEntryGroup> groupList = originEntryGroupService.getAllOriginEntryGroup();
 

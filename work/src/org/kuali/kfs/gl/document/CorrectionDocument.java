@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
@@ -32,7 +33,6 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberService;
-import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -40,17 +40,20 @@ import org.kuali.PropertyConstants;
 public class CorrectionDocument extends DocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
 
-    private String correctionTypeCode;                      // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or CorrectionDocumentService.CORRECTION_TYPE_CRITERIA
-    private boolean correctionSelection;                    // false if all input rows should be in the output, true if only selected rows should be in the output
-    private boolean correctionFileDelete;                   // false if the file should be processed by scrubber, true if the file should not be processed by scrubber
-    private Integer correctionRowCount;                     // Row count in output group
-    private KualiDecimal correctionDebitTotalAmount;        // Debit/Budget amount total in output group
-    private KualiDecimal correctionCreditTotalAmount;       // Credit amount total in output group
-    private String correctionInputFileName;                 // File name if uploaded
-    private String correctionOutputFileName;                // Not used
-    private String correctionScriptText;                    // Not used
-    private Integer correctionInputGroupId;                 // Group ID that has input data
-    private Integer correctionOutputGroupId;                // Group ID that has output data
+    private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
+                                        // CorrectionDocumentService.CORRECTION_TYPE_CRITERIA
+    private boolean correctionSelection; // false if all input rows should be in the output, true if only selected rows should be
+                                            // in the output
+    private boolean correctionFileDelete; // false if the file should be processed by scrubber, true if the file should not be
+                                            // processed by scrubber
+    private Integer correctionRowCount; // Row count in output group
+    private KualiDecimal correctionDebitTotalAmount; // Debit/Budget amount total in output group
+    private KualiDecimal correctionCreditTotalAmount; // Credit amount total in output group
+    private String correctionInputFileName; // File name if uploaded
+    private String correctionOutputFileName; // Not used
+    private String correctionScriptText; // Not used
+    private Integer correctionInputGroupId; // Group ID that has input data
+    private Integer correctionOutputGroupId; // Group ID that has output data
     private Integer correctionChangeGroupNextLineNumber;
 
     private List correctionChangeGroup;
@@ -74,9 +77,10 @@ public class CorrectionDocument extends DocumentBase {
     }
 
     public String getMethod() {
-        if ( CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionTypeCode) ) {
+        if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionTypeCode)) {
             return "Manual Edit";
-        } else {
+        }
+        else {
             return "Using Criteria";
         }
     }
@@ -84,7 +88,8 @@ public class CorrectionDocument extends DocumentBase {
     public String getSystem() {
         if (correctionInputFileName != null) {
             return "File Upload";
-        } else {
+        }
+        else {
             return "Database";
         }
     }
@@ -97,8 +102,8 @@ public class CorrectionDocument extends DocumentBase {
 
     public void removeCorrectionChangeGroup(int changeNumber) {
         for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
-            CorrectionChangeGroup element = (CorrectionChangeGroup)iter.next();
-            if ( changeNumber == element.getCorrectionChangeGroupLineNumber().intValue() ) {
+            CorrectionChangeGroup element = (CorrectionChangeGroup) iter.next();
+            if (changeNumber == element.getCorrectionChangeGroupLineNumber().intValue()) {
                 iter.remove();
             }
         }
@@ -107,12 +112,12 @@ public class CorrectionDocument extends DocumentBase {
     public CorrectionChangeGroup getCorrectionChangeGroupItem(int groupNumber) {
         for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
             CorrectionChangeGroup element = (CorrectionChangeGroup) iter.next();
-            if ( groupNumber == element.getCorrectionChangeGroupLineNumber().intValue() ) {
+            if (groupNumber == element.getCorrectionChangeGroupLineNumber().intValue()) {
                 return element;
             }
         }
 
-        CorrectionChangeGroup ccg = new CorrectionChangeGroup(documentNumber,groupNumber);
+        CorrectionChangeGroup ccg = new CorrectionChangeGroup(documentNumber, groupNumber);
         correctionChangeGroup.add(ccg);
 
         return ccg;
@@ -129,25 +134,25 @@ public class CorrectionDocument extends DocumentBase {
 
         super.handleRouteStatusChange();
 
-        ReportService reportService = (ReportService) SpringServiceLocator.getBeanFactory().getBean("glReportService");
-        ScrubberService scrubberService = (ScrubberService) SpringServiceLocator.getBeanFactory().getBean("glScrubberService");
-        CorrectionDocumentService correctionDocumentService = (CorrectionDocumentService) SpringServiceLocator.getBeanFactory().getBean("glCorrectionDocumentService");
-        OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+        ReportService reportService = SpringServiceLocator.getReportService();
+        ScrubberService scrubberService = SpringServiceLocator.getScrubberService();
+        CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
+        OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
 
         String docId = getDocumentHeader().getDocumentNumber();
         CorrectionDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
-        if ( getDocumentHeader().getWorkflowDocument().stateIsFinal() ) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
-            if ( ! doc.getCorrectionFileDelete() ) {
+            if (!doc.getCorrectionFileDelete()) {
                 LOG.debug("handleRouteStatusChange() Mark group as to be processed");
                 outputGroup.setProcess(true);
                 originEntryGroupService.save(outputGroup);
             }
         }
 
-        if ( getDocumentHeader().getWorkflowDocument().stateIsEnroute() ) {
-            if ( doc.getCorrectionOutputGroupId() != null ) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            if (doc.getCorrectionOutputGroupId() != null) {
                 LOG.debug("handleRouteStatusChange() Run reports");
 
                 OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
@@ -156,8 +161,9 @@ public class CorrectionDocument extends DocumentBase {
 
                 reportService.correctionOnlineReport(doc, today);
 
-                // Run the scrubber on this group to generate a bunch of reports.  The scrubber won't save anything when running it this way.
-                scrubberService.scrubGroupReportOnly(outputGroup,docId);
+                // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
+                // this way.
+                scrubberService.scrubGroupReportOnly(outputGroup, docId);
             }
         }
     }
@@ -172,7 +178,7 @@ public class CorrectionDocument extends DocumentBase {
         super.setDocumentNumber(documentNumber);
 
         for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
-            CorrectionChangeGroup element = (CorrectionChangeGroup)iter.next();
+            CorrectionChangeGroup element = (CorrectionChangeGroup) iter.next();
             element.setDocumentNumber(documentNumber);
         }
     }

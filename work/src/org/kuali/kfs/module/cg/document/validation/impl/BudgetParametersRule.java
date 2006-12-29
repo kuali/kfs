@@ -342,6 +342,7 @@ public class BudgetParametersRule {
         List fringeRateList = budgetDocument.getBudget().getFringeRates();
         boolean valid = true;
         boolean isRateChanged = false;
+        KualiDecimal maximumRate = new KualiDecimal(100);
         for (int i = 0; i < fringeRateList.size(); i++) {
             // get the current budgetFringeRate object from the list collection
             BudgetFringeRate budgetFringeRate = (BudgetFringeRate) fringeRateList.get(i);
@@ -355,6 +356,17 @@ public class BudgetParametersRule {
             // check to see if the system value is different than the user input value
             if ((contractsAndGrantsFringeRate != null && budgetFringeRate.getAppointmentTypeFringeRateAmount().compareTo(contractsAndGrantsFringeRate) != 0) || (institutionCostShare != null && budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount().compareTo(institutionCostShare) != 0)) {
                 isRateChanged = (isRateChanged | true);
+            }
+            
+            // check whether rates are within valid range
+            if (budgetFringeRate.getContractsAndGrantsFringeRateAmount().isGreaterThan(maximumRate)) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError("budget.fringeRate[" + i + "].contractsAndGrantsFringeRateAmount", "error.fringeRate.tooLarge");
+            }
+            
+            if (budgetFringeRate.getInstitutionCostShareFringeRateAmount().isGreaterThan(maximumRate)) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError("budget.fringeRate[" + i + "].institutionCostShareFringeRateAmount", "error.fringeRate.tooLarge");
             }
         }
 

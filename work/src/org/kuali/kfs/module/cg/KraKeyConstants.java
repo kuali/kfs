@@ -35,6 +35,7 @@ public class KraKeyConstants {
     public static final String ERROR_ORG_NOT_FOUND = "error.org.not.found";
     public static final String ERROR_SUBCONTRACTOR_NOT_FOUND = "error.subcontractor.not.found";
     public static final String ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF = "error.subcontractor.already.exists.on.rf";
+    public static final String ERROR_FRINGE_RATE_TOO_LARGE = "error.fringeRate.tooLarge";
     
     // Routing Form Research Risks page errors
     public static final String ERROR_APPROVAL_DATE_REQUIRED = "error.approvalDate.required";
@@ -42,4 +43,6 @@ public class KraKeyConstants {
     public static final String ERROR_EXPIRATION_DATE_REMOVE = "error.expirationDate.remove";
     public static final String ERROR_EXEMPTION_NUMBER_REQUIRED = "error.exemptionNumber.required";
     public static final String ERROR_EXEMPTION_NUMBER_REMOVE = "error.exemptionNumber.remove";
+    public static final String ERROR_HUMAN_SUBJECTS_APPROVAL_DATE_TOO_OLD = "error.humanSubjects.approvalDate.tooOld";
+    public static final String ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD = "error.animals.approvalDate.tooOld";
 }

@@ -97,7 +97,7 @@
                 <label>Contract and Grants Fringe Rate Amount</label>
                 <shortLabel>C&amp;G Fringe Rate</shortLabel>
 
-                <maxLength>8</maxLength>
+                <maxLength>5</maxLength>
                 <validationPattern>
                     <floatingPoint />
                 </validationPattern>
@@ -116,7 +116,7 @@
                 <label>Cost Share Fringe Rate Amount</label>
                 <shortLabel>Fringe Rate</shortLabel>
 
-                <maxLength>8</maxLength>
+                <maxLength>5</maxLength>
                 <validationPattern>
                     <floatingPoint />
                 </validationPattern>

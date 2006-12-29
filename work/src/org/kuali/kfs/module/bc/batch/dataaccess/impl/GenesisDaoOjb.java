@@ -103,6 +103,16 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     /*  turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
 
+
+    // @@TODO maybe it isn't worth moving these home-coming queen values somewhere else
+    //        maybe we don't need the second one at all
+    public final static Long DEFAULT_VERSION_NUMBER = new Long(0);
+    public final static Integer MAXIMUM_ORGANIZATION_TREE_DEPTH = new Integer(1000);
+
+    /*
+     *  this is old stuff which we may not use--we'll see
+     */
+    
     /*  these constants should be in PropertyConstants */
     public final static String BUDGET_FLAG_PROPERTY_NAME = "financialSystemFunctionControlCode";
     public final static String BUDGET_FLAG_VALUE = "financialSystemFunctionActiveIndicator";
@@ -112,10 +122,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     public final static String ORG_CODE_PROPERTY = "organizationCode";
     public final static String FISCAL_OFFICER_ID_PROPERTY = "accountFiscalOfficerSystemIdentifier";
     public final static String ACCOUNT_CLOSED_INDICATOR_PROPERTY = "accountClosedIndicator";
-
-    // @@TODO maybe it isn't worth moving this home-coming queen value somewhere else
-    public final static Long DEFAULT_VERSION_NUMBER = new Long(0);
-    
 
     public final Map<String,String> getBudgetConstructionControlFlags (Integer universityFiscalYear)
     {
@@ -189,60 +195,132 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     }
     
     /*
+     *   these routines are used to create and set the control flags for budget
+     *   construction
+     */
+    
+    public void setControlFlagsAtTheStartOfGenesis(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        //
+        // first we have to eliminate anything for the new year that's there now
+        getPersistenceBrokerTemplate().clearCache();
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        QueryByCriteria queryID = new QueryByCriteria(FiscalYearFunctionControl.class,
+                                      criteriaID);
+        getPersistenceBrokerTemplate().deleteByQuery(queryID);
+        getPersistenceBrokerTemplate().clearCache();
+       // 
+       //  the default values (except for the BUDGET_CONSTRUCTION_GENESIS_RUNNING flag)
+       //  come from the function control code table
+       FiscalYearFunctionControl SLF;
+       criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
+       String[] attrQ = {PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE,
+                         PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR};
+       ReportQueryByCriteria rptQueryID = new ReportQueryByCriteria(FunctionControlCode.class,
+                                       attrQ,criteriaID);
+       Integer sqlFunctionControlCode     = 0;
+       Integer sqlFunctionActiveIndicator = 1;
+       // run the query
+       Iterator Results = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rptQueryID);
+       while (Results.hasNext())
+       {
+           SLF = new FiscalYearFunctionControl();
+           Object[] resultFields = (Object[]) Results.next();
+           String flagTag     = (String) resultFields[sqlFunctionControlCode];
+           String flagDefault = (String) resultFields[sqlFunctionActiveIndicator];
+           SLF.setUniversityFiscalYear(RequestYear);
+           SLF.setVersionNumber(DEFAULT_VERSION_NUMBER);
+           SLF.setFinancialSystemFunctionControlCode(flagTag);
+           if (flagTag == 
+               BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING)
+           {
+               SLF.setFinancialSystemFunctionActiveIndicator(true);
+           }
+           else
+           {
+               SLF.setFinancialSystemFunctionActiveIndicator(
+                       ((flagDefault == Constants.ParameterValues.YES)? true : false));
+           }
+           getPersistenceBrokerTemplate().store(SLF);
+       }
+    }
+    
+    public void setControlFlagsAtTheEndOfGenesis(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear + 1;
+        resetExistingFlags(BaseYear,
+                           BudgetConstructionConstants.CURRENT_FSCL_YR_CTRL_FLAGS);
+        resetExistingFlags(RequestYear,
+                           BudgetConstructionConstants.NEXT_FSCL_YR_CTRL_FLAGS_AFTER_GENESIS);
+    }
+    
+    //  this method just reads the existing flags and changes their values
+    //  based on the configureation constants
+    public void resetExistingFlags (Integer Year,
+                                    HashMap<String,String> configValues)
+    {
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,Year);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(FiscalYearFunctionControl.class,criteriaID);
+        Iterator Results = 
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (Results.hasNext())
+        {
+          FiscalYearFunctionControl SLF = new FiscalYearFunctionControl();
+          String mapKey = SLF.getFinancialSystemFunctionControlCode();
+          String newValue = configValues.get(mapKey);
+          SLF.setFinancialSystemFunctionActiveIndicator(
+                  ((newValue == ParameterValues.YES)? true : false));
+          getPersistenceBrokerTemplate().store(SLF);
+        }
+    }
+    
+    
+    /*
      *   here are the routines which freeze accounting at the beginning of
      *   budget construction (so updates can be done in parallel, or updates
      *   for the budget year only can be done without affecting the current
      *   chart of accounts).
+     *   These routines only run once, at genesis.
      */
-    private HashMap<String,BudgetConstructionOrganizationReports> orgRptsTo =
-        new HashMap();
-    private HashMap<String,BudgetConstructionAccountOrganizationHierarchy> orgHier =
-        new HashMap();
     
     //   public routines
     
     public void createChartForNextBudgetCycle()
     {
       // first we have to remove what's there
-      // (the documentation says this (1) ignores object references and (2) does
+      // (the documentation says deleteByQuery (1) ignores object references and (2) does
       //  not synchronize the cache.  so, we clear the cache before and after.)
         getPersistenceBrokerTemplate().clearCache();
+        Criteria criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
         QueryByCriteria killAcctQuery = 
             new QueryByCriteria(BudgetConstructionAccountReports.class);
+        killAcctQuery.setCriteria(criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(killAcctQuery);
         QueryByCriteria killOrgQuery =
             new QueryByCriteria(BudgetConstructionOrganizationReports.class);
+        killOrgQuery.setCriteria(criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(killOrgQuery);
         getPersistenceBrokerTemplate().clearCache();
       // build the account table
         buildNewAccountReportsTo();
       // build the organization table  
         buildNewOrganizationReportsTo();
+      // now we build the organization hierarchy
+      // we only use accounts that are already in budget construction
+      // we have to query the header to do this  
     }
     
-    public void rebuildOrganizationHierarchy(Integer BaseYear)
-    {
-        // ********
-        // this routine REQUIRES that pending GL is complete
-        // we only builda hierarchy for accounts that exist in the GL
-        // ********
-        
-        Integer RequestYear = BaseYear + 1;
-        
-        //
-        // first we have to clear out what's there
-        // again, we clear the cache after doing a deleteByQuery
-        getPersistenceBrokerTemplate().clearCache();
-        QueryByCriteria killOrgHierQuery = 
-            new QueryByCriteria(BudgetConstructionAccountOrganizationHierarchy.class);
-        getPersistenceBrokerTemplate().deleteByQuery(killOrgHierQuery);
-        getPersistenceBrokerTemplate().clearCache();
-    }
-    
-    //  working methods for the BC chart update
+    //  private working methods for the BC chart update
     
     private void buildNewAccountReportsTo()
     {
+        
+        //  All active accounts are loaded into the budget accounting table
         
         Integer sqlChartOfAccountsCode = 0;
         Integer sqlAccountNumber = 1;
@@ -284,6 +362,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     
     private void buildNewOrganizationReportsTo()
     {
+      
+        //  all active organizations are loaded into the budget construction
+        //  organization table
         
         Integer sqlChartOfAccountsCode          = 0;
         Integer sqlOrganizationCode             = 1;
@@ -326,7 +407,172 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        LOG.info(String.format("Organization reporting lines added to budget construction %d",
                 organizationsAdded));
     }
+    
+    /*
+     *   these are the routines that build the security organization hierarchy
+     *   -- they run every time the budget construction update process runs
+     *   -- they are designed to pick up any changes made to the BC account and BC
+     *      organization tables
+     *   -- based on changes, they will adjust the security levels of accounts in the BC
+     *      header.  for a header at the level of an organization that is no longer valid,
+     *      the level will return to the account manager level.  for a header at the level
+     *      of an organization that has changed its location in the hierarchy, the new
+     *      level will be added to the header
+     *   -- this process only affects accounts in the budget construction pending
+     *      general ledger, and it is assumed that all updates to the PBGL have been
+     *      finished when this process runs.       
+     */
 
+    private HashMap<String,BudgetConstructionAccountReports> acctRptsToMap =
+        new HashMap();
+    private HashMap<String,BudgetConstructionOrganizationReports> orgRptsToMap =
+        new HashMap();
+    private HashMap<String,BudgetConstructionAccountOrganizationHierarchy> acctOrgHierMap =
+        new HashMap();
+    private BudgetConstructionHeader budgetConstructionHeader; 
+    
+    private Integer nHeadersBackToZero      = 0;
+    private Integer nHeadersSwitchingLevels = 0;
+        
+
+    // public method
+    
+    public void rebuildOrganizationHierarchy(Integer BaseYear)
+    {
+        // ********
+        // this routine REQUIRES that pending GL is complete
+        // we only build a hierarchy for accounts that exist in the GL
+        // ********
+        
+        Integer RequestYear = BaseYear + 1;
+        
+        //
+        // first we have to clear out what's there for the coming fiscal year
+        // again, we clear the cache after doing a deleteByQuery
+        getPersistenceBrokerTemplate().clearCache();
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        QueryByCriteria killOrgHierQuery = 
+            new QueryByCriteria(BudgetConstructionAccountOrganizationHierarchy.class,
+                                criteriaID);
+        killOrgHierQuery.setCriteria(criteriaID);
+        getPersistenceBrokerTemplate().deleteByQuery(killOrgHierQuery);
+        getPersistenceBrokerTemplate().clearCache();
+        //
+        // read the entire account reports to table, and build a hash map for the
+        // join with the PBGL accounts
+        readAcctReportsTo();
+        // read the entire organization reports to table, and build a hash map for
+        // getting the organization tree
+        readOrgReportsTo();
+        //
+        //  we query the budget construction header and loop through the results
+        //  we build a hierarchy for every account we find
+        //  we reset level of any account which no longer exists in the hierarchy
+        criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        QueryByCriteria queryID = new QueryByCriteria(BudgetConstructionHeader.class,
+                                      criteriaID);
+        Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (Results.hasNext())
+        {
+           BudgetConstructionHeader extantBCHdr = (BudgetConstructionHeader) Results.next();
+           buildAcctOrgHierFromAcctRpts(acctRptsToMap.get(
+                   getAcctRptsToKeyFromBCHdr(extantBCHdr)), RequestYear);
+           updateBudgetConstructionHeaderAsNeeded(extantBCHdr);
+        }
+    }
+    
+    //  private utility methods
+
+    private void buildAcctOrgHierFromAcctRpts(BudgetConstructionAccountReports acctRpts,
+            Integer RequestYear)
+    {
+        // part of the key of the budget construction header is a sub account
+        // so, our algorithm could visit the same account more than once
+        // if the hierarchy for this account is already built, we skip this routine
+        String inKey = getOrgHierarchyKeyFromAcctRpts(acctRpts);
+        if (acctOrgHierMap.get(inKey) != null)
+        {
+            return;
+        }
+        Integer orgLevel = 0;
+        // the organization the account directly reports to is at level 0
+        BudgetConstructionAccountOrganizationHierarchy acctOrgHier;
+        acctOrgHier =
+            new BudgetConstructionAccountOrganizationHierarchy();
+        acctOrgHier.setUniversityFiscalYear(RequestYear);
+        acctOrgHier.setChartOfAccountsCode(acctRpts.getChartOfAccountsCode());
+        acctOrgHier.setAccountNumber(acctRpts.getAccountNumber());
+        acctOrgHier.setOrganizationLevelCode(orgLevel);
+        acctOrgHier.setVersionNumber(DEFAULT_VERSION_NUMBER);
+        acctOrgHier.setOrganizationChartOfAccountsCode(acctRpts.getReportsToChartOfAccountsCode());
+        acctOrgHier.setOrganizationCode(acctRpts.getReportsToOrganizationCode());
+        // save the new row
+        getPersistenceBrokerTemplate().store(acctOrgHier);
+        // save the new row in a hash map so we can merge with the budget header
+        String mapKey = getOrgHierarchyKey(acctOrgHier);
+        acctOrgHierMap.put(mapKey,acctOrgHier);
+        // now we have to loop to assign the hierarchy
+        // (especially before testing, we need to be on the look out for infinite
+        //@@TODO:
+        //  loops.  assertions are verboten, so we'll just code a high value for
+        //  the level limit, instead of using a potentially infinite while loop)
+        while (orgLevel < MAXIMUM_ORGANIZATION_TREE_DEPTH)
+        {
+            // find the current organization in the BC organization reports to table
+            String orgKey = getOrgRptsToKeyFromAcctOrgHier(acctOrgHier);
+            if (noNewMapEntryNeeded(orgRptsToMap.get(orgKey)))
+            {
+                // get out if we have found the root of the reporting tree
+                break;
+            }
+            orgLevel = orgLevel+1;
+            BudgetConstructionOrganizationReports orgRpts =
+                orgRptsToMap.get(orgKey);
+            acctOrgHier = 
+                new BudgetConstructionAccountOrganizationHierarchy();
+            acctOrgHier.setUniversityFiscalYear(RequestYear);
+            acctOrgHier.setChartOfAccountsCode(acctRpts.getChartOfAccountsCode());
+            acctOrgHier.setAccountNumber(acctRpts.getAccountNumber());
+            acctOrgHier.setOrganizationLevelCode(orgLevel);
+            acctOrgHier.setVersionNumber(DEFAULT_VERSION_NUMBER);
+            acctOrgHier.setOrganizationChartOfAccountsCode(
+                        orgRpts.getReportsToChartOfAccountsCode());
+            acctOrgHier.setOrganizationCode(orgRpts.getReportsToOrganizationCode());
+            // save the new row
+            getPersistenceBrokerTemplate().store(acctOrgHier);
+            // save the new row in a hash map so we can merge with the budget header
+            mapKey = getOrgHierarchyKey(acctOrgHier);
+            acctOrgHierMap.put(mapKey,acctOrgHier);
+        }
+        if (orgLevel >= MAXIMUM_ORGANIZATION_TREE_DEPTH)
+        {
+            LOG.warn(String.format("%s/%s reports to more than %d organizations",
+                     acctRpts.getChartOfAccountsCode(),
+                     acctRpts.getAccountNumber(),
+                     MAXIMUM_ORGANIZATION_TREE_DEPTH));
+        }
+    }
+    
+    private String getAcctRptsToKey(
+            BudgetConstructionAccountReports acctRpts)
+    {
+        String TestKey = new String();
+        TestKey = acctRpts.getChartOfAccountsCode()+
+                  acctRpts.getAccountNumber();
+        return TestKey;
+    }
+    
+    private String getAcctRptsToKeyFromBCHdr(
+                   BudgetConstructionHeader bCHdr)
+    {
+        String TestKey = new String();
+        TestKey = bCHdr.getChartOfAccountsCode()+
+                  bCHdr.getAccountNumber();
+        return TestKey;
+    }
+    
     private String getOrgHierarchyKey(
             BudgetConstructionAccountOrganizationHierarchy orgHier)
     {
@@ -338,7 +584,29 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         return TestKey;
     }
     
-    private String getOrgRptsKey(
+    private String getOrgHierarchyKeyFromAcctRpts(
+            BudgetConstructionAccountReports acctRpts)
+    {
+        String TestKey = new String();
+        TestKey = acctRpts.getChartOfAccountsCode()+
+                  acctRpts.getAccountNumber()+
+                  acctRpts.getReportsToChartOfAccountsCode()+
+                  acctRpts.getReportsToOrganizationCode();
+        return TestKey;
+    }
+ 
+    private String getOrgHierarchyKeyFromBCHeader(
+                   BudgetConstructionHeader bCHdr)
+    {
+        String TestKey = new String();
+        TestKey = bCHdr.getChartOfAccountsCode()+
+                  bCHdr.getAccountNumber()+
+                  bCHdr.getOrganizationLevelChartOfAccountsCode()+
+                  bCHdr.getOrganizationLevelOrganizationCode();
+        return TestKey;
+    }
+    
+    private String getOrgRptsToKey(
             BudgetConstructionOrganizationReports orgRpts)
     {
         String TestKey = new String();
@@ -346,6 +614,145 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                   orgRpts.getOrganizationCode();
         return TestKey;
     }
+    
+    private String getOrgRptsToKeyFromAcctOrgHier(
+            BudgetConstructionAccountOrganizationHierarchy acctOrgHier)
+    {
+        String TestKey = new String();
+        TestKey = acctOrgHier.getOrganizationChartOfAccountsCode()+
+                  acctOrgHier.getOrganizationCode();
+        return TestKey;
+    }
+    
+    private boolean noNewMapEntryNeeded(BudgetConstructionOrganizationReports orgRpts)
+    {
+        // no new entry is needed if either the chart or the organization 
+        // which this organization reports to is null
+        // or if the organization reports to itself
+        String rptsToChart = orgRpts.getReportsToChartOfAccountsCode();
+        if (rptsToChart == null)
+        {
+            return true;
+        }
+        String rptsToOrg = orgRpts.getReportsToOrganizationCode();
+        if (rptsToOrg == null) 
+        {
+            return true;
+        }
+        String thisChart = orgRpts.getChartOfAccountsCode();
+        String thisOrg   = orgRpts.getOrganizationCode();
+        return ((thisChart == rptsToChart)&&(thisOrg == rptsToOrg));
+    }
+    
+    private void readAcctReportsTo()
+    {
+        // we will use a report query, to bypass the "persistence" bureaucracy
+        // we will use the OJB class as a convenient container object in the hashmap
+        Integer sqlChartOfAccountsCode          = 0;
+        Integer sqlAccountNumber                = 1;
+        Integer sqlReportsToChartofAccountsCode = 2;
+        Integer sqlOrganizationCode             = 3;
+        Criteria criteriaID = ReportQueryByCriteria.CRITERIA_SELECT_ALL;
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.REPORTS_TO_ORGANIZATION_CODE};
+        ReportQueryByCriteria queryID = 
+            new ReportQueryByCriteria(BudgetConstructionAccountReports.class,
+                                      queryAttr,criteriaID);
+        Iterator Results = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        while (Results.hasNext())
+        {
+            Object[] ReturnList = (Object[]) Results.next();
+            BudgetConstructionAccountReports acctRpts = 
+                new BudgetConstructionAccountReports();
+            acctRpts.setChartOfAccountsCode((String) ReturnList[sqlChartOfAccountsCode]);
+            acctRpts.setAccountNumber((String) ReturnList[sqlAccountNumber]);
+            acctRpts.setReportsToChartOfAccountsCode((String)
+                     ReturnList[sqlReportsToChartofAccountsCode]);
+            acctRpts.setReportsToOrganizationCode((String)
+                     ReturnList[sqlOrganizationCode]);
+            String TestKey = getAcctRptsToKey(acctRpts);
+            acctRptsToMap.put(TestKey,acctRpts);
+        }
+       LOG.info("\nAccount Reports To for Organization Hierarchy:"); 
+       LOG.info(String.format("\nNumber of account-reports-to rows: %d",
+                acctRptsToMap.size()));        
+   }
+    
+   private void readOrgReportsTo()
+   {
+       // we will use a report query, to bypass the "persistence" bureaucracy
+       // we will use the OJB class as a convenient container object in the hashmap
+       Integer sqlChartOfAccountsCode          = 0;
+       Integer sqlOrganizationCode             = 1;
+       Integer sqlReportsToChartofAccountsCode = 2;
+       Integer sqlReportsToOrganizationCode    = 3;
+       Criteria criteriaID = ReportQueryByCriteria.CRITERIA_SELECT_ALL;
+       String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                             PropertyConstants.ORGANIZATION_CODE,
+                             PropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
+                             PropertyConstants.REPORTS_TO_ORGANIZATION_CODE};
+       ReportQueryByCriteria queryID = 
+           new ReportQueryByCriteria(BudgetConstructionOrganizationReports.class,
+                                     queryAttr,criteriaID);
+       Iterator Results = 
+           getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+       while (Results.hasNext())
+       {
+           Object[] ReturnList = (Object[]) Results.next();
+           BudgetConstructionOrganizationReports orgRpts = 
+               new BudgetConstructionOrganizationReports();
+           orgRpts.setChartOfAccountsCode((String) ReturnList[sqlChartOfAccountsCode]);
+           orgRpts.setOrganizationCode((String) ReturnList[sqlOrganizationCode]);
+           orgRpts.setReportsToChartOfAccountsCode((String)
+                    ReturnList[sqlReportsToChartofAccountsCode]);
+           orgRpts.setReportsToOrganizationCode((String)
+                    ReturnList[sqlReportsToOrganizationCode]);
+           String TestKey = getOrgRptsToKey(orgRpts);
+           orgRptsToMap.put(TestKey,orgRpts);
+       }
+      LOG.info("\nOrganization Reports To for Organization Hierarchy:"); 
+      LOG.info(String.format("\nNumber of organization-reports-to rows: %d",
+               orgRptsToMap.size()));        
+   }
+   
+   private void updateBudgetConstructionHeaderAsNeeded(
+                BudgetConstructionHeader bCHdr)
+   {
+      // we will only update if the level has changed or if the organization at 
+      // at the level indicated has disappeared
+      String mapKey = getOrgHierarchyKeyFromBCHeader(bCHdr);
+      BudgetConstructionAccountOrganizationHierarchy acctOrgHier =
+          acctOrgHierMap.get(mapKey);
+      if (acctOrgHier == null)
+      {
+          // we have to return to the zero level and the organization to which
+          // the account directly reports
+          nHeadersBackToZero = nHeadersBackToZero+1;
+          String acctKey = getAcctRptsToKeyFromBCHdr(bCHdr);
+          BudgetConstructionAccountReports acctRpts = acctRptsToMap.get(acctKey);
+          bCHdr.setOrganizationLevelChartOfAccountsCode(
+                  acctRpts.getReportsToChartOfAccountsCode());
+          bCHdr.setOrganizationLevelOrganizationCode(
+                  acctRpts.getReportsToOrganizationCode());
+          bCHdr.setOrganizationLevelCode(new Integer(0));
+          getPersistenceBrokerTemplate().store(bCHdr);
+          return;
+      }
+     Integer levelFromHierarchy = acctOrgHier.getOrganizationLevelCode();
+     Integer levelFromHeader    = bCHdr.getOrganizationLevelCode();
+     if (levelFromHierarchy != levelFromHeader)
+     {
+         bCHdr.setOrganizationLevelCode(levelFromHierarchy);
+         getPersistenceBrokerTemplate().store(bCHdr);
+         nHeadersSwitchingLevels = nHeadersSwitchingLevels+1;
+     }
+   }
+   
+   
+   
     
     /*
      *  here are the routines we will use for updating budget construction GL
@@ -426,11 +833,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             lockedDocuments.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
             getPersistenceBrokerTemplate().store(lockedDocuments);
         }
-        
-        
-        
-        
     }
+
     public void initialLoadToPBGL(Integer BaseYear)
     {
         // we will probably want several of these

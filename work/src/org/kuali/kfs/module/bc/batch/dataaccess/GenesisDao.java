@@ -35,6 +35,10 @@ public interface GenesisDao {
     */
    public String getBudgetConstructionInitiatorID();
    
+   // control flags
+   public void setControlFlagsAtTheStartOfGenesis(Integer currentFiscalYear);
+   public void setControlFlagsAtTheEndOfGenesis(Integer currentFiscalYear);
+   
    // chart and organization hierarchy
    public void createChartForNextBudgetCycle();
    public void rebuildOrganizationHierarchy(Integer currentFiscalYear);

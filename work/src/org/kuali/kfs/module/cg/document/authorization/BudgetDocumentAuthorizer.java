@@ -130,6 +130,7 @@ public class BudgetDocumentAuthorizer extends DocumentAuthorizerBase {
         flags.setCanFYI(false);
         flags.setCanClose(false);
         flags.setCanSave(true);
+        flags.setCanAnnotate(true);
 
         BudgetDocument budgetDocument = (BudgetDocument) document;
         

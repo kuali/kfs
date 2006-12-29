@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
@@ -99,6 +100,13 @@ public class ScrubberProcess {
     private UniversityDate universityRunDate;
     private String offsetString;
 
+    /* These fields are used to control whether the job was run before some set time,
+     * if so, the rundate of the job will be set to 11:59 PM of the previous day
+     */
+    private Integer cutoffHour;
+    private Integer cutoffMinute;
+    private Integer cutoffSecond;
+    
     /* These are the output groups */
     private OriginEntryGroup validGroup;
     private OriginEntryGroup errorGroup;
@@ -144,6 +152,10 @@ public class ScrubberProcess {
 
         parameters = kualiConfigurationService.getParametersByGroup(GLConstants.GL_SCRUBBER_GROUP);
         rules = kualiConfigurationService.getRulesByGroup(GLConstants.GL_SCRUBBER_GROUP);
+        
+        cutoffHour = null;
+        cutoffMinute = null;
+        cutoffSecond = null;
     }
 
     /**
@@ -175,7 +187,7 @@ public class ScrubberProcess {
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
 
         // setup an object to hold the "default" date information
-        runDate = new Date(dateTimeService.getCurrentDate().getTime());
+        runDate = calculateRunDate(dateTimeService.getCurrentDate());
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
 
@@ -1629,5 +1641,98 @@ public class ScrubberProcess {
             transaction = t;
             message = m;
         }
+    }
+    
+    protected void setCutoffTimeForPreviousDay(int hourOfDay, int minuteOfDay, int secondOfDay) {
+        this.cutoffHour = hourOfDay;
+        this.cutoffMinute = minuteOfDay;
+        this.cutoffSecond = secondOfDay;
+        
+        LOG.info("Setting cutoff time to hour: " + hourOfDay + ", minute: " + minuteOfDay + ", second: " + secondOfDay);
+    }
+    
+    public void setCutoffTime(String cutoffTime) {
+        if (!StringUtils.hasText(cutoffTime)) {
+            unsetCutoffTimeForPreviousDay();
+        }
+        else {
+            cutoffTime = cutoffTime.trim();
+            StringTokenizer st = new StringTokenizer(cutoffTime, ":", false);
+            
+            try {
+                String hourStr = st.nextToken();
+                String minuteStr = st.nextToken();
+                String secondStr = st.nextToken();
+                
+                int hourInt = Integer.parseInt(hourStr, 10);
+                int minuteInt = Integer.parseInt(minuteStr, 10);
+                int secondInt = Integer.parseInt(secondStr, 10);
+                
+                if (hourInt < 0 || hourInt > 23 || minuteInt < 0 || minuteInt > 59 || secondInt < 0 || secondInt > 59) {
+                    throw new IllegalArgumentException("Cutoff time must be in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.  In particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59");
+                }
+                setCutoffTimeForPreviousDay(hourInt, minuteInt, secondInt);
+            }
+            catch (Exception e) {
+                throw new IllegalArgumentException("Cutoff time should either be null, or in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.");
+            }
+        }
+    }
+    
+    
+    public void unsetCutoffTimeForPreviousDay() {
+        this.cutoffHour = null;
+        this.cutoffMinute = null;
+        this.cutoffSecond = null;
+    }
+    
+    /**
+     * This method modifies the run date if it is before the cutoff time specified by calling
+     * the setCutoffTimeForPreviousDay method.
+     * 
+     * See https://test.kuali.org/jira/browse/KULRNE-70
+     * 
+     * This method is public to facilitate unit testing
+     * 
+     * @param currentDate
+     * @return
+     */
+    public java.sql.Date calculateRunDate(java.util.Date currentDate) {
+        Calendar currentCal = Calendar.getInstance();
+        currentCal.setTime(currentDate);
+        
+        if (isCurrentDateBeforeCutoff(currentCal)) {
+            // time to set the date to the previous day's last minute/second
+            currentCal.add(Calendar.DAY_OF_MONTH, -1);
+            // per old COBOL code (see https://test.kuali.org/jira/browse/KULRNE-70),
+            // the time is set to 23:59:59 (assuming 0 ms)
+            currentCal.set(Calendar.HOUR_OF_DAY, 23);
+            currentCal.set(Calendar.MINUTE, 59);
+            currentCal.set(Calendar.SECOND, 59);
+            currentCal.set(Calendar.MILLISECOND, 0);
+            return new java.sql.Date(currentCal.getTimeInMillis());
+        }
+        return new java.sql.Date(currentDate.getTime());
+    }
+    
+    protected boolean isCurrentDateBeforeCutoff(Calendar currentCal) {
+        if (cutoffHour != null && cutoffMinute != null && cutoffSecond != null) {
+            // if cutoff date is not properly defined
+            // 24 hour clock (i.e. hour is 0 - 23)
+            
+            // clone the calendar so we get the same month, day, year
+            // then change the hour, minute, second fields
+            // then see if the cutoff is before or after
+            Calendar cutoffTime = (Calendar) currentCal.clone();
+            cutoffTime.setLenient(false);
+            cutoffTime.set(Calendar.HOUR_OF_DAY, cutoffHour);
+            cutoffTime.set(Calendar.MINUTE, cutoffMinute);
+            cutoffTime.set(Calendar.SECOND, cutoffSecond);
+            cutoffTime.set(Calendar.MILLISECOND, 0);
+            
+            return currentCal.before(cutoffTime);
+        }
+        // if cutoff date is not properly defined, then it is considered to be after the cutoff
+        return false;
     }
 }

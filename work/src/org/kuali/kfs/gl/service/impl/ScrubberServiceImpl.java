@@ -49,9 +49,11 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
     private PersistenceService persistenceService;
     private ReportService reportService;
     private ScrubberValidator scrubberValidator;
-
+    private String cutoffTime;
+    
     public ScrubberServiceImpl() {
         super();
+        cutoffTime = null;
     }
 
     /**
@@ -79,7 +81,7 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
         // many instance variables which shouldn't be used for Spring services
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, beanFactory, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
-
+        sp.setCutoffTime(cutoffTime);
         sp.scrubGroupReportOnly(group,documentNumber);
     }
 
@@ -94,7 +96,7 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
         // many instance variables which shouldn't be used for Spring services
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, beanFactory, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
-
+        sp.setCutoffTime(cutoffTime);
         sp.scrubEntries();
     }
 
@@ -148,5 +150,9 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
 
     public void setBeanFactory(BeanFactory bf) throws BeansException {
         beanFactory = bf;
+    }
+    
+    public void setCutoffTime(String cutoffTime) {
+        this.cutoffTime = cutoffTime;
     }
 }

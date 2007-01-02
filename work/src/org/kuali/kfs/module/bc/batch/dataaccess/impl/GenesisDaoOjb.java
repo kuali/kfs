@@ -30,7 +30,8 @@ import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.core.dao.DocumentHeaderDao;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.Constants;
-import org.kuali.Constants.*;
+import org.kuali.Constants.BudgetConstructionConstants;
+import org.kuali.Constants.ParameterValues;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.*;
 import org.kuali.module.gl.bo.Balance;
@@ -310,9 +311,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         buildNewAccountReportsTo();
       // build the organization table  
         buildNewOrganizationReportsTo();
-      // now we build the organization hierarchy
-      // we only use accounts that are already in budget construction
-      // we have to query the header to do this  
     }
     
     //  private working methods for the BC chart update
@@ -424,11 +422,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
      */
 
     private HashMap<String,BudgetConstructionAccountReports> acctRptsToMap =
-        new HashMap();
+        new HashMap(BudgetConstructionConstants.ESTIMATED_NUMBER_OF_FINANCIAL_ACCOUNTS);
     private HashMap<String,BudgetConstructionOrganizationReports> orgRptsToMap =
-        new HashMap();
+        new HashMap(BudgetConstructionConstants.ESTIMATED_NUMBER_OF_ACTIVE_ORGANIZATIONS);
     private HashMap<String,BudgetConstructionAccountOrganizationHierarchy> acctOrgHierMap =
-        new HashMap();
+        new HashMap(BudgetConstructionConstants.BUDGETED_ACCOUNTS_TIMES_AVERAGE_REPORTING_TREE_SIZE);
     private BudgetConstructionHeader budgetConstructionHeader; 
     
     private Integer nHeadersBackToZero      = 0;
@@ -763,10 +761,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     //   saved to the pending budget construction general ledger
     // --bCHdrFromGL contains one entry for each potentially new key for the budget
     //   construction header table.
-    private Map<String,PendingBudgetConstructionGeneralLedger>  pBGLFromGL;
-    private Map<String,BudgetConstructionHeader> bCHdrFromGL;
-    private Map<String,String> CurrentPBGLDocNumbers;
-    private HashMap[] returnPointers;
+    private HashMap<String,PendingBudgetConstructionGeneralLedger>  pBGLFromGL =
+        new HashMap(BudgetConstructionConstants.ESTIMATED_PENDING_GENERAL_LEDGER_ROWS);
+    private HashMap<String,BudgetConstructionHeader> bCHdrFromGL =
+            new HashMap(BudgetConstructionConstants.ESTIMATED_BUDGET_CONSTRUCTION_DOCUMENT_COUNT);
+    private HashMap<String,String> CurrentPBGLDocNumbers = 
+            new HashMap(BudgetConstructionConstants.ESTIMATED_BUDGET_CONSTRUCTION_DOCUMENT_COUNT);
     // these are the indexes for each of the fields returned in the select list
     // of the SQL statement
     private Integer sqlChartOfAccountsCode = 0;
@@ -869,16 +869,20 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            {
             return;
            };
-       //  print one header row    
+       //  print one header row   
+       boolean printARow = true;  
+       Integer nullCharts = new Integer(0);
        for (Map.Entry<String,BudgetConstructionHeader> bcHeaderRows : 
            bCHdrFromGL.entrySet())
        {
            BudgetConstructionHeader toPrint = bcHeaderRows.getValue();
+           if (printARow)
+           {    
            LOG.info("\n\nA sample BC header row\n");
            LOG.info(String.format("\nDocument Number = %s",toPrint.getDocumentNumber()));
            LOG.info(String.format("\nUniversity Fiscal Year = %d",
                                   toPrint.getUniversityFiscalYear()));
-           LOG.info(String.format("\nChart: %s",toPrint.getChartOfAccounts()));
+           LOG.info(String.format("\nChart: %s",toPrint.getChartOfAccountsCode()));
            LOG.info(String.format("\nAccount: %s",toPrint.getAccountNumber()));
            LOG.info(String.format("\nSubaccount: %s",toPrint.getSubAccountNumber()));
            LOG.info(String.format("\nOrganization Level Code: %d",
@@ -893,8 +897,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                     toPrint.getBudgetTransactionLockUserIdentifier()));
            LOG.info(String.format("\nVersion Number: %d",
                     toPrint.getVersionNumber()));
-           break;
+             printARow = false;
+           }
+           nullCharts = nullCharts+
+                        ((toPrint.getChartOfAccountsCode() == null)? 1 : 0);
        }
+       LOG.info(String.format("\nNumber of null charts = %d",nullCharts));
        // print one PBGL row
        for (Map.Entry<String,PendingBudgetConstructionGeneralLedger> pBGLRows : 
            pBGLFromGL.entrySet())
@@ -944,7 +952,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            LOG.debug(String.format("\nDocument Number = %s",toPrint.getDocumentNumber()));
            LOG.debug(String.format("\nUniversity Fiscal Year = %d",
                                   toPrint.getUniversityFiscalYear()));
-           LOG.debug(String.format("\nChart: %s",toPrint.getChartOfAccounts()));
+           LOG.debug(String.format("\nChart: %s",toPrint.getChartOfAccountsCode()));
            LOG.debug(String.format("\nAccount: %s",toPrint.getAccountNumber()));
            LOG.debug(String.format("\nSubaccount: %s",toPrint.getSubAccountNumber()));
            LOG.debug(String.format("\nOrganization Level Code: %d",
@@ -1141,7 +1149,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                LOG.warn(String.format("\nerror %s creating BC document for:\n"+
                                       "Chart : %s\nAccount: %s\nSubaccount: %s\n",
                                       exxx.getMessage(),
-                                      headerGL.getChartOfAccounts(),
+                                      headerGL.getChartOfAccountsCode(),
                                       headerGL.getAccountNumber(),
                                       headerGL.getSubAccountNumber()));
                // the document header will have no document number
@@ -1159,7 +1167,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                LOG.warn(String.format("\nerror %s saving BC document for:\n"+
                                       "Chart : %s\nAccount: %s\nSubaccount: %s\n",
                                       exxx.getMessage(),
-                                      headerGL.getChartOfAccounts(),
+                                      headerGL.getChartOfAccountsCode(),
                                       headerGL.getAccountNumber(),
                                       headerGL.getSubAccountNumber()));
                // the document header will have no document number
@@ -1256,8 +1264,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     {
         // we apparently need to configure the log file in order to use it
         // @@TODO: should these be a "weak hash map", to optimize memory use?
-       pBGLFromGL  = new HashMap();
-       bCHdrFromGL = new HashMap();
        Integer RequestYear = BaseYear + 1;
         //
         //  set up a report query to fetch all the GL rows we are going to need
@@ -1382,7 +1388,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     {
        Integer RequestYear = BaseYear+1;
        
-       CurrentPBGLDocNumbers = new HashMap();
        
        // what we are going to do here is what Oracle calls a hash join
        //
@@ -1426,9 +1431,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     {
         LOG.info(String.format("\n\nRun Statistics\n\n"));
         LOG.info(String.format("\nGeneral Ledger BB Keys read: %d",
-                                nGLBBRowsRead));
+                                nGLBBKeysRead));
         LOG.info(String.format("\nGeneral Ledger BB Rows read: %d",
-                 nGLBBKeysRead));
+                 nGLBBRowsRead));
         LOG.info(String.format("\nExisting Pending General Ledger rows: %d",
                  nCurrentPBGLRows));
         LOG.info(String.format("\nof these..."));

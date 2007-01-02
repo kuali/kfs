@@ -23,7 +23,7 @@
         <businessObjectClass>org.kuali.module.kra.routingform.bo.QuestionType</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.kra.routingform.document.QuestionTypeMaintenanceDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

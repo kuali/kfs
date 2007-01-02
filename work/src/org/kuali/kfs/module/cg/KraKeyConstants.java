@@ -36,6 +36,7 @@ public class KraKeyConstants {
     public static final String ERROR_SUBCONTRACTOR_NOT_FOUND = "error.subcontractor.not.found";
     public static final String ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF = "error.subcontractor.already.exists.on.rf";
     public static final String ERROR_FRINGE_RATE_TOO_LARGE = "error.fringeRate.tooLarge";
+    public static final String ERROR_AGENCY_REQUIRED = "audit.routingForm.mainPage.agency";
     
     // Routing Form Research Risks page errors
     public static final String ERROR_APPROVAL_DATE_REQUIRED = "error.approvalDate.required";

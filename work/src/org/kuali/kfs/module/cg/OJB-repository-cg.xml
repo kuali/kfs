@@ -254,7 +254,6 @@
     <field-descriptor name="proposalClosedCount" column="CGPRPSL_CLOSED_CNT" jdbc-type="BIGINT" />
     <field-descriptor name="personUserIdentifier" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="userInitiatedCloseDate" column="CG_USR_INITIATE_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalDiary" table="CG_PRPSL_DIARY_T">

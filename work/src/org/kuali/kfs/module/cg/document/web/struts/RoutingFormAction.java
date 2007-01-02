@@ -26,14 +26,27 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
 
-import edu.iu.uis.eden.clientapp.IDocHandler;
-
 public class RoutingFormAction extends ResearchDocumentActionBase {
     
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+
+        RoutingForm routingForm = (RoutingForm) form;
+
+//        if (routingForm.isAuditActivated()) {
+//            SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
+//        }
+
+        return forward;
+    }
+    
     public ActionForward mainpage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.setTabStates(new ArrayList());
         return mapping.findForward("mainpage");
     }
     
@@ -57,6 +70,15 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
     
     public ActionForward projectdetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        // Setup project details questions
+        if (routingForm.getRoutingFormDocument().getRoutingFormQuestions().isEmpty()) {
+            SpringServiceLocator.getRoutingFormProjectDetailsService().setupOtherProjectDetailsQuestions(routingForm.getRoutingFormDocument());
+        }
+        
+        routingForm.setTabStates(new ArrayList());
         return mapping.findForward("projectdetails");
     }
     

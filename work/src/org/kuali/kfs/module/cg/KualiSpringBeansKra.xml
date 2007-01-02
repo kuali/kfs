@@ -215,5 +215,11 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+	
+	<bean id="routingFormProjectDetailsService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormProjectDetailsServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 
 </beans>

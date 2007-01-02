@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.kra;
+package org.kuali.module.kra.routingform.service;
 
-import org.kuali.core.JstlConstants;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
-public class KraPropertyConstants extends JstlConstants {
+public interface RoutingFormProjectDetailsService {
     
-    // Research Risk Type
-    public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "researchRiskTypeDescription";
-    public static final String CONTROL_ATTRIBUTE_TYPE_CODE = "controlAttributeTypeCode";
-    
-    // Question Type
-    public static final String QUESTION_TYPE_DESCRIPTION = "questionTypeDescription";
+    public void setupOtherProjectDetailsQuestions(RoutingFormDocument routingFormDocument);
 }

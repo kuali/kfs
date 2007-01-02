@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.PropertyConstants;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
@@ -38,6 +39,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
+import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
@@ -120,6 +122,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private Agency federalPassThroughAgency;
     private List<RoutingFormPersonnel> routingFormPersonnel;
     private List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent;
+    private List<RoutingFormQuestion> routingFormQuestions;
     private List<RoutingFormOrganization> routingFormOrganizations;
     
     //Sequence numbers for keeping track of the 'next' number
@@ -146,11 +149,12 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
         routingFormPersonnel = new ArrayList<RoutingFormPersonnel>();
+        routingFormQuestions = new ArrayList<RoutingFormQuestion>();
         routingFormOrganizations = new ArrayList<RoutingFormOrganization>();
 	}
 
     public void initialize() {
-        //no-op
+        this.setRoutingFormCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
     }
     
     /**
@@ -1557,6 +1561,34 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setRoutingFormOrgCreditPercent(List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent) {
         this.routingFormOrgCreditPercent = routingFormOrgCreditPercent;
+    }
+    
+    /**
+     * Gets the routingFormQuestions attribute. 
+     * @return Returns the routingFormQuestions.
+     */
+    public List<RoutingFormQuestion> getRoutingFormQuestions() {
+        return routingFormQuestions;
+    }
+
+    /**
+     * Sets the routingFormQuestions attribute value.
+     * @param routingFormQuestions The routingFormQuestions to set.
+     */
+    public void setRoutingFormQuestions(List<RoutingFormQuestion> routingFormQuestions) {
+        this.routingFormQuestions = routingFormQuestions;
+    }
+    
+    /**
+     * Gets index i from the routingFormQuestions list. 
+     * @param index
+     * @return Question at index i
+     */
+    public RoutingFormQuestion getRoutingFormQuestion(int index) {
+        while (getRoutingFormQuestions().size() <= index) {
+            getRoutingFormQuestions().add(new RoutingFormQuestion());
+        }
+        return (RoutingFormQuestion) getRoutingFormQuestions().get(index);
     }
 
     /**

@@ -28,6 +28,7 @@ import org.kuali.Constants;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
+import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -44,6 +45,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         List<RoutingFormSubcontractor> routingFormSubcontractors = new ArrayList(routingFormDocument.getRoutingFormSubcontractors());
         List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShareList = new ArrayList(routingFormDocument.getRoutingFormInstitutionCostShares());
         List<RoutingFormOtherCostShare> routingFormOtherCostShareList = new ArrayList(routingFormDocument.getRoutingFormOtherCostShares());
+        List<RoutingFormQuestion> routingFormQuestions = new ArrayList(routingFormDocument.getRoutingFormQuestions());
         List<RoutingFormOrganization> routingFormOrganizations = new ArrayList(routingFormDocument.getRoutingFormOrganizations());
         
         Integer subcontractorNextSequenceNumber = routingFormDocument.getSubcontractorNextSequenceNumber();
@@ -55,6 +57,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().setRoutingFormSubcontractors(routingFormSubcontractors);
         routingForm.getRoutingFormDocument().setRoutingFormInstitutionCostShares(routingFormInstitutionCostShareList);
         routingForm.getRoutingFormDocument().setRoutingFormOtherCostShares(routingFormOtherCostShareList);
+        routingForm.getRoutingFormDocument().setRoutingFormQuestions(routingFormQuestions);
         
         routingForm.getRoutingFormDocument().setSubcontractorNextSequenceNumber(subcontractorNextSequenceNumber);
         routingForm.getRoutingFormDocument().setInstitutionCostShareNextSequenceNumber(institutionCostShareNextSequenceNumber);

@@ -742,6 +742,11 @@
         <orderby name="routingFormCostShareSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    
+    <collection-descriptor name="routingFormQuestions" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormQuestion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="question.questionTypeSortNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormAgency" table="ER_RF_AGNCY_T">
@@ -1095,5 +1100,27 @@
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.kra.routingform.bo.QuestionType" table="ER_QSTN_TYP_T">
+	<field-descriptor name="questionTypeCode" column="QSTN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="questionTypeDescription" column="QSTN_TYP_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="questionTypeSortNumber" column="QSTN_TYP_SORT_NBR" jdbc-type="INTEGER"/>
+	<field-descriptor name="questionTypeWorkgroupName" column="QSTN_TYP_WRKGRP_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="questionTypeWorkgroupIndicator" column="QSTN_TYP_WRKGRP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormQuestion" table="ER_RF_QSTN_TYP_T">
+	<field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="questionTypeCode" column="QSTN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="yesNoIndicator" column="YES_NO_IND" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="question" class-ref="org.kuali.module.kra.routingform.bo.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="questionTypeCode" />
 	</reference-descriptor>
 </class-descriptor>

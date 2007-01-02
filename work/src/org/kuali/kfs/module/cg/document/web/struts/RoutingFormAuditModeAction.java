@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.rules.event.RunAuditEvent;
+import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormAuditModeAction extends RoutingFormAction {
@@ -38,10 +38,12 @@ public class RoutingFormAuditModeAction extends RoutingFormAction {
      * @throws Exception
      */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //super.load(mapping, form, request, response);
+        super.load(mapping, form, request, response);
 
         RoutingForm routingForm = (RoutingForm) form;
         routingForm.setAuditActivated(true);
+        
+        SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
 
         return mapping.findForward((Constants.MAPPING_BASIC));
     }

@@ -33,7 +33,7 @@
 
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
-<kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" >
+<kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
 
 		<div class="tab-container" align="center">
             <div class="tab-container-error"> </div>

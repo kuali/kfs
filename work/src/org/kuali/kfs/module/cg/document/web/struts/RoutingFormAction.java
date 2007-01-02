@@ -37,9 +37,9 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
 
         RoutingForm routingForm = (RoutingForm) form;
 
-//        if (routingForm.isAuditActivated()) {
-//            SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
-//        }
+        if (routingForm.isAuditActivated()) {
+            SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
+        }
 
         return forward;
     }

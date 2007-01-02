@@ -20,6 +20,7 @@
 <c:set var="excludeRoutingFormMainPage" value="${not empty excludeRoutingFormMainPage}"/>
 
    <html:hidden property="document.documentNumber" />
+   <html:hidden property="document.routingFormCreateDate" />
 
    <html:hidden property="document.documentHeader.versionNumber" />
    <html:hidden property="document.objectId" />
